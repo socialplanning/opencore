@@ -78,13 +78,7 @@ def test_suite():
         enableLocalSiteHook(tc.portal)
         setSite(tc.portal)
         setHooks()
-        # Force geotagging off for these tests.
-        # (ie. even if it's installed, act like it isn't.)
-        BaseView._old_has_geocoder = BaseView.has_geocoder
-        BaseView.has_geocoder = False
 
-    def readme_teardown(tc):
-        BaseView.has_geocoder = BaseView._old_has_geocoder
 
     test_file = pkgr.resource_stream(OC_REQ, 'opencore/project/browser/test.png')
     globs = locals()
@@ -94,7 +88,6 @@ def test_suite():
                                     test_class=FunctionalTestCase,
                                     globs = globs,
                                     setUp=readme_setup,
-                                    tearDown=readme_teardown,
                                     layer = MockHTTPWithContent,
                                     )
     
@@ -104,7 +97,6 @@ def test_suite():
                                     test_class=FunctionalTestCase,
                                     globs = globs,
                                     setUp=readme_setup,
-                                    tearDown=readme_teardown,
                                     layer = OpencoreContent,
                                     )
 
@@ -114,7 +106,6 @@ def test_suite():
                                       test_class=OpenPlansTestCase,
                                       globs=globs,
                                       setUp=readme_setup,
-                                      tearDown=readme_teardown,
                                       layer=MockHTTPWithContent                                       
                                       )
 
@@ -124,7 +115,6 @@ def test_suite():
                                   test_class=OpenPlansTestCase,
                                   globs=globs,
                                   setUp=readme_setup,
-                                  tearDown=readme_teardown,
                                   layer=MockHTTPWithContent                                       
                                   )
     

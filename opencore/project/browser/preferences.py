@@ -13,7 +13,7 @@ from opencore.interfaces import IHomePage
 from opencore.interfaces import IProject
 from opencore.interfaces.adding import IAddProject
 from opencore.interfaces.workflow import IReadWorkflowPolicySupport
-from opencore.geotagging.view import get_geo_writer
+#from opencore.geotagging.view import get_geo_writer
 from opencore.project.browser.base import ProjectBaseView
 from opencore.interfaces.membership import IEmailInvites
 from topp.featurelets.interfaces import IFeatureletSupporter
@@ -99,9 +99,9 @@ class ProjectPreferencesView(ProjectBaseView, OctopoLite):
         if not self.valid_title(title):
             self.errors['project_title'] = _(u'err_project_name', u'The name must contain at least 2 characters with at least 1 letter or number.')
 
-        geowriter = get_geo_writer(self)
-        geo_info, locationchanged = geowriter.get_geo_info_from_form()
-        self.errors.update(geo_info.get('errors', {}))
+##         geowriter = get_geo_writer(self)
+##         geo_info, locationchanged = geowriter.get_geo_info_from_form()
+##         self.errors.update(geo_info.get('errors', {}))
 
         if self.errors:
             self.add_status_message(_(u'psm_correct_errors_below', u'Please correct the errors indicated below.'))
@@ -134,8 +134,8 @@ class ProjectPreferencesView(ProjectBaseView, OctopoLite):
                 pass
             del self.request.form['logo']
 
-        if locationchanged:
-            geowriter.save_coords_from_form()
+##         if locationchanged:
+##             geowriter.save_coords_from_form()
 
         #store change status of flet, security, title, description, logo...
         changed = {
@@ -143,7 +143,7 @@ class ProjectPreferencesView(ProjectBaseView, OctopoLite):
             _(u'psm_project_desc_changed') : self.context.Description() != self.request.form.get('description', self.context.Description()),
             _(u'psm_project_logo_changed') : logochanged,
             _(u'psm_security_changed') : old_workflow_policy != self.request.form.get('workflow_policy'),
-            _(u'psm_location_changed'): bool(locationchanged),
+            #_(u'psm_location_changed'): bool(locationchanged),
             }
         
         supporter = IFeatureletSupporter(self.context)

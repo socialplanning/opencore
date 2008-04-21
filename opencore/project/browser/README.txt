@@ -26,16 +26,6 @@ The add view is restricted to authenticated members:
     ...                  add=True)
     >>> view.request.form.update(form_vars)
 
-The test setup should be ensuring that geocoding is disabled::
-
-    >>> view.has_geocoder
-    False
-
-Looking up geo info on the add view gives us nothing much useful,
-because the project doesn't exist yet::
-
-    >>> view.geo_info['is_geocoded']
-    False
     
 Try setting some invalid titles::
     >>> view.request.form['project_title'] = ""
@@ -154,11 +144,6 @@ Make sure he can't access wiki pages in his project, too::
     >>> self.logout()
     >>> self.login('test_user_1_')
 
-Maps url should work if the geocoder is available::
-
-    >>> view = projects.restrictedTraverse('create')
-    >>> view.has_geocoder = True
-
     
 Preference View
 ===============
@@ -172,12 +157,6 @@ Preference View
     'medium_policy'
 
     Remove all featurelets
-
-    The test setup should have disabled geocoding::
-
-    >>> view = proj.restrictedTraverse('preferences')
-    >>> view.has_geocoder
-    False
 
     >>> form_vars = dict(workflow_policy='closed_policy',
     ...                  update=True,
@@ -262,23 +241,3 @@ Now set a valid title::
     Now we can see it again
     >>> proj.restrictedTraverse('preferences')
     <...SimpleViewClass ...preferences...>
-
-
-If the geocoding tool is not available, these methods successfully do
-nothing interesting::
-
-    >>> view.has_geocoder
-    False
-    >>> pprint(view.geo_info)
-    {'is_geocoded': False,
-     'location': '',
-     'maps_script_url': '',
-     'position-latitude': '',
-     'position-longitude': '',
-     'position-text': '',
-     'static_img_url': ''}
-
-
-
-
-
