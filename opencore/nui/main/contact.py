@@ -8,21 +8,17 @@ from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from Products.Five.formlib.formbase import form
 from Products.Five.formlib.formbase import PageForm
 from zope import schema
+from zope.app.form import CustomWidgetFactory
 
 class ContactHiddenWidget(TextWidget):
     """Custom widget that displays itself as a hidden widget
        with the class level 'value' as the input value"""
     
-    #the value gets dynamically inserted by the hidden_widget factory function
     type = 'hidden'
 
     def _getFormValue(self):
-        #the value gets dynamically inserted at runtime by the
-        # create_hidden_widget function
+        #the value gets inserted by the custom widget factory
         return self.value
-
-def hidden_widget(value):
-    return type('ContactWidget', (ContactHiddenWidget,), dict(value=value))
 
 class ContactView(PageForm, BaseView):
     """
@@ -69,9 +65,9 @@ class ContactView(PageForm, BaseView):
         if not mstool.isAnonymousUser():
             mem = mstool.getAuthenticatedMember()
             self.form_fields['sender_fullname'].custom_widget = (
-                hidden_widget(mem.fullname))
+                CustomWidgetFactory(TextWidget, value=mem.fullname))
             self.form_fields['sender_from_address'].custom_widget = (
-                hidden_widget(mem.email))
+                CustomWidgetFactory(TextWidget, value=mem.fullname))
         return super(ContactView, self).setUpWidgets(ignore_request=ignore_request)
 
     @form.action(_(u'label_send', u'Send'), prefix=u'')
