@@ -62,12 +62,19 @@ class ContactView(PageForm, BaseView):
         # we have special logic here if the user is authenticated
         # we convert the fullname and email address widgets into hidden fields
         mstool = getToolByName(self.context, 'portal_membership')
-        if not mstool.isAnonymousUser():
+        
+        # at this point, this should just move to a custom widget that handles
+        # the logic
+        if mstool.isAnonymousUser():
+            self.form_fields['sender_fullname'].custom_widget = None
+            self.form_fields['sender_from_address'].custom_widget = None            
+        else:
             mem = mstool.getAuthenticatedMember()
             self.form_fields['sender_fullname'].custom_widget = (
-                CustomWidgetFactory(TextWidget, value=mem.fullname))
+                CustomWidgetFactory(ContactHiddenWidget, value=mem.fullname))
             self.form_fields['sender_from_address'].custom_widget = (
-                CustomWidgetFactory(TextWidget, value=mem.fullname))
+                CustomWidgetFactory(ContactHiddenWidget, value=mem.email))
+
         return super(ContactView, self).setUpWidgets(ignore_request=ignore_request)
 
     @form.action(_(u'label_send', u'Send'), prefix=u'')

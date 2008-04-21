@@ -26,10 +26,12 @@
       <tbody>
         <tal:widget repeat="widget view/widgets">
           <tr class="oc-form-row"
-               tal:define="error widget/error"
-               tal:attributes="class python:error and 'oc-fieldBlock-error' or default"
-               >
-            <th class="oc-form-label">
+              tal:define="error widget/error;
+                          hidden python:widget.type == 'hidden'"
+              tal:attributes="class python:error and 'oc-fieldBlock-error' or default"
+              >
+            <th class="oc-form-label"
+                tal:condition="not:hidden">
               <label tal:content="widget/label"
                      i18n:translate="widget/label"
                      tal:attributes="for widget/name" />
