@@ -13,8 +13,6 @@ from zope.component import queryAdapter
 
 class ProjectBaseView(BaseView):
 
-    proj_macros = ZopeTwoPageTemplateFile('macros.pt')
-
     # XXX to move to project
 
     @memoizedproperty
