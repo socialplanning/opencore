@@ -36,7 +36,7 @@ setup(
                         'http://feedparser.googlecode.com/files/feedparser-4.1.zip',
                         'https://svn.openplans.org/svn/topp.utils/trunk#egg=topp.utils-dev',
                         'https://svn.openplans.org/svn/ZCMLLoader/trunk#egg=ZCMLLoader',
-                        'https://svn.openplans.org/svn/oc-feed/trunk/#egg=oc-feed'
+                        'https://svn.openplans.org/svn/opencore/plugins/oc-feed/trunk/#egg=oc-feed'
                         ],
 
       install_requires=[
