@@ -1,112 +1,28 @@
-v0.10 (unreleased)
-==================
+0.10 (unreleased)
+=================
+ * Add new index to membrane_tool "has_portrait" (rmarianski)
+ * Merged whit-team-speedup branch back to trunk (rob)
+ * Significant cleanup of unused and/or unnecessary convenience methods in BaseView and elsewhere (slinkp)
+ * Require an implementation of IProvideSiteConfig (egj)
+ * Extract opencore.tacktracker into plugin package oc-tt (egj)
+ * Extract opencore.cabochon into plugin package oc-cab (egj)
+ * Extract vacuum out into plugin package oc-vacuum (douglas)
+ * Extract opencore.geocoding into plugin package oc-geotagging; rename to opencore.geotagging (slinkp)
+ * Add support for i18n of topnav menuitems (rmarianski, cabraham, egj)
+ * Use a content provider on the project summary page (rmarianski)
+ * Add migrations to mark content with ICanFeed (douglas)
+ * Disable safe_html transform on OpenPages (rob)
 
-2008-03-27  Robert Marianski <rmarianski@openplans.org>
-
-    * added new index to membrane_tool "has_portrait"
-      You can use this index to query on members that have set/not set
-      their member portrait.
-
-    Migration:
-      This requires that a setup widget be run to add this new index:
-      "Add has_portrait membrane_tool index"
-
-2008-03-19  Rob Miller <robm@openplans.org>
-
-    * merged whit-team-speedup branch back to trunk; overhauls the
-      'team' template in projects so that all info is retrieved from
-      the member catalog, no need to get the member or membership
-      objects.
-
-  Addendum:  2008-03-25  Josh Bronson  <jab@openplans.org>
-
-      This change also requires updating the TeamSpace product for an
-      existing build (svn up opencore-bundle/TeamSpace), as well as
-      running the opencore.migrations.teamview_catalog_update
-      migration on existing data.
-
-v0.9.x and below
-================
-
-2008-03-06  Jeff Hammel  <jhammel@openplans.org>
-
-    * add infrastructure to adapt anything to a feed of
-      configurable format.  in oc-feed, which opencore
-      now depends on.  Not user facing at this point.
-
-  Addendum:  2008-03-12  Josh Bronson  <jab@openplans.org>
-
-      Requires running the Products.OpenPlans.Extensions
-      .setup.migrate_listen_container_to_feed migration 
-      on existing data.
-
-
-2008-03-06  Paul Winkler  <pw@openplans.org>
-
-	* Configurable name for "projects". #2409
-	  Note this doesn't impact folder names or URLs, just text on pages.
-	  Existing installations will need to update the build.ini
-	  and add to the [general] section:  projtxt = project
-	  ... or re-run fassembler:opencore to do this automatically.
-
-
-2008-02-25  Paul Winkler  <pw@openplans.org>
-
-	* Add support for geocoding members and projects. #1529
-
-	Migration: 
-	
- 	1) Update your opencore-bundle (rerun fassembler:opencore
-	or just manually get https://svn.openplans.org/eggs/openplans-bundle-opencore-plone25-20080215.tar.bz2
-	2) Run portal_quickinstaller to add the geocoder tool:
-	/openplans/portal_quickinstaller - install PleiadesGeocoder
-
-
-2008-02-25  whit  <whit@openplans.org>
-
-	* Reverse iterator for wiki history to match old display. 
-
-	* Rollbacks now record proper actor (fixed test too).
-	  
-
-2008-02-22  whit  <whit@openplans.org>
-
-	* Wiki history optimization and history migration script and
-	  migration view.  Moves rendering of version information to read
-	  an annotation maintained by events.
-
-
-2008-02-11  David Turner <novalis@novalis.org>
-	   
-	   * Remove featurelets from project add view.
-	  This is not exposed on any pages yet.
-
-
-2008-02-08  Robert Marianski <rmarianski@openplans.org> 
-
-	  * people folder view
-	/people/foo is the view for the profile page now.  migration to
-	update existing users member folder: "Make profile default member
-	page"
-
-
-2008-02-07  Ethan Jucovy <egj@openplans.org> 
-
-	  * Override 500
-	with friendlier error message and form for submitting bug report
-	feedback.
-
-
-2008-02-06   Ethan Jucovy <egj@openplans.org> 
-
-	    *  Override 404
-	with friendlier error message and search results for similar
-	content.
-
-
-2008-01-31  David Turner <novalis@novalis.org> 
-
-	    *  Added setup 
-	    widget to delete old non-text versions of wiki pages.
-
-
+0.9.x
+=====
+ * Add infrastructure to adapt anything to a feed, in oc-feed, which opencore now depends on (jhammel)
+ * Configurable name for "projects" (slinkp, cabraham)
+ * Add support for geocoding members and projects (slinkp)
+ * Reverse iterator for wiki history to match old display (whit)
+ * Rollbacks now record proper actor; fixed test too (whit)
+ * Wiki history optimization and history migration script and migration view; moves rendering of version information to read an annotation maintained by events (whit)
+ * Remove featurelets from project add view (novalis)
+ * Make profile page the default view on a user folder, instead of wiki (rmarianski)
+ * Override HTTP 500s with friendlier error message and form for submitting bug report feedback (egj, rmarianski)
+ * Override 404 with friendlier error message and search results for similar content (egj, rmarianski)
+ * Add setup widget to delete old non-text versions of wiki pages (novalis)
