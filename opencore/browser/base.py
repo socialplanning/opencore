@@ -14,8 +14,7 @@ from opencore.i18n import translate
 from opencore.interfaces import IHomePage
 from opencore.project.utils import project_noun
 from plone.memoize import instance
-from plone.memoize import view 
-from topp.featurelets.interfaces import IFeatureletSupporter
+from plone.memoize import view
 from topp.utils import zutils
 from topp.utils.pretty_date import prettyDate
 from zope.component import getMultiAdapter
