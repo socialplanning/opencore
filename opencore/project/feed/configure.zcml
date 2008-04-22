@@ -9,4 +9,11 @@
      permission="zope2.View"
      />
 
+  <browser:viewlet
+     manager="opencore.project.browser.interfaces.ISummaryFeeds"
+     class=".wiki.WikiSummaryViewlet"
+     name="wiki"
+     permission="zope2.View"
+     />
+
 </configure>
