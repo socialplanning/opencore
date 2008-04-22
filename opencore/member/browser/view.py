@@ -4,9 +4,6 @@ from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
 from Products.remember.interfaces import IReMember
 from opencore.browser.base import BaseView, _
 from opencore.browser.formhandler import OctopoLite, action
-from opencore.geotagging.view import get_geo_reader
-from opencore.geotagging.view import get_geo_writer
-from plone.memoize.view import memoize as req_memoize
 from topp.utils.pretty_date import prettyDate
 from zope.app.event.objectevent import ObjectModifiedEvent
 from zope.event import notify
@@ -120,18 +117,6 @@ class ProfileView(BaseView):
         timestamp = str(DateTime()).replace(' ', '_')
         return '%s?%s' % (portrait_url, timestamp)
 
-    @property
-    def geo_info(self):
-        """geo information for display in forms;
-        takes values from request, falls back to existing member info
-        if possible."""
-        # XXX Remove this, all geo stuff should be in opencore.geotagging.
-        geo = get_geo_reader(self)
-        info = geo.geo_info()
-        # Override the static map image size. Ugh, sucks to have this in code.
-        info['static_img_url'] = geo.location_img_url(width=285, height=285)
-        return info
-
     def viewed_member_profile_tags(self, field):
         return self.member_profile_tags(self.viewedmember(), field)
 
@@ -212,15 +197,15 @@ class ProfileEditView(ProfileView, OctopoLite):
                 return
             del self.request.form['portrait']
 
-        # handle geo stuff
-        geo_writer = get_geo_writer(self)
-        new_info, locationchanged = geo_writer.save_coords_from_form()
         form = self.request.form
-        member.setPositionText(new_info.get('position-text', ''))
-        for key in ('position-latitude', 'position-longitude', 'position-text'):
-            # we've already handled these, leave the rest for archetypes.
-            if form.has_key(key):
-                del form[key]
+##         # handle geo stuff
+##         geo_writer = get_geo_writer(self)
+##         new_info, locationchanged = geo_writer.save_coords_from_form()
+##         member.setPositionText(new_info.get('position-text', ''))
+##         for key in ('position-latitude', 'position-longitude', 'position-text'):
+##             # we've already handled these, leave the rest for archetypes.
+##             if form.has_key(key):
+##                 del form[key]
 
         # now deal with the rest of the fields via archetypes mutators.
         for field, value in form.items():
