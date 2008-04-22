@@ -1,6 +1,7 @@
 <configure xmlns="http://namespaces.zope.org/zope"
            xmlns:five="http://namespaces.zope.org/five"
 	   xmlns:fate="http://namespaces.plone.org/fate"
+	   xmlns:zcml="http://namespaces.zope.org/zcml"
            xmlns:opencore="http://namespaces.openplans.org/opencore">
 
   <include package="opencore.configuration" file="permissions.zcml" />
