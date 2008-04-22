@@ -46,5 +46,7 @@
   <opencore:vhoster uri="http://localhost:4570" />
 
   <include package=".browser" />
+  <include package=".feed"
+	   zcml:condition="installed opencore.feed" />
 
 </configure>
