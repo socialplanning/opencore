@@ -442,8 +442,11 @@ class ImageManager(WikiEdit, OctopoLite):
     attachment_snippet = ZopeTwoPageTemplateFile('image-manager-image.pt')
     backend_images_snippet = ZopeTwoPageTemplateFile('backend-images.pt')
 
+    def image_search_path(self):
+        return '/'.join(self.context.aq_inner.aq_parent.getPhysicalPath())
+
     def images(self):
-        path = '/'.join(self.context.aq_inner.aq_parent.getPhysicalPath())
+        path = self.image_search_path()
         image_brains = self.catalog(is_image=True, path=path)
         return image_brains
 
