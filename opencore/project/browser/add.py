@@ -84,10 +84,7 @@ class ProjectAddView(ProjectBaseView, OctopoLite):
             if self.context.has_key(id_):
                 self.errors['id'] = 'The requested url is already taken.'
 
-##         geowriter = get_geo_writer(self)
-##         geo_info, locationchanged = geowriter.get_geo_info_from_form(
-##             old_info={})
-##         self.errors.update(geo_info.get('errors', {}))
+        # XXX TO DO: handle featurelets, just like in preferences.py
 
         if self.errors:
             self.add_status_message(_(u'psm_correct_errors_below', u'Please correct the errors indicated below.'))
@@ -121,8 +118,6 @@ class ProjectAddView(ProjectBaseView, OctopoLite):
             if not self.check_logo(proj, logo):
                 return
             del self.request.form['logo']
-
-##         get_geo_writer(self, proj).save_coords_from_form()
 
         hpcontext = IHomePage(proj)
         hpcontext.home_page = 'summary'

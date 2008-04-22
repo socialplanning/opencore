@@ -13,7 +13,6 @@ from opencore.interfaces import IHomePage
 from opencore.interfaces import IProject
 from opencore.interfaces.adding import IAddProject
 from opencore.interfaces.workflow import IReadWorkflowPolicySupport
-#from opencore.geotagging.view import get_geo_writer
 from opencore.project.browser.base import ProjectBaseView
 from opencore.interfaces.membership import IEmailInvites
 from topp.featurelets.interfaces import IFeatureletSupporter
@@ -109,10 +108,6 @@ class ProjectPreferencesView(ProjectBaseView, OctopoLite):
             if hasattr(viewlet, 'validate'):
                 self.errors.update(viewlet.validate())
 
-##         geowriter = get_geo_writer(self)
-##         geo_info, locationchanged = geowriter.get_geo_info_from_form()
-##         self.errors.update(geo_info.get('errors', {}))
-
         if self.errors:
             self.add_status_message(_(u'psm_correct_errors_below', u'Please correct the errors indicated below.'))
             return
@@ -151,9 +146,6 @@ class ProjectPreferencesView(ProjectBaseView, OctopoLite):
             # twice...
             viewlet.update()
         
-##         if locationchanged:
-##             geowriter.save_coords_from_form()
-
         #store change status of flet, security, title, description, logo...
         changed = {
             _(u'psm_project_title_changed') : self.context.title != self.request.form.get('project_title', self.context.title),
