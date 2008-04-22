@@ -1,14 +1,27 @@
 from Products.CMFCore.utils import getToolByName
+from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
+from Products.Five.formlib.formbase import form
+from Products.Five.formlib.formbase import PageForm
 
 from opencore.browser.base import BaseView, _
 from opencore.nui.email_sender import EmailSender
 
 from zope.app.form.browser import TextWidget
-from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
-from Products.Five.formlib.formbase import form
-from Products.Five.formlib.formbase import PageForm
 from zope import schema
 from zope.app.form import CustomWidgetFactory
+
+import re
+
+class NotAnEmailAddress(schema.ValidationError):
+    __doc__ = _(u'contact-site-admin_email_validation_error',
+                u'This is not a valid email address')
+    
+email_regex = r"[a-zA-Z0-9._%-]+@([a-zA-Z0-9-]+\.)*[a-zA-Z]{2,4}"
+check_email = re.compile(email_regex).match
+def validate_email(value):
+    if not check_email(value):
+        raise NotAnEmailAddress(value)
+    return True
 
 class ContactHiddenWidget(TextWidget):
     """Custom widget that displays itself as a hidden widget
@@ -35,6 +48,7 @@ class ContactView(PageForm, BaseView):
         schema.TextLine(title=_(u'contact-site-admin_label_sender_from_address', u'Email'),
                         description=u'Email address of sender',
                         __name__='sender_from_address',
+                        constraint=validate_email,
                         required=True),
         schema.TextLine(title=_(u'contact-site-admin_label_subject', u'Subject'),
                         description=u'Subject of email',
