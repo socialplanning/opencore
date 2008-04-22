@@ -12,13 +12,15 @@ from zope.app.form import CustomWidgetFactory
 
 class ContactHiddenWidget(TextWidget):
     """Custom widget that displays itself as a hidden widget
-       with the class level 'value' as the input value"""
-    
-    type = 'hidden'
+       if authenticated.
+       Note that the custom widget factory is responsible for adding the
+       loggedin and value properties"""
 
     def _getFormValue(self):
-        #the value gets inserted by the custom widget factory
-        return self.value
+        if self.loggedin:
+            return self.value
+        else:
+            return super(ContactHiddenWidget, self)._getFormValue()
 
 class ContactView(PageForm, BaseView):
     """
@@ -58,22 +60,29 @@ class ContactView(PageForm, BaseView):
 
     template = ViewPageTemplateFile('contact-site-admin.pt')
 
+    def _create_widget(self, value_getter):
+        mstool = getToolByName(self.context, 'portal_membership')
+        loggedin = not mstool.isAnonymousUser()
+        if loggedin:
+            mem = mstool.getAuthenticatedMember()
+            type = 'hidden'
+            value = value_getter(mem)
+        else:
+            type = 'text'
+            value = None
+        return CustomWidgetFactory(ContactHiddenWidget,
+                                   type=type,
+                                   loggedin=loggedin,
+                                   value=value)
+
     def setUpWidgets(self, ignore_request=False):
         # we have special logic here if the user is authenticated
         # we convert the fullname and email address widgets into hidden fields
-        mstool = getToolByName(self.context, 'portal_membership')
-        
-        # at this point, this should just move to a custom widget that handles
-        # the logic
-        if mstool.isAnonymousUser():
-            self.form_fields['sender_fullname'].custom_widget = None
-            self.form_fields['sender_from_address'].custom_widget = None            
-        else:
-            mem = mstool.getAuthenticatedMember()
-            self.form_fields['sender_fullname'].custom_widget = (
-                CustomWidgetFactory(ContactHiddenWidget, value=mem.fullname))
-            self.form_fields['sender_from_address'].custom_widget = (
-                CustomWidgetFactory(ContactHiddenWidget, value=mem.email))
+
+        self.form_fields['sender_fullname'].custom_widget = (
+            self._create_widget(value_getter=lambda mem:mem.fullname))
+        self.form_fields['sender_from_address'].custom_widget = (
+            self._create_widget(value_getter=lambda mem:mem.email))
 
         return super(ContactView, self).setUpWidgets(ignore_request=ignore_request)
 
