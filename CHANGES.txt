@@ -1,5 +1,6 @@
 0.10 (unreleased)
 =================
+
  * Add new index to membrane_tool "has_portrait" (rmarianski)
  * Merged whit-team-speedup branch back to trunk (rob)
  * Significant cleanup of unused and/or unnecessary convenience methods in BaseView and elsewhere (slinkp)
@@ -12,9 +13,6 @@
  * Use a content provider on the project summary page (rmarianski)
  * Add migrations to mark content with ICanFeed (douglas)
  * Disable safe_html transform on OpenPages (rob)
-
-0.9.x
-=====
  * Add infrastructure to adapt anything to a feed, in oc-feed, which opencore now depends on (jhammel)
  * Configurable name for "projects" (slinkp, cabraham)
  * Add support for geocoding members and projects (slinkp)
@@ -26,3 +24,47 @@
  * Override HTTP 500s with friendlier error message and form for submitting bug report feedback (egj, rmarianski)
  * Override 404 with friendlier error message and search results for similar content (egj, rmarianski)
  * Add setup widget to delete old non-text versions of wiki pages (novalis)
+
+
+We didn't keep a changelog before this release.
+
+
+0.9.7.7 branched 2007-11-30
+===========================
+
+We didn't keep a changelog, and we failed to make tags for any 0.9.7.7
+deployments, so it would be a big project to retroactively reconstruct
+this.
+
+If anybody cares, a good place to start might be:
+svn log https://svn.openplans.org/svn/opencore/trunk -r11482:10870
+... to get the changes since 0.9.7.6, and then:
+svn log --stop-on-copy https://svn.openplans.org/svn/opencore/branches/0.9.7.7
+... to get the changes on the 0.9.7.7 branch.
+
+
+0.9.7.6d tagged 2007-12-14
+==========================
+
+ * keep-alive fixes for remote-auth email updates
+
+0.9.7.6c tagged 2007-12-06
+==========================
+
+ * Fixes remote-auth deadlocks
+
+
+0.9.7.6b tagged 2007-12-06
+==========================
+
+ * Minor fixes to the "contact us" page
+
+We didn't keep a changelog before this; a brave/crazy person could
+retroactively fill the below releases in from svn history...
+
+0.9.7.6a tagged 2007-11-28
+==========================
+
+0.9.7.6 branched 2007-11-09
+===========================
+
