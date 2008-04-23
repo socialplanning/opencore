@@ -7,7 +7,7 @@
  * Extract opencore.tacktracker into plugin package oc-tt (egj)
  * Extract opencore.cabochon into plugin package oc-cab (egj)
  * Extract vacuum out into plugin package oc-vacuum (douglas)
- * Extract opencore.geocoding into plugin package oc-geotagging; rename to opencore.geotagging (slinkp)
+ * Disable incomplete geocoding support; extract opencore.geocoding into plugin package oc-geotagging; rename to opencore.geotagging (slinkp)
  * Add support for i18n of topnav menuitems (rmarianski, cabraham, egj)
  * Use a content provider on the project summary page (rmarianski)
  * Add migrations to mark content with ICanFeed (douglas)
