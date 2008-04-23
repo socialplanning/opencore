@@ -257,7 +257,7 @@ class ListAddView(ListenEditBaseView):
         list = lists_folder._getOb(mailto)
 
         list.managers = tuple(managers)
-        list.setDescription(unicode(self.request.form.get('description','')))
+        list.setDescription(unicode(self.request.form.get('description',''), 'utf-8'))
 
         old_workflow_type = list.list_type
         new_workflow_type = _workflow_to_ml_type[workflow]
@@ -299,8 +299,8 @@ class ListEditView(ListenEditBaseView):
 
         list = self.context
 
-        list.setTitle(title)        
-        list.setDescription(unicode(self.request.form.get('description','')))
+        list.setTitle(title)
+        list.setDescription(unicode(self.request.form.get('description',''), 'utf-8'))
 
         old_workflow_type = list.list_type
         new_workflow_type = _workflow_to_ml_type[workflow]
