@@ -1,12 +1,5 @@
-from zope.interface import Interface
-
-class IListenFeatureletInstalled(Interface):
-    """
-    Marks an object as having the listen featurelet installed.
-    """
-
-class IListenContainer(Interface):
-    """
-    Marks an object as a mailing list container for the listen
-    featurelet.
-    """
+#BBB
+# this may cause zodb errors because it is expecting the
+# interface to be located in this location
+from opencore.listen.interfaces import IListenFeatureletInstalled
+from opencore.listen.interfaces import IListenContainer
