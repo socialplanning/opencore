@@ -1,6 +1,7 @@
 <configure xmlns="http://namespaces.zope.org/zope"
            xmlns:browser="http://namespaces.zope.org/browser"
            >
+<!--
   <browser:page
      for="opencore.interfaces.IProject"
      name="teamfeed"
@@ -8,6 +9,7 @@
      template="team_feed_snippet.pt"
      permission="zope2.View"
      />
+-->
 
   <browser:viewlet
      manager="opencore.project.browser.interfaces.ISummaryFeeds"
@@ -15,5 +17,15 @@
      name="wiki"
      permission="zope2.View"
      />
+
+   <adapter
+      provides="zope.contentprovider.interfaces.IContentProvider"
+      factory=".team_feed.BlankSlateTeamFeed"
+      for="zope.interface.Interface
+           zope.publisher.interfaces.browser.IDefaultBrowserLayer
+           zope.interface.Interface"
+      name="opencore.extra_feeds"
+      />
+
 
 </configure>

@@ -1,8 +1,6 @@
 from opencore.browser.blankslate import BlankSlateViewlet
-from opencore.member.utils import profile_path
 from Products.CMFCore.utils import getToolByName
 from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
-from Products.Five.viewlet.viewlet import ViewletBase
 import opencore.feed.browser
 import os
 

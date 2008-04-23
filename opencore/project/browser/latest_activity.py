@@ -1,4 +1,3 @@
-import re
 from opencore.project.browser.base import ProjectBaseView
 
 class LatestActivityView(ProjectBaseView):
