@@ -94,16 +94,24 @@ class ProjectPreferencesView(ProjectBaseView, OctopoLite):
 
     @formhandler.button('update')
     def handle_request(self):
+        # First do validation. We don't treat validation problems as
+        # exceptions, because we want to warn user of as many problems
+        # as possible, not just the first one that fails.  But this
+        # also means this method needs to manually bail out after
+        # validation failure, to avoid saving bad data.
         title = self.request.form.get('project_title', self.request.form.get('title'))
         title = text.strip_extra_whitespace(title)
         self.request.form['project_title'] = title
         if not self.valid_title(title):
             self.errors['project_title'] = _(u'err_project_name', u'The name must contain at least 2 characters with at least 1 letter or number.')
+
+        # We're inventing a convention by which viewlets can extend
+        # forms with more form data to validate: just provide a
+        # validate method.
         viewlet_mgr = getMultiAdapter((self.context, self.request, self),
                                       name='opencore.proj_prefs')
         viewlets = getAdapters((self.context, self.request, self, viewlet_mgr),
                                IViewlet)
-
         for name, viewlet in viewlets:
             if hasattr(viewlet, 'validate'):
                 self.errors.update(viewlet.validate())
@@ -112,6 +120,7 @@ class ProjectPreferencesView(ProjectBaseView, OctopoLite):
             self.add_status_message(_(u'psm_correct_errors_below', u'Please correct the errors indicated below.'))
             return
 
+        # Validation passed, so we save the data and set status PSMs.
         allowed_params = set(['__initialize_project__', 'update', 'set_flets',
                               'project_title', 'description', 'logo', 'workflow_policy',
                               'featurelets', 'home-page',
