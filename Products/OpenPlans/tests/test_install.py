@@ -2,22 +2,15 @@
 tests the integrity of an installation as
 installed by the customization policy
 """
-import os, sys, time
 import socket
 import unittest
-from sets import Set
-import traceback
-from StringIO import StringIO
-from Testing import ZopeTestCase
 
 from Products.CMFCore.utils import getToolByName
 from Products.CMFCore import permissions
 from Products.OpenPlans.workflows import PLACEFUL_POLICIES
 from opencore.configuration import DEFAULT_ROLES
-from openplanstestcase import OpenPlansTestCase, makeContent, \
-     ArcheSiteTestCase
-import Products.CMFCore
-from opencore.interfaces.workflow import IWriteWorkflowPolicySupport, IReadWorkflowPolicySupport
+from openplanstestcase import OpenPlansTestCase
+from opencore.interfaces.workflow import IWriteWorkflowPolicySupport
 
 from opencore.nui.indexing import PROJECT_POLICY as ppidx
 from Products.OpenPlans.content.project import OpenProject 

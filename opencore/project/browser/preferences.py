@@ -4,9 +4,7 @@ Preference view
 from DateTime import DateTime
 from OFS.interfaces import IObjectWillBeRemovedEvent
 from Products.CMFCore.utils import getToolByName
-from Products.Five import BrowserView
 from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
-from Products.TeamSpace.interfaces import ITeamSpaceTeamRelation
 from opencore.browser import formhandler
 from opencore.browser import tal
 from opencore.browser.base import _, BaseView
@@ -15,26 +13,23 @@ from opencore.interfaces import IHomePage
 from opencore.interfaces import IProject
 from opencore.interfaces.adding import IAddProject
 from opencore.interfaces.workflow import IReadWorkflowPolicySupport
-from opencore.geocoding.view import get_geo_writer
 from opencore.project.browser.base import ProjectBaseView
 from opencore.interfaces.membership import IEmailInvites
-from topp.clockqueue.interfaces import IClockQueue
 from topp.featurelets.interfaces import IFeatureletSupporter
 from topp.featurelets.supporter import FeatureletSupporter, IFeaturelet
 from topp.utils import text
 from topp.utils import zutils
 from zope.app.container.contained import IObjectRemovedEvent
 from zope.component import adapter, adapts
-from zope.component import getAdapters, queryAdapter
 from zope.interface import implements
-from zope.component import getUtility
+from zope.component import getUtility, getAdapters, getMultiAdapter
+from zope.viewlet.interfaces import IViewlet
+
 import inspect
 import logging
-import traceback
-import zExceptions
-
 
 log = logging.getLogger('opencore.project.browser.preferences')
+
 
 class ProjectPreferencesView(ProjectBaseView, OctopoLite):
 
@@ -104,10 +99,14 @@ class ProjectPreferencesView(ProjectBaseView, OctopoLite):
         self.request.form['project_title'] = title
         if not self.valid_title(title):
             self.errors['project_title'] = _(u'err_project_name', u'The name must contain at least 2 characters with at least 1 letter or number.')
+        viewlet_mgr = getMultiAdapter((self.context, self.request, self),
+                                      name='opencore.proj_prefs')
+        viewlets = getAdapters((self.context, self.request, self, viewlet_mgr),
+                               IViewlet)
 
-        geowriter = get_geo_writer(self)
-        geo_info, locationchanged = geowriter.get_geo_info_from_form()
-        self.errors.update(geo_info.get('errors', {}))
+        for name, viewlet in viewlets:
+            if hasattr(viewlet, 'validate'):
+                self.errors.update(viewlet.validate())
 
         if self.errors:
             self.add_status_message(_(u'psm_correct_errors_below', u'Please correct the errors indicated below.'))
@@ -140,16 +139,20 @@ class ProjectPreferencesView(ProjectBaseView, OctopoLite):
                 pass
             del self.request.form['logo']
 
-        if locationchanged:
-            geowriter.save_coords_from_form()
-
+        # Give viewlets a chance to save data
+        for name, viewlet in viewlets:
+            # XXX maybe this should be another method?
+            # update is implicitly called on page render, so this gets called
+            # twice...
+            viewlet.update()
+        
         #store change status of flet, security, title, description, logo...
         changed = {
             _(u'psm_project_title_changed') : self.context.title != self.request.form.get('project_title', self.context.title),
             _(u'psm_project_desc_changed') : self.context.Description() != self.request.form.get('description', self.context.Description()),
             _(u'psm_project_logo_changed') : logochanged,
             _(u'psm_security_changed') : old_workflow_policy != self.request.form.get('workflow_policy'),
-            _(u'psm_location_changed'): bool(locationchanged),
+            #_(u'psm_location_changed'): bool(locationchanged),
             }
         
         supporter = IFeatureletSupporter(self.context)

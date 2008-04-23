@@ -56,7 +56,7 @@
     <p>
       If you know you have the correct web address, please contact the
         <a href="#" 
-           tal:attributes="href string:${view/siteURL}/contact-site-admin">Site Administration</a>.
+           tal:attributes="href string:${context/portal_url}/contact-site-admin">Site Administration</a>.
     </p>
 
   </div>

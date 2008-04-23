@@ -9,7 +9,7 @@ from Products.Five.viewlet.manager import ViewletManagerBase
 from Products.Five.viewlet.metaconfigure import viewletDirective
 from Products.Five.viewlet.viewlet import ViewletBase
 from opencore.project.utils import project_noun
-
+from viewlet import TopnavViewletBase
 
 class TopnavManager(ViewletManagerBase):
     """custom menu viewlet manager for opencore topnav"""
@@ -49,7 +49,7 @@ class TopnavManager(ViewletManagerBase):
         text = text.replace('Project', project_noun().title()).replace('project', project_noun())
 
         attrs = dict(name=name,
-                     text=text,
+                     _text=text,
                      sort_order=sort_order,
                      url=url,
                      item_url=item_url,
@@ -60,7 +60,7 @@ class TopnavManager(ViewletManagerBase):
                      application_header=application_header,
                      render=template,
                      )
-        return type(klass_name, (ViewletBase,), attrs)                
+        return type(klass_name, (TopnavViewletBase,), attrs)
 
             
 def oc_menuitem_directive(_context, name, sort_order,

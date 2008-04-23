@@ -347,6 +347,25 @@ def initialize_project_btrees(portal):
         except AttributeError:
             pass
 
+def mark_rss_folders(portal):
+    from opencore.feed.interfaces import ICanFeed
+
+    # mark people and projects folders
+    if not ICanFeed.providedBy(portal.people):
+        alsoProvides(portal.people, ICanFeed)
+    if not ICanFeed.providedBy(portal.projects):
+        alsoProvides(portal.projects, ICanFeed)
+
+    # mark all mailing lists folders
+    query = dict(portal_type='Folder',
+                 path='/'.join(portal.projects.getPhysicalPath()),
+                 id='lists')
+    for brain in portal.portal_catalog(**query):
+        lists_folder = brain.getObject()
+        if not ICanFeed.providedBy(lists_folder):
+            alsoProvides(lists_folder, ICanFeed)
+
+
 def remove_old_bogus_versions(portal):
     """
     This function removes certain old versions from the history of every
@@ -483,6 +502,7 @@ nui_functions['Install OpenCore Remote Auth Plugin'] = \
 nui_functions['Create auto discussion lists'] = create_auto_discussion_lists
 nui_functions['Fix up project home pages'] = fixup_project_homepages
 nui_functions['Make project home pages relative'] = make_proj_homepages_relative
+nui_functions['mark people/projects/lists folders for rss'] = mark_rss_folders
 nui_functions['Remove old bogus versions'] = remove_old_bogus_versions
 nui_functions['Make profile default member page'] = make_profile_default_member_page
 nui_functions['migrate_listen_container_to_feed'] = migrate_listen_container_to_feed

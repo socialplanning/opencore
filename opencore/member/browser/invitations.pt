@@ -10,7 +10,7 @@
              <img src="" />
           </div> -->
         <p i18n:translate="invitations_invite" class="oc-invite-content">
-          <a href="" i18n:name="project" tal:attributes="href string:${view/portal_url}/projects/${proj_id}" tal:content="projinfo/title">Animal Campaign</a> 
+          <a href="" i18n:name="project" tal:attributes="href string:${context/portal_url}/projects/${proj_id}" tal:content="projinfo/title">Animal Campaign</a> 
           has invited you to become a member
         </p>
         <ul class="oc-actions oc-invite-actions oc-actionClose"

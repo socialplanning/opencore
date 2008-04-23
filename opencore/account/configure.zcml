@@ -20,9 +20,6 @@
     <page name="logout"
 	  attribute="logout"
 	  />
-    <page name="logout.js"
-	  attribute="logout_js"
-	  />
   </browser:pages>
 
   <browser:page
@@ -77,14 +74,6 @@
      permission="zope.Public"
      name="pending"
      template="pending.pt"
-     />
-
-  <browser:page
-     for="opencore.interfaces.IOpenSiteRoot"
-     class=".browser.AccountView"
-     attribute="logged_in_user_js"
-     permission="zope.Public"
-     name="user.js"
      />
 
   <browser:page

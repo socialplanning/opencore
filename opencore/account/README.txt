@@ -128,7 +128,7 @@ Finally, handle the reset:
     >>> view.request.form["password2"] = 'wordy'
     >>> view.handle_reset()
     True
-    >>> expected = '/'.join((view.siteURL, 'people', 'test_user_1_', 'account'))
+    >>> expected = '/'.join((view.context.portal_url(), 'people', 'test_user_1_', 'account'))
     >>> expected == view.request.response.getHeader('location')
     True
 
@@ -170,10 +170,18 @@ When the method is accessible, it should return a string code for the user::
 Join
 ====
 
-Test the join view by adding a member to the site::
+If you're already logged in, the join view redirects to the site root,
+regardless of came_from::
 
+    >>> self.login()
     >>> view = portal.restrictedTraverse("@@join")
+    >>> view.request.form['came_from'] = 'http://foo.com'
+    >>> view.handle_request()
+    'http://nohost/plone'
+    >>> view.request.RESPONSE.getStatus()
+    302
 
+Test the join view by adding a member to the site.
 Log out and fill in the form::
 
     >>> self.logout()

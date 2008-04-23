@@ -26,16 +26,6 @@ The add view is restricted to authenticated members:
     ...                  add=True)
     >>> view.request.form.update(form_vars)
 
-The test setup should be ensuring that geocoding is disabled::
-
-    >>> view.has_geocoder
-    False
-
-Looking up geo info on the add view gives us nothing much useful,
-because the project doesn't exist yet::
-
-    >>> view.geo_info['is_geocoded']
-    False
     
 Try setting some invalid titles::
     >>> view.request.form['project_title'] = ""
@@ -154,11 +144,6 @@ Make sure he can't access wiki pages in his project, too::
     >>> self.logout()
     >>> self.login('test_user_1_')
 
-Maps url should work if the geocoder is available::
-
-    >>> view = projects.restrictedTraverse('create')
-    >>> view.has_geocoder = True
-
     
 Preference View
 ===============
@@ -172,12 +157,6 @@ Preference View
     'medium_policy'
 
     Remove all featurelets
-
-    The test setup should have disabled geocoding::
-
-    >>> view = proj.restrictedTraverse('preferences')
-    >>> view.has_geocoder
-    False
 
     >>> form_vars = dict(workflow_policy='closed_policy',
     ...                  update=True,
@@ -262,114 +241,3 @@ Now set a valid title::
     Now we can see it again
     >>> proj.restrictedTraverse('preferences')
     <...SimpleViewClass ...preferences...>
-
-
-    >>> from opencore.project.browser.team import ProjectTeamView
-    >>> request = self.portal.REQUEST
-    >>> proj = projects.p1
-    >>> view = ProjectTeamView(proj, request)
-
-Sort by username::
-
-    >>> request.set('sort_by', 'username')
-    >>> results = view.memberships()
-    >>> brains = list(results)
-    >>> len(brains)
-    3
-    >>> [b.getId for b in brains]
-    ['m1', 'm3', 'm4']
-
-Clear the memoize from the request::
-
-    >>> utils.clear_all_memos(view)
-
-Sorting by nothing should sort by username::
-
-    >>> request.set('sort_by', 'None')
-    >>> results = view.memberships()
-    >>> brains = list(results)
-    >>> len(brains)
-    3
-    >>> [b.getId for b in brains]
-    ['m1', 'm3', 'm4']
-
-Clear the memoize from the request::
-
-    >>> utils.clear_all_memos(view)
-
-Now try sorting by location::
-First however, we have to give some members locations
-    >>> for mem_id, location in zip(['m1', 'm4', 'm3'], ['ny', 'ny', 'FL']):
-    ...     mem = getattr(self.portal.portal_memberdata, mem_id)
-    ...     mem.setLocation(location)
-    ...     mem.reindexObject(idxs=['getLocation'])
-    >>> request.set('sort_by', 'location')
-    >>> results = view.memberships()
-    >>> brains = list(results)
-    >>> len(brains)
-    3
-
-Verify that the locations were set
-    >>> for b in brains: assert b.getLocation
-
-They should be sorted by location, then id
-    >>> [b.getId for b in brains]
-    ['m3', 'm1', 'm4']
-
-Clear the memoize from the request::
-
-    >>> utils.clear_all_memos(view)
-
-Let's sort based on the membership date::
-
-    >>> request.set('sort_by', 'membership_date')
-    >>> results = view.memberships()
-    >>> mem_brains = list(results)
-    >>> len(mem_brains)
-    3
-
-We need to get the corresponding membership brains to verify if they are in
-the correct order::
-
-    >>> mship_brains = view.catalog(path='/plone/portal_teams/p1',
-    ...                             portal_type='OpenMembership',
-    ...                             getId=[b.getId for b in mem_brains],
-    ...                             sort_on='made_active_date',
-    ...                             sort_order='descending',
-    ...                             )
-    >>> len(mship_brains)
-    3
-
-Zope doesn't want to sort the mship in descending order,
-So we do it ourselves here
-    >>> from operator import attrgetter
-    >>> mship_brains = sorted(mship_brains,
-    ...     key=attrgetter('made_active_date'),
-    ...     reverse=True)
-
-And now we can simply test that the ids are in the same order
-    >>> [a.getId == b.getId for a, b in zip(mem_brains, mship_brains)]
-    [True, True, True]
-
-And for good measure, verify that the made active dates are really in
-descending order
-    >>> active_dates = [b.made_active_date for b in mship_brains]
-    >>> active_dates[0] >= active_dates[1] >= active_dates[2]
-    True
-
-Clear the memoize from the request::
-
-    >>> utils.clear_all_memos(view)
-
-
-Sort base on contributions, should get no results::
-
-    >>> request.set('sort_by', 'contributions')
-    >>> results = view.memberships()
-    >>> brains = list(results)
-    >>> len(brains)
-    0
-
-And check that getting membership roles works
-    >>> view.is_admin('m1')
-    False

@@ -2,26 +2,8 @@ from AccessControl.SecurityManagement import newSecurityManager
 from opencore.browser.base import BaseView, _
 from opencore.member.interfaces import IHandleMemberWorkflow
 from opencore.utility.interfaces import IEmailSender
-from opencore.utility.interfaces import IProvideSiteConfig
-from topp.utils.uri import uri_same_source
 from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
 from Products.CMFCore.utils import getToolByName
-from zope.component import getUtility
-import re
-
-def in_vacuum_whitelist(url):
-    raw_list = getUtility(IProvideSiteConfig).get("vacuum_whitelist").split(',')
-    vacuum_whitelist = [x.strip() for x in raw_list if x.strip()]
-    
-    for safe_host in vacuum_whitelist:
-        if uri_same_source(url, safe_host):
-            return True
-    return False
-
-def js_string(data):
-    """Takes a repr string (which is an escaped version of a python string), and removes the characters
-    that don't map to a javascript string."""
-    return re.sub(r"^u","",re.sub(r"\\U[0-9A-Fa-f]{8}",r"\uFFFD",repr(data)))
 
 class AccountView(BaseView):
     """
@@ -60,37 +42,6 @@ class AccountView(BaseView):
     def login_url(self):
         return "%s/login" % self.context.absolute_url()
 
-    def logged_in_user_js(self):
-        """Get info about the current member (if any), as javascript.
-        (We use a callback so client knows when this script has loaded.)
-        """
-        info = self.member_info
-        referrer = self.request.get('HTTP_REFERER')
-        if in_vacuum_whitelist(referrer) and info:
-            # In order for the HTML to pass as javascript, we have to properly escape the string.
-            # The same is true for names
-            info['topnav'] = js_string(self.context.restrictedTraverse('topnav-auth-user-menu')())
-            info['fullname'] = js_string(info['fullname'])
-            return """
-            OpenCore.prepareform({
-            loggedin: true,
-            id: '%(id)s',
-            name: %(fullname)s,
-            profileurl: '%(url)s/profile',
-            memberurl: '%(url)s',
-            website: '%(website)s',
-            email: '%(email)s',
-            topnav: %(topnav)s
-            });
-            """ % info
-        else:
-            # Not logged in.
-            return """
-            OpenCore.prepareform({
-            loggedin: false
-            });
-            """
-
     ### methods to deal with pending members
 
     def is_pending(self, **query):
@@ -103,16 +54,17 @@ class AccountView(BaseView):
 
     def _confirmation_url(self, mem):
         code = mem.getUserConfirmationCode()
-        return "%s/confirm-account?key=%s" % (self.siteURL, code)
+        root = getToolByName(self.context, 'portal_url')()
+        return "%s/confirm-account?key=%s" % (root, code)
 
     def _send_mail_to_pending_user(self, user_name, email, url):
         """ send a mail to a pending user """
         # TODO only send mail if in the pending workflow state
-
+        root = getToolByName(self.context, 'portal_url')()
         message = _(u'email_to_pending_user',
                     mapping={u'user_name':user_name,
                              u'url':url,
-                             u'portal_url':self.siteURL,
+                             u'portal_url':root,
                              u'portal_title':self.portal_title()})
         
         sender = IEmailSender(self.portal)

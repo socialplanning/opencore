@@ -1,6 +1,6 @@
+from Acquisition import aq_inner
 from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
-from opencore.browser.base import BaseView
-from opencore.geocoding.view import get_geo_reader
+from opencore.browser.base import BaseView, view
 from opencore.project import LATEST_ACTIVITY
 from opencore.project import PROJ_HOME
 from opencore.project.utils import get_featurelets
@@ -11,8 +11,6 @@ from zope.component import queryAdapter
 
 
 class ProjectBaseView(BaseView):
-
-    proj_macros = ZopeTwoPageTemplateFile('macros.pt')
 
     # XXX to move to project
 
@@ -44,15 +42,6 @@ class ProjectBaseView(BaseView):
             return False
         return flet_adapter.installed
 
-    @property
-    def geo_info(self):
-        """geo information for display in forms;
-        takes values from request, falls back to existing project
-        if possible."""
-        ##geo = IReadWriteGeo(self) #XXX This fails in zope 2.9.
-        geo = get_geo_reader(self)
-        return geo.geo_info()
-
     #@@ wiki should just be another featurelet
     @staticmethod
     def intrinsic_homepages():
@@ -77,3 +66,37 @@ class ProjectBaseView(BaseView):
 
     valid_id = staticmethod(text.valid_id)
     valid_title = staticmethod(text.valid_title)
+
+    @view.mcproperty
+    def project_info(self):
+        """
+        Returns a dict containing information about the
+        currently-viewed project for easy template access.
+
+        calculated once
+        """
+
+        from opencore.interfaces.workflow import IReadWorkflowPolicySupport
+        proj_info = {}
+        if self.piv.inProject:
+            proj = aq_inner(self.piv.project)
+            security = IReadWorkflowPolicySupport(proj).getCurrentPolicyId()
+
+            proj_info.update(navname=proj.Title(),
+                             fullname=proj.getFull_name(),
+                             title=proj.Title(),
+                             security=security,
+                             url=proj.absolute_url(),
+                             description=proj.Description(),
+                             featurelets=self.piv.featurelets,
+                             location=proj.getLocation(),
+                             obj=proj)
+
+        return proj_info
+
+    def authenticator(self):
+        return self.get_tool('browser_id_manager').getBrowserId(create=True)
+
+    def authenticator_input(self):
+        return '<input type="hidden" name="authenticator" value="%s" />' % self.authenticator()
+

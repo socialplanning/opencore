@@ -1,33 +1,19 @@
 from DateTime import DateTime
 from Products.AdvancedQuery import Eq
-from Products.CMFCore.utils import getToolByName
-from Products.CMFPlone.utils import transaction_note
 from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
-from datetime import datetime
-from datetime import timedelta
-from opencore.interfaces.membership import IEmailInvites
+from Products.remember.interfaces import IReMember
 from opencore.browser.base import BaseView, _
 from opencore.browser.formhandler import OctopoLite, action
-from opencore.geocoding.view import get_geo_reader
-from opencore.geocoding.view import get_geo_writer
-from opencore.interfaces.message import ITransientMessage
-from opencore.project.utils import project_path
-from plone.memoize.view import memoize as req_memoize
-from time import gmtime
-from time import strftime
 from topp.utils.pretty_date import prettyDate
-from urlparse import urlsplit
-from urlparse import urlunsplit
-from zope.app.content_types import guess_content_type
 from zope.app.event.objectevent import ObjectModifiedEvent
-from zope.component import getUtility
 from zope.event import notify
-
+import urllib
 
 class ProfileView(BaseView):
 
     field_snippet = ZopeTwoPageTemplateFile('field_snippet.pt')
     member_macros = ZopeTwoPageTemplateFile('member_macros.pt') 
+
 
     # XXX this seems to be called twice when i hit /user/profile 
     #     or /user/profile/edit ... why is that?
@@ -36,9 +22,36 @@ class ProfileView(BaseView):
         self.public_projects = []
         self.private_projects = []
 
+    def mship_proj_map(self):
+        """map from team/project id's to {'mship': mship brain, 'proj': project brain}
+        maps. relies on the 1-to-1 mapping of team ids and project ids."""
+        mships = self.mship_brains_for(self.viewedmember())
+        mp_map = {}
+        for mship in mships:
+            team = mship.getPath().split('/')[-2]
+            mp_map[team] = dict(mship=mship)
+
+        for proj in self.project_brains_for(self.viewedmember()):
+            mp_map[proj.getId]['proj'] = proj
+        # XXX
+        # the mship and the corresponding project should have the same
+        # visibility permissions, such that the two queries yield
+        # len(projects) == len(mships).
+        # there could be a discrepancy, however (caused by not putting
+        # placeful workflow on the teams). the following will filter
+        # out items in the map for which the logged in member cannot
+        # view both the mship and the corresponding project of the
+        # viewed member.
+        mp_copy = dict(mp_map)  # XXX why do we need a copy here?
+        for (k, v) in mp_copy.items():
+            if not v.has_key('proj'):
+                del mp_map[k]
+
+        return mp_map
+
+
     def populate_project_lists(self):
-        mship_proj_map = self.mship_proj_map()
-        for (_, m) in mship_proj_map.items():
+        for (_, m) in self.mship_proj_map().items():
             mship = m['mship']
             proj = m['proj']
             if mship.review_state == 'private' or proj.review_state == 'closed':
@@ -104,63 +117,23 @@ class ProfileView(BaseView):
         timestamp = str(DateTime()).replace(' ', '_')
         return '%s?%s' % (portrait_url, timestamp)
 
-    def trackbacks(self):
-        self.msg_category = 'Trackback'
+    def viewed_member_profile_tags(self, field):
+        return self.member_profile_tags(self.viewedmember(), field)
 
-        tm = ITransientMessage(self.portal)
-        mem_id = self.viewed_member_info['id']
-        msgs = tm.get_msgs(mem_id, self.msg_category)
+    def member_profile_tags(self, member, field):
+        """
+        Returns a list of dicts mapping each tag in the given field of the
+        given member's profile to a url corresponding to a search for that tag.
+        """
+        if IReMember.providedBy(member):
+            tags = getattr(member, 'get%s' % field.title())()
+            tags = tags.split(',')
+            tags = [tag.strip() for tag in tags if tag.strip()]
+            tagsearchurl = 'http://www.openplans.org/tagsearch/' # TODO
+            urls = [tagsearchurl + urllib.quote(tag) for tag in tags]
+            return [{'tag': tag, 'url': url} for tag, url in zip(tags, urls)]
+        return []
 
-        timediff = datetime.now() - timedelta(days=60)
-        old_messages = [(idx, value) for (idx, value) in msgs if value['time'] < timediff]
-        for (idx, value) in old_messages:
-            tm.pop(mem_id, self.msg_category, idx)
-        if old_messages:
-            # We've removed messages, so we should refresh the list
-            msgs = tm.get_msgs(mem_id, self.msg_category)
-
-        # We want to insert the indexes into the values so that we can properly address them for deletion
-        addressable_msgs = []
-        for (idx, value) in msgs:
-            if 'excerpt' not in value.keys():
-                tm.pop(mem_id, self.msg_category, idx)
-                value['excerpt'] = ''
-                tm.store(mem_id, self.msg_category, value)
-
-                # XXX TODO: We don't want to display escaped HTML entities,
-                # eg. if the comment text contains "I paid &#8364;20
-                # for mine" we want the user to see the euro symbol,
-                # not the entity code.  But we don't want to just
-                # throw them away either.  We could leave the data
-                # alone and use "structure" in the template; but then
-                # we're assuming the data is safe, and it's only as
-                # trustworthy as the openplans user.  Below is some
-                # code that just throws the entities (and all HTML)
-                # away.  Maybe we could convert entities to unicode
-                # prior to or instead of calling detag?  Can do that
-                # using Beautiful Soup, see: http://tinyurl.com/28ugnq
-
-#             from topp.utils.detag import detag
-#             for k, v in value.items():
-#                 if isinstance(v, basestring):
-#                     value[k] = detag(v)
-            value['idx'] = 'trackback_%d' % idx
-            value['close_url'] = 'trackback-delete?idx=%d' % idx
-            value['pub_date']    = prettyDate(value['time'])
-            addressable_msgs.append(value)
-
-        return addressable_msgs
-
-    @property
-    def geo_info(self):
-        """geo information for display in forms;
-        takes values from request, falls back to existing member info
-        if possible."""
-        geo = get_geo_reader(self)
-        info = geo.geo_info()
-        # Override the static map image size. Ugh, sucks to have this in code.
-        info['static_img_url'] = geo.location_img_url(width=285, height=285)
-        return info
 
 class ProfileEditView(ProfileView, OctopoLite):
 
@@ -171,9 +144,8 @@ class ProfileEditView(ProfileView, OctopoLite):
         """check whether the member has any pending project
         invitations to manage"""
         member = self.loggedinmember
-        cat = self.catalogtool
-        pending_mships = cat(portal_type='OpenMembership',
-                             review_state='pending')
+        pending_mships = self.catalog(portal_type='OpenMembership',
+                                      review_state='pending')
         return bool(pending_mships)
 
     def check_portrait(self, member, portrait):
@@ -225,15 +197,15 @@ class ProfileEditView(ProfileView, OctopoLite):
                 return
             del self.request.form['portrait']
 
-        # handle geo stuff
-        geo_writer = get_geo_writer(self)
-        new_info, locationchanged = geo_writer.save_coords_from_form()
         form = self.request.form
-        member.setPositionText(new_info.get('position-text', ''))
-        for key in ('position-latitude', 'position-longitude', 'position-text'):
-            # we've already handled these, leave the rest for archetypes.
-            if form.has_key(key):
-                del form[key]
+##         # handle geo stuff
+##         geo_writer = get_geo_writer(self)
+##         new_info, locationchanged = geo_writer.save_coords_from_form()
+##         member.setPositionText(new_info.get('position-text', ''))
+##         for key in ('position-latitude', 'position-longitude', 'position-text'):
+##             # we've already handled these, leave the rest for archetypes.
+##             if form.has_key(key):
+##                 del form[key]
 
         # now deal with the rest of the fields via archetypes mutators.
         for field, value in form.items():
@@ -253,66 +225,4 @@ class ProfileEditView(ProfileView, OctopoLite):
         """callback to tell taggerstore a user updated (possibly) taggifiable
         fields. something like a POST to /taggerstore/."""
         pass
-
-
-class TrackbackView(BaseView):
-    """handle trackbacks"""
-
-    msg_category = 'Trackback'
-
-    def __call__(self):
-        # Add a trackback and return a javascript callback
-        # so client script knows when it's done and whether it succeeded.
-        mem_id = self.viewed_member_info['id']
-        tm = ITransientMessage(self.portal)
-
-        if self.viewedmember() != self.loggedinmember:
-            return 'OpenCore.submitstatus(false, "Permission denied");'
-
-        # check for all variables
-        url = self.request.form.get('commenturl')
-        title = self.request.form.get('title')
-        blog_name = self.request.form.get('blog_name', 'an unnamed blog')
-        comment = self.request.form.get('comment')
-        if None in (url, comment):
-            msg = (url == None) and "url not provided" or "comment not provided"
-            return 'OpenCore.submitstatus(false, "%s")' % msg
-        if not title:
-            excerpt = comment.split('.')[0]
-            title = excerpt[:100]
-            if title != excerpt:
-                title += '...'
-
-        tm.store(mem_id, self.msg_category, {'url':url, 'title':title, 'blog_name':blog_name, 'excerpt':comment, 'time':datetime.now()})
-        return 'OpenCore.submitstatus(true);'
-
-
-    def delete(self):
-        mem_id = self.viewed_member_info['id']
-
-        if urlsplit(self.request['HTTP_REFERER'])[1] != urlsplit(self.siteURL)[1]:
-            self.request.response.setStatus(403)
-            return 'Cross site deletes not allowed!'
-
-        # XXX todo 
-        #     a) move this to @nui.formhandler.post_only 
-        #     b) use that
-        if self.request['REQUEST_METHOD'] != 'POST':
-            self.request.response.setStatus(405)
-            return 'Not Post'
-        if self.viewedmember() != self.loggedinmember:
-            self.request.response.setStatus(403)
-            return 'You must be logged in to modify your posts!'
-
-        index = self.request.form.get('idx')
-        if index is None:
-            self.request.response.setStatus(400)
-            return 'No index specified'
-
-        # Do the delete
-        tm = ITransientMessage(self.portal)
-        tm.pop(mem_id, self.msg_category, int(index))
-        # TODO: Make sure this is an AJAX request before sending an AJAX response
-        #       by using octopus/octopolite
-        return {'trackback_%s' % index: {'action': 'delete'}}
 

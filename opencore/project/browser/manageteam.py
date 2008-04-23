@@ -17,6 +17,7 @@ from opencore.interfaces.membership import IEmailInvites
 from opencore.project.browser.team import TeamRelatedView
 from plone.memoize.view import memoize as req_memoize
 from opencore.project.browser import mship_messages
+from opencore.project.browser.base import ProjectBaseView
 from opencore.account.browser import AccountView
 from zope.component import getUtility
 from zope.event import notify
@@ -34,7 +35,8 @@ TA_SPLIT = re.compile('\n|,')
 def _email_sender(view):
     return EmailSender(view, mship_messages)
 
-class ManageTeamView(TeamRelatedView, formhandler.OctopoLite, AccountView):
+class ManageTeamView(TeamRelatedView, formhandler.OctopoLite, AccountView,
+                     ProjectBaseView):
     """
     View class for the team management screens.
     """
@@ -355,7 +357,7 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite, AccountView):
             mdtool = getToolByName(self.context, 'portal_memberdata')
             mdtoolpath = '/'.join(mdtool.getPhysicalPath())
             mem_path = '%s/%s' % (mdtoolpath, mem_id) 
-            mem_metadata = self.catalogtool.getMetadataForUID(mem_path) 
+            mem_metadata = self.catalog.getMetadataForUID(mem_path) 
             mem_user_name = mem_metadata['getFullname'] or mem_metadata['id']
 
             msg_vars = {'project_title': project_title,
@@ -443,7 +445,7 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite, AccountView):
 
         portal_path = '/'.join(self.portal.getPhysicalPath())
         team_path = '/'.join([portal_path, 'portal_teams', proj_id])
-        project_admins = self.catalogtool(
+        project_admins = self.catalog(
             highestTeamRole='ProjectAdmin',
             portal_type='OpenMembership',
             review_state=self.active_states,
@@ -614,7 +616,7 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite, AccountView):
         mdtool = getToolByName(self.context, 'portal_memberdata')
         mdtoolpath = '/'.join(mdtool.getPhysicalPath())
         mem_path = '%s/%s' % (mdtoolpath, mem_id) 
-        mem_metadata = self.catalogtool.getMetadataForUID(mem_path) 
+        mem_metadata = self.catalog.getMetadataForUID(mem_path) 
         mem_user_name = mem_metadata['getFullname'] or mem_metadata['id']
 
         # XXX if member hasn't logged in yet, acct_url will be whack
@@ -826,7 +828,7 @@ class InviteView(ManageTeamView):
                     mdtool = getToolByName(self.context, 'portal_memberdata')
                     mdtoolpath = '/'.join(mdtool.getPhysicalPath())
                     mem_path = '%s/%s' % (mdtoolpath, mem_id) 
-                    mem_metadata = self.catalogtool.getMetadataForUID(mem_path) 
+                    mem_metadata = self.catalog.getMetadataForUID(mem_path) 
                     mem_user_name = mem_metadata['getFullname'] or mem_metadata['id']
 
                     msg_subs = {

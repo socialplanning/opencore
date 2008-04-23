@@ -1,5 +1,10 @@
 from zope.interface import Interface
 from zope.app.annotation import IAttributeAnnotatable
+from zope.viewlet.interfaces import IViewletManager
+
+
+class ICanHasRecentActivity(IViewletManager):
+    """Viewlets for the recent activity section of the member profile."""
 
 class IOpenMember(IAttributeAnnotatable):
     """

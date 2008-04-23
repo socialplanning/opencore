@@ -1,7 +1,6 @@
 from opencore.account import utils
 utils.turn_confirmation_on()
 from Products.OpenPlans.tests.openplanstestcase import OpenPlansTestCase
-from opencore.browser.base import BaseView
 from opencore.configuration import OC_REQ
 from opencore.featurelets.interfaces import IListenContainer
 from opencore.testing import dtfactory as dtf
@@ -69,19 +68,6 @@ def test_suite():
         oc_setup.fresh_skin(tc)
         setSite(tc.portal)
         setHooks()
-        # Force geocoding off for these tests.
-        # (ie. even if it's installed, act like it isn't.)
-        BaseView._old_has_geocoder = BaseView.has_geocoder
-        BaseView.has_geocoder = False
-
-    def tasktracker_setup(tc):
-        oc_setup.extended_tt_setup(tc)
-        setSite(tc.portal)
-        setHooks()
-
-    def readme_teardown(tc):
-        BaseView.has_geocoder = BaseView._old_has_geocoder
-
 
     test_file = pkgr.resource_stream(OC_REQ, 'opencore/project/browser/test.png')
     globs = locals()
@@ -91,7 +77,6 @@ def test_suite():
                                     test_class=FunctionalTestCase,
                                     globs = globs,
                                     setUp=readme_setup,
-                                    tearDown=readme_teardown,
                                     layer = MockHTTPWithContent,
                                     )
     
@@ -101,7 +86,6 @@ def test_suite():
                                     test_class=FunctionalTestCase,
                                     globs = globs,
                                     setUp=readme_setup,
-                                    tearDown=readme_teardown,
                                     layer = OpencoreContent,
                                     )
 
@@ -111,7 +95,6 @@ def test_suite():
                                       test_class=OpenPlansTestCase,
                                       globs=globs,
                                       setUp=readme_setup,
-                                      tearDown=readme_teardown,
                                       layer=MockHTTPWithContent                                       
                                       )
 
@@ -121,7 +104,6 @@ def test_suite():
                                   test_class=OpenPlansTestCase,
                                   globs=globs,
                                   setUp=readme_setup,
-                                  tearDown=readme_teardown,
                                   layer=MockHTTPWithContent                                       
                                   )
     

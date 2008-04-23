@@ -7,7 +7,7 @@
       <td><input type="checkbox" name="check:list" tal:attributes="value proj_id" /></td>
       <td class="oc-dataTable-row-title">
         <a href=""
-           tal:attributes="href string:${view/portal_url}/projects/${proj_id}"
+           tal:attributes="href string:${context/portal_url}/projects/${proj_id}"
            tal:content="projinfo/title">
           Animal Campaign for a poor little sick kittie named Fatty
         </a>

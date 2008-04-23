@@ -10,6 +10,10 @@
   <head>
     <title metal:fill-slot="title"
            tal:content="string:Preferences - ${view/window_title}" />
+    <metal:script fill-slot="script">
+      <script type="text/javascript"
+          tal:replace="structure provider:opencore.geo_scripts" />
+    </metal:script>
   </head>
   <body>
     <div metal:fill-slot="content">
@@ -110,7 +114,10 @@
               </tbody>
             </table>
           </fieldset>
-
+          <fieldset class="oc-boxy"
+               tal:content="structure provider:opencore.proj_prefs">
+               project prefs viewlet stuff goes here!
+	  </fieldset>
           <fieldset class="oc-boxy">
             <legend class="oc-legend-heading oc-biggerText">Security</legend>
             <fieldset>

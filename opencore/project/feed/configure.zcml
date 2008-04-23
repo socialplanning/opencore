@@ -1,0 +1,19 @@
+<configure xmlns="http://namespaces.zope.org/zope"
+           xmlns:browser="http://namespaces.zope.org/browser"
+           >
+  <browser:page
+     for="opencore.interfaces.IProject"
+     name="teamfeed"
+     class=".team_feed.BlankSlateTeamFeedView"
+     template="team_feed_snippet.pt"
+     permission="zope2.View"
+     />
+
+  <browser:viewlet
+     manager="opencore.project.browser.interfaces.ISummaryFeeds"
+     class=".wiki.WikiSummaryViewlet"
+     name="wiki"
+     permission="zope2.View"
+     />
+
+</configure>

@@ -145,6 +145,7 @@ class TestProjectMenu(OpenPlansTestCase):
         return mdmap
 
     def test_menudata(self):
+        self.logout()
         menudata = self.phome_view.menudata
         mdmap = self.make_menudata_map(menudata)
         # 'wiki', 'contents', 'team', and 'join project'

@@ -1,8 +1,8 @@
-import os, sys
 import unittest
 
 from Products.CMFCore.utils import getToolByName
-from openplanstestcase import OpenPlansTestCase, makeContent
+from openplanstestcase import OpenPlansTestCase
+from opencore.testing.utils import makeContent
 
 class TestOpenProject(OpenPlansTestCase):
 

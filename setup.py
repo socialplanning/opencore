@@ -32,12 +32,11 @@ setup(
                         'http://www.openplans.org/projects/opencore/dependencies',
                         'http://download.savannah.nongnu.org/releases/pyprof/hprof-0.1.1.tar.gz#egg=hprof',
                         'https://svn.openplans.org/svn/oc-js/trunk/#egg=oc-js-dev',
-                        'https://svn.openplans.org/svn/flunc/trunk#egg=flunc-0.1.2',
+                        'https://svn.openplans.org/svn/flunc/trunk#egg=flunc-0.1.3',
                         'http://feedparser.googlecode.com/files/feedparser-4.1.zip',
-                        'https://svn.openplans.org/svn/vendor/geopy/openplans/dist',
                         'https://svn.openplans.org/svn/topp.utils/trunk#egg=topp.utils-dev',
                         'https://svn.openplans.org/svn/ZCMLLoader/trunk#egg=ZCMLLoader',
-                        'https://svn.openplans.org/svn/oc-feed/trunk/#egg=oc-feed'
+                        'https://svn.openplans.org/svn/opencore/plugins/oc-feed/trunk/#egg=oc-feed'
                         ],
 
       install_requires=[
@@ -57,8 +56,7 @@ setup(
           'borg.localrole==1.0rc1',
           'wsseauth',
           'uuid',
-          'geopy==0.93-20071130',  # forces our vendor branch.
-          'flunc>=0.1.2',
+          'flunc>=0.1.3',
           'zcmlloader',
           ],
       extras_require=dict(ubuntu=['hprof']),

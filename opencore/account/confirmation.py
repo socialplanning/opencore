@@ -1,6 +1,7 @@
 """
 views pertaining to accounts -- creation, login, password reset
 """
+from Products.CMFCore.utils import getToolByName
 import logging
 from opencore.account.browser import AccountView
 from opencore.browser.base import BaseView, _
@@ -45,23 +46,24 @@ class ConfirmAccountView(AccountView):
         return True
         
     def handle_confirmation(self, *args, **kw):
+        site_url = getToolByName(self.context, 'portal_url')()
         member = self.member
         if member is None:
             self.addPortalStatusMessage(_(u'psm_denied', u'Denied -- bad key'))
-            return self.redirect("%s/%s" %(self.siteURL, 'login'))
+            return self.redirect("%s/%s" % (site_url, 'login'))
         
         # redirect to login page if confirmation isn't pending
         if not self.confirm(member):
-            return self.redirect("%s/login" %self.siteURL)
+            return self.redirect("%s/login" % site_url)
 
         self.login(member.getId())
-        return self.redirect("%s/init-login" %self.siteURL)
+        return self.redirect("%s/init-login" % site_url)
 
 class PendingView(AccountView):
 
     def _pending_member(self):
         key = self.request.form.get('key')
-        unauthorized_destination = self.siteURL
+        unauthorized_destination = getToolByName(self.context, 'portal_url')()
         if not key:
             self.redirect(unauthorized_destination)
         member = self.is_pending(UID=key)
@@ -105,13 +107,14 @@ class PendingView(AccountView):
 
 class ResendConfirmationView(AccountView):
 
-    @anon_only(BaseView.siteURL)
+    @anon_only(lambda view: view.context.portal_url())
     def handle_request(self):
+        site_url = getToolByName(self.context, 'portal_url')()
         name = self.request.form.get('member', '')
         member = self.is_pending(getUserName=name)
         if not member:
             self.add_status_message('No pending member by the name "%s" found' % name)
-            self.redirect(self.siteURL)
+            self.redirect(site_url)
             return
         mem_name = member.getFullname()
         mem_name = mem_name or member.getId()
@@ -121,7 +124,7 @@ class ResendConfirmationView(AccountView):
                                         email,
                                         self._confirmation_url(member))
         self.addPortalStatusMessage(_(u'psm_new_activation', mapping={u'email':email, u'mfrom':mfrom}))
-        self.redirect("%s/login" %self.siteURL)
+        self.redirect("%s/login" % site_url)
 
 
 

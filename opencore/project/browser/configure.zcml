@@ -70,16 +70,6 @@
      allowed_interface=".interfaces.IProjectInfo"
      />
 
-
-<!--
-  <browser:page 
-     name="projects"
-     for="opencore.interfaces.adding.IAddSubProject"
-     class="opencore.project.browser.subproject_listing.SubProjectListingView"
-     permission="zope2.View"
-     template="subproject_listing.pt" 
-     / --> 
-
   <adapter factory=".home_page.HomePage" />
 
   <browser:page
@@ -92,13 +82,6 @@
   <browser:resource
      name="location.json"
      file="location.json"
-     />
-
-  <browser:page
-     for="opencore.interfaces.adding.IAddSubProject"
-     name="create_project"
-     class=".add.SubProjectAddView"
-     permission="openplans.AddSubProject"
      />
 
    <!-- move to contents.py; these will share functionality -->
@@ -217,6 +200,31 @@
       for="opencore.interfaces.IOpenTeam"
       provides="opencore.interfaces.pending_requests.IRequestMembership"
       factory="opencore.project.browser.team_membership.RequestMembershipWithEmail"
+      />
+
+  <browser:viewletManager
+     name="opencore.feed_summaries"
+     provides=".interfaces.ISummaryFeeds"
+     class=".manager.SummaryManager"
+     template="summary.pt"
+     permission="zope2.View"
+     />
+
+
+  <browser:viewletManager
+     name="opencore.proj_prefs"
+     provides=".interfaces.IProjectPrefs"
+     class=".manager.ProjectPrefsManager"
+     permission="zope2.View"
+     />
+
+   <adapter
+      provides="zope.contentprovider.interfaces.IContentProvider"
+      factory=".extra_feeds.TeamFeed"
+      for="zope.interface.Interface
+           zope.publisher.interfaces.browser.IDefaultBrowserLayer
+           zope.interface.Interface"
+      name="opencore.extra_feeds"
       />
 
 </configure>

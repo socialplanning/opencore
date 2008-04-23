@@ -5,7 +5,6 @@ if __name__ == '__main__':
     execfile(os.path.join(sys.path[0], 'framework.py'))
 
 from Products.OpenPlans.tests.openplanstestcase import OpenPlansTestCase
-from Products.OpenPlans.tests.openplanstestcase import makeContent
 
 from zope.component import getMultiAdapter
 from zope.component import ComponentLookupError
@@ -15,6 +14,7 @@ from zope.app.component.hooks import setSite, setHooks
 from topp.featurelets.interfaces import IFeatureletSupporter
 from topp.featurelets.interfaces import IMenuSupporter
 from opencore.listen.featurelet import ListenFeaturelet
+from opencore.testing.utils import makeContent
 
 
 class TestListenFeaturelet(OpenPlansTestCase):

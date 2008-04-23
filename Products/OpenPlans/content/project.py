@@ -18,6 +18,7 @@ from Products.TeamSpace.space import TeamSpaceMixin
 from Products.TeamSpace.space import TeamSpace
 from Products.ZCTextIndex import ParseTree
 from ZODB.POSException import ConflictError
+from opencore.configuration import DEFAULT_ROLES
 from opencore.configuration import OC_REQ as OPENCORE
 from opencore.content.page import OpenPage
 from opencore.interfaces import IProject
@@ -318,12 +319,13 @@ class OpenProject(BrowserDefaultMixin, TeamSpaceMixin, BaseBTreeFolder):
         """
         members = set()
         teams = self.getTeams()
-        if admin_only:
-            # XXX we need this
-            pass
-        else:
-            for team in teams:
-                members.update(set(team.getActiveMemberIds()))
+        for team in teams:
+            ids = team.getActiveMemberIds()
+            if admin_only:
+                ids = [ i for i in ids
+                        if team.getHighestTeamRoleForMember(i) == DEFAULT_ROLES[-1] ]
+            members.update(set(ids))
+
         return tuple(members)
 
     security.declareProtected(View, 'projectMembers')
@@ -331,15 +333,12 @@ class OpenProject(BrowserDefaultMixin, TeamSpaceMixin, BaseBTreeFolder):
         """Compute all the members of this project in a nice way
         """
         members = []
-        if admin_only:
-            pass
-        else:
-            # We don't have a contact with members that says they have
-            # to support __hash__ so we do this...
-            member_ids = self.projectMemberIds()
-            pm_tool = getToolByName(self, 'portal_membership')
-            for mid in member_ids:
-                members.append(pm_tool.getMemberById(mid))
+        # We don't have a contract with members that says they have
+        # to support __hash__ so we do this...
+        member_ids = self.projectMemberIds(admin_only=admin_only)
+        pm_tool = getToolByName(self, 'portal_membership')
+        for mid in member_ids:
+            members.append(pm_tool.getMemberById(mid))
         return tuple(members)
 
     security.declareProtected(View, 'getTeamRolesForAuthMember')
@@ -358,6 +357,27 @@ class OpenProject(BrowserDefaultMixin, TeamSpaceMixin, BaseBTreeFolder):
                     team_roles[role] = 1
         return team_roles.keys()
 
+    def isProjectMember(self, mem_id=None):
+        if mem_id is None:
+            membertool = getToolByName(self, 'portal_membership')
+            mem_id = membertool.getAuthenticatedMember().getId()
+        if not mem_id:
+            return False
+        for team in self.getTeams():
+            filter_states = tuple(team.getActiveStates()) + ('pending',)
+            if mem_id in team.getMemberIdsByStates(filter_states):
+                return True
+        return False
+
+    def isProjectAdmin(self, mem_id=None):
+        if mem_id is None:
+            membertool = getToolByName(self, 'portal_membership')
+            mem_id = membertool.getAuthenticatedMember().getId()
+        if not mem_id:
+            return False
+
+        team = self.getTeams()[0]
+        return team.getHighestTeamRoleForMember(mem_id) == DEFAULT_ROLES[-1] 
 
     def getLogo(self):
         """custom logo accessor in case project contains an OpenPage with id 'logo'"""

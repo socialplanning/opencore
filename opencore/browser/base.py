@@ -1,10 +1,9 @@
 """
 some base class for opencore ui work!
 """
-from Acquisition import aq_inner, aq_parent, aq_chain
+from Acquisition import aq_inner, aq_chain
 from Products.CMFCore.utils import getToolByName
 from Products.CMFPlone.interfaces import IPloneSiteRoot
-from Products.CMFPlone.utils import transaction_note
 from Products.Five import BrowserView
 from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
 from Products.remember.interfaces import IReMember
@@ -12,23 +11,16 @@ from lxml.html.clean import Cleaner
 from opencore.configuration.utils import get_config
 from opencore.i18n import i18n_domain, _
 from opencore.i18n import translate
-from opencore.interfaces import IProject 
 from opencore.interfaces import IHomePage
 from opencore.project.utils import project_noun
-from opencore.utils import get_opencore_property
 from plone.memoize import instance
-from plone.memoize import view 
-from time import strptime
-from topp.featurelets.interfaces import IFeatureletSupporter
+from plone.memoize import view
 from topp.utils import zutils
 from topp.utils.pretty_date import prettyDate
-from topp.utils.pretty_text import truncate
-from zope.component import getMultiAdapter, adapts, adapter
+from zope.component import getMultiAdapter
 from zope.i18nmessageid import Message
 import DateTime
 import cgi
-import datetime
-import urllib
 import logging
 
 try:
@@ -52,26 +44,17 @@ class BaseView(BrowserView):
     windowTitleSeparator = ' :: '
     site_iface = IPloneSiteRoot
 
-    # 
-    truncate = staticmethod(truncate)
-    txn_note = staticmethod(transaction_note)
-    getToolByName = getToolByName
-    
-    def debug(self):
-        """@@ this should be calculated from conf"""
-        # i'm not sure i feel comfortable about this. what does it do? -egj
-        return True
-
-    def get_config(self, section, option, default='', inifile=None):
-        return get_config(section,option,default,inifile)
-
-    # XXX only used by formlite in this fashion
     main_macros = ZopeTwoPageTemplateFile('main_macros.pt')
 
-    # XXX only used once, move into member/view
-    _url_for = dict(login="login", forgot="forgot", join="join")
-    def url_for(self, screen):
-        return '%s/%s' % (self.siteURL, self._url_for[screen])
+    def __init__(self, context, request):
+        self.context      = context
+        self.request      = request
+        self.transcluded  = request.get_header('X-transcluded')
+        self.errors = {}
+        self.response = self.request.RESPONSE
+    
+    def get_config(self, section, option, default='', inifile=None):
+        return get_config(section,option,default,inifile)
 
     def project_url(self, project=None, page=None):
         """This should be the canonical way for views to get a url
@@ -85,8 +68,7 @@ class BaseView(BrowserView):
         #XXX we need to currently use project for all urls
         # and *not* what's in the project noun, because we'll link
         # to things like /groups, which doesn't currently exist
-        #parts = [self.siteURL, self.project_noun + 's']
-        parts = [self.siteURL, 'projects']
+        parts = [self.portal.projects.absolute_url()]
         if project is not None:
             parts.append(project)
         if page is not None:
@@ -99,16 +81,9 @@ class BaseView(BrowserView):
         """
         return project_noun()
 
-    def __init__(self, context, request):
-        self.context      = context
-        self.request      = request
-        self.transcluded  = request.get_header('X-transcluded')
-        self.errors = {}
-        self.response = self.request.RESPONSE
-
     def redirect(self, *args, **kwargs):
         self._redirected = True
-        return self.response.redirect(*args, **kwargs)
+        return self.request.response.redirect(*args, **kwargs)
 
     def spamProtect(self, mailaddress, mailname=None):
         """
@@ -120,10 +95,6 @@ class BaseView(BrowserView):
             mailname = email
         return '<a href="&#0109;ailto&#0058;' + email + '">' + mailname + '</a>'
 
-    def get_opencore_property(self, prop):
-        return get_opencore_property(prop, aq_inner(self.context))
-
-    #XXX only used once, move into project.view
     def render_macro(self, macro, extra_context={}):
         """
         Returns a rendered page template which contains nothing but a
@@ -191,12 +162,6 @@ class BaseView(BrowserView):
 
     addPortalStatusMessage = add_status_message
 
-    # XXX not used
-    def include(self, viewname):
-        if self.transcluded:
-            return self.renderTranscluderLink(viewname)
-        return self.get_view(viewname)()
-
     @view.memoizedproperty
     def wiki_container(self):
         """
@@ -211,7 +176,7 @@ class BaseView(BrowserView):
 
     @view.memoizedproperty
     def area(self):
-        if self.inmember:
+        if self.miv.inMemberArea or self.miv.inMemberObject:
             return self.miv.member_folder or self.miv.member_object
         elif self.piv.inProject:
             return self.piv.project
@@ -221,8 +186,8 @@ class BaseView(BrowserView):
             return self.portal
 
     def window_title(self, mode='view'):
-        """see http://trac.openplans.org/openplans/ticket/588.  mode
-        should be one of: 'view', 'edit', or 'history'."""
+        """see http://trac.openplans.org/openplans/ticket/588.
+        mode should be one of: 'view', 'edit', or 'history'."""
         if mode == 'view':
             mode = ''
         else:
@@ -231,7 +196,7 @@ class BaseView(BrowserView):
         context = self.context
         title = context.Title().decode("utf-8")
 
-        if self.inmember:
+        if self.miv.inMemberArea or self.miv.inMemberObject:
             vmi = self.viewed_member_info
             if not mode and vmi['home_url'] == context.absolute_url():
                 # viewing member homepage
@@ -239,7 +204,7 @@ class BaseView(BrowserView):
             else:
                 return '%s %s- %s on %s' % (title, mode, vmi['id'],
                                             self.portal.Title())
-        elif self.inproject:
+        elif self.piv.inProject:
             project = self.piv.project
             if not mode and self.context.getId() == IHomePage(project).home_page:
                 # viewing project home page
@@ -258,11 +223,6 @@ class BaseView(BrowserView):
         else:
             return '%s %s- %s' % (title, mode, self.portal.Title())
 
-    # XXX only used in topnav
-    @instance.memoizedproperty
-    def areaURL(self):
-        return self.area.absolute_url()
-
     # XXX cache more rigorously
     @view.memoize_contextless
     def nusers(self): 
@@ -277,7 +237,7 @@ class BaseView(BrowserView):
         Returns the total number of projects hosted by the site,
         including those not visible to the current user.
         """
-        projects = self.catalogtool.unrestrictedSearchResults(portal_type='OpenProject')
+        projects = self.catalog.unrestrictedSearchResults(portal_type='OpenProject')
         return len(projects)
 
     @property
@@ -290,7 +250,6 @@ class BaseView(BrowserView):
         """
         return self.member_info_for_member(self.loggedinmember)
 
-    # XXX move to member.view
     @instance.memoizedproperty
     def viewed_member_info(self):
         """
@@ -298,25 +257,6 @@ class BaseView(BrowserView):
         viewed member for easy template access.
         """
         return self.member_info_for_member(self.viewedmember())
-
-    # XXX move to member.view
-    def viewed_member_profile_tags(self, field):
-        return self.member_profile_tags(self.viewedmember(), field)
-
-    # XXX move to member.view
-    def member_profile_tags(self, member, field):
-        """
-        Returns a list of dicts mapping each tag in the given field of the
-        given member's profile to a url corresponding to a search for that tag.
-        """
-        if IReMember.providedBy(member):
-            tags = getattr(member, 'get%s' % field.title())()
-            tags = tags.split(',')
-            tags = [tag.strip() for tag in tags if tag.strip()]
-            tagsearchurl = 'http://www.openplans.org/tagsearch/' # TODO
-            urls = [tagsearchurl + urllib.quote(tag) for tag in tags]
-            return [{'tag': tag, 'url': url} for tag, url in zip(tags, urls)]
-        return []
 
     def mship_brains_for(self, member):
         teamtool = getToolByName(self.context, 'portal_teams')
@@ -335,33 +275,6 @@ class BaseView(BrowserView):
 
     def project_brains(self):
         return self.project_brains_for(self.loggedinmember)
-
-    def mship_proj_map(self):
-        """map from team/project id's to {'mship': mship brain, 'proj': project brain}
-        maps. relies on the 1-to-1 mapping of team ids and project ids."""
-        mships = self.mship_brains_for(self.viewedmember())
-        mp_map = {}
-        for mship in mships:
-            team = mship.getPath().split('/')[-2]
-            mp_map[team] = dict(mship=mship)
-
-        projects = self.project_brains_for(self.viewedmember())
-        for proj in projects:
-            mp_map[proj.getId]['proj'] = proj
-
-        # XXX
-        # the mship and the corresponding project should have the same visibility
-        # permissions, such that the two queries yield len(projects) == len(mships).
-        # there could be a discrepancy, however (caused by not putting placeful
-        # workflow on the teams). the following will filter out items in the map
-        # for which the logged in member cannot view both the mship and the corresponding
-        # project of the viewed member.
-        mp_copy = dict(mp_map)
-        for (k, v) in mp_copy.items():
-            if not v.has_key('proj'):
-                del mp_map[k]
-
-        return mp_map
 
     def member_info_for_member(self, member):
         if member == None:
@@ -425,34 +338,6 @@ class BaseView(BrowserView):
 
         return result
 
-    # XXX  Why is this in BaseView? move to project?
-    @view.mcproperty
-    def project_info(self):
-        """
-        Returns a dict containing information about the
-        currently-viewed project for easy template access.
-
-        calculated once
-        """
-
-        from opencore.interfaces.workflow import IReadWorkflowPolicySupport
-        proj_info = {}
-        if self.piv.inProject:
-            proj = aq_inner(self.piv.project)
-            security = IReadWorkflowPolicySupport(proj).getCurrentPolicyId()
-
-            proj_info.update(navname=proj.Title(),
-                             fullname=proj.getFull_name(),
-                             title=proj.Title(),
-                             security=security,
-                             url=proj.absolute_url(),
-                             description=proj.Description(),
-                             featurelets=self.piv.featurelets,
-                             location=proj.getLocation(),
-                             obj=proj)
-
-        return proj_info
-
     # Hooks for geocoding stuff to work, if installed.
     # XXX this doesn't merit living in the base view
     @view.memoizedproperty
@@ -464,6 +349,10 @@ class BaseView(BrowserView):
             
     # tool and view handling
 
+    # PW: I don't know what motivated caching tool lookups; I did some
+    # quick timeit benchmarks and determined that this saves maybe
+    # 0.00001 seconds per lookup, so I really doubt there will ever be
+    # a bottleneck here.
     @view.memoize_contextless
     def get_tool(self, name):
         """
@@ -472,18 +361,16 @@ class BaseView(BrowserView):
         """
         return getToolByName(self.context, name)
 
-    # XXX move to project view
-    def get_portal(self):
+    @view.mcproperty
+    def portal(self):
         return aq_iface(self.context, self.site_iface)
 
     def portal_title(self):
         return self.portal.Title()
     
-    portal = property(view.memoize_contextless(get_portal))
-
-    # XXX move to topnav
     @view.memoize
     def get_view(self, name):
+        # as of 2008/04/14, this is only used by this class and topnav
         view = getMultiAdapter((self.context, self.request), name=name)
         return view.__of__(aq_inner(self.context))
 
@@ -496,44 +383,29 @@ class BaseView(BrowserView):
     def miv(self):
         return self.get_view('member_info')
 
-    # XXX move to main.search
-    @property
-    def dob_datetime(self):
-        return self.portal.created()
-
-    # XXX move to main.search
     @property
     def dob(self):
-        return prettyDate(self.dob_datetime)
-
-    @property
-    def siteURL(self):
-        return aq_inner(self.portal).absolute_url()
+        return prettyDate(self.portal.created())
 
     @property
     def came_from(self):
-        return self.request.get('came_from') or self.siteURL
-
-    @property
-    def sitetitle(self):
-        return self.portal.Title()
+        # pw: as of 2008/04/14, not much uses this base class implementation,
+        # but formhandler.anon_only requires all views to have it.
+        came_from = self.request.get('came_from')
+        return came_from or getToolByName(self.context, 'portal_url')()
 
     @property
     def name(self):
+        """The name this view is registered for. We sometimes use this
+        for constructing a link to the current view (for
+        eg. self-posting forms"""
         return self.__name__
 
-    # remove (should be part of a form base class)
+    # This is only here for documentation purposes; a lot of our form
+    # handlers have a handle_request implementation.  Should it be
+    # defined on some interface instead?
     def handle_request(self):
         raise NotImplementedError
-
-    # XXX remove unused
-    @staticmethod
-    def renderTranscluderLink(viewname):
-        return '<a href="@@%s" rel="include">%s</a>\n' % (viewname, viewname)
-
-    # XXX remove, unused
-    def projectobj(self): # TODO
-        return self.piv.project
 
     # properties and methods associated with members
 
@@ -542,7 +414,6 @@ class BaseView(BrowserView):
         if self.loggedin:
             return self.membertool.getAuthenticatedMember()
 
-    # XXX move to topnav
     @view.memoize
     def memfolder(self, id_=None):
         if id_ is None:
@@ -572,47 +443,14 @@ class BaseView(BrowserView):
     def loggedin(self):
         return not self.membertool.isAnonymousUser()
 
-    #egj: this feels very convoluted, do we need to do it this way?
-    # XXX move to member.view
     @view.memoize
     def viewedmember(self):
         """Returns the user found in the context's acquisition chain, if any."""
+        #egj: this feels very convoluted, do we need to do it this way?
         return self.miv.member
 
-    @view.memoizedproperty
-    def inmember(self):
-        return (self.miv.inMemberArea or self.miv.inMemberObject)
 
     # properties and methods associated with objects
-
-    @property
-    def inproject(self):
-        return self.piv.inProject
-
-    def is_project_member(self, id=None):
-        """
-        doess the currently authenticated member belong to the project?
-        """
-        if id is None:
-            id = self.member_info.get('id')
-        
-        # if somebody calls this function in a template without first checking
-        # if were in a project, then we get a failure if we don't check if
-        # the project is None
-        proj = self.piv.project
-        if proj is None:
-            return False
-        team = proj.getTeams()[0]
-        filter_states = tuple(team.getActiveStates()) + ('pending',)
-        return id in team.getMemberIdsByStates(filter_states)
-
-
-    # unused??
-    def projectFeaturelets(self):
-        fletsupporter = IFeatureletSupporter(self.context)
-        featurelet_ids = fletsupporter.getInstalledFeatureletIds()
-        featurelets = [{'name': id, 'url' : fletsupporter.getFeatureletDescriptor(id)['content'][0]['id']} for id in featurelet_ids]
-        return featurelets
 
     @property
     def membranetool(self):
@@ -623,19 +461,8 @@ class BaseView(BrowserView):
         return self.get_tool('portal_membership')
     
     @property
-    def memberdatatool(self):
-        return self.get_tool('portal_memberdata')
-
-    @property
     def catalog(self):
         return self.get_tool('portal_catalog')
-
-    # XXX aliases are bad
-    catalogtool = catalog
-
-    @property
-    def portal_url(self):
-        return self.get_tool('portal_url')
 
     @instance.clearbefore
     def _clear_instance_memos(self):
@@ -657,22 +484,20 @@ class BaseView(BrowserView):
                 css_class = 'oc-notallowed'
 
         return css_class
-    
 
-    def is_member(self, id):
-        return self.memberdatatool.get(id) is not None
+    def render_base_tag(self):
+        """return the html that main template uses to fix relative links
 
-    # XXX move to a form base class
-    def authenticator(self):
-        return self.get_tool('browser_id_manager').getBrowserId(create=True)
+        turning it off in the base template conditionally fails
+        because the tal doesn't get rendered"""
+        base_url = self.context.absolute_url()
+        return """\
+                <!--[if IE 6]><![if !IE 6]><![endif]-->
+        <base href="%s/" />
+                <!--[if IE 6]><![endif]><![endif]-->""" % base_url
 
-    # XXX move to a form base class
-    def authenticator_input(self):
-        return '<input type="hidden" name="authenticator" value="%s" />' % self.authenticator()
 
-    # XXX move to a form base class
     def validate_password_form(self, password, password2, member):
-
         messages = []
         def exit_function():
             """bridge code to going forward. use this instead of return"""
@@ -709,17 +534,5 @@ class BaseView(BrowserView):
             return exit_function()
         return exit_function() # XXX redundant, leaving for now
 
-    def render_base_tag(self):
-        """return the html that main template uses to fix relative links
-
-        turning it off in the base template conditionally fails
-        because the tal doesn't get rendered"""
-        base_url = self.context.absolute_url()
-        return """\
-                <!--[if IE 6]><![if !IE 6]><![endif]-->
-        <base href="%s/" />
-                <!--[if IE 6]><![endif]><![endif]-->""" % base_url
-
 
 aq_iface = zutils.aq_iface
-

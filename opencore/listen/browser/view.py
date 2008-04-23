@@ -109,6 +109,10 @@ class ListenBaseView(BaseView):
         ocprops = ptool._getOb('opencore_properties')
         return '@' + str(ocprops.getProperty('mailing_list_fqdn').strip())
 
+    def is_member(self, id):
+        return self.get_tool('portal_memberdata').get(id) is not None
+
+
 
 class ListenEditBaseView(ListenBaseView, OctopoLite):
 

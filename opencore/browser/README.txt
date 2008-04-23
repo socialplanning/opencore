@@ -7,19 +7,13 @@ opencore.browser.base
 
     >>> view = BaseView(self.homepage, self.request)
     >>> view = view.__of__(self.homepage)
-    >>> view.get_portal()
+    >>> view.portal
     <PloneSite at /plone>
     
-    >>> view.dob_datetime
-    DateTime('...')
-
     >>> view.dob
     'today'
     
-    >>> view.siteURL
-    'http://nohost/plone'
-
-    >>> view.sitetitle
+    >>> view.portal_title()
     'OpenCore Site'
 
 
@@ -73,20 +67,13 @@ Aliases to commonly used tools are provided and also memoized::
     >>> pview.membranetool
     <MembraneTool at /plone/membrane_tool>
 
-
     >>> pview.catalog
     <CatalogTool at /plone/portal_catalog>
 
     >>> pview.membertool
     <MembershipTool at /plone/portal_membership>
 
-    >>> pview.portal_url
-    <URLTool at /plone/portal_url>
-
 These should also be properly wrapped(sort of)::
-
-    >>> pview.portal_url.aq_parent
-    <opencore.browser.base.BaseView object at ...>
 
 
 User/Account methods

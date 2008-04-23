@@ -1,12 +1,12 @@
 """Decorators for working with form submission"""
-import sys
+
 import logging
-from zExceptions import Forbidden
-
-from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
-
 import opencore.browser.octopus
+
+# pw: dunno why, but lots of things import action from here instead of
+# from browser.octopus.
 from opencore.browser.octopus import action
+from zExceptions import Forbidden
 
 log = logging.getLogger('opencore.browser.formhandler')
 
@@ -34,20 +34,31 @@ def post_only(raise_=True):
 
 
 def anon_only(redirect_to=None):
+    """Redirect if the user is logged in.  For use decorating methods
+    of BaseView or subclasses.
+
+    redirect_to, if provided, is expected to be a method or attribute
+    of the class.
+
+    The class must also provide these attributes:
+    * loggedin (bool)
+    * redirect(), method taking a str
+    * came_from (str), used as fallback if redirect_to not provided or false.
+    """
     def inner_anon_only(func):
         def new_method(self, *args, **kw):
-            if isinstance(redirect_to, property):
-                redirect_path = redirect_to.fget
+            if not self.loggedin:
+                return func(self, *args, **kw)
             else:
-                redirect_path = redirect_to
-            if callable(redirect_path):
-                redirect_path = redirect_path(self)
-
-            if not redirect_path:
-                redirect_path = self.came_from
-            if self.loggedin:
+                if isinstance(redirect_to, property):
+                    redirect_path = redirect_to.fget
+                else:
+                    redirect_path = redirect_to
+                if callable(redirect_path):
+                    redirect_path = redirect_path(self)
+                if not redirect_path:
+                    redirect_path = self.came_from
                 return self.redirect(redirect_path)
-            return func(self, *args, **kw)
         return new_method
     return inner_anon_only
 
@@ -196,13 +207,13 @@ class FormLite(object):
             return self.actions.default(self)
 
     
-import os, sys, unittest, doctest
-from zope.testing import doctest
 
-flags = doctest.ELLIPSIS | doctest.REPORT_ONLY_FIRST_FAILURE
 
 def test_suite():
+    from zope.testing import doctest
+    flags = doctest.ELLIPSIS | doctest.REPORT_ONLY_FIRST_FAILURE
     return doctest.DocFileSuite('octopolite.txt', optionflags=flags)
 
 if __name__ == '__main__':
+    import unittest
     unittest.TextTestRunner().run(test_suite())

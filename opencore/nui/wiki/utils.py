@@ -98,10 +98,10 @@ def migrate_history(portal, path=None, out=None, save=True, noskip=False, chatty
     except KeyboardInterrupt, e:
         print e
 
-    print >> out, "\nTotal pages migrated: % 3s" %(counter.next() - 1)
-    print >> out, "Total entries migrated: % 1s" %(entries) 
-    print >> out, "Total skipped: % 10s" %(skipcounter.next() - 1)
-    print >> out, "Total ghosts removed: % 3s" %len(_ghosts)
+    print >> out, "\nTotal pages migrated: %3s" % counter.next()
+    print >> out, "Total entries migrated: %1s" % entries
+    print >> out, "Total skipped: %10s" % skipcounter.next()
+    print >> out, "Total ghosts removed: %3s" % len(_ghosts)
     if _ghosts and chatty:
         pprint(_ghosts, stream=out)
     return out

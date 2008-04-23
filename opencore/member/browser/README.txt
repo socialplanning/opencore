@@ -589,15 +589,3 @@ Once logged in properly, you can use it::
     True
     >>> m1.getPortrait()
     <Image at .../m1/portrait>
-
-
-There should always be some minimal geo info available::
-
-    >>> pprint(editview.geo_info)
-    {'is_geocoded': False,
-     'location': '',
-     'maps_script_url': '...',
-     'position-latitude': '',
-     'position-longitude': '',
-     'position-text': '',
-     'static_img_url': ''}

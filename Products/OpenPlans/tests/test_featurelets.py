@@ -11,7 +11,7 @@ from topp.featurelets.interfaces import IFeatureletSupporter
 from zope.app.component.hooks import setSite, setHooks
 
 from openplanstestcase import OpenPlansTestCase
-from openplanstestcase import makeContent
+from opencore.testing.utils import makeContent
 
 
 class TestFeaturelets(OpenPlansTestCase):

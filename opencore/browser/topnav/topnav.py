@@ -1,6 +1,7 @@
 """
 TopNav view classes.
 """
+from Products.CMFCore.utils import getToolByName
 from Products.CMFCore.permissions import ModifyPortalContent
 from Products.TeamSpace.permissions import ManageTeamMembership
 from opencore.browser.base import BaseView
@@ -10,13 +11,21 @@ from opencore.nui.contexthijack import HeaderHijackable
 from opencore.project.content import IProject
 from opencore.content.page import OpenPage
 from operator import itemgetter
+from plone.memoize import instance
 from plone.memoize import view
 from zope.component import getMultiAdapter
 
 memoizedproperty = lambda func: property(view.memoize(func))
 
 
-class TopNavView(HeaderHijackable):
+class BaseMenuView(BaseView):
+
+    @instance.memoizedproperty
+    def areaURL(self):
+        return self.area.absolute_url()
+
+
+class TopNavView(HeaderHijackable, BaseMenuView):
     """
     Provides req'd information for rendering top nav in any context.
     """
@@ -45,14 +54,17 @@ class TopNavView(HeaderHijackable):
         here = self.request.ACTUAL_URL.split('/')[-1]
         selected = urn.split('/')[-1] == here
         css = selected and ' class="oc-topnav-selected"' or ''
-        urn = '/'.join((self.siteURL, urn))
+        site_url = getToolByName(self.context, 'portal_url')()
+        urn = '/'.join((site_url, urn))
         return '<li%s><a href="%s">%s</a></li>' % (css, urn, name)
 
 
-class MemberMenuView(BaseView):
+
+class MemberMenuView(BaseMenuView):
     """
     Contains the information req'd by the topnav's member context menu
     """
+
     @memoizedproperty
     def profile_url(self):
         return '%s/profile' % self.areaURL
@@ -100,7 +112,7 @@ class MemberMenuView(BaseView):
         return menudata
 
 
-class ProjectMenuView(BaseView):
+class ProjectMenuView(BaseMenuView):
     """
     Contains the info req'd by the topnav's project context menu
     """
@@ -171,10 +183,7 @@ class ProjectMenuView(BaseView):
 
         team = proj.getTeams()[0]
         filter_states = tuple(team.getActiveStates()) + ('pending',)
-        if self.member_info.get('id') not in team.getMemberIdsByStates(filter_states):
-            # XXX this should be "if self.is_project_member():" but it breaks a test
-            # which is really odd since the code is copied and pasted from here
-            # so much for trying to fix things
+        if not proj.isProjectMember():
             req_mship_url = '%s/request-membership' % proj.absolute_url()
             menudata += (
                 {'content': 'Join project',
@@ -206,14 +215,16 @@ class AnonMenuView(BaseView):
     """
     @memoizedproperty
     def menudata(self):
+        site_url = getToolByName(self.context, 'portal_url')()
+
         menudata = (
 
             {'content': 'Sign in',
-             'href': '%s/login' % self.siteURL,
+             'href': '%s/login' % site_url,
              },
 
             {'content': 'Create account',
-             'href': '%s/join' % self.siteURL,
+             'href': '%s/join' % site_url,
              },
 
             )
@@ -239,7 +250,7 @@ class AuthMenuView(BaseView):
         query = dict(portal_type='OpenMembership',
                      getId=mem_id,
                      )
-        mship_brains = self.catalogtool(**query)
+        mship_brains = self.catalog(**query)
         proj_invites = [brain for brain in mship_brains if brain.review_state == 'pending' and brain.lastWorkflowActor != mem_id]
         
         return msg_count + len(proj_invites)
@@ -247,11 +258,11 @@ class AuthMenuView(BaseView):
     @memoizedproperty
     def menudata(self):
         mem_data = self.member_info
-        
+        site_url = getToolByName(self.context, 'portal_url')()
         menudata = (
 
             {'content': 'Sign out',
-             'href': '%s/logout' % self.siteURL,
+             'href': '%s/logout' % site_url,
              },
 
             )

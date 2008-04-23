@@ -4,6 +4,8 @@ Join Views
 * normal join view
 * separate pre-confirmed view for folks already invited to a project
 """
+
+from Products.CMFCore.utils import getToolByName
 from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
 from opencore.account import browser
 from opencore.account import utils
@@ -19,6 +21,7 @@ from opencore.member.interfaces import ICreateMembers
 from zope.app.event.objectevent import ObjectCreatedEvent
 from zope.component import getUtility
 from zope.event import notify
+from topp.utils.pretty_text import truncate
 import zExceptions
 
 import urllib
@@ -30,7 +33,7 @@ class JoinView(browser.AccountView, OctopoLite):
     def quote(self, txt):
         return urllib.quote(txt)
 
-    @anon_only(BaseView.siteURL)
+    @anon_only(lambda view: view.context.portal_url())
     def handle_request(self):
         """ redirect logged in users """
 
@@ -61,7 +64,8 @@ class JoinView(browser.AccountView, OctopoLite):
                                               u'Thanks for joining ${portal_title}, ${mem_id}!<br/>\nA confirmation email has been sent to you with instructions on activating your account.',
                                               mapping={u'mem_id':mem.getId(),
                                                        u'portal_title':self.portal_title()}))
-                self.redirect(self.portal_url() + '/message')
+                portal_url = getToolByName(self.context, 'portal_url')()
+                self.redirect(portal_url + '/message')
             return mem
         self.redirect(url)
         return mem
@@ -101,6 +105,8 @@ class InviteJoinView(JoinView, ConfirmAccountView):
     """
 
     template = ZopeTwoPageTemplateFile('invite-join.pt')
+
+    truncate = staticmethod(truncate)
 
     @property
     def proj_ids(self):
@@ -165,7 +171,8 @@ class InviteJoinView(JoinView, ConfirmAccountView):
         if auto_joined_list:
             redirect_to_project = auto_joined_list[0]
             go_to = '?go_to=%s' % self.project_url(redirect_to_project)
-        return self.redirect("%s/init-login%s" % (self.siteURL, go_to))
+        root = getToolByName(self.context, 'portal_url')()
+        return self.redirect("%s/init-login%s" % (root, go_to))
 
     def do_invite_joins(self, member):
         """do the joins and activations"""
@@ -196,10 +203,10 @@ class InviteJoinView(JoinView, ConfirmAccountView):
         member by redirecting to the confirm-account view.
         """
         key = self.request.get('__k')
-        
+        root = getToolByName(self.context, 'portal_url')()
         if (not key) or (key != str(self.invites.key)):
             self.addPortalStatusMessage(_(u'psm_denied', u'Denied -- bad key'))
-            return self.redirect("%s/%s" %(self.siteURL, 'login'))
+            return self.redirect("%s/%s" % (root, 'login'))
         
         member = self.is_pending(getEmail=self.email)
         if member:

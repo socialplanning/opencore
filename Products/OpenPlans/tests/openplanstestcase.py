@@ -1,10 +1,8 @@
 from Products.Archetypes.tests.atsitetestcase import ATSiteTestCase as ArcheSiteTestCase
 from Products.CMFCore.utils  import getToolByName
-from Testing import ZopeTestCase
 from Testing.ZopeTestCase import PortalTestCase
 from opencore.configuration.setuphandlers import migrateATDocToOpenPage
-from opencore.testing.layer import SiteSetupLayer, OpenPlansLayer
-from opencore.testing.utils import makeContent, getPortal, login_portal_owner
+from opencore.testing.layer import OpenPlansLayer
 from plone.memoize.instance import Memojito
 from plone.memoize.view import ViewMemo
 from zope.app.annotation.interfaces import IAnnotations
@@ -33,9 +31,6 @@ class OpenPlansTestCase(ArcheSiteTestCase):
 
         # add event subscriber to listen to all channel events
         self.listen_for_object_events()
-
-        # patch expensive handlers for tests
-        # self.patch_wordpress_handlers()
 
     @classmethod
     def patch_wordpress_handlers(cls):

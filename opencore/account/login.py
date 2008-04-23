@@ -2,6 +2,7 @@
 login views
 """
 import logging
+from Products.CMFCore.utils import getToolByName
 from opencore.account.browser import AccountView
 from opencore.account.utils import email_confirmation
 from opencore.browser.base import BaseView, _
@@ -32,8 +33,10 @@ class LoginView(AccountView):
         a list of urls which should not be redirected
         back to after login because they are boring.
         """
-        urls = [self.siteURL,]
-        more_urls = [self.url_for(x) for x in ("login", "forgot", "join")]
+        site_url = getToolByName(self.context, 'portal_url')()
+        urls = [site_url,]
+        more_urls = ['%s/%s' % (site_url, screen)
+                     for screen in ("login", "forgot", "join")]
         urls += more_urls
         return urls
 
@@ -86,7 +89,7 @@ class LoginView(AccountView):
 
         self.addPortalStatusMessage(_(u'psm_check_username_password', u'Please check your username and password. If you still have trouble, you can <a href="forgot">retrieve your sign in information</a>.'))
 
-    @anon_only(BaseView.siteURL)
+    @anon_only(lambda view: view.context.portal_url())
     def handle_request(self):
         """ redirect logged in users """
         
@@ -125,7 +128,8 @@ class LoginView(AccountView):
         # We need a valid url in order to perform further tests
         if not url:
             return False
-        if url.startswith(self.portal_url()) and url not in self.boring_urls:
+        if url.startswith(getToolByName(self.context, 'portal_url')()) and \
+               url not in self.boring_urls:
             return True
         raw_list = get_config('applications', 'opencore_vacuum_whitelist', default='').split(',')
         vacuum_whitelist = [x.strip() for x in raw_list if x.strip()]
@@ -146,19 +150,6 @@ class LoginView(AccountView):
             redirect = self.login_url
             
         self.redirect("%s" %redirect)
-
-    def logout_js(self):
-        """Javascript exposure of the logout API.  People can use this anyway, by attaching
-        the /logout URL as a script tag, this just removes the javascript error"""
-        # This is a nasty plone magic hack, since plone sneaks a look into the request object
-        # and decides to redirect if it finds a referrer.  We don't want that kind of magic.
-        self.request['HTTP_REFERER'] = None
-        logout = self.cookie_logout
-
-        self.invalidate_session()
-            
-        # We return the signout message as a JS comment.
-        return u"// %r" % _(u'psm_signed_out', u"You have signed out.")
 
     @property
     def cookie_logout(self):
@@ -242,15 +233,16 @@ class ForgotLoginView(AccountView):
     # catatlogue queries are done for the same user
     # which can't be good
 
-    @anon_only(BaseView.siteURL)
+    @anon_only(lambda view: view.context.portal_url())
     @button('send')
     @post_only(raise_=False)
     def handle_request(self):
+        site_url = getToolByName(self.context, 'portal_url')()
         userid = self.userid
         if userid:
 
             if self.is_pending(getUserName=userid):
-                self.redirect('%s/resend-confirmation?member=%s' % (self.siteURL, userid))
+                self.redirect('%s/resend-confirmation?member=%s' % (site_url, userid))
                 return
             
             if email_confirmation():
@@ -275,8 +267,8 @@ class ForgotLoginView(AccountView):
 
     @property
     def reset_url(self):
-
-        return '%s/reset-password?key=%s' % (self.siteURL, self.randomstring)
+        site_url = getToolByName(self.context, 'portal_url')()
+        return '%s/reset-password?key=%s' % (site_url, self.randomstring)
     
     def _mailPassword(self, forgotten_userid):
         if not self.membertool.checkPermission('Mail forgotten password', self):

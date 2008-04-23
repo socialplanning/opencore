@@ -7,9 +7,8 @@ from Products.CMFCore.utils import getToolByName
 from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
 from opencore.browser.base import _
 from opencore.browser.formhandler import OctopoLite, action
-from opencore.geocoding.view import get_geo_writer
 from opencore.interfaces import IHomePage
-from opencore.interfaces.event import AfterProjectAddedEvent, AfterSubProjectAddedEvent
+from opencore.interfaces.event import AfterProjectAddedEvent
 from opencore.browser.naming import get_view_names
 from opencore.project.browser.base import ProjectBaseView
 from topp.featurelets.interfaces import IFeatureletSupporter, IFeaturelet
@@ -85,10 +84,7 @@ class ProjectAddView(ProjectBaseView, OctopoLite):
             if self.context.has_key(id_):
                 self.errors['id'] = 'The requested url is already taken.'
 
-        geowriter = get_geo_writer(self)
-        geo_info, locationchanged = geowriter.get_geo_info_from_form(
-            old_info={})
-        self.errors.update(geo_info.get('errors', {}))
+        # XXX TO DO: handle featurelets, just like in preferences.py
 
         if self.errors:
             self.add_status_message(_(u'psm_correct_errors_below', u'Please correct the errors indicated below.'))
@@ -123,13 +119,12 @@ class ProjectAddView(ProjectBaseView, OctopoLite):
                 return
             del self.request.form['logo']
 
-        get_geo_writer(self, proj).save_coords_from_form()
-
         hpcontext = IHomePage(proj)
         hpcontext.home_page = 'summary'
 
         self.template = None
-        proj_edit_url = '%s/projects/%s/project-home/edit' % (self.siteURL, id_)
+        site_url = getToolByName(self.context, 'portal_url')()
+        proj_edit_url = '%s/projects/%s/project-home/edit' % (site_url, id_)
 
         s_message_mapping = {'title': title, 'proj_edit_url': proj_edit_url,
                              'project_noun': self.project_noun,}
@@ -174,24 +169,3 @@ class ProjectAddView(ProjectBaseView, OctopoLite):
 class DummyFeatureletSupporter(object):
     implements(IFeatureletSupporter)
 
-
-class SubProjectAddView(ProjectAddView):
-
-    def __init__(self, context, request):
-        self.parent_project = context
-        fake_ctx = self.find_project_container(context, request)
-        ProjectAddView.__init__(self, fake_ctx, request)
-
-    def find_project_container(self, obj, request):
-        cur = obj
-        # This will raise a NameError: IAddProject, which we would
-        # have noticed if we actually had subprojects.
-        # Can we just delete this whole view?
-        while cur is not None and not IAddProject.providedBy(cur):
-            cur = aq_parent(obj)
-        return cur
-    
-    def notify(self, project): 
-        event.notify(AfterSubProjectAddedEvent(project,
-                                               self.parent_project,
-                                               self.request))
