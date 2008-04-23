@@ -338,6 +338,15 @@ class BaseView(BrowserView):
 
         return result
 
+    # Hooks for geocoding stuff to work, if installed.
+    # XXX this doesn't merit living in the base view
+    @view.memoizedproperty
+    def has_geocoder(self):
+        """Is a PleiadesGeocoder tool available?
+        """
+        return getToolByName(self.context, 'portal_geocoder', None) is not None
+
+            
     # tool and view handling
 
     # PW: I don't know what motivated caching tool lookups; I did some
