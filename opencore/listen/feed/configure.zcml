@@ -4,6 +4,7 @@
            >
 
   <browser:viewlet
+     for="opencore.listen.interfaces.IListenFeatureletInstalled"
      manager="opencore.project.browser.interfaces.ISummaryFeeds"
      class=".discussions.DiscussionsSummaryViewlet"
      name="discussions"
