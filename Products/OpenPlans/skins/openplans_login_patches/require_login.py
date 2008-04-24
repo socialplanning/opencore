@@ -27,8 +27,11 @@ request = context.REQUEST
 referer = request.environ.get('HTTP_REFERER')
 
 if context.portal_membership.isAnonymousUser():
+    msg = utranslate('opencore', u'psm_please_sign_in',
+                     context=context,
+                     default=u'Please sign in to continue.')
     plone_utils = getToolByName(portal, 'plone_utils')
-    plone_utils.addPortalMessage(_(u'psm_please_sign_in', u'Please sign in to continue.'))
+    plone_utils.addPortalMessage(msg)
     if referer is not None:
         request.form['referer'] = referer
     return portal.restrictedTraverse(login)()
