@@ -1,13 +1,12 @@
 import re
 
-from Products.CMFCore.utils import getToolByName
-from opencore.listen.interfaces import IOpenMailingList
-from Products.listen.interfaces import ISearchableArchive
-from Products.listen.lib.browser_utils import messageStructure
 from opencore.featurelets.interfaces import IListenContainer
 from opencore.feed.base import BaseFeedAdapter
 from opencore.feed.base import FeedItemResponses
 from opencore.feed.interfaces import IFeedData
+from opencore.listen.interfaces import IOpenMailingList
+from Products.listen.interfaces import ISearchableArchive
+from Products.listen.lib.browser_utils import messageStructure
 from zope.component import adapts
 from zope.component import getUtility
 from zope.interface import implements
@@ -32,13 +31,6 @@ class ListsFeedAdapter(BaseFeedAdapter):
     adapts(IListenContainer)
 
     title = 'Discussions'
-
-    def is_project_member(self):
-        project = self.context.aq_parent
-        membertool = getToolByName(project, 'portal_membership')
-        mem_id = membertool.getAuthenticatedMember().getId()
-        team_ids = project.getTeams()[0].getActiveMemberIds()
-        return mem_id in team_ids
 
     @property
     def mlists(self):
