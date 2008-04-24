@@ -107,7 +107,12 @@ class ProjectPreferencesView(ProjectBaseView, OctopoLite):
 
         # We're inventing a convention by which viewlets can extend
         # forms with more form data to validate: just provide a
-        # validate method.
+        # validate() method.  (And then later we'll call a save()
+        # method.)
+        # XXX I'd prefer to just implicitly use viewlet.update(), and
+        # not explicitly iterate over them at all; but this view's
+        # need to validate *everything* first prevents me from doing
+        # that. Maybe this view should be re-architected.
         viewlet_mgr = getMultiAdapter((self.context, self.request, self),
                                       name='opencore.proj_prefs')
         viewlets = getAdapters((self.context, self.request, self, viewlet_mgr),
@@ -148,12 +153,12 @@ class ProjectPreferencesView(ProjectBaseView, OctopoLite):
                 pass
             del self.request.form['logo']
 
-        # Give viewlets a chance to save data
+        # We're inventing a convention by which viewlets can extend
+        # forms with more form data to save: just provide a save
+        # method.
         for name, viewlet in viewlets:
-            # XXX maybe this should be another method?
-            # update is implicitly called on page render, so this gets called
-            # twice...
-            viewlet.update()
+            if hasattr(viewlet, 'save'):
+                viewlet.save()
         
         #store change status of flet, security, title, description, logo...
         changed = {
