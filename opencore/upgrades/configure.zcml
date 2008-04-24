@@ -2,10 +2,22 @@
            xmlns:genericsetup="http://namespaces.zope.org/genericsetup">
 
   <genericsetup:upgradeSteps
-     profile="profile-opencore.configuration:default"
+     profile="opencore.configuration:default"
      source="0.10"
      destination="1.0b1"
      sortkey="10">
+
+    <genericsetup:upgradeStep
+       title="Re-run required import steps"
+       description="Re-import any steps that need to be reapplied"
+       handler=".tov10b1.rerun_import_steps"
+       />
+
+    <genericsetup:upgradeStep
+       title="Remove app local site"
+       description="Removes local site manager that listen installed at the app root"
+       handler=".tov10b1.remove_app_local_site"
+       />
 
   </genericsetup:upgradeSteps>
 
