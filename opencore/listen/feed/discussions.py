@@ -3,6 +3,8 @@ import os
 
 from zope.component import getAdapter
 from zope.component import getUtility
+from Acquisition import aq_inner
+from Acquisition import aq_parent
 from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
 from Products.listen.interfaces import ISearchableArchive
 from opencore.browser.blankslate import BlankSlateViewlet
@@ -18,7 +20,14 @@ class DiscussionsSummaryViewlet(BlankSlateViewlet):
 
     def is_blank(self):
         for ml_id in self.context.mlists:
-            mlist = self.context.context._getOb(ml_id)
+            # there's got to be an easier way...
+            # get the 'lists' folder
+            listfolder = self.context.context
+            # unwrap it's parent and rewrap to clean up aq_chain...
+            clean_parent = aq_inner(aq_parent(listfolder))
+            listfolder = listfolder.__of__(clean_parent)
+            mlist = listfolder._getOb(ml_id)
+            # ... or else the utility lookup won't work
             archive = getUtility(ISearchableArchive, context=mlist)
             if archive.getToplevelMessages():
                 return False
