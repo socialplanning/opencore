@@ -3,6 +3,7 @@ project and subproject adding
 
 # @@ needs tests
 """
+from Acquisition import aq_inner
 from Products.CMFCore.utils import getToolByName
 from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
 from opencore.browser.base import _
@@ -110,7 +111,7 @@ class ProjectAddView(ProjectBaseView, OctopoLite):
             return
 
         self.context.portal_factory.doCreate(proj, id_)
-        proj = self.context._getOb(id_)
+        proj = aq_inner(self.context)._getOb(id_)
         self.notify(proj)
 
         logo = self.request.form.get('logo')
