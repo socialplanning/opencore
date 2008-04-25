@@ -33,7 +33,7 @@
                       </tal:if>
                     </td>
                     <th scope="row">
-                      <h2 tal:content="python: view.version_title(version_id);" />
+                      <h2 tal:content="python: view.version_title(version_id)" />
                     </th>
                     <td>
                       <tal:if condition="python: next_id is not None">

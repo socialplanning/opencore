@@ -1,12 +1,13 @@
-<div id="oc-feed-pages" class="oc-widget oc-widget-feed oc-column">
+<div id="oc-feed-pages" class="oc-widget oc-widget-feed oc-column"
+     tal:define="feedlink view/feed/link">
   <h2 class="oc-feed-title">
-    <a tal:attributes="href context/link">Pages</a>     
+    <a tal:attributes="href feedlink">Pages</a>     
   </h2>	
   <div class="oc-blankSlate">
     <img class="right" src="/++resource++img/summaryicons/wiki.gif" />
     <p>Collaborate on ideas using Pages</p>
-    <p><a tal:attributes="href view/context/link">Home Page</a></p>
-    <p><a tal:condition="view/context/context/isProjectAdmin"
-          tal:attributes="href string:${view/context/link}/edit">Edit Pages</a></p>
+    <p><a tal:attributes="href feedlink">Home Page</a></p>
+    <p><a tal:condition="context/isProjectAdmin"
+          tal:attributes="href string:${feedlink}/edit">Edit Pages</a></p>
   </div>
 </div>

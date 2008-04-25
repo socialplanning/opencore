@@ -10,12 +10,12 @@ class BlankSlateViewlet(ViewletBase):
     adapter_name = ''
 
     def render(self):
-        # base classes must specify a blank template and a template
+        # sub-classes must specify a blank template and a template
         assert self.blank_template and self.template
         # and an is_blank function
         assert self.is_blank
 
-        self.context = self.adapt()
+        self.feed = self.adapt()
 
         if self.is_blank():
             return self.blank_template()
