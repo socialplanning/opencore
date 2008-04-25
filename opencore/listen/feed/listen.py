@@ -44,6 +44,10 @@ class ListsFeedAdapter(BaseFeedAdapter):
             # regenerate it.
             return self._items
 
+        # set self._items to empty list in case we have
+        # no results at all
+        self._items = []
+
         all_msgs = []
         for ml_id in self.mlists:
             mlist = self.context._getOb(ml_id)
