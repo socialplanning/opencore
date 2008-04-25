@@ -328,6 +328,12 @@ class OpenProject(BrowserDefaultMixin, TeamSpaceMixin, BaseBTreeFolder):
 
         return tuple(members)
 
+    security.declareProtected(View, 'projectMemberBrains')
+    def projectMemberBrains(self, admin_only=False):
+        cat = getToolByName(self, 'membrane_tool')
+        member_ids = self.projectMemberIds(admin_only=admin_only)
+        return tuple(cat(getId=member_ids))
+
     security.declareProtected(View, 'projectMembers')
     def projectMembers(self, admin_only=False):
         """Compute all the members of this project in a nice way
