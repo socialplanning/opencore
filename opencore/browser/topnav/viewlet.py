@@ -3,6 +3,7 @@ from opencore.interfaces import IMemberFolder
 from opencore.interfaces import IOpenPage
 from opencore.interfaces.adding import IAddProject
 from opencore.interfaces.adding import IAmAPeopleFolder
+from opencore.interfaces.adding import IAmANewsFolder
 from Products.CMFCore.utils import getToolByName
 from Products.CMFPlone.interfaces import IPloneSiteRoot
 from topp.utils import zutils
@@ -90,7 +91,7 @@ def portal_people_or_projects(viewlet):
     """a particular set of viewlets get rendered when viewing the
        portal, people folder, or projects folder"""
     context = viewlet.context
-    for iface in IPloneSiteRoot, IAddProject, IAmAPeopleFolder:
+    for iface in IPloneSiteRoot, IAddProject, IAmAPeopleFolder, IAmANewsFolder:
         if iface.providedBy(context):
             return True
     return False
