@@ -17,14 +17,10 @@ email_re = re.compile(r' *"(.*)" *<.*@.*>')
 
 def latest_reply(archive, message):
     """given a message, get the latest reply in the thread"""
-    # XXX this should really go in listen
-    prev = next = message
-    while next:
-        if next.date > prev.date:
-            prev = next
-        next = archive.getNextInThread(next.message_id)
-    return prev
-
+    replies = archive.getMessageReferrers(message.message_id)
+    if replies:
+        return replies[0]
+    return message
 
 class ListsFeedAdapter(BaseFeedAdapter):
     implements(IFeedData)
@@ -64,8 +60,8 @@ class ListsFeedAdapter(BaseFeedAdapter):
             archive = getUtility(ISearchableArchive, context=mlist)
             threads = archive.getToplevelMessages()
             threads = [ dict(message=message, 
-                              reply=latest_reply(archive, message), 
-                              mlist=mlist)
+                             reply=latest_reply(archive, message), 
+                             mlist=mlist)
                          for message in threads ]
             messages.extend(threads)
             
