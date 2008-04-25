@@ -1,0 +1,12 @@
+topnav_minimal
+create_user
+login
+create_project
+topnav_verify_exists(url=${project_url}, menuitem="Blog")
+logout
+
+topnav_verify_exists(url=${project_url}, menuitem="Summary")
+topnav_verify_exists(url=${project_url}, menuitem="Pages")
+topnav_verify_exists(url=${project_url}, menuitem="Blog")
+
+topnav_profile_highlighted

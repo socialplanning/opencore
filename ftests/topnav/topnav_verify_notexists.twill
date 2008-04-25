@@ -1,0 +1,4 @@
+extend_with flunc.xpath
+
+go $url
+notfind_in_xpath ${menuitem} "//div[@id='oc-pageNav']"
