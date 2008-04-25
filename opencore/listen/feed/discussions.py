@@ -17,11 +17,8 @@ class DiscussionsSummaryViewlet(BlankSlateViewlet):
     sort_order = 200
 
     def is_blank(self):
-        for ml_id in self.context.mlists:
-            mlist = self.context.context._getOb(ml_id)
-            archive = getUtility(ISearchableArchive, context=mlist)
-            if archive.getToplevelMessages():
-                return False
+        if self.context.items:
+            return False
         if self.context.mlists:
             self.create = os.path.join(self.context.context.absolute_url(), self.context.mlists[0], 'archive', 'new_topic')
         else:
