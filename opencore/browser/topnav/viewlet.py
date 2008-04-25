@@ -1,4 +1,5 @@
 from opencore.i18n import _
+from opencore.interfaces import IMemberFolder
 from opencore.interfaces import IOpenPage
 from opencore.interfaces.adding import IAddProject
 from opencore.interfaces.adding import IAmAPeopleFolder
@@ -140,3 +141,9 @@ def not_part_of_project(viewlet):
 def team_selected(viewlet):
     return (url_ends_with(viewlet.context.request.ACTUAL_URL, '/team') or
             viewlet.context.request.ACTUAL_URL.endswith('/manage-team'))
+
+def profile_selected(viewlet):
+    url = viewlet.request.ACTUAL_URL
+    return (IMemberFolder.providedBy(viewlet.context) and
+            (url_ends_with(url, '/profile') or
+             url_ends_with(url, '/people/%s' % viewlet.context.id)))

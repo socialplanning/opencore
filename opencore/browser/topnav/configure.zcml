@@ -98,6 +98,7 @@
      name="Profile"
      filter=".viewlet.contained_within"
      container="opencore.interfaces.IMemberFolder"
+     selected=".viewlet.profile_selected"
      item_url="profile"
      sort_order="10"
      />
