@@ -1,5 +1,7 @@
 import re
 
+from Acquisition import aq_inner
+from Acquisition import aq_parent
 from Products.CMFCore.utils import getToolByName
 from opencore.listen.interfaces import IOpenMailingList
 from Products.listen.interfaces import ISearchableArchive
@@ -34,7 +36,7 @@ class ListsFeedAdapter(BaseFeedAdapter):
     title = 'Discussions'
 
     def is_project_member(self):
-        project = self.context.aq_parent
+        project = aq_parent(aq_inner(self.context))
         membertool = getToolByName(project, 'portal_membership')
         mem_id = membertool.getAuthenticatedMember().getId()
         team_ids = project.getTeams()[0].getActiveMemberIds()
