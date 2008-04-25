@@ -82,7 +82,6 @@ def is_in_external_application(viewlet):
     expected_header = viewlet.application_header
     if expected_header is None:
         return False
-    print viewlet.request.get_header("HTTP_X_OPENPLANS_APPLICATION")
     return viewlet.request.get_header("HTTP_X_OPENPLANS_APPLICATION") == expected_header
 
 def portal_people_or_projects(viewlet):
