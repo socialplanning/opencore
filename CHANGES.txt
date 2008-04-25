@@ -4,6 +4,7 @@
  * Highlight correct topnav tab on user profile (rmarianski, jhammel)
  * Display topnav tabs on news items (rmarianski)
  * Optimizations of mailing list recent activity feed (jhammel)
+ * Optimizations of team recent activity feed (jhammel)
 
 0.10 (2008-04-23)
 =================
