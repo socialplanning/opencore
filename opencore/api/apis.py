@@ -34,6 +34,14 @@ class AllMembersInfoXML(XMLView):
         members = membrane_tool.unrestrictedSearchResults(portal_type=memtype)
         return members
 
+from topp.featurelets.interfaces import IFeatureletSupporter
+from zope.component import getAdapters
+class ProjectInfoXML(XMLView):
+    def featurelets(self):
+        supporter = IFeatureletSupporter(self.context)
+        all_flets = [flet for name, flet in getAdapters((supporter,), IFeaturelet)]
+        installed_flets = [flet.id for flet in all_flets if flet.installed]
+        return installed_flets
 
 class ProjectMembershipXML(XMLView):
 

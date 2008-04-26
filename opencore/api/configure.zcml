@@ -15,6 +15,7 @@
      permission="zope2.View"
      name="info.xml"
      template="project_info_xml.pt"
+     class=".apis.ProjectInfoXML"
      />
 
   <!-- consider deprecated, use /memberships -->
