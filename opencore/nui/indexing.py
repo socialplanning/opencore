@@ -1,23 +1,18 @@
 from PIL import Image
 from StringIO import StringIO
 from Missing import Value as MissingValue
-from ZODB.POSException import ConflictError
-from ZODB.POSException import TransactionFailedError
 from Acquisition import aq_parent
-from BTrees.OOBTree import OOBTree
 from zope.app.annotation.interfaces import IAnnotations
 from Products.CMFCore.interfaces._content import IDynamicType
 from Products.CMFCore.interfaces._tools import ICatalogTool
 from Products.CMFCore.utils import getToolByName
 from Products.CMFPlone.CatalogTool import registerIndexableAttribute
-from Products.CMFEditions.interfaces.IArchivist import ArchivistRetrieveError
 from opencore.interfaces.workflow import IReadWorkflowPolicySupport
 from Products.ZCatalog.CatalogBrains import AbstractCatalogBrain
 from Products.listen.interfaces import ISearchableArchive
 from Products.listen.interfaces.mailinglist import IMailingList
-from Products.remember.interfaces import IReMember
 from opencore.interfaces.catalog import ILastWorkflowActor, ILastModifiedAuthorId, \
-     IIndexingGhost, IMetadataDictionary, ILastWorkflowTransitionDate, IMailingListThreadCount, \
+     IMetadataDictionary, ILastWorkflowTransitionDate, IMailingListThreadCount, \
      IHighestTeamRole, ILastModifiedComment, \
      IImageWidthHeight, IImageSize, IIsImage
 from opencore.interfaces import IOpenMembership, IOpenPage
@@ -223,7 +218,7 @@ class MailingListThreadCount(object):
 
     def getValue(self):
         util = queryUtility(ISearchableArchive, context=self.context)
-        if not util:
+        if util is None:
             return 0
         else:
             return len(util.getToplevelMessages())
