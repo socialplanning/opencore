@@ -24,7 +24,8 @@ highest team role for each::
      </member>...
     </members>...
 
-info.xml shows the project's security policy::
+info.xml shows the project's security policy and installed featurelets::
+
     >>> print http(r'''
     ... GET /plone/projects/p1/@@info.xml HTTP/1.1
     ... ''')
@@ -33,6 +34,8 @@ info.xml shows the project's security policy::
     Content-Type: text/html; charset=utf-8...
     <info>
      <policy>medium_policy</policy>
+     <featurelets>...
+     </featurelets>
     </info>...
 
 
