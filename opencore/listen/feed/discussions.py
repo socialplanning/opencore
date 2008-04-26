@@ -1,10 +1,10 @@
 import opencore.feed.browser
 import os
 
-from zope.component import getAdapter
+from zope.app.component.hooks import getSite
+from zope.app.component.hooks import setSite
 from zope.component import getUtility
 from Acquisition import aq_inner
-from Acquisition import aq_parent
 from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
 from Products.listen.interfaces import ISearchableArchive
 from opencore.browser.blankslate import BlankSlateViewlet
@@ -19,22 +19,22 @@ class DiscussionsSummaryViewlet(BlankSlateViewlet):
 
     sort_order = 200
 
-    @property
     def listfolder(self):
-        """
-        returns the lists folder w/ a clean aq chain
-        """
+        """ returns the 'lists' folder w/ a clean aq chain """
         clean_project = aq_inner(self.context)
         # XXX hardcoded folder id == bad
         return clean_project._getOb('lists', None)
 
     def is_blank(self):
-        listfolder = self.listfolder
+        listfolder = self.listfolder()
         if listfolder is None:
             return True
         for ml_id in self.feed.mlists:
             mlist = listfolder._getOb(ml_id)
-            archive = getUtility(ISearchableArchive, context=mlist)
+            orig_site = getSite()
+            setSite(mlist)
+            archive = getUtility(ISearchableArchive)
+            setSite(orig_site)
             if archive.getToplevelMessages():
                 return False
         if self.feed.mlists:
@@ -46,4 +46,4 @@ class DiscussionsSummaryViewlet(BlankSlateViewlet):
         return True
 
     def adapt(self):
-        return IFeedData(self.listfolder, None)
+        return IFeedData(self.listfolder(), None)
