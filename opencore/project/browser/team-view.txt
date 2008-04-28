@@ -78,7 +78,7 @@ results are saved on the view::
 Using the list of results and the project ids, the view retrieves the
 brains for every project who's data needs to be displayed::
 
-    >>> pprint(view.project_info)
+    >>> pprint(view.project_info(view.results))
     {'p1': <Products.ZCatalog.Catalog.mybrains object at ...>,
      'p2': <Products.ZCatalog.Catalog.mybrains object at ...>,
      'p3': <Products.ZCatalog.Catalog.mybrains object at ...>,
