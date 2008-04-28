@@ -16,7 +16,7 @@ from zope.i18n import translate
 
 # make sure that modification date gets updated
 # when new messages are sent to list
-def mailinglist_changed(ml, event):
+def mailinglist_msg_delivered(ml, event):
     ml.setModificationDate()
 
 #XXX this is directly copied from the wordpress event code to check
