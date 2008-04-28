@@ -4,6 +4,7 @@ from StringIO import StringIO
 from itertools import count
 from opencore.interfaces import IOpenPage
 from opencore.nui.wiki.interfaces import IWikiHistory
+from pprint import pprint
 import transaction as txn
 
 
