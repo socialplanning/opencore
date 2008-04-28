@@ -2,11 +2,13 @@
 Profile View
 """
 from AccessControl import allow_module
+from Acquisition import aq_inner
 from Products.CMFCore.permissions import ModifyPortalContent
 from Products.CMFCore.utils import getToolByName
 from Products.Five import BrowserView
 from Products.remember.interfaces import IReMember
-from opencore import redirect 
+from opencore import redirect
+from opencore.utils import interface_in_aq_chain
 from opencore.interfaces import IProject, IConsumeNewMembers
 from opencore.interfaces.event import IFirstLoginEvent
 from opencore.interfaces.member import IMemberFolder, IMemberHomePage
@@ -33,10 +35,7 @@ class MemberInfoView(BrowserView):
         return self._context[0]
 
     def interfaceInAqChain(self, iface):
-        chain = self.context.aq_inner.aq_chain
-        for item in chain:
-            if iface.providedBy(item):
-                return item
+        return interface_in_aq_chain(aq_inner(self.context), iface)
 
     @memoizedproperty
     def member_folder(self):
