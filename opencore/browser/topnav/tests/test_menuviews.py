@@ -1,19 +1,11 @@
-import os, sys, re
 import unittest
 
-from plone.memoize.view import ViewMemo
-from zope.app.annotation.interfaces import IAnnotations
-from zope.interface import alsoProvides
-from zope.component import getMultiAdapter
-
 from Products.CMFCore.utils import getToolByName
-
-from opencore.testing.layer import OpencoreContent
-from opencore.interfaces.member import IMemberFolder
+from Products.OpenPlans.tests.openplanstestcase import OpenPlansTestCase
 from opencore.browser.topnav.interfaces import ITopnavMenuItems
 from opencore.browser.topnav.tests import parse_topnav_context_menu
-
-from Products.OpenPlans.tests.openplanstestcase import OpenPlansTestCase
+from opencore.testing.layer import OpencoreContent
+from zope.component import getMultiAdapter
 
 class TestMemberMenu(OpenPlansTestCase):
 
