@@ -21,7 +21,6 @@ class TestMemberMenu(OpenPlansTestCase):
         other_mem = mtool.getMemberById(other_mem_id)
         mtool.createMemberArea(other_mem_id)
         self.other_mf = mtool.getHomeFolder(other_mem_id)
-        self.other_mhome = self.other_mf._getOb('m2-home')
         self.logout()
 
         mem_id = self.mem_id = 'm1'
@@ -30,22 +29,32 @@ class TestMemberMenu(OpenPlansTestCase):
         mtool.createMemberArea(mem_id)
         self.mf = mtool.getHomeFolder(mem_id)
         self.mhome = self.mf._getOb('m1-home')
-
-    def test_menudata(self):
         # preserve the orignal URL
-        orig_actual_url = self.request.ACTUAL_URL 
+        self._orig_actual_url = self.request.ACTUAL_URL 
 
-        # test to see if the 'Wiki' is highlighted
+    def beforeTearDown(self):
+        # XXX this may not be necessary, but it's safer just in case
+        self.request.ACTUAL_URL = self._orig_actual_url
         self.clearMemoCache()
-        self.request.ACTUAL_URL = self.mf.absolute_url()
-        view = getMultiAdapter(
-            (self.mhome, self.request),
-            name='oc-topnav')
-        manager = getMultiAdapter((self.mhome, self.request, view),
+
+    def _get_topnav_html(self, context):
+        self.clearMemoCache()
+        view = getMultiAdapter((context, self.request),
+                               name='oc-topnav')
+        manager = getMultiAdapter((context, self.request, view),
                                   ITopnavMenuItems,
                                   name='opencore.topnavmenu')
         manager.update()
-        html = manager.render()
+        return manager.render()
+        
+    def test_menudata(self):
+        # I would love refactor this into multiple test cases, but
+        # frankly, the setup/teardown time makes this unbearable.  So,
+        # I'll just comment the different sections...
+
+        # Test to see if the 'Wiki' is highlighted.
+        self.request.ACTUAL_URL = self.mf.absolute_url()
+        html = self._get_topnav_html(context=self.mhome)
         lis, links = parse_topnav_context_menu(html)
         self.assertEqual(len(lis), 3)
         self.assertEqual('%s/profile' % self.mf.absolute_url(),
@@ -54,17 +63,11 @@ class TestMemberMenu(OpenPlansTestCase):
         self.assertEqual(lis[1]['selected'], u'oc-topnav-selected')
         self.failIf(lis[2]['selected'])
 
-        # test to see if the 'Profile' is highlighted
-        self.clearMemoCache()
+        # Test to see if the 'Profile' is highlighted
+        #self.clearMemoCache()
         profile_url = "%s/profile" % self.mf.absolute_url()
         self.request.ACTUAL_URL = profile_url
-        view = getMultiAdapter((self.mf, self.request),
-                               name='oc-topnav')
-        manager = getMultiAdapter((self.mf, self.request, view),
-                                  ITopnavMenuItems,
-                                  name='opencore.topnavmenu')
-        manager.update()
-        html = manager.render()
+        html = self._get_topnav_html(context=self.mf)
         lis, links = parse_topnav_context_menu(html)
         self.assertEqual(len(lis), 3)
         self.assertEqual('%s/m1-home' % self.mf.absolute_url(),
@@ -73,15 +76,10 @@ class TestMemberMenu(OpenPlansTestCase):
         self.failIf(lis[1]['selected'])
         self.failIf(lis[2]['selected'])
 
-        # test to see if 'Account' is highlighted
-        self.clearMemoCache()
+        # Test to see if 'Account' is highlighted
         userprefs_url = "%s/account" % self.mf.absolute_url()
         self.request.ACTUAL_URL = userprefs_url
-        manager = getMultiAdapter((self.mf, self.request, view),
-                                  ITopnavMenuItems,
-                                  name='opencore.topnavmenu')
-        manager.update()
-        html = manager.render()
+        html = self._get_topnav_html(context=self.mf)
         lis, links = parse_topnav_context_menu(html)
         self.assertEqual(len(lis), 3)
         self.assertEqual('%s/m1-home' % self.mf.absolute_url(),
@@ -90,25 +88,17 @@ class TestMemberMenu(OpenPlansTestCase):
         self.failIf(lis[1]['selected'])
         self.assertEqual(lis[2]['selected'], u'oc-topnav-selected')
 
-        self.clearMemoCache()
+        # Test links when viewing topnav for another user's profile
+        # (not the one who's logged in).
         other_profile_url = "%s/profile" % self.other_mf.absolute_url()
         self.request.ACTUAL_URL = other_profile_url
-        view = getMultiAdapter((self.other_mf, self.request),
-                               name='oc-topnav')
-        manager = getMultiAdapter((self.other_mf, self.request, view),
-                                  ITopnavMenuItems,
-                                  name='opencore.topnavmenu')
-        manager.update()
-        html = manager.render()
+        html = self._get_topnav_html(context=self.other_mf)
         lis, links = parse_topnav_context_menu(html)
         self.assertEqual(len(lis), 2)
         self.assertEqual('%s/m2-home' % self.other_mf.absolute_url(),
                          links[1]['href'])
         self.assertEqual(lis[0]['selected'], u'oc-topnav-selected')
         self.failIf(lis[1]['selected'])
-
-        # XXX this may not be necessary, but it's safer just in case
-        self.request.ACTUAL_URL = orig_actual_url
 
 
 class TestProjectMenu(OpenPlansTestCase):
