@@ -1,3 +1,4 @@
+import lxml
 import unittest
 
 from Products.CMFCore.utils import getToolByName
@@ -46,7 +47,7 @@ class TestMemberMenu(OpenPlansTestCase):
                                   name='opencore.topnavmenu')
         manager.update()
         return manager.render()
-        
+
     def test_menudata(self):
         # I would love to refactor this into multiple test cases, but
         # frankly, the setup/teardown time makes this unbearable.  So,
@@ -62,7 +63,6 @@ class TestMemberMenu(OpenPlansTestCase):
         self.assertEqual('Profile', links[0]['name'])
         self.assertEqual('%s/profile' % self.mf.absolute_url(),
                          links[0]['href'])
-        
         self.assertEqual(lis[1]['selected'], u'oc-topnav-selected')
         self.assertEqual('Pages', links[1]['name'])
         self.assertEqual(self.mhome.absolute_url(),
@@ -115,7 +115,26 @@ class TestMemberMenu(OpenPlansTestCase):
         self.assertEqual('%s/m2-home' % self.other_mf.absolute_url(),
                          links[1]['href'])
 
+    def test_mystuff_menu(self):
+        # Make sure user's dropdown links are correct, and correctly labelled.
+        view = self.portal.restrictedTraverse('@@topnav-mystuff-menu')
+        html = view()
+        tree = lxml.etree.fromstring(html)
+        links = tree.xpath('//a')
+        self.assertEqual(links[0].text.strip(), 'Profile')
+        self.assertEqual(links[0].attrib['href'],
+                         '%s/profile' % self.mf.absolute_url())
 
+        self.assertEqual(links[1].text.strip(), 'Pages')
+        self.assertEqual(links[1].attrib['href'],
+                         self.mhome.absolute_url())
+        
+        self.assertEqual(links[2].text.strip(), 'Account')
+        self.assertEqual(links[2].attrib['href'],
+                         '%s/account' % self.mf.absolute_url())
+        # We could also check the remaining links (project memberships).
+        
+    
 class TestProjectMenu(OpenPlansTestCase):
 
     layer = OpencoreContent
