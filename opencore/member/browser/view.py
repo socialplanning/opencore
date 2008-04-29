@@ -6,7 +6,9 @@ from opencore.browser.base import BaseView, _
 from opencore.browser.formhandler import OctopoLite, action
 from topp.utils.pretty_date import prettyDate
 from zope.app.event.objectevent import ObjectModifiedEvent
+from zope.component import getMultiAdapter, getAdapters
 from zope.event import notify
+from zope.viewlet.interfaces import IViewlet
 import urllib
 
 class ProfileView(BaseView):
@@ -189,23 +191,38 @@ class ProfileEditView(ProfileView, OctopoLite):
     @action("update")
     def handle_form(self, target=None, fields=None):
         member = self.viewedmember()
-
-        # deal with portrait first
-        portrait = self.request.form.get('portrait')
-        if portrait:
-            if not self.check_portrait(member, portrait):
-                return
-            del self.request.form['portrait']
-
+        validation_failed = False
         form = self.request.form
-##         # handle geo stuff
-##         geo_writer = get_geo_writer(self)
-##         new_info, locationchanged = geo_writer.save_coords_from_form()
-##         member.setPositionText(new_info.get('position-text', ''))
-##         for key in ('position-latitude', 'position-longitude', 'position-text'):
-##             # we've already handled these, leave the rest for archetypes.
-##             if form.has_key(key):
-##                 del form[key]
+        
+        # deal with portrait first
+        portrait = form.get('portrait')
+        if portrait:
+            if self.check_portrait(member, portrait):
+                del form['portrait']
+            else:
+                validation_failed = True
+
+        # Do validation from any plugins.
+        # XXX Have we already called mgr.update() by this time?
+        # If so, we can just iterate over mgr.viewlets!
+        viewlet_mgr = getMultiAdapter((self.context, self.request, self),
+                                      name='opencore.profile_edit_viewlets')
+        viewlets = getAdapters((self.context, self.request, self, viewlet_mgr),
+                               IViewlet)
+        for name, viewlet in viewlets:
+            if hasattr(viewlet, 'validate'):
+                errors = viewlet.validate()
+                for key, msg in errors.items():
+                    validation_failed = True
+                    self.addPortalStatusMessage(msg)
+
+        if validation_failed:
+            return
+
+        # Now allow any plugins to save state.
+        for name, viewlet in viewlets:
+            if hasattr(viewlet, 'save'):
+                viewlet.save()
 
         # now deal with the rest of the fields via archetypes mutators.
         for field, value in form.items():

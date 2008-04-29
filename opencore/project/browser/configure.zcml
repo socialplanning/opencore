@@ -208,6 +208,7 @@
      permission="zope2.View"
      />
 
+  <!-- Viewlet managers allow plugins to add stuff to these forms -->
   <browser:viewletManager
      name="opencore.proj_prefs"
      provides=".interfaces.IProjectPrefs"
