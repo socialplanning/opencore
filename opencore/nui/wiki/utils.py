@@ -146,7 +146,7 @@ class UnescapeTests(unittest.TestCase):
         self.assertEqual(unescape_charref(u"&#38;"), u"&")
         self.assertEqual(unescape_charref(u"&#x2014;"), u"\N{EM DASH}")
         self.assertEqual(unescape_charref(u"&#8212;"), u"\N{EM DASH}")
-        self.assertEqual("These tests don't get run", "Otherwise this would fail")
+        self.assertEqual("These tests don't get run", "Otherwise this would fail") # XXX
 
     def test_unescape(self):
         self.assertEqual(
