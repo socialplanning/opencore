@@ -1,6 +1,7 @@
 0.10.1 (unreleased)
 ===================
 
+ * Fix "wiki" link and text in user's dropdown nav - it's now "pages" (slinkp)
  * Highlight correct topnav tab on user profile (rmarianski, jhammel)
  * Display topnav tabs on news items (rmarianski)
  * Optimizations of mailing list recent activity feed (jhammel)
