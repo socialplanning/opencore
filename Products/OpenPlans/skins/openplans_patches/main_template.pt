@@ -62,11 +62,6 @@
             </tr>
 
 
-            <!-- use topnav view -->
-            <div tal:replace="structure here/@@opencore-topnav" />
-            <!-- end topnav view -->
-
-
             <!--// table row for main content
             THIS NEVER CHANGES//-->	
             <tr>

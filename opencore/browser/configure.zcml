@@ -95,14 +95,6 @@
 
   <five:traversable class="OFS.Folder.Folder" />
 
-  <!-- browser:page for new topnav view -->
-  <browser:page
-     for="*"
-     permission="zope.Public"
-     name="opencore-topnav"
-     template="topnav.pt"
-     />
-
   <!-- page for workflows that dead-end in a simple message display -->
   <browser:page
      for="*"
