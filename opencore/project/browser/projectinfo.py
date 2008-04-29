@@ -3,12 +3,14 @@ this is a forerunner for something that go into TeamSpaces
 """
 from zope.interface import implements
 
+from Acquisition import aq_inner
 from Products.CMFCore.utils import getToolByName 
 from Products.Five import BrowserView
 from Products.Five.browser.pagetemplatefile import getEngine
-from opencore.interfaces import IProject, IOpenTeam
 from interfaces import IProjectInfo
+from opencore.interfaces import IProject, IOpenTeam
 from opencore.project.utils import get_featurelets
+from opencore.utils import interface_in_aq_chain
 from plone.memoize import instance
 
 
@@ -20,14 +22,12 @@ class ProjectInfo(object):
 
     @instance.memoizedproperty
     def project(self):
-        if IOpenTeam.providedBy(self.context):
+        context = aq_inner(self.context)
+        if IOpenTeam.providedBy(context):
             # get the related project
-            return self.context.getProject()
+            return aq_inner(context.getProject())
         # probably wrap this in an adapter
-        chain = self.context.aq_inner.aq_chain
-        for item in chain:
-            if IProject.providedBy(item):
-                return item
+        return interface_in_aq_chain(context, IProject)
 
     @property
     def inProject(self):
