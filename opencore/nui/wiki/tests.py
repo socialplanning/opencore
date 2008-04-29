@@ -3,7 +3,6 @@ from zope.testing import doctest
 from opencore.testing.layer import OpencoreContent
 from opencore.testing import dtfactory
 
-#optionflags = doctest.REPORT_ONLY_FIRST_FAILURE | doctest.ELLIPSIS
 optionflags = doctest.ELLIPSIS
 
 import warnings; warnings.filterwarnings("ignore")
@@ -11,7 +10,7 @@ import warnings; warnings.filterwarnings("ignore")
 def test_suite():
     from Products.PloneTestCase import setup
     from Products.PloneTestCase.PloneTestCase import FunctionalTestCase
-    from pprint import pprint
+    from pprint import pprint # imported because its passed to globs = locals()
 
     setup.setupPloneSite()
     def readme_setup(tc):

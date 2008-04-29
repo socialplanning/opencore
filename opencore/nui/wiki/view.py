@@ -3,8 +3,6 @@ from zope.app.event import objectevent
 from opencore.browser.base import BaseView
 from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
 from opencore.browser.formhandler import button, OctopoLite, action
-from opencore.interfaces import IAmExperimental
-from opencore.interfaces import IHomePage
 from opencore.nui.wiki.utils import unescape
 from Acquisition import aq_inner
 from PIL import Image
@@ -90,17 +88,6 @@ class WikiEdit(WikiBase, OctopoLite):
 
     attachment_snippet = ZopeTwoPageTemplateFile('attachment.pt')
 
-# always use xinha, see comment above
-#    @property
-#    def template(self):
-#         parent can be either a project, or a member folder
-#         in either case, the behavior works properly
-#        parent = self.context.aq_inner.aq_parent
-#        if IAmExperimental.providedBy(parent):
-#            return self.xinha_template
-#        else:
-#            return self.kupu_template
-
     def _clean_html(self, html):
         """ delegate cleaning of html to lxml .. sort of """
         ocprops = self.get_tool('portal_properties').opencore_properties
@@ -165,7 +152,8 @@ class WikiEdit(WikiBase, OctopoLite):
         clean_text = self._clean_html(page_text)
 
         self.context.setTitle(page_title)
-        self.context.setText(xinha_to_wicked(clean_text))
+        text = xinha_to_wicked(clean_text)
+        self.context.setText(text)
         if description is not None:
             self.context.setDescription(description)
 

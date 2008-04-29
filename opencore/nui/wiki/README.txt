@@ -115,6 +115,16 @@ Test wiki attachment registrations (logged in)::
     <Products.Five.metaclass.AttachmentView object at ...>
 
 
+Linking
+=======
+
+Test whether wicked linking works correctly:
+
+     >>> from opencore.nui.wiki.view import xinha_to_wicked
+     >>> xinha_to_wicked('<html>((foo))</html>')
+     '<html>((foo))</html>'
+
+
 Attachments
 ===========
 
