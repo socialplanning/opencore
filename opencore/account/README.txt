@@ -500,7 +500,7 @@ This is not the view
 
 This is the old skin which redirects to the login page.
 
-    >>> 'psm_please_sign_in' in output
+    >>> 'Please sign in' in output
     True
 
 Remove test_user_1_
@@ -529,6 +529,6 @@ Bug #1711. Member creation message should use the portal title.
     <...MailHostMock ...>
     >>> view._send_mail_to_pending_user('unused id', '1711@example.com',
     ...                                 'http://confirm-url.com')
-    >>> emailtext = mh.messages[-1].get_payload()
+    >>> emailtext = mh.messages[-1].get('msg')
     >>> view.portal_title() in emailtext
     True
