@@ -205,7 +205,8 @@ class WikiEdit(WikiBase, OctopoLite):
             
         imageId = self._findUniqueId(imageId)
         
-        newImageId = self.context.invokeFactory(id = imageId, type_name = 'FileAttachment')
+        newImageId = self.context.invokeFactory(id = imageId,
+                                                type_name = 'FileAttachment')
         if newImageId is not None and newImageId != '':
             imageId = newImageId
             
