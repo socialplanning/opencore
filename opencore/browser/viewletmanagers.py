@@ -7,7 +7,11 @@ class SortedViewletManager(ViewletManagerBase):
 
     def sort(self, viewlets):
         """Sort the viewlets according to their sort_order attribute"""
-        return sorted(viewlets, key=lambda x:int(x[1].sort_order))
+        try:
+            return sorted(viewlets, key=lambda x:int(x[1].sort_order))
+        except AttributeError:
+            import pdb; pdb.set_trace()
+            
 
 class JSViewletManager(SortedViewletManager):
     """sorted viewlet manager for project-related javascript """
