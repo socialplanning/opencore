@@ -1,4 +1,9 @@
-Removing a member from portal_memberdata results in the member's home folder being removed automatically as well. This is useful so we don't have to remember to remove the member from 2 places when removing them from the site.
+-*- mode: doctest ;-*-
+
+Removing a member from portal_memberdata results in the member's home
+folder being removed automatically as well. This is useful so we don't
+have to remember to remove the member from 2 places when removing them
+from the site.
 
 Remove a ``member1``::
 
@@ -8,22 +13,14 @@ Remove a ``member1``::
   >>> 'm1' in self.portal.people.objectIds()
   True
   
-Removing the ``m1`` member should result in an event that fires off to
-wordpress. However, this doesn't happen when running the entire
-suite. It only happens when running this test in isolation, with the
--t argument to the zopectl test runner. So, for now we just don't
-expect the output.
-
-#  Called httplib2.Http.request(
-#      'http://nohost:wordpress/openplans-remove-user.php',
-#      'POST',
-#      body='username=m1...
-
 Remove the ``m1`` member. This should also remove him from the people
 folder, which we check below::
 
   >>> self.portal.portal_memberdata.manage_delObjects(['m1'])
-
+  Called httplib2.Http.request(
+      'http://nohost:wordpress/openplans-remove-user.php',
+      'POST',
+      body='username=m1...
 
 ``m1``'s home folder should be gone now as well::
 
@@ -37,3 +34,7 @@ the member from portal_memberdata, then it should fail silently::
 
   >>> self.portal.people.manage_delObjects(['m2'])
   >>> self.portal.portal_memberdata.manage_delObjects(['m2'])
+  Called httplib2.Http.request(
+      'http://nohost:wordpress/openplans-remove-user.php',
+      'POST',
+      body='username=m2...
