@@ -42,12 +42,15 @@ validation methods on content care about::
     
 These are used to validate fields but we don't know that because of
 the lovely validate method on the adapter::
-    >>> factory.validate(dict(id='foo',
-    ...                       email='greeble@example.com',
-    ...                       password='testy',
-    ...                       confirm_password='testy'))
+    >>> from opencore.member.factory import _FakeRequest
+    >>> req = _FakeRequest(dict(id='foo',
+    ...                         email='greeble@example.com',
+    ...                         password='testy',
+    ...                         confirm_password='testy'))
+    >>> factory.validate(req)
     {}
-    >>> errors = factory.validate(dict(id='m1', email='greexampledotcom'))
+    >>> req = _FakeRequest(dict(id='m1', email='greexampledotcom'))
+    >>> errors = factory.validate(req)
     >>> sorted(errors.keys())
     ['email', 'id', 'password']
 
