@@ -1,3 +1,5 @@
+-*- mode: doctest ;-*-
+
 A member should implement IOpenMember::
 
     >>> mem = self.portal.portal_memberdata.m1
