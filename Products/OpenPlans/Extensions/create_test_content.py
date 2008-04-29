@@ -110,18 +110,22 @@ def create_member(context, mem_id, out=None, **mem_data):
     mem.setFullname(mem_data['fullname'])
 
     # and confirm it.
-
-    # need to set/delete the attribute for the workflow guards
-    setattr(mem, 'isConfirmable', True)
-    wftool = getToolByName(context, 'portal_workflow')
-    wf_id = 'openplans_member_workflow'
-    status = wftool.getStatusOf(wf_id, mem)
-    status['review_state'] = 'public'
-    wftool.setStatusOf(wf_id, mem, status)
-    delattr(mem, 'isConfirmable')
+    confirm_member(mem)
 
     mem.reindexObject()
     notify(ObjectCreatedEvent(mem))
     ms_tool = getToolByName(context, 'portal_membership')
     ms_tool.createMemberArea(mem.getId())
     return mem
+
+def confirm_member(mem):
+    """ forces the member ob into active w/f state """
+    # need to set/delete the attribute for the workflow guards
+    setattr(mem, 'isConfirmable', True)
+    wftool = getToolByName(mem, 'portal_workflow')
+    wf_id = 'openplans_member_workflow'
+    status = wftool.getStatusOf(wf_id, mem)
+    status['review_state'] = 'public'
+    wftool.setStatusOf(wf_id, mem, status)
+    delattr(mem, 'isConfirmable')
+    
