@@ -69,8 +69,7 @@ class BrowserIdManagerMock(object):
 class Install(ZCML):
     setupPloneSite(
         products = ('OpenPlans',) + DEPS,
-        extension_profiles=[#'borg.localrole:default',
-                            'opencore.configuration:default'])
+        extension_profiles=['opencore.configuration:default'])
     @classmethod
     def setUp(cls):
         zinstall_products()
@@ -101,6 +100,7 @@ class OpenPlansLayer(Install, PloneSite):
         setup_cabochon_mock(portal)
         setup_mock_config()
         monkeypatch_makerequest(portal)
+
         txn.commit()
 
     @classmethod
@@ -123,6 +123,8 @@ class OpencoreContent(OpenPlansLayer):
         # regardless of your config.
         # It's OK for other tests to override this...
         monkey_proj_noun('project')
+
+        # create and setup the rest of the test content
         create_test_content(portal)
         add_redirection_hooks(portal.projects)
         txn.commit()
@@ -161,5 +163,3 @@ class MockHTTPWithContent(OpencoreContent):
     @classmethod
     def tearDown(cls):
         raise NotImplementedError
-
-
