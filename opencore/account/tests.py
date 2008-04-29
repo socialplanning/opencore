@@ -45,6 +45,7 @@ def readme_setup(tc):
     tc.homepage = getattr(tc.portal, 'site-home')
     tc.request = tc.app.REQUEST
     member = tc.portal.portal_membership.getAuthenticatedMember()
+    member.update(email='testuser1@example.com')
     member = IHandleMemberWorkflow(member)
     if member.is_unconfirmed():
         member.confirm()
