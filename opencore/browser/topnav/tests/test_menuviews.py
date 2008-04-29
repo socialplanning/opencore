@@ -48,31 +48,41 @@ class TestMemberMenu(OpenPlansTestCase):
         return manager.render()
         
     def test_menudata(self):
-        # I would love refactor this into multiple test cases, but
+        # I would love to refactor this into multiple test cases, but
         # frankly, the setup/teardown time makes this unbearable.  So,
         # I'll just comment the different sections...
 
-        # Test to see if the 'Wiki' is highlighted.
+        # Test to see if the 'Pages' is highlighted.
         self.request.ACTUAL_URL = self.mf.absolute_url()
         html = self._get_topnav_html(context=self.mhome)
         lis, links = parse_topnav_context_menu(html)
         self.assertEqual(len(lis), 3)
+
+        self.failIf(lis[0]['selected'])
+        self.assertEqual('Profile', links[0]['name'])
         self.assertEqual('%s/profile' % self.mf.absolute_url(),
                          links[0]['href'])
-        self.failIf(lis[0]['selected'])
+        
         self.assertEqual(lis[1]['selected'], u'oc-topnav-selected')
+        self.assertEqual('Pages', links[1]['name'])
+        self.assertEqual(self.mhome.absolute_url(),
+                         links[1]['href'])
+        
         self.failIf(lis[2]['selected'])
+        self.assertEqual('Account', links[2]['name'])
+        self.assertEqual('%s/account' % self.mf.absolute_url(),
+                         links[2]['href'])
 
         # Test to see if the 'Profile' is highlighted
-        #self.clearMemoCache()
         profile_url = "%s/profile" % self.mf.absolute_url()
         self.request.ACTUAL_URL = profile_url
         html = self._get_topnav_html(context=self.mf)
         lis, links = parse_topnav_context_menu(html)
         self.assertEqual(len(lis), 3)
-        self.assertEqual('%s/m1-home' % self.mf.absolute_url(),
-                         links[1]['href'])
+
         self.assertEqual(lis[0]['selected'], u'oc-topnav-selected')
+        self.assertEqual('Profile', links[0]['name'])
+
         self.failIf(lis[1]['selected'])
         self.failIf(lis[2]['selected'])
 
@@ -82,11 +92,12 @@ class TestMemberMenu(OpenPlansTestCase):
         html = self._get_topnav_html(context=self.mf)
         lis, links = parse_topnav_context_menu(html)
         self.assertEqual(len(lis), 3)
-        self.assertEqual('%s/m1-home' % self.mf.absolute_url(),
-                         links[1]['href'])
+
         self.failIf(lis[0]['selected'])
         self.failIf(lis[1]['selected'])
+
         self.assertEqual(lis[2]['selected'], u'oc-topnav-selected')
+        self.assertEqual('Account', links[2]['name'])
 
         # Test links when viewing topnav for another user's profile
         # (not the one who's logged in).
@@ -95,10 +106,14 @@ class TestMemberMenu(OpenPlansTestCase):
         html = self._get_topnav_html(context=self.other_mf)
         lis, links = parse_topnav_context_menu(html)
         self.assertEqual(len(lis), 2)
+
+        self.assertEqual(lis[0]['selected'], u'oc-topnav-selected')
+        self.assertEqual('%s/profile' % self.other_mf.absolute_url(),
+                         links[0]['href'])
+
+        self.failIf(lis[1]['selected'])
         self.assertEqual('%s/m2-home' % self.other_mf.absolute_url(),
                          links[1]['href'])
-        self.assertEqual(lis[0]['selected'], u'oc-topnav-selected')
-        self.failIf(lis[1]['selected'])
 
 
 class TestProjectMenu(OpenPlansTestCase):

@@ -2,13 +2,11 @@
 <ul id="oc-usermenu-mystuff" style="display:none;"
     tal:define="memfolder_url view/memfolder_url">
   <li>
-    <a tal:attributes="href string:${memfolder_url}/profile"
-       tal:content="string:Profile" />
+    <a tal:attributes="href string:${memfolder_url}/profile">Profile</a>
   </li>
 
   <li>
-    <a tal:attributes="href memfolder_url"
-       tal:content="string:Wiki" />
+    <a tal:attributes="href memfolder_url">Pages</a>
   </li>
 
   <li>
