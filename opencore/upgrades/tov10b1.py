@@ -14,6 +14,7 @@ from Products.Five.site.localsite import disableLocalSiteHook
 steps = {'activate_wicked': dict(),
          'typeinfo': dict(purge_old=True),
          'controlpanel': dict(),
+         'languagetool': dict(),
          }
 
 def remove_app_local_site(context):
