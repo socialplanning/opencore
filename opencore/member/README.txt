@@ -134,8 +134,16 @@ We can confirm a member account that is pending confirmation::
 
 But this method doesn't do any error checking of its own, so if we
 try to confirm an account that's already confirmed we'll get an
-exception from portal_workflow::
+exception from portal_workflow.
+
+NOTE: When moving to Plone 3, the exception message is coming back a bit
+munged, the i18n message substitution for the worflow action isn't working
+like it's supposed to.  This should never get to our users, and it's likely
+that i18n will be getting a bit an overhaul soon, so I'm not going to worry
+about it for now.  When this is working again, the '${action_id}' should
+be changed back to "register_public" ::
+
     >>> IHandleMemberWorkflow(mem).confirm()
     Traceback (most recent call last):
     ...
-    WorkflowException: No workflow provides the "register_public" action.
+    WorkflowException: No workflow provides the '${action_id}' action.
