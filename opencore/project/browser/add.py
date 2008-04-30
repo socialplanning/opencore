@@ -55,6 +55,9 @@ class ProjectFactory(Factory):
         owners = project.users_with_local_role("Owner")
         project.manage_delLocalRoles(owners)
 
+        hpcontext = IHomePage(project)
+        hpcontext.home_page = 'summary'
+
         #XXX is this reindex needed?
         project.reindexObject()
 
