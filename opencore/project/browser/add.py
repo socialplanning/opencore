@@ -98,10 +98,7 @@ class FormlibProjectAddView(Form, BaseView):
         title = data['name']
         url = data['url']
         description = data.get('description', u'')
-        #XXX will need to go through vocabulary here
         security = data['security']
-        #XXX and the vocabulary will obviate this
-        security = security.encode('utf-8')
 
         #delegate creation of object to factory
         project = createObject('opencore.project', self.context, url, title, description, security)
