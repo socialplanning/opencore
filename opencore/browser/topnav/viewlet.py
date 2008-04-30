@@ -1,7 +1,9 @@
 from opencore.i18n import _
+from opencore.interfaces import IMemberFolder
 from opencore.interfaces import IOpenPage
 from opencore.interfaces.adding import IAddProject
 from opencore.interfaces.adding import IAmAPeopleFolder
+from opencore.interfaces.adding import IAmANewsFolder
 from Products.CMFCore.utils import getToolByName
 from Products.CMFPlone.interfaces import IPloneSiteRoot
 from topp.utils import zutils
@@ -88,7 +90,7 @@ def portal_people_or_projects(viewlet):
     """a particular set of viewlets get rendered when viewing the
        portal, people folder, or projects folder"""
     context = viewlet.context
-    for iface in IPloneSiteRoot, IAddProject, IAmAPeopleFolder:
+    for iface in IPloneSiteRoot, IAddProject, IAmAPeopleFolder, IAmANewsFolder:
         if iface.providedBy(context):
             return True
     return False
@@ -139,3 +141,9 @@ def not_part_of_project(viewlet):
 def team_selected(viewlet):
     return (url_ends_with(viewlet.context.request.ACTUAL_URL, '/team') or
             viewlet.context.request.ACTUAL_URL.endswith('/manage-team'))
+
+def profile_selected(viewlet):
+    url = viewlet.request.ACTUAL_URL
+    return (IMemberFolder.providedBy(viewlet.context) and
+            (url_ends_with(url, '/profile') or
+             url_ends_with(url, '/people/%s' % viewlet.context.id)))

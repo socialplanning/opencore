@@ -10,7 +10,7 @@ class BlankSlateViewlet(ViewletBase):
     adapter_name = ''
 
     def render(self):
-        # sub-classes must specify a blank template and a template
+        # subclasses must specify a blank template and a template
         assert self.blank_template and self.template
         # and an is_blank function
         assert self.is_blank

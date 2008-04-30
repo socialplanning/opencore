@@ -11,6 +11,7 @@ def parse_topnav_context_menu(contextmenu_html):
     li_pattern = re.compile('<li class="([^"]*)')
     a_pattern = re.compile('<a href="([^"]*)">([^<]*)')
 
+    # This is pretty fragile, should we use lxml or some such?
     for line in contextmenu_html.split('\n'):
         line = line.strip()
         if line.startswith('<li'):

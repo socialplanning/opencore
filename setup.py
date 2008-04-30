@@ -3,7 +3,7 @@ import pkg_resources as pkr
 
 import sys, os
 
-version = '0.10'
+version = '0.10.1dev'
 
 f = open('README.txt')
 readme = "".join(f.readlines())
@@ -24,6 +24,9 @@ setup(
       license='GPLv3',
       packages=find_packages(exclude=['ez_setup', 'examples', 'tests']),
       include_package_data=True,
+      package_data={
+        '': ['copy/*', 'ftests/*', '*py', '*zcml', '*txt'],
+      },
       zip_safe=False,
       dependency_links=['https://svn.openplans.org/svn/topp.featurelets/branches/plone3#egg=topp.featurelets-0.2.2p3',
                         'https://svn.openplans.org/svn/OpencoreRedirect/branches/plone3#egg=OpencoreRedirect-dev',

@@ -296,8 +296,10 @@ class ProjectTeamView(TeamRelatedView):
 
         # filter against search returns to insure private projects not
         # included unless view user also a member
-        project_ids = [self.project_info[id_] for id_ in brain.project_ids \
-                       if self.project_info.has_key(id_)]
+        project_info = self.project_info(self.results)
+
+        project_ids = [project_info[id_] for id_ in brain.project_ids
+                       if project_info.has_key(id_)]
 
         # sort then truncate
         ten_projects = sorted(project_ids, key=lambda x: x.Title)[:10]
@@ -320,7 +322,7 @@ class ProjectTeamView(TeamRelatedView):
                     num_projects=len(project_ids)
                     )
     
-    def _project_info(self, mem_brains):
+    def project_info(self, mem_brains):
         """
         concatenates a series of project ids for a collection of
         member brains and looks up the project brains
@@ -331,10 +333,6 @@ class ProjectTeamView(TeamRelatedView):
         cat = self.get_tool('portal_catalog')
         pbrains = cat(getId=list(proj_ids), portal_type='OpenProject')
         return dict((b.getId, b) for b in pbrains)
-
-    @memoizedproperty
-    def project_info(self):
-        return self._project_info(self.results)
 
     def membership_records(self):
         for membrain in self.memberships():

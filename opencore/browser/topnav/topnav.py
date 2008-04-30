@@ -2,13 +2,11 @@
 TopNav view classes.
 """
 from Products.CMFCore.utils import getToolByName
-from Products.CMFCore.permissions import ModifyPortalContent
 from Products.TeamSpace.permissions import ManageTeamMembership
 from opencore.browser.base import BaseView
 from opencore.browser.topnav.interfaces import ITopnavMenuItems
 from opencore.interfaces.message import ITransientMessage
 from opencore.nui.contexthijack import HeaderHijackable
-from opencore.project.content import IProject
 from opencore.content.page import OpenPage
 from operator import itemgetter
 from plone.memoize import instance
@@ -16,7 +14,6 @@ from plone.memoize import view
 from zope.component import getMultiAdapter
 
 memoizedproperty = lambda func: property(view.memoize(func))
-
 
 class BaseMenuView(BaseView):
 
@@ -93,7 +90,7 @@ class MemberMenuView(BaseMenuView):
 
             {'content': 'Profile',
              'href': self.profile_url,
-             'selected': self.request.ACTUAL_URL in (self.profile_url, self.profile_edit_url),
+             'selected': self.request.ACTUAL_URL in (self.profile_url, self.profile_edit_url) or self.request.ACTUAL_URL.rstrip('/') == self.area_URL.rstrip('/'),
              },
             )
 

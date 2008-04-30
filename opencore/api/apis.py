@@ -2,6 +2,9 @@ from Products.CMFCore.utils import getToolByName
 from Products.Five import BrowserView
 from opencore.content.membership import OpenMembership
 from opencore.content.member import OpenMember
+from topp.featurelets.interfaces import IFeatureletSupporter
+from topp.featurelets.interfaces import IFeaturelet
+from zope.component import getAdapters
 
 
 class XMLView(BrowserView):
@@ -34,6 +37,12 @@ class AllMembersInfoXML(XMLView):
         members = membrane_tool.unrestrictedSearchResults(portal_type=memtype)
         return members
 
+class ProjectInfoXML(XMLView):
+    def featurelets(self):
+        supporter = IFeatureletSupporter(self.context)
+        all_flets = [flet for name, flet in getAdapters((supporter,), IFeaturelet)]
+        installed_flets = [flet.id for flet in all_flets if flet.installed]
+        return installed_flets
 
 class ProjectMembershipXML(XMLView):
 

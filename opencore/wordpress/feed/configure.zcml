@@ -3,6 +3,7 @@
            >
 
   <browser:viewlet
+     for="opencore.wordpress.interfaces.IWordPressFeatureletInstalled"
      manager="opencore.project.browser.interfaces.ISummaryFeeds"
      class=".blog.BlogSummaryViewlet"
      name="blog"

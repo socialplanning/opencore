@@ -6,6 +6,9 @@ from Acquisition import aq_chain
 from Acquisition import aq_inner
 from Products.CMFCore.utils import getToolByName
 from zope.app.component.hooks import getSite
+from zope.app.component.hooks import setSite
+from zope.app.component.interfaces import ISite
+from zope.component import getUtility
 
 oc_props_id = 'opencore_properties'
 
@@ -68,3 +71,16 @@ def interface_in_aq_chain(obj, iface):
     for parent in aq_chain(obj):
         if iface.providedBy(parent):
             return aq_inner(parent)
+
+def get_utility_for_context(iface, context):
+    """
+    does a getSite / setSite dance to get the utility in the given
+    context since five.localsitemanager has a bug which makes using
+    getUtility's context argument fail
+    """
+    new_site = interface_in_aq_chain(context, ISite)
+    orig_site = getSite()
+    setSite(new_site)
+    utility = getUtility(iface) # may raise an exception, this is okay
+    setSite(orig_site)
+    return utility

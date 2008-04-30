@@ -17,6 +17,8 @@ class WikiSummaryViewlet(BlankSlateViewlet):
         cat = getToolByName(self.context, 'portal_catalog')
         brains = cat(portal_type='Document',
                      path='/'.join(self.context.getPhysicalPath()))
+        if len(brains) == 0:
+            return True
         if len(brains) > 1:
             return False
         histories = brains[0].getObject().getHistories()

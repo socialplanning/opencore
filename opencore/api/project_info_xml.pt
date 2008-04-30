@@ -2,4 +2,8 @@
                  policy_info obj_context/@@policy_support;
                  cur_policy policy_info/getCurrentPolicyId">
  <policy tal:content="cur_policy"/>
+ <featurelets>
+  <featurelet tal:repeat="flet view/featurelets" tal:content="flet">
+  </featurelet>
+ </featurelets>
 </info>

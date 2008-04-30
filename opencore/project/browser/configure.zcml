@@ -210,21 +210,11 @@
      permission="zope2.View"
      />
 
-
   <browser:viewletManager
      name="opencore.proj_prefs"
      provides=".interfaces.IProjectPrefs"
      class=".manager.ProjectPrefsManager"
      permission="zope2.View"
      />
-
-   <adapter
-      provides="zope.contentprovider.interfaces.IContentProvider"
-      factory=".extra_feeds.TeamFeed"
-      for="zope.interface.Interface
-           zope.publisher.interfaces.browser.IDefaultBrowserLayer
-           zope.interface.Interface"
-      name="opencore.extra_feeds"
-      />
 
 </configure>

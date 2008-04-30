@@ -1,19 +1,12 @@
-import os, sys, re
+import lxml
 import unittest
 
-from plone.memoize.view import ViewMemo
-from zope.app.annotation.interfaces import IAnnotations
-from zope.interface import alsoProvides
-from zope.component import getMultiAdapter
-
 from Products.CMFCore.utils import getToolByName
-
-from opencore.testing.layer import OpencoreContent
-from opencore.interfaces.member import IMemberFolder
+from Products.OpenPlans.tests.openplanstestcase import OpenPlansTestCase
 from opencore.browser.topnav.interfaces import ITopnavMenuItems
 from opencore.browser.topnav.tests import parse_topnav_context_menu
-
-from Products.OpenPlans.tests.openplanstestcase import OpenPlansTestCase
+from opencore.testing.layer import OpencoreContent
+from zope.component import getMultiAdapter
 
 class TestMemberMenu(OpenPlansTestCase):
 
@@ -29,7 +22,6 @@ class TestMemberMenu(OpenPlansTestCase):
         other_mem = mtool.getMemberById(other_mem_id)
         mtool.createMemberArea(other_mem_id)
         self.other_mf = mtool.getHomeFolder(other_mem_id)
-        self.other_mhome = self.other_mf._getOb('m2-home')
         self.logout()
 
         mem_id = self.mem_id = 'm1'
@@ -38,87 +30,111 @@ class TestMemberMenu(OpenPlansTestCase):
         mtool.createMemberArea(mem_id)
         self.mf = mtool.getHomeFolder(mem_id)
         self.mhome = self.mf._getOb('m1-home')
+        # preserve the orignal URL
+        self._orig_actual_url = self.request.ACTUAL_URL 
+
+    def beforeTearDown(self):
+        # XXX this may not be necessary, but it's safer just in case
+        self.request.ACTUAL_URL = self._orig_actual_url
+        self.clearMemoCache()
+
+    def _get_topnav_html(self, context):
+        self.clearMemoCache()
+        view = getMultiAdapter((context, self.request),
+                               name='oc-topnav')
+        manager = getMultiAdapter((context, self.request, view),
+                                  ITopnavMenuItems,
+                                  name='opencore.topnavmenu')
+        manager.update()
+        return manager.render()
 
     def test_menudata(self):
-        # preserve the orignal URL
-        orig_actual_url = self.request.ACTUAL_URL 
+        # I would love to refactor this into multiple test cases, but
+        # frankly, the setup/teardown time makes this unbearable.  So,
+        # I'll just comment the different sections...
 
-        # test to see if the 'Wiki' is highlighted
-        self.clearMemoCache()
+        # Test to see if the 'Pages' is highlighted.
         self.request.ACTUAL_URL = self.mf.absolute_url()
-        view = getMultiAdapter(
-            (self.mhome, self.request),
-            name='oc-topnav')
-        manager = getMultiAdapter((self.mhome, self.request, view),
-                                  ITopnavMenuItems,
-                                  name='opencore.topnavmenu')
-        manager.update()
-        html = manager.render()
+        html = self._get_topnav_html(context=self.mhome)
         lis, links = parse_topnav_context_menu(html)
         self.assertEqual(len(lis), 3)
+
+        self.failIf(lis[0]['selected'])
+        self.assertEqual('Profile', links[0]['name'])
         self.assertEqual('%s/profile' % self.mf.absolute_url(),
                          links[0]['href'])
-        self.failIf(lis[0]['selected'])
         self.assertEqual(lis[1]['selected'], u'oc-topnav-selected')
+        self.assertEqual('Pages', links[1]['name'])
+        self.assertEqual(self.mhome.absolute_url(),
+                         links[1]['href'])
+        
         self.failIf(lis[2]['selected'])
+        self.assertEqual('Account', links[2]['name'])
+        self.assertEqual('%s/account' % self.mf.absolute_url(),
+                         links[2]['href'])
 
-        # test to see if the 'Profile' is highlighted
-        self.clearMemoCache()
+        # Test to see if the 'Profile' is highlighted
         profile_url = "%s/profile" % self.mf.absolute_url()
         self.request.ACTUAL_URL = profile_url
-        view = getMultiAdapter((self.mf, self.request),
-                               name='oc-topnav')
-        manager = getMultiAdapter((self.mf, self.request, view),
-                                  ITopnavMenuItems,
-                                  name='opencore.topnavmenu')
-        manager.update()
-        html = manager.render()
+        html = self._get_topnav_html(context=self.mf)
         lis, links = parse_topnav_context_menu(html)
         self.assertEqual(len(lis), 3)
-        self.assertEqual('%s/m1-home' % self.mf.absolute_url(),
-                         links[1]['href'])
+
         self.assertEqual(lis[0]['selected'], u'oc-topnav-selected')
+        self.assertEqual('Profile', links[0]['name'])
+
         self.failIf(lis[1]['selected'])
         self.failIf(lis[2]['selected'])
 
-        # test to see if 'Account' is highlighted
-        self.clearMemoCache()
+        # Test to see if 'Account' is highlighted
         userprefs_url = "%s/account" % self.mf.absolute_url()
         self.request.ACTUAL_URL = userprefs_url
-        manager = getMultiAdapter((self.mf, self.request, view),
-                                  ITopnavMenuItems,
-                                  name='opencore.topnavmenu')
-        manager.update()
-        html = manager.render()
+        html = self._get_topnav_html(context=self.mf)
         lis, links = parse_topnav_context_menu(html)
         self.assertEqual(len(lis), 3)
-        self.assertEqual('%s/m1-home' % self.mf.absolute_url(),
-                         links[1]['href'])
+
         self.failIf(lis[0]['selected'])
         self.failIf(lis[1]['selected'])
-        self.assertEqual(lis[2]['selected'], u'oc-topnav-selected')
 
-        self.clearMemoCache()
+        self.assertEqual(lis[2]['selected'], u'oc-topnav-selected')
+        self.assertEqual('Account', links[2]['name'])
+
+        # Test links when viewing topnav for another user's profile
+        # (not the one who's logged in).
         other_profile_url = "%s/profile" % self.other_mf.absolute_url()
         self.request.ACTUAL_URL = other_profile_url
-        view = getMultiAdapter((self.other_mf, self.request),
-                               name='oc-topnav')
-        manager = getMultiAdapter((self.other_mf, self.request, view),
-                                  ITopnavMenuItems,
-                                  name='opencore.topnavmenu')
-        manager.update()
-        html = manager.render()
+        html = self._get_topnav_html(context=self.other_mf)
         lis, links = parse_topnav_context_menu(html)
         self.assertEqual(len(lis), 2)
+
+        self.assertEqual(lis[0]['selected'], u'oc-topnav-selected')
+        self.assertEqual('%s/profile' % self.other_mf.absolute_url(),
+                         links[0]['href'])
+
+        self.failIf(lis[1]['selected'])
         self.assertEqual('%s/m2-home' % self.other_mf.absolute_url(),
                          links[1]['href'])
-        self.assertEqual(lis[0]['selected'], u'oc-topnav-selected')
-        self.failIf(lis[1]['selected'])
 
-        # XXX this may not be necessary, but it's safer just in case
-        self.request.ACTUAL_URL = orig_actual_url
+    def test_mystuff_menu(self):
+        # Make sure user's dropdown links are correct, and correctly labelled.
+        view = self.portal.restrictedTraverse('@@topnav-mystuff-menu')
+        html = view()
+        tree = lxml.etree.fromstring(html)
+        links = tree.xpath('//a')
+        self.assertEqual(links[0].text.strip(), 'Profile')
+        self.assertEqual(links[0].attrib['href'],
+                         '%s/profile' % self.mf.absolute_url())
 
-
+        self.assertEqual(links[1].text.strip(), 'Pages')
+        self.assertEqual(links[1].attrib['href'],
+                         self.mhome.absolute_url())
+        
+        self.assertEqual(links[2].text.strip(), 'Account')
+        self.assertEqual(links[2].attrib['href'],
+                         '%s/account' % self.mf.absolute_url())
+        # We could also check the remaining links (project memberships).
+        
+    
 class TestProjectMenu(OpenPlansTestCase):
 
     layer = OpencoreContent

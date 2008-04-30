@@ -7,7 +7,7 @@
   <div class="oc-blankSlate">
     <img src="/++resource++img/summaryicons/mailinglist.gif" />
     <p>There aren't any discussions for this project yet.</p>
-    <p tal:condition="python: view.feed and view.feed.is_project_member()">
+    <p tal:condition="view/context/isProjectMember">
       <a tal:attributes="href string:${view/create}">
         Start a Discussion</a></p>
   </div>

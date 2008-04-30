@@ -98,6 +98,7 @@
      name="Profile"
      filter=".viewlet.contained_within"
      container="opencore.interfaces.IMemberFolder"
+     selected=".viewlet.profile_selected"
      item_url="profile"
      sort_order="10"
      />
@@ -192,6 +193,37 @@
   <opencore:menuitem
      name="Start A Project"
      filter=".viewlet.portal_people_or_projects"
+     url=".viewlet.project_create_url"
+     sort_order="30"
+     />
+
+  <opencore:menuitem
+     name="news_People"
+     text="People"
+     for="opencore.interfaces.IOpenPage"
+     filter=".viewlet.contained_within"
+     container="opencore.interfaces.IAmANewsFolder"
+     url=".viewlet.people_url"
+     sort_order="10"
+     />
+
+  <opencore:menuitem
+     name="news_Projects"
+     text="Projects"
+     for="opencore.interfaces.IOpenPage"
+     filter=".viewlet.contained_within"
+     container="opencore.interfaces.IAmANewsFolder"
+     url=".viewlet.projects_url"
+     selected=".viewlet.if_projects_selected"
+     sort_order="20"
+     />
+
+  <opencore:menuitem
+     name="news_Start_A_Project"
+     text="Start A Project"
+     for="opencore.interfaces.IOpenPage"
+     filter=".viewlet.contained_within"
+     container="opencore.interfaces.IAmANewsFolder"
      url=".viewlet.project_create_url"
      sort_order="30"
      />

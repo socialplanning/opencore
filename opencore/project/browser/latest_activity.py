@@ -1,4 +1,3 @@
-import re
 from opencore.project.browser.base import ProjectBaseView
 
 class LatestActivityView(ProjectBaseView):
@@ -23,24 +22,3 @@ class LatestActivityView(ProjectBaseView):
         # XXX this method is deprecated
         # should be replaced with below v
         return self.context.isProjectAdmin()
-        
-    ### methods to obtain feed snippets
-    ### TODO: use viewlets
-
-    def feed(self, path):
-        snip = self.context.restrictedTraverse(path)
-        return snip()        
-
-    def wiki_feed(self):
-        return self.feed('blank-slate-feed')
-
-    def discussions_feed(self):
-        if self.has_mailing_lists:
-            return self.feed('lists/blank-slate-feed')
-        return ''
-
-    def team_feed(self):
-        return self.feed('teamfeed')
-
-
-    

@@ -1,5 +1,4 @@
 from zope.interface import Interface
-from zope.schema import TextLine
 
 class IWordPressFeatureletInstalled(Interface):
     """
