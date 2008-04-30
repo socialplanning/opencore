@@ -8,7 +8,7 @@ class BlankSlateTeamFeedView(FeedView):
     blankslate = 'team_blank_slate.pt'
 
     def __init__(self, context, request):
-        super(FeedView, self).__init__(context, request)
+        super(BlankSlateTeamFeedView, self).__init__(context, request)
         # really shouldn't be doing this much work in a constructor
         self.feed = getAdapter(context, IFeedData, 'team')
         self.n_members = len(context.projectMemberIds())
