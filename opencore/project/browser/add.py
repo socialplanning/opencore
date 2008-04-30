@@ -36,8 +36,28 @@ class ProjectFactory(Factory):
     def __call__(self, context, id, title, description, security):
         context.invokeFactory('OpenProject', id)
         project = context._getOb(id)
+
+        # set the project's basic stuff
         project.setTitle(title)
         project.setDescription(description)
+
+        #create the project's team
+        project._createTeam()
+
+        #set the workflow policy
+        IWriteWorkflowPolicySupport(project).setPolicy(security)
+
+        #create the default project index page
+        project._createIndexPage()
+
+        #remove the owner role to prevent assigning special permission
+        #to creator of project ... should just be project admin
+        owners = project.users_with_local_role("Owner")
+        project.manage_delLocalRoles(owners)
+
+        #XXX is this reindex needed?
+        project.reindexObject()
+
         return project
 
 
@@ -79,20 +99,6 @@ class FormlibProjectAddView(Form, BaseView):
 
         #delegate creation of object to factory
         project = createObject('opencore.project', self.context, url, title, description, security)
-
-        #create the project's team
-        project._createTeam()
-
-        #set the workflow policy
-        IWriteWorkflowPolicySupport(project).setPolicy(security)
-
-        #create the default project index page
-        project._createIndexPage()
-
-        #remove the owner role to prevent assigning special permission
-        #to creator of project ... should just be project admin
-        owners = project.users_with_local_role("Owner")
-        project.manage_delLocalRoles(owners)
 
         self.redirect(project.absolute_url())
 
