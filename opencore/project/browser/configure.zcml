@@ -10,6 +10,13 @@
      name="projpage.js"
      />
 
+
+  <utility
+     provides="zope.component.interfaces.IFactory"
+     factory=".add.ProjectFactory"
+     name="opencore.project"
+     />
+
   <browser:page
      for="opencore.interfaces.IProject"
      permission="zope2.View"
@@ -74,6 +81,13 @@
      for="opencore.interfaces.adding.IAddProject"
      name="create"
      class=".add.ProjectAddView"
+     permission="openplans.AddOpenProject"
+     />
+
+  <browser:page
+     for="opencore.interfaces.adding.IAddProject"
+     name="create-form"
+     class=".add.FormlibProjectAddView"
      permission="openplans.AddOpenProject"
      />
 

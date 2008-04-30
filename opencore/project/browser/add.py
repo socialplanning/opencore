@@ -21,6 +21,81 @@ import logging
 
 log = logging.getLogger('opencore.project.browser.add')
 
+from opencore.browser.base import BaseView
+from opencore.interfaces.workflow import IWriteWorkflowPolicySupport
+from Products.Five.formlib.formbase import Form
+from zope.formlib import form
+from zope import schema
+from zope.component import createObject
+from zope.component.factory import Factory
+
+class ProjectFactory(Factory):
+    def __init__(self):
+        super(Factory, self).__init__(self)
+
+    def __call__(self, context, id, title, description, security):
+        context.invokeFactory('OpenProject', id)
+        project = context._getOb(id)
+        project.setTitle(title)
+        project.setDescription(description)
+        return project
+
+
+class FormlibProjectAddView(Form, BaseView):
+    """make this viewable ttw"""
+
+    #XXX projtxt this
+    label = u'Add a project'
+
+    prefix = u''
+
+    #XXX use vocabulary
+    security_mapping = dict(
+        open_policy=u'Anyone can view this group and any Livable Streets member can contribute to it',
+        medium_policy=u'Anyone can view this group but only team members can contribute to it',
+        closed_policy=u'Only team members can view, contribute, or search for this group',
+        )
+
+    #XXX we can make custom javascript widgets for some of these
+    #XXX we will leave out the logo for now
+    form_fields = form.FormFields(
+        schema.TextLine(title=u'Name', __name__='name', required=True),
+        schema.TextLine(title=u'URL', __name__='url', required=True),
+        schema.Text(title=u'Description', __name__='description', required=False),
+        schema.Choice(title=u'Security', __name__='security', required=True, values=[
+                      u'open_policy', u'medium_policy', 'closed_policy'
+                      ]),
+        )
+
+    @form.action(u'Add', prefix=u'')
+    def handle_add(self, action, data):
+        title = data['name']
+        url = data['url']
+        description = data.get('description', u'')
+        #XXX will need to go through vocabulary here
+        security = data['security']
+        #XXX and the vocabulary will obviate this
+        security = security.encode('utf-8')
+
+        #delegate creation of object to factory
+        project = createObject('opencore.project', self.context, url, title, description, security)
+
+        #create the project's team
+        project._createTeam()
+
+        #set the workflow policy
+        IWriteWorkflowPolicySupport(project).setPolicy(security)
+
+        #create the default project index page
+        project._createIndexPage()
+
+        #remove the owner role to prevent assigning special permission
+        #to creator of project ... should just be project admin
+        owners = project.users_with_local_role("Owner")
+        project.manage_delLocalRoles(owners)
+
+        self.redirect(project.absolute_url())
+
 
 class ProjectAddView(ProjectBaseView, OctopoLite):
 
