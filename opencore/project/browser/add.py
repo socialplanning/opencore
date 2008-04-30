@@ -24,10 +24,13 @@ log = logging.getLogger('opencore.project.browser.add')
 from opencore.browser.base import BaseView
 from opencore.interfaces.workflow import IWriteWorkflowPolicySupport
 from Products.Five.formlib.formbase import Form
-from zope.formlib import form
 from zope import schema
+from zope.app.form import CustomWidgetFactory
+from zope.app.form.browser import RadioWidget
+from zope.formlib import form
 from zope.component import createObject
 from zope.component.factory import Factory
+from zope.schema.vocabulary import SimpleVocabulary
 
 class ProjectFactory(Factory):
     def __init__(self):
@@ -64,6 +67,12 @@ class ProjectFactory(Factory):
         return project
 
 
+def project_security_vocabulary(context):
+    return SimpleVocabulary.fromItems([
+        (u'Anyone can view this group and any Livable Streets member can contribute to it', 'open_policy'),
+        (u'Anyone can view this group but only team members can contribute to it', 'medium_policy'),
+        (u'Only team members can view, contribute, or search for this group', 'closed_policy')])
+
 class FormlibProjectAddView(Form, BaseView):
     """make this viewable ttw"""
 
@@ -72,23 +81,17 @@ class FormlibProjectAddView(Form, BaseView):
 
     prefix = u''
 
-    #XXX use vocabulary
-    security_mapping = dict(
-        open_policy=u'Anyone can view this group and any Livable Streets member can contribute to it',
-        medium_policy=u'Anyone can view this group but only team members can contribute to it',
-        closed_policy=u'Only team members can view, contribute, or search for this group',
-        )
-
     #XXX we can make custom javascript widgets for some of these
     #XXX we will leave out the logo for now
     form_fields = form.FormFields(
         schema.TextLine(title=u'Name', __name__='name', required=True),
         schema.TextLine(title=u'URL', __name__='url', required=True),
         schema.Text(title=u'Description', __name__='description', required=False),
-        schema.Choice(title=u'Security', __name__='security', required=True, values=[
-                      u'open_policy', u'medium_policy', 'closed_policy'
-                      ]),
-        )
+        schema.Choice(title=u'Security', __name__='security', required=True,
+                      vocabulary='Project security',
+                      default='medium_policy'))
+
+    form_fields['security'].custom_widget = CustomWidgetFactory(RadioWidget)
 
     @form.action(u'Add', prefix=u'')
     def handle_add(self, action, data):

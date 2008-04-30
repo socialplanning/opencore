@@ -17,6 +17,11 @@
      name="opencore.project"
      />
 
+  <vocabulary
+     name="Project security"
+     factory=".add.project_security_vocabulary"
+     />
+
   <browser:page
      for="opencore.interfaces.IProject"
      permission="zope2.View"
