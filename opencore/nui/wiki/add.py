@@ -4,7 +4,11 @@ from opencore.browser.base import _
 from opencore.browser.naming import get_view_names
 
 from wicked.at.link import ATWickedAdd as WickedAdd
-from wicked.normalize import titleToNormalizedId as normalize
+
+# we have a local copy of the normalize module b/c the wicked trunk
+# (which is a part of Plone 3 core) doesn't handle unicode as nicely
+# as we'd like
+from normalize import titleToNormalizedId as normalize
 
 from wicked.utils import getWicked
 
@@ -40,9 +44,6 @@ class NuiBaseAdd(WickedAdd, BaseView):
         
     def add_content(self, title=None, section=None):
         # XXX rename, we're not adding any old content, it's a wiki page.
-
-        # this is 2.5 specific and will need to be updated for new
-        # wicked implementation (which is more modular)
         title = self.request.get('Title', title)
         if title:
             title = title.decode("utf-8")

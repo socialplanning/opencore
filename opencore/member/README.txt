@@ -141,7 +141,7 @@ munged, the i18n message substitution for the worflow action isn't working
 like it's supposed to.  This should never get to our users, and it's likely
 that i18n will be getting a bit an overhaul soon, so I'm not going to worry
 about it for now.  When this is working again, the '${action_id}' should
-be changed back to "register_public" ::
+be changed back to "register_public".::
 
     >>> IHandleMemberWorkflow(mem).confirm()
     Traceback (most recent call last):
