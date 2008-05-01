@@ -77,11 +77,6 @@
      permission="openplans.AddOpenProject"
      />
 
-  <browser:resource
-     name="location.json"
-     file="location.json"
-     />
-
    <!-- move to contents.py; these will share functionality -->
    <browser:page
       for="opencore.interfaces.IProject"
