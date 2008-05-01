@@ -153,10 +153,39 @@ class WikiEdit(WikiBase, OctopoLite):
         clean_text = self._clean_html(page_text)
         # now this is a str
 
-        text = xinha_to_wicked(clean_text)
-        # if there is an HTML escape sequence in a link (e.g. ((&#38; hello)) ),
-        # then the text will be unicode
-        # otherwise, the text will be a string (see utils.py and #2589)
+        try:
+            # if we don't unicodify this text then the
+            # xinha_to_wicked function is likely to fail
+            # if you have an HTML escape sequence inside a wicked link
+            # (e.g. ((&#38; hello)) ) and a character that 
+            # cannot be decoded to utf-8 (e.g. '\xc2').
+            # this is because utils.unescape will match the
+            # regex in the wicked link and try to replace it 
+            # with unicode one character at a time, which will fail.
+            # if the regex doesn't match, the string will
+            # not get transformed to unicode.
+            # '\xc2' (e.g.) gets transformed somewhere 
+            # into the correct multibyte sequence '\xc3\x82',
+            # but trying to do '\xc3'.decode('utf-8') 
+            # will result in a UnicodeDecodeError, whereas 
+            # '\xc3\x82'.decode('utf-8') will correctly yield u'\xc2'; 
+            # but it can't be decoded a byte at a time.
+            # for instance you can do ''.join((u'foo', '\xc3\x82'.decode('utf-8'))
+            # but not ''.join((u'foo', '\xc3\x82')).
+            # see #2589
+            clean_text = clean_text.decode('utf-8')
+        except UnicodeDecodeError:
+            # XXX we pass above, why not here?
+            pass
+
+        try:
+            text = xinha_to_wicked(clean_text)
+        except UnicodeDecodeError, e:
+            self._bad_text = clean_text
+            error_string = e.object[e.start:e.end+1]
+            error_string = error_string.decode('utf-8', 'replace')
+            self.addPortalStatusMessage(u'The following text contains unsupported characters: "%s"\nPlease change this text before saving.' % error_string)
+            return
 
         self.context.setTitle(page_title)
         self.context.setText(text)
@@ -306,7 +335,12 @@ class WikiEdit(WikiBase, OctopoLite):
         return commands
 
     def rawtext(self):
-        rawtext = self.context.getRawText()
+        rawtext = getattr(self, '_bad_text', self.context.getRawText())
+
+        # XXX i think this is extraneous bc a new view is instantiated for each request
+        if hasattr(self, '_bad_text'):
+            del self._bad_text
+
         if rawtext:
             return rawtext
         else:

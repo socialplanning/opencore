@@ -2,6 +2,7 @@ import unittest
 from zope.testing import doctest
 from opencore.testing.layer import OpencoreContent
 from opencore.testing import dtfactory
+from utils import UnescapeTests
 
 optionflags = doctest.ELLIPSIS
 
@@ -10,7 +11,7 @@ import warnings; warnings.filterwarnings("ignore")
 def test_suite():
     from Products.PloneTestCase import setup
     from Products.PloneTestCase.PloneTestCase import FunctionalTestCase
-    from pprint import pprint # imported because its passed to globs = locals()
+    from pprint import pprint # imported because its passed via globs = locals()
 
     setup.setupPloneSite()
     def readme_setup(tc):
@@ -46,7 +47,7 @@ def test_suite():
 
     htmldiff2 = doctest.DocFileSuite('test_htmldiff2.txt')
 
-    return unittest.TestSuite((wikiadd, readme, history, htmldiff2))
+    return unittest.TestSuite((wikiadd, readme, history, htmldiff2, unittest.makeSuite(UnescapeTests)))
 
 
 if __name__ == '__main__':

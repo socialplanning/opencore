@@ -138,7 +138,7 @@ def replace_entities(match):
     return repl
 
 def unescape(data):
-    return re.sub(r"&#?[A-Za-z0-9]+?;", replace_entities, data)
+    return re.sub(r"&#?[A-Za-z0-9]+;", replace_entities, data)
 
 class UnescapeTests(unittest.TestCase):
 
@@ -146,7 +146,15 @@ class UnescapeTests(unittest.TestCase):
         self.assertEqual(unescape_charref(u"&#38;"), u"&")
         self.assertEqual(unescape_charref(u"&#x2014;"), u"\N{EM DASH}")
         self.assertEqual(unescape_charref(u"&#8212;"), u"\N{EM DASH}")
-        self.assertEqual("These tests don't get run", "Otherwise this would fail") # XXX
+
+        # test with initial non-unicode string
+        self.assertEqual(unescape_charref("&#38;"), u"&")
+
+        string = u"&#38; hello \xc3\x82"
+        try:
+            unescape(string)
+        except UnicodeDecodeError, e:
+            self.fail('Could not decode string: "%s"\nException: %s' % (string, e))
 
     def test_unescape(self):
         self.assertEqual(
