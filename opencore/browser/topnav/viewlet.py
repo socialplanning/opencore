@@ -91,7 +91,7 @@ def portal_people_or_projects(viewlet):
     """a particular set of viewlets get rendered when viewing the
        portal, people folder, or projects folder"""
     context = viewlet.context
-    for iface in IPloneSiteRoot, IAddProject, IAmAPeopleFolder, IAmANewsFolder:
+    for iface in IPloneSiteRoot, IAddProject, IAmAPeopleFolder:
         if iface.providedBy(context):
             return True
     return False
