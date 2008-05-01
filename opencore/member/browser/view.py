@@ -6,9 +6,8 @@ from opencore.browser.base import BaseView, _
 from opencore.browser.formhandler import OctopoLite, action
 from topp.utils.pretty_date import prettyDate
 from zope.app.event.objectevent import ObjectModifiedEvent
-from zope.component import getMultiAdapter, getAdapters
+from zope.component import getMultiAdapter
 from zope.event import notify
-from zope.viewlet.interfaces import IViewlet
 import urllib
 
 class ProfileView(BaseView):
@@ -203,13 +202,11 @@ class ProfileEditView(ProfileView, OctopoLite):
                 validation_failed = True
 
         # Do validation from any plugins.
-        # XXX Have we already called mgr.update() by this time?
-        # If so, we can just iterate over mgr.viewlets!
         viewlet_mgr = getMultiAdapter((self.context, self.request, self),
                                       name='opencore.profile_edit_viewlets')
-        viewlets = getAdapters((self.context, self.request, self, viewlet_mgr),
-                               IViewlet)
-        for name, viewlet in viewlets:
+        if not hasattr(viewlet_mgr, 'viewlets'):
+            viewlet_mgr.update()
+        for viewlet in viewlet_mgr.viewlets:
             if hasattr(viewlet, 'validate'):
                 errors = viewlet.validate()
                 for key, msg in errors.items():
@@ -220,7 +217,7 @@ class ProfileEditView(ProfileView, OctopoLite):
             return
 
         # Now allow any plugins to save state.
-        for name, viewlet in viewlets:
+        for viewlet in viewlet_mgr.viewlets:
             if hasattr(viewlet, 'save'):
                 viewlet.save()
 

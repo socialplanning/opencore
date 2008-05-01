@@ -23,7 +23,6 @@ from zope.app.container.contained import IObjectRemovedEvent
 from zope.component import adapter, adapts
 from zope.interface import implements
 from zope.component import getUtility, getAdapters, getMultiAdapter
-from zope.viewlet.interfaces import IViewlet
 
 import inspect
 import logging
@@ -115,9 +114,9 @@ class ProjectPreferencesView(ProjectBaseView, OctopoLite):
         # that. Maybe this view should be re-architected.
         viewlet_mgr = getMultiAdapter((self.context, self.request, self),
                                       name='opencore.proj_prefs')
-        viewlets = getAdapters((self.context, self.request, self, viewlet_mgr),
-                               IViewlet)
-        for name, viewlet in viewlets:
+        if not hasattr(viewlet_mgr, 'viewlets'):
+            viewlet_mgr.update()
+        for viewlet in viewlet_mgr.viewlets:
             if hasattr(viewlet, 'validate'):
                 self.errors.update(viewlet.validate())
 
@@ -129,7 +128,7 @@ class ProjectPreferencesView(ProjectBaseView, OctopoLite):
         allowed_params = set(['__initialize_project__', 'update', 'set_flets',
                               'project_title', 'description', 'logo', 'workflow_policy',
                               'featurelets', 'home-page',
-                              'location', 'position-text'])
+                              'location',])
         new_form = {}
         for k in allowed_params:
             if k in self.request.form:
@@ -156,7 +155,7 @@ class ProjectPreferencesView(ProjectBaseView, OctopoLite):
         # We're inventing a convention by which viewlets can extend
         # forms with more form data to save: just provide a save
         # method.
-        for name, viewlet in viewlets:
+        for viewlet in viewlet_mgr.viewlets:
             if hasattr(viewlet, 'save'):
                 viewlet.save()
         

@@ -16,7 +16,6 @@ from topp.utils import text
 from zope import event
 from zope.component import getAdapters, getMultiAdapter
 from zope.interface import implements
-from zope.viewlet.interfaces import IViewlet
 
 import logging
 
@@ -91,9 +90,10 @@ class ProjectAddView(ProjectBaseView, OctopoLite):
         # as the context.
         viewlet_mgr = getMultiAdapter((self.context, self.request, self),
                                       name='opencore.proj_prefs')
-        viewlets = getAdapters((self.context, self.request, self, viewlet_mgr),
-                               IViewlet)
-        for name, viewlet in viewlets:
+        if not hasattr(viewlet_mgr, 'viewlets'):
+            viewlet_mgr.update()
+        viewlets = viewlet_mgr.viewlets
+        for viewlet in viewlets:
             if hasattr(viewlet, 'validate'):
                 self.errors.update(viewlet.validate())
 
@@ -139,9 +139,9 @@ class ProjectAddView(ProjectBaseView, OctopoLite):
         # a project for them to use as the context to save to.
         viewlet_mgr = getMultiAdapter((proj, self.request, self),
                                       name='opencore.proj_prefs')
-        viewlets = getAdapters((proj, self.request, self, viewlet_mgr),
-                               IViewlet)
-        for name, viewlet in viewlets:
+        if not hasattr(viewlet_mgr, 'viewlets'):
+            viewlet_mgr.update()
+        for viewlet in viewlet_mgr.viewlets:
             if hasattr(viewlet, 'save'):
                 viewlet.save()
         
