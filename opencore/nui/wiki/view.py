@@ -2,14 +2,14 @@ from zope.event import notify
 from zope.app.event import objectevent
 from opencore.browser.base import BaseView
 from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
-from opencore.browser.formhandler import button, OctopoLite, action
+from opencore.browser.formhandler import OctopoLite, action
 from opencore.nui.wiki.utils import unescape
 from Acquisition import aq_inner
 from PIL import Image
 from StringIO import StringIO
 import simplejson
 
-from lxml import etree# no longer necessary after lxml.html trunk gets released
+from lxml import etree # no longer necessary after lxml.html trunk gets released
 from lxml.html import fromstring # no longer necessary after lxml.html trunk gets released
 import copy # no longer necessary after lxml.html trunk gets release
 import re
@@ -147,12 +147,18 @@ class WikiEdit(WikiBase, OctopoLite):
             try:
                 page_text = page_text.decode('utf-8')
             except UnicodeDecodeError:
-                pass
+                # XXX should we pass here?  if so, please replace this comment with why
+                pass 
 
         clean_text = self._clean_html(page_text)
+        # now this is a str
+
+        text = xinha_to_wicked(clean_text)
+        # if there is an HTML escape sequence in a link (e.g. ((&#38; hello)) ),
+        # then the text will be unicode
+        # otherwise, the text will be a string (see utils.py and #2589)
 
         self.context.setTitle(page_title)
-        text = xinha_to_wicked(clean_text)
         self.context.setText(text)
         if description is not None:
             self.context.setDescription(description)
