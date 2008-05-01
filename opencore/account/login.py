@@ -35,8 +35,9 @@ class LoginView(AccountView):
         """
         site_url = getToolByName(self.context, 'portal_url')()
         urls = [site_url,]
+        #XXX this should be configuration
         more_urls = ['%s/%s' % (site_url, screen)
-                     for screen in ("login", "forgot", "join")]
+                     for screen in ("login", "forgot", "join", "message")]
         urls += more_urls
         return urls
 
