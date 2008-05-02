@@ -1,3 +1,4 @@
+from Products.membrane.plugins.userfactory import MembraneUser
 from Products.OpenPlans.tests.openplanstestcase import OpenPlansTestCase
 from opencore.account.utils import turn_confirmation_on
 from opencore.member.interfaces import IHandleMemberWorkflow
@@ -34,6 +35,12 @@ class StubMemberWorkflow:
 
     def getId(self):
         return self.id
+
+def stub_getUserById(self, member_id):
+    """
+    used to temporarily monkeypatch PAS
+    """
+    return MembraneUser(member_id).__of__(self)
 
 def normalize_whitespace(astring):
     # just a little helper to avoid caring about indentation.
@@ -72,7 +79,8 @@ def test_suite():
 
     globs = locals()
     globs.update({'StubMemberWorkflow': StubMemberWorkflow,
-                  'normalize_whitespace': normalize_whitespace})
+                  'normalize_whitespace': normalize_whitespace,
+                  'stub_getUserById': stub_getUserById})
 
     readme = dtf.ZopeDocFileSuite("README.txt",
                                   optionflags=optionflags,
