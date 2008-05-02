@@ -52,7 +52,7 @@ setup(
           'feedparser',
           'topp.featurelets>=0.2.2',
           'topp.utils>=0.3.1dev,==dev',
-          #'OpencoreRedirect>=0.4,==dev',
+          'OpencoreRedirect==dev,>0.3',
           'httplib2',
           'lxml>=2.0alpha5',
           'plone.mail',
