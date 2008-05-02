@@ -54,9 +54,14 @@ Verify the contents of the email::
 
     >>> msg = mh.messages[0]
     >>> from pprint import pprint
-    >>> pprint(msg.items())
-    [('To', ['bogus@example.com']),
-     ('From', 'anonymous@example.com'),
+
+The mock mailhost send method in the password reset tool stores
+additional data with the message. So we just filter that out in the
+test::
+
+    >>> pprint([(k, v) for k, v in msg.items() if v is not None])
+    [('From', 'anonymous@example.com'),
+     ('To', 'bogus@example.com'),
      ('Subject', '[OpenCore Site] site error report')]
     >>> print msg.get_payload()
     On 2000-01-01 01:02:03.123456, anonymous@example.com went to the URL http://nohost/plone/error/url.
