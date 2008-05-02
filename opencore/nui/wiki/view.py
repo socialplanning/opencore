@@ -183,7 +183,7 @@ class WikiEdit(WikiBase, OctopoLite):
         except UnicodeDecodeError, e:
             self._bad_text = clean_text
             error_string = e.object[e.start:e.end+1]
-            self.addPortalStatusMessage(u'The following text contains unsupported characters: "%s" (%s)\nPlease change this text before saving.' % (error_string.decode('utf-8', 'replace'), repr(error_string))
+            self.addPortalStatusMessage(u'The following text contains unsupported characters: "%s" (%s)\nPlease change this text before saving.' % (error_string.decode('utf-8', 'replace'), repr(error_string)))
             return
 
         self.context.setTitle(page_title)
