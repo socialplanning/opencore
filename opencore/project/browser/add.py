@@ -61,6 +61,18 @@ class ProjectFactory(Factory):
         hpcontext = IHomePage(project)
         hpcontext.home_page = 'summary'
 
+        #add all featurelets
+        #perhaps we can have a way of toggling which featurelets get installed by default?
+        #can have sitewide control over which featurelets projects can install
+        #this makes it easy to disable a particular featurelet all at once
+        #XXX we need to make the IFeatureletSupporter into a marker on a project
+        #instead of an intermediate adapter
+        featurelet_supporter = IFeatureletSupporter(project)
+        #adapter_tuples is a list of tuples of featurelet id, featurelet
+        adapter_tuples = getAdapters((featurelet_supporter,), IFeaturelet)
+        for id, _ in adapter_tuples:
+            featurelet_supporter.installFeaturelet(id)
+
         #XXX is this reindex needed?
         project.reindexObject()
 
