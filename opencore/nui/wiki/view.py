@@ -65,7 +65,7 @@ class WikiView(WikiBase):
     view_attachments_snippet = ZopeTwoPageTemplateFile('attachment-view.pt')
 
 # XXX stolen from lxml.html to allow selection of encoding (fixed in lxml.html trunk; wait for a release and then delete me)
-def tostring(doc, pretty_print=False, include_meta_content_type=False, encoding="utf-8"):
+def tounicode(doc, pretty_print=False, include_meta_content_type=False, encoding="utf-8"):
     """
     return HTML string representation of the document given 
  
@@ -73,7 +73,7 @@ def tostring(doc, pretty_print=False, include_meta_content_type=False, encoding=
     and may replace any that are present 
     """
     assert doc is not None
-    html = etree.tostring(doc, method="html", pretty_print=pretty_print, encoding=encoding)
+    html = etree.tounicode(doc, method="html", pretty_print=pretty_print)
     if not include_meta_content_type:
         html = __replace_meta_content_type('', html)
     return html
@@ -90,6 +90,7 @@ class WikiEdit(WikiBase, OctopoLite):
 
     def _clean_html(self, html):
         """ delegate cleaning of html to lxml .. sort of """
+        ## FIXME: we should have some way of notifying the user about tags that were removed
         ocprops = self.get_tool('portal_properties').opencore_properties
         whitelist = ocprops.getProperty('embed_whitelist') or []
         try:
@@ -108,13 +109,9 @@ class WikiEdit(WikiBase, OctopoLite):
             doc = copy.deepcopy(html)
         cleaner(doc)
         if return_string:
-            return tostring(doc)
+            return tounicode(doc)
         else:
             return doc
-
-        #new_html = cleaner.clean_html(html)
-        ## FIXME: we should have some way of notifying the user about tags that were removed
-        #return new_html
 
     @action('save')
     def handle_save(self, target=None, fields=None):
@@ -140,43 +137,19 @@ class WikiEdit(WikiBase, OctopoLite):
         page_text = new_form['text']
         # XXX check description on news page
         description = new_form.get('description', None)
-        #Between zope and various weird web browsers, the text could
-        #be a str encoded in utf-8.  Let's make sure it's Python
-        #unicode before we pass it to lxml.
+
+        # Between zope and various weird web browsers, the text could/will
+        # be a str encoded in utf-8.  Let's make sure it's Python
+        # unicode before we pass it to lxml.
         if isinstance(page_text, str):
             try:
                 page_text = page_text.decode('utf-8')
             except UnicodeDecodeError:
                 # XXX should we pass here?  if so, please replace this comment with why
+                # maybe the error handling on xinha_to_wicked should go here
                 pass 
 
         clean_text = self._clean_html(page_text)
-        # now this is a str
-
-        try:
-            # if we don't unicodify this text then the
-            # xinha_to_wicked function is likely to fail
-            # if you have an HTML escape sequence inside a wicked link
-            # (e.g. ((&#38; hello)) ) and a character that 
-            # cannot be decoded to utf-8 (e.g. '\xc2').
-            # this is because utils.unescape will match the
-            # regex in the wicked link and try to replace it 
-            # with unicode one character at a time, which will fail.
-            # if the regex doesn't match, the string will
-            # not get transformed to unicode.
-            # '\xc2' (e.g.) gets transformed somewhere 
-            # into the correct multibyte sequence '\xc3\x82',
-            # but trying to do '\xc3'.decode('utf-8') 
-            # will result in a UnicodeDecodeError, whereas 
-            # '\xc3\x82'.decode('utf-8') will correctly yield u'\xc2'; 
-            # but it can't be decoded a byte at a time.
-            # for instance you can do ''.join((u'foo', '\xc3\x82'.decode('utf-8'))
-            # but not ''.join((u'foo', '\xc3\x82')).
-            # see #2589
-            clean_text = clean_text.decode('utf-8')
-        except UnicodeDecodeError:
-            # XXX we pass above, why not here?
-            pass
 
         try:
             text = xinha_to_wicked(clean_text)
