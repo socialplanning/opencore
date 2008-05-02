@@ -9,6 +9,7 @@
  * Optimizations of team recent activity feed (jhammel)
  * List featurelets installed in project in project info xml (ejucovy)
  * EmailSender itself now generates message (rmarianski)
+ * add /message to list of pages that we don't redirect to (rmarianski)
 
 0.10 (2008-04-23)
 =================
