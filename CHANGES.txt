@@ -8,6 +8,7 @@
  * Optimizations of mailing list recent activity feed (jhammel)
  * Optimizations of team recent activity feed (jhammel)
  * List featurelets installed in project in project info xml (ejucovy)
+ * EmailSender itself now generates message (rmarianski)
 
 0.10 (2008-04-23)
 =================
