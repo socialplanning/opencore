@@ -3,7 +3,6 @@ from DateTime import DateTime
 from Products.CMFCore.utils import getToolByName
 from Products.CMFEditions.interfaces.IArchivist import ArchivistRetrieveError
 from Products.Five import BrowserView
-from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
 from opencore.browser.base import BaseView
 from opencore.browser.formhandler import post_only
 from opencore.interfaces.catalog import ILastModifiedAuthorId, ILastModifiedComment
