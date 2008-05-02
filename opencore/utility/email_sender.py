@@ -107,5 +107,17 @@ class EmailSender(object):
         if isinstance(msg, unicode):
             msg = msg.encode('utf-8')
 
-        self._send(msg, recips, mfrom, subject)
+        #we construct the mail message ourselves ... because the mailhost generates bogus messages
+        #by bogus i mean that the mail message generated has 2 sets of separate headers
+        msg_body = msg
+        msg = """\
+From: %(mfrom)s
+To: %(recips)s
+Subject: %(subject)s
 
+%(msg_body)s""" % dict(mfrom=mfrom,
+                       recips='; '.join(recips),
+                       subject=subject,
+                       msg_body=msg_body,
+                       )
+        self._send(msg)
