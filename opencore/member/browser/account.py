@@ -22,8 +22,7 @@ class MemberAccountView(BaseView, OctopoLite):
     active_states = ['public', 'private']
     msg_category = 'membership'
 
-    # DWM: application specific term should be part of method names
-    # probably indicate this needs to be behind an api
+    # this should be put in a viewlet in an oc-twirlip plugin -egj
     def twirlip_uri(self):
         ptool = getToolByName(self.context, 'portal_properties')
         ocprops = ptool._getOb('opencore_properties')
