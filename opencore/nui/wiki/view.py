@@ -98,8 +98,8 @@ class WikiEdit(WikiBase, OctopoLite):
         except TypeError:
             raise TypeError("Bad value for portal_properties.embed_whitelist: %r" % whitelist)
 
-        cleaner = Cleaner(host_whitelist=whitelist, safe_attrs_only=False)
-
+        cleaner = Cleaner(host_whitelist=whitelist, safe_attrs_only=False, embedded=False)
+        
         # stolen from lxml.html.clean
         if isinstance(html, basestring):
             return_string = True
