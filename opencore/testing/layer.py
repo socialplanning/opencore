@@ -15,6 +15,8 @@ from utils import monkey_proj_noun
 from zope.app.component.hooks import setSite, setHooks
 import random
 import transaction as txn
+from opencore.utility.interfaces import IProvideSiteConfig
+from zope.component import getUtility
 
 # i can't think of a better way to guarantee that the opencore tests
 # will never use a live cabochonutility. ideally oc-cab would take
@@ -147,6 +149,7 @@ class MockHTTPWithContent(OpencoreContent):
     def setUp(cls):
         setup_mock_http()
         portal = get_portal_as_owner()
+        getUtility(IProvideSiteConfig)._set("http://nohost:wordpress")
         txn.commit()
     
     @classmethod
