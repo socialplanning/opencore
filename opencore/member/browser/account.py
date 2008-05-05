@@ -25,7 +25,7 @@ class MemberAccountView(BaseView, OctopoLite):
 
     # this should be put in a viewlet in an oc-twirlip plugin -egj
     def twirlip_uri(self):
-        uri = getUtility(IProvideSiteConfig).get("twirlip uri", default='http://twirlip.example.com')
+        uri = getUtility(IProvideSiteConfig).get("twirlip uri")
         return uri.strip()
 
     @property
