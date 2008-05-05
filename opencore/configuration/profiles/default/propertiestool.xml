@@ -20,8 +20,6 @@
     <element value="greetings@openplans.org" />
   </property>
 
-  <property name="tasktracker_external_uri" type="string">tasks</property>
-
  </object>
 
 </object>
