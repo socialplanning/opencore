@@ -1,16 +1,16 @@
+from App import config
 from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
 from Products.CMFCore.WorkflowCore import WorkflowException
 from Products.CMFCore.utils import getToolByName
 from opencore.browser.base import BaseView, _
 from opencore.browser.formhandler import OctopoLite, action
 from opencore.interfaces.catalog import ILastWorkflowActor
-from App import config
+from opencore.interfaces.event import JoinedProjectEvent
+from opencore.interfaces.event import LeftProjectEvent
+from opencore.interfaces.event import MemberEmailChangedEvent
+from opencore.interfaces.message import ITransientMessage
 from plone.memoize.view import memoize as req_memoize
 from zope.event import notify
-from opencore.interfaces.message import ITransientMessage
-from opencore.interfaces.event import LeftProjectEvent
-from opencore.interfaces.event import JoinedProjectEvent
-from opencore.interfaces.event import MemberEmailChangedEvent
 
 
 class MemberAccountView(BaseView, OctopoLite):
