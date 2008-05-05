@@ -19,11 +19,13 @@ expect the output.
 #      'POST',
 #      body='username=m1...
 
-Remove the ``m1`` member. This should also remove him from the people
-folder, which we check below::
+Remove the ``m1`` member, which triggers an HTTP request to WP. This
+should also remove him from the people folder, which we check below::
 
   >>> self.portal.portal_memberdata.manage_delObjects(['m1'])
-
+  Called httplib2.Http.request(
+        'http://nohost:wordpress/openplans-remove-user.php',
+        'POST',...)
 
 ``m1``'s home folder should be gone now as well::
 
@@ -36,4 +38,7 @@ If we remove the ``m2`` member's people folder first, and then remove
 the member from portal_memberdata, then it should fail silently::
 
   >>> self.portal.people.manage_delObjects(['m2'])
+  Called httplib2.Http.request(
+        'http://nohost:wordpress/openplans-remove-user.php',
+        'POST',...)
   >>> self.portal.portal_memberdata.manage_delObjects(['m2'])
