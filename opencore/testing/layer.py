@@ -150,8 +150,6 @@ class MockHTTPWithContent(OpencoreContent):
         portal = get_portal_as_owner()
         set_opencore_properties(wordpress_uri='http://nohost:wordpress',
                                 context=portal)
-        set_opencore_properties(tasktracker_uri='http://nohost:tasktracker',
-                                context=portal)
         txn.commit()
     
     @classmethod
