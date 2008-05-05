@@ -11,6 +11,7 @@
  * EmailSender itself now generates message (rmarianski)
  * Add /message to list of pages that we don't redirect to (rmarianski)
  * Read twirlip uri from IProvideSiteConfig instead of persistent properties sheet (ejucovy)
+ * Remove unused cabochon uri from properties sheet (ejucovy)
 
 0.10 (2008-04-23)
 =================
