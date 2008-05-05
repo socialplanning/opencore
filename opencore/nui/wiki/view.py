@@ -1,12 +1,15 @@
-from zope.event import notify
-from zope.app.event import objectevent
+from Acquisition import aq_inner
 from opencore.browser.base import BaseView
-from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
 from opencore.browser.formhandler import OctopoLite, action
 from opencore.nui.wiki.utils import unescape
-from Acquisition import aq_inner
+from opencore.utility.interfaces import IProvideSiteConfig
 from PIL import Image
+from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
 from StringIO import StringIO
+from zope.app.event import objectevent
+from zope.component import getUtility
+from zope.event import notify
+
 import simplejson
 
 from lxml import etree # no longer necessary after lxml.html trunk gets released
@@ -91,12 +94,8 @@ class WikiEdit(WikiBase, OctopoLite):
     def _clean_html(self, html):
         """ delegate cleaning of html to lxml .. sort of """
         ## FIXME: we should have some way of notifying the user about tags that were removed
-        ocprops = self.get_tool('portal_properties').opencore_properties
-        whitelist = ocprops.getProperty('embed_whitelist') or []
-        try:
-            whitelist = [x for x in whitelist if x.strip()]
-        except TypeError:
-            raise TypeError("Bad value for portal_properties.embed_whitelist: %r" % whitelist)
+        whitelist = getUtility(IProvideSiteConfig).get('embed_whitelist').split(',')
+        whitelist = [ x.strip() for x in whitelist if x.strip() ]
 
         cleaner = Cleaner(host_whitelist=whitelist, safe_attrs_only=False)
         
