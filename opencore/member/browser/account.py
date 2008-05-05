@@ -3,6 +3,7 @@ from Products.CMFCore.WorkflowCore import WorkflowException
 from Products.CMFCore.utils import getToolByName
 from opencore.browser.base import BaseView, _
 from opencore.browser.formhandler import OctopoLite, action
+from opencore.member.utils import member_path
 from opencore.interfaces.catalog import ILastWorkflowActor
 from opencore.interfaces.event import JoinedProjectEvent
 from opencore.interfaces.event import LeftProjectEvent
@@ -282,9 +283,12 @@ class MemberAccountView(BaseView, OctopoLite):
         admin_ids = team.get_admin_ids()
         transient_msgs = ITransientMessage(self.portal)
         id_ = self.loggedinmember.getId()
+        member_url = u'%s/%s' % (getToolByName(self.context, 'portal_url')(),
+                                 member_path(id_))
         project_url = self.project_url(proj_id)
-        msg = _(u'tmsg_joined_project', u'${id} has joined <a href="${project_url}">${proj_id}</a>',
-                mapping={u'id':id_, u'project_url':project_url, u'proj_id':proj_id})
+        msg = _(u'tmsg_joined_project',
+                u'<a href="${member_url}">${id}</a> has joined <a href="${project_url}">${proj_id}</a>',
+                mapping={u'id':id_, u'project_url':project_url, u'proj_id':proj_id, u'member_url':member_url})
         for mem_id in admin_ids:
             transient_msgs.store(mem_id, "membership", msg)
         
@@ -331,9 +335,12 @@ class MemberAccountView(BaseView, OctopoLite):
         
         transient_msgs = ITransientMessage(self.portal)
 
+        member_url = u'%s/%s' % (getToolByName(self.context, 'portal_url')(),
+                                 member_path(id_))
         project_url = self.project_url(proj_id)
-        msg = _(u'tmsg_decline_invite', u'${id} has declined your invitation to join <a href="${project_url}">${proj_id}</a>',
-                mapping={u'id':id_, u'project_url':project_url, u'proj_id':proj_id})
+        msg = _(u'tmsg_decline_invite',
+                u'<a href="${member_url}">${id}</a> has declined your invitation to join <a href="${project_url}">${proj_id}</a>',
+                mapping={u'id':id_, u'project_url':project_url, u'proj_id':proj_id, u'member_url':member_url})
         transient_msgs.store(spurned_admin, "membership", msg)
 
         elt_id = '%s_invitation' % proj_id
