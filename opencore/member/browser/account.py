@@ -1,4 +1,3 @@
-from App import config
 from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
 from Products.CMFCore.WorkflowCore import WorkflowException
 from Products.CMFCore.utils import getToolByName
@@ -9,8 +8,10 @@ from opencore.interfaces.event import JoinedProjectEvent
 from opencore.interfaces.event import LeftProjectEvent
 from opencore.interfaces.event import MemberEmailChangedEvent
 from opencore.interfaces.message import ITransientMessage
+from opencore.utility.interfaces import IProvideSiteConfig
 from plone.memoize.view import memoize as req_memoize
 from zope.event import notify
+from zope.component import getUtility
 
 
 class MemberAccountView(BaseView, OctopoLite):
@@ -24,6 +25,7 @@ class MemberAccountView(BaseView, OctopoLite):
 
     # this should be put in a viewlet in an oc-twirlip plugin -egj
     def twirlip_uri(self):
+        #getUtility(IProvideSiteConfig).get("twirlip uri")
         ptool = getToolByName(self.context, 'portal_properties')
         ocprops = ptool._getOb('opencore_properties')
         uri = ocprops.getProperty('twirlip_uri')
