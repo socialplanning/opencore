@@ -7,7 +7,6 @@ from Testing import ZopeTestCase
 from opencore.project.handler import add_redirection_hooks 
 from opencore.testing.utility import setup_mock_http
 from opencore.testing.utility import setup_mock_config
-from opencore.utils import set_opencore_properties
 from topp.utils import introspection
 from topp.utils.testing import layer_factory
 from utils import get_portal, get_portal_as_owner, create_test_content
@@ -148,8 +147,6 @@ class MockHTTPWithContent(OpencoreContent):
     def setUp(cls):
         setup_mock_http()
         portal = get_portal_as_owner()
-        set_opencore_properties(wordpress_uri='http://nohost:wordpress',
-                                context=portal)
         txn.commit()
     
     @classmethod

@@ -2,7 +2,8 @@ import hmac
 import sha
 import urllib
 from httplib2 import Http
-from opencore.utils import get_opencore_property
+from opencore.utility.interfaces import IProvideSiteConfig
+from zope.component import getUtility
 
 from Products.CMFCore.utils import getToolByName
 from opencore.browser.base import BaseView
@@ -11,7 +12,7 @@ from opencore.content.membership import OpenMembership
 
 class SyncUsersView(BaseView):
     def sync(self):
-        base_uri = get_opencore_property('wordpress_uri')
+        base_uri = getUtility(IProvideSiteConfig).get('wordpress uri')
         uri = "%s/openplans-do-sync.php" % base_uri
         params = {}
 
