@@ -2,7 +2,7 @@ from Products.CMFCore.utils import getToolByName
 from decorator import decorator
 from opencore.project.utils import get_featurelets
 from opencore.utility.interfaces import IHTTPClient
-from opencore.utility.interfaces import IProvideSiteConfig
+from opencore.utils import get_opencore_property
 from zope.component import getUtility
 import hmac, sha
 import urllib
@@ -37,7 +37,7 @@ def try_to_send_to_wordpress(uri, username, params, context):
     """Send some data (params) to wordpress with the given user.
        The context is used to find the secret.  If this fails,
        return the error"""
-    wp_uri = getUtility(IProvideSiteConfig).get('wordpress uri')
+    wp_uri = get_opencore_property('wordpress_uri')
     if not wp_uri:
         # either None or empty value mean do nothing
         log.info('Failed to connect to WordPress: no WP URI set')

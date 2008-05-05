@@ -2,7 +2,7 @@ from Products.CMFCore.utils import getToolByName
 from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
 from opencore.interfaces import IProject
 from opencore.utility.interfaces import IHTTPClient
-from opencore.utility.interfaces import IProvideSiteConfig
+from opencore.utils import get_opencore_property
 from opencore.wordpress.interfaces import IWordPressFeatureletInstalled
 from plone.memoize.instance import memoizedproperty, memoize
 from topp.featurelets.base import BaseFeaturelet
@@ -43,7 +43,7 @@ class WordPressFeaturelet(BaseFeaturelet):
 
     @property
     def wp_uri(self):
-        return getUtility(IProvideSiteConfig).get('wordpress uri')
+        return get_opencore_property('wordpress_uri')
 
     @property
     def active(self):
