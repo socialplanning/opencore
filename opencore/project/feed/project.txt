@@ -27,7 +27,7 @@ Stub a sample result
     ...         return 'http://dummy/project/url'
 
 Instantiate the project feed adapter with the dummy context
-    >>> from opencore.feed.project import WikiFeedAdapter
+    >>> from opencore.project.feed.project import WikiFeedAdapter
     >>> project_adapter = WikiFeedAdapter(context)
 
 Test the items method
