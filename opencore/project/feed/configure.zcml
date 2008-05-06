@@ -27,6 +27,12 @@
      name="team"
      />
 
+   <adapter
+      for="opencore.interfaces.IOpenPage"
+      provides="opencore.feed.interfaces.IFeedData"
+      factory=".page.PageFeedAdapter"
+      />   
+
   <!-- views and related -->
   <browser:viewlet
      manager="opencore.project.browser.interfaces.ISummaryFeeds"
