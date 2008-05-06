@@ -1,6 +1,7 @@
 0.10.1 (unreleased)
 ===================
 
+ * New infrastructure for embedded host whitelist; add some sites (jhammel)
  * Allow for wicked links with HTML escapes and non-UTF-8 characters (jhammel)
  * Fix "wiki" link and text in user's dropdown nav - it's now "pages" (slinkp)
  * Highlight correct topnav tab on user profile (rmarianski, jhammel)
