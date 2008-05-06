@@ -1,15 +1,37 @@
 <configure xmlns="http://namespaces.zope.org/zope"
            xmlns:browser="http://namespaces.zope.org/browser"
            >
-<!--
-  <browser:page
-     for="opencore.interfaces.IProject"
-     name="teamfeed"
-     class=".team_feed.BlankSlateTeamFeedView"
-     template="team_feed_snippet.pt"
-     permission="zope2.View"
+
+  <five:implements
+     class="Products.OpenPlans.content.project.OpenProject"
+     interface="opencore.feed.interfaces.ICanFeed"
+     />  
+
+  <five:implements
+     class="opencore.content.page.OpenPage"
+     interface="opencore.feed.interfaces.ICanFeed"
      />
--->
+
+  <!-- feeds for a project -->
+  <adapter
+     for="opencore.interfaces.IProject"
+     provides="opencore.feed.interfaces.IFeedData"
+     factory=".project.WikiFeedAdapter"
+     />
+
+  <adapter
+     for="opencore.interfaces.IProject"
+     provides="opencore.feed.interfaces.IFeedData"
+     factory=".wordpress.WordpressFeedAdapter"
+     name="blog"
+     />
+
+  <adapter
+     for="opencore.interfaces.IProject"
+     provides="opencore.feed.interfaces.IFeedData"
+     factory=".team.TeamFeedAdapter"
+     name="team"
+     />
 
   <browser:viewlet
      manager="opencore.project.browser.interfaces.ISummaryFeeds"
