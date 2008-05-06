@@ -33,7 +33,7 @@ Here's the stub result
     ...	    sys_metadata = dict(principal='Whoever')
 
 Instantiate the page feed adapter with the dummy context
-    >>> from opencore.feed.page import PageFeedAdapter
+    >>> from opencore.project.feed.page import PageFeedAdapter
     >>> page_adapter = PageFeedAdapter(context)
 
 Test the items method
