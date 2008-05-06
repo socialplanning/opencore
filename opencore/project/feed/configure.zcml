@@ -23,17 +23,11 @@
   <adapter
      for="opencore.interfaces.IProject"
      provides="opencore.feed.interfaces.IFeedData"
-     factory=".wordpress.WordpressFeedAdapter"
-     name="blog"
-     />
-
-  <adapter
-     for="opencore.interfaces.IProject"
-     provides="opencore.feed.interfaces.IFeedData"
      factory=".team.TeamFeedAdapter"
      name="team"
      />
 
+  <!-- views and related -->
   <browser:viewlet
      manager="opencore.project.browser.interfaces.ISummaryFeeds"
      class=".wiki.WikiSummaryViewlet"
