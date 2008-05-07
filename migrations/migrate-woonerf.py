@@ -1,8 +1,9 @@
 from AccessControl.SecurityManagement import newSecurityManager
 from Testing.makerequest import makerequest
-from opencore.nui.setup import nui_functions, set_method_aliases
+from opencore.nui.setup import nui_functions
 from opencore.nui.wiki import utils
 #from opencore.streetswiki.utils import add_wiki
+#from opencore.nui.setup import set_method_aliases
 import sys
 import transaction
 
