@@ -59,7 +59,8 @@ body {
   clear: none;
   width: 33%;
   padding: 0;
-  line-height: 1.35;
+  overflow: hidden;
+  line-height: 1.35em;
 }
 #oc-project-tabs {
 }
@@ -484,6 +485,11 @@ border:1px solid #e6e6e6;
   margin: 0 1%;
   clear: none;
   width: 47%;
+}
+.oc-column-33 {
+	width: 32%;
+	float: left;
+	margin: 0 5px;
 }
 /* columns should be full-width and unfloated when in the sidebar */
 #oc-content-sidebar .oc-column {
