@@ -81,5 +81,11 @@ class ITopnavMenuItemSchema(Interface):
         required=False,
         )
 
+    layer = GlobalObject(
+        title=u'Layer',
+        description=u'Layer to register the viewlet for',
+        required=False,
+        )
+
 # this allows extra fields in configure to get passed through
 ITopnavMenuItemSchema.setTaggedValue('keyword_arguments', True)

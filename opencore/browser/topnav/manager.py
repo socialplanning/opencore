@@ -10,6 +10,7 @@ from Products.Five.viewlet.metaconfigure import viewletDirective
 from Products.Five.viewlet.viewlet import ViewletBase
 from opencore.project.utils import project_noun
 from viewlet import TopnavViewletBase
+from zope.publisher.interfaces.browser import IDefaultBrowserLayer
 
 class TopnavManager(ViewletManagerBase):
     """custom menu viewlet manager for opencore topnav"""
@@ -73,6 +74,7 @@ def oc_menuitem_directive(_context, name, sort_order,
                           css_class=default_css,
                           selected=if_request_starts_with_url,
                           application_header=None,
+                          layer=IDefaultBrowserLayer,
                           template=None,
                           **kw):
     """create a class specific for viewlet, and register it"""
@@ -96,4 +98,4 @@ def oc_menuitem_directive(_context, name, sort_order,
         )
     new_keyword_args['class_'] = viewlet_factory
     new_keyword_args['manager'] = TopnavManager
-    viewletDirective(_context, name, permission, **new_keyword_args)
+    viewletDirective(_context, name, permission, layer=layer, **new_keyword_args)
