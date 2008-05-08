@@ -467,6 +467,8 @@ class TourView(MemberAccountView):
          content adapters or viewlets. -egj
     """
 
+    template = ZopeTwoPageTemplateFile('tour.pt')
+
     def has_projects(self):
         if self.invitations() or self.projects_for_user:
             return True
