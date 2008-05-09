@@ -110,7 +110,8 @@ class EmailSender(object):
         #we construct the mail message ourselves ... because the mailhost generates bogus messages
         #by bogus i mean that the mail message generated has 2 sets of separate headers
         msg_body = msg
-        msg = """\
+        if subject:
+            msg = """\
 From: %(mfrom)s
 To: %(recips)s
 Subject: %(subject)s
@@ -120,4 +121,13 @@ Subject: %(subject)s
                        subject=subject,
                        msg_body=msg_body,
                        )
+        else:
+            msg = """\
+From: %(mfrom)s
+To: %(recips)s
+%(msg_body)s""" % dict(mfrom=mfrom,
+                       recips='; '.join(recips),
+                       msg_body=msg_body,
+                       )
+            
         self._send(msg)
