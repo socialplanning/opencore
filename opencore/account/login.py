@@ -290,7 +290,7 @@ class ForgotLoginView(AccountView):
             sender = EmailSender(self, secureSend=True)
             sender.sendEmail(mto=email, 
                         msg=mail_text,
-                        subject=_(u'email_forgot_password_subject', u'%s - Password reset' % self.portal_title()))
+                        subject=_(u'email_forgot_password_subject', u'${portal_title} - Password reset', mapping={u'portal_title':self.portal_title()}))
         except SMTPRecipientsRefused:
             # Don't disclose email address on failure
             # XXX is this needed?
