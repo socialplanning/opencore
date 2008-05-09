@@ -3,7 +3,6 @@ from opencore.interfaces import IMemberFolder
 from opencore.interfaces import IOpenPage
 from opencore.interfaces.adding import IAddProject
 from opencore.interfaces.adding import IAmAPeopleFolder
-from opencore.interfaces.adding import IAmANewsFolder
 from Products.CMFCore.utils import getToolByName
 from Products.CMFPlone.interfaces import IPloneSiteRoot
 from topp.utils import zutils
@@ -84,7 +83,6 @@ def is_in_external_application(viewlet):
     expected_header = viewlet.application_header
     if expected_header is None:
         return False
-    print viewlet.request.get_header("HTTP_X_OPENPLANS_APPLICATION")
     return viewlet.request.get_header("HTTP_X_OPENPLANS_APPLICATION") == expected_header
 
 def portal_people_or_projects(viewlet):
