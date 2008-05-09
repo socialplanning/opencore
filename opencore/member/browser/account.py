@@ -148,7 +148,7 @@ class MemberAccountView(BaseView, OctopoLite):
             proj = self.portal.projects[proj_id]
             proj_title = unicode(proj.Title(), 'utf-8') # accessor always will return ascii
 
-            only_admin_msg = _(u'psm_leave_project_admin', u'You are the only remaining administrator of "${proj_title}". You can\'t leave this ${project_noun} without appointing another.',
+            only_admin_msg = _(u'psm_leave_project_admin', u'You are the only administrator of "${proj_title}". You can\'t leave this ${project_noun} without appointing another.',
                                mapping={u'proj_title':proj_title,
                                         u'project_noun':self.project_noun})
             

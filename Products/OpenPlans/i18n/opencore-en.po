@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: opencore\n"
 "POT-Creation-Date: 2008-03-07 00:45+0000\n"
-"PO-Revision-Date: 2008-03-06 19:45-0500\n"
+"PO-Revision-Date: 2008-05-09 17:36-0400\n"
 "Last-Translator: \n"
 "Language-Team: The Open Planning Project <opencore-dev@lists.openplans.org>\n"
 "MIME-Version: 1.0\n"
@@ -1589,10 +1589,10 @@ msgstr ""
 msgid "psm_geocode_failed"
 msgstr ""
 
-#. Default: "You are the only remaining administrator of \"${proj_title}\". You can't leave this ${project_noun} without appointing another."
+#. Default: "You are the only administrator of \"${proj_title}\". You can't leave this ${project_noun} without appointing another."
 #: opencore/member/browser/account.py:157
 msgid "psm_leave_project_admin"
-msgstr "You are the only administrator of \"${proj_title}.\"  You cannot leave this group without appointing another administrator."
+msgstr "You are the only administrator of \"${proj_title}.\"  You cannot leave this ${project_noun} without appointing another administrator."
 
 #: opencore/project/browser/preferences.py:153
 msgid "psm_location_changed"
