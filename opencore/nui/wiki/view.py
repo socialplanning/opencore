@@ -83,10 +83,6 @@ def tounicode(doc, pretty_print=False, include_meta_content_type=False, encoding
 
 class WikiEdit(WikiBase, OctopoLite):
 
-    # kupu template turned of now
-    # can be removed if we never go back
-    #kupu_template = ZopeTwoPageTemplateFile("wiki-edit.pt")
-    #xinha_template = ZopeTwoPageTemplateFile("wiki-edit-xinha.pt")
     template = ZopeTwoPageTemplateFile("wiki-edit-xinha.pt")
 
     attachment_snippet = ZopeTwoPageTemplateFile('attachment.pt')

@@ -1,7 +1,6 @@
 from Products.CMFCore.permissions import setDefaultRoles, \
      AddPortalMember
 from Products.TeamSpace.permissions import ManageTeamMembership
-from Products.kupu.plone.permissions import QueryLibraries
 from Products.listen.permissions import AddMailingList, SubscribeSelf, \
      ManageSubscriptions, InviteSubscribers
 import Products.Archetypes.public as atapi
@@ -28,10 +27,6 @@ DEFAULT_PERMISSIONS_DATA = (
       'ATContentTypes: Add News Item', 'OpenPlans: Add OpenPage',
       'Reply to item', 'Delete objects', CopyOrMove, AddMailingList,
       ViewEmails]),
-
-    (['Manager', 'Owner', 'ProjectAdmin', 'ProjectMember', 'Reviewer',
-      'Member'],
-     [QueryLibraries]),
 
     (['Manager', 'Owner', 'ProjectAdmin', 'ProjectMember', 'Reviewer',
       'Member', 'Anonymous'],
