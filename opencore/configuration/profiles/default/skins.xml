@@ -32,11 +32,8 @@
   <layer name="teamspace_plone21"/>
   <layer name="filter"/>
   <layer name="remember"/>
-  <layer name="kupu_tests"/>
   <layer name="CMFPlacefulWorkflow"/>
   <layer name="PasswordReset"/>
-  <layer name="kupu_plone"/>
-  <layer name="kupu"/>
   <layer name="ATContentTypes"/>
   <layer name="ATReferenceBrowserWidget"/>
   <layer name="archetypes"/>
@@ -79,11 +76,8 @@
   <layer name="teamspace_plone21"/>
   <layer name="filter"/>
   <layer name="remember"/>
-  <layer name="kupu_tests"/>
   <layer name="CMFPlacefulWorkflow"/>
   <layer name="PasswordReset"/>
-  <layer name="kupu_plone"/>
-  <layer name="kupu"/>
   <layer name="ATContentTypes"/>
   <layer name="ATReferenceBrowserWidget"/>
   <layer name="archetypes"/>

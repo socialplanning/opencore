@@ -63,12 +63,6 @@
     visible="True">
   <permission>Manage portal</permission>
  </configlet>
- <configlet title="Kupu visual editor" action_id="kupu" appId="Kupu"
-    category="Products" condition_expr=""
-    url_expr="string:${portal_url}/kupu_library_tool/kupu_config"
-    visible="True">
-  <permission>Manage portal</permission>
- </configlet>
  <configlet title="Personal Preferences" action_id="MemberPrefs" appId="Plone"
     category="Member" condition_expr="" url_expr="string:${portal/prefs_url}"
     visible="True">
