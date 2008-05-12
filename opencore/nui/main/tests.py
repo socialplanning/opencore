@@ -20,7 +20,6 @@ def replace_datetimeidx(idx, cat):
     cat.manage_reindexIndex(ids=[idx])
 
 def test_suite():
-    from Products.Five.utilities.marker import erase as noLongerProvides
     from Products.PloneTestCase import setup
     from Products.PloneTestCase.PloneTestCase import FunctionalTestCase
     from pprint import pprint

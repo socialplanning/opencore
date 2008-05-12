@@ -27,7 +27,6 @@ import warnings; warnings.filterwarnings("ignore")
 
 def test_suite():
     from Products.CMFCore.utils import getToolByName
-    from Products.Five.utilities.marker import erase as noLongerProvides
     from Products.PloneTestCase import setup
     from Products.PloneTestCase.PloneTestCase import FunctionalTestCase
     from Products.listen.interfaces import IListLookup

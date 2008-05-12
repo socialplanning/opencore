@@ -14,7 +14,6 @@ optionflags = doctest.ELLIPSIS
 import warnings; warnings.filterwarnings("ignore")
 
 def test_suite():
-    from Products.Five.utilities.marker import erase as noLongerProvides
     from Products.PloneTestCase import setup
     from Products.PloneTestCase.PloneTestCase import FunctionalTestCase
     from Testing.ZopeTestCase import FunctionalDocFileSuite, installProduct

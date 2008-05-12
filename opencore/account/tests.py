@@ -58,12 +58,10 @@ def readme_setup(tc):
 
 
 def test_suite():
-    from Products.Five.utilities.marker import erase as noLongerProvides
     from Products.PloneTestCase import ptc, setup
     from Testing.ZopeTestCase import FunctionalDocFileSuite, installProduct
     from pprint import pprint
     from zope.interface import alsoProvides
-    from Products.Five.utilities.marker import erase as noLongerProvides
     from opencore.testing.utils import clear_status_messages
     from opencore.testing.utils import get_status_messages
     from opencore.utility.interfaces import IProvideSiteConfig
