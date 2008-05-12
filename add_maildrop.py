@@ -1,13 +1,16 @@
 from AccessControl.SecurityManagement import newSecurityManager
 from Testing.makerequest import makerequest
-from opencore.configuration.utils import get_config
+from opencore.utility.interfaces import IProvideSiteConfig
+from zope.component import getUtility
 import transaction
 
 app=makerequest(app)
 
+config = getUtility(IProvideSiteConfig)
+
 mh_id = 'MailHost'
-site_id = get_config('general', 'opencore_site_id', default='openplans')
-admin_file = get_config('general', 'admin_info_filename', default='admin')
+site_id = config.get('opencore_site_id', default='openplans')
+admin_file = config.get('admin_info_filename', default='admin')
 admin_id = open(admin_file).read().split(':')[0]
 
 # Change the effective user... dunno if it matters, but nice for undo log.
