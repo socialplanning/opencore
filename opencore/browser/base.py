@@ -54,12 +54,12 @@ class BaseView(BrowserView):
         self.response = self.request.RESPONSE
     
     def get_config(self, section, option, default='', inifile=None):
-        # XXX section, inifile, and default are only taken for
+        # XXX section and inifile are only taken for
         # backward compatibility; we ignore them.
 
         # XXX Does anything actually call this as a view method?
         # apparently yes but only in sputnik templates (as of 5/12/08).
-        return getUtility(IProvideSiteConfig).get(option)
+        return getUtility(IProvideSiteConfig).get(option, default=default)
 
 
     def project_url(self, project=None, page=None):

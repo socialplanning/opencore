@@ -72,7 +72,7 @@ class IProvideSiteConfig(Interface):
     A global utility for providing site-wide configuration settings
     """
 
-    def get(option, default):
+    def get(option, default=None):
         """
         return the value of a particular configuration option
         """
