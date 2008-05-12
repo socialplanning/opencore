@@ -28,6 +28,10 @@ def project_noun():
     """Returns our global config's projtxt setting, which should be
     used everywhere we refer to 'projects'.
     """
+    #from opencore.utility.interfaces import IProvideSiteConfig
+    #from zope.component import getUtility
+    #config = getUtility(IProvideSiteConfig)
+    #return config.get('projtxt', default='project')
     return get_config('general', 'projtxt', default='project')
 
 def project_path(proj_id=None):

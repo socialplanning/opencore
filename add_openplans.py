@@ -4,8 +4,6 @@ from opencore.utility.interfaces import IProvideSiteConfig
 from zope.component import getUtility
 import transaction
 
-import pdb; pdb.set_trace()
-
 app=makerequest(app)
 
 config = getUtility(IProvideSiteConfig)
