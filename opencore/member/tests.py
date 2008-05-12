@@ -24,7 +24,8 @@ def test_suite():
     from opencore.interfaces.message import ITransientMessage
     from opencore.interfaces.message import ITransientMessage
     from opencore.interfaces.pending_requests import IPendingRequests
-    from opencore.testing import alsoProvides, noLongerProvides
+    from Products.Five.utilities.marker import erase as noLongerProvides
+    from zope.interface import alsoProvides
     from zope.component import getUtility
 
     setup.setupPloneSite()
