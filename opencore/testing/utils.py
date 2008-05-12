@@ -1,5 +1,4 @@
 from AccessControl.SecurityManagement import newSecurityManager
-from Products.OpenPlans.Extensions.create_test_content import create_test_content
 from Products.PloneTestCase.setup import portal_name
 from Products.PloneTestCase.setup import portal_owner
 from Testing import ZopeTestCase

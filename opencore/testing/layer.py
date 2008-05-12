@@ -1,6 +1,7 @@
 from Products.CMFCore.utils  import getToolByName
 from Products.Five import pythonproducts
 from Products.Five.site.localsite import enableLocalSiteHook
+from Products.OpenPlans.Extensions.create_test_content import create_test_content
 from Products.PloneTestCase.layer import PloneSite, ZCML
 from Products.PloneTestCase.setup import setupPloneSite
 from Testing import ZopeTestCase
@@ -9,7 +10,7 @@ from opencore.testing.utility import setup_mock_http
 from opencore.testing.utility import setup_mock_config
 from topp.utils import introspection
 from topp.utils.testing import layer_factory
-from utils import get_portal, get_portal_as_owner, create_test_content
+from utils import get_portal, get_portal_as_owner
 from utils import zinstall_products
 from utils import monkey_proj_noun
 from zope.app.component.hooks import setSite, setHooks
@@ -149,7 +150,7 @@ class MockHTTPWithContent(OpencoreContent):
     def setUp(cls):
         setup_mock_http()
         portal = get_portal_as_owner()
-        getUtility(IProvideSiteConfig)._set("http://nohost:wordpress")
+        getUtility(IProvideSiteConfig)._set('wordpress_uri', "http://nohost:wordpress")
         txn.commit()
     
     @classmethod

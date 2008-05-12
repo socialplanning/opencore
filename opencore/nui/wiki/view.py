@@ -94,7 +94,8 @@ class WikiEdit(WikiBase, OctopoLite):
     def _clean_html(self, html):
         """ delegate cleaning of html to lxml .. sort of """
         ## FIXME: we should have some way of notifying the user about tags that were removed
-        whitelist = getUtility(IProvideSiteConfig).get('embed_whitelist').split(',')
+        config = getUtility(IProvideSiteConfig)
+        whitelist = config.get('embed_whitelist', default='').split(',')
         whitelist = [ x.strip() for x in whitelist if x.strip() ]
 
         cleaner = Cleaner(host_whitelist=whitelist, safe_attrs_only=False)

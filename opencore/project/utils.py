@@ -1,5 +1,6 @@
-from opencore.configuration.utils import get_config
+from opencore.utility.interfaces import IProvideSiteConfig
 from topp.featurelets.interfaces import IFeatureletSupporter
+from zope.component import getUtility, ComponentLookupError
 
 def get_featurelets(project):
     """
@@ -28,11 +29,18 @@ def project_noun():
     """Returns our global config's projtxt setting, which should be
     used everywhere we refer to 'projects'.
     """
-    #from opencore.utility.interfaces import IProvideSiteConfig
-    #from zope.component import getUtility
-    #config = getUtility(IProvideSiteConfig)
-    #return config.get('projtxt', default='project')
-    return get_config('general', 'projtxt', default='project')
+    default = 'project'
+    try:
+        config = getUtility(IProvideSiteConfig)
+    except ComponentLookupError:
+        # Ugh. This happens during import time, it's used by a couple
+        # of archetypes schema labels.  Lookup fails because we
+        # haven't yet loaded the zcml that creates an implementation
+        # of IProvideSiteConfig.  We have no choice but to return the
+        # default; I'm hoping this is OK because we don't actually
+        # care about archetypes labels.  - PMW
+        return default
+    return config.get('projtxt', default=default)
 
 def project_path(proj_id=None):
     """
