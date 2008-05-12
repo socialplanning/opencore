@@ -150,7 +150,7 @@ class MockHTTPWithContent(OpencoreContent):
     def setUp(cls):
         setup_mock_http()
         portal = get_portal_as_owner()
-        getUtility(IProvideSiteConfig)._set('wordpress_uri', "http://nohost:wordpress")
+        getUtility(IProvideSiteConfig)._set('wordpress uri', "http://nohost:wordpress")
         txn.commit()
     
     @classmethod

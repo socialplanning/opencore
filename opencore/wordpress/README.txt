@@ -7,7 +7,7 @@ Make sure the WP URI is set up for testing
 
     >>> from opencore.utility.interfaces import IProvideSiteConfig
     >>> from zope.component import getUtility
-    >>> getUtility(IProvideSiteConfig)._set('wordpress_uri', 'http://nohost:wordpress')
+    >>> getUtility(IProvideSiteConfig)._set('wordpress uri', 'http://nohost:wordpress')
 
 featurelet install
 ==================
