@@ -11,8 +11,8 @@ from opencore.interfaces import IPendingRequests
 from opencore.interfaces.event import FirstLoginEvent
 from opencore.interfaces.membership import IEmailInvites
 from opencore.interfaces.pending_requests import IRequestMembership
-from opencore.configuration.utils import get_config
 from opencore.nui.email_sender import EmailSender
+from opencore.utility.interfaces import IProvideSiteConfig
 from plone.memoize import instance
 from smtplib import SMTPRecipientsRefused
 from topp.utils.uri import uri_same_source
@@ -132,7 +132,8 @@ class LoginView(AccountView):
         if url.startswith(getToolByName(self.context, 'portal_url')()) and \
                url not in self.boring_urls:
             return True
-        raw_list = get_config('applications', 'opencore_vacuum_whitelist', default='').split(',')
+        config = getUtility(IProvideSiteConfig)
+        raw_list = config.get('opencore_vacuum_whitelist', '').split(',')
         vacuum_whitelist = [x.strip() for x in raw_list if x.strip()]
         
         for safe_host in vacuum_whitelist:
