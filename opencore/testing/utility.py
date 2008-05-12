@@ -1,6 +1,6 @@
 from minimock import HTTPMock, ConfigMock
 from minimock import Mock
-from opencore.testing import alsoProvides
+from zope.interface import alsoProvides
 from opencore.utility.interfaces import IHTTPClient
 from opencore.utility.interfaces import IProvideSiteConfig
 from zope.component import provideUtility
