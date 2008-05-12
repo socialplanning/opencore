@@ -225,6 +225,7 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite, AccountView,
                 'user_name': mem_user_name,
                 'project_noun': self.project_noun,
                 'portal_url': self.portal.absolute_url(),
+                'project_url': self.project_url(self.context.getId()),
                 }
 
             #XXX sending the email should go in an event subscriber
@@ -306,6 +307,7 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite, AccountView,
             msg_subs = {
                 'project_title': self.context.title,
                 'user_name': mem_user_name,
+                'project_noun': self.project_noun,                
                 }
         
             msg = sender.constructMailMessage('request_denied', **msg_subs)
@@ -333,8 +335,13 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite, AccountView,
         pwft = getToolByName(self, 'portal_placeful_workflow')
         deletes = []
         sender = _email_sender(self)
+        
+        msg_subs = {
+                'project_title': self.context.title,
+                'project_noun': self.project_noun,
+                }
         msg = sender.constructMailMessage('invitation_retracted',
-                                          project_title=self.context.title)
+                                          **msg_subs)
         ret = {}
         for mem_id in mem_ids:
             mship = self.team.getMembershipByMemberId(mem_id)
@@ -381,9 +388,13 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite, AccountView,
             mem_metadata = self.catalog.getMetadataForUID(mem_path) 
             mem_user_name = mem_metadata['getFullname'] or mem_metadata['id']
 
+            logged_in_mem = self.loggedinmember
+            logged_in_mem_name = logged_in_mem.getFullname() or logged_in_mem.id
+
             msg_vars = {'project_title': project_title,
                         'user_name': mem_user_name,
                         'account_url': acct_url,
+                        'inviter_name': logged_in_mem_name,
                         }
 
             if mem_metadata['review_state'] == 'pending':
@@ -411,8 +422,12 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite, AccountView,
         addresses = [urllib.unquote(t).strip() for t in targets]
 
         sender = _email_sender(self)
+        msg_subs = {
+                'project_title': self.context.title,
+                'project_noun': self.project_noun,
+                }
         msg = sender.constructMailMessage('invitation_retracted',
-                                          project_title=self.context.title)
+                                          **msg_subs)
 
         invite_util = getUtility(IEmailInvites, context=self.portal)
         proj_id = self.context.getId()
@@ -508,6 +523,7 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite, AccountView,
             msg_subs = {
                 'project_title': self.context.title,
                 'user_name': mem_user_name,
+                'project_noun':self.project_noun,
                 }
             
             try:

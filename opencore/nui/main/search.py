@@ -149,6 +149,9 @@ class SearchView(BaseView):
 
     # is this used anywhere?
     def project_url(self, project_brain):
+        if isinstance(project_brain, basestring):
+            return BaseView.project_url(self, project_brain)
+        
         return '%s/projects/%s' % (self.context.absolute_url(),
                                    project_brain.getId)
 

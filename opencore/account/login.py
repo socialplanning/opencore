@@ -174,9 +174,7 @@ class LoginView(AccountView):
             session.invalidate()
 
     def privs_redirect(self):
-        self.add_status_message(_(u'psm_not_sufficient_perms', u"You do not have sufficient permissions.",
-                                mapping={'project_title':proj_title,
-                                         'project_noun':self.project_noun}))
+        self.add_status_message(_(u'psm_not_sufficient_perms', u"You do not have sufficient permissions."))
         if not self.loggedin:
             self.redirect(self.login_url)
 

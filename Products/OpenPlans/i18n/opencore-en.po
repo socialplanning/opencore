@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: opencore\n"
 "POT-Creation-Date: 2008-03-07 00:45+0000\n"
-"PO-Revision-Date: 2008-05-09 17:36-0400\n"
+"PO-Revision-Date: 2008-05-12 15:29-0500\n"
 "Last-Translator: \n"
 "Language-Team: The Open Planning Project <opencore-dev@lists.openplans.org>\n"
 "MIME-Version: 1.0\n"
@@ -1635,7 +1635,7 @@ msgstr ""
 #. Default: "You do not have sufficient permissions."
 #: Products/OpenPlans/skins/openplans_login_patches/insufficient_privileges.cpy:53
 msgid "psm_not_sufficient_perms"
-msgstr "Only members of ${project_title} can edit this page. To request membership, click \"Join ${project_noun}.\""
+msgstr "You do not have sufficient permissions."
 
 #. Default: "You have added ${mem_id}."
 #: opencore/project/browser/manageteam.py:239
@@ -1685,7 +1685,7 @@ msgstr ""
 #. Default: "${project_noun} home page set to: <a href=\"${hp_url}\">${homepage}</a>"
 #: opencore/project/browser/preferences.py:186
 msgid "psm_proj_homepage_change"
-msgstr "${project_noun} homepage set to: <a href=\"${hp_url}\">${homepage}</a>\"."
+msgstr "${project_noun} homepage set to: <a href=\"${hp_url}\">${homepage}</a>."
 
 #: opencore/project/browser/preferences.py:150
 msgid "psm_project_desc_changed"
