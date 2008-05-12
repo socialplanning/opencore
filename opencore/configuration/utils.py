@@ -36,6 +36,14 @@ def get_config(section, option, default='', inifile=None):
     parsed on every call to get_config.  Otherwise, it will be cached
     until restart.
     """
+    warn(DeprecationWarning(
+        "Don't use opencore.configuration.utils.get_config(); instead use "
+        "getUtility(opencore.utility.interfaces.IProvideSiteConfig).get()"))
+#     # XXX I tried delegating to the utility, but this fails in many tests
+#     # with a ComponentLookupError:
+#     cfg = getUtility(IProvideSiteConfig)
+#     return cfg.get(option)
+    
     if inifile is None:
         inifile = product_config('build_ini_path', 'opencore.nui')
     parser = _parsers.get(inifile)

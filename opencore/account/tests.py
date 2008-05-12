@@ -65,14 +65,15 @@ def test_suite():
     from opencore.testing import alsoProvides, noLongerProvides
     from opencore.testing.utils import clear_status_messages
     from opencore.testing.utils import get_status_messages
+    from opencore.utility.interfaces import IProvideSiteConfig
     from opencore.interfaces.membership import IEmailInvites
     from opencore.interfaces.member import IMemberHomePage, IMemberFolder
     from opencore.member.interfaces import IHandleMemberWorkflow
     from zope.app.component.hooks import setSite, setHooks
     from zope.component import getUtility
     from pprint import pprint
-    fired = []
 
+    fired = []
     setup.setupPloneSite()
 
     globs = locals()

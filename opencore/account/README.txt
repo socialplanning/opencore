@@ -236,6 +236,7 @@ Test what happens when both passwords are blank
 MockHTTP will catch outward communication as event inform other apps
 the member has been created::
 
+    >>> getUtility(IProvideSiteConfig)._set('http://nohost:wordpress')
     >>> member = view.create_member()
     Called httplib2.Http.request(
         'http://nohost:wordpress/openplans-create-user.php',
