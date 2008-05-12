@@ -30,13 +30,14 @@ _parsers = {}  # Cache of ini file parsers.
 
 def get_config(section, option, default='', inifile=None):
     """
-    Get the value of the given section & option from the given inifile.
-    Use fassembler's build.ini if inifile is not specified.
+    XXX This is here for backward compatibility only.
+    You should instead be using:
+    getUtility(opencore.utility.interfaces.IProvideSiteConfig).get()
+
+    Get the value of the given option from configuration somewhere.
     Use default if option is not found.
 
-    If Zope is running in debug mode, the ini file will be loaded and
-    parsed on every call to get_config.  Otherwise, it will be cached
-    until restart.
+    'section' and 'inifile' are ignored.
     """
     warn(DeprecationWarning(
         "Don't use opencore.configuration.utils.get_config(); instead use "
