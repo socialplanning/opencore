@@ -3,7 +3,9 @@ config utils
 """
 
 from App import config
+from opencore.utility.interfaces import IProvideSiteConfig
 from warnings import warn
+from zope.component import getUtility, ComponentLookupError
 import ConfigParser
 import logging
 
@@ -39,26 +41,8 @@ def get_config(section, option, default='', inifile=None):
     warn(DeprecationWarning(
         "Don't use opencore.configuration.utils.get_config(); instead use "
         "getUtility(opencore.utility.interfaces.IProvideSiteConfig).get()"))
-#     # XXX I tried delegating to the utility, but this fails in many tests
-#     # with a ComponentLookupError:
-#     cfg = getUtility(IProvideSiteConfig)
-#     return cfg.get(option)
-    
-    if inifile is None:
-        inifile = product_config('build_ini_path', 'opencore.nui')
-    parser = _parsers.get(inifile)
-    if config.getConfiguration().debug_mode or parser is None:
-        parser = _parsers[inifile] = ConfigParser.SafeConfigParser()
-        if not parser.read(inifile):
-            warn("config file %r could not be read" % inifile) 
-    try:
-        return parser.get(section, option)
-    except ConfigParser.NoOptionError:
-        warn("%r not found in section %r of %r" % (option, section, inifile))
-        return default
-    except ConfigParser.NoSectionError:
-        warn("section %r not found in %r" % (section, inifile))
-        return default
+    config = getUtility(IProvideSiteConfig)
+    return config.get(option, default)
 
 #
 # This stuff should be in a config file, but we won't be using kupu
