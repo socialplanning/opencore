@@ -50,7 +50,8 @@ if query:
         referer = urlunquote(referer)
 
 plone_utils = getToolByName(portal, 'plone_utils')
-plone_utils.addPortalMessage(utranslate('opencore',_(u'psm_not_sufficient_perms', u"You do not have sufficient permissions.")))
+
+plone_utils.addPortalMessage(utranslate('opencore',_(u'psm_not_sufficient_perms', u"You do not have sufficient permissions."), context=context))
 
 if referer.split('?')[0].endswith('/require_login'):
     referer = dummy_referer
