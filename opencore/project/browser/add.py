@@ -85,9 +85,9 @@ class ProjectAddView(ProjectBaseView, OctopoLite):
             if self.context.has_key(id_):
                 self.errors['id'] = 'The requested url is already taken.'
 
-        # Give viewlets a chance to validate. We don't have a project yet,
-        # so they'll have to tolerate validating with the project container
-        # as the context.
+        # Give plugin viewlets a chance to validate. We don't have a
+        # project yet, so they'll have to tolerate validating with the
+        # project container as the context.
         viewlet_mgr = getMultiAdapter((self.context, self.request, self),
                                       name='opencore.proj_prefs')
         if not hasattr(viewlet_mgr, 'viewlets'):
