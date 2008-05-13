@@ -1,0 +1,10 @@
+<!-- Viewlets for the project prefs view -->
+<span xmlns:tal="http://xml.zope.org/namespaces/tal"
+    tal:omit-tag="" tal:repeat="viewlet options/viewlets">
+
+  <legend class="oc-legend-heading oc-biggerText"
+    tal:content="viewlet/title | viewlet/name/title">Viewlet Title
+  </legend>
+  <span tal:replace="structure viewlet/render" />
+
+</span>

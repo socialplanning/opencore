@@ -23,7 +23,6 @@ from zope.app.container.contained import IObjectRemovedEvent
 from zope.component import adapter, adapts
 from zope.interface import implements
 from zope.component import getUtility, getAdapters, getMultiAdapter
-from zope.viewlet.interfaces import IViewlet
 
 import inspect
 import logging
@@ -107,12 +106,17 @@ class ProjectPreferencesView(ProjectBaseView, OctopoLite):
 
         # We're inventing a convention by which viewlets can extend
         # forms with more form data to validate: just provide a
-        # validate method.
+        # validate() method.  (And then later we'll call a save()
+        # method.)
+        # XXX I'd prefer to just implicitly use viewlet.update(), and
+        # not explicitly iterate over them at all; but this view's
+        # need to validate *everything* first prevents me from doing
+        # that. Maybe this view should be re-architected.
         viewlet_mgr = getMultiAdapter((self.context, self.request, self),
                                       name='opencore.proj_prefs')
-        viewlets = getAdapters((self.context, self.request, self, viewlet_mgr),
-                               IViewlet)
-        for name, viewlet in viewlets:
+        if not hasattr(viewlet_mgr, 'viewlets'):
+            viewlet_mgr.update()
+        for viewlet in viewlet_mgr.viewlets:
             if hasattr(viewlet, 'validate'):
                 self.errors.update(viewlet.validate())
 
@@ -124,7 +128,7 @@ class ProjectPreferencesView(ProjectBaseView, OctopoLite):
         allowed_params = set(['__initialize_project__', 'update', 'set_flets',
                               'project_title', 'description', 'logo', 'workflow_policy',
                               'featurelets', 'home-page',
-                              'location', 'position-text'])
+                              'location',])
         new_form = {}
         for k in allowed_params:
             if k in self.request.form:
@@ -148,12 +152,12 @@ class ProjectPreferencesView(ProjectBaseView, OctopoLite):
                 pass
             del self.request.form['logo']
 
-        # Give viewlets a chance to save data
-        for name, viewlet in viewlets:
-            # XXX maybe this should be another method?
-            # update is implicitly called on page render, so this gets called
-            # twice...
-            viewlet.update()
+        # We're inventing a convention by which viewlets can extend
+        # forms with more form data to save: just provide a save
+        # method.
+        for viewlet in viewlet_mgr.viewlets:
+            if hasattr(viewlet, 'save'):
+                viewlet.save()
         
         #store change status of flet, security, title, description, logo...
         changed = {
