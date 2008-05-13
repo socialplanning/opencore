@@ -1,14 +1,17 @@
 from AccessControl.SecurityManagement import newSecurityManager
 from Testing.makerequest import makerequest
-from opencore.configuration.utils import get_config
+from opencore.utility.interfaces import IProvideSiteConfig
+from zope.component import getUtility
 import transaction
 
 app=makerequest(app)
 
-admin_file = get_config('general', 'admin_info_filename', default='admin')
+config = getUtility(IProvideSiteConfig)
+
+admin_file = config.get('admin_info_filename', default='admin')
 admin_id = open(admin_file).read().split(':')[0]
-site_id = get_config('general', 'opencore_site_id', default='openplans')
-site_title = get_config('general', 'opencore_site_title', default='OpenCore Site')
+site_id = config.get('opencore_site_id', default='openplans')
+site_title = config.get('opencore_site_title', default='OpenCore Site')
 
 if not site_id in app.objectIds():
     user = app.acl_users.getUser(admin_id)

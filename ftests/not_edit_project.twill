@@ -6,5 +6,5 @@
 
 
 go ${base_url}/projects/${projname}/edit
-find "You do not have sufficient permissions.|Login.*Username.*Password" is
+find "psm_please_sign_in|psm_not_sufficient_perms"
 

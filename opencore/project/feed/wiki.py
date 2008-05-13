@@ -17,8 +17,15 @@ class WikiSummaryViewlet(BlankSlateViewlet):
         cat = getToolByName(self.context, 'portal_catalog')
         brains = cat(portal_type='Document',
                      path='/'.join(self.context.getPhysicalPath()))
+
+        # there may be no catalog results for wiki pages
+        # if the user has recently become a member of this project
+        # and it's a closed project; this is because the catalog is
+        # reindexed asynchronously to reflect the user's new role
+        # (that is, that he can see the closed project's contents)
         if len(brains) == 0:
             return True
+
         if len(brains) > 1:
             return False
         histories = brains[0].getObject().getHistories()

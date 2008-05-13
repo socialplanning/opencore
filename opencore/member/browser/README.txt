@@ -157,7 +157,7 @@ not explode::
     >>> view.leave_project('i18n')
     False
     >>> view.portal_status_message
-    [u'You are the only remaining administrator of "&#26085;&#35486;"...]
+    [u'You are the only administrator of "&#26085;&#35486;."...]
 
     Now we'll try to set the listing as private:
 
@@ -284,7 +284,7 @@ it, and return an appropriate portal status message
 We should have a psm, and it should respect the setting of project_noun.
 
     >>> view.portal_status_message
-    [u'You are the only remaining administrator ... leave this banana without appointing another.']
+    [u'You are the only administrator ... leave this banana without appointing another administrator.']
 
     Even if we are in the private state
     >>> view.change_visibility('p3')
@@ -292,7 +292,7 @@ We should have a psm, and it should respect the setting of project_noun.
     >>> view.leave_project('p3')
     False
     >>> view.portal_status_message
-    [u'You are the only remaining administrator ... leave this banana without appointing another.']
+    [u'You are the only administrator ... leave this banana without appointing another administrator.']
 
     >>> project_dicts = view.invitations()
     >>> [d['proj_id'] for d in project_dicts]

@@ -1,10 +1,8 @@
 from Products.CMFCore.utils import getToolByName
 from Products.validation.validators.BaseValidators import EMAIL_RE
-from opencore.i18n import _
 from opencore.i18n import i18n_domain
 from opencore.i18n import translate
 from opencore.interfaces import IOpenSiteRoot
-from opencore.project.browser import mship_messages
 from opencore.utility.interfaces import IEmailSender
 from types import StringTypes
 from zope.component import adapts
@@ -109,5 +107,27 @@ class EmailSender(object):
         if isinstance(msg, unicode):
             msg = msg.encode('utf-8')
 
-        self._send(msg, recips, mfrom, subject)
+        #we construct the mail message ourselves ... because the mailhost generates bogus messages
+        #by bogus i mean that the mail message generated has 2 sets of separate headers
+        msg_body = msg
+        if subject:
+            msg = """\
+From: %(mfrom)s
+To: %(recips)s
+Subject: %(subject)s
 
+%(msg_body)s""" % dict(mfrom=mfrom,
+                       recips='; '.join(recips),
+                       subject=subject,
+                       msg_body=msg_body,
+                       )
+        else:
+            msg = """\
+From: %(mfrom)s
+To: %(recips)s
+%(msg_body)s""" % dict(mfrom=mfrom,
+                       recips='; '.join(recips),
+                       msg_body=msg_body,
+                       )
+            
+        self._send(msg)

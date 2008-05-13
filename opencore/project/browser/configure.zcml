@@ -79,11 +79,6 @@
      permission="openplans.AddOpenProject"
      />
 
-  <browser:resource
-     name="location.json"
-     file="location.json"
-     />
-
    <!-- move to contents.py; these will share functionality -->
    <browser:page
       for="opencore.interfaces.IProject"
@@ -210,10 +205,20 @@
      permission="zope2.View"
      />
 
+  <!-- Viewlet managers allow plugins to add stuff to these forms -->
   <browser:viewletManager
      name="opencore.proj_prefs"
      provides=".interfaces.IProjectPrefs"
      class=".manager.ProjectPrefsManager"
+     template="preferences_viewlets.pt"
+     permission="zope2.View"
+     />
+
+  <browser:viewletManager
+     name="opencore.proj_create_viewlets"
+     provides=".interfaces.IProjectPrefs"
+     class=".manager.ProjectPrefsManager"
+     template="add_viewlets.pt"
      permission="zope2.View"
      />
 

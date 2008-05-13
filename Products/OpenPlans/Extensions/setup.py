@@ -14,7 +14,6 @@ from migrate_teams_to_projects import migrate_teams_to_projects
 from opencore.interfaces.workflow import IReadWorkflowPolicySupport
 from opencore.interfaces.workflow import IWriteWorkflowPolicySupport
 from opencore.nui.setup import nui_functions
-from utils import setupKupu
 from zLOG import INFO
 from zope.interface import alsoProvides
 from opencore.configuration.setuphandlers import \
@@ -140,7 +139,6 @@ def fixMembershipOwnership(portal):
 
 
 topp_functions = dict(
-    setupKupu = convertFunc(setupKupu),
     setProjectListingLayout = convertFunc(setupProjectLayout),
     reinstallWorkflowPolicies = reinstallWorkflowPolicies,
     securityTweaks = convertFunc(securityTweaks),

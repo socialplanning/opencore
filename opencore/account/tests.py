@@ -60,21 +60,21 @@ def readme_setup(tc):
 
 
 def test_suite():
-    from Products.Five.utilities.marker import erase as noLongerProvides
     from Products.PloneTestCase import ptc, setup
     from Testing.ZopeTestCase import FunctionalDocFileSuite, installProduct
     from pprint import pprint
-    from opencore.testing import alsoProvides, noLongerProvides
+    from zope.interface import alsoProvides
     from opencore.testing.utils import clear_status_messages
     from opencore.testing.utils import get_status_messages
+    from opencore.utility.interfaces import IProvideSiteConfig
     from opencore.interfaces.membership import IEmailInvites
     from opencore.interfaces.member import IMemberHomePage, IMemberFolder
     from opencore.member.interfaces import IHandleMemberWorkflow
     from zope.app.component.hooks import setSite, setHooks
     from zope.component import getUtility
     from pprint import pprint
-    fired = []
 
+    fired = []
     setup.setupPloneSite()
 
     globs = locals()

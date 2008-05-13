@@ -72,21 +72,7 @@ class BasePloneInstallTest(ptc.FunctionalTestCase):
         qi.installProducts(products, stoponerror=1)
 
 
-class TestSetupMethods(BasePloneInstallTest):
-
-    def afterSetUp(self):
-        BasePloneInstallTest.afterSetUp(self)
-        from Products.OpenPlans.Extensions.Install import install
-        install(self.portal)
-        self.request = self.portal.REQUEST
         
-    def test_setupkupu_precidence(self):
-        self._refreshSkinData()
-        self.request.set('resource_type', 'mediaobject')
-        try:
-            xml = self.portal.restrictedTraverse("site-home/kupulibraries.xml")()
-        except :
-            self.fail_tb('Pathologic expression in kupu library tool for resource = mediaobject')
 
 class TestPloneInstall(BasePloneInstallTest):
     # @@ current causes issues with demostorage
@@ -133,7 +119,6 @@ def test_suite():
     from unittest import TestSuite, makeSuite
     suite = TestSuite()
     suite.addTest(makeSuite(TestPloneInstall))
-    suite.addTest(makeSuite(TestSetupMethods))
     return suite
 
 if __name__ == '__main__':

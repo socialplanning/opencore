@@ -4,6 +4,10 @@
 <html i18n:domain="opencore" metal:use-macro="here/@@standard_macros/master">
   <head>
     <title metal:fill-slot="title" tal:content="string:${view/area/Title} on ${view/portal_title}" />
+    <metal:script fill-slot="script">
+      <script type="text/javascript"
+          tal:replace="structure provider:opencore.geo_scripts" />
+    </metal:script>
   </head>
   <body>
     <div metal:fill-slot="content">
@@ -24,13 +28,22 @@
                     tal:attributes="value request/fullname | memberdata/fullname;
                                     class python: request.form.get('field') == 'fullname' and default or nothing" />
                 </li>
-                <li>
+
+		<tal:viewlets define="viewlets provider:opencore.profile_edit_viewlets">
+                <li tal:condition="python:viewlets.strip()"
+                    tal:content="structure viewlets">
+                      geo viewlet stuff goes here!
+                </li>
+                <li tal:condition="python:not viewlets.strip()">
+                  <!-- the old pre-geotagging way of doing location, still here for now -->
                   <label i18n:translate="profile-edit_location_label" for="location">Location</label> (example: "New York, NY" or "cloud nine") <br />
                   <input type="text" id="location" name="location"
                     class="oc-autoFocus"
                     tal:attributes="value request/location | memberdata/location;
                                     class python:request.form.get('field') == 'location' and default or nothing" />
                 </li>
+
+		</tal:viewlets>
 
                 <li>
                   <label i18n:translate="profile-edit_website_label" for="website">Website</label><br />

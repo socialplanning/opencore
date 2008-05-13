@@ -6,8 +6,8 @@
 # listtitle - the list to check for
 #
 go ${base_url}/projects/${projname}/lists
-find 'psm_please_sign_in|You do not have sufficient permissions.'
+find 'psm_please_sign_in|psm_not_sufficient_perms'
 go ${base_url}/projects/${projname}/lists/${listtitle}
-find 'psm_please_sign_in|You do not have sufficient permissions.'
+find 'psm_please_sign_in|psm_not_sufficient_perms'
 go ${base_url}/projects/${projname}/lists/${listtitle}/archive
-find 'psm_please_sign_in|You do not have sufficient permissions.'
+find 'psm_please_sign_in|psm_not_sufficient_perms'

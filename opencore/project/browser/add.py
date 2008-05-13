@@ -15,8 +15,9 @@ from opencore.project.browser.base import ProjectBaseView
 from topp.featurelets.interfaces import IFeatureletSupporter, IFeaturelet
 from topp.utils import text
 from zope import event
-from zope.component import getAdapters
+from zope.component import getAdapters, getMultiAdapter
 from zope.interface import implements
+
 import logging
 
 log = logging.getLogger('opencore.project.browser.add')
@@ -85,6 +86,18 @@ class ProjectAddView(ProjectBaseView, OctopoLite):
             if self.context.has_key(id_):
                 self.errors['id'] = 'The requested url is already taken.'
 
+        # Give plugin viewlets a chance to validate. We don't have a
+        # project yet, so they'll have to tolerate validating with the
+        # project container as the context.
+        viewlet_mgr = getMultiAdapter((self.context, self.request, self),
+                                      name='opencore.proj_prefs')
+        if not hasattr(viewlet_mgr, 'viewlets'):
+            viewlet_mgr.update()
+        viewlets = viewlet_mgr.viewlets
+        for viewlet in viewlets:
+            if hasattr(viewlet, 'validate'):
+                self.errors.update(viewlet.validate())
+
         # XXX TO DO: handle featurelets, just like in preferences.py
 
         if self.errors:
@@ -123,7 +136,17 @@ class ProjectAddView(ProjectBaseView, OctopoLite):
         hpcontext = IHomePage(proj)
         hpcontext.home_page = 'summary'
 
-        self.template = None
+        # We have to look up the viewlets again, now that we have
+        # a project for them to use as the context to save to.
+        viewlet_mgr = getMultiAdapter((proj, self.request, self),
+                                      name='opencore.proj_prefs')
+        if not hasattr(viewlet_mgr, 'viewlets'):
+            viewlet_mgr.update()
+        for viewlet in viewlet_mgr.viewlets:
+            if hasattr(viewlet, 'save'):
+                viewlet.save()
+        
+        self.template = None  # Don't render anything before redirect.
         site_url = getToolByName(self.context, 'portal_url')()
         proj_edit_url = '%s/projects/%s/project-home/edit' % (site_url, id_)
 

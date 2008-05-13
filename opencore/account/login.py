@@ -11,8 +11,8 @@ from opencore.interfaces import IPendingRequests
 from opencore.interfaces.event import FirstLoginEvent
 from opencore.interfaces.membership import IEmailInvites
 from opencore.interfaces.pending_requests import IRequestMembership
-from opencore.configuration.utils import get_config
 from opencore.nui.email_sender import EmailSender
+from opencore.utility.interfaces import IProvideSiteConfig
 from plone.memoize import instance
 from smtplib import SMTPRecipientsRefused
 from topp.utils.uri import uri_same_source
@@ -35,8 +35,9 @@ class LoginView(AccountView):
         """
         site_url = getToolByName(self.context, 'portal_url')()
         urls = [site_url,]
+        #XXX this should be configuration
         more_urls = ['%s/%s' % (site_url, screen)
-                     for screen in ("login", "forgot", "join")]
+                     for screen in ("login", "forgot", "join", "message")]
         urls += more_urls
         return urls
 
@@ -131,7 +132,8 @@ class LoginView(AccountView):
         if url.startswith(getToolByName(self.context, 'portal_url')()) and \
                url not in self.boring_urls:
             return True
-        raw_list = get_config('applications', 'opencore_vacuum_whitelist', default='').split(',')
+        config = getUtility(IProvideSiteConfig)
+        raw_list = config.get('opencore_vacuum_whitelist', '').split(',')
         vacuum_whitelist = [x.strip() for x in raw_list if x.strip()]
         
         for safe_host in vacuum_whitelist:
@@ -289,7 +291,7 @@ class ForgotLoginView(AccountView):
             sender = EmailSender(self, secureSend=True)
             sender.sendEmail(mto=email, 
                         msg=mail_text,
-                        subject=_(u'email_forgot_password_subject', u'%s - Password reset' % self.portal_title()))
+                        subject=_(u'email_forgot_password_subject', u'${portal_title} - Password reset', mapping={u'portal_title':self.portal_title()}))
         except SMTPRecipientsRefused:
             # Don't disclose email address on failure
             # XXX is this needed?

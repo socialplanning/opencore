@@ -13,7 +13,7 @@
 # check direct traversal
 go ${base_url}/news/${id}/edit
 notfind '404'
-find 'You do not have sufficient permissions.|Login.*Username.*Password' is
+find 'psm_not_sufficient_perms|Login.*Username.*Password' is
 
 # check follow links
 go ${base_url}
@@ -21,4 +21,4 @@ follow "more news"
 follow "${title}"
 follow "edit"
 notfind '404'
-find 'You do not have sufficient permissions.|Login.*Username.*Password' is
+find 'psm_not_sufficient_perms|Login.*Username.*Password' is

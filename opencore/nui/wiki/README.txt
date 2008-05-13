@@ -131,6 +131,16 @@ character it becomes unicode:
      >>> xinha_to_wicked('<html>((&#38;))</html>')
      u'<html>((&))</html>'
 
+Now try a link with an ASCII character greater than 127:
+
+    >>> xinha_to_wicked('<html>((hello \xc2))</html>')
+    '<html>((hello \xc2))</html>'
+
+Now try a link with an HTML escape sequence -AND- and ASCII character
+greater than 127:
+
+    >>> xinha_to_wicked(u'<html>((&#38; hello \xc3\x82))</html>')
+    u'<html>((& hello \xc3\x82))</html>'
 
 Attachments
 ===========

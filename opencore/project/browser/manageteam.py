@@ -214,13 +214,24 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite, AccountView,
 
             notify(JoinedProjectEvent(mship))
 
+            mdtool = getToolByName(self.context, 'portal_memberdata')
+            mdtoolpath = '/'.join(mdtool.getPhysicalPath())
+            mem_path = '%s/%s' % (mdtoolpath, mem_id) 
+            mem_metadata = self.catalog.getMetadataForUID(mem_path) 
+            mem_user_name = mem_metadata['getFullname'] or mem_metadata['id']
+
+            msg_subs = {
+                'project_title': self.context.title,
+                'user_name': mem_user_name,
+                'project_noun': self.project_noun,
+                'portal_url': self.portal.absolute_url(),
+                'project_url': self.project_url(self.context.getId()),
+                }
+
             #XXX sending the email should go in an event subscriber
             try:
                 _email_sender(self).sendEmail(mem_id, msg_id='request_approved',
-                                              project_title=self.context.title,
-                                              project_url=self.context.absolute_url(),
-                                              project_noun=self.project_noun,
-                                              )
+                                              **msg_subs)
             except MailHostError: 
                 pass
             self._add_transient_msg_for(mem_id, 'You have been accepted to')
@@ -285,9 +296,21 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite, AccountView,
         mem_ids = targets[:]
         self.doMshipWFAction('reject_by_admin', mem_ids)
         sender = _email_sender(self)
-        msg = sender.constructMailMessage('request_denied',
-                                          project_title=self.context.title)
+
         for mem_id in mem_ids:
+            mdtool = getToolByName(self.context, 'portal_memberdata')
+            mdtoolpath = '/'.join(mdtool.getPhysicalPath())
+            mem_path = '%s/%s' % (mdtoolpath, mem_id) 
+            mem_metadata = self.catalog.getMetadataForUID(mem_path) 
+            mem_user_name = mem_metadata['getFullname'] or mem_metadata['id']
+
+            msg_subs = {
+                'project_title': self.context.title,
+                'user_name': mem_user_name,
+                'project_noun': self.project_noun,                
+                }
+        
+            msg = sender.constructMailMessage('request_denied', **msg_subs)
             sender.sendEmail(mem_id, msg=msg)
             self._add_transient_msg_for(mem_id, 'You have been denied membership to')
 
@@ -312,8 +335,13 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite, AccountView,
         pwft = getToolByName(self, 'portal_placeful_workflow')
         deletes = []
         sender = _email_sender(self)
+        
+        msg_subs = {
+                'project_title': self.context.title,
+                'project_noun': self.project_noun,
+                }
         msg = sender.constructMailMessage('invitation_retracted',
-                                          project_title=self.context.title)
+                                          **msg_subs)
         ret = {}
         for mem_id in mem_ids:
             mship = self.team.getMembershipByMemberId(mem_id)
@@ -360,8 +388,13 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite, AccountView,
             mem_metadata = self.catalog.getMetadataForUID(mem_path) 
             mem_user_name = mem_metadata['getFullname'] or mem_metadata['id']
 
+            logged_in_mem = self.loggedinmember
+            logged_in_mem_name = logged_in_mem.getFullname() or logged_in_mem.id
+
             msg_vars = {'project_title': project_title,
+                        'user_name': mem_user_name,
                         'account_url': acct_url,
+                        'inviter_name': logged_in_mem_name,
                         }
 
             if mem_metadata['review_state'] == 'pending':
@@ -389,8 +422,12 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite, AccountView,
         addresses = [urllib.unquote(t).strip() for t in targets]
 
         sender = _email_sender(self)
+        msg_subs = {
+                'project_title': self.context.title,
+                'project_noun': self.project_noun,
+                }
         msg = sender.constructMailMessage('invitation_retracted',
-                                          project_title=self.context.title)
+                                          **msg_subs)
 
         invite_util = getUtility(IEmailInvites, context=self.portal)
         proj_id = self.context.getId()
@@ -473,9 +510,24 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite, AccountView,
         for mem_id in mems_removed:
             mship = self.team._getOb(mem_id)
             notify(LeftProjectEvent(mship))
+
+            mdtool = getToolByName(self.context, 'portal_memberdata')
+            mdtoolpath = '/'.join(mdtool.getPhysicalPath())
+            mem_path = '%s/%s' % (mdtoolpath, mem_id) 
             try:
-                sender.sendEmail(mem_id, msg_id='membership_deactivated',
-                                 project_title=self.context.title)
+                mem_metadata = self.catalog.getMetadataForUID(mem_path) 
+                mem_user_name = mem_metadata['getFullname'] or mem_metadata['id']
+            except KeyError:
+                mem_user_name = mem_id
+
+            msg_subs = {
+                'project_title': self.context.title,
+                'user_name': mem_user_name,
+                'project_noun':self.project_noun,
+                }
+            
+            try:
+                sender.sendEmail(mem_id, msg_id='membership_deactivated',  **msg_subs)
             except MailHostError:
                 self.add_status_message(_(u'psm_error_sending_mail_to_member', 'Error sending mail to: ${mem_id}', mapping={u'mem_id': mem_id}))
             self._add_transient_msg_for(mem_id, 'You have been deactivated from')

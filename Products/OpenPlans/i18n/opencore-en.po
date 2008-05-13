@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: opencore\n"
 "POT-Creation-Date: 2008-03-07 00:45+0000\n"
-"PO-Revision-Date: 2008-03-06 19:45-0500\n"
+"PO-Revision-Date: 2008-05-12 15:29-0500\n"
 "Last-Translator: \n"
 "Language-Team: The Open Planning Project <opencore-dev@lists.openplans.org>\n"
 "MIME-Version: 1.0\n"
@@ -332,16 +332,27 @@ msgstr ""
 #: opencore/account/login.py:273
 msgid "email_forgot_password"
 msgstr ""
+"Forgot your ${portal_title} password?  No problem.\n"
+"\n"
+"Click this link to reset your password: ${url}\n"
+"\n"
+"Cheers, \n"
+"The ${portal_title} Team"
 
 #. Default: "%s - Password reset"
 #: opencore/account/login.py:278
 msgid "email_forgot_password_subject"
-msgstr ""
+msgstr "${portal_title} - Reset Password"
 
 #. Default: "Subject: ${portal_title} - Invitation to join  ${project_title}\n\nThe invitation extended to you to join \"${project_title}\" on ${portal_title} has been revoked.\n"
 #: opencore/project/browser/mship_messages.py:51
 msgid "email_invitation_retracted"
 msgstr ""
+"Subject: ${portal_title} – Your Invitation to join ”${project_title}” \n"
+" \n"
+"Your invitation to join ”${project_title}” on ${portal_title} has expired.  For more information, please contact an administrator of this ${project_noun}.\n"
+"\n"
+"The ${portal_title} Team"
 
 #. Default: "${inviter_name} has invited you to join \"${project_title}\" on ${portal_title}. ${portal_title} is a free toolset for social change. With ${portal_title}, you can build collaborative pages for organizing ${project_noun}s. You can also blog, set up mailing lists, store and share files, and keep track of tasks."
 #: opencore/project/browser/invite-with-message.pt:76
@@ -352,28 +363,48 @@ msgstr ""
 #: opencore/project/browser/mship_messages.py:3
 msgid "email_invite_member"
 msgstr ""
+"Subject: You've been invited to join \"${project_title}\"\n"
+"\n"
+"Hi ${user_name},\n"
+"\n"
+"You have been invited to join \"${project_title}\" by ${inviter_name}. Please visit your account page to accept or decline the invitation: ${account_url}\n"
+"\n"
+"Cheers,\n"
+"The ${portal_title} Team"
 
 #. Default: "Subject: You've been invited to join \"${project_title}\"\n\nHi ${user_name},\n\nYou have been invited to join \"${project_title}\" by ${inviter_name}.\nPlease first confirm your email address at the following address: ${conf_url}\nand then you can accept or decline the invitation.\n\nCheers,\nThe ${portal_name} Team\n${portal_url}\n"
 #: opencore/project/browser/mship_messages.py:15
 msgid "email_invite_pending_member"
 msgstr ""
+"Subject: You've been invited to join \"${project_title}\"\n"
+"\n"
+"Hi ${user_name},\n"
+"\n"
+"You have been invited to join \"${project_title}\" by ${inviter_name}.Please visit your account page to accept or decline the invitation: ${account_url}\n"
+"\n"
+"Cheers,\n"
+"The ${portal_title} Team"
 
 #: opencore/project/browser/manageteam.py:700
 msgid "email_invite_static_body"
 msgstr ""
 "${user_message}\n"
-"To accept this invitation or learn more about the ${project_noun}, click here:\n"
-"${join_url} \n"
-"\n"
-"---------------------------------------------------------------------\n"
-"This message was sent from ${portal_title}.\n"
-"To contact ${portal_title}, go here:\n"
-"${site_contact_url}"
+"To accept this invitation or to learn more about this ${project_noun}, click here: ${join_url} \n"
+" \n"
+"Cheers,\n"
+"The ${portal_title} Team"
 
 #. Default: "Subject: ${portal_title} - Membership deactivated for ${project_title}\n\nYou are no longer a member of \"${project_title}\" on ${portal_title}.\n"
 #: opencore/project/browser/mship_messages.py:56
 msgid "email_membership_deactivated"
 msgstr ""
+"Subject: ${portal_title} – Your \"${project_title}\" membership\n"
+"\n"
+"Dear ${user_name},\n"
+"\n"
+"You are no longer a member of \"${project_title}\".  For more information, please contact an administrator of this ${project_noun}.\n"
+"\n"
+"The ${portal_title} Team"
 
 #: opencore/project/browser/team_membership.py:53
 msgid "email_membership_requested"
@@ -402,21 +433,52 @@ msgstr ""
 #: opencore/project/browser/mship_messages.py:28
 msgid "email_remind_invitee"
 msgstr ""
+"Subject: ${portal_title} – Invitation to join \"${project_title}\" \n"
+"\n"
+"Hi ${user_name},\n"
+"\n"
+"This is a reminder that you’ve been invited to join \"${project_title}\" by ${inviter_name}.  Please visit your account page to accept or decline the invitation: ${account_url}\n"
+"\n"
+"Cheers,\n"
+"The ${portal_title} Team"
 
 #. Default: "Subject: ${portal_title} - Invitation to join ${project_title}\n\nThis is a reminder that you've been invited to join \"${project_title}\" on ${portal_title}.\nPlease first confirm your email address at the following address: ${conf_url}\nand then you can accept or decline the invitation.\n"
 #: opencore/project/browser/mship_messages.py:34
 msgid "email_remind_pending_invitee"
 msgstr ""
+"Subject: A reminder to join \"${project_title}\" on ${portal_title}\n"
+" \n"
+"This is a reminder that ${inviter_name} has invited you to join \"${project_title},\" a ${project_noun} on ${portal_title}.  ${portal_title} is a network of news, film and community action working to better our public spaces. With a ${portal_title} account, you can contribute to the \"${project_title}\" ${project_noun}, and connect yourself to the larger ${portal_title} community.\n"
+" \n"
+"To accept this invitation or to learn more about this ${project_noun}, click here: ${join_url}\n"
+" \n"
+" Cheers,\n"
+"The ${portal_title} Team"
 
 #. Default: "Subject: ${portal_title} - Welcome to ${project_title}\n\nYour request to join \"${project_title}\" on ${portal_title} has been approved.  The ${project_noun} is accessible at the following address: ${project_url}\n"
 #: opencore/project/browser/mship_messages.py:41
 msgid "email_request_approved"
 msgstr ""
+"Subject: ${portal_title} – Welcome to \"${project_title}\"\n"
+" \n"
+"Hi ${user_name},\n"
+" \n"
+"Your request to join \"${project_title}\" on ${portal_title} has been approved.  You can now participate in this ${project_noun} by clicking here: ${project_url}\n"
+" \n"
+"Cheers,\n"
+" The ${portal_title} Team"
 
 #. Default: "Subject: ${portal_title} - Your request to join ${project_title}\n\nYour request to join \"${project_title}\" on ${portal_title} has been denied.\n"
 #: opencore/project/browser/mship_messages.py:46
 msgid "email_request_denied"
 msgstr ""
+"Subject: ${portal_title} – Your request to join \"${project_title}\" \n"
+" \n"
+"Dear ${user_name},\n"
+" \n"
+"Your request to join \"${project_title}\" has been denied.  For more information, please contact an administrator of this ${project_noun}.\n"
+" \n"
+"The ${portal_title} Team"
 
 #: opencore/account/browser.py:98
 msgid "email_to_pending_user"
@@ -1470,7 +1532,7 @@ msgstr ""
 #. Default: "Please check your username and password. If you still have trouble, you can <a href=\"forgot\">retrieve your sign in information</a>."
 #: opencore/account/login.py:84
 msgid "psm_check_username_password"
-msgstr ""
+msgstr "Oops! Your username and password do not match.  Please try again or <a href=\"forgot\">retrieve your sign in information</a>."
 
 #. Default: "Please choose an image in gif, jpeg, png, or bmp format."
 #: opencore/member/browser/view.py:198
@@ -1527,10 +1589,10 @@ msgstr ""
 msgid "psm_geocode_failed"
 msgstr ""
 
-#. Default: "You are the only remaining administrator of \"${proj_title}\". You can't leave this ${project_noun} without appointing another."
+#. Default: "You are the only administrator of \"${proj_title}\". You can't leave this ${project_noun} without appointing another."
 #: opencore/member/browser/account.py:157
 msgid "psm_leave_project_admin"
-msgstr ""
+msgstr "You are the only administrator of \"${proj_title}.\"  You cannot leave this ${project_noun} without appointing another administrator."
 
 #: opencore/project/browser/preferences.py:153
 msgid "psm_location_changed"
@@ -1573,7 +1635,7 @@ msgstr ""
 #. Default: "You do not have sufficient permissions."
 #: Products/OpenPlans/skins/openplans_login_patches/insufficient_privileges.cpy:53
 msgid "psm_not_sufficient_perms"
-msgstr ""
+msgstr "You do not have sufficient permissions."
 
 #. Default: "You have added ${mem_id}."
 #: opencore/project/browser/manageteam.py:239
@@ -1588,12 +1650,12 @@ msgstr ""
 #. Default: "Your password reset request has expired. You can <a href=\"login\">sign in</a> again using your old username and password or <a href=\"forgot\">request a new password</a> again."
 #: opencore/account/password_reset.py:31
 msgid "psm_pass_reset_expired"
-msgstr ""
+msgstr "Your request to reset your password has expired.  Please <a href=\"forgot\">send the request again</a>."
 
 #. Default: "Password reset attempt failed. Did you mistype your username or password?"
 #: opencore/account/password_reset.py:27
 msgid "psm_pass_reset_fail"
-msgstr ""
+msgstr "Oops!  Your attempt to reset your password failed.  Did you mistype your username or password?"
 
 #. Default: "Your password has been changed."
 #: opencore/member/browser/account.py:412
@@ -1623,7 +1685,7 @@ msgstr ""
 #. Default: "${project_noun} home page set to: <a href=\"${hp_url}\">${homepage}</a>"
 #: opencore/project/browser/preferences.py:186
 msgid "psm_proj_homepage_change"
-msgstr ""
+msgstr "${project_noun} homepage set to: <a href=\"${hp_url}\">${homepage}</a>."
 
 #: opencore/project/browser/preferences.py:150
 msgid "psm_project_desc_changed"

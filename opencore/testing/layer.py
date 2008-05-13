@@ -11,7 +11,6 @@ from opencore.testing.utility import setup_mock_http
 from opencore.testing.utility import setup_mock_mailhost
 from opencore.testing.utility import teardown_mock_mailhost
 from opencore.testing.utility import setup_mock_config
-from opencore.utils import set_opencore_properties
 from sys import stdout
 from utils import get_portal_as_owner
 from utils import zinstall_products
@@ -19,6 +18,8 @@ from utils import monkey_proj_noun
 from zope.app.component.hooks import setSite
 import random
 import transaction as txn
+from opencore.utility.interfaces import IProvideSiteConfig
+from zope.component import getUtility
 
 # i can't think of a better way to guarantee that the opencore tests
 # will never use a live cabochonutility. ideally oc-cab would take
@@ -154,10 +155,7 @@ class MockHTTPWithContent(OpencoreContent):
     def setUp(cls):
         setup_mock_http()
         portal = get_portal_as_owner()
-        set_opencore_properties(wordpress_uri='http://nohost:wordpress',
-                                context=portal)
-        set_opencore_properties(tasktracker_uri='http://nohost:tasktracker',
-                                context=portal)
+        getUtility(IProvideSiteConfig)._set('wordpress uri', "http://nohost:wordpress")
         txn.commit()
     
     @classmethod

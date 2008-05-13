@@ -109,5 +109,13 @@
      provides="opencore.interfaces.pending_requests.IPendingRequests"
      factory="opencore.member.pending_requests.PendingRequestsForFolder"
      />
+
+  <!-- Viewlet managers allow plugins to add stuff to these forms -->
+  <browser:viewletManager
+     name="opencore.profile_edit_viewlets"
+     provides=".interfaces.IMemberProfilePrefs"
+     class=".manager.MemberPrefsManager"
+     permission="zope2.View"
+     />
      
 </configure>

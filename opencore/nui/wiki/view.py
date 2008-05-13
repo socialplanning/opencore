@@ -1,15 +1,18 @@
-from zope.event import notify
-from zope.app.event import objectevent
-from opencore.browser.base import BaseView
-from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
-from opencore.browser.formhandler import button, OctopoLite, action
-from opencore.nui.wiki.utils import unescape
 from Acquisition import aq_inner
+from opencore.browser.base import BaseView
+from opencore.browser.formhandler import OctopoLite, action
+from opencore.nui.wiki.utils import unescape
+from opencore.utility.interfaces import IProvideSiteConfig
 from PIL import Image
+from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
 from StringIO import StringIO
+from zope.app.event import objectevent
+from zope.component import getUtility
+from zope.event import notify
+
 import simplejson
 
-from lxml import etree# no longer necessary after lxml.html trunk gets released
+from lxml import etree # no longer necessary after lxml.html trunk gets released
 from lxml.html import fromstring # no longer necessary after lxml.html trunk gets released
 import copy # no longer necessary after lxml.html trunk gets release
 import re
@@ -65,7 +68,7 @@ class WikiView(WikiBase):
     view_attachments_snippet = ZopeTwoPageTemplateFile('attachment-view.pt')
 
 # XXX stolen from lxml.html to allow selection of encoding (fixed in lxml.html trunk; wait for a release and then delete me)
-def tostring(doc, pretty_print=False, include_meta_content_type=False, encoding="utf-8"):
+def tounicode(doc, pretty_print=False, include_meta_content_type=False, encoding="utf-8"):
     """
     return HTML string representation of the document given 
  
@@ -73,32 +76,26 @@ def tostring(doc, pretty_print=False, include_meta_content_type=False, encoding=
     and may replace any that are present 
     """
     assert doc is not None
-    html = etree.tostring(doc, method="html", pretty_print=pretty_print, encoding=encoding)
+    html = etree.tounicode(doc, method="html", pretty_print=pretty_print)
     if not include_meta_content_type:
         html = __replace_meta_content_type('', html)
     return html
 
 class WikiEdit(WikiBase, OctopoLite):
 
-    # kupu template turned of now
-    # can be removed if we never go back
-    #kupu_template = ZopeTwoPageTemplateFile("wiki-edit.pt")
-    #xinha_template = ZopeTwoPageTemplateFile("wiki-edit-xinha.pt")
     template = ZopeTwoPageTemplateFile("wiki-edit-xinha.pt")
 
     attachment_snippet = ZopeTwoPageTemplateFile('attachment.pt')
 
     def _clean_html(self, html):
         """ delegate cleaning of html to lxml .. sort of """
-        ocprops = self.get_tool('portal_properties').opencore_properties
-        whitelist = ocprops.getProperty('embed_whitelist') or []
-        try:
-            whitelist = [x for x in whitelist if x.strip()]
-        except TypeError:
-            raise TypeError("Bad value for portal_properties.embed_whitelist: %r" % whitelist)
+        ## FIXME: we should have some way of notifying the user about tags that were removed
+        config = getUtility(IProvideSiteConfig)
+        whitelist = config.get('embed_whitelist', default='').split(',')
+        whitelist = [ x.strip() for x in whitelist if x.strip() ]
 
         cleaner = Cleaner(host_whitelist=whitelist, safe_attrs_only=False)
-
+        
         # stolen from lxml.html.clean
         if isinstance(html, basestring):
             return_string = True
@@ -108,13 +105,9 @@ class WikiEdit(WikiBase, OctopoLite):
             doc = copy.deepcopy(html)
         cleaner(doc)
         if return_string:
-            return tostring(doc)
+            return tounicode(doc)
         else:
             return doc
-
-        #new_html = cleaner.clean_html(html)
-        ## FIXME: we should have some way of notifying the user about tags that were removed
-        #return new_html
 
     @action('save')
     def handle_save(self, target=None, fields=None):
@@ -140,19 +133,29 @@ class WikiEdit(WikiBase, OctopoLite):
         page_text = new_form['text']
         # XXX check description on news page
         description = new_form.get('description', None)
-        #Between zope and various weird web browsers, the text could
-        #be a str encoded in utf-8.  Let's make sure it's Python
-        #unicode before we pass it to lxml.
+
+        # Between zope and various weird web browsers, the text could/will
+        # be a str encoded in utf-8.  Let's make sure it's Python
+        # unicode before we pass it to lxml.
         if isinstance(page_text, str):
             try:
                 page_text = page_text.decode('utf-8')
             except UnicodeDecodeError:
-                pass
+                # XXX should we pass here?  if so, please replace this comment with why
+                # maybe the error handling on xinha_to_wicked should go here
+                pass 
 
         clean_text = self._clean_html(page_text)
 
+        try:
+            text = xinha_to_wicked(clean_text)
+        except UnicodeDecodeError, e:
+            self._bad_text = clean_text
+            error_string = e.object[e.start:e.end+1]
+            self.addPortalStatusMessage(u'The following text contains unsupported characters: "%s" (%s)\nPlease change this text before saving.' % (error_string.decode('utf-8', 'replace'), repr(error_string)))
+            return
+
         self.context.setTitle(page_title)
-        text = xinha_to_wicked(clean_text)
         self.context.setText(text)
         if description is not None:
             self.context.setDescription(description)
@@ -301,7 +304,12 @@ class WikiEdit(WikiBase, OctopoLite):
         return commands
 
     def rawtext(self):
-        rawtext = self.context.getRawText()
+        rawtext = getattr(self, '_bad_text', self.context.getRawText())
+
+        # XXX i think this is extraneous bc a new view is instantiated for each request
+        if hasattr(self, '_bad_text'):
+            del self._bad_text
+
         if rawtext:
             return rawtext
         else:

@@ -70,13 +70,15 @@ class Mock(object):
         return self.mock_attrs[attr]
 
 class ConfigMock(Mock):
-    _dummy_value = None
 
-    def _set(self, value):
-        self.__class__._dummy_value = value
+    def __init__(self, *args, **kw):
+        self._dummy_values = {}
 
-    def get(self, option):
-        return self._dummy_value or ''
+    def _set(self, option, value):
+        self._dummy_values[option] = value
+
+    def get(self, option, default=None):
+        return self._dummy_values.get(option, default)
 
 class HTTPMock(Mock):
     """ 

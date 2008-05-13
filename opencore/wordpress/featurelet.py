@@ -1,7 +1,7 @@
 from Products.CMFCore.utils import getToolByName
 from opencore.interfaces import IProject
 from opencore.utility.interfaces import IHTTPClient
-from opencore.utils import get_opencore_property
+from opencore.utility.interfaces import IProvideSiteConfig
 from opencore.wordpress.interfaces import IWordPressFeatureletInstalled
 from plone.memoize.instance import memoizedproperty
 from topp.featurelets.base import BaseFeaturelet
@@ -40,7 +40,7 @@ class WordPressFeaturelet(BaseFeaturelet):
 
     @property
     def wp_uri(self):
-        return get_opencore_property('wordpress_uri')
+        return getUtility(IProvideSiteConfig).get('wordpress uri')
 
     @property
     def active(self):

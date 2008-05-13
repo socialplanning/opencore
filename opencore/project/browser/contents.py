@@ -8,9 +8,10 @@ from opencore.nui import indexing
 from opencore.project import PROJ_HOME
 from opencore.project.browser.base import ProjectBaseView
 from opencore.project.browser.utils import vdict
-from opencore.utils import get_opencore_property
+from opencore.utility.interfaces import IProvideSiteConfig
 from plone.memoize.instance import memoize, memoizedproperty
 from opencore.browser import tal
+from zope.component import getUtility
 
 _marker = object()
 
@@ -61,13 +62,9 @@ class ProjectContentsView(ProjectBaseView, OctopoLite):
 
     @memoizedproperty
     def tasktracker_url(self): 
-        # XXX todo all this logic prob ought be in opencore.tasktracker.
-
-        loc = get_opencore_property('tasktracker_external_uri')
-
-        if loc.startswith('http://'): # XXX todo this is dumb
-            return loc
-        return "%s/%s" % (self.context.absolute_url(), loc)
+        # XXX todo all this logic prob ought be in oc-tt in a viewlet
+        loc = getUtility(IProvideSiteConfig).get('tasktracker path')
+        return "%s%s" % (self.context.absolute_url(), loc)
         
     @memoizedproperty
     def project_path(self):

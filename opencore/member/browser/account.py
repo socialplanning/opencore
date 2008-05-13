@@ -3,14 +3,16 @@ from Products.CMFCore.WorkflowCore import WorkflowException
 from Products.CMFCore.utils import getToolByName
 from opencore.browser.base import BaseView, _
 from opencore.browser.formhandler import OctopoLite, action
+from opencore.member.utils import member_path
 from opencore.interfaces.catalog import ILastWorkflowActor
-from App import config
+from opencore.interfaces.event import JoinedProjectEvent
+from opencore.interfaces.event import LeftProjectEvent
+from opencore.interfaces.event import MemberEmailChangedEvent
+from opencore.interfaces.message import ITransientMessage
+from opencore.utility.interfaces import IProvideSiteConfig
 from plone.memoize.view import memoize as req_memoize
 from zope.event import notify
-from opencore.interfaces.message import ITransientMessage
-from opencore.interfaces.event import LeftProjectEvent
-from opencore.interfaces.event import JoinedProjectEvent
-from opencore.interfaces.event import MemberEmailChangedEvent
+from zope.component import getUtility
 
 
 class MemberAccountView(BaseView, OctopoLite):
@@ -22,15 +24,9 @@ class MemberAccountView(BaseView, OctopoLite):
     active_states = ['public', 'private']
     msg_category = 'membership'
 
-    # DWM: application specific term should be part of method names
-    # probably indicate this needs to be behind an api
+    # this should be put in a viewlet in an oc-twirlip plugin -egj
     def twirlip_uri(self):
-        ptool = getToolByName(self.context, 'portal_properties')
-        ocprops = ptool._getOb('opencore_properties')
-        uri = ocprops.getProperty('twirlip_uri')
-        # return this if the twirlip uri is not set
-        if not uri:
-            return 'http://twirlip.example.com'
+        uri = getUtility(IProvideSiteConfig).get("twirlip uri")
         return uri.strip()
 
     @property
@@ -152,7 +148,7 @@ class MemberAccountView(BaseView, OctopoLite):
             proj = self.portal.projects[proj_id]
             proj_title = unicode(proj.Title(), 'utf-8') # accessor always will return ascii
 
-            only_admin_msg = _(u'psm_leave_project_admin', u'You are the only remaining administrator of "${proj_title}". You can\'t leave this ${project_noun} without appointing another.',
+            only_admin_msg = _(u'psm_leave_project_admin', u'You are the only administrator of "${proj_title}". You can\'t leave this ${project_noun} without appointing another.',
                                mapping={u'proj_title':proj_title,
                                         u'project_noun':self.project_noun})
             
@@ -287,9 +283,12 @@ class MemberAccountView(BaseView, OctopoLite):
         admin_ids = team.get_admin_ids()
         transient_msgs = ITransientMessage(self.portal)
         id_ = self.loggedinmember.getId()
+        member_url = u'%s/%s' % (getToolByName(self.context, 'portal_url')(),
+                                 member_path(id_))
         project_url = self.project_url(proj_id)
-        msg = _(u'tmsg_joined_project', u'${id} has joined <a href="${project_url}">${proj_id}</a>',
-                mapping={u'id':id_, u'project_url':project_url, u'proj_id':proj_id})
+        msg = _(u'tmsg_joined_project',
+                u'<a href="${member_url}">${id}</a> has joined <a href="${project_url}">${proj_id}</a>',
+                mapping={u'id':id_, u'project_url':project_url, u'proj_id':proj_id, u'member_url':member_url})
         for mem_id in admin_ids:
             transient_msgs.store(mem_id, "membership", msg)
         
@@ -336,9 +335,12 @@ class MemberAccountView(BaseView, OctopoLite):
         
         transient_msgs = ITransientMessage(self.portal)
 
+        member_url = u'%s/%s' % (getToolByName(self.context, 'portal_url')(),
+                                 member_path(id_))
         project_url = self.project_url(proj_id)
-        msg = _(u'tmsg_decline_invite', u'${id} has declined your invitation to join <a href="${project_url}">${proj_id}</a>',
-                mapping={u'id':id_, u'project_url':project_url, u'proj_id':proj_id})
+        msg = _(u'tmsg_decline_invite',
+                u'<a href="${member_url}">${id}</a> has declined your invitation to join <a href="${project_url}">${proj_id}</a>',
+                mapping={u'id':id_, u'project_url':project_url, u'proj_id':proj_id, u'member_url':member_url})
         transient_msgs.store(spurned_admin, "membership", msg)
 
         elt_id = '%s_invitation' % proj_id

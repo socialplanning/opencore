@@ -19,13 +19,12 @@ import warnings; warnings.filterwarnings("ignore")
 
 
 def test_suite():
-    from Products.Five.utilities.marker import erase as noLongerProvides
     from Products.PloneTestCase import setup
     from Products.PloneTestCase.PloneTestCase import FunctionalTestCase
     from Testing.ZopeTestCase import FunctionalDocFileSuite, installProduct
     from opencore import redirect
     from opencore.interfaces.event import AfterProjectAddedEvent, AfterSubProjectAddedEvent
-    from opencore.testing import create_test_content
+    from Products.OpenPlans.Extensions.create_test_content import create_test_content
     from pprint import pprint
     from zope.interface import alsoProvides
 

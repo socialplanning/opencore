@@ -13,8 +13,8 @@ Remove a ``member1``::
   >>> 'm1' in self.portal.people.objectIds()
   True
   
-Remove the ``m1`` member. This should also remove him from the people
-folder, which we check below::
+Remove the ``m1`` member, which triggers an HTTP request to WP. This
+should also remove him from the people folder, which we check below::
 
   >>> self.portal.portal_memberdata.manage_delObjects(['m1'])
   Called httplib2.Http.request(

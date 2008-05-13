@@ -1,7 +1,9 @@
+import email
+
 from Acquisition import Implicit
 from minimock import HTTPMock, ConfigMock
 from minimock import Mock
-from opencore.testing import alsoProvides
+from zope.interface import alsoProvides
 from opencore.utility.interfaces import IHTTPClient
 from opencore.utility.interfaces import IProvideSiteConfig
 from zope.component import provideUtility
@@ -16,6 +18,15 @@ class MailHostMock(Implicit):
         self.messages = []
         self.name = name
     def send(self, msg, mto=None, mfrom=None, subject=None):
+        if (mto is None) or (mfrom is None) or (subject is None):
+            # support headers embedded in message text
+            msgob = email.message_from_string(msg)
+            msg = msgob.get_payload()
+            mto = mto or msgob.get('to')
+            mfrom = mfrom or msgob.get('from')
+            subject = subject or msgob.get('subject')
+            if type(mto) is not list:
+                mto = [addy.strip() for addy in mto.split(',')]
         msg = {'msg': msg,
                'mto': mto,
                'mfrom': mfrom,

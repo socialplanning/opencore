@@ -21,7 +21,7 @@ def test_suite():
     from zope.component import getMultiAdapter, getUtility
     from Products.CMFCore.utils import getToolByName
     from opencore.testing import *
-    import pdb; st = pdb.set_trace
+    from opencore.testing.utility import mock_utility
     readme = ztc.FunctionalDocFileSuite('README.txt',
                                         package='opencore.utility',
                                         optionflags=optionflags,

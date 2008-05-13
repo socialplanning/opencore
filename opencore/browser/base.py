@@ -8,16 +8,16 @@ from Products.Five import BrowserView
 from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
 from Products.remember.interfaces import IReMember
 from lxml.html.clean import Cleaner
-from opencore.configuration.utils import get_config
 from opencore.i18n import i18n_domain, _
 from opencore.i18n import translate
+from opencore.utility.interfaces import IProvideSiteConfig
 from opencore.interfaces import IHomePage
 from opencore.project.utils import project_noun
 from plone.memoize import instance
 from plone.memoize import view
 from topp.utils import zutils
 from topp.utils.pretty_date import prettyDate
-from zope.component import getMultiAdapter
+from zope.component import getMultiAdapter, getUtility
 from zope.i18nmessageid import Message
 import DateTime
 import cgi
@@ -54,7 +54,13 @@ class BaseView(BrowserView):
         self.response = self.request.RESPONSE
     
     def get_config(self, section, option, default='', inifile=None):
-        return get_config(section,option,default,inifile)
+        # XXX section and inifile are only taken for
+        # backward compatibility; we ignore them.
+
+        # XXX Does anything actually call this as a view method?
+        # apparently yes but only in sputnik templates (as of 5/12/08).
+        return getUtility(IProvideSiteConfig).get(option, default=default)
+
 
     def project_url(self, project=None, page=None):
         """This should be the canonical way for views to get a url
