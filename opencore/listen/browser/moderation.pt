@@ -23,7 +23,7 @@
               </tr>
               </thead>
               <tbody>
-                <tr tal:repeat="post pending_list" tal:attributes="id string:post_${post/postid}">
+                <tr tal:repeat="post pending_list" tal:attributes="id string:post_${post/postid}_${post/user}">
                   <td style="width: 25%;" tal:content="post/user_name" /> 
                   <td style="width: 49%;">
                     <dl class="oc-plainList">
@@ -46,7 +46,7 @@
                           <input type="submit" name="post_discard" class="oc-actionLink oc-actionButton oc-js-actionButton" tal:attributes="href string: moderation?post_discard=moderation_discard_button&postid=${post/postid}&email=${post/user}" title="Deny this message without notifying the sender" i18n:attributes="value moderation_discard_button" value="Discard" />
                         </li>
                         <li class="" tal:condition="python:is_post_moderated or is_membership_moderated">
-                          <input type="submit" name="post_reject" class="oc-actionLink oc-actionButton oc-js-actionButton oc-js-liveEdit_showForm" tal:attributes="href string: moderation?post_deny=moderation_deny_button&postid=${post/postid}&email=${post/user}" title="Deny this message and notify the sender, message optional" i18n:attributes="value moderation_reject_confirm_button" value="Reject" />
+                          <input type="submit" name="post_reject" class="oc-actionLink oc-actionButton oc-js-liveEdit_showForm" tal:attributes="href string: moderation?post_deny=moderation_deny_button&postid=${post/postid}&email=${post/user}" title="Deny this message and notify the sender, message optional" i18n:attributes="value moderation_reject_confirm_button" value="Reject" />
                         </li>
                       </ul>
                       <div class="oc-js-liveEdit-editForm oc-liveEdit-editForm oc-form-fieldBlock" tal:condition="python:is_post_moderated or is_membership_moderated">

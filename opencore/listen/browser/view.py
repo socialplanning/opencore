@@ -413,10 +413,11 @@ class ModerationView(BaseModerationView):
             # may have to try enforcing the ITTWPostPolicy as well on failure
             policy = getAdapter(self.context, IEmailPostPolicy)
             req = dict(action=action, email=email, postid=postid, reject_reason=reject_reason)
+
             policy_result = policy.enforce(req)
             if policy_result == MODERATION_FAILED:
                 self.errors = _(u'err_could_not_moderate', u'Could not moderate!')
-            json = {'post_%s' % postid : {'action': 'delete'}}
+            json = {'post_%s_%s' % (postid, email) : {'action': 'delete'}}
         else:
             # same idea between membership policy
             # may have to try the IUserTTWMembershipPolicy if the email policy fails
