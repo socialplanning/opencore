@@ -2,9 +2,7 @@ import opencore.feed.browser
 import os
 
 from zope.component import getAdapter
-from zope.component import getUtility
 from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
-from Products.listen.interfaces import ISearchableArchive
 from opencore.browser.blankslate import BlankSlateViewlet
 from opencore.feed.interfaces import IFeedData
 
