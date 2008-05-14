@@ -9,14 +9,11 @@ from opencore.interfaces.message import ITransientMessage
 from opencore.nui.contexthijack import HeaderHijackable
 from opencore.content.page import OpenPage
 from operator import itemgetter
-from plone.memoize import instance
-from plone.memoize import view
 from zope.component import getMultiAdapter
-
-memoizedproperty = lambda func: property(view.memoize(func))
 
 class BaseMenuView(BaseView):
 
+    @property
     def areaURL(self):
         return self.area.absolute_url()
 
@@ -25,6 +22,7 @@ class TopNavView(HeaderHijackable, BaseMenuView):
     """
     Provides req'd information for rendering top nav in any context.
     """
+    @property
     def contextmenu(self):
         """ask a viewlet manager for the context menu
            HeaderHijackable takes care of making sure that the context
@@ -37,6 +35,7 @@ class TopNavView(HeaderHijackable, BaseMenuView):
         manager.update()
         return manager.render()
 
+    @property
     def usermenu(self):
         if self.loggedin:
             viewname = 'topnav-auth-user-menu'
@@ -59,20 +58,25 @@ class MemberMenuView(BaseMenuView):
     Contains the information req'd by the topnav's member context menu
     """
 
+    @property
     def profile_url(self):
         return '%s/profile' % self.areaURL
 
+    @property
     def profile_edit_url(self):
         return '%s/profile-edit' % self.areaURL
 
+    @property
     def userprefs_url(self):
         return '%s/account' % self.areaURL
 
+    @property
     def atMemberWiki(self):
         memfolder = self.miv.member_folder
         memfolder_url = memfolder.absolute_url()
         return memfolder_url in self.request.ACTUAL_URL and isinstance(self.context, OpenPage)
 
+    @property
     def menudata(self):
         menudata = (
             {'content': 'Wiki',
@@ -110,6 +114,7 @@ class ProjectMenuView(BaseMenuView):
         return self.request.ACTUAL_URL.startswith(self.areaURL) and \
                isinstance(self.context, OpenPage)
 
+    @property
     def menudata(self):
         featurelets = self.piv.featurelets
         proj = self.piv.project
@@ -201,6 +206,7 @@ class AnonMenuView(BaseView):
     """
     View class for the user menu when user is anonymous.
     """
+    @property
     def menudata(self):
         site_url = getToolByName(self.context, 'portal_url')()
 
@@ -223,6 +229,7 @@ class AuthMenuView(BaseView):
     """
     View class for the user menu when user is logged in.
     """
+    @property
     def user_message_count(self):
         """
         returns the number of transient messages currently stored
@@ -241,6 +248,7 @@ class AuthMenuView(BaseView):
         
         return msg_count + len(proj_invites)
 
+    @property
     def menudata(self):
         mem_data = self.member_info
         site_url = getToolByName(self.context, 'portal_url')()
