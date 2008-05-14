@@ -1,6 +1,7 @@
 <configure xmlns="http://namespaces.zope.org/zope"
            xmlns:zcml="http://namespaces.zope.org/zcml"
-           xmlns:topp="http://namespaces.openplans.org/topp">
+           xmlns:topp="http://namespaces.openplans.org/topp"
+           xmlns:i18n="http://namespaces.zope.org/i18n">
   <include package="topp.zcmlloader" file="meta.zcml" />
   <include file="permissions.zcml" />
   <include file="profiles.zcml" />
@@ -24,6 +25,8 @@
   <include package="opencore.upgrades" />
   <include package="topp.featurelets" />
   <include package="opencore.stats" />
+
+  <i18n:registerTranslations directory="../locales" />
 
   <!-- See zcmlloader; this loads all zcml from all packages that have a setuptools
        entry_point like [topp.zcmlloader] opencore = foo -->
