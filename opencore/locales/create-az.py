@@ -1,6 +1,5 @@
-# creates the az translation from the en.po file
-# this translation is the same as the en translation except
-# that all msgstr are set to the corresponding msgid
+# creates the az translation from the en po file
+# az translation has all msgstr set to the corresponding msgid
 
 header = """msgid ""
 msgstr ""
@@ -24,12 +23,13 @@ msgstr ""
 # msgid
 
 import sys
+import os.path
 if len(sys.argv)==3:
     file_name = sys.argv[1]
     file_name2 = sys.argv[2]
 else:
-    file_name = 'opencore-en.po'
-    file_name2 = 'opencore-az.po'
+    file_name = os.path.join('en', 'LC_MESSAGES', 'opencore.po')
+    file_name2 = os.path.join('az', 'LC_MESSAGES', 'opencore.po')
 
 f1 = open(file_name)
 f2 = open(file_name2, 'w')
