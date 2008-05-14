@@ -4,12 +4,12 @@ this is a forerunner for something that go into TeamSpaces
 from zope.interface import implements
 
 from Products.CMFCore.utils import getToolByName 
-from Products.Five import BrowserView
 from Products.Five.browser.TrustedExpression import getEngine
 from opencore.interfaces import IProject, IOpenTeam
 from plone.memoize.instance import memoizedproperty, memoize
 from interfaces import IProjectInfo
 from topp.featurelets.interfaces import IFeatureletSupporter
+from opencore.browser.base import BaseView
 from opencore.project.utils import get_featurelets
 from plone.memoize import instance, view
 
@@ -23,13 +23,20 @@ view.memoizedproperty = lambda func: property(view.memoize(func))
 # but there is a need for a project info view of some project 
 # eg when the topnav is contextualized by http headers.
 
-class ProjectInfoView(BrowserView):
+class ProjectInfoView(BaseView):
     implements(IProjectInfo)
 
     def __init__(self, context, request):
         self.context = context
         self._context = (context,)
         self.request = request
+
+    def logo_url(self):
+        logo = self.context.getLogo()
+        if logo:
+            return logo.absolute_url()
+        else:
+            return self.defaultProjLogoThumbURL
 
     @view.memoizedproperty
     def project(self):
@@ -60,7 +67,7 @@ class ProjectInfoView(BrowserView):
             mship = team.getMembershipByMemberId(member.getId(),
                                                  active_only=True)
             if mship is not None:
-                return mship
+                return True
             
         return False
 
