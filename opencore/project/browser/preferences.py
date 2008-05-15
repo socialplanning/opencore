@@ -229,7 +229,7 @@ class ProjectPreferencesView(ProjectBaseView, OctopoLite):
         return flet_data
 
 
-class ProjectDeletionView(BaseView):
+class ProjectDeletionView(ProjectBaseView):
     
     def _handle_delete(self):
         proj_folder = zutils.aq_iface(self, IAddProject)
