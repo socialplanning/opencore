@@ -24,9 +24,13 @@ from Products.remember.content.member_schema \
 from Products.remember.content.member import FolderishMember
 from Products.remember.interfaces import IHashPW
 from Products.remember.config import ALLOWED_MEMBER_ID_PATTERN
+from Products.remember.permissions import VIEW_PUBLIC_PERMISSION
+from Products.remember.permissions import EDIT_PROPERTIES_PERMISSION
 
 from opencore.configuration import PROJECTNAME
 from opencore.configuration import PROHIBITED_MEMBER_PREFIXES
+
+from member_fields import ScaledImageField
 
 from opencore.utility.interfaces import IHTTPClient
 from opencore.utils import get_opencore_property
@@ -64,11 +68,6 @@ content_schema['mail_me'].regfield = 0
 
 content_schema['make_private'].widget.visible = {'edit': 'invisible'}
 
-content_schema['portrait'].sizes=dict(thumb=(80,80),
-                                      icon=(32,32)
-                                      )
-content_schema['portrait'].max_size=(200,200)
-
 # Add id to the SearchableText field. Fixes trac #1689
 content_schema['id'].searchable = 1
 
@@ -85,6 +84,32 @@ nuischema = Schema((
                         description='statement description.',
                         size=50,
                         ),
+                      ),
+                    ScaledImageField(
+                      'portrait',
+                      mode='rw',
+                      accessor='getPortrait',
+                      mutator='setPortrait',
+                      max_size=(200,200),
+                      read_permission=VIEW_PUBLIC_PERMISSION,
+                      write_permission=EDIT_PROPERTIES_PERMISSION,
+                      required=0,
+                      sizes=dict(thumb=(80,80),
+                                 icon=(32,32),
+                                 square_thumb=(80,80),
+                                 square_fifty_thumb=(50,50),
+                                 ),
+                      widget=atapi.ImageWidget(
+                        label='Portrait',
+                        label_msgid='label_portrait',
+                        description="To add or change the portrait: click the "
+                        "\"Browse\" button; select a picture of yourself. "
+                        "Recommended image size is 75 pixels wide by 100 "
+                        "pixels tall.",
+                        description_msgid='help_portrait',
+                        i18n_domain='plone',
+                        ),
+                      user_property=True,
                       ),
                     StringField(
                       'skills',

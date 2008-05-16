@@ -34,6 +34,22 @@
       name="portrait_thumb"
       />
 
+   <browser:page
+      for="opencore.interfaces.member.IMemberFolder"
+      class=".portraits.PortraitsView"
+      permission="zope2.View"
+      attribute="portrait_square_thumb"
+      name="portrait_square_thumb"
+      />
+
+   <browser:page
+      for="opencore.interfaces.member.IMemberFolder"
+      class=".portraits.PortraitsView"
+      permission="zope2.View"
+      attribute="portrait_square_fifty_thumb"
+      name="portrait_square_fifty_thumb"
+      />
+
   <browser:page
      for="opencore.interfaces.member.IMemberFolder"
      class=".view.ProfileEditView"

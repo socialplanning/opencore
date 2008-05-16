@@ -16,17 +16,30 @@ class PortraitsView(BaseView):
         self.response.setHeader('Content-Type', content_type) 
         return data 
 
-    def portrait_thumb(self): 
+    def _portrait_thumb(self, thumbnail_property, default_thumb='defaultPortraitThumbURL'):
         """Provides a single location to pull the user's portrait from. 
         Same as above, but returns the thumbnail.""" 
         try:
-            member_portrait_thumb = self.viewedmember().portrait_thumb 
-            data = member_portrait_thumb.data 
+            member_portrait_thumb = getattr(self.viewedmember(), thumbnail_property)
+            data = member_portrait_thumb.data
         except AttributeError:
-            file = open(self.context.restrictedTraverse(self.defaultPortraitThumbURL).context.path, 'rb') 
-            data = file.read() 
-            file.close() 
+            default_thumb = getattr(self, default_thumb)
+            file = open(self.context.restrictedTraverse(default_thumb).context.path, 'rb') 
+            data = file.read()
+            file.close()
 
-        content_type = magic.guessMime(data) 
-        self.response.setHeader('Content-Type', content_type) 
-        return data 
+        content_type = magic.guessMime(data)
+        self.response.setHeader('Content-Type', content_type)
+        return data
+
+    def portrait_thumb(self):
+        return self._portrait_thumb('portrait_thumb',
+                                    default_thumb='defaultPortraitThumbURL')
+
+    def portrait_square_thumb(self):
+        return self._portrait_thumb('portrait_square_thumb',
+                                    default_thumb='defaultPortraitSquareThumbURL')
+
+    def portrait_square_fifty_thumb(self):
+        return self._portrait_thumb('portrait_square_fifty_thumb',
+                                    default_thumb='defaultPortraitSquareFiftyThumbURL')
