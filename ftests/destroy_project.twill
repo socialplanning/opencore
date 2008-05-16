@@ -1,0 +1,13 @@
+#
+# delete a project 
+#
+# $projname - the id of the project to delete 
+# $admin    - a zope administrative user 
+# $adminpw  - password for zope admin 
+# 
+
+
+extend_with flunc.zope_cleanup
+
+zope_delobject 'projects' $projname $admin $adminpw
+

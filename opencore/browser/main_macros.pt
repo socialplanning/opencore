@@ -1,0 +1,8 @@
+<metal:status-messages define-macro="status-messages">
+  <div class="oc-js-closeable oc-statusMessage"
+       tal:define="status_msgs view/portal_status_message"
+       tal:condition="status_msgs">
+    <div tal:repeat="status_msg status_msgs"
+         tal:content="structure status_msg" />
+  </div>
+</metal:status-messages>

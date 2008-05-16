@@ -1,0 +1,11 @@
+<configure xmlns="http://namespaces.zope.org/zope"
+           xmlns:browser="http://namespaces.zope.org/browser"
+	   xmlns:five="http://namespaces.zope.org/five"
+	   xmlns:opencore="http://namespaces.openplans.org/opencore">
+  <include package="Products.Five" />
+  <include file="meta.zcml" />
+  <opencore:wordpress
+     uri="http://nohost:wordpress" 
+     external_uri="blog" />
+  <utility component="opencore.wordpress.uri._wp_info" />
+</configure>

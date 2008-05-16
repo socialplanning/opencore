@@ -1,0 +1,22 @@
+<tal:handle define="global emailsent view/handle_request" replace="nothing"/>
+<html i18n:domain="opencore" metal:use-macro="here/@@standard_macros/master">
+  <body>
+    <div metal:fill-slot="content">   
+      <div tal:define="expander_hack_from_parent_template string:oc-js-expander oc-expander-open oc-expander" id="oc-content-main">
+	<metal:login use-macro="view/login_snippet/macros/login_snippet" />
+	<metal:forgot use-macro="view/forgot_snippet/macros/forgot_snippet" />
+
+      </div><!-- end #content-main --> 
+
+      <div id="oc-content-sidebar">
+        <div class="oc-getstarted">
+          <h2 i18n:translate="forgot_new_users">New users</h2>
+          <p i18n:translate="forgot_openplans_more_effective">Whether your group is mobilizing voters, planning a protest, or growing a garden, <tal:block replace="view/portal_title" /> can help you become more effective.</p>
+          <a href="join" class="oc-banana"
+             tal:content="string:Join ${view/portal_title}" />
+        </div>
+      </div><!-- end #content-sidebar -->
+
+    </div><!-- end content slot -->
+  </body>
+</html>

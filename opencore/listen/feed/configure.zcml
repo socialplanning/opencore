@@ -1,0 +1,34 @@
+<configure xmlns="http://namespaces.zope.org/zope"
+           xmlns:browser="http://namespaces.zope.org/browser"
+           xmlns:five="http://namespaces.zope.org/five"
+           >
+
+  <browser:viewlet
+     for="opencore.listen.interfaces.IListenFeatureletInstalled"
+     manager="opencore.project.browser.interfaces.ISummaryFeeds"
+     class=".discussions.DiscussionsSummaryViewlet"
+     name="discussions"
+     permission="zope2.View"
+     />
+
+  <!-- Once pluggin into oc-feed becomes optional, everything below this point
+  can be attached to the base listen product. (Assuming we support mailing
+  lists, and not IOpenMailingList's) -->
+   <adapter
+      for="opencore.featurelets.interfaces.IListenContainer"
+      provides="opencore.feed.interfaces.IFeedData"
+      factory=".listen.ListsFeedAdapter"
+      />
+
+   <adapter
+      for="opencore.listen.interfaces.IOpenMailingList"
+      provides="opencore.feed.interfaces.IFeedData"
+      factory=".listen.MailingListFeedAdapter"
+      />
+
+  <five:implements
+     class="opencore.listen.mailinglist.OpenMailingList"
+     interface="opencore.feed.interfaces.ICanFeed"
+     />
+
+</configure>

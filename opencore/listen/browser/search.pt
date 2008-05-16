@@ -1,0 +1,86 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+  i18n:domain="opencore" metal:use-macro="here/@@standard_macros/master">
+  <body>
+    <div metal:fill-slot="content">
+      <div metal:use-macro="here/@@listen_macros/bcrumb"/>
+      <div metal:use-macro="here/@@listen_macros/tabs"/>
+      <div id="oc-content-main">
+        <tal:threads define="results view/searchArchive;
+                             batch results;
+			     template_id string:search_archive">
+
+          <div class="oc-widget-search oc-boxy">
+            <form action="./search_archive">
+                <label class="oc-label-heading oc-biggerText" for="text" tal:content="view/Title">
+                  Search:
+                </label>
+
+                <input name="search_text" type="text"
+                       class="oc-autoFocus"
+                       tal:attributes="value request/search_text|nothing" />
+
+              <span class="oc-actions">
+                <input class="context" i18n:attributes="value listen_search_button" 
+		type="submit" name="submit" value="Search" />
+              </span>
+              
+            </form>
+          </div>
+
+          <table class="oc-dataTable" id="forum-topics" tal:condition="results"
+                 summary="Search results" cellspacing="0">
+            <thead>
+              <tr>
+                <th  scope="col">&nbsp;<tal:title i18n:translate="listen_search_subject"
+                >Subject</tal:title>&nbsp;</th>
+                <th  scope="col">&nbsp;<tal:title i18n:translate="listen_search_creator"
+                >Started by</tal:title>&nbsp;</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              <tal:items repeat="item results">
+                <tr tal:define="oddrow repeat/item/odd;"
+                    tal:attributes="class python:oddrow and 'even' or 'odd'">
+
+                  <td>
+                    <a href="#"
+                       tal:content="item/brief_subject"
+                       tal:attributes="href item/url">
+                    Subject</a>
+                  </td>
+                  <td>
+                    <a href="." tal:omit-tag="not:item/from_id"
+                      tal:attributes="href string:${here/portal_url}/people/${item/from_id}/profile">
+                      <span tal:replace="item/mail_from">test@example.com</span>
+                    </a>
+                  </td>
+                </tr>
+              </tal:items>
+            </tbody>
+          </table>
+          <div metal:use-macro="here/batch_macros/macros/navigation" />
+	  
+
+          <p tal:define="search request/search_text | nothing"
+             tal:condition="python: not results and search"
+             class="oc-message oc-bigText"
+             i18n:translate="listen_search_no_results">
+            No results for '<span i18n:name="search_string" tal:replace="search" />'. Please try another search term.
+          </p>
+        </tal:threads>
+      </div><!-- content-main -->
+      <div id="oc-content-sidebar">
+        <div i18n:translate="listen_search_sidebar" class="oc-boxy">
+          <h2>About &ldquo;<span i18n:name="list_title" tal:replace="context/Title" />&rdquo;</h2>
+          <dl class="oc-plainList">
+          <dt>Address</dt>
+          <dd id="listaddress" i18n:name="list_address" tal:content="view/listAddress" tal:condition="view/listAddress" />
+          <dt>Description</dt>
+          <dd tal:content="view/listDescription" i18n:name="list_desc" tal:condition="view/listDescription" />
+          </dl>
+        </div>
+      </div><!-- content-sidebar -->
+    </div><!-- content-container -->
+  </body>
+</html>

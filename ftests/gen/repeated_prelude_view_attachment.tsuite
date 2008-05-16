@@ -1,0 +1,9 @@
+#
+# adds an attachment to the project
+# 
+# expects: 
+#    project projname exists
+#    this file appears in ${test_path}
+#
+
+prelude_view_attachment_guts

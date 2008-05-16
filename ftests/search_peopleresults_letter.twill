@@ -1,0 +1,16 @@
+#
+# searches openplans members from a people search results page
+#
+# letter - letter to click on
+# expect - string to check for in results page
+#
+# expects:
+#    members already exist to search for
+#    on a page with people letter search
+
+follow $letter
+find 'Member'
+find 'of\s+\d+'
+find 'sorted'
+notfind 'No results found.'
+find $expect

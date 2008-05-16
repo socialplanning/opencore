@@ -1,0 +1,42 @@
+/* PLONE
+-------------------------------------------- */
+
+/* THIS SHOULD ALL BE DEPRECATED AWAY. */
+          
+/* PLONE -- documentActions
+This class deals with the "Print" and "Email" buttons
+    
+.documentActions {
+  display: none;
+} */
+
+/* PLONE -- portalMessage
+These classes apply to the portal messages (such as "Changes Saved")
+
+  .portalMessage,
+  .portalWarningMessage,
+  .portalStopMessage,
+  .system-message,
+  #error-handling {
+    background-color: #FFF6BF;
+    border: 1px solid gray;
+    border-right: 1.5em solid gray;
+    color: #333333;
+    font-weight: bold;
+    margin: 0.25em 0em;
+    padding: 0.125em 0.25em;
+    padding-right: 0.25em;
+    position: relative;
+    vertical-align: middle;
+  }
+  
+    .portalMessage div#portalMessageX {
+      color: #ddd;
+      cursor: pointer;
+      font-weight: bold;
+      padding: 0.125em 0.5em;
+      position: absolute;
+      right: -1.5em;
+      top: 0;
+      font-size: 100%;
+    } */

@@ -1,0 +1,3 @@
+login(user=${u1_name})
+change_project_policy(projpolicy='closed_policy')
+logout 

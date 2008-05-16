@@ -1,0 +1,23 @@
+# test the news section of openplans
+
+create_user
+login
+news_check_noedit
+logout
+news_create_item(id='bridge', title='bridge collapse', body='a bridge collapsed', revision='big bridge collapse')
+news_create_item(id='ninjas', title='i am ten ninjas', body='ninjas like to wail on guitars', revision='ninjas like guitars')
+news_find_item(id='bridge', title='bridge collapse', body='a bridge collapsed', revision='big bridge collapse')
+news_find_item(id='ninjas', title='i am ten ninjas', body='ninjas like to wail on guitars', revision='ninjas like guitars')
+
+news_cannot_edit(id='ninjas', title='i am ten ninjas')
+login
+news_cannot_edit(id='ninjas', title='i am ten ninjas')
+logout
+
+# currently there is a problem with the admin user of the site
+# that provides him with the wrong permissions when logging
+# in through the openplans login page like this
+#login(user=${admin}, password=${adminpw})
+#news_check_edit
+#news_add_item
+#logout

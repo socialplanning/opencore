@@ -1,0 +1,17 @@
+#
+# makes sure that a news item exists on page
+# id - id of article
+# title - title of article
+# revision - revision of article
+#
+# expects
+#         article with title and revision exist on page
+
+
+go ${base_url}/news
+find "${title}.*?by.*?today.*?</li>" s
+follow "$title"
+find "$body"
+go ${base_url}
+find $title
+find "${base_url}/news/${id}"

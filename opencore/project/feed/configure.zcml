@@ -1,0 +1,54 @@
+<configure xmlns="http://namespaces.zope.org/zope"
+           xmlns:browser="http://namespaces.zope.org/browser"
+           xmlns:five="http://namespaces.zope.org/five"
+           >
+
+  <five:implements
+     class="Products.OpenPlans.content.project.OpenProject"
+     interface="opencore.feed.interfaces.ICanFeed"
+     />  
+
+  <five:implements
+     class="opencore.content.page.OpenPage"
+     interface="opencore.feed.interfaces.ICanFeed"
+     />
+
+  <!-- feeds for a project -->
+  <adapter
+     for="opencore.interfaces.IProject"
+     provides="opencore.feed.interfaces.IFeedData"
+     factory=".project.WikiFeedAdapter"
+     />
+
+  <adapter
+     for="opencore.interfaces.IProject"
+     provides="opencore.feed.interfaces.IFeedData"
+     factory=".team.TeamFeedAdapter"
+     name="team"
+     />
+
+   <adapter
+      for="opencore.interfaces.IOpenPage"
+      provides="opencore.feed.interfaces.IFeedData"
+      factory=".page.PageFeedAdapter"
+      />   
+
+  <!-- views and related -->
+  <browser:viewlet
+     manager="opencore.project.browser.interfaces.ISummaryFeeds"
+     class=".wiki.WikiSummaryViewlet"
+     name="wiki"
+     permission="zope2.View"
+     />
+
+   <adapter
+      provides="zope.contentprovider.interfaces.IContentProvider"
+      factory=".team_feed.BlankSlateTeamFeed"
+      for="zope.interface.Interface
+           zope.publisher.interfaces.browser.IDefaultBrowserLayer
+           zope.interface.Interface"
+      name="opencore.extra_feeds"
+      />
+
+
+</configure>

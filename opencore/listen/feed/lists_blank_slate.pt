@@ -1,0 +1,12 @@
+<div id="oc-feed-discussions" class="oc-widget oc-widget-feed oc-column">
+  <h2 class="oc-feed-title">
+    <a tal:attributes="href context/link">Discussion</a>     
+  </h2>	
+  <div class="oc-blankSlate">
+    <img src="/++resource++img/summaryicons/mailinglist.gif" />
+    <p>There aren't any discussions for this project yet.</p>
+    <p tal:condition="view/context/context/isProjectMember">
+      <a tal:attributes="href string:${view/create}">
+        Start a Discussion</a></p>
+  </div>
+</div>

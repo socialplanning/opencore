@@ -1,0 +1,15 @@
+#
+# verifies that the project membership is pending with no listing specified
+#
+# projname - the project to check
+# user - the username to check
+#
+# expects: 
+#    project exists, member exists, member is logged in
+#
+
+go ${base_url}/people/${user}/account
+url 'account'
+find ${projtxt}
+find "${projtitle}.*waiting approval.*today.*leave" s
+notfind "${projtitle}.*waiting approval.*today.*<select.*leave" s

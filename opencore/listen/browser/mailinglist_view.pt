@@ -1,0 +1,66 @@
+<html i18n:domain="opencore" metal:use-macro="here/@@standard_macros/master">
+  <body>
+    <div metal:fill-slot="content">
+      <tal:vars define="can_subscribe view/canSubscribe;
+                        subscribed view/isSubscribed;
+                        isAnon not: view/loggedin">
+        <div metal:use-macro="here/@@listen_macros/bcrumb"/>
+        <div metal:use-macro="here/@@listen_macros/tabs"/>
+        <div id="oc-content-main">
+          <dl class="oc-plainList">
+            <dt i18n:translate="mailinglist_view_title">Title</dt>
+            <dd tal:content="context/Title" />
+            <tal:description tal:define="desc context/Description" tal:condition="desc">
+              <dt i18n:translate="mailinglist_view_desc">Description</dt>
+              <dd class="oc-headingContext" tal:content="desc" />
+            </tal:description>
+            <tal:email tal:condition="view/loggedin">
+              <dt i18n:translate="mailinglist_view_address" id="listaddress">
+                Address
+              </dt>
+              <dd tal:content="view/address">
+                address@example.com
+              </dd>
+            </tal:email>
+            <tal:managers tal:condition="view/list_managers">
+              <dt i18n:translate="mailinglist_view_managers" id="listmanagers">
+                Managers
+              </dt>
+              <dd>
+                <ul class="oc-plainList">
+                  <li tal:repeat="manager view/list_managers">
+                    <span tal:replace="manager" />
+                  </li>
+                </ul>
+              </dd>
+            </tal:managers>
+            <dt i18n:translate="mailinglist_view_type" id="list-type">
+              Type
+            </dt>
+            <dd tal:content="view/list_type">
+              List type
+            </dd>
+            <dt i18n:translate="mailinglist_view_archive" id="archival-state">
+              Message archive
+            </dt>
+            <dd>
+              <span tal:content="view/archived">
+                Messages to this list are archived
+              </span>
+              <a tal:condition="view/is_archived" tal:attributes="href python:'%s/archive' % view.context.absolute_url()" i18n:translate="mailinglist_view_archive_link">
+                View messages.
+              </a>
+            </dd>
+            <dt i18n:translate="mailinglist_view_contact">
+              Contact
+            </dt>
+            <dd id="manager_email" tal:content="view/manager_email">
+              Please direct inquiries about this list to listmanager@example.com.
+            </dd>
+          </dl>
+          <div metal:use-macro="here/@@listen_macros/subscribe" />
+        </div><!-- content-main -->
+      </tal:vars>
+    </div><!-- content-fill-slot -->
+  </body>
+</html>

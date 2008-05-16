@@ -1,0 +1,15 @@
+<tal:wicked_link>
+  <span tal:condition="view/howmany" tal:omit-tag="">
+    <span tal:define="link view/singlelink" tal:omit-tag=''>
+	<a class="wicked_resolved" 
+	   tal:attributes="href link/url" 
+	   tal:content="view/chunk" />
+    </span>
+  </span>
+  <span tal:condition="not: view/howmany" tal:omit-tag=''>
+    <a class="wickedadd"
+       tal:define="here_url here/absolute_url"
+       tal:attributes="href view/add_link">
+      <span tal:replace="view/chunk" >A CHUNK</span>+</a>
+  </span>
+</tal:wicked_link>

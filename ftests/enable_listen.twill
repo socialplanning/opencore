@@ -1,0 +1,19 @@
+#
+# enables the listen featurelet in a project 
+#
+# projname - the project id to enable listen in  
+#
+# expects: 
+#   project exists, logged in as project admin, 
+#
+
+extend_with flunc.checkbox
+
+go ${base_url}/projects/${projname}
+notfind "Mailing lists" i
+follow "Preferences"
+#fv prefs_form featurelets:list 'listen'
+edit_checkbox prefs_form featurelets:list 'listen'
+submit update:boolean
+follow "Mailing Lists"
+find "add a mailing list" i

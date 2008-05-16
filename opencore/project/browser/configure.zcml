@@ -1,0 +1,223 @@
+<configure xmlns="http://namespaces.zope.org/zope"
+           xmlns:browser="http://namespaces.zope.org/browser"
+	   xmlns:five="http://namespaces.zope.org/five"
+	   xmlns:fate="http://namespaces.plone.org/fate">
+
+  <include package="Products.Fate" file="meta.zcml" />
+
+  <browser:resource
+     file="projpage.js"
+     name="projpage.js"
+     />
+
+  <browser:page
+     for="opencore.interfaces.IProject"
+     permission="zope2.View"
+     name="badge"
+     template="badge.pt"
+     class="opencore.browser.base.BaseView"
+     />
+
+  <browser:page
+     for="opencore.interfaces.IProject"
+     class=".wf_policy_view.WorkflowPolicyView"
+     permission="zope2.View"
+     name="policy_support"
+     allowed_interface="opencore.interfaces.workflow.IReadWorkflowPolicySupport"
+     />
+
+  <browser:page
+     for="opencore.interfaces.IProject"
+     class=".wf_policy_view.WorkflowPolicyWriterView"
+     permission="openplans.ManageWorkflowPolicy"
+     name="policy_writer"
+     allowed_interface="opencore.interfaces.workflow.IWriteWorkflowPolicySupport"
+     />
+
+  <browser:page
+     for="opencore.interfaces.IProject"
+     class=".featurelet.FeatureletSupporterView"
+     permission="zope2.View"
+     name="featurelet_support"
+     allowed_interface="topp.featurelets.interfaces.IFeatureletSupporter"
+     allowed_attributes="getSupportableFeaturelets"
+     />
+
+  <browser:page
+     for="opencore.interfaces.IProject"
+     class=".featurelet.FeatureletMenuView"
+     permission="zope2.View"
+     name="featurelet_menu"
+     allowed_attributes="menu_items"
+     />
+
+  <!-- unhooked on purpose - see export.py
+  <browser:page
+     for="opencore.interfaces.IProject"
+     class=".export.ExportView"
+     permission="zope2.View"
+     name="export"
+     attribute="export"
+     /  -->
+
+  <browser:page
+     for="OFS.interfaces.IItem"
+     class=".projectinfo.ProjectInfoView"
+     permission="zope.Public"
+     name="project_info"
+     allowed_interface=".interfaces.IProjectInfo"
+     />
+
+  <adapter factory=".home_page.HomePage" />
+
+  <browser:page
+     for="opencore.interfaces.adding.IAddProject"
+     name="create"
+     class=".add.ProjectAddView"
+     permission="openplans.AddOpenProject"
+     />
+
+   <!-- move to contents.py; these will share functionality -->
+   <browser:page
+      for="opencore.interfaces.IProject"
+      class=".contents.ProjectContentsView"
+      permission="zope2.View"
+      name="contents"
+      />
+
+   <!--  <browser:page
+      for="opencore.interfaces.IProject"
+      class=".contents.RecentUpdatesView"
+      permission="zope2.View"
+      name="recent-updates"
+      />
+    -->
+
+  <browser:page
+     for="opencore.interfaces.IProject"
+     class=".preferences.ProjectPreferencesView"
+     permission="cmf.ModifyPortalContent"
+     name="preferences"
+     template="preferences.pt"
+     />
+
+  <browser:page
+     for="opencore.interfaces.IProject"
+     class=".preferences.ProjectDeletionView"
+     permission="cmf.ModifyPortalContent"
+     name="delete"
+     template="delete.pt"
+     />
+
+  <browser:page
+     for="opencore.interfaces.IProject"
+     class=".team.ProjectTeamView"
+     permission="zope2.View"
+     name="team"
+     template="team-view.pt"
+     />
+
+  <browser:page
+     for="opencore.interfaces.IProject"
+     class=".manageteam.InviteView"
+     permission="teamspace.ManageTeamMemberships"
+     name="invite"
+     template="invite-with-message.pt"
+     />
+
+  <browser:page
+     for="opencore.interfaces.IProject"
+     class=".manageteam.ManageTeamView"
+     permission="teamspace.ManageTeamMemberships"
+     name="manage-team"
+     />
+
+  <browser:page
+     for="opencore.interfaces.IProject"
+     class=".team.RequestMembershipView"
+     permission="zope2.View"
+     name="request-membership"
+     />
+
+  <browser:page
+     for="opencore.interfaces.IProject"
+     class="opencore.project.browser.TourView"
+     permission="cmf.ModifyPortalContent"
+     name="tour"
+     template="tour.pt"
+     />
+
+  <!-- views for latest-activity/project-summary -->
+  <browser:page
+     for="opencore.interfaces.IProject"
+     class=".latest_activity.LatestActivityView"
+     permission="zope2.View"
+     name="summary"
+     template="latest_activity.pt"
+     />
+
+  <browser:page
+     for="opencore.interfaces.IProject"
+     class="opencore.project.browser.RedirectView"
+     permission="zope2.View"
+     name="view"
+     />
+
+  <subscriber
+     for="opencore.interfaces.IOpenPage
+          zope.app.event.interfaces.IObjectModifiedEvent"
+     handler=".metadata.updateContainerMetadata"
+     />
+
+  <subscriber handler=".metadata.updateThreadCount" />
+
+  <subscriber
+    for="opencore.interfaces.event.IAfterProjectAddedEvent"
+    handler=".metadata.reindex_project_ids_for_project_creator"
+    />
+
+  <subscriber
+     for="opencore.interfaces.IOpenPage
+         zope.app.event.interfaces.IObjectModifiedEvent"
+     handler=".metadata.update_last_modified_author"
+     />
+
+  <!-- deletion subscribers -->
+  <subscriber handler=".preferences.handle_flet_uninstall" />
+  <subscriber handler=".preferences.delete_team" />
+  <subscriber handler=".preferences.delete_email_invites" />
+
+  <adapter factory=".preferences.ProjectFeatureletSupporter" />
+
+  <adapter
+      for="opencore.interfaces.IOpenTeam"
+      provides="opencore.interfaces.pending_requests.IRequestMembership"
+      factory="opencore.project.browser.team_membership.RequestMembershipWithEmail"
+      />
+
+  <browser:viewletManager
+     name="opencore.feed_summaries"
+     provides=".interfaces.ISummaryFeeds"
+     class=".manager.SummaryManager"
+     template="summary.pt"
+     permission="zope2.View"
+     />
+
+  <!-- Viewlet managers allow plugins to add stuff to these forms -->
+  <browser:viewletManager
+     name="opencore.proj_prefs"
+     provides=".interfaces.IProjectPrefs"
+     class=".manager.ProjectPrefsManager"
+     template="preferences_viewlets.pt"
+     permission="zope2.View"
+     />
+
+  <browser:viewletManager
+     name="opencore.proj_create_viewlets"
+     provides=".interfaces.IProjectPrefs"
+     class=".manager.ProjectPrefsManager"
+     template="add_viewlets.pt"
+     permission="zope2.View"
+     />
+
+</configure>

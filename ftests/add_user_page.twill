@@ -1,0 +1,3 @@
+follow Pages
+follow ${newpage}
+find 'psm_page_created'

@@ -1,0 +1,50 @@
+# tests that a user is added / removed from team properly 
+
+# create a couple of users 
+create_user(user=${u1_name}, fullname=${u1_fullname}, email=${u1_email})
+create_user(user=${u2_name}, fullname=${u2_fullname}, email=${u2_email})
+create_user(user=${u3_name}, fullname=${u3_fullname}, email=${u3_email})
+
+# Add a portrait to a user
+login(user=${u1_name})
+add_user_portrait(user=${u1_name}, fullname=${u1_fullname}, email=${u1_email})
+logout
+
+# u1 creates a project 
+login(user=${u1_name})
+create_project
+user_in_team(user=${u1_name})
+
+# u2 is invited to join
+user_not_in_team(user=${u2_name})
+# take advantage of the situation that there is only one
+# member in the project currently to test the plurality
+# of some strings
+add_project_member_and_verify_plurality(membername=${u2_name})
+
+# invite an email address
+add_email_invite(email=${test_email})
+remind_remove_email_invite(email=${test_email})
+logout
+
+# u2 accepts
+login(user=${u2_name})
+approve_project_membership(membername=${u2_name})
+logout
+
+# u1 removes membership
+login(user=${u1_name})
+user_in_team(user=${u2_name})
+remove_project_member(membername=${u2_name})
+user_not_in_team(user=${u2_name})
+logout 
+
+# u3 asks for membership
+login(user=${u3_name})
+user_not_in_team(user=${u3_name})
+user_request_membership(user=${u3_name})
+account_pending_not_listed(user=${u3_name})
+
+# and throw in a test to verify that you can cancel from the request membership page
+user_cancel_request_membership(user=${u3_name})
+logout

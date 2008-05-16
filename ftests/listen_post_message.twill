@@ -1,0 +1,16 @@
+# post a message to the archive of an existing list
+#
+# projname - name of the project under which the list resides
+# listtitle - title of the list
+# postsubject - subject of the post
+# postbody - body of the post
+# user - username of the logged in user
+#
+
+go ${base_url}/projects/${projname}/lists/${listtitle}/archive
+follow "listen_macros_post"
+fv 2 subject $postsubject
+fv 2  body $postbody
+submit
+find $postsubject
+find $user

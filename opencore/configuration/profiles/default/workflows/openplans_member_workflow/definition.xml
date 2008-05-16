@@ -1,0 +1,378 @@
+<?xml version="1.0"?>
+<dc-workflow workflow_id="openplans_member_workflow"
+             title="OpenPlans Member Workflow"
+             state_variable="review_state"
+             initial_state="new">
+ <permission>Copy or Move</permission>
+ <permission>Mail forgotten password</permission>
+ <permission>Manage users</permission>
+ <permission>Modify portal content</permission>
+ <permission>Set own password</permission>
+ <permission>Set own properties</permission>
+ <permission>View</permission>
+ <permission>membrane: Edit member id</permission>
+ <permission>membrane: Register member</permission>
+ <state state_id="disabled" title="Disabled">
+  <exit-transition transition_id="enable_pending"/>
+  <exit-transition transition_id="enable_private"/>
+  <exit-transition transition_id="enable_public"/>
+  <permission-map name="Copy or Move" acquired="False">
+   <permission-role>Manager</permission-role>
+  </permission-map>
+  <permission-map name="Mail forgotten password"
+                  acquired="False">
+   <permission-role>Manager</permission-role>
+  </permission-map>
+  <permission-map name="Manage users" acquired="False">
+   <permission-role>Manager</permission-role>
+  </permission-map>
+  <permission-map name="Modify portal content"
+                  acquired="False">
+   <permission-role>Manager</permission-role>
+  </permission-map>
+  <permission-map name="Set own password" acquired="False">
+   <permission-role>Manager</permission-role>
+  </permission-map>
+  <permission-map name="Set own properties" acquired="False">
+   <permission-role>Manager</permission-role>
+  </permission-map>
+  <permission-map name="View" acquired="False">
+   <permission-role>Manager</permission-role>
+  </permission-map>
+  <permission-map name="membrane: Edit member id"
+                  acquired="False">
+   <permission-role>Manager</permission-role>
+  </permission-map>
+  <permission-map name="membrane: Register member"
+                  acquired="False">
+   <permission-role>Manager</permission-role>
+  </permission-map>
+ </state>
+ <state state_id="new" title="Newly created member">
+  <exit-transition transition_id="auto_pending"/>
+  <exit-transition transition_id="trigger"/>
+  <permission-map name="Copy or Move" acquired="False">
+   <permission-role>Manager</permission-role>
+  </permission-map>
+  <permission-map name="Mail forgotten password"
+                  acquired="False">
+   <permission-role>Manager</permission-role>
+  </permission-map>
+  <permission-map name="Manage users" acquired="False">
+   <permission-role>Manager</permission-role>
+  </permission-map>
+  <permission-map name="Modify portal content"
+                  acquired="False">
+   <permission-role>Anonymous</permission-role>
+   <permission-role>Manager</permission-role>
+  </permission-map>
+  <permission-map name="Set own password" acquired="False">
+   <permission-role>Anonymous</permission-role>
+   <permission-role>Manager</permission-role>
+  </permission-map>
+  <permission-map name="Set own properties" acquired="False">
+   <permission-role>Anonymous</permission-role>
+   <permission-role>Manager</permission-role>
+  </permission-map>
+  <permission-map name="View" acquired="False">
+   <permission-role>Anonymous</permission-role>
+   <permission-role>Manager</permission-role>
+  </permission-map>
+  <permission-map name="membrane: Edit member id"
+                  acquired="False">
+   <permission-role>Anonymous</permission-role>
+   <permission-role>Manager</permission-role>
+  </permission-map>
+  <permission-map name="membrane: Register member"
+                  acquired="False">
+   <permission-role>Manager</permission-role>
+  </permission-map>
+ </state>
+ <state state_id="pending" title="Awaiting registration">
+  <exit-transition transition_id="disable"/>
+  <exit-transition transition_id="register_private"/>
+  <exit-transition transition_id="register_public"/>
+  <permission-map name="Copy or Move" acquired="False">
+   <permission-role>Manager</permission-role>
+  </permission-map>
+  <permission-map name="Mail forgotten password"
+                  acquired="False">
+   <permission-role>Manager</permission-role>
+  </permission-map>
+  <permission-map name="Manage users" acquired="False">
+   <permission-role>Manager</permission-role>
+  </permission-map>
+  <permission-map name="Modify portal content"
+                  acquired="False">
+   <permission-role>Manager</permission-role>
+  </permission-map>
+  <permission-map name="Set own password" acquired="False">
+   <permission-role>Manager</permission-role>
+  </permission-map>
+  <permission-map name="Set own properties" acquired="False">
+   <permission-role>Manager</permission-role>
+  </permission-map>
+  <permission-map name="View" acquired="False">
+   <permission-role>Manager</permission-role>
+  </permission-map>
+  <permission-map name="membrane: Edit member id"
+                  acquired="False">
+   <permission-role>Manager</permission-role>
+  </permission-map>
+  <permission-map name="membrane: Register member"
+                  acquired="False">
+   <permission-role>Manager</permission-role>
+  </permission-map>
+ </state>
+ <state state_id="private"
+        title="Registered user, private profile">
+  <exit-transition transition_id="make_public"/>
+  <exit-transition transition_id="disable"/>
+  <permission-map name="Copy or Move" acquired="False">
+   <permission-role>Manager</permission-role>
+  </permission-map>
+  <permission-map name="Mail forgotten password"
+                  acquired="False">
+   <permission-role>Anonymous</permission-role>
+   <permission-role>Manager</permission-role>
+   <permission-role>Owner</permission-role>
+  </permission-map>
+  <permission-map name="Manage users" acquired="False">
+   <permission-role>Manager</permission-role>
+  </permission-map>
+  <permission-map name="Modify portal content"
+                  acquired="False">
+   <permission-role>Manager</permission-role>
+   <permission-role>Owner</permission-role>
+  </permission-map>
+  <permission-map name="Set own password" acquired="False">
+   <permission-role>Manager</permission-role>
+   <permission-role>Owner</permission-role>
+  </permission-map>
+  <permission-map name="Set own properties" acquired="False">
+   <permission-role>Manager</permission-role>
+   <permission-role>Owner</permission-role>
+  </permission-map>
+  <permission-map name="View" acquired="False">
+   <permission-role>Manager</permission-role>
+   <permission-role>Owner</permission-role>
+  </permission-map>
+  <permission-map name="membrane: Edit member id"
+                  acquired="False">
+   <permission-role>Manager</permission-role>
+  </permission-map>
+  <permission-map name="membrane: Register member"
+                  acquired="False">
+   <permission-role>Manager</permission-role>
+  </permission-map>
+ </state>
+ <state state_id="public"
+        title="Registered user, public profile">
+  <exit-transition transition_id="make_private"/>
+  <exit-transition transition_id="disable"/>
+  <permission-map name="Copy or Move" acquired="False">
+   <permission-role>Manager</permission-role>
+  </permission-map>
+  <permission-map name="Mail forgotten password"
+                  acquired="False">
+   <permission-role>Anonymous</permission-role>
+   <permission-role>Manager</permission-role>
+   <permission-role>Owner</permission-role>
+  </permission-map>
+  <permission-map name="Manage users" acquired="False">
+   <permission-role>Manager</permission-role>
+  </permission-map>
+  <permission-map name="Modify portal content"
+                  acquired="False">
+   <permission-role>Manager</permission-role>
+   <permission-role>Owner</permission-role>
+  </permission-map>
+  <permission-map name="Set own password" acquired="False">
+   <permission-role>Manager</permission-role>
+   <permission-role>Owner</permission-role>
+  </permission-map>
+  <permission-map name="Set own properties" acquired="False">
+   <permission-role>Manager</permission-role>
+   <permission-role>Owner</permission-role>
+  </permission-map>
+  <permission-map name="View" acquired="False">
+   <permission-role>Anonymous</permission-role>
+   <permission-role>Authenticated</permission-role>
+   <permission-role>Manager</permission-role>
+   <permission-role>Member</permission-role>
+   <permission-role>Owner</permission-role>
+  </permission-map>
+  <permission-map name="membrane: Edit member id"
+                  acquired="False">
+   <permission-role>Manager</permission-role>
+  </permission-map>
+  <permission-map name="membrane: Register member"
+                  acquired="False">
+   <permission-role>Manager</permission-role>
+  </permission-map>
+ </state>
+ <transition transition_id="auto_pending"
+             title="Make pending , send out email"
+             new_state="pending" trigger="AUTOMATIC"
+             before_script="" after_script="">
+  
+  <guard>
+   <guard-permission>Add portal member</guard-permission>
+   <guard-expression>here/isValid</guard-expression>
+  </guard>
+ </transition>
+ <transition transition_id="disable" title="Disable member"
+             new_state="disabled" trigger="USER"
+             before_script="disable" after_script="">
+  <action url="" category="workflow">Disable member</action>
+  <guard>
+   <guard-permission>Manage users</guard-permission>
+  </guard>
+ </transition>
+ <transition transition_id="enable_pending"
+             title="Re-enable member" new_state="pending"
+             trigger="USER" before_script=""
+             after_script="enable">
+  <action url="" category="workflow">Re-enable member</action>
+  <guard>
+   <guard-permission>Manage users</guard-permission>
+   <guard-expression>python:getattr(here,'old_state',None) == 'pending'</guard-expression>
+  </guard>
+ </transition>
+ <transition transition_id="enable_private"
+             title="Re-enable member" new_state="private"
+             trigger="USER" before_script=""
+             after_script="enable">
+  <action url="" category="workflow">Re-enable member</action>
+  <guard>
+   <guard-permission>Manage users</guard-permission>
+   <guard-expression>python:getattr(here,'old_state',None) == 'private'</guard-expression>
+  </guard>
+ </transition>
+ <transition transition_id="enable_public"
+             title="Re-enable member" new_state="public"
+             trigger="USER" before_script="" after_script="">
+  <action url="" category="workflow">Re-enable member</action>
+  <guard>
+   <guard-permission>Manage users</guard-permission>
+   <guard-expression>python:getattr(here,'old_state',None) == 'public'</guard-expression>
+  </guard>
+ </transition>
+ <transition transition_id="make_private"
+             title="Make member profile private"
+             new_state="private" trigger="USER"
+             before_script="" after_script="">
+  <action url="" category="workflow">Make member profile private</action>
+  <guard>
+   <guard-role>Owner</guard-role>
+   <guard-role>Manager</guard-role>
+  </guard>
+ </transition>
+ <transition transition_id="make_public"
+             title="Make member profile public"
+             new_state="public" trigger="USER"
+             before_script="" after_script="">
+  <action url="" category="workflow">Make member profile public</action>
+  <guard>
+   <guard-role>Owner</guard-role>
+   <guard-role>Manager</guard-role>
+  </guard>
+ </transition>
+ <transition transition_id="register_private"
+             title="Approve member, make profile private"
+             new_state="private" trigger="USER"
+             before_script="" after_script="register">
+  <action url="" category="workflow">Register member and make profile private</action>
+  <guard>
+   <guard-permission>remember: Register member</guard-permission>
+   <guard-expression>here/isValid</guard-expression>
+  </guard>
+ </transition>
+ <transition transition_id="register_public"
+             title="Approve member, make profile public"
+             new_state="public" trigger="USER"
+             before_script="" after_script="register">
+  <action url="" category="workflow">Register member and make profile public</action>
+  <guard>
+   <guard-expression>here/isConfirmable | nothing</guard-expression>
+  </guard>
+ </transition>
+ <transition transition_id="trigger"
+             title="Trigger automatic transitions"
+             new_state="" trigger="USER" before_script=""
+             after_script="">
+  <action url="" category="workflow">Trigger automatic transitions</action>
+  <guard>
+  </guard>
+ </transition>
+ <worklist worklist_id="reviewer_queue" title="">
+  <description>Reviewer tasks</description>
+  <action url="%(portal_url)s/search?review_state=pending"
+          category="global">Pending (%(count)d)</action>
+  <guard>
+   <guard-permission>Review portal content</guard-permission>
+  </guard>
+  <match name="review_state" values="pending"/>
+ </worklist>
+ <variable variable_id="action" for_catalog="False"
+           for_status="True" update_always="True">
+  <description>The last transition</description>
+  <default>
+   
+   <expression>transition/getId|nothing</expression>
+  </default>
+  <guard>
+  </guard>
+ </variable>
+ <variable variable_id="actor" for_catalog="False"
+           for_status="True" update_always="True">
+  <description>The ID of the user who performed the last transition</description>
+  <default>
+   
+   <expression>user/getId</expression>
+  </default>
+  <guard>
+  </guard>
+ </variable>
+ <variable variable_id="comments" for_catalog="False"
+           for_status="True" update_always="True">
+  <description>Comments about the last transition</description>
+  <default>
+   
+   <expression>python:state_change.kwargs.get('comment', '')</expression>
+  </default>
+  <guard>
+  </guard>
+ </variable>
+ <variable variable_id="review_history" for_catalog="False"
+           for_status="False" update_always="False">
+  <description>Provides access to workflow history</description>
+  <default>
+   
+   <expression>state_change/getHistory</expression>
+  </default>
+  <guard>
+   <guard-permission>Request review</guard-permission>
+   <guard-permission>Review portal content</guard-permission>
+  </guard>
+ </variable>
+ <variable variable_id="time" for_catalog="False"
+           for_status="True" update_always="True">
+  <description>Time of the last transition</description>
+  <default>
+   
+   <expression>state_change/getDateTime</expression>
+  </default>
+  <guard>
+  </guard>
+ </variable>
+ <script script_id="disable" type="External Method"
+         filename="" module="remember.workflow"
+         function="disable"/>
+ <script script_id="enable" type="External Method"
+         filename="" module="remember.workflow"
+         function="enable"/>
+ <script script_id="register" type="External Method"
+         filename="" module="remember.workflow"
+         function="register"/>
+</dc-workflow>

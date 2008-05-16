@@ -1,0 +1,122 @@
+================================
+ Project Request Membership View
+================================
+
+First we set a project up w/ a membership invitation and a membership
+request so we've got some more useful data.
+
+    >>> proj = self.portal.projects.p3 # <-- m1 is ProjectAdmin
+    >>> team = proj.getTeams()[0]
+    >>> self.logout()
+    >>> self.login('m4') # <-- m4 not on team
+    >>> request = self.portal.REQUEST
+    >>> from opencore.project.browser.team import RequestMembershipView
+    >>> view = RequestMembershipView(proj, request)
+
+Set up the form data, and request membership
+    >>> view.request.form = {'request-message': 'i like your project'}
+    >>> view.request_membership()
+    >>> del view._redirected # necessary to display portal status message
+    >>> view.portal_status_message
+    [u'Your request to join "Project Three" has been sent to the ... administrator(s).']
+
+Check the mail host for messages
+    >>> mailhost = view.get_tool('MailHost')
+    >>> len(mailhost.messages)
+    2
+
+So there's two of them, because of that portal owner
+We're just interested in the 2nd one
+
+The project title and member id should be in the email
+    >>> mailhost.messages[1]['msg']
+    '...Project Three...m4...
+
+Verify membership object is in the pending state now
+    >>> wft = view.get_tool('portal_workflow')
+    >>> mship = team._getOb('m4')
+    >>> wft.getInfoFor(mship, 'review_state')
+    'pending'
+
+    >>> self.logout()
+
+Now, we simulate an admin rejecting
+    >>> self.loginAsPortalOwner()
+    >>> wft.doActionFor(mship, 'reject_by_admin')
+    >>> wft.getInfoFor(mship, 'review_state')
+    'rejected_by_admin'
+
+Now that he's deactivated, he should be able to reinvite himself
+    >>> self.logout()
+    >>> self.login('m4')
+    >>> view.request_membership()
+    >>> del view._redirected # necessary to display portal status message
+    >>> view.portal_status_message
+    [u'Your request to join "Project Three" has been sent to the ... administrator(s).']
+    >>> wft.getInfoFor(mship, 'review_state')
+    'pending'
+
+Simulate the user rejecting it
+    >>> wfid = 'openplans_team_membership_workflow'
+    >>> status = wft.getStatusOf(wfid, mship)
+    >>> status['review_state'] = 'rejected_by_owner'
+    >>> wft.setStatusOf(wfid, mship, status)
+    >>> wft.getInfoFor(mship, 'review_state')
+    'rejected_by_owner'
+
+And try to request a membership, one more time, from the owner rejected state
+    >>> view.request_membership()
+    >>> del view._redirected # necessary to display portal status message
+    >>> view.portal_status_message
+    [u'Your request to join "Project Three" has been sent to the ... administrator(s).']
+    >>> wft.getInfoFor(mship, 'review_state')
+    'pending'
+
+And as a logged in user trying to request membership to a project he already
+has membership to, he should get redirected to the project contents with an
+appropriate error message
+    >>> self.login('m2') # project member on team
+    >>> self.clearMemoCache()
+    >>> html = view()
+    >>> delattr(view, '_redirected')
+    >>> view.request.response.getHeader('location')
+    'http://nohost/plone/projects/p3?came_from=http://nohost'
+    >>> view.portal_status_message
+    [u'You are already a member of this ....']
+
+We should get the same results with a project admin too
+    >>> self.login('m1') # project admin on team
+    >>> self.clearMemoCache()
+    >>> html = view()
+    >>> delattr(view, '_redirected')
+    >>> view.request.response.getHeader('location')
+    'http://nohost/plone/projects/p3?came_from=http://nohost'
+    >>> view.portal_status_message
+    [u'You are already a member of this ....']
+
+If there is an error sending the email, we should try to send to some admins
+Setup m4 to be requested again
+    >>> team.removeMember('m4')
+    >>> self.login('m4')
+    >>> len(mailhost.messages)
+    6
+
+Stub out the send email method to raise a MailHostError
+    >>> from opencore.nui.email_sender import EmailSender
+    >>> from Products.MailHost.MailHost import MailHostError
+    >>> def stubSendEmail(self, recipient, msg='', **kw):
+    ...     if recipient == 'm1': raise MailHostError('some error!')
+    ...     else: return self.oldSendEmail(recipient, msg, **kw)
+    >>> EmailSender.oldSendEmail = EmailSender.sendEmail
+    >>> EmailSender.sendEmail = stubSendEmail
+    >>> view.request_membership()
+    >>> delattr(view, '_redirected')
+    >>> view.portal_status_message
+    [u'Your request to join "Project Three" has been sent to the ... administrator(s).']
+
+And a message should still get sent out for whatever admins it can
+    >>> len(mailhost.messages)
+    8
+
+Remember to restore the EmailSender method
+    >>> EmailSender.sendEmail = EmailSender.oldSendEmail

@@ -1,0 +1,3 @@
+go ${base_url}
+follow "projects" 
+find $projname

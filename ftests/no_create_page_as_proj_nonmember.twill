@@ -1,0 +1,32 @@
+# attempt to add a new page without sufficient permission.
+#
+# expects:
+#    - member logged in but without project membership
+#    - project projname exists, project homepage has a link
+#      to new_page, and new_page does not exist.
+
+
+# make sure it doesn't exist already...
+go ${base_url}/projects/${projname}/${new_page}
+code 404
+
+# Fail to create it...
+go ${base_url}/projects/${projname}/project-home/@@add-page?Title=${new_page}&section=text
+find 'psm_please_sign_in|psm_not_sufficient_perms'
+
+go ${base_url}/projects/${projname}/${new_page}
+code 404
+
+
+# You can't use the old wicked add views either.
+
+go ${base_url}/projects/${projname}/project-home/@@wickedaddmenu
+find 'psm_please_sign_in|psm_not_sufficient_perms'
+find 'psm_please_sign_in|psm_not_sufficient_perms'
+
+
+go ${base_url}/projects/${projname}/project-home/@@wickedadd?Title=${new_page}&section=text
+find 'psm_please_sign_in|psm_not_sufficient_perms'
+
+go ${base_url}/projects/${projname}/${new_page}
+code 404

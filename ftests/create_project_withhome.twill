@@ -1,0 +1,31 @@
+#
+# create a project with a particular home page selected
+#
+# projname - the id of the project 
+# projfullname - the full name of the project 
+# projpolicy - the initial security policy 
+#              [open_policy,medium_policy]
+# projfeaturelets - a comma separated list of featurelet names to enable
+# homepage - the home page to redirect to initially
+# 
+# expects: 
+#    logged in
+#    projpolicy is NOT closed_policy (must use create_closed_project)
+#
+extend_with flunc.checkbox
+
+go ${base_url}
+follow "Start a ${projtxt}"
+fv create_form projid $projname
+fv create_form project_title $projfullname
+fv create_form workflow_policy $projpolicy
+submit
+follow "Preferences"
+fv prefs_form home-page $homepage
+submit update:boolean
+find psm_proj_homepage_change
+notfind '${projtxt} preferences' i
+
+# verify project appears in newly created projects list
+go ${base_url}
+find 'home_newest_projects.*${projname}.*home_updated_projects' s

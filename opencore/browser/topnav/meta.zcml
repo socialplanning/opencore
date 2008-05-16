@@ -1,0 +1,9 @@
+<configure xmlns="http://namespaces.zope.org/meta">
+  <directives namespace="http://namespaces.openplans.org/opencore">
+    <directive
+       name="menuitem"
+       schema=".interfaces.ITopnavMenuItemSchema"
+       handler=".manager.oc_menuitem_directive"
+     />
+  </directives>
+</configure>

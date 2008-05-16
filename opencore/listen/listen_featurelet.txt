@@ -1,0 +1,65 @@
+Add the listen featurelet to a project::
+
+    >>> self.login('m3')
+    >>> proj = self.portal.projects.p1
+    >>> from topp.featurelets.interfaces import IFeatureletSupporter
+    >>> from opencore.listen.featurelet import ListenFeaturelet
+    >>> IFeatureletSupporter(proj).installFeaturelet(ListenFeaturelet(proj))
+    >>> proj.lists
+    <ATFolder at /plone/projects/p1/lists>
+
+The discussion list should have been created::
+
+    >>> proj.lists.objectIds()
+    ['p1-discussion']
+
+And should have been registered in the list lookup utility::
+
+    >>> ll = getUtility(IListLookup)
+    >>> mapping = ll.showAddressMapping()
+    >>> len(mapping)
+    1
+    >>> pprint(mapping)
+    [{'address': 'p1-discussion@...',
+      'path': '/plone/projects/p1/lists/p1-discussion'}]
+
+Let's also add a list featurelet to another project so we can make
+sure only the right one gets removed (bug #2055):
+
+    >>> p4_proj = self.portal.projects.p4
+    >>> IFeatureletSupporter(p4_proj).installFeaturelet(ListenFeaturelet(p4_proj))
+    >>> p4_proj.lists.objectIds()
+    ['p4-discussion']
+    >>> pprint(ll.showAddressMapping())
+    [{'address': 'p1-discussion@...',
+      'path': '/plone/projects/p1/lists/p1-discussion'},
+     {'address': 'p4-discussion@...',
+      'path': '/plone/projects/p4/lists/p4-discussion'}]
+
+
+And now we remove the featurelet::
+
+    >>> IFeatureletSupporter(proj).removeFeaturelet('listen')
+    >>> proj.lists
+    Traceback (most recent call last):
+    ...
+    AttributeError: lists
+
+
+
+And the p1 discussion list should get unregistered from the list lookup
+utility, but NOT those of any other project (bug #2055)::
+
+    >>> pprint(ll.showAddressMapping())
+    [{'address': 'p4-discussion@...',
+      'path': '/plone/projects/p4/lists/p4-discussion'}]
+
+Let's remove the one for p4 too:
+
+    >>> IFeatureletSupporter(p4_proj).removeFeaturelet('listen')
+    >>> p4_proj.lists
+    Traceback (most recent call last):
+    ...
+    AttributeError: lists
+    >>> pprint(ll.showAddressMapping())
+    []

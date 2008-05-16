@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<object name="portal_javascripts" meta_type="JavaScripts Registry">
+
+ <javascript cacheable="True" compression="safe" cookable="True"
+    enabled="True" expression="" id="openplans.js" inline="False"/>
+
+ <javascript cacheable="True" compression="safe" cookable="True"
+    enabled="True"
+    expression="python:not portal.restrictedTraverse('@@in_app')('tasktracker')"
+    id="formUnload.js" inline="False"/>
+
+ <javascript cacheable="True" compression="safe" cookable="True"
+    enabled="True"
+    expression="python:not portal.restrictedTraverse('@@in_app')('tasktracker')"
+    id="formsubmithelpers.js" inline="False"/>
+
+</object>

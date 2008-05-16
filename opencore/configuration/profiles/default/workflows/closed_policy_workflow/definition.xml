@@ -1,0 +1,343 @@
+<?xml version="1.0"?>
+<dc-workflow workflow_id="closed_policy_workflow"
+             title="Closed Security Policy Workflow"
+             state_variable="review_state"
+             initial_state="visible">
+ <permission>Access contents information</permission>
+ <permission>Modify portal content</permission>
+ <permission>View</permission>
+ <permission>Delete objects</permission>
+ <permission>CMFEditions: Access previous versions</permission>
+ <permission>CMFEditions: Save new version</permission>
+ <permission>CMFEditions: Apply version control</permission>
+ <permission>CMFEditions: Revert to previous versions</permission>
+ <permission>Add RichDocument</permission><!-- Deprecated in favor of Add OpenPage -->
+ <permission>OpenPlans: Add OpenPage</permission>
+ <state state_id="team_visible" title="Mgmt Only">
+  <exit-transition transition_id="lockAsTeamVisible"/>
+  <exit-transition transition_id="makeVisible"/>
+  <permission-map name="Access contents information"
+                  acquired="False">
+   <permission-role>Manager</permission-role>
+   <permission-role>Owner</permission-role>
+   <permission-role>ProjectAdmin</permission-role>
+   <permission-role>ProjectContentMgr</permission-role>
+  </permission-map>
+  <permission-map name="OpenPlans: Add OpenPage" acquired="True">
+  </permission-map>
+  <permission-map name="Add RichDocument" acquired="True">
+  </permission-map>
+  <permission-map name="CMFEditions: Access previous versions"
+                  acquired="False">
+   <permission-role>Manager</permission-role>
+   <permission-role>Owner</permission-role>
+   <permission-role>ProjectAdmin</permission-role>
+   <permission-role>ProjectContentMgr</permission-role>
+  </permission-map>
+  <permission-map name="CMFEditions: Apply version control"
+                  acquired="False">
+   <permission-role>Manager</permission-role>
+   <permission-role>ProjectAdmin</permission-role>
+   <permission-role>ProjectContentMgr</permission-role>
+  </permission-map>
+  <permission-map name="CMFEditions: Revert to previous versions"
+                  acquired="False">
+   <permission-role>Manager</permission-role>
+   <permission-role>ProjectAdmin</permission-role>
+   <permission-role>ProjectContentMgr</permission-role>
+  </permission-map>
+  <permission-map name="CMFEditions: Save new version"
+                  acquired="False">
+   <permission-role>Manager</permission-role>
+   <permission-role>ProjectAdmin</permission-role>
+   <permission-role>ProjectContentMgr</permission-role>
+  </permission-map>
+  <permission-map name="Delete objects" acquired="False">
+   <permission-role>Manager</permission-role>
+   <permission-role>ProjectAdmin</permission-role>
+   <permission-role>ProjectContentMgr</permission-role>
+  </permission-map>
+  <permission-map name="Modify portal content"
+                  acquired="False">
+   <permission-role>Manager</permission-role>
+   <permission-role>ProjectAdmin</permission-role>
+   <permission-role>ProjectContentMgr</permission-role>
+  </permission-map>
+  <permission-map name="View" acquired="False">
+   <permission-role>Manager</permission-role>
+   <permission-role>Owner</permission-role>
+   <permission-role>ProjectAdmin</permission-role>
+   <permission-role>ProjectContentMgr</permission-role>
+  </permission-map>
+ </state>
+ <state state_id="team_visible_locked"
+        title="Mgmt Only - Locked">
+  <exit-transition transition_id="unlockAsTeamVisible"/>
+  <permission-map name="Access contents information"
+                  acquired="False">
+   <permission-role>Manager</permission-role>
+   <permission-role>Owner</permission-role>
+   <permission-role>ProjectAdmin</permission-role>
+   <permission-role>ProjectContentMgr</permission-role>
+  </permission-map>
+  <permission-map name="Add RichDocument" acquired="True">
+  </permission-map>
+  <permission-map name="OpenPlans: Add OpenPage" acquired="True">
+  </permission-map>
+  <permission-map name="CMFEditions: Access previous versions"
+                  acquired="False">
+   <permission-role>Manager</permission-role>
+   <permission-role>Owner</permission-role>
+   <permission-role>ProjectAdmin</permission-role>
+   <permission-role>ProjectContentMgr</permission-role>
+  </permission-map>
+  <permission-map name="CMFEditions: Apply version control"
+                  acquired="False">
+   <permission-role>Manager</permission-role>
+   <permission-role>ProjectAdmin</permission-role>
+  </permission-map>
+  <permission-map name="CMFEditions: Revert to previous versions"
+                  acquired="False">
+   <permission-role>Manager</permission-role>
+   <permission-role>ProjectAdmin</permission-role>
+  </permission-map>
+  <permission-map name="CMFEditions: Save new version"
+                  acquired="False">
+   <permission-role>Manager</permission-role>
+   <permission-role>ProjectAdmin</permission-role>
+  </permission-map>
+  <permission-map name="Delete objects" acquired="False">
+   <permission-role>Manager</permission-role>
+   <permission-role>ProjectAdmin</permission-role>
+  </permission-map>
+  <permission-map name="Modify portal content"
+                  acquired="False">
+   <permission-role>Manager</permission-role>
+   <permission-role>ProjectAdmin</permission-role>
+  </permission-map>
+  <permission-map name="View" acquired="False">
+   <permission-role>Manager</permission-role>
+   <permission-role>Owner</permission-role>
+   <permission-role>ProjectAdmin</permission-role>
+   <permission-role>ProjectContentMgr</permission-role>
+  </permission-map>
+ </state>
+ <state state_id="visible" title="Public">
+  <exit-transition transition_id="lockAsVisible"/>
+  <exit-transition transition_id="team"/>
+  <permission-map name="Access contents information"
+                  acquired="False">
+   <permission-role>Manager</permission-role>
+   <permission-role>ProjectAdmin</permission-role>
+   <permission-role>ProjectMember</permission-role>
+   <permission-role>Reviewer</permission-role>
+  </permission-map>
+  <permission-map name="Add RichDocument" acquired="False">
+   <permission-role>Manager</permission-role>
+   <permission-role>ProjectAdmin</permission-role>
+   <permission-role>ProjectMember</permission-role>
+  </permission-map>
+  <permission-map name="OpenPlans: Add OpenPage" acquired="False">
+   <permission-role>Manager</permission-role>
+   <permission-role>ProjectAdmin</permission-role>
+   <permission-role>ProjectMember</permission-role>
+  </permission-map>
+  <permission-map name="CMFEditions: Access previous versions"
+                  acquired="False">
+   <permission-role>Manager</permission-role>
+   <permission-role>ProjectAdmin</permission-role>
+   <permission-role>ProjectMember</permission-role>
+  </permission-map>
+  <permission-map name="CMFEditions: Apply version control"
+                  acquired="False">
+   <permission-role>Manager</permission-role>
+   <permission-role>ProjectAdmin</permission-role>
+   <permission-role>ProjectMember</permission-role>
+  </permission-map>
+  <permission-map name="CMFEditions: Revert to previous versions"
+                  acquired="False">
+   <permission-role>Manager</permission-role>
+   <permission-role>ProjectAdmin</permission-role>
+   <permission-role>ProjectMember</permission-role>
+  </permission-map>
+  <permission-map name="CMFEditions: Save new version"
+                  acquired="False">
+   <permission-role>Manager</permission-role>
+   <permission-role>ProjectAdmin</permission-role>
+   <permission-role>ProjectMember</permission-role>
+  </permission-map>
+  <permission-map name="Delete objects" acquired="False">
+   <permission-role>Manager</permission-role>
+   <permission-role>ProjectAdmin</permission-role>
+   <permission-role>ProjectMember</permission-role>
+  </permission-map>
+  <permission-map name="Modify portal content"
+                  acquired="False">
+   <permission-role>Manager</permission-role>
+   <permission-role>ProjectAdmin</permission-role>
+   <permission-role>ProjectMember</permission-role>
+  </permission-map>
+  <permission-map name="View" acquired="False">
+   <permission-role>Manager</permission-role>
+   <permission-role>ProjectAdmin</permission-role>
+   <permission-role>ProjectMember</permission-role>
+   <permission-role>Reviewer</permission-role>
+  </permission-map>
+ </state>
+ <state state_id="visible_locked" title="Visible - Locked">
+  <exit-transition transition_id="unlockAsVisible"/>
+  <permission-map name="Access contents information"
+                  acquired="False">
+   <permission-role>Manager</permission-role>
+   <permission-role>Owner</permission-role>
+   <permission-role>ProjectAdmin</permission-role>
+   <permission-role>ProjectContentMgr</permission-role>
+   <permission-role>ProjectMember</permission-role>
+   <permission-role>Reviewer</permission-role>
+  </permission-map>
+  <permission-map name="Add RichDocument" acquired="True">
+  </permission-map>
+  <permission-map name="OpenPlans: Add OpenPage" acquired="True">
+  </permission-map>
+  <permission-map name="CMFEditions: Access previous versions"
+                  acquired="False">
+   <permission-role>Manager</permission-role>
+   <permission-role>Owner</permission-role>
+   <permission-role>ProjectAdmin</permission-role>
+   <permission-role>ProjectContentMgr</permission-role>
+  </permission-map>
+  <permission-map name="CMFEditions: Apply version control"
+                  acquired="False">
+   <permission-role>Manager</permission-role>
+   <permission-role>ProjectAdmin</permission-role>
+  </permission-map>
+  <permission-map name="CMFEditions: Revert to previous versions"
+                  acquired="False">
+   <permission-role>Manager</permission-role>
+   <permission-role>ProjectAdmin</permission-role>
+  </permission-map>
+  <permission-map name="CMFEditions: Save new version"
+                  acquired="False">
+   <permission-role>Manager</permission-role>
+   <permission-role>ProjectAdmin</permission-role>
+  </permission-map>
+  <permission-map name="Delete objects" acquired="False">
+   <permission-role>Manager</permission-role>
+   <permission-role>ProjectAdmin</permission-role>
+  </permission-map>
+  <permission-map name="Modify portal content"
+                  acquired="False">
+   <permission-role>Manager</permission-role>
+   <permission-role>ProjectAdmin</permission-role>
+  </permission-map>
+  <permission-map name="View" acquired="False">
+   <permission-role>Manager</permission-role>
+   <permission-role>Owner</permission-role>
+   <permission-role>ProjectAdmin</permission-role>
+   <permission-role>ProjectContentMgr</permission-role>
+   <permission-role>ProjectMember</permission-role>
+   <permission-role>Reviewer</permission-role>
+  </permission-map>
+ </state>
+ <transition transition_id="lockAsTeamVisible" title="Lock"
+             new_state="team_visible_locked" trigger="USER"
+             before_script="" after_script="">
+  <action url="" category="workflow">Lock</action>
+  <guard>
+   <guard-role>ProjectAdmin</guard-role>
+  </guard>
+ </transition>
+ <transition transition_id="lockAsVisible" title="Lock"
+             new_state="visible_locked" trigger="USER"
+             before_script="" after_script="">
+  <action url="" category="workflow">Lock</action>
+  <guard>
+   <guard-role>ProjectAdmin</guard-role>
+  </guard>
+ </transition>
+ <transition transition_id="makeVisible" title="Make Public"
+             new_state="visible" trigger="USER"
+             before_script="" after_script="">
+  <action url="" category="workflow">Make Public</action>
+  <guard>
+   <guard-permission>OpenPlans: Make content visible</guard-permission>
+  </guard>
+ </transition>
+ <transition transition_id="team" title="Make Mgmt Only"
+             new_state="team_visible" trigger="USER"
+             before_script="" after_script="">
+  <action url="%(content_url)s/what_is_this_for"
+          category="workflow">Make Mgmt Only</action>
+  <guard>
+   <guard-permission>Modify portal content</guard-permission>
+  </guard>
+ </transition>
+ <transition transition_id="unlockAsTeamVisible"
+             title="Unlock" new_state="team_visible"
+             trigger="USER" before_script="" after_script="">
+  <action url="" category="workflow">Unlock</action>
+  <guard>
+   <guard-role>ProjectAdmin</guard-role>
+  </guard>
+ </transition>
+ <transition transition_id="unlockAsVisible" title="Unlock"
+             new_state="visible" trigger="USER"
+             before_script="" after_script="">
+  <action url="" category="workflow">Unlock</action>
+  <guard>
+   <guard-role>ProjectAdmin</guard-role>
+  </guard>
+ </transition>
+ <variable variable_id="action" for_catalog="False"
+           for_status="True" update_always="True">
+  <description>The last transition</description>
+  <default>
+   
+   <expression>transition/getId|nothing</expression>
+  </default>
+  <guard>
+  </guard>
+ </variable>
+ <variable variable_id="actor" for_catalog="False"
+           for_status="True" update_always="True">
+  <description>The ID of the user who performed the last transition</description>
+  <default>
+   
+   <expression>user/getId</expression>
+  </default>
+  <guard>
+  </guard>
+ </variable>
+ <variable variable_id="comments" for_catalog="False"
+           for_status="True" update_always="True">
+  <description>Comments about the last transition</description>
+  <default>
+   
+   <expression>python:state_change.kwargs.get('comment', '')</expression>
+  </default>
+  <guard>
+  </guard>
+ </variable>
+ <variable variable_id="review_history" for_catalog="False"
+           for_status="False" update_always="False">
+  <description>Provides access to workflow history</description>
+  <default>
+   
+   <expression>state_change/getHistory</expression>
+  </default>
+  <guard>
+   <guard-permission>Request review</guard-permission>
+   <guard-permission>Review portal content</guard-permission>
+  </guard>
+ </variable>
+ <variable variable_id="time" for_catalog="False"
+           for_status="True" update_always="True">
+  <description>Time of the last transition</description>
+  <default>
+   
+   <expression>state_change/getDateTime</expression>
+  </default>
+  <guard>
+  </guard>
+ </variable>
+</dc-workflow>

@@ -1,0 +1,22 @@
+
+<ul id="oc-usermenu-explore" style="display:none;">
+  <li>
+    <a tal:attributes="href context/portal_url"
+       tal:content="string:Home" />
+  </li>
+
+  <li>
+    <a tal:attributes="href string:${context/portal_url}/people"
+       tal:content="string:People" />
+  </li>
+
+  <li>
+    <a tal:attributes="href string:${context/portal_url}/projects"
+       tal:content="python:view.project_noun.title() + 's'" />
+  </li>
+
+  <li>
+    <a tal:attributes="href string:${context/portal_url}/projects/create"
+       tal:content="python:'Start a %s' % view.project_noun" />
+  </li>
+</ul>

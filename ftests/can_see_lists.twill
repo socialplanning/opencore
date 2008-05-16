@@ -1,0 +1,12 @@
+#
+# makes sure that mailing lists for project are
+# visible
+#
+# projname - name of the project 
+# listtitle - the list to check for
+#
+go ${base_url}/projects/${projname}/lists
+find $listtitle
+follow $listtitle
+follow 'listen_macros_messages'
+find 'Forum view for ${listtitle}'

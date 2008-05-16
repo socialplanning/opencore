@@ -1,0 +1,4 @@
+extend_with flunc.zope_get_uid
+
+get_uid $user $admin $adminpw
+echo ${base_url}/confirm-account?key=${__uid__}

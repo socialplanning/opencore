@@ -1,0 +1,7 @@
+go  ${base_url}/projects/${projname}/project-home
+follow history
+extend_with flunc.checkbox 
+edit_checkbox version_compare_form version_id 0
+edit_checkbox version_compare_form version_id 1
+submit
+notfind 'do not have sufficient permissions|Login.*Username.*Password' is

@@ -1,0 +1,21 @@
+============================
+ configuration.utils tests
+============================
+
+   >>> from opencore.configuration import utils
+
+
+We can read stuff from zope.conf's product-config directives.
+
+   >>> print utils.product_config('email-confirmation', 'opencore.nui')
+   True
+
+If either the name or the namespace isn't in the config file,
+the default is returned::
+
+   >>> utils.product_config('foo', 'bar')
+   ''
+
+   >>> utils.product_config('foo', 'bar', 'default')
+   'default'
+

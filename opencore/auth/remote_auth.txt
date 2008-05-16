@@ -1,0 +1,68 @@
+Test for Remote Auth
+====================
+
+We start by setting up the 'remote_auth_sites' property so it tries to
+do remote authentication (otherwise the plugin will just return).
+
+    >>> from opencore.utils import get_opencore_property
+    >>> from opencore.utils import set_opencore_properties
+    >>> set_opencore_properties(self.portal,
+    ...                         remote_auth_sites=
+    ...                         ['http://localhost:8080/openplans'])
+
+Then we push some response data into our mock HTTP connection object
+so that the plugin and the event handler will get reasonable data back
+from their http requests.
+
+    >>> from opencore.testing.minimock import HTTPMock
+    >>> from opencore.auth.tests import memxml
+    >>> HTTPMock.add_to_response_content('some-bogus-auth-hash')
+    >>> HTTPMock.add_to_response_content(memxml)
+
+Now we're ready to see if the plugin will authenticate successfully:
+
+    >>> login = 'login'
+    >>> plugin = self.portal.acl_users.opencore_remote_auth
+    >>> credentials = {'login': login, 'password': 'password'}
+    >>> auth_result = plugin.authenticateCredentials(credentials)
+    Called httplib2.Http.request...
+    Called httplib2.Http.request...
+    >>> self.failUnless(auth_result == (login, login))
+
+A member object should now exist, and it should have the right
+security settings.  The rolesOfPermission call returns a bit of an
+unwieldy data structure, tailored towards the ZMI's permissions
+screens, so we iterate through it and pull out the roles:
+
+    >>> mem = self.portal.portal_memberdata._getOb(login)
+    >>> viewroles = []
+    >>> for role in mem.rolesOfPermission('View'):
+    ...     if role.get('selected'):
+    ...         viewroles.append(role.get('name'))
+    >>> self.failUnless('Anonymous' in viewroles)
+
+Now that a member object exists, the remote auth plugin shouldn't make
+any HTTP requests:
+
+    >>> auth_result = plugin.authenticateCredentials(credentials)
+    >>> self.failUnless(auth_result is None)
+
+We switch to a different username so the new member object doesn't
+interfere for the remaining tests:
+
+    >>> credentials['login'] = 'login2'
+
+Let's add failure responses to make sure auth failures are handled
+correctly.  First a 404 (member doesn't exist):
+
+    >>> HTTPMock.add_to_response_content('', 404)
+    >>> auth_result = plugin.authenticateCredentials(credentials)
+    Called httplib2.Http.request...
+    >>> self.failUnless(auth_result is None)
+
+Now a 400 (auth failed):
+
+    >>> HTTPMock.add_to_response_content('', 400)
+    >>> auth_result = plugin.authenticateCredentials(credentials)
+    Called httplib2.Http.request...
+    >>> self.failUnless(auth_result is None)

@@ -1,0 +1,8 @@
+extend_with flunc.xpath
+
+go ${people_url}/profile
+find_in_xpath '<a +href=".*".*>Profile</a>' "//li[@class='oc-topnav-selected']"
+
+# this currently isn't highlighted unless in the profile subpath
+go ${people_url}
+find_in_xpath '<a +href=".*".*>Profile</a>' "//li[@class='oc-topnav-selected']"

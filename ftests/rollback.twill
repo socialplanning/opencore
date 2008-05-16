@@ -1,0 +1,21 @@
+#
+# rolls the project home page back to the version given 
+#
+# $projname - the project to roll back 
+# $version_id - the version number to roll back to
+# $version_name - the displayable version name eg "Version 1"  
+# $expected - text that is expected after the rollback 
+#
+# expects: 
+#    project exists, page with version given, logged in as 
+#    project admin 
+#
+
+
+go ${base_url}/projects/${projname}/project-home/history
+follow "version\?version_id=${version_id}"
+find 'revert to this version'
+fv revert_form revert revert
+submit "revert"
+find "Rolled back to ${version_name}"
+find $expected

@@ -1,0 +1,12 @@
+# cleans up artifacts of the search suite
+destroy_project(projname='search_proj1')
+destroy_project(projname='search_proj2')
+destroy_project(projname='search_proj3')
+destroy_project(projname='123search_proj4')
+destroy_user
+
+destroy_user(user='fa')
+destroy_user(user='fb')
+destroy_user(user='fz')
+destroy_user(user='Fc')
+destroy_user(user='zul')

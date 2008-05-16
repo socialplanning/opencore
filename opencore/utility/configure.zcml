@@ -1,0 +1,12 @@
+<configure xmlns="http://namespaces.zope.org/zope"
+	   xmlns:five="http://namespaces.zope.org/five">
+
+    <utility factory="opencore.utility.http.HTTPClient"
+	     provides="opencore.utility.interfaces.IHTTPClient"
+	     />
+
+    <adapter for="opencore.interfaces.IOpenSiteRoot"
+	     provides="opencore.utility.interfaces.IEmailSender"
+	     factory="opencore.utility.email_sender.EmailSender"
+	     />
+</configure>

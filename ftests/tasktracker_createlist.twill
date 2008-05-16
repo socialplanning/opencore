@@ -1,0 +1,14 @@
+#
+# creates a list in tasktracker
+#
+# projname - the id of the project 
+# tasklistname - the task list name
+#
+
+
+go ${base_url}/projects/${projname}
+follow 'tasks'
+follow 'Create a new list'
+find "${projname}'s ${projtxt} members"
+fv 2 title $tasklistname
+submit

@@ -1,0 +1,22 @@
+<configure xmlns="http://namespaces.zope.org/zope"
+    xmlns:browser="http://namespaces.zope.org/browser"
+    xmlns:meta="http://namespaces.zope.org/meta"
+    xmlns:five="http://namespaces.zope.org/five"
+    xmlns:i18n="http://namespaces.zope.org/i18n"
+    i18n_domain="opencore">
+
+  <five:implements 
+     class="ZPublisher.HTTPRequest.HTTPRequest" 
+     interface="zope.app.annotation.IAttributeAnnotatable"/>
+
+  <meta:redefinePermission from="zope2.Public" to="zope.Public" />
+
+  <include package=".wiki" />
+  <include package=".main" />
+
+  <include file="indexing.zcml" />
+
+  <!-- allows this interface show up as a potential marker in zmi -->
+  <interface interface="opencore.interfaces.IAmExperimental" />
+
+</configure>

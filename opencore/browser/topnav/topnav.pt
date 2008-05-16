@@ -1,0 +1,45 @@
+<div id="oc-topnav">
+
+  <h1>
+    <a tal:attributes="href string:${view/areaURL}"
+       tal:content="view/area/Title" />
+  </h1>
+
+  <tal:comment replace="nothing">
+    <!-- old topnav generation -->
+    <tal:contextMenu replace="structure view/contextmenu" />
+  </tal:comment>
+
+  <ul id="oc-topnav-context" class="oc-clearAfter"
+      tal:define="contextmenu view/contextmenu"
+      tal:condition="contextmenu"
+      tal:content="structure contextmenu"
+      />
+
+  <div id="oc-topnav-tab">
+    <div id="oc-topnav-globalmenu-container">
+    <ul id="oc-topnav-globalmenu" class="oc-dropdown-list">
+      <li class="oc-dropdown-container">
+        <a tal:attributes="href here/portal_url">
+          <img src="++resource++img/logo.gif" 
+               tal:attributes="alt view/portal_title"
+               style="display: inline;" />
+        </a>
+        <tal:exploremenu replace="structure context/topnav-explore-menu" />
+      </li>
+    </ul>
+
+    <form name="searchform" id="oc-sitesearch"
+          tal:attributes="action string:${view/portal/absolute_url}/sitesearch"
+          onsubmit="return liveSearchSubmit()">
+      <input id="searchGadget" name="search_for"
+             type="text" size="10" title="Search site"
+             accesskey="4" class="oc-input-typeText" />
+    </form>
+    </div>
+    
+    <div id="oc-topnav-usermenu-container" tal:content="structure view/usermenu" />
+    
+  </div>
+
+</div>

@@ -1,0 +1,17 @@
+# approve a user's subscription request
+#
+# projname - name of the project under which the list resides
+# listtitle - title of the list
+# user - the user who wants to subscribe
+#
+
+go ${base_url}/projects/${projname}/lists/${listtitle}/moderation
+find $email
+fv 2 reject_reason 'hi'
+submit 2
+notfind $email
+go ${base_url}/projects/${projname}/lists/${listtitle}/manage_membership
+fv 2 remove_${user} on
+
+
+

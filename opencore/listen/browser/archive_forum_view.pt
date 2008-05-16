@@ -1,0 +1,60 @@
+<html i18n:domain="opencore" metal:use-macro="here/@@standard_macros/master">
+  <body>
+    <div metal:fill-slot="content">
+      <div metal:use-macro="here/@@listen_macros/bcrumb"/>
+      <div metal:use-macro="here/@@listen_macros/tabs"/>
+      <div id="oc-content-main">
+        <div class="oc-headingBlock">
+          <h2 tal:content="view/Title" />
+          <div i18n:translate="archive_forum_view_by" class="oc-headingContext oc-smallText">View by <strong>conversation</strong> or <a href="date_view">date</a></div>
+        </div>
+        <tal:threads define="
+           batch view/getTopics;
+	   threads python:batch.topic_list; 
+           batch_base_url string:${here/absolute_url}">
+          <div class="oc-listen-paginator">
+            <div metal:use-macro="here/batch_macros/macros/navigation" />
+          </div>
+          <table id="forum-topics" class="oc-dataTable" tal:condition="threads" summary="Forum view" cellspacing="0">
+            <thead>
+              <tr>
+                <th scope="col"><tal:title i18n:translate="archive_forum_thread_subject">Subject</tal:title></th>
+                <th><tal:title i18n:translate="archive_forum_list_thread_starter">Started by</tal:title></th>
+                <th scope="col"><tal:title i18n:translate="archive_forum_thread_replies">Replies</tal:title></th>
+                <th scope="col"><tal:title i18n:translate="archive_forum_thread_last_activity">Last activity</tal:title></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tal:items repeat="item threads">
+                <tr>
+                  <td>
+                    <a href="#"
+                       tal:content="item/brief_subject"
+                       tal:attributes="href item/url">
+                    Subject</a>
+                  </td>
+                  <td>
+                    <a href="."
+                       tal:omit-tag="not:item/from_id"
+                       tal:attributes="href string:${here/portal_url}/people/${item/from_id}">
+                      <span tal:replace="item/mail_from">test@example.com</span>
+                    </a>
+                  </td>
+                  <td tal:content="item/responses">10</td>
+                  <td tal:content="item/last_post">12/1/2005 3:54 pm</td>
+                </tr>
+              </tal:items>
+            </tbody>
+          </table>
+
+          <p tal:condition="not: threads" i18n:translate="archive_no_posts">
+            There are currently no posts in this archive.
+          </p>
+        </tal:threads>
+      </div><!-- content-main -->
+      <div id="oc-content-sidebar">
+        <div metal:use-macro="here/@@listen_macros/about"/>
+      </div><!-- content-sidebar -->
+    </div><!-- content-container -->
+  </body>
+</html>

@@ -1,0 +1,171 @@
+body {
+  color: #333;
+  background: #FFF;
+  padding: 0;
+}
+#oc-page-container {}
+
+#oc-topnav-wrapper {
+  width: 100%;
+  padding: 0;
+  color: #fff;
+  background: #332F2A;
+  border-top: 0.75em solid #4D4945;
+  border-bottom: 1px solid #4D4945;
+}
+#oc-topnav {
+}
+#oc-topnav h1 {
+  font-size: 32px;
+  font-weight: normal;
+  padding: 0;
+  margin: 0.125em 0 0.25em;
+}
+#oc-topnav a {
+  text-decoration: none;
+  color: #fff;
+}
+#oc-topnav a:hover {
+}
+ul#oc-topnav-context {
+}
+ul#oc-topnav-context li {
+  background: #665D55;
+}
+ul#oc-topnav-context li.oc-topnav-join a {
+  background: #6BA12A;
+}
+ul#oc-topnav-context li a:hover,
+ul#oc-topnav-context li.oc-topnav-selected a {
+  background: #EB852B;
+}
+#oc-content-wrapper {
+ /* padding: 1.5em 0 1em; */
+ /* background-color: #fff; */
+}
+#oc-content-main {
+}
+#oc-footer-wrapper {
+  color: #666;
+  background: #f9f9f9;
+  border-top: 1px solid #332F2A;
+  padding: 0.5em 0 1em;
+}
+#oc-footer a {
+  color: #666;
+  text-decoration: none;
+}
+#oc-footer a:hover {
+  color: #999;
+}   
+.oc-missingText {
+  color: gray;
+}
+
+/* @HTML ELEMENTS GENERAL @TYPOGRAPHY
+-------------------------------------------- */
+
+.oc-feed-item-title,
+.oc-searchresults-item h3,
+.oc-peopleresults-content h3,
+.oc-lineup-item h3 {
+  font-weight: bold;
+}
+
+/* @BOXES THAT NEED STYLE
+-------------------------------------------- */
+
+/* Boxy */
+
+.oc-boxy {
+  border-top: 2px solid #E6D3C0;
+  background-color: #F9F9F9;
+  padding: 1em;
+}
+#oc-content-sidebar .oc-boxy h1,
+#oc-content-sidebar .oc-boxy h2 {
+  padding-bottom: 0.5em;
+  border-bottom: 1px dotted #E6D3C0;
+}
+
+/* Get Started */
+
+.oc-getstarted {
+  border: 1px solid #EB852B;;
+  background-color: #F9F9F9;
+}
+.oc-getstarted h1,
+.oc-getstarted h2 {
+  border-bottom: 1px dotted #EB852B;
+  padding-bottom: 0.5em;
+  margin: 0 0 0.5em;
+}
+.oc-getstarted h1 a,
+.oc-getstarted h2 a {
+}
+.oc-getstarted p {
+  margin: 0;
+}
+
+.oc-getstarted p,
+.oc-getstarted-list {
+  margin-bottom: 1em;
+}
+.oc-getstarted-list p {
+}
+.oc-getstarted a {
+ color: #EB852B;
+ font-weight: bold;
+}
+
+/* Search Widgets */
+
+.oc-widget-search,
+#oc-content-sidebar .oc-widget-search,
+#oc-content-sidebar .oc-widget-search.oc-boxy {
+  border: 1px solid #E6D3C0;
+  border-top: 2px solid #4D4945;
+  padding: 1em;
+}
+.oc-widget-alphabet,
+#oc-content-sidebar ul.oc-widget-alphabet.oc-boxy {
+  border: none;
+  border-top: 1px dotted #332F2A;
+  background: none;
+  padding: 0;
+  padding-top: 0.5em;
+  margin-top: 0.5em;
+}
+.oc-widget-multiSearch {
+}
+.oc-widget-multiSearch .oc-label-heading {
+ display: inline;
+ padding-right: 0.5em;
+}
+.oc-widget-multiSearch ul.oc-inlineList {
+  margin: 0.5em;
+  display: inline;
+}
+.oc-widget-multiSearch .oc-form-fieldBlock {
+  margin-top: 0.5em;
+}
+
+/* Form Boxes */
+
+.oc-boxy legend.oc-legend-heading{
+}
+#oc-join-form fieldset.oc-boxy,
+#oc-login-form fieldset.oc-boxy {
+  margin-top: -0.75em;
+}
+#oc-join-form .oc-form-label{
+  width: 11em;
+}
+
+/* Member badges */
+#oc-member-badge,
+.oc-directory-list li.vcard,
+.oc-roster li.vcard {
+  background-color: #F6F6F6;
+}
+
