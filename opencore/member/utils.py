@@ -16,8 +16,5 @@ def profile_path(mem_id):
     """
     return '%s/profile' % member_path(mem_id)
 
-def portrait_thumb_path(mem_id, square=False):
-    if square:
-        return '%s/portrait_square_thumb' % member_path(mem_id)
-    else:
-        return '%s/portrait_thumb' % member_path(mem_id)
+def portrait_thumb_path(mem_id, thumbnail_name='thumb'):
+    return '%s/portrait_%s' % (member_path(mem_id), thumbnail_name)
