@@ -30,7 +30,7 @@ from Products.remember.permissions import EDIT_PROPERTIES_PERMISSION
 from opencore.configuration import PROJECTNAME
 from opencore.configuration import PROHIBITED_MEMBER_PREFIXES
 
-from member_fields import ScaledImageField
+from member_fields import SquareScalesImageField
 
 from opencore.utility.interfaces import IHTTPClient
 from opencore.utils import get_opencore_property
@@ -85,7 +85,7 @@ nuischema = Schema((
                         size=50,
                         ),
                       ),
-                    ScaledImageField(
+                    SquareScalesImageField(
                       'portrait',
                       mode='rw',
                       accessor='getPortrait',
