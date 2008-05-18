@@ -8,7 +8,7 @@ from ZODB.POSException import ConflictError
 # we cheat by saying we always have pil installed
 HAS_PIL = True
 
-class SquareScalesImageField(ImageField):
+class SquareScaledImageField(ImageField):
     """
     override the archetypes ImageField class by modifying the way
     scales are created
