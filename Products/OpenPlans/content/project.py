@@ -78,22 +78,6 @@ ProjectSchema += Schema((
             ),
           searchable=True,
           ),
-        StringField(
-          'position-text',
-          accessor='getPositionText',
-          mutator='setPositionText',
-          mode='rw',
-          read_permission=View,
-          write_permission=ModifyPortalContent,
-          widget=StringWidget(
-            label='Position on map',
-            label_msgid='position_on_map',
-            description="Your address on a map.",
-            description_msgid='help_position_on_map',
-            i18n_domain='plone',
-            ),
-          searchable=True,
-          ),
         ))
 
 ProjectSchema['id'].widget.label = 'URL Name'
