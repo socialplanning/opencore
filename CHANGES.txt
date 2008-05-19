@@ -16,6 +16,7 @@
  * Create links to people pages on transient messages (rmarianski)
  * Fixed listen moderation ui (cabraham)
  * Fixed wordpress redirect for blogs on closed projects (douglas)
+ * Updated translation infrastructure to accomodate new copy (cabraham)
 
 0.10 (2008-04-23)
 =================
