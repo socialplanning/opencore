@@ -17,6 +17,10 @@
  * Fixed listen moderation ui (cabraham)
  * Fixed wordpress redirect for blogs on closed projects (douglas)
  * Updated translation infrastructure to accomodate new copy (cabraham)
+ * Re-enable optional oc-geotagging plugin, now via viewlets; it will be
+   used iff oc-geotagging is installed. Still a work in progress. (slinkp)
+ * Remove all calls to configuration.utils.get_config; instead use
+   an IProvideSiteConfig implementation. (slinkp)
 
 0.10 (2008-04-23)
 =================
