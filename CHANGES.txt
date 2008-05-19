@@ -21,6 +21,7 @@
    used iff oc-geotagging is installed. Still a work in progress. (slinkp)
  * Remove all calls to configuration.utils.get_config; instead use
    an IProvideSiteConfig implementation. (slinkp)
+ * Delete a bunch of Kupu-specific cruft. (slinkp)
 
 0.10 (2008-04-23)
 =================
