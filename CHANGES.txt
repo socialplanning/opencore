@@ -14,6 +14,8 @@
  * Read twirlip uri from IProvideSiteConfig instead of persistent properties sheet (ejucovy)
  * Remove unused cabochon uri from properties sheet (ejucovy)
  * Create links to people pages on transient messages (rmarianski)
+ * Fixed listen moderation ui (cabraham)
+ * Fixed wordpress redirect for blogs on closed projects (douglas)
 
 0.10 (2008-04-23)
 =================
