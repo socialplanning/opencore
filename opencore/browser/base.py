@@ -53,12 +53,12 @@ class BaseView(BrowserView):
         self.errors = {}
         self.response = self.request.RESPONSE
     
-    def get_config(self, section, option, default='', inifile=None):
-        # XXX section and inifile are only taken for
-        # backward compatibility; we ignore them.
-
-        # XXX Does anything actually call this as a view method?
-        # apparently yes but only in sputnik templates (as of 5/12/08).
+    def get_config(self, option, default=''):
+        # XXX As of 5/20/08 only Sputnik templates use this method,
+        # but I don't feel like doing the work to move it elsewhere,
+        # because sputnik often uses views that derive from this class
+        # and not from anything sputnik-specific ... so there's no
+        # existing class that's a good place to put it.
         return getUtility(IProvideSiteConfig).get(option, default=default)
 
 
