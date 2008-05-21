@@ -1,3 +1,4 @@
+
 A member should implement IOpenMember::
 
     >>> mem = self.portal.portal_memberdata.m1
@@ -6,6 +7,12 @@ A member should implement IOpenMember::
     >>> from opencore.member.interfaces import IOpenMember
     >>> IOpenMember.providedBy(mem)
     True
+
+A member should be an archetype image type::
+
+    >>> atct = getToolByName(self.portal, 'portal_atct')
+    >>> atct.image_types
+    ('Image', 'News Item', 'OpenMember')
 
 ---------------
 member creation
