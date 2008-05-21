@@ -259,4 +259,13 @@
     <dependency step="install_dependencies" />
   </import-step>
 
+  <import-step
+     version="20080521-01"
+     id="set_default_image_types"
+     handler="opencore.configuration.setuphandlers.set_default_image_types"
+     title="Add OpenMember to the list of image types">
+    Adds OpenMember to the list of image types so the atct tool knows about it
+    <dependency step="install_dependencies" />
+  </import-step>
+
 </import-steps>

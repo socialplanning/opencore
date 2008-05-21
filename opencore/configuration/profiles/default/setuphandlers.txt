@@ -25,3 +25,4 @@ setupTeamTool
 setupVersioning
 migrate_listen_member_lookup
 fix_safe_html_transform
+set_default_image_types
