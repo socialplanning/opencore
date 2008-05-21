@@ -39,6 +39,8 @@ class BaseView(BrowserView):
     logoURL = '++resource++img/logo.gif'
     defaultPortraitURL = '++resource++img/default-portrait.gif'
     defaultPortraitThumbURL = '++resource++img/default-portrait-thumb.gif'
+    defaultPortraitSquareThumbURL = '++resource++img/default-portrait-80x80.gif'
+    defaultPortraitSquareFiftyThumbURL = '++resource++img/default-portrait-50x50.gif'
     defaultProjLogoURL = '++resource++img/default-projlogo.gif'
     defaultProjLogoThumbURL = '++resource++img/default-projlogo-thumb.gif'
     windowTitleSeparator = ' :: '
