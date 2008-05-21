@@ -1,5 +1,7 @@
 0.12 (unreleased)
 =================
+ * Square member portrait thumbnails at (80,80) and (50,50) (rmarianski)
+
 
 0.11 (2008-05-20)
 =================
