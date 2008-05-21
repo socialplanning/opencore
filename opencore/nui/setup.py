@@ -487,8 +487,12 @@ def recreate_image_scales(portal):
 
     This is necessary if a new scale has been added to an ImageField.
     """
-    atct = getToolByName(portal, 'portal_atct')
-    atct.recreateImageScales()
+    mt = getToolByName(portal, 'membrane_tool')
+    for brain in mt():
+        mem = brain.getObject()
+        field = mem.getField('portrait')
+        field.removeScales(mem)
+        field.createScales(mem)
 
 
 from Products.Archetypes.utils import OrderedDict
