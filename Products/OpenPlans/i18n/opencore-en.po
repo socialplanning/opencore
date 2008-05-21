@@ -1124,7 +1124,7 @@ msgstr ""
 #. Default: "Search"
 #: opencore/nui/main/main_macros.pt:21
 msgid "main_macros_search_button"
-msgstr ""
+msgstr "Search"
 
 #. Default: "Search"
 #: opencore/nui/main/main_macros.pt:4
