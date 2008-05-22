@@ -20,7 +20,6 @@ class ProjectInfo(object):
     def __init__(self, context):
         self.context = context
 
-    @instance.memoizedproperty
     def logo_url(self):
         logo = self.context.getLogo()
         if logo:
