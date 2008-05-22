@@ -13,7 +13,10 @@ admin_id = open(admin_file).read().split(':')[0]
 site_id = config.get('opencore_site_id', default='openplans')
 site_title = config.get('opencore_site_title', default='OpenCore Site')
 
-if not site_id in app.objectIds():
+if site_id in app.objectIds():
+    print "Site %s already exists, nothing to do" % site_id
+else:
+    print "Creating site %s" % site_id
     user = app.acl_users.getUser(admin_id)
     user = user.__of__(app.acl_users)
     newSecurityManager(app, user)

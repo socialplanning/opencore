@@ -1,4 +1,5 @@
 from opencore.project.browser.base import ProjectBaseView
+from zope.component import getMultiAdapter
 
 class LatestActivityView(ProjectBaseView):
     """
@@ -9,11 +10,9 @@ class LatestActivityView(ProjectBaseView):
     """
 
     def logo_url(self):
-        logo = self.context.getLogo()
-        if logo:
-            return logo.absolute_url()
-        else:
-            return self.defaultProjLogoThumbURL
+        project_info_view = getMultiAdapter((self.context, self.request),
+                                            name='project_info')
+        return project_info_view.logo_url()
 
     def team_manager(self):
         """

@@ -31,13 +31,20 @@ Check we can traverse to new portrait in various sizes::
     >>> member.restrictedTraverse("portrait_icon")
     <Image at /plone/portal_memberdata/m1/portrait_icon>
 
+    >>> member.restrictedTraverse("portrait_square_thumb")
+    <Image at /plone/portal_memberdata/m1/portrait_square_thumb>
+
+    >>> member.restrictedTraverse("portrait_square_fifty_thumb")
+    <Image at /plone/portal_memberdata/m1/portrait_square_fifty_thumb>
+
 Check scaling on thumbnail::
 
-    >>> member.restrictedTraverse("portrait_thumb").width
-    63
-
-    >>> member.restrictedTraverse("portrait_thumb").height
-    80
+    >>> thumb = member.restrictedTraverse("portrait_thumb")
+    >>> thumb.width, thumb.height
+    (63, 80)
+    >>> square = member.restrictedTraverse('portrait_square_thumb')
+    >>> square.width, square.height
+    (80, 80)
 
 Exercise the Member Account Class
 =================================

@@ -8,13 +8,6 @@
   <include package="opencore.listen.browser" />
   <include zcml:condition="installed opencore.feed" package=".feed" />
 
-  <browser:page
-     for="Products.CMFPlone.interfaces.IPloneSiteRoot"
-     name="send_listen_mail"
-     class="Products.listen.utilities.list_lookup.MailDeliveryView"
-     permission="zope2.Public"
-     />
-     
    <subscriber
      for=".interfaces.IMailingList
           Products.listen.interfaces.events.INewMsgDeliveredEvent"

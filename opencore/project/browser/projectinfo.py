@@ -5,10 +5,10 @@ from zope.interface import implements
 
 from Acquisition import aq_inner
 from Products.CMFCore.utils import getToolByName 
-from Products.Five import BrowserView
 from Products.Five.browser.pagetemplatefile import getEngine
 from interfaces import IProjectInfo
 from opencore.interfaces import IProject, IOpenTeam
+from opencore.browser.base import BaseView
 from opencore.project.utils import get_featurelets
 from opencore.utils import interface_in_aq_chain
 from plone.memoize import instance
@@ -19,6 +19,14 @@ class ProjectInfo(object):
 
     def __init__(self, context):
         self.context = context
+
+    @instance.memoizedproperty
+    def logo_url(self):
+        logo = self.context.getLogo()
+        if logo:
+            return logo.absolute_url()
+        else:
+            return self.defaultProjLogoThumbURL
 
     @instance.memoizedproperty
     def project(self):
@@ -45,7 +53,7 @@ class ProjectInfo(object):
             mship = team.getMembershipByMemberId(member.getId(),
                                                  active_only=True)
             if mship is not None:
-                return mship
+                return True
             
         return False
 
@@ -65,7 +73,7 @@ class ProjectInfo(object):
 # but there is a need for a project info view of some project 
 # eg when the topnav is contextualized by http headers.
 
-class ProjectInfoView(ProjectInfo, BrowserView):
+class ProjectInfoView(ProjectInfo, BaseView):
     def __init__(self, context, request):
         self.context = context
         self.request = request

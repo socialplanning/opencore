@@ -17,6 +17,7 @@ optionflags = doctest.ELLIPSIS
 import warnings; warnings.filterwarnings("ignore")
 
 def test_suite():
+    from Products.CMFCore.utils import getToolByName
     from Products.PloneTestCase.PloneTestCase import FunctionalTestCase
     from Products.PloneTestCase import setup
     from opencore import redirect

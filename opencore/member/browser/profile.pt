@@ -24,7 +24,7 @@
                 <dd class="oc-discreetText" tal:condition="not:fn" tal:content="string:N/A" />
               </tal:fullname>
 
-              <tal:location tal:define="loc python:view.viewedmember().getPositionText()" tal:condition="python:loc or view.viewingself()">
+              <tal:location tal:define="loc python:view.viewedmember().getLocation()" tal:condition="python:loc or view.viewingself()">
                 <dt><tal:label i18n:translate="profile_location">Location</tal:label>
                   <a tal:condition="view/viewingself" class="oc-actionLink"
                     href="profile-edit?field=location">Edit</a>

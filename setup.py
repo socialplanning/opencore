@@ -3,10 +3,10 @@ import pkg_resources as pkr
 
 import sys, os
 
-version = '0.10.1dev'
+version = '0.12dev'
 
 f = open('README.txt')
-readme = "".join(f.readlines())
+readme = f.read()
 f.close()
 
 name='opencore'

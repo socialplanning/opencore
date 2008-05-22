@@ -1,10 +1,5 @@
-"""
-"""
-
 from opencore.browser.base import BaseView
 from Products.CMFCore.utils import getToolByName
-
-from plone.memoize import view
 
 OP_PROJECT_HEADER = 'X-OpenPlans-Project'
 OP_PERSON_HEADER = 'X-OpenPlans-Person'
