@@ -119,5 +119,13 @@ transaction.commit()
 print "Reindexing membrane catalog"
 portal.membrane_tool.refreshCatalog()
 transaction.get().note('membrane_tool reindexed')
+transaction.commit()
 
+print "Creating blognetwork page"
+portal.invokeFactory('Document', 'blognetwork')
+page = portal.blognetwork
+page.setTitle(u'Blog Network')
+page.setText(u'<p>Blog network text goes here</p>')
+page.reindexObject()
+transaction.get().note('added blognetwork page to portal')
 transaction.commit()
