@@ -8,12 +8,6 @@ A member should implement IOpenMember::
     >>> IOpenMember.providedBy(mem)
     True
 
-A member should be an archetype image type::
-
-    >>> atct = getToolByName(self.portal, 'portal_atct')
-    >>> atct.image_types
-    ('Image', 'News Item', 'OpenMember')
-
 ---------------
 member creation
 ---------------

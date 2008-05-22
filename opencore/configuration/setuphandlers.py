@@ -497,14 +497,3 @@ def local_fqdn_return_address(portal, out):
     if portal.getProperty('email_from_address') == default:
         addy = 'greetings@%s' % socket.getfqdn()
         portal.manage_changeProperties(email_from_address=addy)
-
-@setuphandler
-def set_default_image_types(portal, out):
-    """
-    add OpenMember to the list of image types
-    """
-    atct = getToolByName(portal, 'portal_atct')
-    image_types = atct.getProperty('image_types')
-    if 'OpenMember' not in image_types:
-        new_image_types = image_types + ('OpenMember',)
-        atct.manage_changeProperties(image_types=new_image_types)
