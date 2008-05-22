@@ -18,7 +18,6 @@ from opencore.configuration.setuphandlers import install_team_placeful_workflow_
 from opencore.configuration.setuphandlers import setupPeopleFolder
 from opencore.configuration.setuphandlers import setupProjectLayout
 from opencore.configuration.setuphandlers import setupHomeLayout
-from opencore.configuration.setuphandlers import set_default_image_types
 from opencore.featurelets.interfaces import IListenFeatureletInstalled
 from opencore.interfaces import IOpenPage, INewsItem, IHomePage
 from opencore.listen.events import listen_featurelet_installed
@@ -537,7 +536,6 @@ nui_functions['mark people/projects/lists folders for rss'] = mark_rss_folders
 nui_functions['Remove old bogus versions'] = remove_old_bogus_versions
 nui_functions['Make profile default member page'] = make_profile_default_member_page
 nui_functions['migrate_listen_container_to_feed'] = migrate_listen_container_to_feed
-nui_functions['set default image types'] = convertFunc(set_default_image_types)
 nui_functions['recreate image scales'] = recreate_image_scales
 
 def run_nui_setup(portal):
