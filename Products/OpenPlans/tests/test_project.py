@@ -1,6 +1,7 @@
 import os, sys
 import unittest
 
+from Products.Archetypes.Field import Image
 from Products.CMFCore.utils import getToolByName
 from openplanstestcase import OpenPlansTestCase, makeContent
 
@@ -16,6 +17,16 @@ class TestOpenProject(OpenPlansTestCase):
 
     def test_addProject(self):
         self.failUnless(self.proj != None)
+
+    def test_logo(self):
+        img = os.path.join(os.path.dirname(__file__), 'test-logo.jpg')
+        logo = open(img)
+        self.proj.setLogo(logo)
+        assert isinstance(self.proj.restrictedTraverse('logo_thumb'), Image)
+        for square_name in 'square_thumb', 'square_fifty_thumb':
+            image = self.proj.restrictedTraverse('logo_%s' % square_name)
+            assert isinstance(image, Image)
+            assert image.width == image.height
 
     def test_history(self):
         """

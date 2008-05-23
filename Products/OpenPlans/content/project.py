@@ -21,6 +21,8 @@ from ZODB.POSException import ConflictError
 from opencore.configuration import DEFAULT_ROLES
 from opencore.configuration import OC_REQ as OPENCORE
 from opencore.content.page import OpenPage
+#XXX rename from member_fields to fields
+from opencore.content.member_fields import SquareScaledImageField
 from opencore.interfaces import IProject
 from topp.featurelets.config import MENU_ID
 from topp.featurelets.interfaces import IMenuSupporter
@@ -51,11 +53,15 @@ ProjectSchema += Schema((
             ),
           ),
 
-        ImageField('logo',
+        SquareScaledImageField('logo',
           mode='rw',
           accessor='getLogo',
           mutator='setLogo',
           max_size=(150,150),
+          sizes=dict(thumb=(80,80),
+                     square_thumb=(80,80),
+                     square_fifty_thumb=(50,50),
+                     ),
           widget=ImageWidget(
             label='Logo',
             label_msgid='label_logo',
