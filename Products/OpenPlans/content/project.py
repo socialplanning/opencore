@@ -21,8 +21,7 @@ from ZODB.POSException import ConflictError
 from opencore.configuration import DEFAULT_ROLES
 from opencore.configuration import OC_REQ as OPENCORE
 from opencore.content.page import OpenPage
-#XXX rename from member_fields to fields
-from opencore.content.member_fields import SquareScaledImageField
+from opencore.content.fields import SquareScaledImageField
 from opencore.interfaces import IProject
 from topp.featurelets.config import MENU_ID
 from topp.featurelets.interfaces import IMenuSupporter
