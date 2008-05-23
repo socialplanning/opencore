@@ -19,9 +19,20 @@ class TestOpenProject(OpenPlansTestCase):
         self.failUnless(self.proj != None)
 
     def test_logo(self):
+        """test that setting the logo creates the proper image scales"""
         img = os.path.join(os.path.dirname(__file__), 'test-logo.jpg')
         logo = open(img)
+        cur_logo = self.proj.getLogo()
         self.proj.setLogo(logo)
+        assert cur_logo != self.proj.getLogo()
+        assert isinstance(self.proj.restrictedTraverse('logo_thumb'), Image)
+        for square_name in 'square_thumb', 'square_fifty_thumb':
+            image = self.proj.restrictedTraverse('logo_%s' % square_name)
+            assert isinstance(image, Image)
+            assert image.width == image.height
+
+    def test_default_logo(self):
+        """default logos should exist by traversing to the logo before setting it"""
         assert isinstance(self.proj.restrictedTraverse('logo_thumb'), Image)
         for square_name in 'square_thumb', 'square_fifty_thumb':
             image = self.proj.restrictedTraverse('logo_%s' % square_name)
