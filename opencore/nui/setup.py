@@ -480,18 +480,24 @@ def make_profile_default_member_page(portal):
         mf.setDefaultPage(None)
         mf.setLayout('profile')
 
-def recreate_image_scales(portal):
+def recreate_image_scales(portal, portal_type='OpenMember', imgfield='portrait'):
     """
-    Recreate the necessary image scales for all existing images.
+    Recreate the necessary image scales for the type and field specified.
 
     This is necessary if a new scale has been added to an ImageField.
     """
-    mt = getToolByName(portal, 'membrane_tool')
-    for brain in mt():
-        mem = brain.getObject()
-        field = mem.getField('portrait')
-        field.removeScales(mem)
-        field.createScales(mem)
+    cat = getToolByName(portal, 'portal_catalog')
+    for brain in cat(portal_type=portal_type):
+        obj = brain.getObject()
+        field = obj.getField(imgfield)
+        field.removeScales(obj)
+        field.createScales(obj)
+
+def create_square_project_logos(portal):
+    """create square thumbnails for project logos"""
+    return recreate_image_scales(portal,
+                                 portal_type='OpenProject',
+                                 imgfield='logo')
 
 
 from Products.Archetypes.utils import OrderedDict
@@ -537,6 +543,7 @@ nui_functions['Remove old bogus versions'] = remove_old_bogus_versions
 nui_functions['Make profile default member page'] = make_profile_default_member_page
 nui_functions['migrate_listen_container_to_feed'] = migrate_listen_container_to_feed
 nui_functions['recreate image scales'] = recreate_image_scales
+nui_functions['create square project logos'] = create_square_project_logos
 
 def run_nui_setup(portal):
     pm = portal.portal_migration
