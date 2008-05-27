@@ -1,9 +1,13 @@
-0.11.1 (2008-05-22)
+0.11.3 (unreleased)
+===================
+
+
+0.11.2 (2008-05-27)
 ===================
  * Square member portrait thumbnails at (80,80) and (50,50) (rmarianski)
  * Square project logos at (80,80) and (50,50) (rmarianski)
 
-0.11 (2008-05-20)
+0.11.1 (2008-05-20)
 =================
  * New infrastructure for embedded host whitelist; add some sites (jhammel)
  * Allow for wicked links with HTML escapes and non-UTF-8 characters (jhammel)
