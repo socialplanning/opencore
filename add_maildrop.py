@@ -23,7 +23,7 @@ newSecurityManager(app, user)
 site = app[site_id]
 
 mh_obj = getattr(site, mh_id, None)
-if mh_obj and isinstance(mh_obj, MaildropHost):
+if isinstance(mh_obj, MaildropHost):
     print 'MaildropHost object already exists at "%s.%s", exiting...' % (site_id, mh_id)
     sys.exit()
 
