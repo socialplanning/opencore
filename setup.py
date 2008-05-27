@@ -44,7 +44,7 @@ setup(
 
       install_requires=[
           # -*- Extra requirements: -*-
-          "oc-js==dev,>=0.0",
+          "oc-js==dev,>=0.5",
           'oc-feed',
           "ClockQueue==dev,>=0.0",
           'simplejson',
