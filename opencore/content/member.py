@@ -509,6 +509,17 @@ class OpenMember(FolderishMember):
                                        default='"password" is not a valid password.',
                                        domain='remember-plone')
 
+    security.declareProtected(View, 'displayName')
+    def displayName(self):
+        """
+        Return the full name if it is set, otherwise return the id.
+
+        This may eventually turn into delegating to an adapter, or checking a
+        member preference, depending on if different site policies call for
+        different behavior here.
+        """
+        return self.getFullname() or self.getId()
+
 
 atapi.registerType(OpenMember, package=PROJECTNAME)
 

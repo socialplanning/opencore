@@ -44,7 +44,18 @@ class TestOpenMember(OpenPlansTestCase):
         titles = [i.Title for i in projbrains]
         self.failIf(set(titles) != set(['Project Two', 'Project Three',
                                         'Project One']))
-        
+
+    def test_displayName(self):
+        mdtool = getToolByName(self.portal, 'portal_memberdata')
+        mem = mdtool._getOb('m1')
+
+        # when the fullname is set, the display name is the full name
+        self.failUnless(mem.displayName() == mem.getFullname())
+
+        # when the fullname is not set, the display name is the id
+        mem.setFullname('')
+        self.failUnless(mem.displayName() == mem.getId())
+
 
 def test_suite():
     suite = unittest.TestSuite()
