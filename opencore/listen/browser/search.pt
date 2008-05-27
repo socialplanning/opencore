@@ -75,7 +75,7 @@
           <h2>About &ldquo;<span i18n:name="list_title" tal:replace="context/Title" />&rdquo;</h2>
           <dl class="oc-plainList">
           <dt>Address</dt>
-          <dd id="listaddress" i18n:name="list_address" tal:content="view/listAddress" tal:condition="view/listAddress" />
+          <dd id="listaddress" i18n:name="list_address" tal:content="structure view/listAddress" tal:condition="view/listAddress" />
           <dt>Description</dt>
           <dd tal:content="view/listDescription" i18n:name="list_desc" tal:condition="view/listDescription" />
           </dl>

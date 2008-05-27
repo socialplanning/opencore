@@ -23,7 +23,6 @@ from Products.listen.interfaces import IMailingList, IMembershipModeratedList, \
                                        IUserEmailMembershipPolicy
 
 from Products.listen.utilities.list_lookup import ListLookupView
-from lxml.html.clean import Cleaner
 from opencore.browser.formhandler import OctopoLite, action
 from opencore.browser.base import BaseView, _
 from opencore.listen.mailinglist import OpenMailingList

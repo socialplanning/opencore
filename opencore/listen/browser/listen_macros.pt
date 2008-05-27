@@ -56,7 +56,7 @@
     <dl class="oc-plainList">
       <tal:email tal:condition="view/loggedin">
         <dt>Address</dt>
-        <dd id="listaddress" tal:content="view/listAddress" tal:condition="view/listAddress" />
+        <dd id="listaddress" tal:content="structure view/listAddress" tal:condition="view/listAddress" />
       </tal:email>
       <dt>Description</dt>
       <dd tal:content="view/listDescription" tal:condition="view/listDescription" />
