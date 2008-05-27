@@ -353,14 +353,6 @@ def make_nui_listen_view_class(ListenClass, set_errors=False, add_update=False):
                     self.addPortalStatusMessage(self.status)
                 return result
 
-        def body(self):
-            body = ListenClass.body(self)
-            cleaner = Cleaner()
-            body = cleaner.clean_html(body)
-            if body.startswith('<p>'):
-                body = body[3:-4]
-            return body
-    
     return NuiListenView
 
 
