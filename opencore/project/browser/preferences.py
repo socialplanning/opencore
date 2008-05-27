@@ -115,6 +115,7 @@ class ProjectPreferencesView(ProjectBaseView, OctopoLite):
         viewlet_mgr = getMultiAdapter((self.context, self.request, self),
                                       name='opencore.proj_prefs')
         if not hasattr(viewlet_mgr, 'viewlets'):
+            # This means it hasn't had update() called yet. only do that once.
             viewlet_mgr.update()
         for viewlet in viewlet_mgr.viewlets:
             if hasattr(viewlet, 'validate'):
