@@ -133,7 +133,6 @@
  <column value="parent_path"/>
  <column value="portal_type"/>
  <column value="review_state"/>
- <column value="displayName" />
  <membrane-type name="Member">
   <active-workflow-state name="public"/>
   <active-workflow-state name="private"/>
