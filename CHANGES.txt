@@ -1,6 +1,6 @@
 0.11.3 (unreleased)
 ===================
-
+ * Email obfuscation for listen views (cabraham)
 
 0.11.2 (2008-05-27)
 ===================
