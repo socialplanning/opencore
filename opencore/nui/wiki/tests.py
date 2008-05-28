@@ -34,7 +34,7 @@ def test_suite():
                                          optionflags=optionflags,
                                          package='opencore.nui.wiki',
                                          test_class=FunctionalTestCase,
-                                         setup=readme_setup,
+                                         setUp=readme_setup,
                                          globs = globs,
                                          layer = OpencoreContent,
                                          )
