@@ -7,7 +7,7 @@ from opencore.feed.interfaces import IFeedData
 from opencore.listen.interfaces import IOpenMailingList
 from Products.listen.interfaces import ISearchableArchive
 from Products.listen.lib.browser_utils import getAddressInfo
-from Products.listen.lib.browser_utils import messageStructure
+from Products.listen.lib.browser_utils import messageStructure, obfct
 from zope.component import adapts
 from zope.component import getUtility
 from zope.interface import implements
@@ -58,16 +58,13 @@ class ListsFeedAdapter(BaseFeedAdapter):
             all_msgs.extend(msgs)
         all_msgs.sort(key=lambda x:x.modification_date, reverse=True)
         all_msgs = all_msgs[:n_items]
+
         for msg in all_msgs:
-            user_id, user_email = getAddressInfo(msg, mlist)
-            if user_id is None:
-                author = user_email
-            else:
-                author = user_id
-            self.add_item(title=msg.subject,
-                          description=msg.subject,
-                          link='%s/forum_view' % msg.getURL(),
-                          author=author,
+            mstruct = messageStructure(msg, sub_mgr=mlist)
+            self.add_item(title=obfct(msg.subject),
+                          description=obfct(msg.subject),
+                          link='%s/forum_view' % mstruct['url'],
+                          author=mstruct['mail_from'],
                           pubDate=msg.modification_date,
 #                          context=mlist,
 #                              byline='by',
