@@ -446,14 +446,6 @@ msgstr ""
 #: opencore/project/browser/mship_messages.py:34
 msgid "email_remind_pending_invitee"
 msgstr ""
-"Subject: A reminder to join \"${project_title}\" on ${portal_title}\n"
-" \n"
-"This is a reminder that ${inviter_name} has invited you to join \"${project_title},\" a ${project_noun} on ${portal_title}.  ${portal_title} is a network of news, film and community action working to better our public spaces. With a ${portal_title} account, you can contribute to the \"${project_title}\" ${project_noun}, and connect yourself to the larger ${portal_title} community.\n"
-" \n"
-"To accept this invitation or to learn more about this ${project_noun}, click here: ${join_url}\n"
-" \n"
-" Cheers,\n"
-"The ${portal_title} Team"
 
 #. Default: "Subject: ${portal_title} - Welcome to ${project_title}\n\nYour request to join \"${project_title}\" on ${portal_title} has been approved.  The ${project_noun} is accessible at the following address: ${project_url}\n"
 #: opencore/project/browser/mship_messages.py:41
