@@ -1,4 +1,5 @@
 import unittest
+from zope.app.component.hooks import setSite
 from zope.testing import doctest
 from opencore.testing.layer import OpencoreContent
 from opencore.testing import dtfactory
@@ -16,6 +17,7 @@ def test_suite():
     setup.setupPloneSite()
     def readme_setup(tc):
         tc._refreshSkinData()
+        setSite(tc.portal)
 
     page_id = 'project-home'
     globs = locals()
