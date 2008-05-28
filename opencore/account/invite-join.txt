@@ -126,14 +126,11 @@ create_member as confirmed::
     
     >>> inv_join.login(member.getId())
 
-bob should be logged in (but no cookies in the test) so we fake it
-with ztc::
+bob should be logged in::
 
     >>> from AccessControl import getSecurityManager
     >>> getSecurityManager().getUser()
-    <SpecialUser 'Anonymous User'>
-
-    >>> self.login(member.getId())
+    <MembraneUser 'bob'>
 
 Finally, it processes the invites::
 
