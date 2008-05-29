@@ -68,6 +68,7 @@ woonerf_migrations = [
     'annotate last modified author',
     'migrate_listen_container_to_feed',
     'recreate image scales',
+    'create square project logos',
 ]
 
 for migration in woonerf_migrations:
