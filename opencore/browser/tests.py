@@ -6,6 +6,7 @@ from Testing.ZopeTestCase import PortalTestCase
 from opencore.testing import dtfactory as dtf
 from opencore.testing.layer import OpencoreContent as test_layer
 from opencore.testing.setup import simple_setup
+from zope.app.component.hooks import setSite
 from zope.testing import doctest
 from opencore.browser import tal
 import os
@@ -36,6 +37,7 @@ def test_suite():
         tc.response = tc.request.RESPONSE
         tc.homepage = getattr(tc.portal, 'site-home')
         tc.projects = tc.portal.projects
+        setSite(tc.portal)
 
     def teardown(tc):
         utils.unmonkey_proj_noun()
