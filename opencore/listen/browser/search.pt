@@ -63,12 +63,6 @@
           <div metal:use-macro="here/batch_macros/macros/navigation" />
 	  
 
-          <p tal:define="search request/search_text | nothing"
-             tal:condition="python: not results and search"
-             class="oc-message oc-bigText"
-             i18n:translate="listen_search_no_results">
-            No results for '<span i18n:name="search_string" tal:replace="search" />'. Please try another search term.
-          </p>
         </tal:threads>
       </div><!-- content-main -->
       <div id="oc-content-sidebar">
