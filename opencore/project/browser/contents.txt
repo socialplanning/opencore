@@ -155,6 +155,10 @@ the project's contents listing to "Hobbes"::
     ...         'new1_title': 'Hobbes',
     ...         'item_type': 'pages'}
     >>> request.form = form
+
+Need to monkey patch membertool to allow tests to pass
+    >>> view.membertool.isAnonymousUser = lambda *a:True
+
     >>> unicode(view())
     u'...'
 
