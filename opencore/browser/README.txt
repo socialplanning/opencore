@@ -227,9 +227,6 @@ The base url must be set properly in the html for relative links to work
 
    >>> view = self.portal.unrestrictedTraverse('@@view')
 
-Need to monkey patch membertool to allow tests to pass
-   >>> view.membertool.isAnonymousUser = lambda *a:True
-
    >>> html = view()
    >>> '<base tal:attributes="href string:${context/absolute_url}' in html
    False
