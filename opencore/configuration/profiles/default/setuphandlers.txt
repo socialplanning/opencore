@@ -20,6 +20,7 @@ setTeamType
 setupHomeLayout
 setupKupu
 setupPeopleFolder
+setupFeatureFolder
 setupProjectLayout
 setupTeamTool
 setupVersioning

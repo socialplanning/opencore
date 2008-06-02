@@ -1,0 +1,34 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+      lang="en"
+      metal:use-macro="here/@@standard_macros/master"
+      i18n:domain="opencore">
+
+<head>
+<title metal:fill-slot="title">
+  Featured Project -- <tal:heading replace="context/title" />
+</title>
+</head>
+
+<body>
+<div metal:fill-slot="content">
+  <p>
+    <a tal:attributes="href context/link"
+       tal:content="context/title" />
+    <a class="oc-actionLink"
+       tal:attributes="href python:request.ACTUAL_URL.replace('view', 'edit')">
+      Edit
+    </a>
+  </p>
+  <p tal:content="context/description" />
+  <img tal:define="imgtxt string:${context/title} logo"
+       tal:attributes="src context/image_url;
+                       title imgtxt;
+                       alt imgtxt" />
+  <p>
+    <a tal:attributes="href string:${context/portal_url}/features">Back</a>
+    to features (convenience link)
+  </p>
+</div>
+
+</body>
+</html>

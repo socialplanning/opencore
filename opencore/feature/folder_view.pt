@@ -1,0 +1,28 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+      lang="en"
+      metal:use-macro="here/@@standard_macros/master"
+      i18n:domain="opencore">
+
+<body>
+<div metal:fill-slot="content"
+     tal:define="features context/objectIds">
+  <ul tal:condition="features">
+    <li tal:repeat="feature features">
+      <tal:comment replace="nothing">
+        <!-- XXX shouldn't set to /view, but we don't have
+             the default view working yet -->
+      </tal:comment>
+      <a tal:attributes="href string:${context/absolute_url}/${feature}/view"
+         tal:content="feature" />
+    </li>
+  </ul>
+  <p>
+    <a class="oc-actionLink"
+       tal:attributes="href string:${context/absolute_url}/create">
+      Add</a>
+    a new featured project
+  </p>
+</div>
+
+</body>
+</html>

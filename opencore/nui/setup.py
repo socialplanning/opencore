@@ -16,6 +16,7 @@ from opencore.configuration.setuphandlers import install_email_invites_utility
 from opencore.configuration.setuphandlers import install_remote_auth_plugin
 from opencore.configuration.setuphandlers import install_team_placeful_workflow_policies
 from opencore.configuration.setuphandlers import setupPeopleFolder
+from opencore.configuration.setuphandlers import setupFeatureFolder
 from opencore.configuration.setuphandlers import setupProjectLayout
 from opencore.configuration.setuphandlers import setupHomeLayout
 from opencore.featurelets.interfaces import IListenFeatureletInstalled
@@ -544,6 +545,7 @@ nui_functions['Make profile default member page'] = make_profile_default_member_
 nui_functions['migrate_listen_container_to_feed'] = migrate_listen_container_to_feed
 nui_functions['recreate image scales'] = recreate_image_scales
 nui_functions['create square project logos'] = create_square_project_logos
+nui_functions['setup features folder'] = convertFunc(setupFeatureFolder)
 
 def run_nui_setup(portal):
     pm = portal.portal_migration

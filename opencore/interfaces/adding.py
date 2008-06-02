@@ -15,3 +15,6 @@ class IAmAPeopleFolder(Interface):
 
 class IAmANewsFolder(Interface):
     """Marker interface that indicates that this is the OpenPlans news folder"""
+
+class IFeatureFolder(Interface):
+    """Marker interface that indicates featured items are added here"""

@@ -1,0 +1,73 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+      lang="en"
+      metal:use-macro="here/@@standard_macros/master"
+      i18n:domain="opencore">
+
+<body>
+<div metal:fill-slot="content">
+
+<div class="oc-headingBlock">
+  <h1 tal:content="view/label" />
+  <p class="oc-headingContext"
+     tal:define="description view/description | nothing"
+     tal:condition="description"
+     tal:content="description" />
+  <div class="form-status"
+     tal:define="status view/status"
+     tal:condition="status">
+    <p tal:content="status" />
+    <ul class="errors" tal:condition="view/errors">
+      <li tal:repeat="error view/error_views">
+        <span tal:replace="structure error">Error Type</span>
+      </li>
+    </ul>
+  </div>
+</div>
+
+<form action=""
+      method="post"
+      tal:define="errors view/errors"
+      tal:attributes="action request/URL; method view/method | string:post">
+
+  <fieldset class="oc-boxy">
+    <table class="oc-form">
+      <tbody>
+        <tal:widget repeat="widget view/widgets">
+          <tr class="oc-form-row"
+              tal:define="error widget/error;
+                          hidden python:widget.type == 'hidden'"
+              tal:attributes="class python:error and 'oc-fieldBlock-error' or default"
+              >
+            <th class="oc-form-label"
+                tal:condition="not:hidden">
+              <label tal:content="widget/label"
+                     i18n:translate="widget/label"
+                     tal:attributes="for widget/name" />
+              <span class="oc-discreetText" title="Required"
+                    tal:condition="widget/required"
+                    i18n:attributes="title title_required;"
+                    i18n:translate="label_required">(Required)</span>
+            </th>
+            <td class="oc-form-value">
+              <div class="oc-form-error"
+                   tal:condition="error"
+                   tal:content="error" />
+              <tal:widget-contents replace="structure widget" />
+            </td>
+          </tr>
+        </tal:widget>
+      </tbody>
+    </table>
+    <div class="oc-actions">
+      <input tal:repeat="action view/actions"
+             class="context"
+             tabindex=""
+             type="submit"
+             tal:attributes="name action/__name__; value action/label" />
+    </div>
+</form>
+
+</div>
+
+</body>
+</html>

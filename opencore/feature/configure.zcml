@@ -1,0 +1,55 @@
+<configure xmlns="http://namespaces.zope.org/zope"
+           xmlns:browser="http://namespaces.zope.org/browser"
+           >
+
+  <browser:page
+     for="opencore.interfaces.IFeatureFolder"
+     class=".browser.FeatureAddView"
+     name="create"
+     permission="zope2.View"
+     />
+
+  <browser:page
+     for=".interfaces.IProjectFeature"
+     class=".browser.FeatureEditView"
+     name="edit"
+     permission="zope2.View"
+     />
+
+  <browser:page
+     for=".interfaces.IProjectFeature"
+     class="opencore.browser.base.BaseView"
+     template="project_feature.pt"
+     name="view"
+     permission="zope2.View"
+     />
+
+  <browser:page
+     for="opencore.interfaces.IFeatureFolder"
+     class="opencore.browser.base.BaseView"
+     template="folder_view.pt"
+     name="view"
+     permission="zope2.View"
+     />
+
+  <browser:defaultView
+     for="opencore.interfaces.IFeatureFolder"
+     name="view"
+     />
+
+  <browser:defaultView
+     for=".interfaces.IProjectFeature"
+     name="view"
+     />
+
+  <vocabulary
+     name="opencore.projects"
+     factory=".feature.projectsVocabulary"
+     />
+
+  <utility
+     name="opencore.feature.project"
+     component=".factory.featuredProjectFactory"
+     />
+
+</configure>

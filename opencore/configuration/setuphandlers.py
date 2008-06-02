@@ -16,6 +16,7 @@ from opencore.content.membership import OpenMembership
 from opencore.interfaces import IAddProject
 from opencore.interfaces import IAmANewsFolder
 from opencore.interfaces import IAmAPeopleFolder
+from opencore.interfaces import IFeatureFolder
 from opencore.interfaces.membership import IEmailInvites
 from opencore.project.browser.email_invites import EmailInvites
 from zope.app.component.hooks import setSite
@@ -264,6 +265,19 @@ def setupProjectLayout(portal, out):
 def setupHomeLayout(portal, out):
     print >> out, 'Setting home view'
     portal.setLayout('@@view')
+
+@setuphandler
+def setupFeatureFolder(portal, out):
+    print >> out, 'Setting up features folder'
+    if 'features' not in portal.objectIds():
+        ttool = getToolByName(portal, 'portal_types')
+        ttool.constructContent('Large Plone Folder', portal,
+                               'features', title=u'Features Folder')
+    features = portal.features
+    if not IFeatureFolder.providedBy(features):
+        alsoProvides(features, IFeatureFolder)
+    features.setLayout('@@view')
+    print >> out, 'Features folder created and marked'
 
 @setuphandler
 def setupPeopleFolder(portal, out):
