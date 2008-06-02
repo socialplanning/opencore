@@ -1,5 +1,7 @@
 0.11.3 (unreleased)
 ===================
+
+ * #2010: Project contents form should use POST, not GET (slinkp)
  * Email obfuscation for listen views (cabraham)
  * Rig in listen message_macros templates (rmarianski)
 
