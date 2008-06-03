@@ -36,7 +36,7 @@ class PasswordResetView(AccountView):
                     '<a href="forgot">request a new password</a> again.')
             self.addPortalStatusMessage(msg)
             site_url = getToolByName(self.context, 'portal_url')()
-            return self.redirect("%s/login" % self.site_url)
+            return self.redirect("%s/login" % site_url)
 
         # Automatically log the user in
         self.login(userid)
