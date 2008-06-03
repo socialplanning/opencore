@@ -43,4 +43,5 @@ for filename in os.listdir(zopeimport):
         print '*' * 80
 
 transaction.get().note('imported %d articles' % n_imported)
+print 'imported %d articles' % n_imported
 transaction.commit()
