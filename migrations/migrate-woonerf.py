@@ -130,3 +130,12 @@ page.setText(u'<p>Blog network text goes here</p>')
 page.reindexObject()
 transaction.get().note('added blognetwork page to portal')
 transaction.commit()
+
+print "Creating sw template page"
+portal.invokeFactory('Document', 'sw-template')
+page = portal._getOb('sw-template')
+page.setTitle(u'StreetsWiki Template')
+page.setText(u'<p>Default streetswiki template goes here</p>')
+page.reindexObject()
+transaction.get().note('added streetswiki template page to portal')
+transaction.commit()
