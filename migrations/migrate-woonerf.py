@@ -127,9 +127,8 @@ transaction.get().note('membrane_tool reindexed')
 transaction.commit()
 
 print "Creating blognetwork page"
-portal.invokeFactory('Document', 'blognetwork')
+portal.invokeFactory('Document', 'blognetwork', title=u'Blog Network')
 page = portal.blognetwork
-page.setTitle(u'Blog Network')
 page.setText(u'<p>Blog network text goes here</p>')
 alsoProvides(page, IBlogNetwork)
 page.reindexObject()
@@ -137,9 +136,8 @@ transaction.get().note('added blognetwork page to portal')
 transaction.commit()
 
 print "Creating sw template page"
-portal.invokeFactory('Document', 'sw-template')
+portal.invokeFactory('Document', 'sw-template', title=u'StreetsWiki Template')
 page = portal._getOb('sw-template')
-page.setTitle(u'StreetsWiki Template')
 # get the default text from the raw text template in streetswiki
 filename = os.path.join(os.path.dirname(opencore.streetswiki.__file__), 'wikipt', 'wiki-rawtext.pt')
 f = open(filename)
