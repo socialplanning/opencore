@@ -429,15 +429,13 @@ class OpenProject(BrowserDefaultMixin, TeamSpaceMixin, BaseBTreeFolder):
                 # image might be None or '' for empty images
                 return image
 
-        #XXX for some reason this is necessary because we get an
-        #IgnorableDummy object back instead of subobjects when trying to
-        #traverse to subobjects
-        _marker = object()
-        if getattr(aq_base(self), name, _marker) is not _marker:
-            return getattr(self, name)
-
-        # Raising AttributeError will look up views for us
-        raise AttributeError(name)
-
+        try:
+            #XXX prevent recursive errors
+            _stashit = self.__class__.__fallback_traverse__
+            del self.__class__.__fallback_traverse__
+            retval = super(OpenProject, self).__bobo_traverse__(REQUEST, name)
+        finally:
+            self.__class__.__fallback_traverse__ = _stashit
+        return retval
 
 registerType(OpenProject)
