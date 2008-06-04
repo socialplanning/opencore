@@ -4,6 +4,7 @@ from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
 from Products.remember.interfaces import IReMember
 from opencore.browser.base import BaseView, _
 from opencore.browser.formhandler import OctopoLite, action
+from opencore.interfaces.event import MemberModifiedEvent
 from topp.utils.pretty_date import prettyDate
 from zope.app.event.objectevent import ObjectModifiedEvent
 from zope.component import getMultiAdapter
@@ -230,6 +231,9 @@ class ProfileEditView(ProfileView, OctopoLite):
         self.user_updated()
 
         notify(ObjectModifiedEvent(member))
+        #XXX some handlers listen to a specific event, since the object modified
+        #one can be called multiple times
+        notify(MemberModifiedEvent(member))
     
         member.reindexObject()
         self.template = None

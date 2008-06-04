@@ -7,7 +7,7 @@ from opencore.member.utils import member_path
 from opencore.interfaces.catalog import ILastWorkflowActor
 from opencore.interfaces.event import JoinedProjectEvent
 from opencore.interfaces.event import LeftProjectEvent
-from opencore.interfaces.event import MemberEmailChangedEvent
+from opencore.interfaces.event import MemberModifiedEvent
 from opencore.interfaces.message import ITransientMessage
 from opencore.utility.interfaces import IProvideSiteConfig
 from plone.memoize.view import memoize as req_memoize
@@ -440,7 +440,7 @@ class MemberAccountView(BaseView, OctopoLite):
 
         mem.setEmail(email)
         mem.reindexObject(idxs=['getEmail'])
-        notify(MemberEmailChangedEvent(mem))
+        notify(MemberModifiedEvent(mem))
         self.addPortalStatusMessage(_(u'psm_email_changed', u'Your email address has been changed.'))
 
     def pretty_role(self, role):
