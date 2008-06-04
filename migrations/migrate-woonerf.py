@@ -4,6 +4,10 @@ from opencore.nui.setup import nui_functions
 from opencore.nui.wiki import utils
 #from opencore.streetswiki.utils import add_wiki
 #from opencore.nui.setup import set_method_aliases
+import opencore.streetswiki
+from sputnik.interfaces import IBlogNetwork
+from zope.interface import alsoProvides
+import os
 import sys
 import transaction
 
@@ -127,6 +131,7 @@ portal.invokeFactory('Document', 'blognetwork')
 page = portal.blognetwork
 page.setTitle(u'Blog Network')
 page.setText(u'<p>Blog network text goes here</p>')
+alsoProvides(page, IBlogNetwork)
 page.reindexObject()
 transaction.get().note('added blognetwork page to portal')
 transaction.commit()
@@ -135,7 +140,12 @@ print "Creating sw template page"
 portal.invokeFactory('Document', 'sw-template')
 page = portal._getOb('sw-template')
 page.setTitle(u'StreetsWiki Template')
-page.setText(u'<p>Default streetswiki template goes here</p>')
+# get the default text from the raw text template in streetswiki
+filename = os.path.join(os.path.dirname(opencore.streetswiki.__file__), 'wikipt', 'wiki-rawtext.pt')
+f = open(filename)
+default_sw_template = f.read()
+f.close()
+page.setText(default_sw_template)
 page.reindexObject()
 transaction.get().note('added streetswiki template page to portal')
 transaction.commit()
