@@ -135,6 +135,14 @@ page.reindexObject()
 transaction.get().note('added blognetwork page to portal')
 transaction.commit()
 
+print "Creating blognetwork feature page"
+portal.invokeFactory('Document', 'blognetwork-feature', title=u'Blog Network Feature')
+page = portal._getOb('blognetwork-feature')
+page.setText(u'<p>Blog network default feature text</p>')
+page.reindexObject()
+transaction.get().note('added blognetwork-feature page to portal')
+transaction.commit()
+
 print "Creating sw template page"
 portal.invokeFactory('Document', 'sw-template', title=u'StreetsWiki Template')
 page = portal._getOb('sw-template')
