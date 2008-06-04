@@ -23,7 +23,6 @@ from Products.listen.interfaces import IEmailPostPolicy
 from Products.listen.interfaces import IUserEmailMembershipPolicy
 
 from Products.listen.utilities.list_lookup import ListLookupView
-from lxml.html.clean import Cleaner
 from opencore.browser.formhandler import OctopoLite, action
 from opencore.browser.base import BaseView, _
 from opencore.listen.mailinglist import OpenMailingList
@@ -352,14 +351,6 @@ def make_nui_listen_view_class(ListenClass, set_errors=False, add_update=False):
                     self.addPortalStatusMessage(self.status)
                 return result
 
-        def body(self):
-            body = ListenClass.body(self)
-            cleaner = Cleaner()
-            body = cleaner.clean_html(body)
-            if body.startswith('<p>'):
-                body = body[3:-4]
-            return body
-    
     return NuiListenView
 
 

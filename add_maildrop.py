@@ -1,7 +1,9 @@
 from AccessControl.SecurityManagement import newSecurityManager
+from Products.MaildropHost.MaildropHost import MaildropHost
 from Testing.makerequest import makerequest
 from opencore.utility.interfaces import IProvideSiteConfig
 from zope.component import getUtility
+import sys
 import transaction
 
 app=makerequest(app)
@@ -20,10 +22,12 @@ newSecurityManager(app, user)
 
 site = app[site_id]
 
-if mh_id in site.objectIds():
-    # We might have run this script already. Or it might be a vanilla
-    # MailHost.  Either way, easiest to just wipe it and make a new
-    # one.
+mh_obj = getattr(site, mh_id, None)
+if isinstance(mh_obj, MaildropHost):
+    print 'MaildropHost object already exists at "%s.%s", exiting...' % (site_id, mh_id)
+    sys.exit()
+elif mh_obj:
+    print '%s object already exists at "%s.%s", deleting...' % (mh_obj.__class__, site_id, mh_id)
     site.manage_delObjects([mh_id])
 
 factory = site.manage_addProduct['MaildropHost'].manage_addMaildropHost

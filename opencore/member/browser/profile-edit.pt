@@ -29,7 +29,7 @@
                                     class python: request.form.get('field') == 'fullname' and default or nothing" />
                 </li>
 
-		<tal:viewlets define="viewlets provider:opencore.profile_edit_viewlets">
+		<tal:viewlets define="viewlets provider:opencore.profile_edit_viewlets"> <!-- hello viewlets -->
                 <li tal:condition="python:viewlets.strip()"
                     tal:content="structure viewlets">
                       geo viewlet stuff goes here!
@@ -111,8 +111,13 @@
           </ul> 
       </div><!-- end #oc-content-main -->
 
-      <div id="oc-content-sidebar">
-      </div><!-- end .oc-content-sidebar -->
+      <div id="oc-content-sidebar"
+           tal:define="viewlets provider:opencore.profile_edit_sidebar">
+         <span tal:condition="python:viewlets.strip()"
+               tal:replace="structure viewlets">
+                     geo viewlet stuff goes here!
+	 </span>
+      </div>
     </form>
 
     </div><!-- content-fill-slot -->

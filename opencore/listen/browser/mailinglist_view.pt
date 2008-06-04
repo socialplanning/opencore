@@ -1,6 +1,7 @@
 <html i18n:domain="opencore" metal:use-macro="here/@@standard_macros/master">
   <body>
     <div metal:fill-slot="content">
+      <script type="text/javascript" src="++resource++obfuscation.js"></script> 
       <tal:vars define="can_subscribe view/canSubscribe;
                         subscribed view/isSubscribed;
                         isAnon not: view/loggedin">
@@ -18,7 +19,7 @@
               <dt i18n:translate="mailinglist_view_address" id="listaddress">
                 Address
               </dt>
-              <dd tal:content="view/address">
+              <dd tal:content="structure view/address">
                 address@example.com
               </dd>
             </tal:email>
@@ -54,8 +55,8 @@
             <dt i18n:translate="mailinglist_view_contact">
               Contact
             </dt>
-            <dd id="manager_email" tal:content="view/manager_email">
-              Please direct inquiries about this list to listmanager@example.com.
+            <dd id="manager_email">
+              Please direct inquiries about this list to <span tal:replace="structure view/manager_email">manager@list.com</span>.
             </dd>
           </dl>
           <div metal:use-macro="here/@@listen_macros/subscribe" />

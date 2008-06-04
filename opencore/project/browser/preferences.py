@@ -7,7 +7,7 @@ from Products.CMFCore.utils import getToolByName
 from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
 from opencore.browser import formhandler
 from opencore.browser import tal
-from opencore.browser.base import _, BaseView
+from opencore.browser.base import _
 from opencore.browser.formhandler import OctopoLite, action
 from opencore.interfaces import IHomePage
 from opencore.interfaces import IProject
@@ -115,6 +115,7 @@ class ProjectPreferencesView(ProjectBaseView, OctopoLite):
         viewlet_mgr = getMultiAdapter((self.context, self.request, self),
                                       name='opencore.proj_prefs')
         if not hasattr(viewlet_mgr, 'viewlets'):
+            # This means it hasn't had update() called yet. only do that once.
             viewlet_mgr.update()
         for viewlet in viewlet_mgr.viewlets:
             if hasattr(viewlet, 'validate'):

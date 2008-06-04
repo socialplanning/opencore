@@ -35,7 +35,7 @@
 						<tal:dummy replace="item_header" />
 					</h2>
 
-					<form action="contents"
+					<form action="contents" method="POST"
 						tal:attributes="name form_name" class="oc-js-formConfirm">
 						<span class="oc-hidden oc-warning oc-confirm">This deletion is permanent. Are you sure you want to delete?</span>
 						<input tal:replace="structure view/authenticator_input"/>

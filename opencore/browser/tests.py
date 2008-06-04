@@ -1,6 +1,7 @@
 from Products.OpenPlans.tests.openplanstestcase import OpenPlansTestCase
 from opencore.testing import dtfactory as dtf
 from opencore.testing.layer import OpencoreContent as test_layer
+from zope.app.component.hooks import setSite
 from zope.testing import doctest
 from opencore.browser import tal
 import unittest
@@ -29,6 +30,7 @@ def test_suite():
         tc.response = tc.request.RESPONSE
         tc.homepage = getattr(tc.portal, 'site-home')
         tc.projects = tc.portal.projects
+        setSite(tc.portal)
 
     def teardown(tc):
         utils.unmonkey_proj_noun()

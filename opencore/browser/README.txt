@@ -225,9 +225,10 @@ catalog brain::
 Base url on pages set correctly
 -------------------------------
 
-The base url must be set properly in the html for relate links to work
+The base url must be set properly in the html for relative links to work
 
    >>> view = self.portal.unrestrictedTraverse('@@view')
+
    >>> html = view()
    >>> '<base tal:attributes="href string:${context/absolute_url}' in html
    False

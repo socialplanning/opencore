@@ -40,6 +40,22 @@
      template="listen_macros.pt"
      />
 
+  <!-- provide standard threading macros for messages and archive
+       folders -->
+  <browser:page
+     for="Products.listen.interfaces.IMailMessage"
+     name="message_macros"
+     permission="zope2.View"
+     template="message_macros.pt"
+     />
+
+  <browser:page
+     for="Products.listen.interfaces.IListArchiveSubFolder"
+     name="message_macros"
+     permission="zope2.View"
+     template="message_macros.pt"
+     />
+
    <browser:page
      for="opencore.listen.interfaces.IOpenMailingList"
      name="summary"

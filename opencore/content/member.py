@@ -16,7 +16,7 @@ from Products.remember.permissions import VIEW_PUBLIC_PERMISSION
 from Products.remember.permissions import EDIT_PROPERTIES_PERMISSION
 from Products.validation.validators.BaseValidators import EMAIL_RE
 
-from member_fields import SquareScaledImageField
+from fields import SquareScaledImageField
 
 from opencore.configuration import PROJECTNAME
 from opencore.configuration import PROHIBITED_MEMBER_PREFIXES

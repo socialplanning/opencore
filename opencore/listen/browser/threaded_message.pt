@@ -1,6 +1,7 @@
 <html metal:use-macro="here/@@standard_macros/master" i18n:domain="opencore">
   <body>
     <div metal:fill-slot="content">
+      <script type="text/javascript" src="++resource++obfuscation.js"></script>
       <div metal:use-macro="here/@@listen_macros/bcrumb"/>
       <div metal:use-macro="here/@@listen_macros/tabs"/>
       <div id="oc-content-main">
@@ -31,7 +32,7 @@
               <dd>
                 <ul id="mail-reply-list" class="oc-plainList">
                   <li tal:repeat="reply replies">
-                    <a href="#" tal:content="reply/subject"
+                    <a href="#" tal:content="structure reply/brief_subject"
                       tal:attributes="href reply/url">Subject</a>
                     <span class="oc-smallText">
                       <span i18n:translate="label_author" tal:omit-tag="">by</span>
@@ -46,7 +47,7 @@
             <strong id="thread-previous" i18n:translate="threaded_message_thread_reply">
               In reply to:
             </strong>
-            <a href="#" tal:content="prev_link/subject"
+            <a href="#" tal:content="structure prev_link/brief_subject"
               tal:attributes="href prev_link/url">Subject</a>
             <span class="oc-smallText">
               <span tal:omit-tag="">by</span>
@@ -57,7 +58,7 @@
             <strong id="thread-next" i18n:translate="threaded_message_next">
               Next in thread:
             </strong>
-            <a href="#" tal:content="next_link/subject" 
+            <a href="#" tal:content="structure next_link/brief_subject" 
               tal:attributes="href next_link/url">Subject</a>
             <span class="oc-smallText">
               <span tal:omit-tag="">by</span>

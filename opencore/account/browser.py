@@ -24,7 +24,6 @@ class AccountView(BaseView):
         """login a user programmatically"""
         uf = getToolByName(self.context, 'acl_users')
         user = uf.getUserById(member_id)
-
         # this line logs the user in for the current request
         newSecurityManager(self.request, user)
 

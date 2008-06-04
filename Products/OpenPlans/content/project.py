@@ -21,6 +21,7 @@ from ZODB.POSException import ConflictError
 from opencore.configuration import DEFAULT_ROLES
 from opencore.configuration import OC_REQ as OPENCORE
 from opencore.content.page import OpenPage
+from opencore.content.fields import SquareScaledImageField
 from opencore.interfaces import IProject
 from topp.featurelets.config import MENU_ID
 from topp.featurelets.interfaces import IMenuSupporter
@@ -30,6 +31,10 @@ from zope.interface import Interface, implements
 import os.path
 import pkg_resources
 from opencore.project.utils import project_noun
+import opencore.browser.img
+
+#this has the location of the default project logos
+img_path = os.path.dirname(opencore.browser.img.__file__)
 
 ProjectSchema = TeamSpace.schema.copy()
 # Prevent bug 1689 from affecting projects too.
@@ -51,11 +56,15 @@ ProjectSchema += Schema((
             ),
           ),
 
-        ImageField('logo',
+        SquareScaledImageField('logo',
           mode='rw',
           accessor='getLogo',
           mutator='setLogo',
           max_size=(150,150),
+          sizes=dict(thumb=(80,80),
+                     square_thumb=(80,80),
+                     square_fifty_thumb=(50,50),
+                     ),
           widget=ImageWidget(
             label='Logo',
             label_msgid='label_logo',
@@ -192,6 +201,25 @@ class OpenProject(BrowserDefaultMixin, TeamSpaceMixin, BaseBTreeFolder):
         'permissions' : (ModifyPortalContent,),
         'visible'     : False,
          },
+        )
+
+    default_project_logos = dict(
+        default=Image('default',
+                         'Default logo',
+                         open(os.path.join(img_path,
+                                           'default-projlogo.gif'))),
+        thumb=Image('thumb',
+                       'Default thumbnail',
+                       open(os.path.join(img_path,
+                                         'default-projlogo-thumb.gif'))),
+        square_thumb=Image('thumb',
+                              'Default square thumbnail',
+                              open(os.path.join(img_path,
+                                                'default-projlogo-80x80.gif'))),
+        square_fifty_thumb=Image('thumb',
+                                 'Default square 50x50 thumbnail',
+                                 open(os.path.join(img_path,
+                                                   'default-projlogo-50x50.gif'))),
         )
 
     def __init__(self, id, title=''):
@@ -375,5 +403,33 @@ class OpenProject(BrowserDefaultMixin, TeamSpaceMixin, BaseBTreeFolder):
             if not isinstance(self.logo, Image):
                 return None
             return self.logo
+
+    def __bobo_traverse__(self, REQUEST, name):
+        """Transparent access to image scales
+           **adapted from ATCT**
+
+           If request looks like a request for a logo, but the proper scale
+           isn't found, then we return back the default logo for the requested
+           scale.
+        """
+        if name.startswith('logo'):
+            field = self.getField('logo')
+            image = None
+            if name == 'logo':
+                image = field.getScale(self)
+                if not image:
+                    return self.default_project_logos['default'].__of__(self)
+            else:
+                scalename = name[len('logo_'):]
+                if scalename in field.getAvailableSizes(self):
+                    image = field.getScale(self, scale=scalename)
+                    if not image:
+                        return self.default_project_logos.get(scalename, 'default').__of__(self)
+            if image:
+                # image might be None or '' for empty images
+                return image
+
+        return super(OpenProject, self).__bobo_traverse__(REQUEST, name)
+
 
 registerType(OpenProject)

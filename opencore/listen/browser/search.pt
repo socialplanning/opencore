@@ -2,6 +2,7 @@
   i18n:domain="opencore" metal:use-macro="here/@@standard_macros/master">
   <body>
     <div metal:fill-slot="content">
+      <script type="text/javascript" src="++resource++obfuscation.js"></script> 
       <div metal:use-macro="here/@@listen_macros/bcrumb"/>
       <div metal:use-macro="here/@@listen_macros/tabs"/>
       <div id="oc-content-main">
@@ -62,12 +63,6 @@
           <div metal:use-macro="here/batch_macros/macros/navigation" />
 	  
 
-          <p tal:define="search request/search_text | nothing"
-             tal:condition="python: not results and search"
-             class="oc-message oc-bigText"
-             i18n:translate="listen_search_no_results">
-            No results for '<span i18n:name="search_string" tal:replace="search" />'. Please try another search term.
-          </p>
         </tal:threads>
       </div><!-- content-main -->
       <div id="oc-content-sidebar">
@@ -75,7 +70,7 @@
           <h2>About &ldquo;<span i18n:name="list_title" tal:replace="context/Title" />&rdquo;</h2>
           <dl class="oc-plainList">
           <dt>Address</dt>
-          <dd id="listaddress" i18n:name="list_address" tal:content="view/listAddress" tal:condition="view/listAddress" />
+          <dd id="listaddress" i18n:name="list_address" tal:content="structure view/listAddress" tal:condition="view/listAddress" />
           <dt>Description</dt>
           <dd tal:content="view/listDescription" i18n:name="list_desc" tal:condition="view/listDescription" />
           </dl>

@@ -40,6 +40,7 @@ class TeamFeedAdapter(BaseFeedAdapter):
         members.sort(key=portrait_sort_key, reverse=True) # could also sort by admin-ness, lastlogin, etc
         members = members[:n_items]
 
+        self._items = []
         for member in members:
             link = profile_path(member.getId)
             self.add_item(title=member.getId,

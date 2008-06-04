@@ -157,7 +157,6 @@ the project's contents listing to "Hobbes"::
     >>> request.form = form
     >>> unicode(view())
     u'...'
-
     >>> page.Title()
     'Hobbes'
 

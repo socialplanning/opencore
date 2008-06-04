@@ -106,7 +106,7 @@ class BaseView(BrowserView):
     def render_macro(self, macro, extra_context={}):
         """
         Returns a rendered page template which contains nothing but a
-        provied macro.
+        provided macro.
 
         o macro: the macro list representation which should be
         rendered within the returned template object.

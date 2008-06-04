@@ -1,11 +1,19 @@
-0.12 (unreleased)
-=================
+0.11.3 (unreleased)
+===================
+
+ * #2010: Project contents form should use POST, not GET (slinkp)
+ * Email obfuscation for listen views (cabraham)
+ * Rig in listen message_macros templates (rmarianski)
+ * fix team AttributeError reported by user on summary page (rmarianski)
+ * fix site_url AttributeError reported by user on password reset (rmarianski)
+
+0.11.2 (2008-05-27)
+===================
  * Square member portrait thumbnails at (80,80) and (50,50) (rmarianski)
+ * Square project logos at (80,80) and (50,50) (rmarianski)
 
-
-0.11 (2008-05-20)
+0.11.1 (2008-05-20)
 =================
-
  * New infrastructure for embedded host whitelist; add some sites (jhammel)
  * Allow for wicked links with HTML escapes and non-UTF-8 characters (jhammel)
  * Fix "wiki" link and text in user's dropdown nav - it's now "pages" (slinkp)
@@ -30,7 +38,6 @@
 
 0.10 (2008-04-23)
 =================
-
  * Add new index to membrane_tool "has_portrait" (rmarianski)
  * Merged whit-team-speedup branch back to trunk (rob)
  * Significant cleanup of unused and/or unnecessary convenience methods in BaseView and elsewhere (slinkp)
