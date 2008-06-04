@@ -5,6 +5,7 @@ from opencore.nui.wiki import utils
 #from opencore.streetswiki.utils import add_wiki
 #from opencore.nui.setup import set_method_aliases
 import opencore.streetswiki
+from opencore.wordpress.subscribers import notify_wordpress_user_modified
 from sputnik.interfaces import IBlogNetwork
 from sputnik.interfaces import IBlogNetworkFeature
 from zope.interface import alsoProvides
@@ -157,3 +158,13 @@ page.setText(default_sw_template)
 page.reindexObject()
 transaction.get().note('added streetswiki template page to portal')
 transaction.commit()
+
+print 'Updating wordpress to use display_names'
+print '(Wordpress must be running)'
+# we simply run the event handler which pings wordpress
+# for each member
+for mbrain in n.membrane_tool():
+    mem = mbrain.getObject()
+    # event argument is unused, so pass in None
+    notify_wordpress_user_modified(mem, None)
+print 'Done updating wordpress'
