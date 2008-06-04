@@ -6,6 +6,7 @@ from opencore.nui.wiki import utils
 #from opencore.nui.setup import set_method_aliases
 import opencore.streetswiki
 from sputnik.interfaces import IBlogNetwork
+from sputnik.interfaces import IBlogNetworkFeature
 from zope.interface import alsoProvides
 import os
 import sys
@@ -139,6 +140,7 @@ print "Creating blognetwork feature page"
 portal.invokeFactory('Document', 'blognetwork-feature', title=u'Blog Network Feature')
 page = portal._getOb('blognetwork-feature')
 page.setText(u'<p>Blog network default feature text</p>')
+alsoProvides(page, IBlogNetworkFeature)
 page.reindexObject()
 transaction.get().note('added blognetwork-feature page to portal')
 transaction.commit()
