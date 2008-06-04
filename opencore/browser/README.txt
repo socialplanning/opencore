@@ -230,7 +230,7 @@ The base url must be set properly in the html for relative links to work
    >>> html = view()
    >>> '<base tal:attributes="href string:${context/absolute_url}' in html
    False
-   >>> '<base href="http://nohost/plone" />' in html
+   >>> '<base href="http://nohost/plone/" />' in html
    True
 
 
