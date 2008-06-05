@@ -31,6 +31,8 @@ class AccountView(BaseView):
         self.request.set('__ac_name', member_id)
         self.auth.login()
 
+        # createMemberArea does its own check first
+        self.membertool.createMemberArea()
         self.membertool.setLoginTimes()
 
     def update_credentials(self, member_id):

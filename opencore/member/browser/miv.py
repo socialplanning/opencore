@@ -194,8 +194,6 @@ def auto_approve_member(event):
     # request which implements IConsumeNewMembers,
     # automatically register the user as a member
     # of the project.
-
-
     request = event.request
     parent = get_parent_project(request)
 
