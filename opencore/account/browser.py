@@ -1,4 +1,3 @@
-from AccessControl.SecurityManagement import newSecurityManager
 from Products.CMFCore.utils import getToolByName
 from opencore.browser.base import BaseView, _
 from opencore.member.interfaces import IHandleMemberWorkflow
@@ -17,22 +16,16 @@ class AccountView(BaseView):
 
     @property
     def auth(self):
-        uf = getToolByName(self.context, "acl_users")
-        return uf.credentials_signed_cookie_auth
-
+        acl = self.get_tool("acl_users")
+        return acl.credentials_signed_cookie_auth
     
     def login(self, member_id):
         """login a user programmatically"""
-        uf = getToolByName(self.context, 'acl_users')
-        user = uf.getUserById(member_id)
-        # this line logs the user in for the current request
-        newSecurityManager(self.request, user)
-
-        # the next two set the cookie so the login will persist
         self.request.set('__ac_name', member_id)
         self.auth.login()
-
-        self.membertool.setLoginTimes()
+        # Note that login() doesn't actually seem to log us in during
+        # the current request.  eg. this next line:
+        self.membertool.setLoginTimes() # XXX does nothing, we're anonymous.
 
     def update_credentials(self, member_id):
         return self.auth.updateCredentials(self.request, self.response,
