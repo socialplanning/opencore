@@ -30,5 +30,6 @@ class BlankSlateViewlet(ViewletBase):
         # XXX this is copy/pasted
         return prettyDate(date)
 
+    @property
     def project_noun(self):
         return project_noun()
