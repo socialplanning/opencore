@@ -1,5 +1,6 @@
 from Products.Five.viewlet.viewlet import ViewletBase
 from opencore.feed.interfaces import IFeedData
+from opencore.project.utils import project_noun
 from topp.utils.pretty_date import prettyDate
 from zope.component import getAdapter
 
@@ -29,3 +30,5 @@ class BlankSlateViewlet(ViewletBase):
         # XXX this is copy/pasted
         return prettyDate(date)
 
+    def project_noun(self):
+        return project_noun()
