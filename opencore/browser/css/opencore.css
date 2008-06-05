@@ -1065,6 +1065,7 @@ fieldset .oc-heading-context {
 .oc-form-context {
   color: #666;
   font-style: italic;
+  display: block; /* in case an error message comes up under it */
 }
 .oc-form-validator {
 }
