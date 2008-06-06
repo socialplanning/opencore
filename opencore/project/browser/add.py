@@ -74,12 +74,12 @@ class ProjectAddView(ProjectBaseView, OctopoLite):
             title = unicode(title, 'utf-8')
         self.request.form['project_title'] = title
         if not self.valid_title(title):
-            self.errors['project_title'] = 'The name must contain ' \
-              'at least 2 characters with at least 1 letter or number.'
+            self.errors['project_title'] = 'The name must contain 2 or more characters.'
+
 
         id_ = self.request.form.get('projid')
         if not self.valid_id(id_):
-            self.errors['id'] = 'The url may contain only letters, numbers, hyphens, or underscores and must have at least 1 letter or number.'
+            self.errors['id'] = 'The url must contain 2 or more characters.'
         else:
             id_ = putils.normalizeString(id_)
             if self.context.has_key(id_):
