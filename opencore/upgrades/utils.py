@@ -1,9 +1,11 @@
+from fassembler.configparser import configparser
 from opencore.browser.naming import get_view_names
 import logging
 
 logger = logging.getLogger("opencore.upgrades")
 
-default_profile_id = 'opencore.configuration:default'
+etc_svn_subdir = configparser.get_config('etc_svn_subdir')
+default_profile_id = 'opencore.configuration:%s' % etc_svn_subdir
 
 def move_blocking_content(portal):
     """
@@ -31,6 +33,18 @@ def rerun_import_steps(context, steps):
 
     Ideally, GenericSetup would provide a ZCML tag for this, but it's
     not there yet.
+
+    'steps' is a dictionary of the import steps to be run.  Keys
+    should be the import step id.  The value for each key should be a
+    dictionary that may contain other parameters to be passed in to
+    the import step ('purge_old' is the only one currently supported).
+    An example dictionary might look like this:
+
+    steps = {'activate_wicked': dict(),
+             'typeinfo': dict(purge_old=True),
+             'controlpanel': dict(),
+             'languagetool': dict(),
+             }
     """
     request = context.REQUEST
     profile_id = request.form.get('profile_id')
