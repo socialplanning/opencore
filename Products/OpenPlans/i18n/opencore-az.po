@@ -299,7 +299,7 @@ msgstr "email_invite_member"
 #. Default: "${user_message} To accept this invitation or learn more about the project, click here: ${project_title}  --------------------------------------------------------------------- This message was sent from ${portal_title}. To contact ${portal_title}, visit: ${site_contact_url}"
 #: opencore/project/browser/invite-with-message.pt:96
 msgid "email_invite_static_body"
-msgstr "email_invite_static_body""${user_message}\n"
+msgstr "email_invite_static_body""${user_message}\n\n"
 "To accept this invitation or learn more about the project, click here:\n"
 "${join_url}. \n"
 "\n"

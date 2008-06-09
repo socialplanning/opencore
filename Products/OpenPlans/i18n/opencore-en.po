@@ -388,7 +388,7 @@ msgstr ""
 #: opencore/project/browser/manageteam.py:700
 msgid "email_invite_static_body"
 msgstr ""
-"${user_message}\n"
+"${user_message}\n\n"
 "To accept this invitation or to learn more about this ${project_noun}, click here: ${join_url} \n"
 " \n"
 "Cheers,\n"
