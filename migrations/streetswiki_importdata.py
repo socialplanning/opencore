@@ -20,6 +20,7 @@ tmt = n.portal_teams
 import os
 from App.config import getConfiguration
 from zExceptions import BadRequest
+from zope.component.interfaces import ComponentLookupError
 sw = n.streetswiki
 cfg = getConfiguration()
 home = cfg.instancehome
@@ -48,6 +49,10 @@ for filename in os.listdir(zopeimport):
     except BadRequest:
         print '*' * 80
         print 'failed to import %s' % filename
+        print '*' * 80
+    except ComponentLookupError:
+        print '*' * 80
+        print 'component lookup error on %s' % filename
         print '*' * 80
 
 transaction.get().note('imported %d articles' % n_imported)
