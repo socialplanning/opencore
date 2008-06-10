@@ -25,6 +25,14 @@ cfg = getConfiguration()
 home = cfg.instancehome
 zopeimport = os.path.join(home, 'import')
 
+#we need to remove the frontpage-text page that gets inserted by default
+#during the streetswiki folder installation
+#this is necessary so that the frontpage-text page of the exported data
+#gets imported in rather than skipping it and using the default
+print 'removing streetswiki/frontpage-text'
+sw.manage_delObjects(['frontpage-text'])
+print 'successfully removed streetswiki/frontpage-text'
+
 #keep track of the number of articles imported
 n_imported = 0
 
