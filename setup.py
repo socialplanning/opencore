@@ -40,6 +40,7 @@ setup(
                         'https://svn.openplans.org/svn/topp.utils/trunk#egg=topp.utils-dev',
                         'https://svn.openplans.org/svn/ZCMLLoader/trunk#egg=ZCMLLoader',
                         'https://svn.openplans.org/svn/opencore/plugins/oc-feed/trunk/#egg=oc-feed'
+                        'https://svn.plone.org/svn/collective/borg/components/borg.localrole/trunk#egg=borg.localrole'
                         ],
 
       install_requires=[
@@ -56,7 +57,7 @@ setup(
           'httplib2',
           'lxml>=2.0alpha5',
           'plone.mail',
-          'borg.localrole==1.0rc1',
+          'borg.localrole',
           'wsseauth',
           'uuid',
           'flunc>=0.1.3',
