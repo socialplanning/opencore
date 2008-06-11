@@ -1,4 +1,4 @@
-from Products.CMFCore.permissions import DeleteObjects
+from Products.CMFCore.permissions import DeleteObjects, ModifyPortalContent
 from Products.CMFCore.utils import getToolByName
 from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
 from Products.ZCatalog.Catalog import AbstractCatalogBrain
@@ -90,14 +90,13 @@ class ProjectContentsView(ProjectBaseView, OctopoLite):
                      sort_order=sort_order)
         brains = self.catalog(**query)
         needed_values = self.needed_values[item_type]
-        ret = ContentsCollection(item_type, self)
+        collection = ContentsCollection(item_type, self)
         show_deletes = self.show_deletes()
         for brain in brains:
             item = self._make_dict_and_translate(brain, needed_values)
             item = self._prep_editable_deletable(item)
-            ret.append(item)
-        ret.editable = needed_values.editable
-        return ret
+            collection.append(item)
+        return collection
 
     @memoizedproperty
     def pages(self):
@@ -274,6 +273,7 @@ class ProjectContentsView(ProjectBaseView, OctopoLite):
     @action('update')
     def update_items(self, sources, fields=None):
         item_type = self.request.form.get("item_type")
+        mtool = getToolByName(self.context, 'portal_membership')
 
         if item_type == 'pages' and PROJ_HOME in sources:
             sources.remove("project-home")
@@ -286,8 +286,9 @@ class ProjectContentsView(ProjectBaseView, OctopoLite):
         macro = self.template.macros['item_row']
         for old, new in zip(sources, fields):
             page = objects[old]
-            page.setTitle(new['title'])
-            page.reindexObject(('Title',))
+            if bool(mtool.checkPermission(ModifyPortalContent, page)):
+                page.setTitle(new['title'])
+                page.reindexObject(('Title',))
 
             data = dict(item=self._make_dict_and_translate(page, self.needed_values[item_type]),
                         item_type=item_type,
