@@ -358,52 +358,6 @@ def setupTeamTool(portal, out):
     tmtool.setDefaultActiveStates(config.DEFAULT_ACTIVE_MSHIP_STATES)
 
 @setuphandler
-def installCookieAuth(portal, out):
-    
-    uf = portal.acl_users
-
-    print >> out, "signed cookie plugin setup"
-
-    login_path = 'require_login'
-    logout_path = 'logged_out'
-    cookie_name = '__ac'
-
-    crumbler = getToolByName(portal, 'cookie_authentication', None)
-
-    if crumbler is not None:
-        login_path = crumbler.auto_login_page
-        logout_path = crumbler.logout_page
-        cookie_name = crumbler.auth_cookie
-
-    found = uf.objectIds(['Signed Cookie Auth Helper'])
-    if not found:
-        openplans = uf.manage_addProduct['OpenPlans']
-        openplans.manage_addSignedCookieAuthHelper('credentials_signed_cookie_auth',
-                                                   cookie_name=cookie_name)
-    print >> out, "Added Extended Cookie Auth Helper."
-    from Products.PlonePAS.Extensions.Install import activatePluginInterfaces
-    activatePluginInterfaces(portal, 'credentials_signed_cookie_auth', out)
-
-    signed_cookie_auth = uf._getOb('credentials_signed_cookie_auth')
-    if 'login_form' in signed_cookie_auth.objectIds():
-        signed_cookie_auth.manage_delObjects(ids=['login_form'])
-        print >> out, "Removed default login_form from signed cookie auth."
-    signed_cookie_auth.cookie_name = cookie_name
-    signed_cookie_auth.login_path = login_path
-
-    old_cookie_auth = uf._getOb('credentials_cookie_auth', None)
-    if old_cookie_auth is not None:
-        old_cookie_auth.manage_activateInterfaces([])
-        print >> out, "Deactivated unsigned cookie auth plugin"
-
-    plugins = uf._getOb('plugins', None)
-    if plugins is not None:
-        plugins.movePluginsUp(IChallengePlugin,
-                              ['credentials_signed_cookie_auth'],)
-        print >> out, ("Move signed cookie auth to be top priority challenge "
-                       "plugin")
-
-@setuphandler
 def installNewsFolder(portal, out):
     print >> out, ("Creating '%s' content" % 'news')
     existing_item = getattr(portal.aq_base, 'news', None)
@@ -506,18 +460,6 @@ def addCatalogQueue(portal, out):
         f_disp.manage_addQueueCatalog(q_id)
         queue = portal._getOb(q_id)
         queue.setLocation('portal_catalog')
-
-@setuphandler
-def install_remote_auth_plugin(portal, out):
-    plugin_id = 'opencore_remote_auth'
-    uf = portal.acl_users
-    if plugin_id in uf.objectIds():
-        # plugin is already there, do nothing
-        return
-    print >> out, "Adding OpenCore remote auth plugin"
-    openplans = uf.manage_addProduct['OpenPlans']
-    openplans.manage_addOpenCoreRemoteAuth(plugin_id)
-    activatePluginInterfaces(portal, plugin_id, out)
 
 @setuphandler
 def local_fqdn_return_address(portal, out):

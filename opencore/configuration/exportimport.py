@@ -1,9 +1,11 @@
 from lxml import etree
 
 from Acquisition import aq_base
-from Products.GenericSetup.utils import _resolveDottedName
-from Products.GenericSetup.tool import TOOLSET_XML
 from Products.Archetypes.utils import OrderedDict
+from Products.GenericSetup.interfaces import IFilesystemExporter
+from Products.GenericSetup.interfaces import IFilesystemImporter
+from Products.GenericSetup.tool import TOOLSET_XML
+from Products.GenericSetup.utils import _resolveDottedName
 
 
 def importToolset(context):
@@ -67,3 +69,18 @@ def importToolset(context):
                 site._setObject(tool_id, tool_class())
 
     logger.info('MemberData tool imported.')
+
+
+# override the default PAS handlers since those assume the setup tool
+# is inside the PAS instance
+def exportPAS(context):
+    IFilesystemExporter(context.getSite().acl_users).export(context,
+                                                            'PAS',
+                                                            True)
+
+def importPAS(context):
+    if context.isDirectory('PAS'):
+        IFilesystemImporter(context.getSite().acl_users).import_(context,
+                                                                 'PAS',
+                                                                 True)
+
