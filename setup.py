@@ -39,8 +39,8 @@ setup(
                         'http://feedparser.googlecode.com/files/feedparser-4.1.zip',
                         'https://svn.openplans.org/svn/topp.utils/trunk#egg=topp.utils-dev',
                         'https://svn.openplans.org/svn/ZCMLLoader/trunk#egg=ZCMLLoader',
-                        'https://svn.openplans.org/svn/opencore/plugins/oc-feed/trunk/#egg=oc-feed'
-                        'https://svn.plone.org/svn/collective/borg/components/borg.localrole/trunk#egg=borg.localrole'
+                        'https://svn.openplans.org/svn/opencore/plugins/oc-feed/trunk/#egg=oc-feed',
+                        'https://svn.plone.org/svn/collective/borg/components/borg.localrole/trunk#egg=borg.localrole-dev',
                         ],
 
       install_requires=[
@@ -57,7 +57,7 @@ setup(
           'httplib2',
           'lxml>=2.0alpha5',
           'plone.mail',
-          'borg.localrole',
+          'borg.localrole==dev,>=2.0.1dev-r66479',
           'wsseauth',
           'uuid',
           'flunc>=0.1.3',
