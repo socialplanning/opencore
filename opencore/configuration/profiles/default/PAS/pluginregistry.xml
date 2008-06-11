@@ -50,7 +50,6 @@
               interface="Products.PluggableAuthService.interfaces.plugins.IGroupEnumerationPlugin">
   <plugin id="source_groups"/>
   <plugin id="membrane_groups"/>
-  <plugin id="auto_group"/>
  </plugin-type>
  <plugin-type id="IGroupIntrospection"
               title="group_introspection"
@@ -58,7 +57,6 @@
               interface="Products.PlonePAS.interfaces.group.IGroupIntrospection">
   <plugin id="source_groups"/>
   <plugin id="membrane_groups"/>
-  <plugin id="auto_group"/>
  </plugin-type>
  <plugin-type id="IGroupManagement" title="group_management"
               description="Group Management provides add/write/deletion of groups and member management"
@@ -70,7 +68,6 @@
               interface="Products.PluggableAuthService.interfaces.plugins.IGroupsPlugin">
   <plugin id="source_groups"/>
   <plugin id="membrane_groups"/>
-  <plugin id="auto_group"/>
  </plugin-type>
  <plugin-type id="ILocalRolesPlugin" title="local_roles"
               description="Defines Policy for getting Local Roles"
