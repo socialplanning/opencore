@@ -243,7 +243,7 @@ class ProjectTeamView(TeamRelatedView):
                      getId=mem_ids,
                      )
 
-        member_brains = self.result = self.membranetool(**query)
+        member_brains = self.results = self.membranetool(**query)
         lookup_dict = dict((b.getId, b) for b in member_brains if b.getId)
         batch_dict = [lookup_dict.get(b.getId) for b in membership_brains if lookup_dict.has_key(b.getId)]
         return self._get_batch(batch_dict, self.request.get('b_start', 0))
