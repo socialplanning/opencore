@@ -10,6 +10,7 @@ import opencore.browser
 import opencore.project
 import opencore.project.browser
 import opencore.bbb.transient_messages
+import wicked
 
 def do_aliases():
     sys.modules['opencore.siteui'] = opencore.browser
@@ -20,5 +21,6 @@ def do_aliases():
     sys.modules['opencore.nui.member.interfaces'] = opencore.interfaces.bbb
     sys.modules['opencore.nui.project.interfaces'] = opencore.interfaces.bbb
     sys.modules['opencore.siteui.interfaces'] = opencore.interfaces.member
+    sys.modules['Products.wicked'] = wicked
 
 
