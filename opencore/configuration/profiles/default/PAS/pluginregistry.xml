@@ -12,7 +12,6 @@
   <plugin id="source_users"/>
   <plugin id="membrane_users"/>
   <plugin id="credentials_signed_cookie_auth"/>
-  <plugin id="opencore_remote_auth"/>
  </plugin-type>
  <plugin-type id="IChallengePlugin" title="challenge"
               description="Challenge plugins initiate a challenge to the user to provide credentials."
