@@ -319,15 +319,9 @@ def setupPeopleFolder(portal, out):
 @setuphandler
 def migrateATDocToOpenPage(portal, out):
     print >> out, 'Migrating ATDocument type to OpenPage'
-    if not 'migrate_atdoc_openpage' in portal.objectIds():
-        portal.manage_addProduct['ExternalMethod'].manage_addExternalMethod(
-            'migrate_atdoc_openpage', '', 'OpenPlans.migrate_atdoc_openpage',
-            'migrate_atdoc_openpage')
-
-    import transaction as txn
-    txn.commit(1)
-    print >> out, portal.migrate_atdoc_openpage(portal)
-    portal.manage_delObjects(ids=['migrate_atdoc_openpage'])
+    from Products.OpenPlans.Extensions.migrate_atdoc_openpage import \
+            migrate_atdoc_openpage
+    print >> out, migrate_atdoc_openpage(portal)
 
 @setuphandler
 def setSiteIndexPage(portal, out):
