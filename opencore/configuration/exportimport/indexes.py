@@ -28,11 +28,7 @@ def clearIfChanged(fun):
     them to be cleared only if the config changes.
     """
     def importNode(self, node):
-        try:
-            before = self.node.toxml()
-        except:
-            import pdb, sys
-            pdb.post_mortem(sys.exc_info()[2])
+        before = self.node.toxml()
         fun(self, node)
         if before != self.node.toxml():
             try:
