@@ -19,6 +19,6 @@ def remove_member_folder(member, event):
         pass
 
 def reindex_member_project_ids(mship, event):
-    md = getToolByName(mship, 'portal_memberdata')
-    mem = md._getOb(mship.id)
+    ms = getToolByName(mship, 'portal_membership')
+    mem = ms.getMemberById(mship.id)
     mem.reindexObject(idxs=['project_ids'])
