@@ -1,10 +1,13 @@
 """
-Override the default index im/exporters so the indexes don't get
-cleared every single time.
+Override the default index im/exporters so the indexes and lexicons
+don't get cleared every single time.
 
 See https://bugs.launchpad.net/zope-cmf/+bug/161682
 """
 
+from BTrees.IOBTree import IOBTree
+from BTrees.Length import Length
+from BTrees.OIBTree import OIBTree
 from Products.GenericSetup.PluginIndexes.exportimport \
      import PluggableIndexNodeAdapter as PluggableIndexNodeAdapterBase
 from Products.GenericSetup.PluginIndexes.exportimport \
@@ -13,10 +16,17 @@ from Products.GenericSetup.PluginIndexes.exportimport \
      import DateRangeIndexNodeAdapter as DateRangeIndexNodeAdapterBase
 from Products.GenericSetup.ZCTextIndex.exportimport \
      import ZCTextIndexNodeAdapter as ZCTextIndexNodeAdapterBase
+from Products.GenericSetup.ZCTextIndex.exportimport \
+     import ZCLexiconNodeAdapter as ZCLexiconNodeAdapterBase
 
+from Products.ZCTextIndex.PipelineFactory import element_factory
 from Products.ZCTextIndex.ZCTextIndex import index_types
 
 def clearIfChanged(fun):
+    """
+    Decorator which wraps index and lexicon importers, will cause
+    them to be cleared only if the config changes.
+    """
     def importNode(self, node):
         try:
             before = self.node.toxml()
@@ -25,7 +35,14 @@ def clearIfChanged(fun):
             pdb.post_mortem(sys.exc_info()[2])
         fun(self, node)
         if before != self.node.toxml():
-            self.context.clear()
+            try:
+                # index?
+                self.context.clear()
+            except AttributeError:
+                # nope, it's a lexicon
+                self.context._wids = OIBTree()
+                self.context._words = IOBTree()
+                self.context.length = Length()
     return importNode
 
 
@@ -104,3 +121,22 @@ class ZCTextIndexNodeAdapter(ZCTextIndexNodeAdapterBase):
         self.context._indexed_attrs = indexed_attrs
 
     node = property(ZCTextIndexNodeAdapterBase._exportNode, _importNode)
+
+
+class ZCLexiconNodeAdapter(ZCLexiconNodeAdapterBase):
+    """Node im- and exporter for ZCTextIndex Lexicon.
+    """
+    @clearIfChanged
+    def _importNode(self, node):
+        """Import the object from the DOM node.
+        """
+        pipeline = []
+        for child in node.childNodes:
+            if child.nodeName == 'element':
+                element = element_factory.instantiate(
+                      child.getAttribute('group').encode('utf-8'),
+                      child.getAttribute('name').encode('utf-8'))
+                pipeline.append(element)
+        self.context._pipeline = tuple(pipeline)
+
+    node = property(ZCLexiconNodeAdapterBase._exportNode, _importNode)

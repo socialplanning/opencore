@@ -27,4 +27,10 @@
           Products.GenericSetup.interfaces.ISetupEnviron"
      provides="Products.GenericSetup.interfaces.INode" />
 
+  <adapter
+     factory=".indexes.ZCLexiconNodeAdapter"
+     for="Products.ZCTextIndex.interfaces.IZCLexicon
+          Products.GenericSetup.interfaces.ISetupEnviron"
+     provides="Products.GenericSetup.interfaces.INode" />
+
 </configure>
