@@ -411,6 +411,9 @@ class BaseView(BrowserView):
     @property
     def loggedinmember(self):
         if self.loggedin:
+            # XXX This can sometimes lead to downstream confusion by
+            # returning users who aren't full site members,
+            # eg. in tests where we've called loginAsPortalOwner()
             return self.membertool.getAuthenticatedMember()
 
     @view.memoize
