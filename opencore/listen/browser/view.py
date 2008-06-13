@@ -1,5 +1,6 @@
 from Acquisition import aq_inner
 from Products.CMFCore.permissions import DeleteObjects
+from AccessControl.interfaces import IRoleManager
 from Products.CMFCore.utils import getToolByName
 from Products.Five.browser import metaconfigure, pagetemplatefile
 from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
@@ -14,6 +15,7 @@ from Products.listen.browser.moderation import ModerationView as BaseModerationV
 from Products.listen.config import PROJECTNAME
 from Products.listen.config import MODERATION_FAILED
 from Products.listen.content import ListTypeChanged
+from Products.listen.lib.common import assign_local_role
 from Products.listen.interfaces.list_types import PublicListTypeDefinition, \
                                                   PostModeratedListTypeDefinition, \
                                                   MembershipModeratedListTypeDefinition
@@ -256,6 +258,7 @@ class ListAddView(ListenEditBaseView):
         list = lists_folder._getOb(mailto)
 
         list.managers = tuple(managers)
+        self._assign_local_roles_to_managers(list)
         list.setDescription(unicode(self.request.form.get('description',''), 'utf-8'))
 
         old_workflow_type = list.list_type
@@ -283,9 +286,16 @@ class ListAddView(ListenEditBaseView):
 
         self.redirect(list.absolute_url())
 
+    def _assign_local_roles_to_managers(self, ml):
+        assign_local_role('Owner', ml.managers, IRoleManager(ml))
+
 
 class ListEditView(ListenEditBaseView):
     template = ZopeTwoPageTemplateFile('edit.pt')
+
+    def _assign_local_roles_to_managers(self):
+        ml = self.context
+        assign_local_role('Owner', ml.managers, IRoleManager(ml))
 
     @action('edit')
     def handle_request(self, target=None, fields=None):
@@ -308,9 +318,12 @@ class ListEditView(ListenEditBaseView):
                                old_workflow_type.list_marker,
                                new_workflow_type.list_marker))
 
+
         list.archived = archive
 
         list.managers = tuple(managers)
+
+        self._assign_local_roles_to_managers()
 
         self.template = None
 
