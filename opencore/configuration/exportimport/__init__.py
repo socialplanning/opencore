@@ -1,7 +1,6 @@
 from lxml import etree
 
 from Acquisition import aq_base
-from Products.Archetypes.utils import OrderedDict
 from Products.GenericSetup.interfaces import IFilesystemExporter
 from Products.GenericSetup.interfaces import IFilesystemImporter
 from Products.GenericSetup.tool import TOOLSET_XML
@@ -83,4 +82,3 @@ def importPAS(context):
         IFilesystemImporter(context.getSite().acl_users).import_(context,
                                                                  'PAS',
                                                                  True)
-
