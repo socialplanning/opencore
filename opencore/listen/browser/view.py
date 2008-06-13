@@ -1,3 +1,5 @@
+import transaction
+from zExceptions import Redirect
 from Acquisition import aq_inner
 from Products.CMFCore.permissions import DeleteObjects
 from AccessControl.interfaces import IRoleManager
@@ -322,8 +324,10 @@ class ListEditView(ListenEditBaseView):
         list.archived = archive
 
         list.managers = tuple(managers)
-
         self._assign_local_roles_to_managers()
+        # we need to manually commit the transaction here because we are about
+        # to throw a Redirect exception which would abort the transaction
+        transaction.commit()
 
         self.template = None
 
@@ -331,8 +335,10 @@ class ListEditView(ListenEditBaseView):
                       u'Your changes have been saved.')
         
         self.add_status_message(s_message)
-
-        self.redirect('%s/summary' % list.absolute_url())
+        # we need to raise a redirect here since permissions may have
+        # been revoked for this view if the logged in user has removed
+        # himself from the managers list
+        raise Redirect('%s/summary' % list.absolute_url())
 
     def workflow_policy(self):
         return _ml_type_to_workflow[self.context.list_type]
