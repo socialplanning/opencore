@@ -68,6 +68,6 @@ def migrate_mlist_component_registries(context):
                     site_manager.registerUtility(utility, iface, name=name)
 
         logger.info('%s mailing list component registry migrated'
-                    % list.getId())
+                    % lst.getId())
 
     logger.info('Mailing list local component registry migration complete')
