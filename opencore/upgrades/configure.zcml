@@ -19,6 +19,18 @@
        handler=".to_0_12_0.fixup_list_lookup_utility"
        />
 
+    <genericsetup:upgradeStep
+       title="Reindex Membrane tool"
+       description="Reindexes the entire membrane_tool catalog."
+       handler=".to_0_12_0.reindex_membrane_tool"
+       />
+
+    <genericsetup:upgradeStep
+       title="Migrate mailing list component registries"
+       description="Migrates mailing list local component registries to Five 1.5 format."
+       handler=".to_0_12_0.migrate_mlist_component_registries"
+       />
+
   </genericsetup:upgradeSteps>
 
 </configure>
