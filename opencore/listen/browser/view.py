@@ -1,3 +1,4 @@
+from Acquisition import aq_parent, aq_inner
 import transaction
 from zExceptions import Redirect
 from Acquisition import aq_inner
@@ -290,6 +291,11 @@ class ListAddView(ListenEditBaseView):
 
     def _assign_local_roles_to_managers(self, ml):
         assign_local_role('Owner', ml.managers, IRoleManager(ml))
+        # here we delete roles on the 'lists' folder so that they don't interfere
+        # with roles on the list
+        parent = aq_parent(aq_inner(ml))
+        assign_local_role('Owner', [], IRoleManager(parent))
+
 
 
 class ListEditView(ListenEditBaseView):
@@ -298,6 +304,10 @@ class ListEditView(ListenEditBaseView):
     def _assign_local_roles_to_managers(self):
         ml = self.context
         assign_local_role('Owner', ml.managers, IRoleManager(ml))
+        # here we delete roles on the 'lists' folder so that they don't interfere
+        # with roles on the list
+        parent = aq_parent(aq_inner(ml))
+        assign_local_role('Owner', [], IRoleManager(parent))
 
     @action('edit')
     def handle_request(self, target=None, fields=None):
