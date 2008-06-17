@@ -52,6 +52,8 @@ class ListsFeedAdapter(BaseFeedAdapter):
         for ml_id in self.mlists:
             mlist = self.context._getOb(ml_id)
             cat = get_utility_for_context(ISearchableArchive, mlist)
+            # aq wrap since brains work better this way            
+            cat = cat.__of__(mlist)
             msgs = cat(sort_limit=n_items,
                        sort_order='descending',
                        sort_on='modification_date')
