@@ -47,17 +47,6 @@
                             </a>
                             <span class="oc-discreetText"><span tal:condition="view/loggedin" tal:replace="python:'(' + list.getObject().mailto + ')'">listaddress@lists.openplans.org</span></span>
                           </dt>
-                          <dd tal:condition="list_creator" i18n:translate="mailing_lists_created_by"
-                                class="oc-discreetText">
-                            created by
-                            <a href="#"
-                               tal:attributes="href string:${context/portal_url}/people/${list_creator}"
-                               tal:content="list_creator"
-                               tal:omit-tag="not:list_creator"
-                               i18n:name="list_creator">
-                              Bob Dobalina
-                            </a>
-                          </dd>
                           <dd tal:condition="list_description" tal:content="list_description"/>
                         </dl>
                       </td>
