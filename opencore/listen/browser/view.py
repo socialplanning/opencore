@@ -295,6 +295,9 @@ class ListAddView(ListenEditBaseView):
         # with roles on the list
         parent = aq_parent(aq_inner(ml))
         assign_local_role('Owner', [], IRoleManager(parent))
+        # we also need to delete the roles on the archives folder
+        assign_local_role('Owner', [], IRoleManager(ml.archive))
+        
 
 
 
@@ -308,6 +311,8 @@ class ListEditView(ListenEditBaseView):
         # with roles on the list
         parent = aq_parent(aq_inner(ml))
         assign_local_role('Owner', [], IRoleManager(parent))
+        # we also need to delete the roles on the archives folder
+        assign_local_role('Owner', [], IRoleManager(ml.archive))
 
     @action('edit')
     def handle_request(self, target=None, fields=None):
