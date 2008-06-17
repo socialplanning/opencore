@@ -287,6 +287,7 @@ class ListAddView(ListenEditBaseView):
         
         self.add_status_message(s_message)
 
+        list.reindexObject()
         self.redirect(list.absolute_url())
 
     def _assign_local_roles_to_managers(self, ml):
@@ -340,6 +341,7 @@ class ListEditView(ListenEditBaseView):
 
         list.managers = tuple(managers)
         self._assign_local_roles_to_managers()
+        list.reindexObject()
         # we need to manually commit the transaction here because we are about
         # to throw a Redirect exception which would abort the transaction
         transaction.commit()
