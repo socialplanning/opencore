@@ -6,8 +6,6 @@ from Products.OpenPlans.permissions import DEFAULT_PFOLDER_PERMISSIONS_DATA
 from Products.OpenPlans.permissions import PLACEFUL_PERMISSIONS_DATA
 from Products.OpenPlans.workflows import MEMBERSHIP_PLACEFUL_POLICIES
 from Products.OpenPlans.workflows import PLACEFUL_POLICIES
-from Products.PlonePAS.Extensions.Install import activatePluginInterfaces
-from Products.PluggableAuthService.interfaces.plugins import IChallengePlugin
 from Products.remember.utils import getAdderUtility
 from StringIO import StringIO
 from plone.app.controlpanel.markup import IMarkupSchema
