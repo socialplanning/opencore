@@ -8,6 +8,7 @@
  * fix site_url AttributeError reported by user on password reset (rmarianski)
  * revert changes to login in current thread due to side effects (rmarianski)
  * reindex member project_ids when joining/leaving project (rmarianski)
+ * lookup path to images dynamically to allow for overrides (rmarianski)
 
 0.11.2 (2008-05-27)
 ===================
