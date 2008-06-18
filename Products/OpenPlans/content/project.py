@@ -27,6 +27,7 @@ from topp.featurelets.config import MENU_ID
 from topp.featurelets.interfaces import IMenuSupporter
 from zope.app.annotation.interfaces import IAnnotatable
 from zope.app.annotation.interfaces import IAttributeAnnotatable
+from zope.component import getMultiAdapter
 from zope.interface import Interface, implements
 import os.path
 import pkg_resources
@@ -204,22 +205,10 @@ class OpenProject(BrowserDefaultMixin, TeamSpaceMixin, BaseBTreeFolder):
         )
 
     default_project_logos = dict(
-        default=Image('default',
-                         'Default logo',
-                         open(os.path.join(img_path,
-                                           'default-projlogo.gif'))),
-        thumb=Image('thumb',
-                       'Default thumbnail',
-                       open(os.path.join(img_path,
-                                         'default-projlogo-thumb.gif'))),
-        square_thumb=Image('thumb',
-                              'Default square thumbnail',
-                              open(os.path.join(img_path,
-                                                'default-projlogo-80x80.gif'))),
-        square_fifty_thumb=Image('thumb',
-                                 'Default square 50x50 thumbnail',
-                                 open(os.path.join(img_path,
-                                                   'default-projlogo-50x50.gif'))),
+        default=dict(name='default', title='Default logo', fname='default-projlogo.gif'),
+        thumb=dict(name='thumb', title='Default thumbnail', fname='default-projlogo-thumb.gif'),
+        square_thumb=dict(name='thumb', title='Default square thumbnail', fname='default-projlogo-80x80.gif'),
+        square_fifty_thumb=dict(name='thumb', title='Default square 50x50 thumbnail', fname='default-projlogo-50x50.gif'),
         )
 
     def __init__(self, id, title=''):
@@ -404,6 +393,15 @@ class OpenProject(BrowserDefaultMixin, TeamSpaceMixin, BaseBTreeFolder):
                 return None
             return self.logo
 
+    def _default_img_data(self, name, request):
+        l = self.default_project_logos.get(name, 'default')
+        imgpath = getMultiAdapter((request,), name='img').context.path
+        f = open(os.path.join(imgpath, l['fname']))
+        data = f.read()
+        f.close()
+        im = Image(l['name'], l['title'], data)
+        return im
+
     def __bobo_traverse__(self, REQUEST, name):
         """Transparent access to image scales
            **adapted from ATCT**
@@ -418,13 +416,13 @@ class OpenProject(BrowserDefaultMixin, TeamSpaceMixin, BaseBTreeFolder):
             if name == 'logo':
                 image = field.getScale(self)
                 if not image:
-                    return self.default_project_logos['default'].__of__(self)
+                    return self._default_img_data('default', REQUEST).__of__(self)
             else:
                 scalename = name[len('logo_'):]
                 if scalename in field.getAvailableSizes(self):
                     image = field.getScale(self, scale=scalename)
                     if not image:
-                        return self.default_project_logos.get(scalename, 'default').__of__(self)
+                        return self._default_img_data(scalename, REQUEST).__of__(self)
             if image:
                 # image might be None or '' for empty images
                 return image
