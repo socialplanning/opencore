@@ -58,7 +58,7 @@ class ErrorReporter(BaseView):
 
             user_email = self.request.form.get('oc-user-email', '').strip()
             if not user_email:
-                user_email = "anonymous@example.com"
+                user_email = "anonymous@openplans.org"
 
             msg = ('On %(time)s, %(user_email)s went to the URL %(url)s.\n\n'
                    'Did: %(did)s\n\nExpected: %(expected)s\n\nTraceback: %(traceback)s' % locals())
