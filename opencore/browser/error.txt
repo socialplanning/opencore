@@ -60,11 +60,11 @@ additional data with the message. So we just filter that out in the
 test::
 
     >>> pprint([(k, v) for k, v in msg.items() if v is not None])
-    [('From', 'anonymous@example.com'),
+    [('From', 'anonymous@openplans.org'),
      ('To', 'bogus@example.com'),
      ('Subject', '[OpenCore Site] site error report')]
     >>> print msg.get_payload()
-    On 2000-01-01 01:02:03.123456, anonymous@example.com went to the URL http://nohost/plone/error/url.
+    On 2000-01-01 01:02:03.123456, anonymous@openplans.org went to the URL http://nohost/plone/error/url.
     <BLANKLINE>
     Did: what i did
     <BLANKLINE>
