@@ -30,6 +30,7 @@ def do_aliases():
     sys.modules['Products.wicked.interfaces'] = wicked.interfaces
     sys.modules['Products.wicked.example'] = wicked.atcontent
     sys.modules['Products.wicked.example.wickeddoc'] = wicked.atcontent.wickeddoc
+    sys.modules['Products.wicked.lib.relation'] = wicked.at.relation
 
     # RichDocument -> SimpleAttachment
     sys.modules['Products.RichDocument.content.attachments'] = \
