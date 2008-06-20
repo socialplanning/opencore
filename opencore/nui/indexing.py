@@ -11,6 +11,7 @@ from opencore.interfaces.workflow import IReadWorkflowPolicySupport
 from Products.ZCatalog.CatalogBrains import AbstractCatalogBrain
 from Products.listen.interfaces import ISearchableArchive
 from Products.listen.interfaces.mailinglist import IMailingList
+from Products.listen.lib.common import get_utility_for_context
 from opencore.interfaces.catalog import ILastWorkflowActor, ILastModifiedAuthorId, \
      IMetadataDictionary, ILastWorkflowTransitionDate, IMailingListThreadCount, \
      IHighestTeamRole, ILastModifiedComment, \
@@ -18,7 +19,8 @@ from opencore.interfaces.catalog import ILastWorkflowActor, ILastModifiedAuthorI
 from opencore.interfaces import IOpenMembership, IOpenPage
 from opencore.nui.wiki.interfaces import IWikiHistory
 
-from zope.component import adapter, queryUtility, adapts
+from zope.component import adapter, adapts
+from zope.component.interfaces import ComponentLookupError
 from zope.interface import Interface
 from zope.interface import implements, implementer
 
@@ -217,11 +219,13 @@ class MailingListThreadCount(object):
         self.context = context
 
     def getValue(self):
-        util = queryUtility(ISearchableArchive, context=self.context)
-        if util is None:
+        try:
+            util = get_utility_for_context(ISearchableArchive,
+                                           context=self.context)
+        except ComponentLookupError:
             return 0
-        else:
-            return len(util.getToplevelMessages())
+        
+        return len(util.getToplevelMessages())
 
 def registerInterfaceIndexer(idx, iface, method=None, default=None):
     """
