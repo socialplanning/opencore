@@ -308,12 +308,6 @@ class ListEditView(ListenEditBaseView):
     def _assign_local_roles_to_managers(self):
         ml = self.context
         assign_local_role('Owner', ml.managers, IRoleManager(ml))
-        # here we delete roles on the 'lists' folder so that they don't interfere
-        # with roles on the list
-        parent = aq_parent(aq_inner(ml))
-        assign_local_role('Owner', [], IRoleManager(parent))
-        # we also need to delete the roles on the archives folder
-        assign_local_role('Owner', [], IRoleManager(ml.archive))
 
     @action('edit')
     def handle_request(self, target=None, fields=None):
