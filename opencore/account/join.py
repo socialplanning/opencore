@@ -10,15 +10,13 @@ from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
 from opencore.account import browser
 from opencore.account import utils
 from opencore.account.confirmation import ConfirmAccountView
-from opencore.browser.base import BaseView
-from opencore.browser.base import BaseView, _
+from opencore.browser.base import _
 from opencore.browser.base import view
 from opencore.browser.formhandler import action, post_only, OctopoLite
 from opencore.browser.formhandler import anon_only
 from opencore.interfaces.event import JoinedProjectEvent
 from opencore.interfaces.membership import IEmailInvites
 from opencore.member.interfaces import ICreateMembers
-from zope.app.event.objectevent import ObjectCreatedEvent
 from zope.component import getUtility
 from zope.event import notify
 from topp.utils.pretty_text import truncate
