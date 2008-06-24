@@ -153,9 +153,9 @@ class WikiEdit(WikiBase, OctopoLite):
         #this can interfere with creating wicked links
         doc = fromstring(clean_text)
         for el in _find_external_links(doc):
-            if el.get('isempty', ''):
-                el.set('isempty', '')
-        clean_text = tostring(doc)
+            if el.get('isempty', u''):
+                el.set('isempty', u'')
+        clean_text = tostring(doc, encoding='utf-8')
         #XXX will for sure remove this when xinha is upgraded
 
         try:
