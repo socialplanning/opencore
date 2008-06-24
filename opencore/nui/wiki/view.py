@@ -21,6 +21,9 @@ __replace_meta_content_type = re.compile(
 
 
 from lxml.html.clean import Cleaner
+from lxml.html.clean import _find_external_links
+from lxml.html import fromstring
+from lxml.html import tostring
 from opencore.interfaces.catalog import ILastModifiedAuthorId
 from topp.utils.pretty_date import prettyDate
 
@@ -146,6 +149,14 @@ class WikiEdit(WikiBase, OctopoLite):
                 pass 
 
         clean_text = self._clean_html(page_text)
+        #XXX here we clean the isempty attributes that xinha puts on external links
+        #this can interfere with creating wicked links
+        doc = fromstring(clean_text)
+        for el in _find_external_links(doc):
+            if el.get('isempty', ''):
+                el.set('isempty', '')
+        clean_text = tostring(doc)
+        #XXX will for sure remove this when xinha is upgraded
 
         try:
             text = xinha_to_wicked(clean_text)
