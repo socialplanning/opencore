@@ -9,10 +9,8 @@
   <ul tal:condition="features">
     <li tal:repeat="feature features">
       <tal:comment replace="nothing">
-        <!-- XXX shouldn't set to /view, but we don't have
-             the default view working yet -->
       </tal:comment>
-      <a tal:attributes="href string:${context/absolute_url}/${feature}/view"
+      <a tal:attributes="href string:${context/absolute_url}/${feature}"
          tal:content="feature" />
     </li>
   </ul>

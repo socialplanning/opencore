@@ -32,16 +32,6 @@
      permission="zope2.View"
      />
 
-  <browser:defaultView
-     for="opencore.interfaces.IFeatureFolder"
-     name="view"
-     />
-
-  <browser:defaultView
-     for=".interfaces.IProjectFeature"
-     name="view"
-     />
-
   <vocabulary
      name="opencore.projects"
      factory=".feature.projectsVocabulary"
