@@ -205,6 +205,13 @@
 
   <!-- Viewlet managers allow plugins to add stuff to these forms -->
   <browser:viewletManager
+     name="opencore.sidebar"
+     provides=".interfaces.IProjectSidebar"
+     template="summary.pt"
+     permission="zope2.View"
+     />
+
+  <browser:viewletManager
      name="opencore.proj_prefs"
      provides=".interfaces.IProjectPrefs"
      class=".manager.ProjectPrefsManager"
