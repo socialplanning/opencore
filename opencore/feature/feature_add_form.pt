@@ -111,10 +111,13 @@
             <div class="oc-form-error"
                  tal:condition="error"
                  tal:content="error" />
-               <select id="proj_id" name="proj_id" tal:define="cur proj/getId | string:''">
+                 <select id="proj_id" name="proj_id" tal:define="cur proj/getId | string:''"
+                         tal:attributes="onchange string:window.location='${context/absolute_url}/create?project='+this.options[this.selectedIndex].value">
                  <option tal:repeat="term widget/vocabulary"
                    tal:content="term/value"
-                   tal:attributes="selected python:cur == term.value and 1 or None"/>
+                   tal:attributes="value term/value;
+                   selected python:cur == term.value and 1 or None;"
+                   />
                </select>
           </td>
         </tr>
