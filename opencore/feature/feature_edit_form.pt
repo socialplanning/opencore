@@ -49,7 +49,7 @@
             <div class="oc-form-error"
                  tal:condition="error"
                  tal:content="error" />
-               <input type="text" id="title" name="title" value="Project Title"
+               <input type="text" id="title" name="title" value="Feature Title"
                  tal:attributes="value request/title | context/Title | default" />
           </td>
         </tr>
