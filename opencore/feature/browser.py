@@ -36,6 +36,14 @@ class FeatureAddView(formbase.Form, BaseView):
                       required=True),
         )
 
+    def project_from_request(self):
+        try:
+            proj_id = self.request.form['project']
+            portal = getToolByName(self.context, 'portal_url')
+            return portal.projects._getOb(proj_id)
+        except KeyError:
+            pass
+
     @form.action(u'Add', prefix='')
     def handle_add(self, action, data):
         proj_id = data['proj_id']
