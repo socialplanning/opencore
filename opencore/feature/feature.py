@@ -10,5 +10,7 @@ def projectsVocabulary(self):
                   sort_on='id',
                   sort_order='ascending',
                   )
+    portal = getToolByName(self.context, 'portal_url').getPortalObject()
+    feature_ids = set(portal.features.objectIds())
     #XXX will this scale for all projects?
-    return SimpleVocabulary.fromValues(b.id for b in pbrains)
+    return SimpleVocabulary.fromValues(b.getId for b in pbrains if ('projfeature-' + b.getId) not in feature_ids)

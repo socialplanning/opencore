@@ -113,9 +113,8 @@
                  tal:condition="error"
                  tal:content="error" />
                <select id="proj_id" name="proj_id" tal:define="cur python:context.getRefs()[0].getId()">
-                 <option tal:repeat="term widget/vocabulary"
-                   tal:content="term/value"
-                   tal:attributes="selected python:cur == term.value and 1 or None"/>
+                 <option selected="1" tal:content="cur" />
+                 <option tal:repeat="term widget/vocabulary" tal:content="term/value" />
                </select>
           </td>
         </tr>
