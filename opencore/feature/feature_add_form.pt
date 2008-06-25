@@ -91,8 +91,7 @@
             <div class="oc-form-error"
                  tal:condition="error"
                  tal:content="error" />
-               <input type="text" id="text" name="text" value="Feature Text"
-                 tal:attributes="value request/description | default" />
+               <textarea id="text" name="text" tal:content="request/description | default"><p>Feature Text</p></textarea>
           </td>
         </tr>
         <tr class="oc-form-row"
