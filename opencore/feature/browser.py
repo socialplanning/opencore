@@ -11,7 +11,7 @@ projfeature_prefix = 'projfeature-'
 class FeatureAddView(formbase.Form, BaseView):
     """add a new featured project"""
 
-    template = ViewPageTemplateFile('feature_form.pt')
+    template = ViewPageTemplateFile('feature_add_form.pt')
 
     prefix = ''
     label = u'Add a featured project'
