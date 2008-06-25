@@ -127,6 +127,7 @@
              tabindex=""
              type="submit"
              tal:attributes="name action/__name__; value action/label" />
+      <a tal:attributes="href context/absolute_url">Cancel</a>
     </div>
 </form>
 

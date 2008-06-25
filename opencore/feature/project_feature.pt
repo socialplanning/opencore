@@ -3,35 +3,25 @@
       metal:use-macro="here/@@standard_macros/master"
       i18n:domain="opencore">
 
-<head>
-<title metal:fill-slot="title">
-  Featured Project -- <tal:heading replace="context/title" />
-</title>
-</head>
-
 <body>
 <div metal:fill-slot="content">
   <tal:vars define="proj python:context.getRefs()[0]">
-    <h1>Featured Project: <tal:featured-project content="proj/getId" /></h1>
-    <p>
-      <a tal:attributes="href proj/absolute_url"
-         tal:content="context/Title" />
+    <h1><a tal:attributes="href proj/absolute_url" tal:content="proj/Title" />
       <a class="oc-actionLink"
          tal:attributes="href string:${context/absolute_url}/edit">
         Edit
       </a>
-    </p>
-    <p tal:content="context/Description" />
-    <p tal:content="structure context/getText" />
-    <img tal:attributes="src string:${proj/absolute_url}/logo;
-                         title proj/Title;
-                         alt proj/Title" />
-    <p>
-      <a tal:attributes="href string:${context/portal_url}/features">Back</a>
-      to features (convenience link)
-    </p>
+    </h1>
+    <dl>
+      <dt>Title</dt>
+      <dd tal:content="context/Title" />
+      <dt>Description</dt>
+      <dd tal:content="context/Description" />
+      <dt>Text</dt>
+      <dd tal:content="structure context/getText" />
+    </dl>
+    <a tal:attributes="href string:${context/absolute_url}/features">All features</a>
   </tal:vars>
 </div>
-
 </body>
 </html>
