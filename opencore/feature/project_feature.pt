@@ -12,6 +12,7 @@
 <body>
 <div metal:fill-slot="content">
   <tal:vars define="proj python:context.getRefs()[0]">
+    <h1>Featured Project: <tal:featured-project content="proj/getId" /></h1>
     <p>
       <a tal:attributes="href proj/absolute_url"
          tal:content="context/Title" />
@@ -21,6 +22,7 @@
       </a>
     </p>
     <p tal:content="context/Description" />
+    <p tal:content="structure context/getText" />
     <img tal:attributes="src string:${proj/absolute_url}/logo;
                          title proj/Title;
                          alt proj/Title" />
