@@ -126,7 +126,7 @@
 
   <!-- a place for plugins to insert javascript tags. -->
   <browser:viewletManager
-     name="opencore.geo_scripts"
+     name="opencore.additional_scripts"
      provides=".interfaces.IJSViewlets"
      class=".viewletmanagers.SortedViewletManager"
      permission="zope2.View"

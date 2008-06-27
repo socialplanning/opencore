@@ -47,7 +47,7 @@
 
     <!-- allows for the insertion of javascript -->
     <script type="text/javascript"
-       tal:replace="structure provider:opencore.geo_scripts" />
+       tal:replace="structure provider:opencore.additional_scripts" />
 
     <!-- allows for the insertion of meta tags -->
     <metal:script-slot define-slot="meta"/>
