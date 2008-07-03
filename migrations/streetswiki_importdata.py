@@ -20,10 +20,19 @@ tmt = n.portal_teams
 import os
 from App.config import getConfiguration
 from zExceptions import BadRequest
+from zope.component.interfaces import ComponentLookupError
 sw = n.streetswiki
 cfg = getConfiguration()
 home = cfg.instancehome
 zopeimport = os.path.join(home, 'import')
+
+#we need to remove the frontpage-text page that gets inserted by default
+#during the streetswiki folder installation
+#this is necessary so that the frontpage-text page of the exported data
+#gets imported in rather than skipping it and using the default
+print 'removing streetswiki/frontpage-text'
+sw.manage_delObjects(['frontpage-text'])
+print 'successfully removed streetswiki/frontpage-text'
 
 #keep track of the number of articles imported
 n_imported = 0
@@ -40,6 +49,10 @@ for filename in os.listdir(zopeimport):
     except BadRequest:
         print '*' * 80
         print 'failed to import %s' % filename
+        print '*' * 80
+    except ComponentLookupError:
+        print '*' * 80
+        print 'component lookup error on %s' % filename
         print '*' * 80
 
 transaction.get().note('imported %d articles' % n_imported)

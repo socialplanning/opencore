@@ -140,6 +140,5 @@
      class=".manager.MemberPrefsManager"
      permission="zope2.View"
      />
-
      
 </configure>

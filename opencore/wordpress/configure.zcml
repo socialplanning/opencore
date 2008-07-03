@@ -15,8 +15,8 @@
 
   <subscriber
     for="Products.remember.interfaces.IReMember
-         opencore.interfaces.event.IMemberEmailChangedEvent"
-    handler=".subscribers.notify_wordpress_email_changed"
+         opencore.interfaces.event.IMemberModifiedEvent"
+    handler=".subscribers.notify_wordpress_user_modified"
     />
 
   <subscriber

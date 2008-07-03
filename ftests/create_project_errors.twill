@@ -43,4 +43,4 @@ submit
 
 notfind 'site error' i
 find 'psm_correct_errors_below'
-find 'url may contain' i
+find 'url must contain' i

@@ -61,8 +61,8 @@ Verify the contents of the email::
     >>> items = msg.items()
     >>> items.sort()
     >>> pprint(items)
-    [('mfrom', 'anonymous@example.com'),
+    [('mfrom', 'anonymous@nohost'),
      ('msg',
-      'On 2000-01-01 01:02:03.123456, anonymous@example.com went to the URL http://nohost/plone/error/url.\n\nDid: what i did\n\nExpected: what i expected\n\nTraceback: here is the traceback'),
+      'On 2000-01-01 01:02:03.123456, anonymous@nohost went to the URL http://nohost/plone/error/url.\n\nDid: what i did\n\nExpected: what i expected\n\nTraceback: here is the traceback'),
      ('mto', ['bogus@example.com']),
      ('subject', '[OpenCore Site] site error report')]

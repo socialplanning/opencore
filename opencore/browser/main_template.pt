@@ -42,8 +42,12 @@
     <!-- allows for the insertion of css and other linked features -->
     <metal:link-slot define-slot="link"/>   
 
-    <!-- allows for the insertion of javascript -->
+    <!-- allows for the insertion of javascript (deprecated) -->
     <metal:script-slot define-slot="script"/>
+
+    <!-- allows for the insertion of javascript -->
+    <script type="text/javascript"
+       tal:replace="structure provider:opencore.additional_scripts" />
 
     <!-- allows for the insertion of meta tags -->
     <metal:script-slot define-slot="meta"/>

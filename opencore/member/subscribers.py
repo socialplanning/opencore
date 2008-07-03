@@ -17,3 +17,8 @@ def remove_member_folder(member, event):
         # if the people folder was already removed first, we want to
         # fail silently
         pass
+
+def reindex_member_project_ids(mship, event):
+    ms = getToolByName(mship, 'portal_membership')
+    mem = ms.getMemberById(mship.id)
+    mem.reindexObject(idxs=['project_ids'])

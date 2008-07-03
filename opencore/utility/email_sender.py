@@ -102,7 +102,14 @@ class EmailSender(object):
         if mfrom is None:
             mfrom = self.context.getProperty('email_from_address')
         else:
-            mfrom = self._to_email_address(mfrom)
+            email_addr = self._to_email_address(mfrom)
+            # if mfrom doesn't look like a valid email address
+            # and is not a userid, we return none back
+            # this happens for addresses like anonymous@nohost
+            # which occurs during unit tests
+            # we leave the mfrom alone in that case
+            if email_addr is not None:
+                mfrom = email_addr
 
         if isinstance(msg, unicode):
             msg = msg.encode('utf-8')

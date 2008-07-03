@@ -22,8 +22,8 @@ class ILeftProjectEvent(IObjectModifiedEvent):
     """When a user is deactivated from a project"""
 
 
-class IMemberEmailChangedEvent(IObjectModifiedEvent):
-    """When a user changed his email
+class IMemberModifiedEvent(IObjectModifiedEvent):
+    """When a user has been modified
 
        Necessary to add instead of just object modified event because
        the handlers for this can be expensive"""
@@ -45,8 +45,8 @@ class LeftProjectEvent(ObjectModifiedEvent):
     implements(ILeftProjectEvent)
 
 
-class MemberEmailChangedEvent(ObjectModifiedEvent):
-    implements(IMemberEmailChangedEvent)
+class MemberModifiedEvent(ObjectModifiedEvent):
+    implements(IMemberModifiedEvent)
 
 
 class AfterProjectAddedEvent(object):

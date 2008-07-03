@@ -6,7 +6,7 @@
   </h2>	
   <div class="oc-blankSlate">
     <img src="/++resource++img/summaryicons/blog.gif" />
-    <p>Voice your ideas through a Project Blog!</p>
+    <p>Voice your ideas through a <span tal:replace="python: view.project_noun.title()" /> Blog!</p>
     <p><a tal:attributes="href string:${view/feed/link}/wp-admin/post-new.php">Write a Post</a></p>
   </div>
 </div>

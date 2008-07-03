@@ -153,13 +153,6 @@ class ProjectPreferencesView(ProjectBaseView, OctopoLite):
                 pass
             del self.request.form['logo']
 
-        # We're inventing a convention by which viewlets can extend
-        # forms with more form data to save: just provide a save
-        # method.
-        for viewlet in viewlet_mgr.viewlets:
-            if hasattr(viewlet, 'save'):
-                viewlet.save()
-        
         #store change status of flet, security, title, description, logo...
         changed = {
             _(u'psm_project_title_changed') : self.context.title != self.request.form.get('project_title', self.context.title),
@@ -173,11 +166,21 @@ class ProjectPreferencesView(ProjectBaseView, OctopoLite):
         flets = [f for n, f in getAdapters((supporter,), IFeaturelet)]
 
         old_featurelets = set([(f.id, f.title) for f in flets if f.installed])
-            
+
+        old_form = self.request.form
         self.request.form = new_form
         self.context.processForm(REQUEST=self.request, metadata=1)
+        self.request.form = old_form
+        
         featurelets = set([(f.id, f.title) for f in flets if f.installed])
 
+        # We're inventing a convention by which viewlets can extend
+        # forms with more form data to save: just provide a save
+        # method.
+        for viewlet in viewlet_mgr.viewlets:
+            if hasattr(viewlet, 'save'):
+                viewlet.save()
+        
         for flet in featurelets:
             if flet not in old_featurelets:
                 changed[_(u'psm_featurelet_added', u'${flet} feature has been added.',

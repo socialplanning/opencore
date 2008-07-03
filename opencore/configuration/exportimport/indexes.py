@@ -80,6 +80,16 @@ class DateRangeIndexNodeAdapter(DateRangeIndexNodeAdapterBase):
     """
     DateIndex im/exporter
     """
+    def _exportNode(self):
+        """Override base implementation to ensure that None never gets
+        set as since_field and/or until_field values, since that
+        causes unicode handling to break.
+        """
+        node = self._getObjectNode('index')
+        node.setAttribute('since_field', self.context.getSinceField() or u'')
+        node.setAttribute('until_field', self.context.getUntilField() or u'')
+        return node
+
     @clearIfChanged
     def _importNode(self, node):
         """Import the object from the DOM node.
@@ -87,7 +97,7 @@ class DateRangeIndexNodeAdapter(DateRangeIndexNodeAdapterBase):
         self.context._edit(node.getAttribute('since_field').encode('utf-8'),
                            node.getAttribute('until_field').encode('utf-8'))
 
-    node = property(DateRangeIndexNodeAdapterBase._exportNode, _importNode)
+    node = property(_exportNode, _importNode)
 
 
 class ZCTextIndexNodeAdapter(ZCTextIndexNodeAdapterBase):

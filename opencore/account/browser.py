@@ -1,7 +1,7 @@
-from AccessControl.SecurityManagement import newSecurityManager
 from opencore.browser.base import BaseView, _
 from opencore.member.interfaces import IHandleMemberWorkflow
 from opencore.utility.interfaces import IEmailSender
+from AccessControl.SecurityManagement import newSecurityManager
 from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
 from Products.CMFCore.utils import getToolByName
 
@@ -26,12 +26,11 @@ class AccountView(BaseView):
         user = uf.getUserById(member_id)
         # this line logs the user in for the current request
         newSecurityManager(self.request, user)
-
-        # the next two set the cookie so the login will persist
         self.request.set('__ac_name', member_id)
         self.auth.login()
 
-        # createMemberArea does its own check first
+        # createMemberArea is safe to call many times, it checks for
+        # site setting and existence before doing anything
         self.membertool.createMemberArea()
         self.membertool.setLoginTimes()
 

@@ -1,11 +1,17 @@
 0.11.3 (unreleased)
 ===================
 
+ * Zip file export view of project wiki pages (not linked to from
+   anywhere yet, you have to visit projects/foo/project-wiki-export.zip)
+   (slinkp)
  * #2010: Project contents form should use POST, not GET (slinkp)
  * Email obfuscation for listen views (cabraham)
  * Rig in listen message_macros templates (rmarianski)
  * fix team AttributeError reported by user on summary page (rmarianski)
  * fix site_url AttributeError reported by user on password reset (rmarianski)
+ * revert changes to login in current thread due to side effects (rmarianski)
+ * reindex member project_ids when joining/leaving project (rmarianski)
+ * lookup path to images dynamically to allow for overrides (rmarianski)
 
 0.11.2 (2008-05-27)
 ===================

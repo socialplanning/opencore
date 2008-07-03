@@ -207,6 +207,13 @@
 
   <!-- Viewlet managers allow plugins to add stuff to these forms -->
   <browser:viewletManager
+     name="opencore.sidebar"
+     provides=".interfaces.IProjectSidebar"
+     template="summary.pt"
+     permission="zope2.View"
+     />
+
+  <browser:viewletManager
      name="opencore.proj_prefs"
      provides=".interfaces.IProjectPrefs"
      class=".manager.ProjectPrefsManager"
@@ -220,6 +227,15 @@
      class=".manager.ProjectPrefsManager"
      template="add_viewlets.pt"
      permission="zope2.View"
+     />
+
+  <!-- Wiki page export -->
+  <browser:page
+     for="opencore.interfaces.IProject"
+     class=".export.PagesExportView"
+     attribute="export"
+     permission="cmf.ModifyPortalContent"
+     name="project-pages-export.zip"
      />
 
 </configure>

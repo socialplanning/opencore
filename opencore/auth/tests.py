@@ -78,7 +78,6 @@ def test_suite():
     DocFileSuite = ZopeTestCase.FunctionalDocFileSuite
     tests = (
         ('auth.txt', FunctionalTestCase, OpenPlansLayer),
-        ('remote_auth.txt', FunctionalTestCase, MockHTTPWithContent),
         )
 
     for fname, klass, layer in tests:

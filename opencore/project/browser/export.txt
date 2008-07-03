@@ -1,0 +1,44 @@
+An authorized user can export a project's wiki pages as a zipfile of
+html. Some caveats:
+
+It doesn't include any project metadata;
+
+It doesn't rewrite links or include attachments or referenced
+images, so all links will be broken. ianbicking has probably
+written a clever script to address this;
+
+It only exports current versions of wiki pages; no other site content is
+exported. (Notably not attachments).
+
+Let's try it::
+
+    >>> self.login('m1')
+    >>> proj = self.portal.projects.p3
+    >>> export = proj.restrictedTraverse('project-pages-export.zip')
+    >>> data = export._get_exportable_data().read()
+    >>> import zipfile, StringIO
+    >>> z = zipfile.ZipFile(StringIO.StringIO(data))
+    >>> z.printdir()
+    File Name ... Modified ... Size
+    p3/project_home.html ...
+
+The actual view method returns an IStreamIterator::
+
+    >>> iterator = export.export()
+    >>> iterator
+    <...export.FilestreamIterator object at ...>
+    >>> len(iterator) == len(data)
+    True
+
+This view is restricted::
+
+    >>> self.logout()
+    >>> proj.restrictedTraverse('project-pages-export.zip')
+    Traceback (most recent call last):
+    ...
+    Unauthorized: ...
+    >>> self.login('m3')
+    >>> proj.restrictedTraverse('project-pages-export.zip')
+    Traceback (most recent call last):
+    ...
+    Unauthorized: ...

@@ -1,5 +1,9 @@
+from Acquisition import aq_parent, aq_inner
+import transaction
+from zExceptions import Redirect
 from Acquisition import aq_inner
 from Products.CMFCore.permissions import DeleteObjects
+from AccessControl.interfaces import IRoleManager
 from Products.CMFCore.utils import getToolByName
 from Products.Five.browser import metaconfigure, pagetemplatefile
 from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
@@ -14,6 +18,7 @@ from Products.listen.browser.moderation import ModerationView as BaseModerationV
 from Products.listen.config import PROJECTNAME
 from Products.listen.config import MODERATION_FAILED
 from Products.listen.content import ListTypeChanged
+from Products.listen.lib.common import assign_local_role
 from Products.listen.interfaces.list_types import PublicListTypeDefinition, \
                                                   PostModeratedListTypeDefinition, \
                                                   MembershipModeratedListTypeDefinition
@@ -255,6 +260,7 @@ class ListAddView(ListenEditBaseView):
         list = lists_folder._getOb(mailto)
 
         list.managers = tuple(managers)
+        self._assign_local_roles_to_managers(list)
         list.setDescription(unicode(self.request.form.get('description',''), 'utf-8'))
 
         old_workflow_type = list.list_type
@@ -280,11 +286,27 @@ class ListAddView(ListenEditBaseView):
         
         self.add_status_message(s_message)
 
+        list.reindexObject()
         self.redirect(list.absolute_url())
+
+    def _assign_local_roles_to_managers(self, ml):
+        assign_local_role('Owner', ml.managers, IRoleManager(ml))
+        # here we delete roles on the 'lists' folder so that they don't interfere
+        # with roles on the list
+        parent = aq_parent(aq_inner(ml))
+        assign_local_role('Owner', [], IRoleManager(parent))
+        # we also need to delete the roles on the archives folder
+        assign_local_role('Owner', [], IRoleManager(ml.archive))
+        
+
 
 
 class ListEditView(ListenEditBaseView):
     template = ZopeTwoPageTemplateFile('edit.pt')
+
+    def _assign_local_roles_to_managers(self):
+        ml = self.context
+        assign_local_role('Owner', ml.managers, IRoleManager(ml))
 
     @action('edit')
     def handle_request(self, target=None, fields=None):
@@ -307,9 +329,15 @@ class ListEditView(ListenEditBaseView):
                                old_workflow_type.list_marker,
                                new_workflow_type.list_marker))
 
+
         list.archived = archive
 
         list.managers = tuple(managers)
+        self._assign_local_roles_to_managers()
+        list.reindexObject()
+        # we need to manually commit the transaction here because we are about
+        # to throw a Redirect exception which would abort the transaction
+        transaction.commit()
 
         self.template = None
 
@@ -317,8 +345,10 @@ class ListEditView(ListenEditBaseView):
                       u'Your changes have been saved.')
         
         self.add_status_message(s_message)
-
-        self.redirect('%s/summary' % list.absolute_url())
+        # we need to raise a redirect here since permissions may have
+        # been revoked for this view if the logged in user has removed
+        # himself from the managers list
+        raise Redirect('%s/summary' % list.absolute_url())
 
     def workflow_policy(self):
         return _ml_type_to_workflow[self.context.list_type]

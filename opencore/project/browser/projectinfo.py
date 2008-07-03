@@ -12,7 +12,7 @@ from opencore.browser.base import BaseView
 from opencore.project.utils import get_featurelets
 from opencore.utils import interface_in_aq_chain
 from plone.memoize import instance
-
+from plone.memoize import view
 
 class ProjectInfo(object):
     implements(IProjectInfo)
@@ -57,6 +57,19 @@ class ProjectInfo(object):
         return False
 
     @instance.memoizedproperty
+    def projectAdmin(self):
+        pm = getToolByName(self.context, 'portal_membership')
+        if pm.isAnonymousUser():
+            return False
+        
+        member = pm.getAuthenticatedMember()
+        for team in self.project.getTeams():
+            role = team.getHighestTeamRoleForMember(member.getId())
+            if role == 'ProjectAdmin':
+                return True
+        return False
+
+    @view.memoizedproperty
     def featurelets(self):
         flets = []
         if self.project is not None:

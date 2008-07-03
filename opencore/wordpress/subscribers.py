@@ -110,15 +110,6 @@ def notify_wordpress_user_joined_project(mship, event):
             )
     send_to_wordpress(uri, username, params, mship)
 
-def notify_wordpress_email_changed(mem, event):
-    uri = 'openplans-change-email.php'
-    username = mem.getId()
-    params = dict(
-            username=username,
-            email=mem.getEmail(),
-            )
-    send_to_wordpress(uri, username, params, mem)
-
 @project_contains_blog
 def notify_wordpress_role_changed(mship, event):
     uri = 'openplans-change-role.php'
@@ -149,4 +140,14 @@ def notify_wordress_user_removed(mem, event):
     params = dict(
             username=username,
             )
+    send_to_wordpress(uri, username, params, mem)
+
+def notify_wordpress_user_modified(mem, event):
+    uri = 'openplans-user-modified.php'
+    username = mem.getId()
+    params = dict(
+        username=username,
+        email=mem.getEmail(),
+        display_name=mem.Title(),
+        )
     send_to_wordpress(uri, username, params, mem)

@@ -77,8 +77,16 @@ def test_suite():
                                     globs = globs,
                                     setUp=readme_setup,
                                     layer = MockHTTPWithContent,
-                                    )
-    
+                                  )
+    export = dtf.ZopeDocFileSuite("export.txt",
+                                  optionflags=optionflags,
+                                  package='opencore.project.browser',
+                                  test_class=FunctionalTestCase,
+                                  globs = globs,
+                                  setUp=readme_setup,
+                                  layer = OpencoreContent,
+                                  )
+
     team_view = dtf.ZopeDocFileSuite("team-view.txt", 
                                     optionflags=optionflags,
                                     package='opencore.project.browser',
@@ -169,7 +177,9 @@ def test_suite():
               logo,
               readme,
               delete,
-              team_view)
+              team_view,
+              export,
+              )
 
     return unittest.TestSuite(suites)
 

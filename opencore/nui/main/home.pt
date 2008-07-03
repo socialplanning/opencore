@@ -50,7 +50,10 @@
                   created
                   <span i18n:name="creation_date" tal:replace="python: view.pretty_date(project.CreationDate)">Jan 1937</span>
                 </p>
-                <p class="oc-feed-item-description" tal:content="project/Description | nothing">
+                <p class="oc-feed-item-description"
+                   tal:define="desc project/Description | string:'';
+                               shortdesc python:len(desc) > 200 and desc[:197] + '...' or desc"
+                   tal:content="shortdesc">
                   Project Mission
                 </p>
               </li>

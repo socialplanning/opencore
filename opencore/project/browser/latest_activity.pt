@@ -40,8 +40,6 @@
       
       <div id="oc-content-sidebar">  
 
-        <!-- TODO: Location -->
-      
         <!-- Team -->
         <div class="oc-widget oc-widget-feed">
 
@@ -64,6 +62,9 @@
           Only team members can view, contribute, or search for this
           <span tal:replace="view/project_noun">project</span>
         </p>
+
+        <tal:viewlets replace="structure provider:opencore.sidebar" />
+
       </div><!-- content-sidebar -->
 
     </div><!-- content-fill-slot -->

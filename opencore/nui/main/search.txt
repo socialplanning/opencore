@@ -317,7 +317,7 @@ Try irregular char::
 Search for everything::
    >>> brains = view.search_by_letter('all', sort_by='getId')
    >>> len(brains)
-   22
+   21
 
 Search for things starting with a number::
    >>> brains = view.search_by_letter('num')

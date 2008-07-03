@@ -128,6 +128,11 @@
 
       <div id="oc-content-sidebar">
         <metal:status-messages use-macro="view/member_macros/macros/recent-activity" />
+
+        <span tal:define="viewlets provider:opencore.profile_edit_sidebar"
+              tal:condition="python:viewlets.strip()"
+              tal:replace="structure viewlets">
+        </span>
       </div><!-- end .oc-content-sidebar -->
     </div><!-- content-fill-slot -->
   </body>

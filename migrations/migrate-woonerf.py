@@ -4,6 +4,12 @@ from opencore.nui.setup import nui_functions
 from opencore.nui.wiki import utils
 #from opencore.streetswiki.utils import add_wiki
 #from opencore.nui.setup import set_method_aliases
+import opencore.streetswiki
+from opencore.wordpress.subscribers import notify_wordpress_user_modified
+from sputnik.interfaces import IBlogNetwork
+from sputnik.interfaces import IBlogNetworkFeature
+from zope.interface import alsoProvides
+import os
 import sys
 import transaction
 
@@ -123,19 +129,42 @@ transaction.get().note('membrane_tool reindexed')
 transaction.commit()
 
 print "Creating blognetwork page"
-portal.invokeFactory('Document', 'blognetwork')
+portal.invokeFactory('Document', 'blognetwork', title=u'Blog Network')
 page = portal.blognetwork
-page.setTitle(u'Blog Network')
 page.setText(u'<p>Blog network text goes here</p>')
+alsoProvides(page, IBlogNetwork)
 page.reindexObject()
 transaction.get().note('added blognetwork page to portal')
 transaction.commit()
 
+print "Creating blognetwork feature page"
+portal.invokeFactory('Document', 'blognetwork-feature', title=u'Blog Network Feature')
+page = portal._getOb('blognetwork-feature')
+page.setText(u'<p>Blog network default feature text</p>')
+alsoProvides(page, IBlogNetworkFeature)
+page.reindexObject()
+transaction.get().note('added blognetwork-feature page to portal')
+transaction.commit()
+
 print "Creating sw template page"
-portal.invokeFactory('Document', 'sw-template')
+portal.invokeFactory('Document', 'sw-template', title=u'StreetsWiki Template')
 page = portal._getOb('sw-template')
-page.setTitle(u'StreetsWiki Template')
-page.setText(u'<p>Default streetswiki template goes here</p>')
+# get the default text from the raw text template in streetswiki
+filename = os.path.join(os.path.dirname(opencore.streetswiki.__file__), 'wikipt', 'wiki-rawtext.pt')
+f = open(filename)
+default_sw_template = f.read()
+f.close()
+page.setText(default_sw_template)
 page.reindexObject()
 transaction.get().note('added streetswiki template page to portal')
 transaction.commit()
+
+print 'Updating wordpress to use display_names'
+print '(Wordpress must be running)'
+# we simply run the event handler which pings wordpress
+# for each member
+for mbrain in n.membrane_tool():
+    mem = mbrain.getObject()
+    # event argument is unused, so pass in None
+    notify_wordpress_user_modified(mem, None)
+print 'Done updating wordpress'
