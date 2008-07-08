@@ -32,6 +32,7 @@ from opencore.configuration import PROHIBITED_MEMBER_PREFIXES
 
 from fields import SquareScaledImageField
 
+from opencore.member.utils import member_path
 from opencore.utility.interfaces import IHTTPClient
 from opencore.utils import get_opencore_property
 from opencore.project.utils import project_noun
@@ -511,12 +512,3 @@ class OpenMember(FolderishMember):
 
 
 atapi.registerType(OpenMember, package=PROJECTNAME)
-
-def member_path(mem_id):
-    """
-    Returns the specified member's home folder path relative to the
-    site root.
-
-    #@@ this should read config somewhere
-    """
-    return "people/%s" % mem_id
