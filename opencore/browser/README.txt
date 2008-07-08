@@ -10,8 +10,8 @@ opencore.browser.base
     >>> view.portal
     <PloneSite at /plone>
     
-    >>> view.dob
-    'today'
+    >>> view.dob in ('today', 'yesterday')
+    True
     
     >>> view.portal_title()
     'OpenCore Site'
