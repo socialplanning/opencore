@@ -142,9 +142,15 @@ exception from portal_workflow::
 member deletion
 ---------------
 
-Using the membership tool API should take care of everything::
+First make sure the user has a member area so we can verify it gets
+deleted::
 
     >>> self.loginAsPortalOwner()
+    >>> self.portal.portal_membership.createMemberArea('foo')
+
+Using the membership tool API should take care of everything::
+
+
     >>> print self.portal.portal_membership.getMemberInfo('foo')
     {...}
     >>> self.portal.portal_membership.deleteMembers(['foo'])
