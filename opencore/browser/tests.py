@@ -8,6 +8,7 @@ from opencore.testing.layer import OpencoreContent as test_layer
 from opencore.testing.setup import simple_setup
 from zope.app.component.hooks import setSite
 from zope.testing import doctest
+from opencore.browser import formhandler
 from opencore.browser import tal
 import os
 import sys
@@ -25,7 +26,6 @@ def test_suite():
     from pprint import pprint
     from zope.interface import alsoProvides
     from pprint import pprint
-    from opencore.browser.formhandler import test_suite as octotest
     from opencore.browser.base import BaseView
     from opencore.i18n import _
     from opencore.testing import utils
@@ -61,8 +61,11 @@ def test_suite():
                                   layer = test_layer
                                   )
 
-    tal_test = tal.test_suite()
-    return unittest.TestSuite((readme, octotest(), tal_test, errors))
+    return unittest.TestSuite((readme,
+                               formhandler.test_suite(),
+                               tal.test_suite(),
+                               errors,
+                               ))
 
 
 if __name__ == '__main__':
