@@ -1,8 +1,10 @@
+from AccessControl import SecurityManagement
+from AccessControl.User import UnrestrictedUser
 from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
 from Products.CMFCore.WorkflowCore import WorkflowException
 from Products.CMFCore.utils import getToolByName
 from opencore.browser.base import BaseView, _
-from opencore.browser.formhandler import OctopoLite, action
+from opencore.browser.formhandler import OctopoLite, action, post_only
 from opencore.member.utils import member_path
 from opencore.interfaces.catalog import ILastWorkflowActor
 from opencore.interfaces.event import JoinedProjectEvent
@@ -499,3 +501,47 @@ def ajax_update(elt_id, nupdates):
                                      html=nupdates),
             'num_updates_top': dict(action='copy',
                                     html=num_updates_top)}
+
+
+class DeleteAccountView(BaseView):
+    """
+    Delete the currently viewed account.
+    """
+
+    def handle_request(self):
+        delete = self.request.form.get('delete')
+        if delete:
+            return self.handle_delete()
+        elif delete == 0:
+            return self.handle_cancel()
+
+    def handle_cancel(self):
+        self.addPortalStatusMessage(_(u'psm_account_not_deleted',
+                                      u'Account not deleted.'))
+        return self.redirect(self.context.absolute_url())
+
+    @post_only(raise_=True)
+    def handle_delete(self):
+        mship = getToolByName(self.context, 'portal_membership')
+        user_to_delete = self.viewed_member_info['id']
+        old_manager = SecurityManagement.getSecurityManager()
+        current_user = old_manager.getUser().getId()
+        if current_user == user_to_delete:
+            # Normally, users don't have permission to delete users.
+            # Make an exception for deleting yourself.
+            superuser = UnrestrictedUser('superuser', '', [], [])
+            SecurityManagement.newSecurityManager(self.request, superuser)
+            mship.deleteMembers([user_to_delete])
+            SecurityManagement.setSecurityManager(old_manager)
+            self.context.acl_users.logout(self.request)
+        else:
+            # Otherwise, rely on normal access controls.  This will
+            # allow site admins (and only site admins) to delete
+            # anybody.
+            mship.deleteMembers([user_to_delete])
+        portal_url = getToolByName(self.context, 'portal_url')()
+        self.addPortalStatusMessage(
+            _(u'psm_account_deleted',
+              u'Account %r has been permanently deleted.' % user_to_delete))
+        return self.redirect(portal_url)
+    
