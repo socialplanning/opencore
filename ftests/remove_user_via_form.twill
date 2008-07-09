@@ -1,0 +1,22 @@
+#
+# delete a user
+#
+# $user     - the id of the logged in user who will get deleted
+# 
+
+extend_with flunc.checkbox
+
+go ${base_url}/people/${user}/delete
+is_selected delete delete:int 0
+fv delete delete:int 1
+submit
+
+# You are now logged out.
+url $base_url
+
+# XXX this should be psm_account_deleted, is it because it's a PSM?
+find "account '${user}' has been permanently deleted." i
+find "sign in" i
+
+go ${base_url}/people/${user}
+code 404

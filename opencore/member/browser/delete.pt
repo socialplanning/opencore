@@ -12,7 +12,7 @@
     <h1 i18n:translate="account_delete_heading">Delete This Account Permanently?</h1>
   </div>
   <div id="oc-content-main">
-    <form method="POST" 
+    <form method="POST" id="delete" 
          tal:attributes="action string:${request/URL}">
      <p>Careful! You cannot undo this action!
      </p>

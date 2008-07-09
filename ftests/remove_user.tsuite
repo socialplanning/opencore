@@ -1,0 +1,6 @@
+# This suite expects you're not logged in yet.
+create_user
+remove_user_unauthorized
+login
+remove_user_via_form
+

@@ -1,0 +1,2 @@
+# Make sure we clean up even if destroy_user_via_form fails.
+destroy_user

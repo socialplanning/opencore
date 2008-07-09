@@ -1,0 +1,8 @@
+#
+# delete a user with insufficient privileges and fail
+#
+# $user     - the id of the user to attempt to delete 
+ 
+go ${base_url}/people/${user}/delete
+url ${base_url}
+find 'psm_please_sign_in'
