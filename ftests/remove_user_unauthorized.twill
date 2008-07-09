@@ -2,7 +2,12 @@
 # delete a user with insufficient privileges and fail
 #
 # $user     - the id of the user to attempt to delete 
- 
+#
+# $failure_message    - the message indicating why it fails.
+#                       This will be either psm_please_sign_in or
+#                       psm_not_sufficient_perms.
+
 go ${base_url}/people/${user}/delete
 url ${base_url}
-find 'psm_please_sign_in'
+find ${failure_message}
+
