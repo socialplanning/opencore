@@ -8,6 +8,5 @@
 
 extend_with flunc.zope_cleanup
 
-go 
-#zope_delobject 'portal_memberdata' $user $admin $adminpw
-#zope_delobject 'people' $user $admin $adminpw
+zope_delobject 'portal_memberdata' $user $admin $adminpw
+zope_delobject 'people' $user $admin $adminpw
