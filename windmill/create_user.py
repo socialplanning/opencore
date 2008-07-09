@@ -24,6 +24,7 @@ def create_user(client, username=username, password=password,
     client.waits.forPageLoad()
     client.asserts.assertNode(id=u'oc-deadend-message-container')
     client.asserts.assertNode(xpath=u'/html/body/div/div/div/div/div')
+    # XXX this should work, but it fails
     #client.asserts.assertText(xpath=u'/html/body/div/div/div/div/div',
     #                          validator=u'Thanks for joining OpenPlans, %s!' % username)
         
