@@ -1,6 +1,10 @@
 from create_user import create_user
+from create_user import create_user_cleanup
 from windmill.authoring import WindmillTestClient
 
 def test():
     client = WindmillTestClient(__name__)
-    create_user(client)
+    try:
+        create_user(client)
+    finally:
+        create_user_cleanup()
