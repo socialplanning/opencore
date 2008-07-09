@@ -1,4 +1,3 @@
-from Products.CMFCore.utils  import getToolByName
 from Products.Five import pythonproducts
 from Products.Five.site.localsite import enableLocalSiteHook
 from Products.OpenPlans.Extensions.create_test_content import create_test_content
@@ -8,8 +7,6 @@ from Testing import ZopeTestCase
 from opencore.project.handler import add_redirection_hooks 
 from opencore.testing.utility import setup_mock_http
 from opencore.testing.utility import setup_mock_config
-from topp.utils import introspection
-from topp.utils.testing import layer_factory
 from utils import get_portal, get_portal_as_owner
 from utils import zinstall_products
 from utils import monkey_proj_noun
