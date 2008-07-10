@@ -1,6 +1,7 @@
-0.13.0 (unreleased)
+0.13.0dev (unreleased)
+======================
 
-0.12.0 (2008-07-11)
+0.12.0 (unreleased)
 ===================
 
  * #2223: New form for deleting accounts (not linked to from anywhere yet,
