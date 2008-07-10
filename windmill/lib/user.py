@@ -1,6 +1,7 @@
 from utils import base_url
 from utils import get_auth_portal
-from utils import zope_delobject
+from utils import logger
+from zope import zope_delobject
 
 username = u'testuser'
 password = u'testy'
@@ -27,7 +28,8 @@ def create_user(client, username=username, password=password,
     # XXX this should work, but it fails
     #client.asserts.assertText(xpath=u'/html/body/div/div/div/div/div',
     #                          validator=u'Thanks for joining OpenPlans, %s!' % username)
-        
+
+    logger.info('Retrieving user confirmation key for %s' % username)
     portal = get_auth_portal()
     confirmation_code = getattr(portal.portal_memberdata,
                                 username).getUserConfirmationCode()
@@ -43,9 +45,10 @@ def create_user(client, username=username, password=password,
     client.asserts.assertText(id=u'ext-gen17', validator=username)
     client.asserts.assertNode(link=u'Sign out')
 
-def create_user_cleanup(username=username):
+def delete_user(username=username):
     """
     Clean up after the create_user test.
     """
     # should automatically trigger homepage deletion
+    logger.info('Deleting %s user' % username)
     zope_delobject('portal_memberdata', username)

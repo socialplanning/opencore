@@ -1,10 +1,10 @@
-from create_user import create_user
-from create_user import create_user_cleanup
+from basic import basic_suite
+from basic import basic_suite_cleanup
 from windmill.authoring import WindmillTestClient
 
 def test():
     client = WindmillTestClient(__name__)
     try:
-        create_user(client)
+        basic_suite(client)
     finally:
-        create_user_cleanup()
+        basic_suite_cleanup()
