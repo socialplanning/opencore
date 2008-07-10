@@ -8,11 +8,11 @@ password = u'testy'
 fullname = u'Test User'
 email = u'test@example.com'
 
-def create_user(client, username=username, password=password,
-                fullname=fullname, email=email):
+def fill_out_join_form(client, username=username, password=password,
+                       fullname=fullname, email=email):
     """
-    Fills out the join form, retrieves confirmation key and finalizes
-    registration.
+    Clicks on 'create account' link, fills out join form, waits for
+    page load.
     """
     client.click(link=u'Create account')
     client.waits.forPageLoad()
@@ -23,6 +23,14 @@ def create_user(client, username=username, password=password,
     client.type(text=password, id=u'confirm_password')
     client.click(name=u'task|join')
     client.waits.forPageLoad()
+
+def create_user(client, username=username, password=password,
+                fullname=fullname, email=email):
+    """
+    Fills out the join form, retrieves confirmation key and finalizes
+    registration.
+    """
+    fill_out_join_form(client, username, password, fullname, email)
     client.asserts.assertNode(id=u'oc-deadend-message-container')
     client.asserts.assertNode(xpath=u'/html/body/div/div/div/div/div')
     # XXX this should work, but it fails
@@ -44,6 +52,18 @@ def create_user(client, username=username, password=password,
     client.asserts.assertNode(id=u'ext-gen17')
     client.asserts.assertText(id=u'ext-gen17', validator=username)
     client.asserts.assertNode(link=u'Sign out')
+
+def create_user_duplicate(client, username=username, password=password,
+                          fullname=fullname, email=email):
+    """
+    Fills out the join form, but expects the information that you've
+    provided to match that of an already existing user.
+    """
+    fill_out_join_form(client, username, password, fullname, email)
+    client.asserts.assertNode(id=u'oc-id-error')
+    client.asserts.assertText(validator=u'The login name you selected is already in use. Please choose another.', id=u'oc-id-error')
+    client.asserts.assertNode(id=u'oc-email-error')
+    client.asserts.assertText(validator=u'That email address is already in use.  Please choose another.', id=u'oc-email-error')
 
 def delete_user(username=username):
     """

@@ -29,3 +29,9 @@ def get_auth_portal():
     auth_url = "%s://%s:%s@%s%s/" % (scheme, admin_uid, admin_pwd, host, path)
     return Server(auth_url)
         
+def logout(client):
+    """
+    Assumes that you're logged in...
+    """
+    client.click(link=u'Sign out')
+    client.waits.forPageLoad()
