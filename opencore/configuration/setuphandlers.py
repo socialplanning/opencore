@@ -10,7 +10,7 @@ from Products.PlonePAS.Extensions.Install import activatePluginInterfaces
 from Products.PluggableAuthService.interfaces.plugins import IChallengePlugin
 from Products.remember.utils import getAdderUtility
 from StringIO import StringIO
-from opencore.configuration import OC_REQ as OPENCORE
+from opencore.configuration import OC_REQ
 from opencore.content.member import OpenMember
 from opencore.content.membership import OpenMembership
 from opencore.interfaces import IAddProject
@@ -340,7 +340,8 @@ def setSiteIndexPage(portal, out):
         print >> out, '-> creating site index page'
         portal.invokeFactory('Document', index_id, title=index_title)
         page = portal._getOb(index_id)
-        page_file = pkg_resources.resource_stream(OPENCORE, 'copy/%s' %'site_index.html')
+        page_file = pkg_resources.resource_stream(OC_REQ, 'opencore/copy/%s'
+                                                  %'site_index.html')
         page.setText(page_file.read())
         portal.setDefaultPage(index_id)
 

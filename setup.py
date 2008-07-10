@@ -3,7 +3,7 @@ import pkg_resources as pkr
 
 import sys, os
 
-version = '0.12.0dev'
+version = '0.12.0-dev'
 
 f = open('README.txt')
 readme = f.read()
@@ -22,10 +22,10 @@ setup(
       author_email='opencore-dev@lists.openplans.org',
       url='http://www.openplans.org/projects/opencore',
       license='GPLv3',
-      packages=find_packages(exclude=['ez_setup', 'examples', 'tests']),
+      packages=find_packages(exclude=['ez_setup', 'examples',]), # 'tests']),
       include_package_data=True,
       package_data={
-        '': ['copy/*', 'ftests/*', '*py', '*zcml', '*txt'],
+        '': ['*py', '*zcml', '*txt'],
       },
       zip_safe=False,
       dependency_links=['https://svn.openplans.org/svn/OpencoreRedirect/trunk#egg=OpencoreRedirect-dev',
