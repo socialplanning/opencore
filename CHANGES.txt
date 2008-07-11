@@ -1,20 +1,31 @@
 0.12.0 (unreleased)
 ===================
 
- * #2223: New form for deleting accounts (not linked to from anywhere yet,
-   you have to visit people/foo/delete) (slinkp)
+ * New form for deleting accounts (not linked to from anywhere yet,
+   you have to visit people/foo/delete) (slinkp) (trac feature #2223)
+
  * Zip file export view of project wiki pages (not linked to from
    anywhere yet, you have to visit projects/foo/project-wiki-export.zip)
    (slinkp)
- * #2010: Project contents form should use POST, not GET (slinkp)
+
+ * Fixed #2010: Project contents form should use POST, not GET (slinkp)
+
  * Email obfuscation for listen views (cabraham)
+
  * Rig in listen message_macros templates (rmarianski)
+
  * fix team AttributeError reported by user on summary page (rmarianski)
+
  * fix site_url AttributeError reported by user on password reset (rmarianski)
+
  * revert changes to login in current thread due to side effects (rmarianski)
+
  * reindex member project_ids when joining/leaving project (rmarianski)
+
  * lookup path to images dynamically to allow for overrides (rmarianski)
+
  * fix user reported UnboundLocalError on pending page (rmarianski)
+
  * possibly resolve user reported error on attachment delete (rmarianski)
 
 
@@ -25,52 +36,95 @@
 
 0.11.1 (2008-05-20)
 =================
+
  * New infrastructure for embedded host whitelist; add some sites (jhammel)
+
  * Allow for wicked links with HTML escapes and non-UTF-8 characters (jhammel)
+
  * Fix "wiki" link and text in user's dropdown nav - it's now "pages" (slinkp)
+
  * Highlight correct topnav tab on user profile (rmarianski, jhammel)
+
  * Display topnav tabs on news items (rmarianski)
+
  * Optimizations of mailing list recent activity feed (jhammel)
+
  * Optimizations of team recent activity feed (jhammel)
+
  * List featurelets installed in project in project info xml (ejucovy)
+
  * EmailSender itself now generates message (rmarianski)
+
  * Add /message to list of pages that we don't redirect to (rmarianski)
+
  * Read twirlip uri from IProvideSiteConfig instead of persistent properties sheet (ejucovy)
+
  * Remove unused cabochon uri from properties sheet (ejucovy)
+
  * Create links to people pages on transient messages (rmarianski)
+
  * Fixed listen moderation ui (cabraham)
+
  * Fixed wordpress redirect for blogs on closed projects (douglas)
+
  * Updated translation infrastructure to accomodate new copy (cabraham)
+
  * Re-enable optional oc-geotagging plugin, now via viewlets; it will be
    used iff oc-geotagging is installed. Still a work in progress. (slinkp)
+
  * Remove all calls to configuration.utils.get_config; instead use
    an IProvideSiteConfig implementation. (slinkp)
+
  * Delete a bunch of Kupu-specific cruft. (slinkp)
+
 
 0.10 (2008-04-23)
 =================
+
  * Add new index to membrane_tool "has_portrait" (rmarianski)
+
  * Merged whit-team-speedup branch back to trunk (rob)
+
  * Significant cleanup of unused and/or unnecessary convenience methods in BaseView and elsewhere (slinkp)
+
  * Require an implementation of IProvideSiteConfig (egj)
+
  * Extract opencore.tacktracker into plugin package oc-tt (egj)
+
  * Extract opencore.cabochon into plugin package oc-cab (egj)
+
  * Extract vacuum out into plugin package oc-vacuum (douglas)
+
  * Disable incomplete geocoding support; extract opencore.geocoding into plugin package oc-geotagging; rename to opencore.geotagging (slinkp)
+
  * Add support for i18n of topnav menuitems (rmarianski, cabraham, egj)
+
  * Use a content provider on the project summary page (rmarianski)
+
  * Add migrations to mark content with ICanFeed (douglas)
+
  * Disable safe_html transform on OpenPages (rob)
+
  * Add infrastructure to adapt anything to a feed, in oc-feed, which opencore now depends on (jhammel)
+
  * Configurable name for "projects" (slinkp, cabraham)
+
  * Add support for geocoding members and projects (slinkp)
+
  * Reverse iterator for wiki history to match old display (whit)
+
  * Rollbacks now record proper actor; fixed test too (whit)
+
  * Wiki history optimization and history migration script and migration view; moves rendering of version information to read an annotation maintained by events (whit)
+
  * Remove featurelets from project add view (novalis)
+
  * Make profile page the default view on a user folder, instead of wiki (rmarianski)
+
  * Override HTTP 500s with friendlier error message and form for submitting bug report feedback (egj, rmarianski)
+
  * Override 404 with friendlier error message and search results for similar content (egj, rmarianski)
+
  * Add setup widget to delete old non-text versions of wiki pages (novalis)
 
 
