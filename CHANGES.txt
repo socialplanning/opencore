@@ -1,7 +1,8 @@
 0.13.0.dev (UNRELEASED)
 =======================
 
- No changes.
+ * Add viewlet manger for data right before the end of the body tag (rmarianski)
+
 
 0.12.0 (2008-07-11)
 ===================
