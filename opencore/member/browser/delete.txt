@@ -1,0 +1,110 @@
+-*- mode: doctest ;-*-
+
+=========================
+Delete view for members
+=========================
+
+Create a couple test members to delete::
+
+    >>> from opencore.member.interfaces import ICreateMembers
+    >>> factory = ICreateMembers(self.portal)
+    >>> self.loginAsPortalOwner()
+    >>> deadmeat1 = factory.create(dict(id='deadmeat1',
+    ...                     email='dead1@example.com',
+    ...                     password='testy',
+    ...                     confirm_password='testy'))
+    Called httplib2.Http.request...
+    ...
+    >>> deadmeat2 = factory.create(dict(id='deadmeat2',
+    ...                     email='dead2@example.com',
+    ...                     password='testy',
+    ...                     confirm_password='testy'))
+    Called httplib2.Http.request...
+    ...
+    >>> self.portal.portal_membership.createMemberArea('deadmeat1')
+    >>> self.portal.portal_membership.createMemberArea('deadmeat2')
+    >>> self.request.form.clear()
+    >>> self.logout()
+
+They cannot delete each other::
+
+    >>> self.login('deadmeat1')
+    >>> delview = self.portal.people.deadmeat2.unrestrictedTraverse('delete')
+    >>> self.request.environ['REQUEST_METHOD'] = 'POST'
+    >>> delview.handle_delete()
+    Traceback (most recent call last):
+    ...
+    Unauthorized...
+
+    >>> self.login('deadmeat2')
+    >>> delview = self.portal.unrestrictedTraverse('people/deadmeat1/delete')
+    >>> delview.handle_delete()
+    Traceback (most recent call last):
+    ...
+    Unauthorized...
+
+In fact you can't even restrictedTraverse to the form::
+
+    >>> self.login('deadmeat2')
+    >>> delview = self.portal.restrictedTraverse('people/deadmeat1/delete')
+    Traceback (most recent call last):
+    ...
+    Unauthorized...
+
+
+But you can delete yourself::
+
+    >>> self.login('deadmeat2')
+    >>> delview = self.portal.unrestrictedTraverse('people/deadmeat2/delete')
+    >>> delview.handle_delete()
+    Called httplib2.Http.request(
+        'http://nohost:wordpress/openplans-remove-user.php',
+    ...
+    >>> utils.get_status_messages(delview)
+    [u"Account 'deadmeat2' has been permanently deleted."]
+
+And you're really gone::
+
+    >>> self.portal.portal_memberdata.deadmeat2
+    Traceback (most recent call last):
+    ...
+    AttributeError: deadmeat2
+    >>> self.portal.people.deadmeat2
+    Traceback (most recent call last):
+    ...
+    AttributeError: deadmeat2
+
+
+Even the site admin can't delete if the HTTP method is not POST::
+
+    >>> self.loginAsPortalOwner()
+    >>> delview = self.portal.unrestrictedTraverse('people/deadmeat1/delete')
+    >>> self.request.environ['REQUEST_METHOD'] = 'GET'
+    >>> self.request.form['delete'] = 1
+    >>> delview.handle_request()
+    Traceback (most recent call last):
+    ...
+    Forbidden...
+
+
+And if you set delete=0 in the request, that cancels the deletion::
+
+    >>> self.request.environ['REQUEST_METHOD'] = 'POST'
+    >>> self.request.form['delete'] = 0
+    >>> delview.handle_request()
+    'http://nohost/plone/people/deadmeat1'
+    >>> utils.get_status_messages(delview)
+    [u'Account not deleted.']
+    
+But if delete=1 and method is POST, the site admin can delete::
+
+    >>> self.request.form['delete'] = 1
+    >>> delview.handle_request()
+    Called httplib2.Http.request(
+        'http://nohost:wordpress/openplans-remove-user.php',
+        'POST',
+        ...
+    'http://nohost/plone'
+    >>> utils.get_status_messages(delview)
+    [u"Account 'deadmeat1' has been permanently deleted."]
+

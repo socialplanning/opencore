@@ -147,3 +147,33 @@ be changed back to "register_public".::
     Traceback (most recent call last):
     ...
     WorkflowException: No workflow provides the '${action_id}' action.
+
+
+---------------
+member deletion
+---------------
+
+First make sure the user has a member area so we can verify it gets
+deleted::
+
+    >>> self.loginAsPortalOwner()
+    >>> self.portal.portal_membership.createMemberArea('foo')
+
+Using the membership tool API should take care of everything::
+
+    >>> print self.portal.portal_membership.getMemberInfo('foo')
+    {...}
+    >>> self.portal.portal_membership.deleteMembers(['foo'])
+    Called httplib2.Http.request(
+        'http://nohost:wordpress/openplans-remove-user.php',
+    ...
+    >>> print self.portal.portal_membership.getMemberInfo('foo')
+    None
+    >>> self.portal.people.foo
+    Traceback (most recent call last):
+    ...
+    AttributeError: foo
+    >>> self.portal.portal_memberdata.foo
+    Traceback (most recent call last):
+    ...
+    AttributeError: foo

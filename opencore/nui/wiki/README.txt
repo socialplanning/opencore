@@ -209,6 +209,12 @@ Send in valid attachment id and it should work::
      >>> view.delete_attachment(['secret.txt'])
      {'secret.txt_list-item':...'delete'...}
 
+Deleting the same attachment should not produce an error. This will be the case
+if two requests come in to delete the same attachment::
+
+    >>> view.delete_attachment(['secret.txt'])
+    {}
+
 If we create an attachment with no title, the title should be the id::
 
      >>> tfile = tempfile(secret_file_name)

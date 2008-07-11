@@ -18,6 +18,15 @@
      name="account"
      />
 
+  <browser:page
+     for="opencore.interfaces.member.IMemberFolder"
+     class=".account.DeleteAccountView"
+     permission="cmf.ModifyPortalContent"
+     name="delete"
+     template="delete.pt" 
+     />
+
+
    <browser:page
       for="opencore.interfaces.member.IMemberFolder"
       class=".portraits.PortraitsView"
@@ -140,5 +149,6 @@
      class=".manager.MemberPrefsManager"
      permission="zope2.View"
      />
+
      
 </configure>

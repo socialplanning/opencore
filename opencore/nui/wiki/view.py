@@ -306,7 +306,12 @@ class WikiEdit(WikiBase, OctopoLite):
     @action('delete-attachment')
     def delete_attachment(self, target=None, fields=None):
         survivors = list(target)
-        self.context.manage_delObjects(survivors)
+        try:
+            self.context.manage_delObjects(survivors)
+        except AttributeError:
+            # this exception will get raised if two requests try to remove the
+            # same attachment
+            pass
         commands = {}
         for obj_id in target:
             if obj_id not in survivors:

@@ -1,5 +1,6 @@
 # runs all openplans test suites
 basic
+remove_user
 policy
 roster
 wicked

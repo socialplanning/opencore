@@ -5,7 +5,7 @@ from Testing import ZopeTestCase
 from opencore.testing.layer import OpencoreContent 
 from zope.app.component.hooks import setSite
 from Testing.ZopeTestCase import FunctionalDocFileSuite
-from opencore.testing.layer import MockHTTPWithContent as test_layer
+from opencore.testing.layer import MockHTTPWithContent
 from Products.OpenPlans.tests.openplanstestcase import OpenPlansTestCase
 from opencore.testing import dtfactory as dtf
 from opencore.testing.setup import simple_setup
@@ -45,7 +45,7 @@ def test_suite():
                                   package='opencore.member.browser',
                                   test_class=OpenPlansTestCase,
                                   globs = globs,
-                                  layer = test_layer,
+                                  layer = MockHTTPWithContent,
                                   setUp = setup,
                                   )
 
@@ -58,8 +58,15 @@ def test_suite():
                                        layer=OpencoreContent
                                        )
 
+    delete = dtf.ZopeDocFileSuite('delete.txt',
+                                  package='opencore.member.browser',
+                                  test_class=OpenPlansTestCase,
+                                  globs=globs,
+                                  setUp=simple_setup,
+                                  layer=MockHTTPWithContent
+                                  )
 
-    return unittest.TestSuite((readme, member_info))
+    return unittest.TestSuite((readme, member_info, delete))
 
 if __name__ == '__main__':
     unittest.main(defaultTest='test_suite')

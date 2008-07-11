@@ -99,7 +99,7 @@ class PendingView(AccountView):
             mfrom = self.portal.getProperty('email_from_address')
             msg = _(u'psm_new_activation', mapping={u'email':email, u'mfrom':mfrom})
 
-        self.addPortalStatusMessage(msg)
+            self.addPortalStatusMessage(msg)
 
     def handle_request(self):
         self._pending_member()
