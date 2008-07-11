@@ -22,10 +22,10 @@ setup(
       author_email='opencore-dev@lists.openplans.org',
       url='http://www.openplans.org/projects/opencore',
       license='GPLv3',
-      packages=find_packages(exclude=['ez_setup', 'examples',]), # 'tests']),
+      packages=find_packages(exclude=['ez_setup', 'examples', 'tests']),
       include_package_data=True,
       package_data={
-        '': ['*py', '*zcml', '*txt'],
+        '': ['copy/*', 'ftests/*', '*py', '*zcml', '*txt'],
       },
       zip_safe=False,
       dependency_links=['https://svn.openplans.org/svn/OpencoreRedirect/trunk#egg=OpencoreRedirect-dev',
