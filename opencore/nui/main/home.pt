@@ -89,6 +89,7 @@
       </div><!-- content-main -->
       
       <div id="oc-content-sidebar">
+        <tal:provider replace="structure provider:opencore.sidebar" />
         <tal:comment replace="nothing">
           <div id="oc-home-getstarted" class="oc-getstarted">
               <h2>Get started!</h2>
@@ -127,10 +128,6 @@
               </li>
             </ul>
           </div><!-- OpenPlans News -->
-          <div class="oc-boxy" style="background: none;">
-            <a href="http://topp.openplans.org/"><img src="++resource++img/topp_logo.jpg" style="float: left; margin-right: 1em;"/></a>
-            <p><tal:block replace="view/portal_title" /> is proud to be one of the many projects supported by <a href="http://topp.openplans.org/">The Open Planning Project</a>, a New York City&ndash;based non-profit building technology to enhance civic participation. <a href="about">Learn more&hellip;</a>
-          </div>
       </div>
       
     </div><!-- content-fill-slot -->
