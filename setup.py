@@ -28,7 +28,7 @@ setup(
         '': ['copy/*', 'ftests/*', '*py', '*zcml', '*txt'],
       },
       zip_safe=False,
-      dependency_links=['https://svn.openplans.org/svn/OpencoreRedirect/trunk#egg=OpencoreRedirect-dev',
+      dependency_links=['https://svn.openplans.org/svn/OpencoreRedirect/tags/pre-p3-merge#egg=OpencoreRedirect-dev',
                         "https://svn.openplans.org/svn/ClockQueue/trunk#egg=ClockQueue-dev",
                         'http://svn.red-bean.com/bob/simplejson/trunk/#egg=simplejson-dev',
                         'http://www.openplans.org/projects/opencore/dependencies',
@@ -39,7 +39,7 @@ setup(
                         'http://feedparser.googlecode.com/files/feedparser-4.1.zip',
                         'https://svn.openplans.org/svn/topp.utils/trunk#egg=topp.utils-dev',
                         'https://svn.openplans.org/svn/ZCMLLoader/trunk#egg=ZCMLLoader',
-                        'https://svn.openplans.org/svn/opencore/plugins/oc-feed/trunk/#egg=oc-feed'
+                        'https://svn.openplans.org/svn/opencore/plugins/oc-feed/tags/pre-p3-merge#egg=oc-feed'
                         ],
 
       install_requires=[
