@@ -3,33 +3,22 @@ this is a forerunner for something that go into TeamSpaces
 """
 from zope.interface import implements
 
+from Acquisition import aq_inner
 from Products.CMFCore.utils import getToolByName 
-from Products.Five.browser.TrustedExpression import getEngine
-from opencore.interfaces import IProject, IOpenTeam
-from plone.memoize.instance import memoizedproperty, memoize
+from Products.Five.browser.pagetemplatefile import getEngine
 from interfaces import IProjectInfo
-from topp.featurelets.interfaces import IFeatureletSupporter
+from opencore.interfaces import IProject, IOpenTeam
 from opencore.browser.base import BaseView
 from opencore.project.utils import get_featurelets
-from plone.memoize import instance, view
+from opencore.utils import interface_in_aq_chain
+from plone.memoize import instance
+from plone.memoize import view
 
-view.memoizedproperty = lambda func: property(view.memoize(func))
-
-# assumption here is that all instances of a piv in a request will be
-# for the same project. if this changes, we will memoize differently
-# view.mcproperty = lambda func: property(view.memoize_contextless(func))
-#
-# this doesn't work when the main request is not for a project
-# but there is a need for a project info view of some project 
-# eg when the topnav is contextualized by http headers.
-
-class ProjectInfoView(BaseView):
+class ProjectInfo(object):
     implements(IProjectInfo)
 
-    def __init__(self, context, request):
+    def __init__(self, context):
         self.context = context
-        self._context = (context,)
-        self.request = request
 
     def logo_url(self):
         logo = self.context.getLogo()
@@ -38,25 +27,21 @@ class ProjectInfoView(BaseView):
         else:
             return self.defaultProjLogoThumbURL
 
-    @view.memoizedproperty
+    @instance.memoizedproperty
     def project(self):
-        if IOpenTeam.providedBy(self.context):
+        context = aq_inner(self.context)
+        if IOpenTeam.providedBy(context):
             # get the related project
-            return self.context.getProject()
+            return aq_inner(context.getProject())
         # probably wrap this in an adapter
-        chain = self.context.aq_inner.aq_chain
-        for item in chain:
-            if IProject.providedBy(item):
-                return item
+        return interface_in_aq_chain(context, IProject)
 
     @property
     def inProject(self):
         inside = self.project is not None
-        # XXX is this needed any more?
-        self.request.set('inProject', inside)
         return inside
 
-    @view.memoizedproperty
+    @instance.memoizedproperty
     def projectMembership(self):
         pm = getToolByName(self.context, 'portal_membership')
         if pm.isAnonymousUser():
@@ -71,7 +56,7 @@ class ProjectInfoView(BaseView):
             
         return False
 
-    @view.memoizedproperty
+    @instance.memoizedproperty
     def projectAdmin(self):
         pm = getToolByName(self.context, 'portal_membership')
         if pm.isAnonymousUser():
@@ -92,8 +77,20 @@ class ProjectInfoView(BaseView):
         return flets
 
 
+
+# assumption here is that all instances of a piv in a request will be
+# for the same project. if this changes, we will memoize differently
+#
+# this doesn't work when the main request is not for a project
+# but there is a need for a project info view of some project 
+# eg when the topnav is contextualized by http headers.
+
+class ProjectInfoView(ProjectInfo, BaseView):
+    def __init__(self, context, request):
+        self.context = context
+        self.request = request
+
+
 engine = getEngine()
 evaluate = lambda text, ec: engine.compile(text)(ec)
 getContext = lambda data: engine.getContext(data)
-
-

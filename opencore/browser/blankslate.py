@@ -16,7 +16,7 @@ class BlankSlateViewlet(ViewletBase):
         # and an is_blank function
         assert self.is_blank
 
-        self.context = self.adapt()
+        self.feed = self.adapt()
 
         if self.is_blank():
             return self.blank_template()

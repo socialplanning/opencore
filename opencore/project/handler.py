@@ -1,5 +1,5 @@
-from zope.component import adapter, getUtility, getAdapter, getAdapters
-from zope.app.event.interfaces import IObjectCreatedEvent 
+from zope.component import adapter
+from zope.component import getAdapters
 from zope.app.event.interfaces import IObjectModifiedEvent
 from zope.app.container.interfaces import IContainerModifiedEvent
 from zope.app.container.contained import IObjectRemovedEvent

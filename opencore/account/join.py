@@ -43,7 +43,7 @@ class JoinView(browser.AccountView, OctopoLite):
         """
         factory = ICreateMembers(self.portal)
 
-        self.errors = factory.validate(self.request.form)
+        self.errors = factory.validate(self.request)
         if self.errors:
             # XXX let's raise something instead of returning.
             # it's ugly to overload function return values to signal errors.
@@ -69,19 +69,20 @@ class JoinView(browser.AccountView, OctopoLite):
         return mem
 
     create_member = action('join', apply=post_only(raise_=False))(_create_member)
-    # the fact that we need to separate the decorated (user-facing) and undecorated methods here
-    # suggests to me that we can refactor some functionality out of the view here. -egj
+    # the fact that we need to separate the decorated (user-facing)
+    # and undecorated methods here suggests to me that we can refactor
+    # some functionality out of the view here. -egj
 
     @action('validate')
     def validate(self, targets=None, fields=None):
         """ this is really dumb. """
 
-        #a special case for when the user has not yet entered a password confirmation:
-        #pretend that they have
+        # a special case for when the user has not yet entered a
+        # password confirmation: pretend that they have
         if not self.request.form.get('confirm_password'):
             self.request.form['confirm_password'] = self.request.form.get('password', '')
 
-        errors = ICreateMembers(self.portal).validate(self.request.form)
+        errors = ICreateMembers(self.portal).validate(self.request)
 
         erase = [error for error in errors if error not in self.request.form]
         also_erase = [field for field in self.request.form if field not in errors]

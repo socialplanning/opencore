@@ -1,0 +1,36 @@
+<configure xmlns="http://namespaces.zope.org/zope"
+           xmlns:genericsetup="http://namespaces.zope.org/genericsetup">
+
+  <genericsetup:upgradeSteps
+     profile="opencore.configuration:default"
+     source="0.12.0"
+     destination="0.13.0"
+     sortkey="10">
+
+    <genericsetup:upgradeStep
+       title="Import opencore profile"
+       description="Re-imports the entire opencore profile for this site"
+       handler=".to_0_13_0.import_opencore_profile"
+       />
+
+    <genericsetup:upgradeStep
+       title="Fixup Listen IListLookup utility"
+       description="Ensures the IListLookup utility is at the portal root."
+       handler=".to_0_13_0.fixup_list_lookup_utility"
+       />
+
+    <genericsetup:upgradeStep
+       title="Reindex Membrane tool"
+       description="Reindexes the entire membrane_tool catalog."
+       handler=".to_0_13_0.reindex_membrane_tool"
+       />
+
+    <genericsetup:upgradeStep
+       title="Migrate mailing list component registries"
+       description="Migrates mailing list local component registries to Five 1.5 format."
+       handler=".to_0_13_0.migrate_mlist_component_registries"
+       />
+
+  </genericsetup:upgradeSteps>
+
+</configure>

@@ -32,8 +32,8 @@
      
   <!--image manager stuff-->
 
-  <!-- @@ these "backend" views are poorly named, they seem to be xinha-specific -->
   <browser:page
+
     for="opencore.interfaces.IOpenPage"
     name="backend"
     permission="zope2.View"
@@ -121,25 +121,25 @@
 
   <!-- placeholder views for blog, logo, lists & tasks -->
   <browser:page
-     class="opencore.nui.wiki.add.IgnorableDummy"
+     class="opencore.browser.naming.IgnorableDummy"
      for="opencore.interfaces.IProject"
      permission="zope2.View"
      name="blog"
      />
   <browser:page
-     class="opencore.nui.wiki.add.IgnorableDummy"
+     class="opencore.browser.naming.IgnorableDummy"
      for="opencore.interfaces.IProject"
      permission="zope2.View"
      name="logo"
      />
   <browser:page
-     class="opencore.nui.wiki.add.IgnorableDummy"
+     class="opencore.browser.naming.IgnorableDummy"
      for="opencore.interfaces.IProject"
      permission="zope2.View"
      name="lists"
      />
   <browser:page
-     class="opencore.nui.wiki.add.Dummy"
+     class="opencore.browser.naming.Dummy"
      for="opencore.interfaces.IProject"
      permission="zope2.View"
      name="tasks"
@@ -157,9 +157,11 @@
 			 singlelink
 			 links
 			 count"
-     class=".wicked.LinkRenderer"
+     class=".linkrenderer.LinkRenderer"
      />
 
+  <!-- wicked scope -->
+  <adapter factory=".scope.ProjectScope" />
 
   <!-- versioning -->
   <browser:page

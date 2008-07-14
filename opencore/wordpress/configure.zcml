@@ -3,7 +3,7 @@
 
   <subscriber
     for="Products.remember.interfaces.IReMember
-         zope.app.event.interfaces.IObjectCreatedEvent"
+         zope.app.container.interfaces.IObjectAddedEvent"
     handler=".subscribers.notify_wordpress_user_created"
     />
 

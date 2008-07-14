@@ -1,17 +1,10 @@
 from Products.OpenPlans.tests.openplanstestcase import OpenPlansTestCase
-from Products.PasswordResetTool.tests.test_doctests import MockMailHostTestCase
-from Testing import ZopeTestCase
-from Testing.ZopeTestCase import FunctionalDocFileSuite
-from Testing.ZopeTestCase import PortalTestCase 
 from opencore.testing import dtfactory as dtf
 from opencore.testing.layer import OpencoreContent as test_layer
-from opencore.testing.setup import simple_setup
 from zope.app.component.hooks import setSite
 from zope.testing import doctest
 from opencore.browser import formhandler
 from opencore.browser import tal
-import os
-import sys
 import unittest
 
 #optionflags = doctest.REPORT_ONLY_FIRST_FAILURE | doctest.ELLIPSIS
@@ -55,7 +48,7 @@ def test_suite():
     errors = dtf.ZopeDocFileSuite("error.txt",
                                   optionflags=optionflags,
                                   package='opencore.browser',
-                                  test_class=MockMailHostTestCase,
+                                  test_class=OpenPlansTestCase,
                                   globs = globs,
                                   setUp=readme_setup,
                                   layer = test_layer

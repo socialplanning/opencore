@@ -2,6 +2,7 @@ from Products.CMFCore.utils import getToolByName
 from Products.Five import BrowserView
 from Products.remember.interfaces import IReMember
 
+
 class GetCookie(BrowserView):
 
     def get_cookie_hash(self):

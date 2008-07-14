@@ -1,10 +1,9 @@
 from Products.CMFCore.utils import getToolByName
-from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
 from opencore.interfaces import IProject
 from opencore.utility.interfaces import IHTTPClient
 from opencore.utility.interfaces import IProvideSiteConfig
 from opencore.wordpress.interfaces import IWordPressFeatureletInstalled
-from plone.memoize.instance import memoizedproperty, memoize
+from plone.memoize.instance import memoizedproperty
 from topp.featurelets.base import BaseFeaturelet
 from topp.featurelets.interfaces import IFeaturelet
 from zope.component import getUtility
@@ -34,8 +33,6 @@ class WordPressFeaturelet(BaseFeaturelet):
                              },
                             ),
              }
-
-    #creation_command = ZopeTwoPageTemplateFile("create_blog.pt")
 
     @memoizedproperty
     def http(self):

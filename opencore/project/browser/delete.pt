@@ -18,18 +18,18 @@
           <form 
              name="delete_form" 
              method="POST" 
-             class="enableUnloadProtection oc-js-formConfirm"
+             class="enableUnloadProtection"
              tal:attributes="action view/name">
             <fieldset class="oc-boxy">
               <legend class="oc-legend-heading oc-biggerText">Delete <span tal:replace="view/project_noun/title">Project</span></legend>
               <button type="submit" 
                       name="delete:boolean" 
                       value="True" 
-                      class="oc-button">
+                      class="oc-button oc-confirmProjectDelete">
                 Delete <span tal:replace="view/project_noun/title">Project</span>
               </button>
               Remove this <span tal:replace="view/project_noun">project</span> from <span tal:replace="view/portal_title" />?
-              <span id="oc-project-delete-warning" class="oc-hidden oc-confirm oc-warning">
+              <span id="oc-project-delete-warning" class="oc-hidden oc-warning">
                 Removing is permanent, are you sure you want to continue?
               </span>
             </fieldset>

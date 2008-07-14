@@ -7,13 +7,13 @@ from Products.Archetypes.public import Schema
 from Products.Archetypes.public import BooleanField
 from Products.RichDocument.content.richdocument import RichDocument
 from Products.RichDocument.widgets.attachments import AttachmentsManagerWidget
-from Products.wicked.example.wickeddoc import schema as WickedSchema
+from wicked.atcontent.wickeddoc import WickedDoc
 from opencore.interfaces import IOpenPage
 from opencore.configuration import PROJECTNAME
 
 from zope.interface import implements
 
-schema = WickedSchema.copy()
+schema = WickedDoc.schema.copy()
 
 hidden_fields = ('relatedItems', 'allowDiscussion')
 for fld in hidden_fields:

@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <object name="portal_skins" meta_type="Plone Skins Tool" allow_any="False"
-   cookie_persistence="False" default_skin="Plone Default"
+   cookie_persistence="False" default_skin="OpenPlans Default"
    request_varname="plone_skin">
  <object name="openplans" meta_type="Filesystem Directory View"
     directory="OpenPlans/skins/openplans"/>
@@ -14,14 +14,7 @@
     directory="OpenPlans/skins/openplans_richwidget"/>
  <object name="openplans_styles" meta_type="Filesystem Directory View"
     directory="OpenPlans/skins/openplans_styles"/>
- <skin-path name="Plone Default">
-  <layer name="custom"/>
-  <layer name="openplans_login_patches"/>
-  <layer name="openplans_richwidget"/>
-  <layer name="openplans_patches"/>
-  <layer name="openplans_images"/>
-  <layer name="openplans_styles"/>
-  <layer name="openplans"/>
+ <skin-path name="OpenPlans Default" based-on="Plone Default">
   <layer name="anonymailer"/>
   <layer name="cmfeditions_views"/>
   <layer name="CMFEditions"/>
@@ -57,50 +50,11 @@
   <layer name="cmf_legacy"/>
   <layer name="listen"/>
   <layer name="mailboxer"/>
- </skin-path>
- <skin-path name="Plone Tableless">
-  <layer name="custom"/>
-  <layer name="openplans_login_patches"/>
-  <layer name="openplans_richwidget"/>
-  <layer name="openplans_patches"/>
-  <layer name="openplans_images"/>
-  <layer name="openplans_styles"/>
-  <layer name="openplans"/>
-  <layer name="anonymailer"/>
-  <layer name="cmfeditions_views"/>
-  <layer name="CMFEditions"/>
-  <layer name="ChangeSet"/>
-  <layer name="attachment_widgets"/>
-  <layer name="RichDocument"/>
-  <layer name="teamspaces"/>
-  <layer name="teamspace_plone21"/>
-  <layer name="filter"/>
-  <layer name="remember"/>
-  <layer name="CMFPlacefulWorkflow"/>
-  <layer name="PasswordReset"/>
-  <layer name="ATContentTypes"/>
-  <layer name="ATReferenceBrowserWidget"/>
-  <layer name="archetypes"/>
-  <layer name="mimetypes_icons"/>
-  <layer name="ResourceRegistries"/>
-  <layer name="gruf"/>
-  <layer name="plone_ecmascript"/>
-  <layer name="plone_wysiwyg"/>
-  <layer name="plone_prefs"/>
-  <layer name="plone_portlets"/>
-  <layer name="plone_tableless"/>
-  <layer name="plone_templates"/>
-  <layer name="plone_styles"/>
-  <layer name="plone_form_scripts"/>
-  <layer name="plone_scripts"/>
-  <layer name="plone_forms"/>
-  <layer name="plone_images"/>
-  <layer name="plone_content"/>
-  <layer name="plone_login"/>
-  <layer name="plone_deprecated"/>
-  <layer name="plone_3rdParty"/>
-  <layer name="cmf_legacy"/>
-  <layer name="listen"/>
-  <layer name="mailboxer"/>
+  <layer name="openplans_login_patches" insert-after="custom"/>
+  <layer name="openplans_richwidget" insert-after="custom"/>
+  <layer name="openplans_patches" insert-after="custom"/>
+  <layer name="openplans_images" insert-after="custom"/>
+  <layer name="openplans_styles" insert-after="custom"/>
+  <layer name="openplans" insert-after="custom"/>
  </skin-path>
 </object>

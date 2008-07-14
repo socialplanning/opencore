@@ -3,7 +3,6 @@ from Products.CMFCore.utils import getToolByName
 from Products.Five import BrowserView
 from Products.Five.formlib import formbase
 from Products.OpenPlans.Extensions.create_test_content import create_test_content
-from Products.OpenPlans.Extensions.setup import setup_nui
 from cStringIO import StringIO
 from interfaces import IAddOpenPlans
 from zope.formlib import form

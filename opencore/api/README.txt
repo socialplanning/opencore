@@ -26,6 +26,9 @@ highest team role for each::
 
 info.xml shows the project's security policy and installed featurelets::
 
+
+#@@repoze -- mysterious change in encoding
+
     >>> print http(r'''
     ... GET /plone/projects/p1/@@info.xml HTTP/1.1
     ... ''')

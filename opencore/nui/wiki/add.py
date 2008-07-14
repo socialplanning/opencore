@@ -1,17 +1,23 @@
 from Acquisition import aq_inner, aq_parent
-from Products.wicked.browser.add import WickedAdd
-from Products.wicked.lib.normalize import titleToNormalizedId as normalize
-from Products.wicked.utils import getFilter
 from opencore.browser.base import BaseView
 from opencore.browser.base import _
-from zExceptions import Redirect, BadRequest
+from opencore.browser.naming import get_view_names
+
+from wicked.at.link import ATWickedAdd as WickedAdd
+
+# we have a local copy of the normalize module b/c the wicked trunk
+# (which is a part of Plone 3 core) doesn't handle unicode as nicely
+# as we'd like
+from normalize import titleToNormalizedId as normalize
+
+from wicked.utils import getWicked
+
+from zExceptions import BadRequest
 from zope.component import ComponentLookupError
-import itertools
 
 
 class NuiBaseAdd(WickedAdd, BaseView):
     type_name = 'Document'
-    _viewnames = None
     extender = 'page'
 
     def __init__(self, context, request):
@@ -30,7 +36,7 @@ class NuiBaseAdd(WickedAdd, BaseView):
     
     def do_wicked(self, newcontent, title, section):
         try:
-            wicked = getFilter(self.context)
+            wicked = getWicked(self.context.getField('text'), self.context)
             wicked.section=section 
             wicked.manageLink(newcontent, normalize(title))
         except ComponentLookupError:
@@ -38,9 +44,6 @@ class NuiBaseAdd(WickedAdd, BaseView):
         
     def add_content(self, title=None, section=None):
         # XXX rename, we're not adding any old content, it's a wiki page.
-
-        # this is 2.5 specific and will need to be updated for new
-        # wicked implementation (which is more modular)
         title = self.request.get('Title', title)
         if title:
             title = title.decode("utf-8")
@@ -85,45 +88,4 @@ class NuiPageAdd(NuiBaseAdd):
 
     def get_container(self):
         return aq_parent(aq_inner(self.context))
-
-# consider moving out to more general location
-# the project create code shares this as well
-from zope.interface import providedBy
-from zope.app.apidoc.component import getRequiredAdapters as get_required
-from zope.publisher.interfaces import IRequest
-
-def get_view_names(obj, ignore_dummy=False):
-    """Gets all view names for a particular object"""
-    ifaces = providedBy(obj)
-    regs = itertools.chain(*(get_required(iface, withViews=True) \
-                             for iface in ifaces))
-    if ignore_dummy:
-        return set(reg.name for reg in regs\
-               if reg.required[-1].isOrExtends(IRequest) and not issubclass(reg.value, IgnorableDummy))
-    return set(reg.name for reg in regs\
-               if reg.required[-1].isOrExtends(IRequest))
-
-
-class Dummy(BaseView):
-    """Creates dummy for blocking the overcreation of deliverance
-    paths"""
-
-    def __init__(self, context, request):
-        super(Dummy, self).__init__(context, request)
-        
-    def __call__(self, *args, **kw):
-        raise Redirect, self.redirect_url
-
-    @property
-    def redirect_url(self):
-        return "%s/%s" %(self.area.absolute_url(), "preferences")
-    
-
-
-class IgnorableDummy(Dummy):
-    """a dummy that get_view_names will ignore (for special persistent objects)"""
-    
-
-    
-    
 

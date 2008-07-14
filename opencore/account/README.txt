@@ -1,3 +1,5 @@
+-*- mode: doctest ;-*-
+
 ====================
  account management
 ====================
@@ -194,16 +196,16 @@ Log out and fill in the form::
 
 The view has a validate() method which returns an error dict::
 
-(Making the tests very ugly and commenting most out temporarily
- because return values from validate are hideous)
     >>> validate_map = view.validate()
     >>> len([i for i in validate_map.values() if i['html']])
     0
-    >>> # request.form['confirm_password'] = 'mesty'
-    >>> # request.form['email'] = 'fakeemail'
-    >>> # sorted([i for i in view.validate().keys() if i.split('-')[1] in request.form])
-
-#    ['confirm_password', 'email', 'password']
+    >>> request.form['confirm_password'] = 'mesty'
+    >>> request.form['email'] = 'fakeemail'
+    >>> validate_map = view.validate()
+    >>> err_keys = [k for k, v in validate_map.items() if v['html']]
+    >>> err_keys = [i.split('-')[1] for i in err_keys]
+    >>> sorted(err_keys)
+    ['confirm_password', 'email', 'password']
 
 Test what happens when password is "password"
 
@@ -282,12 +284,7 @@ and delete the existing task::
 
 Verify that the proper events gets sent out when a member gets created::
 
-    >>> from zope.component import provideHandler
-    >>> from opencore.account.tests import dummy_handler, events_fired
-    >>> from zope.app.event.interfaces import IObjectCreatedEvent
-    >>> from Products.remember.interfaces import IReMember
-    >>> provideHandler(dummy_handler,
-    ...                adapts=[IReMember, IObjectCreatedEvent])
+    >>> self.listen_for_object_events()
     
 We need to make the request a POST::
 
@@ -302,10 +299,8 @@ We need to make the request a POST::
 
     >>> view.membertool.getMemberById('foobar')
     <OpenMember at /plone/portal_memberdata/foobar...>
-    >>> len(events_fired)
-    1
-    >>> obj, event = events_fired[0]
-    >>> IObjectCreatedEvent.providedBy(event)
+    >>> from zope.app.event.interfaces import IObjectCreatedEvent
+    >>> self.event_fired(IObjectCreatedEvent)
     True
 
 We SHOULD be cleaning up our event handler here, but there's no way to unregister
@@ -506,7 +501,7 @@ This is not the view
 
 This is the old skin which redirects to the login page.
 
-    >>> 'psm_please_sign_in' in output
+    >>> 'Please sign in' in output
     True
 
 Remove test_user_1_
@@ -532,9 +527,9 @@ Bug #1711. Member creation message should use the portal title.
     >>> view = portal.restrictedTraverse("@@join")
     >>> mh = view.get_tool('MailHost')
     >>> mh
-    <...MockMailHost at ...>
+    <...MailHostMock ...>
     >>> view._send_mail_to_pending_user('unused id', '1711@example.com',
     ...                                 'http://confirm-url.com')
-    >>> emailtext = mh.messages[-1].get_payload()
+    >>> emailtext = mh.messages[-1].get('msg')
     >>> view.portal_title() in emailtext
     True

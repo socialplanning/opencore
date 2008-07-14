@@ -1,3 +1,5 @@
+-*- mode: doctest ;-*-
+
 ========================
  Team View (aka Roster)
 ========================
@@ -43,7 +45,7 @@ First however, we have to give some members locations::
 
     >>> for mem_id, location in zip(['m1', 'm4', 'm3'], ['ny', 'ny', 'FL']):
     ...     mem = getattr(self.portal.portal_memberdata, mem_id)
-    ...     mem.location = location
+    ...     mem.setLocation(location)
     ...     mem.reindexObject(idxs=['getLocation'])
     >>> results = view.memberships('location')
     >>> brains = list(results)

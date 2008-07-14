@@ -10,6 +10,8 @@ import opencore.browser
 import opencore.project
 import opencore.project.browser
 import opencore.bbb.transient_messages
+import wicked
+import Products.SimpleAttachment.content.file
 
 def do_aliases():
     sys.modules['opencore.siteui'] = opencore.browser
@@ -21,4 +23,15 @@ def do_aliases():
     sys.modules['opencore.nui.project.interfaces'] = opencore.interfaces.bbb
     sys.modules['opencore.siteui.interfaces'] = opencore.interfaces.member
 
+    # wicked BBB crap
+    sys.modules['Products.wicked'] = wicked
+    sys.modules['Products.wicked.lib'] = wicked
+    sys.modules['Products.wicked.lib.cache'] = wicked.cache # for CacheStore obs
+    sys.modules['Products.wicked.interfaces'] = wicked.interfaces
+    sys.modules['Products.wicked.example'] = wicked.atcontent
+    sys.modules['Products.wicked.example.wickeddoc'] = wicked.atcontent.wickeddoc
+    sys.modules['Products.wicked.lib.relation'] = wicked.at.relation
 
+    # RichDocument -> SimpleAttachment
+    sys.modules['Products.RichDocument.content.attachments'] = \
+            Products.SimpleAttachment.content.file

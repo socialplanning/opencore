@@ -33,20 +33,20 @@
 
   <!-- XXX I could not find an interface for the attachment -->
   <adapter
-     for="Products.RichDocument.content.attachments.FileAttachment"
+     for="Products.SimpleAttachment.content.file.FileAttachment"
      provides="opencore.interfaces.catalog.IImageWidthHeight"
      factory="opencore.nui.indexing.ImageWidthHeightIndexer"
      />
 
   <!-- XXX see above comment -->
   <adapter
-     for="Products.RichDocument.content.attachments.FileAttachment"
+     for="Products.SimpleAttachment.content.file.FileAttachment"
      provides="opencore.interfaces.catalog.IImageSize"
      factory="opencore.nui.indexing.ImageSizeIndexer"
      />
 
   <adapter
-     for="Products.RichDocument.content.attachments.FileAttachment"
+     for="Products.SimpleAttachment.content.file.FileAttachment"
      provides="opencore.interfaces.catalog.IIsImage"
      factory="opencore.nui.indexing.IsImageIndexer"
      />

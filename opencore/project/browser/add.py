@@ -3,13 +3,14 @@ project and subproject adding
 
 # @@ needs tests
 """
+from Acquisition import aq_inner
 from Products.CMFCore.utils import getToolByName
 from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
 from opencore.browser.base import _
 from opencore.browser.formhandler import OctopoLite, action
 from opencore.interfaces import IHomePage
 from opencore.interfaces.event import AfterProjectAddedEvent
-from opencore.nui.wiki.add import get_view_names
+from opencore.browser.naming import get_view_names
 from opencore.project.browser.base import ProjectBaseView
 from topp.featurelets.interfaces import IFeatureletSupporter, IFeaturelet
 from topp.utils import text
@@ -123,7 +124,7 @@ class ProjectAddView(ProjectBaseView, OctopoLite):
             return
 
         self.context.portal_factory.doCreate(proj, id_)
-        proj = self.context._getOb(id_)
+        proj = aq_inner(self.context)._getOb(id_)
         self.notify(proj)
 
         logo = self.request.form.get('logo')

@@ -1,3 +1,5 @@
+-*- mode: doctest ;-*-
+
 ==========
  wiki add
 ==========
@@ -77,10 +79,12 @@ make sure our new nonstandard id content gets cached (this would still
 usually get picked up by a title match too, but caching is more
 efficient)::
  
-    >>> from Products.wicked.lib.interfaces import IContentCacheManager
+    >>> from wicked.interfaces import ICacheManager
+    >>> from wicked import utils
+    >>> from zope.component import getMultiAdapter
     >>> from opencore.nui.wiki.add import normalize
-    >>> cache = IContentCacheManager(new_page)
-    >>> cache.setName('text')
+    >>> wicked = utils.getWicked(new_page.Schema()['text'], new_page)
+    >>> cache = getMultiAdapter((wicked, new_page), ICacheManager)
     >>> new_page2 = getattr(view.get_container(), 'lists-page')
     >>> pprint(cache.get(normalize(new_page2.Title())))
     [{'icon': 'plone/document_icon.gif',

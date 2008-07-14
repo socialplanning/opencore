@@ -19,8 +19,8 @@ can access it, but it's not publicly accessible::
 info.xml shows personal information about the member::
     >>> self.loginAsPortalOwner()
 
-    >>> self.portal.people.m1.restrictedTraverse('info.xml')()
-    '<info>...<name>Member One</name>...<email>notreal1@example.com</email>...</info>...'
+    >>> print self.portal.people.m1.restrictedTraverse('info.xml')()
+    <info>...<name>Member One</name>...<email>notreal1@example.com</email>...</info>...
 
 get-hash returns the user's opencore auth cookie so clients can set
 the cookie remotely::

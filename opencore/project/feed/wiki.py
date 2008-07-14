@@ -14,9 +14,9 @@ class WikiSummaryViewlet(BlankSlateViewlet):
     def is_blank(self):
         """If there's only one wiki page, and it has no history, than
         this is a blank slate"""
-        cat = getToolByName(self.context.context, 'portal_catalog')
+        cat = getToolByName(self.context, 'portal_catalog')
         brains = cat(portal_type='Document',
-                     path='/'.join(self.context.context.getPhysicalPath()))
+                     path='/'.join(self.context.getPhysicalPath()))
 
         # there may be no catalog results for wiki pages
         # if the user has recently become a member of this project

@@ -1,39 +1,34 @@
-import sys
-import random
-import re
-from types import TupleType, ListType, UnicodeType
-
 from AccessControl import ClassSecurityInfo
-
-from zope.component import getAdapter
-from zope.component import getUtility
-
-from Products.CMFCore.utils import getToolByName
-from Products.CMFCore.CMFCorePermissions import *
-import Products.Archetypes.public as atapi
-from Products.Archetypes.ExtensibleMetadata import ExtensibleMetadata
 from Products.Archetypes.ArchetypeTool import base_factory_type_information as bfti
+from Products.Archetypes.ExtensibleMetadata import ExtensibleMetadata
 from Products.Archetypes.Field import STRING_TYPES
 from Products.Archetypes.public import Schema, StringField, StringWidget
-from Products.validation.validators.BaseValidators import EMAIL_RE
-
+from Products.CMFCore.permissions import *
+from Products.CMFCore.utils import getToolByName
 from Products.membrane.config import TOOLNAME as MBTOOLNAME
-from Products.remember.content.member_schema \
-     import id_schema, contact_schema, plone_schema, \
-     security_schema, login_info_schema
-from Products.remember.content.member import FolderishMember
-from Products.remember.interfaces import IHashPW
 from Products.remember.config import ALLOWED_MEMBER_ID_PATTERN
+from Products.remember.content.member import FolderishMember
+from Products.remember.content.member_schema import contact_schema, plone_schema
+from Products.remember.content.member_schema import id_schema
+from Products.remember.content.member_schema import security_schema, login_info_schema
+from Products.remember.interfaces import IHashPW
 from Products.remember.permissions import VIEW_PUBLIC_PERMISSION
 from Products.remember.permissions import EDIT_PROPERTIES_PERMISSION
-
-from opencore.configuration import PROJECTNAME
-from opencore.configuration import PROHIBITED_MEMBER_PREFIXES
+from Products.validation.validators.BaseValidators import EMAIL_RE
 
 from fields import SquareScaledImageField
 
+from opencore.configuration import PROJECTNAME
+from opencore.configuration import PROHIBITED_MEMBER_PREFIXES
 from opencore.utility.interfaces import IHTTPClient
 from opencore.utils import get_opencore_property
+from types import TupleType, ListType, UnicodeType
+from zope.component import getAdapter
+from zope.component import getUtility
+import Products.Archetypes.public as atapi
+import random
+import re
+import sys
 from opencore.project.utils import project_noun
 
 regex = re.compile(EMAIL_RE)
@@ -237,6 +232,11 @@ class OpenMember(FolderishMember):
         }
 
     actions = actions    
+
+    def indexObject(self):
+        if self.isTemporary():
+            return
+        FolderishMember.indexObject(self)
 
     security.declareProtected(ManagePortal, 'getUserConfirmationCode')
     def getUserConfirmationCode(self):
@@ -508,7 +508,6 @@ class OpenMember(FolderishMember):
                         self.translate('id_pass_password',
                                        default='"password" is not a valid password.',
                                        domain='remember-plone')
-
 
 atapi.registerType(OpenMember, package=PROJECTNAME)
 

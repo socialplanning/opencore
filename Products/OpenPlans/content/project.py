@@ -427,13 +427,6 @@ class OpenProject(BrowserDefaultMixin, TeamSpaceMixin, BaseBTreeFolder):
                 # image might be None or '' for empty images
                 return image
 
-        try:
-            #XXX prevent recursive errors
-            _stashit = self.__class__.__fallback_traverse__
-            del self.__class__.__fallback_traverse__
-            retval = super(OpenProject, self).__bobo_traverse__(REQUEST, name)
-        finally:
-            self.__class__.__fallback_traverse__ = _stashit
-        return retval
+        return super(OpenProject, self).__bobo_traverse__(REQUEST, name)
 
 registerType(OpenProject)

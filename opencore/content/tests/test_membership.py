@@ -1,13 +1,11 @@
-import os, sys
 import unittest
 
 from Products.CMFCore.utils import getToolByName
+from Products.OpenPlans.tests.openplanstestcase import OpenPlansTestCase
 from Products.TeamSpace.exceptions import MemberRoleNotAllowed
 
 from opencore.testing.layer import OpencoreContent
 
-from Products.OpenPlans.tests.openplanstestcase import OpenPlansTestCase, \
-     makeContent
 
 class TestOpenMembership(OpenPlansTestCase):
 

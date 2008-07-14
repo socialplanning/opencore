@@ -16,7 +16,7 @@ from zope.i18n import translate
 
 # make sure that modification date gets updated
 # when new messages are sent to list
-def mailinglist_changed(ml, event):
+def mailinglist_msg_delivered(ml, event):
     ml.setModificationDate()
 
 #XXX this is directly copied from the wordpress event code to check
@@ -78,9 +78,11 @@ def listen_featurelet_installed(proj, event):
         # psm maybe?
         return
 
-    # XXX invokeFactory depends on the title being set in the request
+    # XXX we need a request utility
+    request = proj.REQUEST
+    # invokeFactory depends on the title being set in the request
     ml_title = u'%s discussion' % (proj_title)
-    proj.REQUEST.set('title', ml_title)
+    request.set('title', ml_title)
     lists_folder = proj.lists.aq_inner
     lists_folder.invokeFactory(OpenMailingList.portal_type, ml_id)
     ml = lists_folder._getOb(ml_id)
@@ -89,7 +91,8 @@ def listen_featurelet_installed(proj, event):
     cur_mem_id = unicode(ms_tool.getAuthenticatedMember().getId())
     ml.managers = (cur_mem_id,)
     ml.setDescription(translate(_(u'discussion_list_desc', u'Discussion list for this ${project_noun}, consisting of all ${project_noun} members.',
-                                  mapping={'project_noun':project_noun()})))
+                                  mapping={'project_noun':project_noun()}),
+                                            context=request))
     notify(ObjectCreatedEvent(ml))
 
     memlist = IWriteMembershipList(ml)

@@ -1,4 +1,4 @@
--*- mode: doctest ;-*- @@ wtf? dwm
+-*- mode: doctest ;-*-
 
 ======================
  opencore.project.browser

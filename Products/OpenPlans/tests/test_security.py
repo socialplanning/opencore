@@ -1,11 +1,7 @@
-import os, sys, time
 import unittest
-import traceback
-from StringIO import StringIO
-from Testing import ZopeTestCase
 from Products.CMFCore.utils import getToolByName
 from Products.OpenPlans.Extensions.create_test_content import create_test_content
-from openplanstestcase import OpenPlansTestCase, makeContent
+from openplanstestcase import OpenPlansTestCase
 
 members_map = {'m1':{'fullname':'Member One',
                      'password':'testy',

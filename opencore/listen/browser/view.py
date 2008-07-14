@@ -22,24 +22,23 @@ from Products.listen.lib.common import assign_local_role
 from Products.listen.interfaces.list_types import PublicListTypeDefinition, \
                                                   PostModeratedListTypeDefinition, \
                                                   MembershipModeratedListTypeDefinition
-from Products.listen.interfaces import IMailingList, IMembershipModeratedList, \
-                                       IPostModeratedList, IPublicList, \
-                                       IWriteMembershipList, IEmailPostPolicy, \
-                                       IUserEmailMembershipPolicy
+from Products.listen.interfaces import IMailingList
+from Products.listen.interfaces import IWriteMembershipList
+from Products.listen.interfaces import IEmailPostPolicy
+from Products.listen.interfaces import IUserEmailMembershipPolicy
 
 from Products.listen.utilities.list_lookup import ListLookupView
 from opencore.browser.formhandler import OctopoLite, action
 from opencore.browser.base import BaseView, _
 from opencore.listen.mailinglist import OpenMailingList
-from opencore.listen.mailinglist_views import MailingListAddForm, MailingListEditForm, MailingListView
+from opencore.listen.mailinglist_views import MailingListView
 from opencore.listen.utils import isValidPrefix
 from plone.app.form import _named
 from plone.memoize.view import memoize as req_memoize
-from zope.app.annotation.interfaces import IAnnotations
 from zope.app.component.hooks import getSite
 from zope.event import notify
 from zope.formlib.namedtemplate import INamedTemplate
-from zope.interface import implements, directlyProvides
+from zope.interface import implements
 from zExceptions import BadRequest
 import cgi
 import re
@@ -458,7 +457,6 @@ class ModerationView(BaseModerationView):
 NuiMailingListView = make_nui_listen_view_class(MailingListView)
 
 
-from Products.listen.interfaces import IMembershipPendingList
 from zope.component import getAdapter
 
 class SubscriptionSnippetMixin:

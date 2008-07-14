@@ -1,10 +1,6 @@
 from opencore.account import utils
 utils.turn_confirmation_on()
-from Products.Five.site.localsite import enableLocalSiteHook
 from Products.OpenPlans.tests.openplanstestcase import OpenPlansTestCase
-from Testing import ZopeTestCase
-from Testing.ZopeTestCase import PortalTestCase
-from opencore.browser.base import BaseView
 from opencore.configuration import OC_REQ
 from opencore.featurelets.interfaces import IListenContainer
 from opencore.testing import dtfactory as dtf
@@ -12,11 +8,8 @@ from opencore.testing import setup as oc_setup
 from opencore.testing.layer import MockHTTPWithContent
 from opencore.testing.layer import OpencoreContent
 from zope.app.component.hooks import setSite, setHooks
-from zope.interface import alsoProvides
 from zope.testing import doctest
-import os
 import pkg_resources as pkgr
-import sys
 import unittest
 
 
@@ -48,7 +41,6 @@ def test_suite():
     
     from zope.component import getUtility
     from zope.interface import alsoProvides
-    import pdb
         
     setup.setupPloneSite()
 
@@ -63,7 +55,6 @@ def test_suite():
         lists = proj.lists
         lists.setLayout('mailing_lists')
         alsoProvides(lists, IListenContainer)
-        enableLocalSiteHook(tc.portal)
         setSite(tc.portal)
         setHooks()
         proj.lists.invokeFactory('Open Mailing List', 'list1', title=u'new list')
@@ -74,10 +65,8 @@ def test_suite():
 
     def readme_setup(tc):
         oc_setup.fresh_skin(tc)
-        enableLocalSiteHook(tc.portal)
         setSite(tc.portal)
         setHooks()
-
 
     test_file = pkgr.resource_stream(OC_REQ, 'opencore/project/browser/test.png')
     globs = locals()

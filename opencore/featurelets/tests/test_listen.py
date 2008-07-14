@@ -5,23 +5,17 @@ if __name__ == '__main__':
     execfile(os.path.join(sys.path[0], 'framework.py'))
 
 from Products.OpenPlans.tests.openplanstestcase import OpenPlansTestCase
-from Products.OpenPlans.tests.openplanstestcase import makeContent
 
-from zope.app.annotation.interfaces import IAttributeAnnotatable
 from zope.component import getMultiAdapter
 from zope.component import ComponentLookupError
-from zope.interface import directlyProvides
 from zope.interface import Interface
 
-from Testing.ZopeTestCase import ZopeTestCase
-
 from zope.app.component.hooks import setSite, setHooks
-from Products.Five.site.localsite import enableLocalSiteHook
-
 from topp.featurelets.interfaces import IFeatureletSupporter
 from topp.featurelets.interfaces import IMenuSupporter
 from opencore.listen.featurelet import ListenFeaturelet
-from opencore.featurelets.browser.listen import ListenConfigView
+from opencore.testing.utils import makeContent
+
 
 class TestListenFeaturelet(OpenPlansTestCase):
 
@@ -29,7 +23,6 @@ class TestListenFeaturelet(OpenPlansTestCase):
         OpenPlansTestCase.afterSetUp(self)
         self.loginAsPortalOwner()
         self.project = makeContent(self.portal, 'project', 'OpenProject')
-        enableLocalSiteHook(self.portal)
         setSite(self.portal)
         setHooks()
 

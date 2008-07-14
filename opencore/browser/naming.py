@@ -2,12 +2,13 @@
 tools for working with naming
 
 see: setup.txt and wiki/add.txt for usage
+@@ separate out tests
 """
-from zope.interface import providedBy
-from zope.app.apidoc.component import getRequiredAdapters as get_required
-from zope.publisher.interfaces import IRequest
-from zExceptions import Redirect
 from opencore.browser.base import BaseView
+from zExceptions import Redirect
+from zope.app.apidoc.component import getRequiredAdapters as get_required
+from zope.interface import providedBy
+from zope.publisher.interfaces import IRequest
 import itertools
 
 
@@ -27,15 +28,19 @@ class IgnorableDummy(Dummy):
     """same as `Dummy` but the `ignorable` flag will filter these from
     a return by `get_view_names`.  Useful for preserving names for
     special persistent objects"""
+    _dummy_ignore = True
 
 
 def get_view_names(obj, ignore_dummy=False):
     """Gets all view names for a particular object"""
     ifaces = providedBy(obj)
-    regs = itertools.chain(*(get_required(iface, withViews=True) \
-                             for iface in ifaces))
+    required = (get_required(iface, withViews=True) for iface in ifaces)
+    regs = itertools.chain(*required)
+
     if ignore_dummy:
-        return set(reg.name for reg in regs\
-               if reg.required[-1].isOrExtends(IRequest) and not issubclass(reg.value, IgnorableDummy))
+        return set(reg.name for reg in regs \
+                   if reg.required[-1].isOrExtends(IRequest) \
+                   and not getattr(reg.value, '_dummy_ignore', False))
+    
     return set(reg.name for reg in regs\
                if reg.required[-1].isOrExtends(IRequest))

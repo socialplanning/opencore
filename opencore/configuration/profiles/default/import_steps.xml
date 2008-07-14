@@ -19,6 +19,7 @@
     <dependency step="typeinfo" />
     <dependency step="workflow" />
     <dependency step="catalog" />
+    <dependency step="pas_contents" />
   </import-step>
 
   <import-step
@@ -51,6 +52,12 @@
      title="Configure Team Tool">
     Team tool configuration.
     <dependency step="install_dependencies" />
+  </import-step>
+
+  <import-step id="pas_contents" version="20051116-01"
+               handler="opencore.configuration.exportimport.importPAS"
+               title="PAS Contents">
+    Import the PAS' registry and plugins.
   </import-step>
 
   <import-step
@@ -183,15 +190,6 @@
 
   <import-step
      version="20071029-01"
-     id="installCookieAuth"
-     handler="opencore.configuration.setuphandlers.installCookieAuth"
-     title="OpenCore install cookie auth plug-in">
-    Installs and configures the PAS signed cookie auth plug-in.
-    <dependency step="install_dependencies" />
-  </import-step>
-
-  <import-step
-     version="20071029-01"
      id="installNewsFolder"
      handler="opencore.configuration.setuphandlers.installNewsFolder"
      title="OpenCore install news folder">
@@ -230,22 +228,20 @@
 
   <import-step
      version="20071109-01"
-     id="install_remote_auth_plugin"
-     handler="opencore.configuration.setuphandlers.install_remote_auth_plugin"
-     title="OpenCore install remote auth plugin">
-    Installs and activates the remote auth plugin in the site's PAS
-    acl_users folder.
-    <dependency step="install_dependencies" />
-    <dependency step="installCookieAuth" />
-  </import-step>
-
-  <import-step
-     version="20071109-01"
      id="local_fqdn_return_address"
      handler="opencore.configuration.setuphandlers.local_fqdn_return_address"
      title="OpenCore set local return address">
     Sets the hostname on the site return address to match the local FQDN,
     but only if the profile contains the default setting.
+    <dependency step="install_dependencies" />
+  </import-step>
+
+  <import-step
+     version="20071109-01" id="activate_wicked"
+     handler="opencore.configuration.setuphandlers.activate_wicked"
+     title="Turn on wicked in plone 3 for usage by opencore"> 
+    Plone 3 ships with wicked turned off. We need to turn it on,
+    because we use it 
     <dependency step="install_dependencies" />
   </import-step>
 

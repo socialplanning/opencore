@@ -30,7 +30,7 @@ class ErrorView(BaseView):
         membertool = getToolByName(self.context, 'portal_membership')
         if membertool.isAnonymousUser():
             return ''
-        return membertool.getAuthenticatedMember().getEmail()
+        return membertool.getAuthenticatedMember().getProperty('email')
 
     def submit_url(self):
         return self.portal.absolute_url() + '/submit-error-report'

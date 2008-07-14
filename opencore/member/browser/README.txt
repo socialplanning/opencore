@@ -105,7 +105,9 @@ Check the projects and active states (these are sorted on project title)::
     >>> sorted([d['proj_id'] for d in project_dicts])
     ['apples', 'i18n', 'p1', 'p2', 'p3']
 
-XXXX Notice that the project title here isn't properly unicode for some reason. I feel like this might be a problem::
+XXXX Notice that the project title here isn't properly unicode for
+some reason. I feel like this might be a problem::
+
     >>> sorted([d['title'] for d in project_dicts])
     ['Project One', 'Project Three', 'Project Two', 'apples are good', '\xe6\x97\xa5\xe8\xaa\x9e']
     >>> [d['listed'] for d in project_dicts]
@@ -141,16 +143,14 @@ We should have a PSM and it should respect the configured name for projects:
     True
 
     A role change event gets fired in addition to a left project event
-    >>> len(self.events)
-    2
-    >>> obj, event = self.events[0]
     >>> from opencore.interfaces.event import IChangedTeamRolesEvent
-    >>> IChangedTeamRolesEvent.providedBy(event)
-    True
-    >>> obj, event = self.events[1]
+    >>> [event for (obj, event) in self.events if
+    ...        IChangedTeamRolesEvent.providedBy(event)]
+    [<opencore.interfaces.event.ChangedTeamRolesEvent ...>]
     >>> from opencore.interfaces.event import ILeftProjectEvent
-    >>> ILeftProjectEvent.providedBy(event)
-    True
+    >>> [event for (obj, event) in self.events if
+    ...        ILeftProjectEvent.providedBy(event)]
+    [<opencore.interfaces.event.LeftProjectEvent ...>]
 
     And finally, m1 should no longer have active membership to project p2
     >>> self.clearMemoCache()
@@ -326,12 +326,10 @@ Let's accept our gracious invitation
     ['num_updates', 'num_updates_menu', 'num_updates_top', 'p4_invitation', 'projinfos_for_user']
 
     Now we can check that we got the event
-    >>> len(self.events)
-    1
-    >>> obj, event = self.events[0]
     >>> from opencore.interfaces.event import IJoinedProjectEvent
-    >>> IJoinedProjectEvent.providedBy(event)
-    True
+    >>> [event for (obj, event) in self.events if
+    ...        IJoinedProjectEvent.providedBy(event)]
+    [<opencore.interfaces.event.JoinedProjectEvent ...>]
 
     And thus, we should no longer be invited
     >>> self.clearMemoCache()

@@ -10,8 +10,8 @@
 
    <subscriber
      for=".interfaces.IMailingList
-          zope.app.event.interfaces.IObjectModifiedEvent"
-     handler=".events.mailinglist_changed"
+          Products.listen.interfaces.events.INewMsgDeliveredEvent"
+     handler=".events.mailinglist_msg_delivered"
      />
 
    <subscriber

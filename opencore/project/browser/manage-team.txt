@@ -1,3 +1,5 @@
+-*- mode: doctest ;-*-
+
 ===============================
  Project Team Management  View
 ===============================
@@ -65,11 +67,8 @@ First we need to clear out the memoized cache:
     >>> self.events
     []
     >>> res = view.approve_requests(['m4'])
-    >>> len(self.events)
-    1
-    >>> mship, event = self.events[0]
     >>> from opencore.interfaces.event import IJoinedProjectEvent
-    >>> IJoinedProjectEvent.providedBy(event)
+    >>> self.event_fired(IJoinedProjectEvent)
     True
     >>> len(view.pending_requests)
     0
@@ -170,15 +169,11 @@ should be sent::
     >>> res = view.remove_members(['m2'])
     
     A role change event gets fired in addition to a left project event
-    >>> len(self.events)
-    2
-    >>> obj, event = self.events[0]
     >>> from opencore.interfaces.event import IChangedTeamRolesEvent
-    >>> IChangedTeamRolesEvent.providedBy(event)
+    >>> self.event_fired(IChangedTeamRolesEvent)
     True
-    >>> obj, event = self.events[1]
     >>> from opencore.interfaces.event import ILeftProjectEvent
-    >>> ILeftProjectEvent.providedBy(event)
+    >>> self.event_fired(ILeftProjectEvent)
     True
     >>> len(view.active_mships)
     2

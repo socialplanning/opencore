@@ -41,7 +41,8 @@ properly here.
 
 We should now see something on the mock mailhost, and a PSM::
 
-    >>> pprint(portal.MailHost.messages[-1])
+    >>> mh = view.get_tool('MailHost')
+    >>> pprint(mh.messages[-1])
     {'mfrom': 'foo@foo.org',
      'msg': 'test message',
      'mto': [...],

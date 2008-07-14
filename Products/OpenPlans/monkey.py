@@ -4,7 +4,6 @@ from Products.CMFCore.CatalogTool import _getAuthenticatedUser, \
      _checkPermission, AccessInactivePortalContent
 from Products.AdvancedQuery import In, Eq, Le, Ge
 from Products.AdvancedQuery.eval import eval as _eval
-from Products.PasswordResetTool.tests.utils.mailhost import MockMailHost
 import logging
 
 logger = logging.getLogger('OpenPlans.monkey')
@@ -75,11 +74,6 @@ def unapply_mailhost_patches():
 if MaildropHost is not None:
     apply_mailhost_patches()
 
-def apply_mock_mailhost_patch():
-    patch_class(MockMailHost, 'secureSend', MockMailHost.send.im_func)
-
-apply_mock_mailhost_patch()
-
 def new_evalAdvancedQuery(self,query,sortSpecs=()):
     '''evaluate *query* for 'CatalogTool' and sort results according to *sortSpec*.'''
     query = query._clone()
@@ -115,7 +109,7 @@ def patch_fileattachment():
     """
     tell the FileAttachment to display image types inline
     """
-    from Products.RichDocument.content.attachments import FileAttachment
+    from Products.SimpleAttachment.content.file import FileAttachment
     image_mimetypes = ('image/jpeg', 'image/gif', 'image/png')
     new_val = image_mimetypes + FileAttachment.inlineMimetypes
     patch_class(FileAttachment, 'inlineMimetypes', new_val)

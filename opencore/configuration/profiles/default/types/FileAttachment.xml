@@ -6,7 +6,7 @@
  <property name="description">A file attachment</property>
  <property name="content_icon">file_icon.gif</property>
  <property name="content_meta_type">FileAttachment</property>
- <property name="product">RichDocument</property>
+ <property name="product">SimpleAttachment</property>
  <property name="factory">addFileAttachment</property>
  <property name="immediate_view">fileattachment_view</property>
  <property name="global_allow">False</property>

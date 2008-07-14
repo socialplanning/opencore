@@ -1,11 +1,12 @@
 <div class="oc-widget oc-widget-feed oc-column oc-clearAfter"
-     tal:define="lowertitle context/title/lower"
+     tal:define="feed view/feed;
+                 lowertitle feed/title/lower"
      tal:attributes="id string:oc-feed-${lowertitle}">
   <h2 class="oc-feed-title oc-clearAfter">
-    <a tal:attributes="href context/link" tal:content="context/title">Feed Title</a> <span tal:content="view/number_of_members">9 members</span>  
+    <a tal:attributes="href feed/link" tal:content="feed/title">Feed Title</a> <span tal:content="view/number_of_members">9 members</span>  
   </h2>
-  <ul class="oc-feed-list oc-clearAfter" tal:condition="context/items">
-    <li class="oc-feed-item oc-clearAfter" tal:repeat="entry context/items"> 
+  <ul class="oc-feed-list clearAfter" tal:condition="feed/items">
+    <li class="oc-feed-item oc-clearAfter" tal:repeat="entry feed/items"> 
       <p tal:define="author entry/author | nothing">
 	      <a tal:define="author_home entry/authorURL" 
 		    tal:omit-tag="not:author" 

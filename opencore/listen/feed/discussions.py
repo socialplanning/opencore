@@ -1,7 +1,6 @@
 import opencore.feed.browser
 import os
-
-from zope.component import getAdapter
+from Acquisition import aq_inner
 from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
 from opencore.browser.blankslate import BlankSlateViewlet
 from opencore.feed.interfaces import IFeedData
@@ -9,20 +8,28 @@ from opencore.feed.interfaces import IFeedData
 class DiscussionsSummaryViewlet(BlankSlateViewlet):
 
     blank_template = ZopeTwoPageTemplateFile('lists_blank_slate.pt')
-    template = os.path.join(os.path.dirname(opencore.feed.browser.__file__), 'feed_snippet.pt')
+    template = os.path.join(os.path.dirname(opencore.feed.browser.__file__),
+                            'feed_snippet.pt')
     template = ZopeTwoPageTemplateFile(template)
 
     sort_order = 200
 
+    def listfolder(self):
+        """ returns the 'lists' folder w/ a clean aq chain """
+        clean_project = aq_inner(self.context)
+        # XXX hardcoded folder id == bad
+        return clean_project._getOb('lists', None)
+
     def is_blank(self):
-        if self.context.items:
+        if self.feed.items:
             return False
-        if self.context.mlists:
-            self.create = os.path.join(self.context.context.absolute_url(), self.context.mlists[0], 'archive', 'new_topic')
+        if self.feed.mlists:
+            self.create = os.path.join(self.context.absolute_url(),
+                                       self.feed.mlists[0],
+                                       'archive','new_topic')
         else:
-            self.create = os.path.join(self.context.context.absolute_url(), 'create')
+            self.create = os.path.join(self.context.absolute_url(), 'create')
         return True
 
     def adapt(self):
-        return getAdapter(self.context.lists, IFeedData)
-
+        return IFeedData(self.listfolder(), None)

@@ -31,7 +31,7 @@ def test_suite():
     setup.setupPloneSite()
     def hook_setup(tc):
         tc._refreshSkinData()
-        enableLocalSiteHook(tc.portal)
+        #enableLocalSiteHook(tc.portal)
         setSite(tc.portal)
         setHooks()
 

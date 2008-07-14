@@ -83,13 +83,6 @@
      class=".management.TestContentCreator"
      />
 
-  <!-- @@ remove for plone3 -->
-  <five:traversable class="Products.CMFCore.DynamicType.DynamicType" />
-
-  <five:traversable class="Products.Archetypes.BaseObject.BaseObject" />
-
-  <five:traversable class="OFS.Folder.Folder" />
-
   <!-- page for workflows that dead-end in a simple message display -->
   <browser:page
      for="*"

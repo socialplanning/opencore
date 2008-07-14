@@ -4,9 +4,6 @@ OpenPlans
 __authors__ = 'Rob Miller <ra@burningman.com>'
 __docformat__ = 'restructuredtext'
 
-from AccessControl import ModuleSecurityInfo
-from AccessControl import allow_module, allow_class, allow_type
-from Globals import package_home
 from Products.Archetypes import public as atapi
 from Products.CMFCore import utils as cmf_utils
 from Products.CMFCore.DirectoryView import registerDirectory
@@ -20,8 +17,9 @@ from opencore.bbb.module_alias import do_aliases
 from opencore.nui import indexing
 from opencore.utility.interfaces import IProvideSiteConfig
 from permissions import initialize as initialize_permissions
-from zope.component import getUtility, queryUtility, ComponentLookupError
+from zope.component import queryUtility, ComponentLookupError
 import monkey
+from borg.localrole import initialize as lrinit
 
 GLOBALS = globals()
 SKINS_DIR = 'skins'
@@ -36,6 +34,7 @@ registerMultiPlugin(remoteauthplugin.RemoteOpenCoreAuth.meta_type)
 
 
 def initialize(context):
+    lrinit(context)
     # Importing the content types allows for their registration
     # with the Archetypes runtime
     from content import *
@@ -43,8 +42,8 @@ def initialize(context):
     from opencore.listen import mailinglist
 
     # Register customization policy
-    import policy
-    policy.register(context, GLOBALS)
+    #import policy
+    #policy.register(context, config.GLOBALS)
 
     from AccessControl import ModuleSecurityInfo
 

@@ -2,22 +2,15 @@
 tests the integrity of an installation as
 installed by the customization policy
 """
-import os, sys, time
 import socket
 import unittest
-from sets import Set
-import traceback
-from StringIO import StringIO
-from Testing import ZopeTestCase
 
 from Products.CMFCore.utils import getToolByName
 from Products.CMFCore import permissions
 from Products.OpenPlans.workflows import PLACEFUL_POLICIES
 from opencore.configuration import DEFAULT_ROLES
-from openplanstestcase import OpenPlansTestCase, makeContent, \
-     ArcheSiteTestCase
-import Products.CMFCore
-from opencore.interfaces.workflow import IWriteWorkflowPolicySupport, IReadWorkflowPolicySupport
+from openplanstestcase import OpenPlansTestCase
+from opencore.interfaces.workflow import IWriteWorkflowPolicySupport
 
 from opencore.nui.indexing import PROJECT_POLICY as ppidx
 from Products.OpenPlans.content.project import OpenProject 
@@ -78,12 +71,7 @@ class TestOpenPlansInstall(OpenPlansTestCase):
         for role in DEFAULT_ROLES:
             self.failIf(role not in self.portal.validRoles())
         # top level content is correct
-        self.failUnless('projects' \
-                        in self.portal.contentIds(spec="ATBTreeFolder"))
-
-        if hasattr(ttool, 'HelpCenter'):
-            self.failUnless('support' \
-                            in self.portal.contentIds(spec="HelpCenter"))
+        self.failUnless('projects' in self.portal.objectIds())
 
     def test_openproject_method_aliases(self):
         tt = getToolByName(self.portal, 'portal_types')
