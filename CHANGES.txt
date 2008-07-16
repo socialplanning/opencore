@@ -3,6 +3,8 @@
 
  * Add viewlet manger for data right before the end of the body tag (rmarianski)
 
+ * Update contact/wiki add unit tests to directly instantiate class (rmarianski)
+
 
 0.12.0 (2008-07-11)
 ===================
