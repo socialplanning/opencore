@@ -4,6 +4,7 @@ from datetime import datetime
 from opencore.browser.base import BaseView
 from opencore.utility.interfaces import IEmailSender
 import urlparse
+from pprint import pformat
 
 class ErrorView(BaseView):
 
@@ -40,6 +41,29 @@ class ErrorView(BaseView):
         self.request_time = str(datetime.now())
         if kw['error_type'] == 'NotFound':
             return self.notfound(*args, **kw)
+
+        method = self.request.environ['REQUEST_METHOD']
+        if method == "POST":
+            args = "POST arguments: " % pformat(request.form)
+        else:
+            args = ""
+        print """<!--XSUPERVISOR:BEGIN-->
+Content-Type: text/plain
+Username: %s
+Request-url: %s
+Method: %s
+
+Environment: %s
+
+%s
+
+Traceback: %s
+<!--XSUPERVISOR:END-->""" % (self.request.get('use_logged_in_user', 'anonymous'), 
+                             self.request.ACTUAL_URL,
+                             method,
+                             pformat(self.request.environ),
+                             args,
+                             self.traceback)
         return self.error(*args, **kw)
 
 class ErrorReporter(BaseView):
