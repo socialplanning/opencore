@@ -90,23 +90,21 @@
       
       <div id="oc-content-sidebar">
         <tal:provider replace="structure provider:opencore.sidebar" />
-        <tal:comment replace="nothing">
-          <div id="oc-home-getstarted" class="oc-getstarted">
-              <h2>Get started!</h2>
-              <ul class="oc-getstarted-list">
-                  <li tal:condition="not: view/loggedin">
-                    <h3><a tal:attributes="href string:${context/portal_url}/join">Become a member</a></h3>
-                    <p class="oc-discreetText">or <a tal:attributes="href string:${context/portal_url}/login">log in</a>.</p>
-                  </li>
-                  <li>
-                    <h3><a tal:attributes="href string:${context/portal_url}/projects">Find <span tal:replace="view/project_noun">project</span>s</a></h3>  
-                  </li>
-                  <li>
-                    <h3><a tal:attributes="href string:${context/portal_url}/people">Find people</a></h3>
-                  </li>
-              </ul>
-            </div>
-          </tal:comment>
+        <div id="oc-home-getstarted" class="oc-getstarted">
+            <h2>Get started!</h2>
+            <ul class="oc-getstarted-list">
+                <li tal:condition="not: view/loggedin">
+                  <h3><a tal:attributes="href string:${context/portal_url}/join">Become a member</a></h3>
+                  <p class="oc-discreetText">or <a tal:attributes="href string:${context/portal_url}/login">log in</a>.</p>
+                </li>
+                <li>
+                  <h3><a tal:attributes="href string:${context/portal_url}/projects">Find <span tal:replace="view/project_noun">project</span>s</a></h3>  
+                </li>
+                <li>
+                  <h3><a tal:attributes="href string:${context/portal_url}/people">Find people</a></h3>
+                </li>
+            </ul>
+          </div>
           <div id="oc-home-news" class="oc-widget oc-widget-feed">
             <h2 class="oc-feed-title">
               <a title="News"

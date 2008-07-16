@@ -14,6 +14,8 @@
 
  * add link on home page news header to news page (rmarianski)
 
+ * uncomment getting started section of home page (rmarianski)
+
 
 0.12.0 (2008-07-11)
 ===================
