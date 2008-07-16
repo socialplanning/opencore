@@ -31,13 +31,11 @@ override the wicked adder. Eventually, this should be replaced with a
 proper add form::
 
     >>> self.login('m1')
-    >>> view = projects.p1.restrictedTraverse('add-page')
+    >>> from opencore.nui.wiki.add import NuiContainerAdd
+    >>> view = NuiContainerAdd(projects.p1, projects.p1.REQUEST)
     >>> view.sanitize('team')
     'team-page'
 
-    >>> view
-    <Products.Five.metaclass.NuiContainerAdd object at ...>
-    
     >>> view.add_content(title='Manage Team!', section='text')
     'http://nohost/plone/projects/p1/manage-team-page/edit'
 
@@ -50,7 +48,7 @@ proper add form::
 If we call the view directly before populating the request, we should
 get an assertion error::
 
-    >>> view()
+    >>> view.add_content()
     Traceback (most recent call last):
     ...
     AssertionError: Must have a title to create content
@@ -60,9 +58,8 @@ methods. Eventually, all adds should be views on the container.  For
 now we simple make parity with wicked::
 
     >>> new_page = getattr(view.get_container(), 'manage-team-page')
-    >>> view = new_page.restrictedTraverse('add-page')
-    >>> view
-    <Products.Five.metaclass.NuiPageAdd object at ...>
+    >>> from opencore.nui.wiki.add import NuiPageAdd
+    >>> view = NuiPageAdd(new_page, new_page.REQUEST)
 
     >>> view.add_content(title='Lists!', section='text')
     'http://nohost/plone/projects/p1/lists-page/edit'
@@ -93,8 +90,8 @@ normalized::
 
     >>> title = u'Test G\u00e9omatique'.encode("utf-8")
     >>> self.folder.REQUEST.set('Title', title)
-    >>> view = projects.p1.restrictedTraverse('@@add-page')
-    >>> retadd = view()
+    >>> view = NuiContainerAdd(projects.p1, self.folder.REQUEST)
+    >>> retadd = view.add_content()
     >>> print retadd
     http://nohost/plone/projects/p1/test-geomatique/edit
     >>> delattr(view, "_redirected")
@@ -111,8 +108,8 @@ explosions::
 
     >>> title = u'\u3322'.encode("utf-8")
     >>> self.folder.REQUEST.set('Title', title)
-    >>> view = projects.p1.restrictedTraverse('@@add-page')
-    >>> retadd = view()
+    >>> view = NuiContainerAdd(projects.p1, self.folder.REQUEST)
+    >>> retadd = view.add_content()
     >>> print retadd
     http://nohost/plone/projects/p1/%7E3322/edit
     >>> delattr(view, "_redirected")

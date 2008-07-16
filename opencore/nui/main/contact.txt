@@ -5,7 +5,8 @@ Contact view
 
 It should require all the fields.
 
-    >>> view = portal.restrictedTraverse('@@contact-site-admin')
+    >>> from opencore.nui.main.contact import ContactView
+    >>> view = ContactView(self.portal, self.portal.REQUEST)
     >>> view.request.form.clear()
     >>> view.validate()
     >>> pprint(view.errors)
@@ -19,7 +20,7 @@ It should require all the fields.
 
 If you provide them all, it should send the mail.
 
-    >>> view = portal.restrictedTraverse('@@contact-site-admin')
+    >>> view = ContactView(self.portal, self.portal.REQUEST)
     >>> view.request.form.update(
     ...    {'message': 'test message', 'subject': 'test subject',
     ...    'sender_fullname': 'Michael Bolton',
