@@ -108,8 +108,11 @@
             </div>
           </tal:comment>
           <div id="oc-home-news" class="oc-widget oc-widget-feed">
-            <h2 class="oc-feed-title"
-                tal:content="string:${view/portal_title} News" />
+            <h2 class="oc-feed-title">
+              <a title="News"
+                 tal:attributes="href string:${context/portal_url}/news"
+                 tal:content="string:${view/portal_title} News" />
+            </h2>
             <ul class="oc-feed-list">
               <li tal:repeat="item view/news" class="oc-feed-item oc-clearAfter">
                 <h3 class="oc-feed-item-title">

@@ -12,6 +12,8 @@
  * remove oc-getstarted div around adding a mailing list for aesthetic reasons
    (rmarianski)
 
+ * add link on home page news header to news page (rmarianski)
+
 
 0.12.0 (2008-07-11)
 ===================
