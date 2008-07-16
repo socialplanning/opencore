@@ -9,6 +9,9 @@
 
  * Textarea borders should be focused orange instead of lime (rmarianski)
 
+ * remove oc-getstarted div around adding a mailing list for aesthetic reasons
+   (rmarianski)
+
 
 0.12.0 (2008-07-11)
 ===================
