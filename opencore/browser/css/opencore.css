@@ -1439,10 +1439,10 @@ li.oc-invite .oc-invite-content {
 .oc-getstarted-list li h3 {
   margin: 0;
 }
-.oc-getstarted-list li h3 a {
+.oc-getstarted-list li a {
   text-decoration: none;
 }
-.oc-getstarted-list li h3 a:hover {
+.oc-getstarted-list li a:hover {
   text-decoration: underline;
 }
 .oc-getstarted-list li p.oc-discreetText {
