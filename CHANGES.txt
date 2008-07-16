@@ -5,6 +5,8 @@
 
  * Update contact/wiki add unit tests to directly instantiate class (rmarianski)
 
+ * Correct condition on summary page lists blank slate (rmarianski)
+
 
 0.12.0 (2008-07-11)
 ===================

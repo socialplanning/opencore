@@ -2,7 +2,7 @@
   <h2 class="oc-feed-title">
     <a tal:attributes="href view/feed/link"
        tal:condition="view/feed">Discussion</a>
-    <span condition="not view/feed">Discussion</span>
+    <span tal:condition="not: view/feed">Discussion</span>
   </h2>	
   <div class="oc-blankSlate">
     <img src="/++resource++img/summaryicons/mailinglist.gif" />
