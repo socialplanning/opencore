@@ -1,3 +1,4 @@
+from Acquisition import aq_base
 from Products.CMFCore.utils import getToolByName
 from Products.Five.site.localsite import disableLocalSiteHook
 from opencore.upgrades.utils import run_import_step
@@ -65,7 +66,10 @@ def migrate_mlist_component_registries(context):
 
             for iface in providedBy(utility):
                 if iface.getName() == interface_name:
-                    site_manager.registerUtility(utility, iface, name=name)
+                    site_manager.registerUtility(aq_base(utility),
+                                                 iface, name=name)
+            if interface_name == 'ISearchableArchive':
+                lst._setObject('ISearchableArchive', aq_base(utility))
 
         logger.info('%s mailing list component registry migrated'
                     % lst.getId())

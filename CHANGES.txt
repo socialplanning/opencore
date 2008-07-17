@@ -16,6 +16,8 @@
 
  * uncomment getting started section of home page (rmarianski)
 
+ * Code migrated to Zope 2.10 / Plone 3.0, older versions no longer supported
+   (rafrombrc)
 
 0.12.0 (2008-07-11)
 ===================
