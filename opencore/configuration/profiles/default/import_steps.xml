@@ -162,6 +162,15 @@
   </import-step>
 
   <import-step
+     version="20080601-01"
+     id="setupFeatureFolder"
+     handler="opencore.configuration.setuphandlers.setupFeatureFolder"
+     title="OpenCore set up features folder">
+    Creates the features folder.
+    <dependency step="install_dependencies" />
+  </import-step>
+
+  <import-step
      version="20071029-01"
      id="migrateATDocToOpenPage"
      handler="opencore.configuration.setuphandlers.migrateATDocToOpenPage"

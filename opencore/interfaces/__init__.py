@@ -7,6 +7,7 @@ from opencore.interfaces.membership import IOpenMembership
 from opencore.interfaces.pending_requests import IPendingRequests
 from opencore.interfaces.workflow import IReadWorkflowPolicySupport
 from opencore.interfaces.workflow import IWriteWorkflowPolicySupport
+from adding import IFeatureFolder
 from zope.interface import Interface 
 from zope.schema import TextLine
 

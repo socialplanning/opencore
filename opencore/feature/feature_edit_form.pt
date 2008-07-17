@@ -1,0 +1,135 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+      lang="en"
+      metal:use-macro="here/@@standard_macros/master"
+      i18n:domain="opencore">
+
+<body>
+<div metal:fill-slot="content">
+
+<div class="oc-headingBlock">
+  <h1 tal:content="view/label" />
+  <p class="oc-headingContext"
+     tal:define="description view/description | nothing"
+     tal:condition="description"
+     tal:content="description" />
+  <div class="form-status"
+     tal:define="status view/status"
+     tal:condition="status">
+    <p tal:content="status" />
+    <ul class="errors" tal:condition="view/errors">
+      <li tal:repeat="error view/error_views">
+        <span tal:replace="structure error">Error Type</span>
+      </li>
+    </ul>
+  </div>
+</div>
+
+<form action=""
+      method="post"
+      tal:define="errors view/errors"
+      tal:attributes="action request/URL; method view/method | string:post">
+
+  <fieldset class="oc-boxy">
+    <table class="oc-form">
+      <tbody>
+        <tr class="oc-form-row"
+            tal:define="widget python:view.widgets['title']; error widget/error"
+            tal:attributes="class python:error and 'oc-fieldBlock-error' or default"
+            >
+          <th class="oc-form-label">
+            <label tal:content="widget/label"
+                   i18n:translate="widget/label"
+                   tal:attributes="for widget/name" />
+            <span class="oc-discreetText" title="Required"
+                  tal:condition="widget/required"
+                  i18n:attributes="title title_required;"
+                  i18n:translate="label_required">(Required)</span>
+          </th>
+          <td class="oc-form-value">
+            <div class="oc-form-error"
+                 tal:condition="error"
+                 tal:content="error" />
+               <input type="text" id="title" name="title" value="Feature Title"
+                 tal:attributes="value request/title | context/Title | default" />
+          </td>
+        </tr>
+        <tr class="oc-form-row"
+            tal:define="widget python:view.widgets['description']; error widget/error"
+            tal:attributes="class python:error and 'oc-fieldBlock-error' or default"
+            >
+          <th class="oc-form-label">
+            <label tal:content="widget/label"
+                   i18n:translate="widget/label"
+                   tal:attributes="for widget/name" />
+            <span class="oc-discreetText" title="Required"
+                  tal:condition="widget/required"
+                  i18n:attributes="title title_required;"
+                  i18n:translate="label_required">(Required)</span>
+          </th>
+          <td class="oc-form-value">
+            <div class="oc-form-error"
+                 tal:condition="error"
+                 tal:content="error" />
+               <input type="text" id="description" name="description" value="Feature Description"
+                 tal:attributes="value request/description | context/Description | default" />
+          </td>
+        </tr>
+        <tr class="oc-form-row"
+            tal:define="widget python:view.widgets['text']; error widget/error"
+            tal:attributes="class python:error and 'oc-fieldBlock-error' or default"
+            >
+          <th class="oc-form-label">
+            <label tal:content="widget/label"
+                   i18n:translate="widget/label"
+                   tal:attributes="for widget/name" />
+            <span class="oc-discreetText" title="Required"
+                  tal:condition="widget/required"
+                  i18n:attributes="title title_required;"
+                  i18n:translate="label_required">(Required)</span>
+          </th>
+          <td class="oc-form-value">
+            <div class="oc-form-error"
+                 tal:condition="error"
+                 tal:content="error" />
+               <textarea id="text" name="text" tal:content="request/description | context/getText | default"><p>Feature Text</p></textarea>
+          </td>
+        </tr>
+        <tr class="oc-form-row"
+            tal:define="widget python:view.widgets['proj_id']; error widget/error"
+            tal:attributes="class python:error and 'oc-fieldBlock-error' or default"
+            >
+          <th class="oc-form-label">
+            <label tal:content="widget/label"
+                   i18n:translate="widget/label"
+                   tal:attributes="for widget/name" />
+            <span class="oc-discreetText" title="Required"
+                  tal:condition="widget/required"
+                  i18n:attributes="title title_required;"
+                  i18n:translate="label_required">(Required)</span>
+          </th>
+          <td class="oc-form-value">
+            <div class="oc-form-error"
+                 tal:condition="error"
+                 tal:content="error" />
+               <select id="proj_id" name="proj_id" tal:define="cur python:context.getRefs()[0].getId()">
+                 <option selected="1" tal:content="cur" />
+                 <option tal:repeat="term widget/vocabulary" tal:content="term/value" />
+               </select>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="oc-actions">
+      <input tal:repeat="action view/actions"
+             class="context"
+             tabindex=""
+             type="submit"
+             tal:attributes="name action/__name__; value action/label" />
+      <a tal:attributes="href context/absolute_url">Cancel</a>
+    </div>
+</form>
+
+</div>
+
+</body>
+</html>

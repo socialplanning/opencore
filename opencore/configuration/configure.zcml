@@ -25,6 +25,7 @@
   <include package="opencore.upgrades" />
   <include package="topp.featurelets" />
   <include package="opencore.stats" />
+  <include package="opencore.feature" />
 
   <i18n:registerTranslations directory="../locales" />
 
