@@ -1,0 +1,24 @@
+This software explicitly comes with no guarantees or warranties, but
+developers and other users are often happy to answer questions and
+provide assistance to those who come for help.  Please see...
+
+http://plone.org/documentation/how-to/ask-for-help
+
+... for tips that will help you help others help you.
+
+
+MAILING LISTS:
+
+opencore-dev@lists.openplans.org:
+- Focused on the development of the OpenPlans software itself.
+- http://www.openplans.org/projects/opencore/lists/opencore-dev
+
+opencore-users@lists.openplans.org:
+- Support venue for folks who are trying to use (but not develop)
+  OpenCore and the OpenPlans software.
+- http://www.openplans.org/projects/opencore/lists/opencore-users
+
+
+IRC:
+
+irc://irc.freenode.net/#openplans

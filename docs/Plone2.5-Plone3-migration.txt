@@ -1,0 +1,117 @@
+This document contains instructions for migrating an OpenCore site
+from v0.12, which depends on Zope 2.9 and Plone 2.5, to v0.13, which
+requires Zope 2.10 and Plone 3.0.
+
+IMPORTANT: This is a ONE-WAY upgrade.  Once you've migrated your
+database from OpenCore v0.12 to v0.13, there is no going back.  Please
+test this thoroughly on copies of your production database before
+attempting this for real.  And don't forget to make backups before you
+begin!
+
+
+The short version:
+
+1. on your existing installation:
+   zopectl run opencore/migrations/unmake-sites.py
+
+2. rebuild:
+   newbuild.sh openplans/trunk
+
+3. shut down old build, start new build, run:
+   zopectl run opencore/migrations/migrate-p3.py
+
+
+The long version:
+
+STEP 1: BEFORE YOU UPGRADE
+
+There is one tweak that must be done to the database before you
+upgrade the software.  OpenCore v0.12 comes with an 'unmake-sites.py'
+script; you should run this using:
+
+$ zopectl run /path/to/unmake-sites.py
+
+If you forget to do this and try to use your database as-is with Zope
+2.10, everything will be broken and you'll see startup errors such as
+this:
+
+SystemError: This object was originally created by a product that
+            is no longer installed.  It cannot be updated.
+            (<LocalSiteHook at broken>)
+
+If you try this running Zope in debug mode, Zope won't even start.
+
+
+STEP 2: SHUTDOWN / REBUILD / RESTART
+
+Now you're ready to shutdown your instance ('supervisorctl shutdown')
+and rebuild the software.  If you're using an OpenplansBoot-based
+installation (recommended) this should be as simple as going to the
+base directory of the instance and running the following command:
+
+$ ./newbuild.sh openplans/trunk
+
+If you don't have a newbuild.sh script, any means of invoking
+fassembler using the OpenPlans trunk requirement set
+(https://svn.openplans.org/svn/build/requirements/openplans/trunk/)
+will do.
+
+Once the build has completed, cd into the top directory of the new
+build and run 'supervisord' to start the services.  If you've built
+your code in a different location than the older version, you may need
+to copy your Data.fs file to the new location.
+
+
+STEP 3: RUN THE P3 UPGRADES
+
+Now we just need to run a few migrations on the database.  There are
+two options for running the necessary migrations:
+
+ - Option 1: zopectl script
+ 
+   The easiest way to run the upgrades is using the migrate-p3.py
+   script that is included in the migrations directory of the opencore
+   source package.  This is meant to be invoked like so:
+
+   $ zopectl run /path/to/migrate-p3.py
+
+   Running the script will generate a number of warnings and even some
+   GenericSetup error messages similar to this one:
+
+   2008-07-17T00:42:45 ERROR GenericSetup Step listen-various has an
+ invalid import handler
+
+   These errors can be safely ignored.  For large sites, particularly
+   those with a lot of members, this script may take a while to
+   complete.  This is also normal.  You just want to watch for an
+   "OPENCORE MIGRATION SUCCESS" message at the end of the output,
+   which indicates that everything went as expected.  If you do not
+   see this message, then the migrations did not complete, and further
+   help will be needed (see SUPPORT.txt).
+
+ - Option 2: ZMI
+
+   The zopectl script is just programmatically pushing some buttons
+   that are exposed in the ZMI.  If you're interested in seeing a bit
+   more of what's going on, you can use the ZMI directly.
+
+   First, you run Plone's migrations using the portal_migration tool.
+   Browse to the following URL:
+
+   http://path/to/your/site/portal_migration/manage_migrate
+
+   If your "Current site version" is a release number, then you can
+   just click the "Upgrade" button.  If your "Current site version"
+   ends in (svn/unreleased), then you'll want to choose the
+   immediately preceding release version from the drop-down selector
+   and click the "Force Upgrade" button.
+
+   Finally, you run the OpenCore migrations.  Browse to:
+
+   http://path/to/your/site/portal_setup/manage_upgrades
+
+   Choose "opencore.configuration:default" from the drop-down
+   selector, and click "Choose Profile" to expose the registered
+   upgrade steps.  Make sure they all stay selected and click on
+   "Upgrade" to run them.  This reindexes the member catalog (among
+   other tasks), so for large sites this may take a while.
