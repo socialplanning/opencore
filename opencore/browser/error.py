@@ -3,8 +3,10 @@ from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
 from datetime import datetime
 from opencore.browser.base import BaseView
 from opencore.utility.interfaces import IEmailSender
-import urlparse
 from pprint import pformat
+import os
+import urlparse
+
 
 class ErrorView(BaseView):
 
@@ -42,12 +44,14 @@ class ErrorView(BaseView):
         if kw['error_type'] == 'NotFound':
             return self.notfound(*args, **kw)
 
-        method = self.request.environ['REQUEST_METHOD']
-        if method == "POST":
-            args = "POST arguments: " % pformat(request.form)
-        else:
-            args = ""
-        print """<!--XSUPERVISOR:BEGIN-->
+        if 'SUPERVISOR_ENABLED' in os.environ:
+            method = self.request.environ['REQUEST_METHOD']
+            if method == "POST":
+                args = "POST arguments: " % pformat(request.form)
+            else:
+                args = ""
+            username = self.request.get('use_logged_in_user', 'anonymous')
+            print """<!--XSUPERVISOR:BEGIN-->
 Content-Type: text/plain
 Username: %s
 Request-url: %s
@@ -58,7 +62,7 @@ Environment: %s
 %s
 
 Traceback: %s
-<!--XSUPERVISOR:END-->""" % (self.request.get('use_logged_in_user', 'anonymous'), 
+<!--XSUPERVISOR:END-->""" % (username, 
                              self.request.ACTUAL_URL,
                              method,
                              pformat(self.request.environ),
