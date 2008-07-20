@@ -1449,6 +1449,9 @@ li.oc-invite .oc-invite-content {
   margin: 0 0 0.5em;
   line-height: normal;
 }
+#oc-home-getstarted ul {
+  margin-bottom: 0;
+}
 
 /* Map control */
 
