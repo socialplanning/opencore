@@ -140,4 +140,13 @@
      name="contact-site-admin"
      />
 
+  <browser:viewlet
+     for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+     class=".view.GetStarted"
+     name="opencore.getstarted"
+     manager="opencore.project.browser.interfaces.IProjectSidebar"
+     permission="zope2.View"
+     view=".search.HomeView"
+     />
+
 </configure>
