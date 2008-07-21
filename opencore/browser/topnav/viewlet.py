@@ -132,6 +132,7 @@ def not_part_of_project(viewlet):
         return True
     mem = mstool.getAuthenticatedMember()
     team = proj.getTeams()[0]
+    assert team is not None, "project %r has team None" % proj.getId()
     filter_states = tuple(team.getActiveStates()) + ('pending',)
     if mem.getId() in team.getMemberIdsByStates(filter_states):
         return False
