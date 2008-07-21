@@ -54,7 +54,7 @@ setup(
           'topp.utils>=0.3.1dev,==dev',
           'OpencoreRedirect>=0.4dev,==dev',
           'httplib2',
-          'plone.memoize',
+          'plone.memoize==1.0.4',
           'lxml>=2.0alpha5',
           'plone.mail',
           'plone.app.form',
