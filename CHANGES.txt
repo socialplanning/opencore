@@ -1,6 +1,15 @@
 0.12.1 (unreleased)
 ===================
 
+ * Added migrations/unmake-sites.py script to unmake the local sites at the
+   app root and the Plone site root.  Run this BEFORE updating to 
+   Plone 3-based opencore, version 0.13.  Do not run it under any other
+   circumstances. For more info, see:
+   https://svn.openplans.org/svn/opencore/trunk/docs/Plone2.5-Plone3-migration.txt
+   (rob)
+
+ * Peg plone.memoize to a release (slinkp)
+
  * Updated contact/wiki add tests to directly instantiate views (rmarianski)
 
 0.12.0 (2008-07-11)

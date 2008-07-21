@@ -1,6 +1,9 @@
 """
 Migration to unmake the local sites at the app root and the Plone site
 root.  Run this BEFORE updating to Plone 3-based opencore, version 0.13.
+
+DO NOT RUN THIS IF YOU ARE NOT ABOUT TO UPGRADE TO PLONE 3 AND OPENCORE 
+0.13 OR LATER!
 """
 
 from AccessControl.SecurityManagement import newSecurityManager
