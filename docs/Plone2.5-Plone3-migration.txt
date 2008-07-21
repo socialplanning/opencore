@@ -26,10 +26,10 @@ The long version:
 STEP 1: BEFORE YOU UPGRADE
 
 There is one tweak that must be done to the database before you
-upgrade the software.  OpenCore v0.12 comes with an 'unmake-sites.py'
+upgrade the software.  OpenCore v0.12.1 comes with an 'unmake-sites.py'
 script; you should run this using:
 
-$ zopectl run /path/to/unmake-sites.py
+$ zopectl run /path/to/opencore/migrations/unmake-sites.py
 
 If you forget to do this and try to use your database as-is with Zope
 2.10, everything will be broken and you'll see startup errors such as
