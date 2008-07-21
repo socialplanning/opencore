@@ -10,7 +10,7 @@
    you have to visit people/foo/delete) (slinkp) (trac feature #2223)
 
  * Zip file export view of project wiki pages (not linked to from
-   anywhere yet, you have to visit projects/foo/project-wiki-export.zip)
+   anywhere yet, you have to visit projects/foo/project-pages-export.zip)
    (slinkp)
 
  * Fixed #2010: Project contents form should use POST, not GET (slinkp)
