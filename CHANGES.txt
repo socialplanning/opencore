@@ -1,7 +1,14 @@
 0.13.0.dev (UNRELEASED)
 =======================
 
- * Add viewlet manger for data right before the end of the body tag (rmarianski)
+ * Code migrated to Zope 2.10 / Plone 3.0, older versions no longer supported.
+   This requires database migrations that cannot be undone, so make backups
+   and test thoroughly.  See
+https://svn.openplans.org/svn/opencore/trunk/docs/Plone2.5-Plone3-migration.txt
+   for more instructions.
+   (rafrombrc)
+
+ * Add viewlet manager for data right before the end of the body tag (rmarianski)
 
  * Update contact/wiki add unit tests to directly instantiate class (rmarianski)
 
@@ -15,9 +22,6 @@
  * add link on home page news header to news page (rmarianski)
 
  * uncomment getting started section of home page (rmarianski)
-
- * Code migrated to Zope 2.10 / Plone 3.0, older versions no longer supported
-   (rafrombrc)
 
 0.12.0 (2008-07-11)
 ===================
