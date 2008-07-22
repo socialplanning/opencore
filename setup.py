@@ -43,7 +43,7 @@ setup(
           'simplejson==1.7.3',
           'decorator==2.2.0',
           'feedparser==4.1',
-          'topp.featurelets>=0.2.2', # FIXME
+          'topp.featurelets==0.2.2',
           'topp.utils>=0.3.1dev,==dev', # FIXME
           'OpencoreRedirect==0.4.1',
           'httplib2==0.4.0',
