@@ -1,0 +1,16 @@
+<configure xmlns="http://namespaces.zope.org/zope">
+
+  <adapter
+    for="*"
+    provides="zope.traversing.interfaces.IPathAdapter"
+    factory=".utils.OpencoreTales"
+    name="opencore"
+    trusted="true"
+    />
+
+  <content class=".utils.OpencoreTales">               
+    <require permission="zope2.View"                   
+             attributes="setEngine pretty_date project_noun" />
+  </content> 
+
+</configure>

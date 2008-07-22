@@ -26,6 +26,9 @@ https://svn.openplans.org/svn/opencore/trunk/docs/Plone2.5-Plone3-migration.txt
  * Add viewlet manager hook for additional head elements in main template
    (rmarianski)
 
+ * Add opencore.tales which contains an opencore: syntax for
+   pretty_date and project_noun (rmarianski)
+
 0.12.0 (2008-07-11)
 ===================
 

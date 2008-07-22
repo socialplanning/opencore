@@ -17,6 +17,7 @@
   <include package="opencore.nui" />
   <include package="opencore.project" />
   <include package="opencore.listen" />
+  <include package="opencore.tales" />
   <include package="opencore.wordpress" />
   <include package="opencore.redirect" />
   <include package="opencore.utility" />
