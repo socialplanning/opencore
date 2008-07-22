@@ -8,11 +8,13 @@
    https://svn.openplans.org/svn/opencore/trunk/docs/Plone2.5-Plone3-migration.txt
    (rob)
 
- * Peg plone.memoize to a release (slinkp)
+ * Peg all opencore dependencies to specific releases (slinkp)
 
  * Updated contact/wiki add tests to directly instantiate views (rmarianski)
 
  * Textarea borders should be focused orange instead of lime (rmarianski)
+
+ * Output error messages for Supervisord
 
 0.12.0 (2008-07-11)
 ===================
