@@ -12,6 +12,8 @@
 
  * Updated contact/wiki add tests to directly instantiate views (rmarianski)
 
+ * Textarea borders should be focused orange instead of lime (rmarianski)
+
 0.12.0 (2008-07-11)
 ===================
 
