@@ -23,6 +23,9 @@ https://svn.openplans.org/svn/opencore/trunk/docs/Plone2.5-Plone3-migration.txt
 
  * uncomment getting started section of home page (rmarianski)
 
+ * Add viewlet manager hook for additional head elements in main template
+   (rmarianski)
+
 0.12.0 (2008-07-11)
 ===================
 
