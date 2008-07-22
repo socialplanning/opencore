@@ -12,6 +12,8 @@
 
  * Updated contact/wiki add tests to directly instantiate views (rmarianski)
 
+ * Correct condition on summary page lists blank slate (rmarianski)
+
  * Textarea borders should be focused orange instead of lime (rmarianski)
 
  * Output error messages for Supervisord

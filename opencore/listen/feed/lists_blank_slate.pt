@@ -1,6 +1,8 @@
 <div id="oc-feed-discussions" class="oc-widget oc-widget-feed oc-column">
   <h2 class="oc-feed-title">
-    <a tal:attributes="href context/link">Discussion</a>     
+    <a tal:attributes="href context/link"
+       tal:condition="not: view/is_blank">Discussion</a>     
+    <span tal:condition="view/is_blank">Discussion</span>
   </h2>	
   <div class="oc-blankSlate">
     <img src="/++resource++img/summaryicons/mailinglist.gif" />
