@@ -29,6 +29,8 @@ https://svn.openplans.org/svn/opencore/trunk/docs/Plone2.5-Plone3-migration.txt
  * Add opencore.tales which contains an opencore: syntax for
    pretty_date and project_noun (rmarianski)
 
+ * Output error messages for Supervisord
+
 0.12.0 (2008-07-11)
 ===================
 
