@@ -6,6 +6,8 @@
 
 
 We can read stuff from zope.conf's product-config directives.
+XXX this test fails if the user has modified their zope.conf.
+That's not very reliable...
 
    >>> print utils.product_config('email-confirmation', 'opencore.nui')
    True
