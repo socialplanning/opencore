@@ -220,10 +220,16 @@ class WikiEdit(WikiBase, OctopoLite):
         return object
 
     def _findUniqueTitle(self, title):
+        # FIXME: this method is stateless. if we passed in the list of
+        # titles, it could be a function and we could trivially
+        # unit-test it with no setup needed.
+        
         titles = [obj.Title() for obj in self.context.objectValues()]
  
         def getVersion(title, number):
             """returns the version string of a title"""
+            # FIXME: this could be unit-tested (with no setup!) if it
+            # wasn't a nested function for no reason.
             delimiter = ' v'
             try:
                 version = int(title.rsplit(delimiter, 1)[1])
