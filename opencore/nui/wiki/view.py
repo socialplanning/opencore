@@ -22,7 +22,6 @@ __replace_meta_content_type = re.compile(
 
 from lxml.html.clean import Cleaner
 from lxml.html.clean import _find_external_links
-from lxml.html import fromstring
 from lxml.html import tostring
 from opencore.interfaces.catalog import ILastModifiedAuthorId
 from topp.utils.pretty_date import prettyDate
