@@ -1,6 +1,7 @@
 from Products.CMFCore.utils import getToolByName
 from opencore.project.handler import _initialize_project
 from zope.app.event.objectevent import ObjectCreatedEvent
+from zope.app.container.contained import ObjectAddedEvent
 from zope.event import notify
 
 projects_map = {'p1':{'title':'Project One',},
@@ -114,6 +115,7 @@ def create_member(context, mem_id, out=None, **mem_data):
 
     mem.reindexObject()
     notify(ObjectCreatedEvent(mem))
+    notify(ObjectAddedEvent(mem, newParent=mdc, newName=mem_id))
     ms_tool = getToolByName(context, 'portal_membership')
     ms_tool.createMemberArea(mem.getId())
     return mem
