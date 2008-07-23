@@ -220,7 +220,7 @@ class WikiEdit(WikiBase, OctopoLite):
         return object
 
     def _findUniqueTitle(self, title):
-        titles = [self.context._getOb(i).Title() for i in self.context.objectIds()]
+        titles = [obj.Title() for obj in self.context.objectValues()]
  
         def getVersion(title, number):
             """returns the version string of a title"""
