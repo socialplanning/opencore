@@ -10,6 +10,9 @@
 
  * Peg all opencore dependencies to specific releases (slinkp)
 
+ * Avoid site error on wiki edit if catalog has stale entries for attachments.
+   (slinkp)
+
  * Force project content delete to be done via POST; if it's a GET,
    redirect to a confirmation form. Fixes #2010. (slinkp)
 

@@ -15,6 +15,7 @@ import simplejson
 from lxml import etree # no longer necessary after lxml.html trunk gets released
 from lxml.html import fromstring # no longer necessary after lxml.html trunk gets released
 import copy # no longer necessary after lxml.html trunk gets release
+import logging
 import re
 __replace_meta_content_type = re.compile(
     r'<meta http-equiv="Content-Type".*?>').sub  # no longer necessary after lxml.html trunk gets release
@@ -27,6 +28,7 @@ from lxml.html import tostring
 from opencore.interfaces.catalog import ILastModifiedAuthorId
 from topp.utils.pretty_date import prettyDate
 
+logger = logging.getLogger("opencore.nui.wiki.view")
 
 def xinha_to_wicked(html):
     """
@@ -295,11 +297,23 @@ class WikiEdit(WikiBase, OctopoLite):
     def display_delete_for(self, attachment):
         """
         decides whether to show the delete button
-        next to an attachment. 
+        next to an attachment. attachment may be a FileAttachment instance,
+        or a catalog brain representing one.
         """
-
-        # XXX faster way? we know the id...
-        att = self.context._getOb(attachment.id)
+        try:
+            att = self.context[attachment.id]
+        except KeyError:
+            # This likely means the catalog is out of sync and has
+            # ghosts.  Rare, but has happened eg. when deleting a
+            # project via the ZMI to re-import it from a backup.  If
+            # the backup didn't contain a certain attachment, users
+            # would then get a site error when trying to see use wiki
+            # page edit form.  Prevent that.
+            logger.error("Catalog out of date? Could not retrieve "
+                         "attachment %r on context %r"
+                         % (attachment.id,
+                            '/'.join(self.context.getPhysicalPath())))
+            return False
         return self.get_tool('portal_membership').checkPermission('Delete objects', att)
 
     @action('delete-attachment')
