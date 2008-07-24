@@ -10,6 +10,9 @@
 
  * Peg all opencore dependencies to specific releases (slinkp)
 
+ * Force project content delete to be done via POST; if it's a GET,
+   redirect to a confirmation form. Fixes #2010. (slinkp)
+
  * Updated contact/wiki add tests to directly instantiate views (rmarianski)
 
  * Correct condition on summary page lists blank slate (rmarianski)

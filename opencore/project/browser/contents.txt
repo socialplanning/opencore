@@ -174,13 +174,14 @@ We can also issue the request asynchronously::
     >>> page.Title()
     'Hume'
 
-Deletes work the same way::
+Deletes work the same way, but have to be done via POST::
 
     >>> utils.clear_all_memos(view)
     >>> request = self.portal.REQUEST
     >>> form = {'task|new1|delete': 'La-La',
     ...         'item_type': 'pages',
     ...         'mode': 'async'}
+    >>> request.environ['REQUEST_METHOD'] = 'POST'
     >>> request.form = form
 
 The form handler should return the ids of all deleted objects, which

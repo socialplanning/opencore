@@ -10,4 +10,11 @@ notfind 'different att name'
 fv files_contents 5 'different att name'
 submit Save
 find 'different att name'
+
 follow Delete
+url ${base_url}/projects/${projname}/delete-form
+fv confirm-delete delete delete
+submit
+url ${base_url}/projects/${projname}/contents
+notfind 'different att name'
+
