@@ -1,4 +1,4 @@
-0.12.1 (unreleased)
+0.12.1 (2008-07-24)
 ===================
 
  * Added migrations/unmake-sites.py script to unmake the local sites at the
