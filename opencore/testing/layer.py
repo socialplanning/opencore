@@ -126,7 +126,7 @@ class OpencoreContent(OpenPlansLayer):
         monkey_proj_noun('project')
 
         # create and setup the rest of the test content
-        create_test_content(portal)
+        create_test_content(portal, all_events=False)
         add_redirection_hooks(portal.projects)
         txn.commit()
 

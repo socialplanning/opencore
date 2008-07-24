@@ -46,7 +46,8 @@ members_map = {'m1':{'fullname':'Member One',
 
 
 
-def create_test_content(self, p_map=projects_map, m_map=members_map):
+def create_test_content(self, p_map=projects_map, m_map=members_map,
+                        all_events=True):
     """ populates an openplans site w/ dummy test content """
     portal = getToolByName(self, 'portal_url').getPortalObject()
 
@@ -71,7 +72,8 @@ def create_test_content(self, p_map=projects_map, m_map=members_map):
         out.append('Project %s added' % p_id)
 
     for mem_id, mem_data in m_map.items():
-        member = create_member(self, mem_id, **mem_data)
+        member = create_member(self, mem_id, all_events=all_events,
+                               **mem_data)
         out.append('Member %s added' % mem_id)
         projdata = mem_data.get('projects', {})
         for p_id, p_roles in projdata.items():
@@ -92,7 +94,8 @@ def create_test_content(self, p_map=projects_map, m_map=members_map):
     wftool.updateRoleMappings()
     return "\n".join(out)
 
-def create_member(context, mem_id, out=None, **mem_data):
+def create_member(context, mem_id, all_events=True,
+                  out=None, **mem_data):
     """creates and confirms a member"""
     mdc = getToolByName(context, 'portal_memberdata')
 
@@ -115,7 +118,8 @@ def create_member(context, mem_id, out=None, **mem_data):
 
     mem.reindexObject()
     notify(ObjectCreatedEvent(mem))
-    notify(ObjectAddedEvent(mem, newParent=mdc, newName=mem_id))
+    if all_events:
+        notify(ObjectAddedEvent(mem, newParent=mdc, newName=mem_id))
     ms_tool = getToolByName(context, 'portal_membership')
     ms_tool.createMemberArea(mem.getId())
     return mem
