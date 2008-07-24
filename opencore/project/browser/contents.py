@@ -12,6 +12,7 @@ from opencore.utility.interfaces import IProvideSiteConfig
 from plone.memoize.instance import memoize, memoizedproperty
 from opencore.browser import tal
 from zope.component import getUtility
+import ZTUtils
 
 _marker = object()
 
@@ -19,6 +20,7 @@ _marker = object()
 class ProjectContentsView(ProjectBaseView, OctopoLite):
 
     template = ZopeTwoPageTemplateFile('contents.pt')
+
     _portal_type = {'pages': "Document",
                     'lists': "Open Mailing List",
                     'files': ("FileAttachment", "Image")
@@ -251,6 +253,15 @@ class ProjectContentsView(ProjectBaseView, OctopoLite):
 
     @action('delete')
     def delete_items(self, sources, fields=None):
+        if self.request.environ['REQUEST_METHOD'] != 'POST':
+            # Only non-javascript clients should see this.
+            # Send them to a form they can POST from.
+            # We can't just call & return the form; octopus hijacks the output.
+            url = '%s/delete-form/?%s' % (self.context.absolute_url(),
+                                          ZTUtils.make_query(sources=sources))
+            self.request.response.redirect(url)
+            return None
+            
         item_type = self.request.form.get("item_type")
 
         if item_type == 'pages' and PROJ_HOME in sources:

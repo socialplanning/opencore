@@ -8,6 +8,9 @@ https://svn.openplans.org/svn/opencore/trunk/docs/Plone2.5-Plone3-migration.txt
    for more instructions.
    (rafrombrc)
 
+ * Force project content delete to be done via POST; if it's a GET,
+   redirect to a confirmation form. Fixes #2010. (slinkp)
+
  * Avoid site error on wiki edit if catalog has stale entries for attachments.
    (slinkp)
 

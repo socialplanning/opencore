@@ -111,6 +111,15 @@
      template="delete.pt"
      />
 
+  <!-- form to redirect to if deletion is done with a GET -->
+  <browser:page
+     for="opencore.interfaces.IProject"
+     class=".preferences.ProjectDeletionView"
+     permission="cmf.ModifyPortalContent"
+     name="delete-form"
+     template="delete-form.pt"
+     />
+
   <browser:page
      for="opencore.interfaces.IProject"
      class=".team.ProjectTeamView"
