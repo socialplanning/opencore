@@ -49,3 +49,6 @@ class IExtraBody(IViewletManager):
 
 class ISidebar(IViewletManager):
     """Sidebar settings"""
+
+class IEditForm(IViewletManager):
+    """Settings you can modify on a piece of content"""

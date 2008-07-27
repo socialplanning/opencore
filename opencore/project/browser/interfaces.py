@@ -21,5 +21,3 @@ class IProjectListingAllow(Interface):
 class ISummaryFeeds(IViewletManager):
     """Feeds for the summary page"""
 
-class IProjectPrefs(IViewletManager):
-    """Settings you can modify on a project"""
