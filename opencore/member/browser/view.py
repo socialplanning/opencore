@@ -204,7 +204,7 @@ class ProfileEditView(ProfileView, OctopoLite):
 
         # Do validation from any plugins.
         viewlet_mgr = getMultiAdapter((self.context, self.request, self),
-                                      name='opencore.profile_edit_viewlets')
+                                      name='opencore.editform')
         if not hasattr(viewlet_mgr, 'viewlets'):
             viewlet_mgr.update()
         for viewlet in viewlet_mgr.viewlets:
