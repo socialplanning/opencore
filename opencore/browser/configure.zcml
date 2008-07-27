@@ -141,7 +141,6 @@
      name="opencore.sidebar"
      provides=".interfaces.ISidebar"
      template="summary.pt"
-     class=".viewletmanagers.SortedViewletManager"
      permission="zope2.View"
      />
 

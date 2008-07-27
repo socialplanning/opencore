@@ -1,6 +1,6 @@
 <div class="oc-columnGroup">
 
   <tal:feeds repeat="viewlet options/viewlets"
-             content="structure viewlet/render" />
+             content="structure viewlet" />
 
 </div>

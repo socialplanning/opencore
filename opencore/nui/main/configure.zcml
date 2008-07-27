@@ -147,6 +147,7 @@
      manager="opencore.browser.interfaces.ISidebar"
      permission="zope2.View"
      view=".search.HomeView"
+     template="get-started.pt"
      />
 
 </configure>

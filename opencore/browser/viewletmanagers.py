@@ -29,6 +29,7 @@ class SortedViewletManager(ViewletManagerBase):
         """Sort the viewlets according to their sort_order attribute"""
         return sorted(viewlets, key=lambda x:int(x[1].sort_order))
 
+    
 class JSViewletManager(SortedViewletManager):
     """sorted viewlet manager for project-related javascript """
 
