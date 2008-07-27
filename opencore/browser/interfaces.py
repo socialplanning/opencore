@@ -46,3 +46,6 @@ class IExtraHead(IViewletManager):
 
 class IExtraBody(IViewletManager):
     """Viewlet manager for adding additional content at the end of the body"""
+
+class ISidebar(IViewletManager):
+    """Sidebar settings"""

@@ -23,6 +23,3 @@ class ISummaryFeeds(IViewletManager):
 
 class IProjectPrefs(IViewletManager):
     """Settings you can modify on a project"""
-
-class IProjectSidebar(IViewletManager):
-    """Sidebar settings"""

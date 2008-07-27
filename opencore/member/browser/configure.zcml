@@ -143,12 +143,4 @@
      permission="zope2.View"
      />
 
-  <browser:viewletManager
-     name="opencore.profile_edit_sidebar"
-     provides=".interfaces.IMemberProfileSidebar"
-     class=".manager.MemberPrefsManager"
-     permission="zope2.View"
-     />
-
-     
 </configure>
