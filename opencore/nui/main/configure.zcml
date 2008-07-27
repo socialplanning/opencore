@@ -144,7 +144,7 @@
      for="Products.CMFPlone.interfaces.IPloneSiteRoot"
      class=".view.GetStarted"
      name="opencore.getstarted"
-     manager="opencore.project.browser.interfaces.IProjectSidebar"
+     manager="opencore.browser.interfaces.ISidebar"
      permission="zope2.View"
      view=".search.HomeView"
      />
