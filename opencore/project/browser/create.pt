@@ -98,9 +98,10 @@
             </fieldset>
           </fieldset>
 
-	  <fieldset class="oc-boxy"
-              tal:content="structure provider:opencore.proj_create_viewlets">
-            More project settings go here, from viewlets</fieldset>
+	  <tal:stuff
+              replace="structure provider:opencore.editform">
+            More project settings go here, from viewlets
+          </tal:stuff>
 
           <fieldset>
             <ul class="oc-actions">
