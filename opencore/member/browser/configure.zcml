@@ -128,9 +128,9 @@
 
   <!-- Viewlet managers allow plugins to add stuff to these forms -->
   <browser:viewletManager
-     name="opencore.profile_edit_viewlets"
-     provides=".interfaces.IMemberProfilePrefs"
-     class=".manager.MemberPrefsManager"
+     name="opencore.editform"
+     for="opencore.interfaces.member.IMemberFolder"
+     provides="opencore.project.browser.interfaces.IProjectPrefs"
      permission="zope2.View"
      />
 

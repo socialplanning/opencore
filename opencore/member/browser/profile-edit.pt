@@ -25,7 +25,7 @@
                                     class python: request.form.get('field') == 'fullname' and default or nothing" />
                 </li>
 
-		<tal:viewlets define="viewlets provider:opencore.profile_edit_viewlets"> <!-- hello viewlets -->
+		<tal:viewlets define="viewlets provider:opencore.editform"> <!-- hello viewlets -->
                 <li tal:condition="python:viewlets.strip()"
                     tal:content="structure viewlets">
                       geo viewlet stuff goes here!
