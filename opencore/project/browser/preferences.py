@@ -113,7 +113,7 @@ class ProjectPreferencesView(ProjectBaseView, OctopoLite):
         # need to validate *everything* first prevents me from doing
         # that. Maybe this view should be re-architected.
         viewlet_mgr = getMultiAdapter((self.context, self.request, self),
-                                      name='opencore.proj_prefs')
+                                      name='opencore.editform')
         if not hasattr(viewlet_mgr, 'viewlets'):
             # This means it hasn't had update() called yet. only do that once.
             viewlet_mgr.update()
