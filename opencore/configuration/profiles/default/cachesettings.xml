@@ -1,0 +1,763 @@
+<?xml version="1.0"?>
+<object name="portal_cache_settings" portal_type="CacheTool">
+ <property name="enabled">False</property>
+ <property name="activePolicyId">default-cache-policy-v1.2</property>
+ <property name="proxyPurgeConfig">vhm-rewrite</property>
+ <property name="domains">
+  <element value=""/>
+ </property>
+ <property name="squidURLs">
+  <element value=""/>
+ </property>
+ <property name="gzip">accept-encoding</property>
+ <property name="varyHeader">Accept-Encoding</property>
+ <object name="default-cache-policy-v1.2" portal_type="CachePolicy">
+  <property name="title">Default Cache Policy (v1.2)</property>
+  <object name="rules" portal_type="RuleFolder">
+   <object name="httpcache" portal_type="PolicyHTTPCacheManagerCacheRule">
+    <property name="title">HTTP Cache</property>
+    <property
+       name="description">Rule for content associated with HTTPCache.  This content is cached in the proxy and in the browser.  ETags are not useful because these files have no personalization.</property>
+    <property name="cacheManager">HTTPCache</property>
+    <property name="types"/>
+    <property name="ids"/>
+    <property name="cacheStop"/>
+   </object>
+   <object name="plone-content-types" portal_type="ContentCacheRule">
+    <property name="title">Content</property>
+    <property
+       name="description">Rule for views of plone content types.  Anonymous users are served content object views from memory, not the proxy cache (because the navigation tree displayed might change without triggering a proxy cache purge).  Responses for authenticated users are not cached in memory or proxy (because caching personalized pages is inefficient) but an ETag is added to enable proper 304 responses.  Member ID is used in the ETag because content is personalized; the time of the last catalog change is included so that the navigation tree stays up to date.</property>
+    <property name="contentTypes">
+     <element value="News Item"/>
+     <element value="Document"/>
+    </property>
+    <property name="defaultView">True</property>
+    <property name="templates">
+     <element value="view"/>
+    </property>
+    <property
+       name="purgeExpression">python:object.getImageAndFilePurgeUrls()</property>
+    <property
+       name="varyExpression">python: rule.portal_cache_settings.getVaryHeader()</property>
+    <property
+       name="lastModifiedExpression">python:object.modified()</property>
+    <property name="headerSetIdExpression"></property>
+    <property name="headerSetIdAuth">cache-with-etag</property>
+    <property name="headerSetIdAnon">cache-in-proxy-10-minutes</property>
+    <property name="predicateExpression"></property>
+    <property name="cacheStop">
+     <element value="portal_status_message"/>
+     <element value="statusmessages"/>
+     <element value="SearchableText"/>
+    </property>
+    <property name="etagExpression"></property>
+    <property name="etagTimeout">3600</property>
+    <property name="etagRequestValues">
+     <element value="month"/>
+     <element value="year"/>
+     <element value="orig_query"/>
+    </property>
+    <property name="etagComponents">
+     <element value="member"/>
+     <element value="skin"/>
+     <element value="language"/>
+     <element value="gzip"/>
+     <element value="last_modified"/>
+    </property>
+   </object>
+   <object name="plone-containers" portal_type="ContentCacheRule">
+    <property name="title">Containers</property>
+    <property
+       name="description">Rule for views of Plone containers.  Anonymous users are served pages from memory, not the proxy cache (because we can't easily purge container views when they change since container views depend on all of their contained objects, and contained objects do not necessarily purge their containers' views when they change).  Responses for authenticated users are not cached in memory or proxy (because caching personalized pages is inefficient) but an ETag is added to enable proper 304 responses.  Member ID is used in the ETag because content is personalized; the time of the last catalog change is included so that the contents and the navigation tree stays up to date.</property>
+    <property name="contentTypes">
+     <element value="Folder"/>
+     <element value="Large Plone Folder"/>
+     <element value="OpenProject"/>
+     <element value="Plone Site"/>
+     <element value="Topic"/>
+    </property>
+    <property name="defaultView">True</property>
+    <property name="templates">
+     <element value="summary"/>
+     <element value="view"/>
+    </property>
+    <property name="purgeExpression"></property>
+    <property
+       name="varyExpression">python: rule.portal_cache_settings.getVaryHeader()</property>
+    <property
+       name="lastModifiedExpression">python:object.modified()</property>
+    <property name="headerSetIdExpression"></property>
+    <property name="headerSetIdAuth">cache-with-etag</property>
+    <property name="headerSetIdAnon">cache-in-proxy-10-minutes</property>
+    <property name="predicateExpression"></property>
+    <property name="cacheStop">
+     <element value="portal_status_message"/>
+     <element value="statusmessages"/>
+     <element value="SearchableText"/>
+    </property>
+    <property
+       name="etagExpression">python:request.get('__cp',None) is not None</property>
+    <property name="etagTimeout">3600</property>
+    <property name="etagRequestValues">
+     <element value="b_start"/>
+     <element value="month"/>
+     <element value="year"/>
+     <element value="orig_query"/>
+    </property>
+    <property name="etagComponents">
+     <element value="member"/>
+     <element value="skin"/>
+     <element value="language"/>
+     <element value="gzip"/>
+     <element value="catalog_modified"/>
+    </property>
+   </object>
+   <object name="plone-templates" portal_type="TemplateCacheRule">
+    <property name="title">Templates</property>
+    <property
+       name="description">Rule for various non-form templates.  Anonymous users are served pages from memory, not the proxy cache (because some of these templates depend on catalog queries).  Responses for authenticated users are not cached in memory or proxy (because caching personalized pages is inefficient) but an ETag is added to enable proper 304 responses.  Member ID is used in the ETag because content is personalized; the time of the last catalog change is included so that the contents and the navigation tree stays up to date.</property>
+    <property name="templates"/>
+    <property
+       name="varyExpression">python: rule.portal_cache_settings.getVaryHeader()</property>
+    <property
+       name="lastModifiedExpression">python:object.modified()</property>
+    <property name="headerSetIdExpression"></property>
+    <property name="headerSetIdAuth">cache-with-etag</property>
+    <property name="headerSetIdAnon">cache-in-memory</property>
+    <property name="predicateExpression"></property>
+    <property name="cacheStop">
+     <element value="portal_status_message"/>
+     <element value="statusmessages"/>
+     <element value="SearchableText"/>
+    </property>
+    <property name="etagExpression"></property>
+    <property name="etagTimeout">3600</property>
+    <property name="etagRequestValues">
+     <element value="month"/>
+     <element value="year"/>
+     <element value="orig_query"/>
+    </property>
+    <property name="etagComponents">
+     <element value="member"/>
+     <element value="skin"/>
+     <element value="language"/>
+     <element value="gzip"/>
+     <element value="catalog_modified"/>
+    </property>
+   </object>
+   <object name="plone-rss" portal_type="TemplateCacheRule">
+    <property name="title">RSS</property>
+    <property
+       name="description">Rule for RSS feeds.  Anonymous queries are cached in proxy.</property>
+    <property name="templates"/>
+    <property
+       name="varyExpression">python: rule.portal_cache_settings.getVaryHeader()</property>
+    <property
+       name="lastModifiedExpression">python:object.modified()</property>
+    <property name="headerSetIdExpression"></property>
+    <property name="headerSetIdAuth">cache-with-etag</property>
+    <property name="headerSetIdAnon">cache-in-proxy-1-hour</property>
+    <property name="predicateExpression"></property>
+    <property name="cacheStop"/>
+    <property name="etagExpression"></property>
+    <property name="etagRequestValues">
+     <element value="SearchableText"/>
+    </property>
+    <property name="etagComponents">
+     <element value="member"/>
+     <element value="skin"/>
+     <element value="language"/>
+     <element value="gzip"/>
+     <element value="catalog_modified"/>
+    </property>
+   </object>
+   <object name="resource-registries"
+      portal_type="PolicyHTTPCacheManagerCacheRule">
+    <property name="title">ResourceRegistry resources</property>
+    <property
+       name="description">Rule for CSS, JS, and KSS generated by ResourceRegistries.  These files are cached "forever" (1 year) in proxy caches and in browsers.  There is no need to purge these files because when they are changed and saved in portal_css/portal_js, their file names change.  ETags are not useful because these files have no personalization.</property>
+    <property name="cacheManager">CacheSetup_OFSCache</property>
+    <property name="types">
+     <element value="File"/>
+    </property>
+    <property name="ids"/>
+    <property name="cacheStop"/>
+   </object>
+   <object name="downloads" portal_type="PolicyHTTPCacheManagerCacheRule">
+    <property name="title">Files and Images</property>
+    <property
+       name="description">Rule for ATFile and ATImage downloads.  Files that are viewable by Anonymous users are cached in the proxy cache.  ETags are not useful because these files have no personalization.</property>
+    <property name="cacheManager">CacheSetup_OFSCache</property>
+    <property name="types">
+     <element value="FileAttachment"/>
+     <element value="File"/>
+     <element value="Image"/>
+    </property>
+    <property name="ids"/>
+    <property name="cacheStop"/>
+   </object>
+   <object name="dtml-css" portal_type="TemplateCacheRule">
+    <property name="title">DTML CSS</property>
+    <property
+       name="description">Rule for css files generated with DTML.  These files will be cached in the browser for 24 hours.</property>
+    <property name="templates">
+     <element value="IEFixes.css"/>
+    </property>
+    <property name="varyExpression">string:</property>
+    <property
+       name="lastModifiedExpression">python:object.modified()</property>
+    <property name="headerSetIdExpression"></property>
+    <property name="headerSetIdAuth">cache-in-browser-24-hours</property>
+    <property name="headerSetIdAnon">cache-in-browser-24-hours</property>
+    <property name="predicateExpression"></property>
+    <property name="cacheStop"/>
+    <property name="etagExpression"></property>
+    <property name="etagRequestValues"/>
+    <property name="etagComponents"/>
+   </object>
+  </object>
+  <object name="headersets" portal_type="HeaderSetFolder">
+   <object name="no-cache" portal_type="HeaderSet">
+    <property name="title">No cache</property>
+    <property
+       name="description">Should not be cached in proxy.  Browser cache should revalidate every time.</property>
+    <property name="pageCache">False</property>
+    <property name="lastModified">yes</property>
+    <property name="etag">False</property>
+    <property name="enable304s">False</property>
+    <property name="vary">True</property>
+    <property name="maxAge">0</property>
+    <property name="sMaxAge">0</property>
+    <property name="mustRevalidate">True</property>
+    <property name="proxyRevalidate">False</property>
+    <property name="noCache">False</property>
+    <property name="noStore">False</property>
+    <property name="public">False</property>
+    <property name="private">True</property>
+    <property name="noTransform">False</property>
+   </object>
+   <object name="cache-in-memory" portal_type="HeaderSet">
+    <property name="title">Cache in memory</property>
+    <property
+       name="description">Page should be cached in memory on the server.  Page should not be cached in a proxy cache but may be conditionally cached in the browser.  The browser should validate the page's ETag before displaying a cached page.</property>
+    <property name="pageCache">True</property>
+    <property name="lastModified">delete</property>
+    <property name="etag">True</property>
+    <property name="enable304s">True</property>
+    <property name="vary">True</property>
+    <property name="maxAge">0</property>
+    <property name="sMaxAge">0</property>
+    <property name="mustRevalidate">True</property>
+    <property name="proxyRevalidate">False</property>
+    <property name="noCache">False</property>
+    <property name="noStore">False</property>
+    <property name="public">False</property>
+    <property name="private">True</property>
+    <property name="noTransform">False</property>
+   </object>
+   <object name="cache-with-etag" portal_type="HeaderSet">
+    <property name="title">Cache with etag</property>
+    <property
+       name="description">Page should not be cached in a proxy cache but may be conditionally cached in the browser.  The browser should validate the page's ETag before displaying a cached page.</property>
+    <property name="pageCache">False</property>
+    <property name="lastModified">delete</property>
+    <property name="etag">True</property>
+    <property name="enable304s">True</property>
+    <property name="vary">True</property>
+    <property name="maxAge">0</property>
+    <property name="sMaxAge">0</property>
+    <property name="mustRevalidate">True</property>
+    <property name="proxyRevalidate">False</property>
+    <property name="noCache">False</property>
+    <property name="noStore">False</property>
+    <property name="public">False</property>
+    <property name="private">True</property>
+    <property name="noTransform">False</property>
+   </object>
+   <object name="cache-with-last-modified" portal_type="HeaderSet">
+    <property name="title">Cache with last modified</property>
+    <property
+       name="description">File should not be cached in a proxy cache but may be conditionally cached in the browser.  The browser should validate the file's Last-Modified time before displaying a cached file.</property>
+    <property name="pageCache">False</property>
+    <property name="lastModified">yes</property>
+    <property name="etag">False</property>
+    <property name="enable304s">True</property>
+    <property name="vary">True</property>
+    <property name="maxAge">0</property>
+    <property name="sMaxAge">0</property>
+    <property name="mustRevalidate">True</property>
+    <property name="proxyRevalidate">False</property>
+    <property name="noCache">False</property>
+    <property name="noStore">False</property>
+    <property name="public">False</property>
+    <property name="private">True</property>
+    <property name="noTransform">False</property>
+   </object>
+   <object name="cache-in-proxy-1-hour" portal_type="HeaderSet">
+    <property name="title">Cache in proxy cache for 1 hour</property>
+    <property
+       name="description">Should be cached in both proxy and browser.  Proxy should revalidate after 1 hour.  Browser should revalidate immediately.</property>
+    <property name="pageCache">False</property>
+    <property name="lastModified">yes</property>
+    <property name="etag">False</property>
+    <property name="enable304s">False</property>
+    <property name="vary">True</property>
+    <property name="maxAge">0</property>
+    <property name="sMaxAge">3600</property>
+    <property name="mustRevalidate">True</property>
+    <property name="proxyRevalidate">False</property>
+    <property name="noCache">False</property>
+    <property name="noStore">False</property>
+    <property name="public">False</property>
+    <property name="private">False</property>
+    <property name="noTransform">False</property>
+   </object>
+   <object name="cache-in-proxy-24-hours" portal_type="HeaderSet">
+    <property name="title">Cache in proxy cache for 24 hours</property>
+    <property
+       name="description">Should be cached in both proxy and browser.  Proxy should revalidate after 24 hours.  Browser should revalidate immediately</property>
+    <property name="pageCache">False</property>
+    <property name="lastModified">yes</property>
+    <property name="etag">False</property>
+    <property name="enable304s">False</property>
+    <property name="vary">True</property>
+    <property name="maxAge">0</property>
+    <property name="sMaxAge">86400</property>
+    <property name="mustRevalidate">True</property>
+    <property name="proxyRevalidate">True</property>
+    <property name="noCache">False</property>
+    <property name="noStore">False</property>
+    <property name="public">False</property>
+    <property name="private">False</property>
+    <property name="noTransform">False</property>
+   </object>
+   <object name="cache-in-browser-1-hour" portal_type="HeaderSet">
+    <property name="title">Cache in browser for 1 hour</property>
+    <property
+       name="description">Should be cached in both proxy and browser.  Both should revalidate after 1 hour.</property>
+    <property name="pageCache">False</property>
+    <property name="lastModified">yes</property>
+    <property name="etag">False</property>
+    <property name="enable304s">False</property>
+    <property name="vary">True</property>
+    <property name="maxAge">3600</property>
+    <property name="sMaxAge">3600</property>
+    <property name="mustRevalidate">True</property>
+    <property name="proxyRevalidate">True</property>
+    <property name="noCache">False</property>
+    <property name="noStore">False</property>
+    <property name="public">True</property>
+    <property name="private">False</property>
+    <property name="noTransform">False</property>
+   </object>
+   <object name="cache-in-browser-24-hours" portal_type="HeaderSet">
+    <property name="title">Cache in browser for 24 hours</property>
+    <property
+       name="description">Should be cached in both proxy and browser.  Both should revalidate after 24 hours.</property>
+    <property name="pageCache">False</property>
+    <property name="lastModified">yes</property>
+    <property name="etag">False</property>
+    <property name="enable304s">False</property>
+    <property name="vary">True</property>
+    <property name="maxAge">86400</property>
+    <property name="sMaxAge">86400</property>
+    <property name="mustRevalidate">True</property>
+    <property name="proxyRevalidate">True</property>
+    <property name="noCache">False</property>
+    <property name="noStore">False</property>
+    <property name="public">True</property>
+    <property name="private">False</property>
+    <property name="noTransform">False</property>
+   </object>
+   <object name="cache-in-browser-forever" portal_type="HeaderSet">
+    <property name="title">Cache in browser forever</property>
+    <property
+       name="description">Should be cached in both proxy and browser.  Both should revalidate after 1 year.</property>
+    <property name="pageCache">False</property>
+    <property name="lastModified">yes</property>
+    <property name="etag">False</property>
+    <property name="enable304s">False</property>
+    <property name="vary">True</property>
+    <property name="maxAge">31536000</property>
+    <property name="sMaxAge">31536000</property>
+    <property name="mustRevalidate">False</property>
+    <property name="proxyRevalidate">False</property>
+    <property name="noCache">False</property>
+    <property name="noStore">False</property>
+    <property name="public">True</property>
+    <property name="private">False</property>
+    <property name="noTransform">False</property>
+   </object>
+   <object name="cache-in-proxy-10-minutes" portal_type="HeaderSet">
+    <property name="title">Cache in proxy cache for 10 minutes</property>
+    <property
+       name="description">Should be cached in both proxy and browser.  Proxy should revalidate after 10 minutes.  Browser should revalidate immediately.</property>
+    <property name="pageCache">True</property>
+    <property name="lastModified">yes</property>
+    <property name="etag">False</property>
+    <property name="enable304s">False</property>
+    <property name="vary">True</property>
+    <property name="maxAge">0</property>
+    <property name="sMaxAge">600</property>
+    <property name="mustRevalidate">True</property>
+    <property name="proxyRevalidate">False</property>
+    <property name="noCache">False</property>
+    <property name="noStore">False</property>
+    <property name="public">False</property>
+    <property name="private">False</property>
+    <property name="noTransform">False</property>
+   </object>
+   <object name="cache-in-browser-10-minutes" portal_type="HeaderSet">
+    <property name="title">Cache in browser for 10 minutes</property>
+    <property
+       name="description">Should be cached in both proxy and browser.  Both should revalidate after 10 minutes.</property>
+    <property name="pageCache">False</property>
+    <property name="lastModified">yes</property>
+    <property name="etag">False</property>
+    <property name="enable304s">False</property>
+    <property name="vary">True</property>
+    <property name="maxAge">600</property>
+    <property name="sMaxAge">600</property>
+    <property name="mustRevalidate">True</property>
+    <property name="proxyRevalidate">True</property>
+    <property name="noCache">False</property>
+    <property name="noStore">False</property>
+    <property name="public">True</property>
+    <property name="private">False</property>
+    <property name="noTransform">False</property>
+   </object>
+  </object>
+ </object>
+ <object name="no-proxy-cache-v1.2" portal_type="CachePolicy">
+  <property name="title">No Proxy Cache (v1.2)</property>
+  <object name="rules" portal_type="RuleFolder">
+   <object name="httpcache" portal_type="PolicyHTTPCacheManagerCacheRule">
+    <property
+       name="description">Rule for content associated with HTTPCache.  This content is cached in the proxy and in the browser.  ETags are not useful because these files have no personalization.</property>
+    <property name="cacheManager">HTTPCache</property>
+    <property name="types"/>
+    <property name="ids"/>
+    <property name="cacheStop"/>
+   </object>
+   <object name="plone-content-types" portal_type="ContentCacheRule">
+    <property
+       name="description">Rule for views of plone content types.  Anonymous users are served content object views from memory, not the proxy cache (because the navigation tree displayed might change without triggering a proxy cache purge).  Responses for authenticated users are not cached in memory or proxy (because caching personalized pages is inefficient) but an ETag is added to enable proper 304 responses.  Member ID is used in the ETag because content is personalized; the time of the last catalog change is included so that the navigation tree stays up to date.</property>
+    <property name="contentTypes">
+     <element value="Document"/>
+     <element value="Event"/>
+     <element value="Link"/>
+     <element value="News Item"/>
+     <element value="Image"/>
+     <element value="File"/>
+    </property>
+    <property name="defaultView">True</property>
+    <property name="templates"/>
+    <property
+       name="purgeExpression">python:object.getImageAndFilePurgeUrls()</property>
+    <property
+       name="varyExpression">python: rule.portal_cache_settings.getVaryHeader()</property>
+    <property
+       name="lastModifiedExpression">python:object.modified()</property>
+    <property name="headerSetIdExpression"></property>
+    <property name="headerSetIdAuth">cache-with-etag</property>
+    <property name="headerSetIdAnon">cache-in-memory</property>
+    <property name="predicateExpression"></property>
+    <property name="cacheStop">
+     <element value="portal_status_message"/>
+     <element value="statusmessages"/>
+     <element value="SearchableText"/>
+    </property>
+    <property name="etagExpression"></property>
+    <property name="etagTimeout">3600</property>
+    <property name="etagRequestValues">
+     <element value="month"/>
+     <element value="year"/>
+     <element value="orig_query"/>
+    </property>
+    <property name="etagComponents">
+     <element value="member"/>
+     <element value="catalog_modified"/>
+     <element value="language"/>
+     <element value="gzip"/>
+     <element value="skin"/>
+    </property>
+   </object>
+   <object name="plone-containers" portal_type="ContentCacheRule">
+    <property
+       name="description">Rule for views of Plone containers.  Anonymous users are served pages from memory, not the proxy cache (because we can't easily purge container views when they change since container views depend on all of their contained objects, and contained objects do not necessarily purge their containers' views when they change).  Responses for authenticated users are not cached in memory or proxy (because caching personalized pages is inefficient) but an ETag is added to enable proper 304 responses.  Member ID is used in the ETag because content is personalized; the time of the last catalog change is included so that the contents and the navigation tree stays up to date.</property>
+    <property name="contentTypes">
+     <element value="Topic"/>
+     <element value="Folder"/>
+     <element value="Plone Site"/>
+     <element value="Large Plone Folder"/>
+    </property>
+    <property name="defaultView">True</property>
+    <property name="templates">
+     <element value="folder_contents"/>
+    </property>
+    <property name="purgeExpression"></property>
+    <property
+       name="varyExpression">python: rule.portal_cache_settings.getVaryHeader()</property>
+    <property
+       name="lastModifiedExpression">python:object.modified()</property>
+    <property name="headerSetIdExpression"></property>
+    <property name="headerSetIdAuth">cache-with-etag</property>
+    <property name="headerSetIdAnon">cache-in-memory</property>
+    <property name="predicateExpression"></property>
+    <property name="cacheStop">
+     <element value="portal_status_message"/>
+     <element value="statusmessages"/>
+     <element value="SearchableText"/>
+    </property>
+    <property
+       name="etagExpression">python:request.get('__cp',None) is not None</property>
+    <property name="etagTimeout">3600</property>
+    <property name="etagRequestValues">
+     <element value="b_start"/>
+     <element value="month"/>
+     <element value="year"/>
+     <element value="orig_query"/>
+    </property>
+    <property name="etagComponents">
+     <element value="member"/>
+     <element value="catalog_modified"/>
+     <element value="language"/>
+     <element value="gzip"/>
+     <element value="skin"/>
+    </property>
+   </object>
+   <object name="plone-templates" portal_type="TemplateCacheRule">
+    <property
+       name="description">Rule for various non-form templates.  Anonymous users are served pages from memory, not the proxy cache (because some of these templates depend on catalog queries).  Responses for authenticated users are not cached in memory or proxy (because caching personalized pages is inefficient) but an ETag is added to enable proper 304 responses.  Member ID is used in the ETag because content is personalized; the time of the last catalog change is included so that the contents and the navigation tree stays up to date.</property>
+    <property name="templates">
+     <element value="accessibility-info"/>
+     <element value="sitemap"/>
+     <element value="recently_modified"/>
+    </property>
+    <property
+       name="varyExpression">python: rule.portal_cache_settings.getVaryHeader()</property>
+    <property
+       name="lastModifiedExpression">python:object.modified()</property>
+    <property name="headerSetIdExpression"></property>
+    <property name="headerSetIdAuth">cache-with-etag</property>
+    <property name="headerSetIdAnon">cache-in-memory</property>
+    <property name="predicateExpression"></property>
+    <property name="cacheStop">
+     <element value="portal_status_message"/>
+     <element value="statusmessages"/>
+     <element value="SearchableText"/>
+    </property>
+    <property name="etagExpression"></property>
+    <property name="etagTimeout">3600</property>
+    <property name="etagRequestValues">
+     <element value="month"/>
+     <element value="year"/>
+     <element value="orig_query"/>
+    </property>
+    <property name="etagComponents">
+     <element value="member"/>
+     <element value="catalog_modified"/>
+     <element value="language"/>
+     <element value="gzip"/>
+     <element value="skin"/>
+     <element value="b_start"/>
+    </property>
+   </object>
+   <object name="plone-rss" portal_type="TemplateCacheRule">
+    <property
+       name="description">Rule for RSS feeds.  Anonymous queries are cached in memory.</property>
+    <property name="templates">
+     <element value="RSS"/>
+     <element value="search_rss"/>
+    </property>
+    <property
+       name="varyExpression">python: rule.portal_cache_settings.getVaryHeader()</property>
+    <property
+       name="lastModifiedExpression">python:object.modified()</property>
+    <property name="headerSetIdExpression"></property>
+    <property name="headerSetIdAuth">cache-with-etag</property>
+    <property name="headerSetIdAnon">cache-in-memory</property>
+    <property name="predicateExpression"></property>
+    <property name="cacheStop"/>
+    <property name="etagExpression"></property>
+    <property name="etagRequestValues">
+     <element value="SearchableText"/>
+    </property>
+    <property name="etagComponents">
+     <element value="member"/>
+     <element value="catalog_modified"/>
+     <element value="language"/>
+     <element value="gzip"/>
+     <element value="skin"/>
+    </property>
+   </object>
+   <object name="resource-registries"
+      portal_type="PolicyHTTPCacheManagerCacheRule">
+    <property
+       name="description">Rule for CSS, JS, and KSS generated by ResourceRegistries.  These files are cached "forever" (1 year) in browsers.  There is no need to purge these files because when they are changed and saved in portal_css/portal_js, their file names change.  ETags are not useful because these files have no personalization.</property>
+    <property name="cacheManager">CacheSetup_OFSCache</property>
+    <property name="types">
+     <element value="File"/>
+    </property>
+    <property name="ids"/>
+    <property name="cacheStop"/>
+   </object>
+   <object name="downloads" portal_type="PolicyHTTPCacheManagerCacheRule">
+    <property
+       name="description">Rule for ATFile and ATImage downloads.  Files that are viewable by Anonymous users receive a Last-Modified header to enable conditional requests.  ETags are not useful because these files have no personalization.</property>
+    <property name="cacheManager">CacheSetup_OFSCache</property>
+    <property name="types">
+     <element value="Image"/>
+     <element value="File"/>
+    </property>
+    <property name="ids"/>
+    <property name="cacheStop"/>
+   </object>
+   <object name="dtml-css" portal_type="TemplateCacheRule">
+    <property
+       name="description">Rule for css files generated with DTML.  These files will be cached in the browser for 24 hours.</property>
+    <property name="templates">
+     <element value="IEFixes.css"/>
+    </property>
+    <property name="varyExpression">string:</property>
+    <property
+       name="lastModifiedExpression">python:object.modified()</property>
+    <property name="headerSetIdExpression"></property>
+    <property name="headerSetIdAuth">cache-in-browser-24-hours</property>
+    <property name="headerSetIdAnon">cache-in-browser-24-hours</property>
+    <property name="predicateExpression"></property>
+    <property name="cacheStop"/>
+    <property name="etagExpression"></property>
+    <property name="etagRequestValues"/>
+    <property name="etagComponents"/>
+   </object>
+  </object>
+  <object name="headersets" portal_type="HeaderSetFolder">
+   <object name="no-cache" portal_type="HeaderSet">
+    <property
+       name="description">Should not be cached in proxy.  Browser cache should revalidate every time.</property>
+    <property name="pageCache">False</property>
+    <property name="lastModified">delete</property>
+    <property name="etag">False</property>
+    <property name="enable304s">False</property>
+    <property name="vary">True</property>
+    <property name="maxAge">0</property>
+    <property name="mustRevalidate">True</property>
+    <property name="proxyRevalidate">False</property>
+    <property name="noCache">False</property>
+    <property name="noStore">False</property>
+    <property name="public">False</property>
+    <property name="private">True</property>
+    <property name="noTransform">False</property>
+   </object>
+   <object name="cache-in-memory" portal_type="HeaderSet">
+    <property
+       name="description">Page should be cached in memory on the server.  Page should not be cached in a proxy cache but may be conditionally cached in the browser.  The browser should validate the page's ETag before displaying a cached page.</property>
+    <property name="pageCache">True</property>
+    <property name="lastModified">delete</property>
+    <property name="etag">True</property>
+    <property name="enable304s">True</property>
+    <property name="vary">True</property>
+    <property name="maxAge">0</property>
+    <property name="mustRevalidate">True</property>
+    <property name="proxyRevalidate">False</property>
+    <property name="noCache">False</property>
+    <property name="noStore">False</property>
+    <property name="public">False</property>
+    <property name="private">True</property>
+    <property name="noTransform">False</property>
+   </object>
+   <object name="cache-with-etag" portal_type="HeaderSet">
+    <property
+       name="description">Page should not be cached in a proxy cache but may be conditionally cached in the browser.  The browser should validate the page's ETag before displaying a cached page.</property>
+    <property name="pageCache">False</property>
+    <property name="lastModified">delete</property>
+    <property name="etag">True</property>
+    <property name="enable304s">True</property>
+    <property name="vary">True</property>
+    <property name="maxAge">0</property>
+    <property name="mustRevalidate">True</property>
+    <property name="proxyRevalidate">False</property>
+    <property name="noCache">False</property>
+    <property name="noStore">False</property>
+    <property name="public">False</property>
+    <property name="private">True</property>
+    <property name="noTransform">False</property>
+   </object>
+   <object name="cache-with-last-modified" portal_type="HeaderSet">
+    <property
+       name="description">File should not be cached in a proxy cache but may be conditionally cached in the browser.  The browser should validate the file's Last-Modified time before displaying a cached file.</property>
+    <property name="pageCache">False</property>
+    <property name="lastModified">yes</property>
+    <property name="etag">False</property>
+    <property name="enable304s">True</property>
+    <property name="vary">True</property>
+    <property name="maxAge">0</property>
+    <property name="mustRevalidate">True</property>
+    <property name="proxyRevalidate">False</property>
+    <property name="noCache">False</property>
+    <property name="noStore">False</property>
+    <property name="public">False</property>
+    <property name="private">True</property>
+    <property name="noTransform">False</property>
+   </object>
+   <object name="cache-in-browser-1-hour" portal_type="HeaderSet">
+    <property
+       name="description">Should be cached in both proxy and browser.  Both should revalidate after 1 hour.</property>
+    <property name="pageCache">False</property>
+    <property name="lastModified">yes</property>
+    <property name="etag">False</property>
+    <property name="enable304s">False</property>
+    <property name="vary">True</property>
+    <property name="maxAge">3600</property>
+    <property name="mustRevalidate">True</property>
+    <property name="proxyRevalidate">False</property>
+    <property name="noCache">False</property>
+    <property name="noStore">False</property>
+    <property name="public">True</property>
+    <property name="private">False</property>
+    <property name="noTransform">False</property>
+   </object>
+   <object name="cache-in-browser-24-hours" portal_type="HeaderSet">
+    <property
+       name="description">Should be cached in both proxy and browser.  Both should revalidate after 24 hours.</property>
+    <property name="pageCache">False</property>
+    <property name="lastModified">yes</property>
+    <property name="etag">False</property>
+    <property name="enable304s">False</property>
+    <property name="vary">True</property>
+    <property name="maxAge">86400</property>
+    <property name="mustRevalidate">True</property>
+    <property name="proxyRevalidate">False</property>
+    <property name="noCache">False</property>
+    <property name="noStore">False</property>
+    <property name="public">True</property>
+    <property name="private">False</property>
+    <property name="noTransform">False</property>
+   </object>
+   <object name="cache-in-browser-forever" portal_type="HeaderSet">
+    <property
+       name="description">Should be cached in both proxy and browser.  Both should revalidate after 1 year.</property>
+    <property name="pageCache">False</property>
+    <property name="lastModified">yes</property>
+    <property name="etag">False</property>
+    <property name="enable304s">False</property>
+    <property name="vary">True</property>
+    <property name="maxAge">31536000</property>
+    <property name="mustRevalidate">False</property>
+    <property name="proxyRevalidate">False</property>
+    <property name="noCache">False</property>
+    <property name="noStore">False</property>
+    <property name="public">True</property>
+    <property name="private">False</property>
+    <property name="noTransform">False</property>
+   </object>
+  </object>
+ </object>
+ <pagecachemanager>
+  <property name="threshold">500</property>
+  <property name="cleanup_interval">60</property>
+  <property name="max_age">3600</property>
+  <property name="active">on_always</property>
+ </pagecachemanager>
+</object>
