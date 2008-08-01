@@ -28,7 +28,7 @@ log = logging.getLogger('opencore.configuration.setuphandlers')
 
 Z_DEPS = ('PlacelessTranslationService', 'Five', 'membrane', 'remember',
           'GenericSetup', 'CMFPlone', 'ManagableIndex', 'QueueCatalog',
-          'SimpleAttachment')
+          'SimpleAttachment', 'CacheSetup')
 
 MEM_DEPS = ('membrane', 'remember')
 

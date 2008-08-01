@@ -26,6 +26,11 @@
   <include package="opencore.upgrades" />
   <include package="topp.featurelets" />
   <include package="opencore.stats" />
+  <!-- XXX Products namespace packages should get loaded automatically,
+       but that doesn't seem to happen in ZTC; is there a better way
+       to pull them in than by listing them here? -->
+  <include package="Products.CacheSetup" />
+  <include package="Products.CMFSquidTool" />
 
   <i18n:registerTranslations directory="../locales" />
 

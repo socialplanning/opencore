@@ -1,4 +1,7 @@
 <?xml version="1.0"?>
 <metadata>
   <version>0.13.0</version>
+  <dependencies>
+    <dependency>profile-Products.CacheSetup:default</dependency>
+  </dependencies>
 </metadata>
