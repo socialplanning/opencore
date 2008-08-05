@@ -38,6 +38,8 @@ https://svn.openplans.org/svn/opencore/trunk/docs/Plone2.5-Plone3-migration.txt
  * resolve unicode project title error in listen subscriber on project creation
    (rmarianski)
 
+ * resolve potential errors on page deletions from contents view (rmarianski)
+
  * Output error messages for Supervisord
 
 0.12.0 (2008-07-11)
