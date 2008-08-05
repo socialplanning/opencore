@@ -184,7 +184,7 @@ class BaseView(BrowserView):
 
     # this should be put in a viewlet in an oc-twirlip plugin -egj
     def twirlip_uri(self):
-        uri = getUtility(IProvideSiteConfig).get("twirlip path")
+        uri = getUtility(IProvideSiteConfig).get("twirlip path", '')
         return uri.strip()
 
     @view.memoizedproperty
