@@ -6,8 +6,7 @@ from zope.app.container.contained import IObjectRemovedEvent
 
 from topp.featurelets.interfaces import IFeatureletSupporter, IFeaturelet
 
-from opencore.interfaces.event import IAfterProjectAddedEvent, \
-     IAfterSubProjectAddedEvent
+from opencore.interfaces.event import IAfterProjectAddedEvent
 from opencore.interfaces import IProject
 from opencore import redirect
 
@@ -70,14 +69,6 @@ def _initialize_project(instance, request):
     # @@ move to subscriber
     instance._createIndexPage()
 
-
-
-@adapter(IAfterSubProjectAddedEvent)
-def handle_subproject_redirection(event):
-    instance = event.project
-    request = event.request
-    parent = event.parent 
-    _handle_parent_child_association(parent, instance)
 
 
 def _handle_parent_child_association(parent, child):

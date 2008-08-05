@@ -29,8 +29,6 @@
      />
 
   <subscriber handler=".handler.handle_postcreation" />
-  <subscriber handler=".handler.handle_subproject_redirection" />
-  <subscriber handler=".deliver.handle_subproject_vhoster" />
 
   <subscriber
      for="opencore.interfaces.IProject
