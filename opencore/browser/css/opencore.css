@@ -589,6 +589,9 @@ ul.oc-tabs li a:visited {
 ul.oc-tabs li a.oc-actionLink:hover {
   background-color: transparent;
 }
+ul.oc-tabs li.oc-selected a.oc-actionLink:hover {
+  background: #332F2A;
+}
 /* Selected tab */
 ul.oc-tabs li.oc-selected a {
   color: #fff;
