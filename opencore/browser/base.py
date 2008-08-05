@@ -182,6 +182,11 @@ class BaseView(BrowserView):
             if IWikiContainer.providedBy(item):
                 return item
 
+    # this should be put in a viewlet in an oc-twirlip plugin -egj
+    def twirlip_uri(self):
+        uri = getUtility(IProvideSiteConfig).get("twirlip path")
+        return uri.strip()
+
     @view.memoizedproperty
     def area(self):
         if self.miv.inMemberArea or self.miv.inMemberObject:

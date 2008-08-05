@@ -1,6 +1,7 @@
 from Acquisition import aq_inner
 from opencore.browser.base import BaseView
 from opencore.browser.formhandler import OctopoLite, action
+from opencore.interfaces import IProject
 from opencore.nui.wiki.utils import unescape
 from opencore.utility.interfaces import IProvideSiteConfig
 from PIL import Image
@@ -65,6 +66,15 @@ class WikiBase(BaseView):
 
     def lastModifiedAuthor(self):
         return ILastModifiedAuthorId(self.context)
+
+    def in_project(self):
+        return IProject.providedBy(self.area)
+
+    def twirlip_watch_uri(self):
+        twirlip_uri = self.twirlip_uri()
+        if twirlip_uri:
+            return "%s/watch/control" % twirlip_uri
+        return ''
 
 class WikiView(WikiBase):
     displayLastModified = True # see wiki_macros.pt
