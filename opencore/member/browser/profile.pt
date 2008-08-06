@@ -129,10 +129,12 @@
       <div id="oc-content-sidebar">
         <metal:status-messages use-macro="view/member_macros/macros/recent-activity" />
 
+	<!-- hello opencore.sidebar viewlets -->
         <span tal:define="viewlets provider:opencore.sidebar"
               tal:condition="python:viewlets.strip()"
               tal:replace="structure viewlets">
         </span>
+	<!-- goodbye -->
       </div><!-- end .oc-content-sidebar -->
     </div><!-- content-fill-slot -->
   </body>
