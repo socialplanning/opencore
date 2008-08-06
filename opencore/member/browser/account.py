@@ -26,11 +26,6 @@ class MemberAccountView(BaseView, OctopoLite):
     active_states = ['public', 'private']
     msg_category = 'membership'
 
-    # this should be put in a viewlet in an oc-twirlip plugin -egj
-    def twirlip_uri(self):
-        uri = getUtility(IProvideSiteConfig).get("twirlip uri")
-        return uri.strip()
-
     @property
     @req_memoize
     def _mship_brains(self, **extra):

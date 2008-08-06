@@ -1,19 +1,10 @@
 # handlers for managing a deliverance vhoster
+# FIXME: is anything here not cruft? I nuked the subproject stuff,
+# but I don't know what any of the rest of this is for. -PW
 
-#from OFS.interfaces import IObjectWillBeRemovedEvent, IObjectWillBeMovedEvent
-#from zope.app.event import IObjectCreatedEvent
-#from zope.app.event.interfaces import IObjectCreatedEvent
-#from zope.app.container.interfaces import IObjectMovedEvent
-
-from opencore.interfaces import IProject
-from opencore.interfaces.event import IAfterSubProjectAddedEvent
-from opencore.redirect import get_redirect_url
-from zope.component import adapter, getUtility, queryUtility
-from urlparse import urlsplit, urljoin
-import simplejson
-from opencore.utility.interfaces import IHTTPClient
+from zope.component import queryUtility
 from zope.interface import Interface, implements
-from zope.schema import TextLine, Bool
+from zope.schema import TextLine
 from zope.component.interfaces import ComponentLookupError
 
 class IVHosterInfo(Interface):
@@ -33,50 +24,6 @@ def vhoster_uri():
     else:
         raise ComponentLookupError('No virtual hosting service has been registered')
 
-
-def project_host(project):
-    url = get_redirect_url(project)
-    host = ''
-    if url:
-        host = urlsplit(url)[1]
-    return host
-        
-
-@adapter(IAfterSubProjectAddedEvent)
-def handle_subproject_vhoster(event):
-    parent = event.parent
-    subproj = event.project
-
-    virtual_host = project_host(parent)
-    if not virtual_host:
-        # don't think anything needs to happen
-        return
-
-    child_path = '/%s' % subproj.getId()
-
-    # XXX I hate his inline REST call, this should be
-    # packed up in a python API
-    
-    # this info tells deliverance to set the X-Openplans-Project
-    # header to the subproject's id when visiting the url of the
-    # subproject. 
-    http = getUtility(IHTTPClient)
-
-    uri = urljoin(vhoster_uri(), "/.deliverance/remote_uris?add")
-    data = [{'path': child_path,
-            'headers': {'X-Openplans-Project': subproj.getId()}}]
-    headers = {'Host': virtual_host}
-    
-    # perform the RESTy call to deliverance 
-    rc = http.request(uri,
-                      method='POST',
-                      body=simplejson.dumps(data),
-                      headers=headers)[0]
-    status = rc['status']
-    status_code = int(status.split(' ')[0])
-
-    if status_code < 200 or status_code >= 300:
-        raise IOError("Unable to register project %s with virtual hosting service (status %s)" % (subproj.getId(), status))
 
 class VHosterInfo(object):
     implements(IVHosterInfo)
@@ -114,14 +61,3 @@ def configure_vhoster_info(_context, uri):
         callable = _set_vhoster_info,
         args = (uri,)
         )
-
-#@adapter(IProject, IObjectRemovedEvent)
-#def remove_project(obj, event):
-#    pass
-#@adapter(IProject, IObjectWillBeMovedEvent)
-#def move_project(obj, event):
-#    pass
-    
-# PUT http://project.openplans.org/.deliverance/remote_uris
-# content=[..., {'path': '/subproject', 'headers': {'X-Project-Name':
-# 'subproject'}}]

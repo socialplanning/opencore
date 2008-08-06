@@ -182,7 +182,12 @@ class ProjectContentsView(ProjectBaseView, OctopoLite):
                 else:
                     parent = self.context.restrictedTraverse(parent)
                 deletees = list(child_ids)
-                parent.manage_delObjects(child_ids)  ## dels ids from list as objs are deleted
+                try:
+                    parent.manage_delObjects(child_ids)  ## dels ids from list as objs are deleted
+                except AttributeError:
+                    # if deletion failed for a child, an error is raised and the
+                    # child_ids will not be removed
+                    pass
             if child_ids: # deletion failed for some objects
                 surviving_objects.extend(child_ids)  ## what's left in 'child_ids' was not deleted
                 deleted_objects.extend([oid for oid in deletees

@@ -104,8 +104,22 @@ class InviteJoinView(JoinView, ConfirmAccountView):
     """
 
     template = ZopeTwoPageTemplateFile('invite-join.pt')
+    badrequest_template = ZopeTwoPageTemplateFile('invite-join-badrequest.pt')
+
+    required_request_variables = ('project', 'email', '__k')
 
     truncate = staticmethod(truncate)
+
+    def __call__(self, *args, **kwargs):
+        """ This view should only be called with certain request variables. If
+        they are not set, we should display a separate template instead of
+        having an error """
+        f = self.request.form
+        missing_vars = [v for v in self.required_request_variables
+                        if v not in self.request.form]
+        if missing_vars:
+            return self.badrequest_template()
+        return super(InviteJoinView, self).__call__(*args, **kwargs)
 
     @property
     def proj_ids(self):
