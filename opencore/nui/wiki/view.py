@@ -165,7 +165,7 @@ class WikiEdit(WikiBase, OctopoLite):
         doc = fromstring(clean_text)
         for el in _find_external_links(doc):
             if el.get('isempty', u''):
-                el.set('isempty', u'')
+                del el['isempty']
         clean_text = tostring(doc, encoding='utf-8')
         #XXX will for sure remove this when xinha is upgraded
 
