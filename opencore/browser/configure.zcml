@@ -140,7 +140,6 @@
   <browser:viewletManager
      name="opencore.sidebar"
      provides=".interfaces.ISidebar"
-     template="summary.pt"
      permission="zope2.View"
      />
 
