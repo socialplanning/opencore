@@ -47,7 +47,7 @@ class ErrorView(BaseView):
         if 'SUPERVISOR_ENABLED' in os.environ:
             method = self.request.environ['REQUEST_METHOD']
             if method == "POST":
-                request_args = "POST arguments: " % pformat(self.request.form)
+                request_args = "POST arguments: %s" % pformat(self.request.form)
             else:
                 request_args = ""
             username = self.request.get('use_logged_in_user', 'anonymous')

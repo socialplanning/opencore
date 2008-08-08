@@ -71,3 +71,59 @@ test::
     Expected: what i expected
     <BLANKLINE>
     Traceback: here is the traceback
+
+
+
+
+SupervisorErrorListener integration
+===================================
+
+When an error is hit, we write to stdout some stuff formatted
+for supervisor to consume. First some request setup::
+
+    >>> self.request.form.clear()
+    >>> self.request.environ['REQUEST_METHOD'] = 'GET'
+    >>> self.request.form.update({'hello': 'errorworld'})
+    >>> view = ErrorView(self.homepage, self.request).__of__(self.homepage)
+
+Normally you don't see anything:
+
+    >>> html = view(error_tb="traceback would go here", error_type='kaboom')
+
+But if you set the right environment variable, you get formatted info
+on stdout::
+
+    >>> os.environ['SUPERVISOR_ENABLED'] = 'yup'
+    >>> error = view(error_tb="traceback would go here", error_type='kaboom')
+    <!--XSUPERVISOR:BEGIN-->
+    Content-Type: text/plain
+    Username: anonymous
+    Request-url: http://nohost
+    Method: GET
+    <BLANKLINE>
+    Environment: {'REQUEST_METHOD': 'GET', 'SERVER_NAME': 'nohost', 'SERVER_PORT': '80'}
+    <BLANKLINE>
+    <BLANKLINE>
+    <BLANKLINE>
+    Traceback: traceback would go here
+    <!--XSUPERVISOR:END-->
+
+
+If the request method is POST, you also get the form arguments::
+
+
+    >>> self.request.environ['REQUEST_METHOD'] = 'POST'
+    >>> error = view(error_tb="traceback would go here", error_type='kaboom')
+    <!--XSUPERVISOR:BEGIN-->
+    ...
+    Method: POST
+    <BLANKLINE>
+    Environment: {'REQUEST_METHOD': 'POST', 'SERVER_NAME': 'nohost', 'SERVER_PORT': '80'}
+    <BLANKLINE>
+    POST arguments: {'hello': 'errorworld'}
+    ...
+
+
+If the error type is NotFound, we ignore it::
+
+    >>> error = view(error_tb="whatever", error_type='NotFound')

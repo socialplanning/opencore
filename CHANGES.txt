@@ -1,7 +1,9 @@
 0.12.2dev (UNRELEASED)
 ======================
 
- No changes.
+ * Avoid exception in error view when the request is a POST,
+   ticket #2681. (slinkp)
+
 
 0.12.1 (2008-07-24)
 ===================
