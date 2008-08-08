@@ -22,6 +22,7 @@ def test_suite():
     from opencore.browser.base import BaseView
     from opencore.i18n import _
     from opencore.testing import utils
+    import os
     
     setup.setupPloneSite()
     def readme_setup(tc): # XXX duplicates simple_setup?
@@ -34,6 +35,13 @@ def test_suite():
 
     def teardown(tc):
         utils.unmonkey_proj_noun()
+
+    def errors_teardown(tc):
+        import os
+        try:
+            del os.environ['SUPERVISOR_ENABLED']
+        except KeyError:
+            pass
 
     globs = locals()
     readme = dtf.ZopeDocFileSuite("README.txt",
@@ -51,6 +59,7 @@ def test_suite():
                                   test_class=OpenPlansTestCase,
                                   globs = globs,
                                   setUp=readme_setup,
+                                  tearDown=errors_teardown,
                                   layer = test_layer
                                   )
 

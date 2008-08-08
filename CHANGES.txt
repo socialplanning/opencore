@@ -8,6 +8,9 @@ https://svn.openplans.org/svn/opencore/trunk/docs/Plone2.5-Plone3-migration.txt
    for more instructions.
    (rafrombrc)
 
+ * Avoid exception in error view when the request is a POST,
+   ticket #2681. (slinkp)
+
  * Remove subproject-related cruft from opencore.project. (slinkp)
 
  * Force project content delete to be done via POST; if it's a GET,
