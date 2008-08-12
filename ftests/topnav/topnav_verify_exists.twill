@@ -2,3 +2,6 @@ extend_with flunc.xpath
 
 go $url
 find_in_xpath ${menuitem} "//ul[@id='oc-topnav-context']"
+follow $menuitem
+code 200
+
