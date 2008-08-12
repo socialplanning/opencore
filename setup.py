@@ -3,7 +3,7 @@ import pkg_resources as pkr
 
 import sys, os
 
-version = '0.13.0.dev'
+version = '0.13.0'
 
 f = open('README.txt')
 readme = f.read()
@@ -11,12 +11,23 @@ f.close()
 
 name='opencore'
 
+# Get strings from http://www.python.org/pypi?:action=list_classifiers
+classifiers=[
+    "Framework :: Plone",
+    "Development Status :: 4 - Beta",
+    "Environment :: Web Environment",
+    "License :: OSI Approved :: GNU General Public License (GPL)",
+    "Natural Language :: English",
+    "Operating System :: Unix",
+    "Programming Language :: Python",
+    ]
+
 setup(
     name=name,
       version=version,
       description="Software that drives http://openplans.org",
       long_description=readme,
-      classifiers=[], # Get strings from http://www.python.org/pypi?%3Aaction=list_classifiers
+      classifiers=classifiers,
       keywords='openplans openplans.org topp',
       author='The Open Planning Project',
       author_email='opencore-dev@lists.openplans.org',
