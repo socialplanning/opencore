@@ -23,6 +23,8 @@
 
  * Fixed: Base view now uses the *external* path so that twirlip knows
    where to send the form. (novalis)
+ 
+ * Added per-project security context page for twirlip and other uses (novalis)
 
 
 0.13.0.dev (UNRELEASED)
