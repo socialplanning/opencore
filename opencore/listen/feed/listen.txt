@@ -120,27 +120,27 @@ Checking the URLs for the DiscussionsSummaryViewlet.  The
 implementation doesn't really have a convenient API so we have to do
 some whitebox testing.  We'll use some stub implementations::
 
-    >>> class MockProject:
+    >>> class StubProject:
     ...     def _getOb(self, *args):
-    ...         return MockListsContainer()
+    ...         return StubListsContainer()
     ...     
-    >>> class MockListsContainer(object):
+    >>> class StubListsContainer(object):
     ...     def absolute_url(self):
     ...         return "http://nohost/fooproject/lists"
     ...     
-    >>> class MockFeedData:
+    >>> class StubFeedData:
     ...     def __init__(self):
     ...         self.items = []
     ...         self.mlists = []
 
 
-Now make the viewlet and have it use our mocks. Normally, viewlet.feed
+Now make the viewlet and have it use our stubs. Normally, viewlet.feed
 is wired up during viewlet.adapt(), but we're just going to shove a
-mock in there::
+stub in there::
 
     >>> from opencore.listen.feed.discussions import DiscussionsSummaryViewlet
-    >>> viewlet = DiscussionsSummaryViewlet(MockProject(), {}, object(), object())
-    >>> viewlet.feed = MockFeedData()
+    >>> viewlet = DiscussionsSummaryViewlet(StubProject(), {}, object(), object())
+    >>> viewlet.feed = StubFeedData()
 
 Now we can test viewlet.is_blank() and see what it does with create
 URLs.  First, if there are discussion items, we don't need a create
