@@ -1,7 +1,4 @@
 from opencore.browser.base import BaseView
-from Products.CMFCore.permissions import View
-from Products.CMFCore.utils import getToolByName
-from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
 
 class SecurityContextView(BaseView):
     """
