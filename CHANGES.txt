@@ -1,5 +1,5 @@
-0.13.0.dev (UNRELEASED)
-=======================
+0.13.0 (2008/08/12)
+===================
 
  * Code migrated to Zope 2.10 / Plone 3.0, older versions no longer supported.
    This requires database migrations that cannot be undone, so make backups
