@@ -21,14 +21,16 @@ class DiscussionsSummaryViewlet(BlankSlateViewlet):
         return clean_project._getOb('lists', None)
 
     def is_blank(self):
+        # XXX Confusing: where does self.feed come from?
+        # It gets bound in the base class' render() method.
         if self.feed.items:
             return False
         if self.feed.mlists:
-            self.create = os.path.join(self.context.absolute_url(),
-                                       self.feed.mlists[0],
-                                       'archive','new_topic')
+            self.create = '/'.join((self.listfolder().absolute_url(),
+                                    self.feed.mlists[0],
+                                    'archive', 'new_topic'))
         else:
-            self.create = os.path.join(self.context.absolute_url(), 'create')
+            self.create = '/'.join((self.listfolder().absolute_url(), 'create'))
         return True
 
     def adapt(self):

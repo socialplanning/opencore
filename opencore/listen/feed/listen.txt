@@ -114,3 +114,62 @@ Test the listen adapters for feed use
 #    datetime.datetime...
 #    >>> feed_item2.link
 #    'http://dummy/listen/url'
+
+
+Checking the URLs for the DiscussionsSummaryViewlet.  The
+implementation doesn't really have a convenient API so we have to do
+some whitebox testing.  We'll use some stub implementations::
+
+    >>> class MockProject:
+    ...     def _getOb(self, *args):
+    ...         return MockListsContainer()
+    ...     
+    >>> class MockListsContainer(object):
+    ...     def absolute_url(self):
+    ...         return "http://nohost/fooproject/lists"
+    ...     
+    >>> class MockFeedData:
+    ...     def __init__(self):
+    ...         self.items = []
+    ...         self.mlists = []
+
+
+Now make the viewlet and have it use our mocks. Normally, viewlet.feed
+is wired up during viewlet.adapt(), but we're just going to shove a
+mock in there::
+
+    >>> from opencore.listen.feed.discussions import DiscussionsSummaryViewlet
+    >>> viewlet = DiscussionsSummaryViewlet(MockProject(), {}, object(), object())
+    >>> viewlet.feed = MockFeedData()
+
+Now we can test viewlet.is_blank() and see what it does with create
+URLs.  First, if there are discussion items, we don't need a create
+URL, and we're not blank::
+
+    >>> viewlet.feed.items = ['yes we have discussions']
+    >>> viewlet.is_blank()
+    False
+    >>> viewlet.create
+    Traceback (most recent call last):
+    ...
+    AttributeError: create
+
+
+If there are no discussion items and no mlists, we're blank, and we
+get this URL for creating a new mailing list::
+
+    >>> viewlet.feed.items = viewlet.feed.mlists = []
+    >>> viewlet.is_blank()
+    True
+    >>> viewlet.create
+    'http://nohost/fooproject/lists/create'
+
+If there are no discussion items but there are mlists, we're blank,
+and we get this URL for creating a new topic::
+
+    >>> viewlet.feed.items = []
+    >>> viewlet.feed.mlists = ['non-empty']
+    >>> viewlet.is_blank()
+    True
+    >>> viewlet.create
+    'http://nohost/fooproject/lists/non-empty/archive/new_topic'
