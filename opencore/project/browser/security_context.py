@@ -9,12 +9,6 @@ class SecurityContextView(BaseView):
     """
 
     def __call__(self):
-        mtool = getToolByName(self.context, 'portal_membership')
-        result = mtool.checkPermission(View, self.context)
         response = self.request.response
-        if result:
-            response.setBody("ok")
-        else:
-            response.setStatus(403)
-            response.headers['status'] = 403
+        response.setBody("ok")
         return response

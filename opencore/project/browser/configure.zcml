@@ -177,9 +177,9 @@
   <browser:page
      for="opencore.interfaces.IProject"
      class=".security_context.SecurityContextView"
-     permission="zope.Public"
+     permission="zope2.View"
      name="security-context" 
-     /> <!-- this is open to anyone because it does security internally -->
+     /> 
 
 
   <subscriber
