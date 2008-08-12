@@ -1,9 +1,8 @@
 0.14.0dev (UNRELEASED)
 =======================
 
-
- * Added a dedicated security context url at
-   projects/foo/security-context (novalis)
+ * Added per-project security context page for twirlip and other uses 
+   at projects/foo/security-context (novalis)
 
  * Resolve potential errors on page deletions from contents view.
    (rmarianski)
@@ -24,8 +23,6 @@
  * Fixed: Base view now uses the *external* path so that twirlip knows
    where to send the form. (novalis)
  
- * Added per-project security context page for twirlip and other uses (novalis)
-
 
 0.13.0.dev (UNRELEASED)
 =======================
