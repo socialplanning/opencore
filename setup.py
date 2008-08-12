@@ -3,7 +3,7 @@ import pkg_resources as pkr
 
 import sys, os
 
-version = '0.13.0.dev'
+version = '0.14.0dev'
 
 f = open('README.txt')
 readme = f.read()
