@@ -52,6 +52,7 @@ setup(
                         'https://svn.openplans.org/svn/ZCMLLoader/trunk#egg=ZCMLLoader',
                         'https://svn.openplans.org/svn/opencore/plugins/oc-feed/trunk/#egg=oc-feed',
                         'https://svn.plone.org/svn/collective/borg/components/borg.localrole/trunk#egg=borg.localrole-dev',
+                        'http://download.zope.org/distribution/',
                         ],
 
       install_requires=[
@@ -75,6 +76,7 @@ setup(
           'zcmlloader',
           'Products.CacheSetup==1.2',
           'Products.GenericSetup==1.4.1',
+          'plone.app.blob==1.0b2',
           ],
       extras_require=dict(ubuntu=['hprof']),
 
@@ -88,5 +90,7 @@ setup(
       oc-js = opencore.js
       topp.utils = topp.utils
       topp.featurelets = topp.featurelets
+      [topp.zcmlloader]
+      plone.app.blob = plone.app.blob
       """,
     )
