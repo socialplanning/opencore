@@ -134,6 +134,11 @@ bob should be logged in::
     >>> getSecurityManager().getUser()
     <MembraneUser 'bob'>
 
+bob should have a member area::
+
+    >>> self.portal.people['bob']
+    <ATFolder at /plone/people/bob>
+
 Finally, it processes the invites::
 
     >>> self.portal.portal_teams.p1['bob']
