@@ -150,6 +150,14 @@ def test_suite():
                                                 layer=OpencoreContent                                                        
                                                 )
 
+    contents = dtf.ZopeDocFileSuite("security_context.txt",
+                                    optionflags=optionflags,
+                                    package='opencore.project.browser',
+                                    test_class=OpenPlansTestCase,
+                                    globs = globs,
+                                    setUp=contents_content,
+                                    layer=OpencoreContent                                              
+                                    )
     homepage = dtf.ZopeDocFileSuite("homepage.txt",
                                     optionflags=optionflags,
                                     package='opencore.project.browser',
