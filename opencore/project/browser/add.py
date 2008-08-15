@@ -89,7 +89,7 @@ class ProjectAddView(ProjectBaseView, OctopoLite):
         # project yet, so they'll have to tolerate validating with the
         # project container as the context.
         viewlet_mgr = getMultiAdapter((self.context, self.request, self),
-                                      name='opencore.proj_prefs')
+                                      name='opencore.editform')
         if not hasattr(viewlet_mgr, 'viewlets'):
             viewlet_mgr.update()
         viewlets = viewlet_mgr.viewlets
@@ -138,7 +138,7 @@ class ProjectAddView(ProjectBaseView, OctopoLite):
         # We have to look up the viewlets again, now that we have
         # a project for them to use as the context to save to.
         viewlet_mgr = getMultiAdapter((proj, self.request, self),
-                                      name='opencore.proj_prefs')
+                                      name='opencore.editform')
         if not hasattr(viewlet_mgr, 'viewlets'):
             viewlet_mgr.update()
         for viewlet in viewlet_mgr.viewlets:

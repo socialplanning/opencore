@@ -6,6 +6,6 @@
   <legend class="oc-legend-heading oc-biggerText"
     tal:content="viewlet/title | viewlet/name/title | nothing">Viewlet Title
   </legend>
-  <span tal:replace="structure viewlet/render" />
+  <span tal:replace="structure viewlet" />
   </fieldset>
 </span>

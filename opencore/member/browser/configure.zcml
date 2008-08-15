@@ -2,15 +2,6 @@
 	   xmlns:browser="http://namespaces.zope.org/browser"
 	   xmlns:five="http://namespaces.zope.org/five">
 
-
-  <browser:viewletManager
-    name="opencore.member.recentactivity"
-    provides="opencore.member.interfaces.ICanHasRecentActivity"
-    permission="zope2.View"
-    template="recent-activity.pt"
-  />
-
-
   <browser:page
      for="opencore.interfaces.member.IMemberFolder"
      class=".account.MemberAccountView"
@@ -137,18 +128,10 @@
 
   <!-- Viewlet managers allow plugins to add stuff to these forms -->
   <browser:viewletManager
-     name="opencore.profile_edit_viewlets"
-     provides=".interfaces.IMemberProfilePrefs"
-     class=".manager.MemberPrefsManager"
+     name="opencore.editform"
+     for="opencore.interfaces.member.IMemberFolder"
+     provides="opencore.browser.interfaces.IEditForm"
      permission="zope2.View"
      />
 
-  <browser:viewletManager
-     name="opencore.profile_edit_sidebar"
-     provides=".interfaces.IMemberProfileSidebar"
-     class=".manager.MemberPrefsManager"
-     permission="zope2.View"
-     />
-
-     
 </configure>

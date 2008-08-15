@@ -134,4 +134,10 @@
 
 
 
+  <browser:viewletManager
+     name="opencore.sidebar"
+     provides=".interfaces.ISidebar"
+     permission="zope2.View"
+     />
+
 </configure>

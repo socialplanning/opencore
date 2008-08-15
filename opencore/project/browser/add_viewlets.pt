@@ -2,12 +2,14 @@
 <span xmlns:tal="http://xml.zope.org/namespaces/tal"
     tal:omit-tag="" tal:repeat="viewlet options/viewlets">
 
+  <fieldset class="oc-boxy">
   <legend class="oc-legend-heading oc-biggerText">
     Step <span tal:replace="python:repeat['viewlet'].number() + 2">
             number of this step, assuming 2 before the viewlets start
     </span>:
     <span tal:replace="viewlet/title | viewlet/name/title">Viewlet Title</span>
   </legend>
-  <span tal:replace="structure viewlet/render" />
+  <span tal:replace="structure viewlet" />
+  </fieldset>
 
 </span>

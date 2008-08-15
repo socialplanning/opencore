@@ -37,7 +37,6 @@
           </tr>
         </tbody>
       </table>
-      <tal:recent-plugins tal:replace="structure provider:opencore.member.recentactivity" />
     </div><!-- end .oc-widget-lastModified -->
   </div><!-- end .oc-boxy -->
 </metal:recent-activity>

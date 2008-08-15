@@ -25,12 +25,12 @@
                                     class python: request.form.get('field') == 'fullname' and default or nothing" />
                 </li>
 
-		<tal:viewlets define="viewlets provider:opencore.profile_edit_viewlets"> <!-- hello viewlets -->
-                <li tal:condition="python:viewlets.strip()"
+		<tal:viewlets define="viewlets provider:opencore.editform"> <!-- hello opencore.editform viewlets -->
+                <li tal:condition="viewlets/strip"
                     tal:content="structure viewlets">
                       geo viewlet stuff goes here!
-                </li>
-                <li tal:condition="python:not viewlets.strip()">
+                </li><!-- goodbye opencore.editform viewlets -->
+                <li tal:condition="not:viewlets/strip">
                   <!-- the old pre-geotagging way of doing location, still here for now -->
                   <label i18n:translate="profile-edit_location_label" for="location">Location</label> (example: "New York, NY" or "cloud nine") <br />
                   <input type="text" id="location" name="location"
@@ -108,11 +108,11 @@
       </div><!-- end #oc-content-main -->
 
       <div id="oc-content-sidebar"
-           tal:define="viewlets provider:opencore.profile_edit_sidebar">
-         <span tal:condition="python:viewlets.strip()"
-               tal:replace="structure viewlets">
+           tal:define="otherviewlets provider:opencore.sidebar"><!-- hello opencore.sidebar viewlets -->
+         <span tal:condition="python:otherviewlets.strip()"
+               tal:replace="structure otherviewlets">
                      geo viewlet stuff goes here!
-	 </span>
+	 </span><!-- goodbye opencore.sidebar viewlets -->
       </div>
     </form>
 

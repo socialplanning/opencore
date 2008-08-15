@@ -111,7 +111,7 @@
             </table>
           </fieldset>
           <tal:stuff
-               replace="structure provider:opencore.proj_prefs">
+               replace="structure provider:opencore.editform">
                project prefs viewlet stuff goes here!
 	  </tal:stuff>
           <fieldset class="oc-boxy">

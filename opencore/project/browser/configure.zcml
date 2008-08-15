@@ -214,24 +214,17 @@
 
   <!-- Viewlet managers allow plugins to add stuff to these forms -->
   <browser:viewletManager
-     name="opencore.sidebar"
-     provides=".interfaces.IProjectSidebar"
-     template="summary.pt"
-     permission="zope2.View"
-     />
-
-  <browser:viewletManager
-     name="opencore.proj_prefs"
-     provides=".interfaces.IProjectPrefs"
-     class=".manager.ProjectPrefsManager"
+     name="opencore.editform"
+     for="opencore.interfaces.IProject"
+     provides="opencore.browser.interfaces.IEditForm"
      template="preferences_viewlets.pt"
      permission="zope2.View"
      />
 
   <browser:viewletManager
-     name="opencore.proj_create_viewlets"
-     provides=".interfaces.IProjectPrefs"
-     class=".manager.ProjectPrefsManager"
+     name="opencore.editform"
+     for="opencore.interfaces.IAddProject"
+     provides="opencore.browser.interfaces.IEditForm"
      template="add_viewlets.pt"
      permission="zope2.View"
      />
