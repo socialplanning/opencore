@@ -40,3 +40,16 @@ class IAddOpenPlans(Interface):
 
 class IJSViewlets(IViewletManager):
     """Viewlet manager for javascript tags to insert into pages"""
+
+class IExtraHead(IViewletManager):
+    pass
+
+class IExtraBody(IViewletManager):
+    pass
+
+class ISidebar(IViewletManager):
+    """ sidebar settings """
+
+class IEditForm(IViewletManager):
+    """ settings you can modify on a piece of content """
+
