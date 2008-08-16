@@ -53,10 +53,6 @@ class IProject(Interface):
            only admins.
         """
 
-class IEditProject(Interface):
-    """Marker interface for OpenProjects edit form
-    """
-
 class IOpenTeam(ITeam):
     """
     Interface provided by OpenTeam objects.
