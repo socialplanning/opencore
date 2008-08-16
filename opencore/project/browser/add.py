@@ -89,14 +89,9 @@ class ProjectAddView(ProjectBaseView, OctopoLite):
         # Give plugin viewlets a chance to validate. We don't have a
         # project yet, so they'll have to tolerate validating with the
         # project container as the context.
-        viewlet_mgr = getMultiAdapter((self.context, self.request, self),
-                                      name='opencore.editform')
-        if not hasattr(viewlet_mgr, 'viewlets'):
-            viewlet_mgr.update()
-        viewlets = viewlet_mgr.viewlets
-        for viewlet in viewlets:
-            if hasattr(viewlet, 'validate'):
-                self.errors.update(viewlet.validate())
+        from opencore.browser.editform import edit_form_manager
+        manager = edit_form_manager(self)
+        self.errors.update(manager.validate())
 
         # XXX TO DO: handle featurelets, just like in preferences.py
 
@@ -138,14 +133,9 @@ class ProjectAddView(ProjectBaseView, OctopoLite):
 
         # We have to look up the viewlets again, now that we have
         # a project for them to use as the context to save to.
-        viewlet_mgr = getMultiAdapter((proj, self.request, self),
-                                      name='opencore.editform')
-        if not hasattr(viewlet_mgr, 'viewlets'):
-            viewlet_mgr.update()
-        for viewlet in viewlet_mgr.viewlets:
-            if hasattr(viewlet, 'save'):
-                viewlet.save()
-        
+        manager = edit_form_manager(self, context=proj)
+        manager.save()
+
         self.template = None  # Don't render anything before redirect.
         site_url = getToolByName(self.context, 'portal_url')()
         proj_edit_url = '%s/projects/%s/project-home/edit' % (site_url, id_)

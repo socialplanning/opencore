@@ -112,14 +112,9 @@ class ProjectPreferencesView(ProjectBaseView, OctopoLite):
         # not explicitly iterate over them at all; but this view's
         # need to validate *everything* first prevents me from doing
         # that. Maybe this view should be re-architected.
-        viewlet_mgr = getMultiAdapter((self.context, self.request, self),
-                                      name='opencore.editform')
-        if not hasattr(viewlet_mgr, 'viewlets'):
-            # This means it hasn't had update() called yet. only do that once.
-            viewlet_mgr.update()
-        for viewlet in viewlet_mgr.viewlets:
-            if hasattr(viewlet, 'validate'):
-                self.errors.update(viewlet.validate())
+        from opencore.browser.editform import edit_form_manager
+        manager = edit_form_manager(self)
+        self.errors.update(manager.validate())
 
         if self.errors:
             self.add_status_message(_(u'psm_correct_errors_below', u'Please correct the errors indicated below.'))
@@ -177,10 +172,8 @@ class ProjectPreferencesView(ProjectBaseView, OctopoLite):
         # We're inventing a convention by which viewlets can extend
         # forms with more form data to save: just provide a save
         # method.
-        for viewlet in viewlet_mgr.viewlets:
-            if hasattr(viewlet, 'save'):
-                viewlet.save()
-        
+        manager.save()
+
         for flet in featurelets:
             if flet not in old_featurelets:
                 changed[_(u'psm_featurelet_added', u'${flet} feature has been added.',

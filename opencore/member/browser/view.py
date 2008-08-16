@@ -203,24 +203,18 @@ class ProfileEditView(ProfileView, OctopoLite):
                 validation_failed = True
 
         # Do validation from any plugins.
-        viewlet_mgr = getMultiAdapter((self.context, self.request, self),
-                                      name='opencore.editform')
-        if not hasattr(viewlet_mgr, 'viewlets'):
-            viewlet_mgr.update()
-        for viewlet in viewlet_mgr.viewlets:
-            if hasattr(viewlet, 'validate'):
-                errors = viewlet.validate()
-                for key, msg in errors.items():
-                    validation_failed = True
-                    self.addPortalStatusMessage(msg)
+        from opencore.browser.editform import edit_form_manager
+        manager = edit_form_manager(self)
+        errors = manager.validate()
+        for key, msg in errors.items():
+            validation_failed = True
+            self.addPortalStatusMessage(msg)
 
         if validation_failed:
             return
 
         # Now allow any plugins to save state.
-        for viewlet in viewlet_mgr.viewlets:
-            if hasattr(viewlet, 'save'):
-                viewlet.save()
+        manager.save()
 
         # now deal with the rest of the fields via archetypes mutators.
         for field, value in form.items():

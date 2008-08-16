@@ -226,7 +226,8 @@
   <browser:viewletManager
      name="opencore.editform"
      for="opencore.interfaces.IProject"
-     provides="opencore.browser.interfaces.IEditForm"
+     provides="opencore.browser.editform.IEditForm"
+     class="opencore.browser.editform.EditForm"
      template="preferences_viewlets.pt"
      permission="zope2.View"
      />
@@ -234,7 +235,8 @@
   <browser:viewletManager
      name="opencore.editform"
      for="opencore.interfaces.IAddProject"
-     provides="opencore.browser.interfaces.IEditForm"
+     provides="opencore.browser.editform.IEditForm"
+     class="opencore.browser.editform.EditForm"
      template="add_viewlets.pt"
      permission="zope2.View"
      />

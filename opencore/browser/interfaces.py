@@ -50,5 +50,19 @@ class IExtraBody(IViewletManager):
 class ISidebar(IViewletManager):
     """Sidebar settings"""
 
-class IEditForm(IViewletManager):
-    """Settings you can modify on a piece of content"""
+
+class EditFormViewlet(object):
+
+    def validate(self):
+        """ 
+        perform any necessary validation based on the current request.
+
+        returns an error dictionary.
+        """
+        raise NotImplementedError
+
+    def save(self):
+        """ 
+        save state based on the current request.
+        """
+        raise NotImplementedError
