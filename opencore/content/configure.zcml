@@ -4,7 +4,8 @@
 
   <class class=".page.OpenPage">
     <implements
-      interface="Products.ploneundelete.interfaces.ICanBeUndeleted" />
+      interface="Products.ploneundelete.interfaces.ICanBeUndeleted
+                 opencore.framework.IExtensibleContent" />
   </class>
 
   <subscriber handler=".membership.post_wf_transition" />
