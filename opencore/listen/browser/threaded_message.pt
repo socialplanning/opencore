@@ -1,7 +1,10 @@
 <html metal:use-macro="here/@@standard_macros/master" i18n:domain="opencore">
+  <tal:head metal:fill-slot="script">
+    <script type="text/javascript" src="++resource++obfuscation.js"></script>
+  </tal:head>
+
   <body>
-    <div metal:fill-slot="content">
-      <script type="text/javascript" src="++resource++obfuscation.js"></script>
+    <tal:opencore.content metal:fill-slot="content">
       <div metal:use-macro="here/@@listen_macros/bcrumb"/>
       <div metal:use-macro="here/@@listen_macros/tabs"/>
       <div id="oc-content-main">
@@ -9,7 +12,9 @@
           <metal:message use-macro="here/message_macros/macros/message"/>
         </div>
       </div><!-- content-main -->
-      <div id="oc-content-sidebar">
+    </tal:opencore.content>
+
+      <tal:opencore.sidebar metal:fill-slot="sidebar">
         <div class="oc-boxy">
           <strong i18n:translate="threaded_message_return">Return to date view:</strong>
           <a id="to_threaded" href="." tal:attributes="href string:${view/folderURL}/by_thread"
@@ -65,46 +70,8 @@
               <span tal:replace="next_link/mail_from">Author</span>
             </span>
           </li>
-          <!-- <li tal:condition="next_date">
-            <strong id="date-next" i18n:translate="label_date_next">
-              Next by date:
-            </strong>
-            <a href="#" tal:content="next_date/subject" i18n:translate="" 
-              tal:attributes="href  next_date/url">Subject</a>
-            <span class="oc-smallText">
-              <span i18n:translate="label_author"
-                tal:omit-tag="">by</span>
-              <span tal:replace="next_date/mail_from">Author</span>
-            </span>
-          </li>
-          <li tal:condition="prev_date">
-            <strong id="date-prev" i18n:translate="label_date_prev">
-              Previous by date:
-            </strong>
-            <a href="#" tal:content="prev_date/subject" i18n:translate="" 
-              tal:attributes="href prev_date/url">Subject</a>
-            <span class="oc-smallText">
-              <span i18n:translate="label_author" tal:omit-tag="">by</span>
-              <span tal:replace="prev_date/mail_from">Author</span>
-            </span>
-          </li> -->
-          <tal:remove replace="nothing">
-            <!-- We probably don't need the whole thread here but this is how you would do it
-            <li id="full-thread" tal:condition="local_thread"
-              tal:define="thread view/getReplyStructure;
-                          local_thread thread/children">
-              <dl class="oc-plainList">
-                <dt i18n:translate="label_threaded_replies">
-                  Threaded Replies:
-                </dt>
-                <dd>
-                  <div metal:use-macro="here/message_macros/macros/thread" />
-                </dd>
-              </dl>
-            </li> -->
-          </tal:remove>
         </ul>
-      </div><!-- content-sidebar -->
-    </div><!-- content-container -->
+      </tal:opencore.sidebar>
+
   </body>
 </html>

@@ -10,7 +10,7 @@
   </head>
   <body>
 
-    <div metal:fill-slot="content">              
+    <tal:opencore.content metal:fill-slot="content">              
 
       <div id="oc-content-main">
 
@@ -137,11 +137,8 @@
         <div tal:condition="not: view/memberships">No team members found.</div>
 
     </div> <!-- content-main -->
-
-
-    <div id="oc-content-sidebar">
-    </div><!-- content-sidebar -->
     
-  </div><!-- content-fill-slot -->
+  </tal:opencore.content>
+
 </body>
 </html>

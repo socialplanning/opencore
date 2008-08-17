@@ -7,7 +7,7 @@
     </metal:do>
   </head>
   <body>
-    <div metal:fill-slot="content">
+    <tal:opencore.content metal:fill-slot="content">
       <div id="oc-content-main">
 
         <div class="oc-headingBlock">
@@ -88,11 +88,12 @@
   
         </tal:foldercontents>
       </div><!-- oc-content-main -->
-      
-      <div id="oc-content-sidebar">
-          <a class="oc-banana" tal:attributes="href string:${context/absolute_url}/create">Add a mailing list</a>
-      </div>
-    </div>
+    </tal:opencore.content>
+
+    <tal:opencore.sidebar metal:fill-slot="sidebar">
+      <a class="oc-banana" tal:attributes="href string:${context/absolute_url}/create">Add a mailing list</a>
+    </tal:opencore.sidebar>
+
   </body>
 </html>
 </tal:vars>

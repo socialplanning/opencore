@@ -4,11 +4,11 @@
            tal:content="string:Subprojects - ${view/portal_title}" />
   </head>
   <body>
-    <div metal:fill-slot="content">              
+    <tal:opencore.content metal:fill-slot="content">              
       <div class="oc-headingBlock">
         <h1><span tal:replace="context/Title" /> related projects</h1>
       </div>
-      <div id="oc-content-main">
+
         <div class="oc-column-group">
         <div class="oc-widget oc-widget-feed oc-column-left">
           <h2>All subprojects</h2>
@@ -69,22 +69,21 @@
 
         </div>
 
-      </div><!-- content-main -->
+    </tal:opencore.content>     
       
-      
-      <!-- XXX we need to think about how we are going to implement this with dynamic data
-           wiki page snippet pulled from a particular location? -->
-      <!-- content-sidebar -->
-      <div id="oc-content-sidebar">
-      	<div class="oc-getstarted oc-boxy">
-      		<h2>Start a project</h2>
-      		<p class="oc-boxy-content">Can&rsquo;t find a project you are interested in? See a need that is not being met? Why not <a href="">start a new project</a>?
-      	</div>
-      	<div class="oc-boxy">
-	  <a href="/featured-projects#oc-wiki-content" rel="include">Featured Projects</a>
-	</div>
+    <!-- XXX we need to think about how we are going to implement this with dynamic data
+         wiki page snippet pulled from a particular location? -->
+    <!-- content-sidebar -->
+    <tal:opencore.sidebar metal:fill-slot="sidebar">
+      <div class="oc-getstarted oc-boxy">
+      	<h2>Start a project</h2>
+      	<p class="oc-boxy-content">Can&rsquo;t find a project you are interested in? See a need that is not being met? Why not <a href="">start a new project</a>?
       </div>
-    </div><!-- content-fill-slot -->
+      <div class="oc-boxy">
+	<a href="/featured-projects#oc-wiki-content" rel="include">Featured Projects</a>
+      </div>
+    </tal:opencore.sidebar>
+    
     
   </body>
 </html>

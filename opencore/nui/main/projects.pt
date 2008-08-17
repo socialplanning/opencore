@@ -4,12 +4,12 @@
            tal:content="string:${view/project_noun/title}s - ${view/portal_title}" />
   </head>
   <body>
-    <div metal:fill-slot="content">              
+    <tal:opencore.content metal:fill-slot="content">              
+
       <div class="oc-headingBlock">
         <h1 tal:content="string:${view/project_noun/title}s on ${view/portal_title}" />
         <p i18n:translate="projects_currently_serving" class="oc-headingContext">Currently serving <span i18n:name="num_projects" tal:replace="view/projects_served_count"/> <span i18n:name="project_noun" tal:replace="view/project_noun">project</span>s</p>
       </div>
-      <div id="oc-content-main">
         
         <tal:set_var define="current_search_page string:projects;
            form_action_url string:${context/absolute_url}/searchresults">
@@ -45,21 +45,19 @@
           </ul>
         </div>
         
-      </div><!-- content-main -->
       
+      </tal:opencore.content>
       
       <!-- XXX we need to think about how we are going to implement this with dynamic data
            wiki page snippet pulled from a particular location? -->
-      <!-- content-sidebar -->
-      <div id="oc-content-sidebar">
+      <tal:opencore.sidebar metal:fill-slot="sidebar">
         <div class="oc-getstarted" tal:condition="view/loggedin">
           <h2 i18n:translate="projects_get_started_heading">Get started&hellip;</h2>
           <p i18n:translate="projects_get_started">Can&rsquo;t find a <span i18n:name="project_noun" tal:replace="view/project_noun">project</span> you are interested in? See a need that is not being met?
           </p>
            <a i18n:translate="projects_start_project_button" tal:attributes="href string:${context/portal_url}/projects/create" class="oc-banana">Start a new <span i18n:name="project_noun" tal:replace="view/project_noun">project</span></a>
         </div>
-      </div>
-    </div><!-- content-fill-slot -->
+      </tal:opencore.sidebar>
     
   </body>
 </html>

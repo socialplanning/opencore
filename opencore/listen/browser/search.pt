@@ -1,7 +1,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
   i18n:domain="opencore" metal:use-macro="here/@@standard_macros/master">
   <body>
-    <div metal:fill-slot="content">
+    <tal:opencore.content metal:fill-slot="content">
       <script type="text/javascript" src="++resource++obfuscation.js"></script> 
       <div metal:use-macro="here/@@listen_macros/bcrumb"/>
       <div metal:use-macro="here/@@listen_macros/tabs"/>
@@ -65,7 +65,9 @@
 
         </tal:threads>
       </div><!-- content-main -->
-      <div id="oc-content-sidebar">
+    </tal:opencore.content>
+
+    <tal:opencore.sidebar metal:fill-slot="sidebar">
         <div i18n:translate="listen_search_sidebar" class="oc-boxy">
           <h2>About &ldquo;<span i18n:name="list_title" tal:replace="context/Title" />&rdquo;</h2>
           <dl class="oc-plainList">
@@ -75,7 +77,8 @@
           <dd tal:content="view/listDescription" i18n:name="list_desc" tal:condition="view/listDescription" />
           </dl>
         </div>
-      </div><!-- content-sidebar -->
-    </div><!-- content-container -->
+    </tal:opencore.sidebar>
+
+
   </body>
 </html>

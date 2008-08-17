@@ -6,14 +6,12 @@
   </head>
   <body>
 
-    <div metal:fill-slot="content">
+    <tal:opencore.content metal:fill-slot="content">
 
 <div class="oc-headingBlock">
   <h1 i18n:translate="account_heading">Your account</h1>
   <p i18n:translate="account_description" class="oc-headingContext">View and manage your memberships and account settings.</p>
 </div>
-  
-<div id="oc-content-main">
   
   <div id="updates_widget"
        class="oc-widget oc-widget-invite"
@@ -112,9 +110,9 @@
      tal:attributes="href string:${view/twirlip_uri}/user/watchlist"/>
   <metal:do use-macro="view/project_table/macros/project_table" />
 
-</div><!-- end #oc-content-main -->
+</tal:opencore.content>
 
-<div id="oc-content-sidebar">
+<tal:opencore.sidebar metal:fill-slot="sidebar">
   <div class="oc-boxy">
     <h2 i18n:translate="account_settings">Account settings</h2>
     <a i18n:translate="account_edit_profile" href="profile-edit">Edit profile</a>
@@ -185,10 +183,8 @@
     <p>However, any updates you make on a publicly viewable <span i18n:name="project_noun" tal:replace="view/project_noun">project</span> could still display your username and a link to your profile.</p>
   </div>
   
-</div><!-- end #oc-content-sidebar -->
+</tal:opencore.sidebar>
 
-
-  </div><!-- content-fill-slot -->
 </body>
 </html>
 </tal:vars>

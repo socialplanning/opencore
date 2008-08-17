@@ -5,8 +5,8 @@
     <title metal:fill-slot="title">Create an account</title>
   </head>
   <body>
-    <div metal:fill-slot="content">
-      <div id="oc-content-main">
+    <tal:opencore.content metal:fill-slot="content">
+
         <!-- join form -->        
         <form id="oc-join-form" name="edit_form" class="oc-boxy" method="post" 
               tal:attributes="action string:${context/absolute_url}/join"
@@ -159,9 +159,9 @@
         <p i18n:translate="join_description" tal:condition="not:fdata/getUser | nothing" class="oc-discreetText">
           We will not share your email with anyone. Ever.
         </p>
-      </div><!-- end #oc-content-main -->
+    </tal:opencore.content>
       
-      <div id="oc-content-sidebar">
+    <tal:opencore.sidebar metal:fill-slot="sidebar">
         <div class="oc-boxy">
           <h2 i18n:translate="join_get_started">Becoming a member means&hellip;</h2>
           <ul i18n:translate="join_get_started_list" style="padding-left: 1em;">
@@ -174,8 +174,7 @@
           <h2 i18n:translate="join_already_member_heading">Already a member?</h2>
           <a i18n:translate="join_sign_in" href="login">Sign in</a>
         </div>
-      </div><!-- end #oc-content-sidebar -->
+    </tal:opencore.sidebar>
 
-    </div><!-- end content slot -->
   </body>
 </html>

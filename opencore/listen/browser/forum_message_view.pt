@@ -1,8 +1,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en" i18n:domain="opencore"
       metal:use-macro="here/@@standard_macros/master" tal:define="ml view/getMailingList">
+
+  <tal:head metal:fill-slot="script">
+       <script type="text/javascript" src="++resource++obfuscation.js"></script>
+  </tal:head>
+
   <body>
-    <div metal:fill-slot="content">
-      <script type="text/javascript" src="++resource++obfuscation.js"></script>
+    <tal:opencore.content metal:fill-slot="content">
       <div metal:use-macro="here/@@listen_macros/bcrumb"/>
       <div metal:use-macro="here/@@listen_macros/tabs"/>
       <div id="oc-content-main" tal:define="messages view/getMessageBodies;">
@@ -24,7 +28,9 @@
           <metal:threadmacro use-macro="here/message_macros/macros/forum_thread"/>
         </ul>
       </div><!-- content-main -->
-      <div id="oc-content-sidebar">
+    </tal:opencore.content>
+
+      <tal:opencore.sidebar metal:fill-slot="sidebar">
         <div class="oc-boxy">
         <a id="to_threaded" href="." tal:attributes="href view/archiveURL"
           i18n:translate="forum_return_conv_view">Return to conversation view</a>
@@ -51,7 +57,6 @@
           <input name="forum-update" i18n:attributes="value forum_update_button" Value="Update"
             type="submit"/>
         </form>
-      </div><!-- content-sidebar -->
-    </div><!-- content-container -->
+      </tal:opencore.sidebar>
   </body>
 </html>

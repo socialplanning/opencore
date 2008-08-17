@@ -3,9 +3,9 @@
     <title metal:fill-slot="title" 
            tal:content="string:Summary - ${view/window_title}" />
   </head>
+
   <body>
-    <div metal:fill-slot="content">
-      <div id="oc-content-main">
+    <tal:opencore.content metal:fill-slot="content">
 
         <!-- project metadata -->
         <div class="oc-headingBlock oc-clearAfter">
@@ -36,9 +36,10 @@
           </tal:feeds>
 
 	</div>
-      </div><!-- content-main -->     	
-      
-      <div id="oc-content-sidebar">  
+
+    </tal:opencore.content>
+
+    <tal:opencore.sidebar metal:fill-slot="sidebar">
 
         <!-- Team -->
         <div class="oc-widget oc-widget-feed">
@@ -63,10 +64,7 @@
           <span tal:replace="view/project_noun">project</span>
         </p>
 
-        <tal:viewlets replace="structure provider:opencore.sidebar" />
+    </tal:opencore.sidebar>
 
-      </div><!-- content-sidebar -->
-
-    </div><!-- content-fill-slot -->
   </body>
 </html>

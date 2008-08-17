@@ -9,8 +9,7 @@ need to combine with regular join form
     <title metal:fill-slot="title">Sign up for <span tal:replace="view/portal_title" /></title>
   </head>
   <body>
-    <div metal:fill-slot="content">
-      <div id="oc-content-main">
+    <tal:opencore.content metal:fill-slot="content">
 
         <!-- join form -->
         <form id="oc-join-form" name="edit_form" method="post" 
@@ -202,9 +201,9 @@ need to combine with regular join form
             <input type="hidden" name="__k" tal:attributes="value request/__k"/>
           </div>
         </form>
-      </div><!-- end #oc-content-main -->
+      </tal:opencore.content>
       
-      <div id="oc-content-sidebar">
+      <tal:opencore.sidebar metal:fill-slot="sidebar">
         <div class="oc-boxy">
           <h2 i18n:translate="join_already_member_heading">Already a member?</h2>
           <a i18n:translate="join_sign_in" href="login">Sign in</a>
@@ -228,8 +227,7 @@ need to combine with regular join form
 		      </ul>
         </div>
 
-      </div><!-- end #oc-content-sidebar -->
+    </tal:opencore.sidebar>
 
-    </div><!-- end content slot -->
   </body>
 </html>

@@ -7,7 +7,7 @@
            tal:content="string:Manage Team - ${view/window_title}" />
   </head>
   <body>
-    <div metal:fill-slot="content">
+    <tal:opencore.content metal:fill-slot="content">
     
     <div class="oc-headingBlock">
       <h1>Team management</h1>
@@ -71,8 +71,9 @@
           <metal:mshiplist use-macro="team_manage_macros/mshiplist" />
         </tal:memberships>
     </div><!-- end #oc-content-main -->
-    
-    <div id="oc-content-sidebar">
+    </tal:opencore.content>
+      
+    <tal:opencore.sidebar metal:fill-slot="sidebar">
       <div class="oc-boxy">
         <h2>Invite new members</h2>
         
@@ -118,8 +119,7 @@
         <p><a href="preferences">Change security settings</a></p>
       </div>
 
-    </div><!-- end #oc-content-sidebar -->
-    
-    </div><!-- end content-fill-slot -->
+    </tal:opencore.sidebar>
+
   </body>
 </html>

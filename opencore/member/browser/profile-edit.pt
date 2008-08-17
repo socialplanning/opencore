@@ -6,10 +6,10 @@
     <title metal:fill-slot="title" tal:content="string:${view/area/Title} on ${view/portal_title}" />
   </head>
   <body>
-    <div metal:fill-slot="content">
+    <tal:opencore.content metal:fill-slot="content">
+
      <form name="profile_form" id="profile_form" method="post" class="oc-member-edit" action="profile-edit" enctype="multipart/form-data">
 
-      <div id="oc-content-main">
           <div id="oc-member-badge" class="oc-boxy oc-clearAfter">
             <div class="oc-member-editimage">
               <div metal:use-macro="view/portrait_snippet/macros/portrait" />
@@ -105,18 +105,9 @@
               or <a i18n:translate="profile-edit_cancel" href="profile">Cancel</a>
             </li>
           </ul> 
-      </div><!-- end #oc-content-main -->
+      </form>
+    </tal:opencore.content>
 
-      <div id="oc-content-sidebar"
-           tal:define="otherviewlets provider:opencore.sidebar"><!-- hello opencore.sidebar viewlets -->
-         <span tal:condition="python:otherviewlets.strip()"
-               tal:replace="structure otherviewlets">
-                     geo viewlet stuff goes here!
-	 </span><!-- goodbye opencore.sidebar viewlets -->
-      </div>
-    </form>
-
-    </div><!-- content-fill-slot -->
   </body>
 </html>
 </tal:vars>

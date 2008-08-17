@@ -2,8 +2,9 @@
 		  global gdata view/handle_post" />
 <html i18n:domain="opencore" metal:use-macro="here/@@standard_macros/master">
   <body>
-    <div metal:fill-slot="content">
-      <div id="oc-content-main">
+
+    <tal:opencore.content metal:fill-slot="content">
+
 	<p>
 	  <form name="resend_email_form" method="post" tal:attributes="action request/ACTUAL_URL">
             <input type="hidden" name="key" id="key" 
@@ -80,11 +81,7 @@
 	</div>
 	<metal:forgot use-macro="view/forgot_snippet/macros/forgot_snippet" />
 
-      </div><!-- end #content-main -->
-      <div id="oc-content-sidebar">
-	
-      </div>
-    </div><!-- end content slot -->
+    </tal:opencore.content>
   </body>
 </html>
 

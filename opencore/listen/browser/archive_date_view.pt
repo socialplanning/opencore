@@ -1,6 +1,6 @@
 <html i18n:domain="opencore" metal:use-macro="here/@@standard_macros/master">
   <body>
-    <div metal:fill-slot="content">
+    <tal:opencore.content metal:fill-slot="content">
       <script type="text/javascript" src="++resource++obfuscation.js"></script>
       <div metal:use-macro="here/@@listen_macros/bcrumb"/>
       <div metal:use-macro="here/@@listen_macros/tabs"/>
@@ -34,9 +34,11 @@
           </p>
         </div>
       </div><!-- content-main -->
-      <div id="oc-content-sidebar">
+    </tal:opencore.content>
+
+    <tal:opencore.sidebar metal:fill-slot="sidebar">
         <div metal:use-macro="here/@@listen_macros/about"/>
-      </div><!-- content-sidebar -->
-    </div><!-- content-container -->
+    </tal:opencore.sidebar>
+
   </body>
 </html>

@@ -5,9 +5,7 @@
              tal:content="string:About - ${view/portal_title}" />
     </head>
 
-    <div metal:fill-slot="content">
-
-      <div id="oc-content-main">
+    <tal:opencore.content metal:fill-slot="content">
 
         <div class="oc-headingBlock">
           <h1 tal:content="string:About ${view/portal_title}" />
@@ -34,8 +32,10 @@
         <p>OpenPlans is our third initiative. We also founded <a href="http://geoserver.org/">GeoServer</a>, a platform for sharing geographic information, and we are collaborators in the <a href="http://nycsr.org/">New York City Streets Renaissance</a>, a campaign for lively public space in NYC.</p>
         <p>TOPP was born in 2000.</p>
 	</div>
-      </div><!-- content-main -->
-      <div id="oc-content-sidebar">
+
+    </tal:opencore.content>
+
+      <tal:opencore.sidebar metal:fill-slot="sidebar">
         <div i18n:translate="about_let_us_know" class="oc-getstarted">
           <h2>Help!</h2>
           <p>We're here to help you. If you have a question, <a tal:attributes="href string:${context/portal_url}/contact-site-admin">let us know</a>.</p>
@@ -76,7 +76,7 @@
               </dl>
             </div>
         </div>
-      </div>
-    </div><!-- content-fill-slot -->
+      </tal:opencore.sidebar>
+
   </body>
 </html>

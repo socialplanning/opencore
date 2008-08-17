@@ -4,8 +4,8 @@
            tal:content="string:Welcome to ${view/portal_title}!" />
   </head>
   <body>
-    <div metal:fill-slot="content">
-      <div id="oc-content-main" class="oc-content-main">
+    <tal:opencore.content metal:fill-slot="content">
+
         <div id="oc-home-content" class="oc-boxy">
             <div class="oc-headingBlock">
               <h1 i18n:translate="home_header">Do good, better.</h1>
@@ -86,10 +86,10 @@
           </div>
           
         </div>
-      </div><!-- content-main -->
-      
-      <div id="oc-content-sidebar">
-        <tal:provider replace="structure provider:opencore.sidebar" />
+
+    </tal:opencore.content>
+
+      <tal:opencore.sidebar metal:fill-slot="sidebar">
           <div id="oc-home-news" class="oc-widget oc-widget-feed">
             <h2 class="oc-feed-title">
               <a title="News"
@@ -114,8 +114,7 @@
               </li>
             </ul>
           </div><!-- OpenPlans News -->
-      </div>
+      </tal:opencore.sidebar>
       
-    </div><!-- content-fill-slot -->
   </body>
 </html>
