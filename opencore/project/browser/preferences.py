@@ -91,36 +91,53 @@ class ProjectPreferencesView(ProjectBaseView, OctopoLite):
                     }
                 }
 
-    @formhandler.button('update')
-    def handle_request(self):
-        # First do validation. We don't treat validation problems as
-        # exceptions, because we want to warn user of as many problems
-        # as possible, not just the first one that fails.  But this
-        # also means this method needs to manually bail out after
-        # validation failure, to avoid saving bad data.
+    def validate_request(self):
+        errors = {}
         title = self.request.form.get('project_title', self.request.form.get('title'))
         title = text.strip_extra_whitespace(title)
         self.request.form['project_title'] = title
         if not self.valid_title(title):
-            self.errors['project_title'] = _(u'err_project_name', u'The name must contain at least 2 characters with at least 1 letter or number.')
+            errors['project_title'] = _(u'err_project_name',
+                                        u'The name must contain at least 2 characters with at least 1 letter or number.')
 
-        # We're inventing a convention by which viewlets can extend
-        # forms with more form data to validate: just provide a
-        # validate() method.  (And then later we'll call a save()
-        # method.)
-        # XXX I'd prefer to just implicitly use viewlet.update(), and
-        # not explicitly iterate over them at all; but this view's
-        # need to validate *everything* first prevents me from doing
-        # that. Maybe this view should be re-architected.
         from opencore.browser.editform import edit_form_manager
         manager = edit_form_manager(self)
-        self.errors.update(manager.validate())
+        errors.update(manager.validate())        
 
-        if self.errors:
-            self.add_status_message(_(u'psm_correct_errors_below', u'Please correct the errors indicated below.'))
-            return
+        return errors
 
-        # Validation passed, so we save the data and set status PSMs.
+    def save_request(self):
+        new_form = self.filter_params()
+
+        logo = self.request.form.get('logo')
+        if logo:
+            try:
+                self.set_logo(logo)
+            except ValueError:
+                pass
+            del self.request.form['logo']
+
+        home_page = self.request.form.get('home-page', None)
+        hpcontext = IHomePage(self.context)
+        if home_page is not None:
+            if hpcontext.home_page != home_page:
+                hp_url = '%s/%s' % (self.context.absolute_url(), home_page)
+                hpcontext.home_page = home_page
+        
+        old_form = self.request.form
+        self.request.form = new_form
+        self.context.processForm(REQUEST=self.request, metadata=1)
+        self.request.form = old_form
+        
+        # We're inventing a convention by which viewlets can extend
+        # forms with more form data to save: just provide a save
+        # method.
+        manager = edit_form_manager(self)
+        manager.save()
+
+        self.add_status_message('Your changes have been saved.')
+
+    def filter_params(self):
         allowed_params = set(['__initialize_project__', 'update', 'set_flets',
                               'project_title', 'description', 'logo', 'workflow_policy',
                               'featurelets', 'home-page',
@@ -134,73 +151,25 @@ class ProjectPreferencesView(ProjectBaseView, OctopoLite):
                     new_form['title'] = self.request.form[k]
                 else:
                     new_form[k] = self.request.form[k]
+        return new_form
 
-        reader = IReadWorkflowPolicySupport(self.context)
-        old_workflow_policy = reader.getCurrentPolicyId()
+    @formhandler.button('update')
+    def handle_request(self):
+        # First do validation. We don't treat validation problems as
+        # exceptions, because we want to warn user of as many problems
+        # as possible, not just the first one that fails.  But this
+        # also means this method needs to manually bail out after
+        # validation failure, to avoid saving bad data.
+        self.errors = self.validate_request()
 
-        logo = self.request.form.get('logo')
-        logochanged = False
-        if logo:
-            try:
-                self.set_logo(logo)
-                logochanged = True
-            except ValueError:
-                pass
-            del self.request.form['logo']
+        if self.errors:
+            self.add_status_message(_(u'psm_correct_errors_below',
+                                      u'Please correct the errors indicated below.'))
+            return
 
-        #store change status of flet, security, title, description, logo...
-        changed = {
-            _(u'psm_project_title_changed') : self.context.title != self.request.form.get('project_title', self.context.title),
-            _(u'psm_project_desc_changed') : self.context.Description() != self.request.form.get('description', self.context.Description()),
-            _(u'psm_project_logo_changed') : logochanged,
-            _(u'psm_security_changed') : old_workflow_policy != self.request.form.get('workflow_policy'),
-            #_(u'psm_location_changed'): bool(locationchanged),
-            }
-        
-        supporter = IFeatureletSupporter(self.context)
-        flets = [f for n, f in getAdapters((supporter,), IFeaturelet)]
 
-        old_featurelets = set([(f.id, f.title) for f in flets if f.installed])
-
-        old_form = self.request.form
-        self.request.form = new_form
-        self.context.processForm(REQUEST=self.request, metadata=1)
-        self.request.form = old_form
-        
-        featurelets = set([(f.id, f.title) for f in flets if f.installed])
-
-        # We're inventing a convention by which viewlets can extend
-        # forms with more form data to save: just provide a save
-        # method.
-        manager.save()
-
-        for flet in featurelets:
-            if flet not in old_featurelets:
-                changed[_(u'psm_featurelet_added', u'${flet} feature has been added.',
-                          mapping={u'flet':flet[1].capitalize()})] = 1
-        
-        for flet in old_featurelets:
-            if flet not in featurelets:
-                changed[_(u'psm_featurelet_removed', u'${flet} feature has been removed.',
-                          mapping={u'flet':flet[1].capitalize()})] = 1
-
-        
-        for field, changed in changed.items():
-            if changed:
-                self.add_status_message(field)
-        #self.add_status_message('Your changes have been saved.')
-
-        home_page = self.request.form.get('home-page', None)
-        hpcontext = IHomePage(self.context)
-        if home_page is not None:
-            if hpcontext.home_page != home_page:
-                hp_url = '%s/%s' % (self.context.absolute_url(), home_page)
-                self.add_status_message(_(u'psm_proj_homepage_change', u'${project_noun} home page set to: <a href="${hp_url}">${homepage}</a>',
-                                        mapping={u'homepage':home_page, u'hp_url':hp_url,
-                                                 u'project_noun':self.project_noun.title(),
-                                                 }))
-                hpcontext.home_page = home_page
-
+        # Validation passed, so we save the data and set status PSMs.
+        self.save_request()
 
         self.redirect(self.context.absolute_url())
 
