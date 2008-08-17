@@ -12,10 +12,12 @@ def edit_form_manager(view, context=None):
     assert IEditForm.providedBy(manager)
     return manager
 
-class IEditForm(IViewletManager):
+class IEditable(Interface)
     """
+    Standard interface for editable content.
 
-    Viewlet manager for settings you can modify on a piece of content.
+    Editform views, viewletmanagers, and viewlets should all conform
+    to this interface.
     """
 
     def validate():
@@ -28,6 +30,9 @@ class IEditForm(IViewletManager):
 
     def save():
         """ save state based on the current request. """
+
+class IEditForm(IViewletManager, IEditable):
+    """ Viewlet manager for settings you can modify on a piece of content. """
 
 class EditForm(ViewletManagerBase):
     implements(IEditForm)

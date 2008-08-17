@@ -92,23 +92,17 @@ class ProjectPreferencesView(ProjectBaseView, OctopoLite):
                 }
 
     def validate(self):
-        errors = {}
-        title = self.request.form.get('project_title', self.request.form.get('title'))
-        title = text.strip_extra_whitespace(title)
-        self.request.form['project_title'] = title
-        if not self.valid_title(title):
-            errors['project_title'] = _(u'err_project_name',
-                                        u'The name must contain at least 2 characters with at least 1 letter or number.')
-
+        from opencore.browser.editform import IEditable
+        errors = IEditable(self.context).validate(self.request)
+        
         from opencore.browser.editform import edit_form_manager
         manager = edit_form_manager(self)
-        errors.update(manager.validate())        
+        errors.update(manager.validate())
 
         return errors
 
     def save(self):
-        new_form = self.filter_params()
-
+        # this codeblock is equivalent to an opencore.editform viewlet's .save()
         logo = self.request.form.get('logo')
         if logo:
             try:
@@ -117,16 +111,20 @@ class ProjectPreferencesView(ProjectBaseView, OctopoLite):
                 pass
             del self.request.form['logo']
 
+        # this codeblock is equivalent to an opencore.editform viewlet's .save()
         home_page = self.request.form.get('home-page', None)
         hpcontext = IHomePage(self.context)
         if home_page is not None:
             if hpcontext.home_page != home_page:
                 hp_url = '%s/%s' % (self.context.absolute_url(), home_page)
                 hpcontext.home_page = home_page
-        
+
+        # possibly this filtering should happen on the IEditable object?
+        new_form = self.filter_params()
         old_form = self.request.form
         self.request.form = new_form
-        self.context.processForm(REQUEST=self.request, metadata=1)
+        from opencore.browser.editform import IEditable
+        IEditable(self.context).save(self.request)
         self.request.form = old_form
         
         # We're inventing a convention by which viewlets can extend

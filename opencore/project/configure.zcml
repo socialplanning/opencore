@@ -22,6 +22,12 @@
      />
 
   <adapter
+     for="opencore.interfaces.IProject"
+     provides="opencore.browser.editform.IEditable"
+     factory="opencore.project.content.ProjectEditAdapter"
+     />
+
+  <adapter
      for="opencore.interfaces.IOpenTeam"
      provides="opencore.interfaces.IWriteWorkflowPolicySupport"
      factory="opencore.project.wf_policy_support.TeamWFPolicyWriteAdapter"
