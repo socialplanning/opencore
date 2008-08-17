@@ -53,9 +53,9 @@ var _editor_lang = "en";
     </metal:script-slot>
   </head>
   <body>
-    <div metal:fill-slot="content">
+    <tal:opencore.content metal:fill-slot="content">
 
-      <div id="oc-content-main" class="oc-content-main-fullWidth">
+      <div class="oc-content-main-fullWidth">
 
         <div class="oc-wiki">
 
@@ -177,6 +177,8 @@ var _editor_lang = "en";
   
               </div><!-- end expander-content -->
             </div><!-- end expander -->
+
+	    <div tal:replace="structure provider:opencore.editform" />
             
               <ul class="oc-actions oc-wiki-actions">
                 <li><input type="submit" name="task|save" value="Save" class="oc-button oc-chooseThis" /></li>
@@ -189,7 +191,8 @@ var _editor_lang = "en";
         </div><!-- end .oc-wiki -->
 
       </div><!-- end #oc-content-main -->        
-    </div><!-- end content slot -->
+    </tal:opencore.content>
+
   </body>
 </html>
 

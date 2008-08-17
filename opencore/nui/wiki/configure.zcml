@@ -80,6 +80,14 @@
     permission="cmf.ModifyPortalContent"
     />
 
+  <browser:viewletManager
+     name="opencore.editform"
+     for="opencore.interfaces.IOpenPage"
+     provides="opencore.browser.editform.IEditForm"
+     class="opencore.browser.editform.EditForm"
+     permission="zope2.View"
+     />
+
   <browser:page
     class="opencore.nui.wiki.view.WikiEdit"
     for="opencore.interfaces.IOpenPage"

@@ -193,13 +193,19 @@ class WikiEdit(WikiBase, OctopoLite):
 
     @action('save')
     def handle_save(self, target=None, fields=None):
+        from opencore.browser.editform import edit_form_manager
+        manager = edit_form_manager(self)
+
         self.errors = self.validate()
+        self.errors.update(manager.validate())
+
         if self.errors:
             for msg in self.errors.values():
                 self.addPortalStatusMessage(msg)
             return self.errors
 
         self.save()
+        manager.save()
 
         self.addPortalStatusMessage(u'Your changes have been saved.')
 
