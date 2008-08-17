@@ -33,7 +33,7 @@ class ProjectAddView(ProjectBaseView, OctopoLite):
         return list(get_view_names(self.context)) + ['people', 'projects', 'unique', 'summary', 'pending']
 
     @action('validate')
-    def validate(self, target=None, fields=None):
+    def handle_validation(self, target=None, fields=None):
         putils = getToolByName(self.context, 'plone_utils')
         errors = {}
         id_ = self.request.form.get('projid')
@@ -61,70 +61,47 @@ class ProjectAddView(ProjectBaseView, OctopoLite):
             return False
         return True
 
-    @action('add')
-    def handle_request(self, target=None, fields=None):
-        #XXX all of the errors that are reported back here are not going
-        # through the translation machinery
-        putils = getToolByName(self.context, 'plone_utils')
-        self.request.set('__initialize_project__', True)
+    def validate(self):
+        errors = {}
 
-        self.errors = {}
         title = self.request.form.get('project_title')
         title = text.strip_extra_whitespace(title)
         if not isinstance(title, unicode):
             title = unicode(title, 'utf-8')
         self.request.form['project_title'] = title
         if not self.valid_title(title):
-            self.errors['project_title'] = 'The name must contain 2 or more characters.'
-
+            errors['project_title'] = 'The name must contain 2 or more characters.'
 
         id_ = self.request.form.get('projid')
         if not self.valid_id(id_):
-            self.errors['id'] = 'The url must contain 2 or more characters.'
+            errors['id'] = 'The url must contain 2 or more characters.'
         else:
+            putils = getToolByName(self.context, 'plone_utils')
             id_ = putils.normalizeString(id_)
+            self.request.form['projid'] = id_
             if self.context.has_key(id_):
-                self.errors['id'] = 'The requested url is already taken.'
+                errors['id'] = 'The requested url is already taken.'
+        if id_ in self.reserved_names():
+            self.errors['id'] = 'Name reserved'
+            self.add_status_message(_(u'psm_project_name_reserved',
+                                      u'The name "${project_name}" is reserved. Please try a different name.',
+                                      mapping={u'project_name':id_}))
 
         # Give plugin viewlets a chance to validate. We don't have a
         # project yet, so they'll have to tolerate validating with the
         # project container as the context.
         from opencore.browser.editform import edit_form_manager
         manager = edit_form_manager(self)
-        self.errors.update(manager.validate())
+        errors.update(manager.validate())
+        return errors
 
-        # XXX TO DO: handle featurelets, just like in preferences.py
-
-        if self.errors:
-            self.add_status_message(_(u'psm_correct_errors_below', u'Please correct the errors indicated below.'))
-            return
-
-        self.request.form['featurelets'] = [f['id'] for f in self.featurelets()]
-
-        # Aarrgghh!! #*!&% plone snoops into the request, and reads the form variables directly,
-        # so we have to set the form variables with the same names as the schema
-        self.request.form['title'] = title
-
-        proj = self.context.restrictedTraverse('portal_factory/OpenProject/%s' %id_)
-        # not calling validate because it explodes on "'" for project titles
-        # XXX is no validation better than an occasional ugly error?
-        #proj.validate(REQUEST=self.request, errors=self.errors, data=1, metadata=0)
-        if self.errors:
-            self.add_status_message(_(u'psm_correct_errors_below', u'Please correct the errors indicated below.'))
-            return 
-        if id_ in self.reserved_names():
-            self.errors['id'] = 'Name reserved'
-            self.add_status_message(_(u'psm_project_name_reserved', u'The name "${project_name}" is reserved. Please try a different name.',
-                                      mapping={u'project_name':id_}))
-            return
-
-        self.context.portal_factory.doCreate(proj, id_)
-        proj = aq_inner(self.context)._getOb(id_)
-        self.notify(proj)
+    def save(self):
+        proj = self.context[self.request.form['projid']]
 
         logo = self.request.form.get('logo')
         if logo:
             if not self.check_logo(proj, logo):
+                # the above call actually sets the logo. yuck.
                 return
             del self.request.form['logo']
 
@@ -133,22 +110,61 @@ class ProjectAddView(ProjectBaseView, OctopoLite):
 
         # We have to look up the viewlets again, now that we have
         # a project for them to use as the context to save to.
+        from opencore.browser.editform import edit_form_manager
         manager = edit_form_manager(self, context=proj)
         manager.save()
 
+    @action('add')
+    def handle_request(self, target=None, fields=None):
+        #XXX all of the errors that are reported back here are not going
+        # through the translation machinery
+
+        # @@ what is this for?
+        self.request.set('__initialize_project__', True)
+
+        self.errors = self.validate()
+
+        # XXX TO DO: handle featurelets, just like in preferences.py
+
+        if self.errors:
+            self.add_status_message(_(u'psm_correct_errors_below',
+                                      u'Please correct the errors indicated below.'))
+            return
+
+        # @@ what is this for?
+        self.request.form['featurelets'] = [f['id'] for f in self.featurelets()]
+
+        # Aarrgghh!! #*!&% plone snoops into the request, and reads the form variables directly,
+        # so we have to set the form variables with the same names as the schema
+        self.request.form['title'] = self.request.form['project_title']
+        id_ = self.request.form['projid']
+
+        proj = self.context.restrictedTraverse('portal_factory/OpenProject/%s' %id_)
+        # not calling validate because it explodes on "'" for project titles
+        # XXX is no validation better than an occasional ugly error?
+        #proj.validate(REQUEST=self.request, errors=self.errors, data=1, metadata=0)
+
+        self.context.portal_factory.doCreate(proj, id_)
+        proj = aq_inner(self.context)._getOb(id_)
+        self.notify(proj)
+
+        self.save()  # instead i think it would be much preferable to invoke a save
+        # ............ on the newly created project directly:
+        # ............ >>> IEditForm(proj).save(request.form) 
+
         self.template = None  # Don't render anything before redirect.
-        site_url = getToolByName(self.context, 'portal_url')()
-        proj_edit_url = '%s/projects/%s/project-home/edit' % (site_url, id_)
-
-        s_message_mapping = {'title': title, 'proj_edit_url': proj_edit_url,
-                             'project_noun': self.project_noun,}
-
-
-        s_message = _(u'project_created',
-                      u'"${title}" has been created. Create a team by searching for other members to invite to your ${project_noun}, then <a href="${proj_edit_url}">edit your ${project_noun} home page</a>.',
-                      mapping=s_message_mapping)
-        
-#        self.add_status_message(s_message)
+        #site_url = getToolByName(self.context, 'portal_url')()
+        #proj_edit_url = '%s/projects/%s/project-home/edit' % (site_url, id_)
+        #
+        #s_message_mapping = {'title': title, 'proj_edit_url': proj_edit_url,
+        #                     'project_noun': self.project_noun,}
+        #
+        #
+        #s_message = _(u'project_created',
+        #              u'"${title}" has been created. Create a team by searching for other members to invite to your ${project_noun}, then <a href="${proj_edit_url}">edit your ${project_noun} home page</a>.',
+        #              mapping=s_message_mapping)
+        #
+        #self.add_status_message(s_message)
 
         self.redirect('%s/tour' % proj.absolute_url())
 

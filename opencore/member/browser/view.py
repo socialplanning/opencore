@@ -188,10 +188,11 @@ class ProfileEditView(ProfileView, OctopoLite):
                 }
             }
 
-    @action("update")
-    def handle_form(self, target=None, fields=None):
+    def validate(self):
+        errors = {}
+
         member = self.viewedmember()
-        validation_failed = False
+
         form = self.request.form
         
         # deal with portrait first
@@ -200,18 +201,21 @@ class ProfileEditView(ProfileView, OctopoLite):
             if self.check_portrait(member, portrait):
                 del form['portrait']
             else:
-                validation_failed = True
+                errors['portrait'] = "Invalid portrait"
 
         # Do validation from any plugins.
         from opencore.browser.editform import edit_form_manager
         manager = edit_form_manager(self)
-        errors = manager.validate()
+        errors.update(manager.validate())
         for key, msg in errors.items():
-            validation_failed = True
-            self.addPortalStatusMessage(msg)
+            if key != 'portrait':
+                self.addPortalStatusMessage(msg)
 
-        if validation_failed:
-            return
+        return errors
+
+    def save(self):
+        member = self.viewedmember()
+        manager = edit_form_manager(self)
 
         # Now allow any plugins to save state.
         manager.save()
@@ -222,7 +226,6 @@ class ProfileEditView(ProfileView, OctopoLite):
             mutator = getattr(member, mutator, None)
             if mutator is not None:
                 mutator(value)
-        self.user_updated()
 
         notify(ObjectModifiedEvent(member))
         #XXX some handlers listen to a specific event, since the object modified
@@ -230,11 +233,14 @@ class ProfileEditView(ProfileView, OctopoLite):
         notify(MemberModifiedEvent(member))
     
         member.reindexObject()
+
+    @action("update")
+    def handle_form(self, target=None, fields=None):
+        errors = self.validate()
+        if errors:
+            return
+
+        self.save()
+
         self.template = None
         return self.redirect('profile')
-        
-    def user_updated(self): # TODO
-        """callback to tell taggerstore a user updated (possibly) taggifiable
-        fields. something like a POST to /taggerstore/."""
-        pass
-

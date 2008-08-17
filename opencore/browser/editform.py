@@ -3,7 +3,6 @@ from zope.component import getMultiAdapter
 from zope.interface import implements
 from zope.viewlet.interfaces import IViewletManager
 
-
 def edit_form_manager(view, context=None):
     context = context or view.context
     manager = getMultiAdapter((context,

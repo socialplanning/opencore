@@ -91,7 +91,7 @@ class ProjectPreferencesView(ProjectBaseView, OctopoLite):
                     }
                 }
 
-    def validate_request(self):
+    def validate(self):
         errors = {}
         title = self.request.form.get('project_title', self.request.form.get('title'))
         title = text.strip_extra_whitespace(title)
@@ -106,7 +106,7 @@ class ProjectPreferencesView(ProjectBaseView, OctopoLite):
 
         return errors
 
-    def save_request(self):
+    def save(self):
         new_form = self.filter_params()
 
         logo = self.request.form.get('logo')
@@ -160,16 +160,15 @@ class ProjectPreferencesView(ProjectBaseView, OctopoLite):
         # as possible, not just the first one that fails.  But this
         # also means this method needs to manually bail out after
         # validation failure, to avoid saving bad data.
-        self.errors = self.validate_request()
+        self.errors = self.validate()
 
         if self.errors:
             self.add_status_message(_(u'psm_correct_errors_below',
                                       u'Please correct the errors indicated below.'))
             return
 
-
         # Validation passed, so we save the data and set status PSMs.
-        self.save_request()
+        self.save()
 
         self.redirect(self.context.absolute_url())
 
