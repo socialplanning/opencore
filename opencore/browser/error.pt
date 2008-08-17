@@ -8,7 +8,8 @@
 </head>
 
 <body>
-<div metal:fill-slot="content"
+<tal:opencore.content
+     metal:fill-slot="content"
      tal:define="err_type options/error_type|nothing;
                  err_message options/error_message|nothing;
                  err_tb options/error_tb|nothing;
@@ -71,7 +72,7 @@ If you give us your email address, <br />we will let you know when this problem 
   </div>
 </div>
 
-</div>
+</tal:opencore.editform>
 
 </body>
 </html>
