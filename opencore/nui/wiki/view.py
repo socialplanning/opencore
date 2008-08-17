@@ -123,26 +123,19 @@ class WikiEdit(WikiBase, OctopoLite):
         else:
             return doc
 
-    @action('save')
-    def handle_save(self, target=None, fields=None):
+    def validate(self):
+        errors = {}
+        self.context.validate(REQUEST=self.request, errors=errors, data=1, metadata=0)
+        return errors
+
+    def save(self):
+        """ @@ note: this method is dangerously slow """ 
+        # this is equivalent to an opencore.editform viewlet's .validate() and .save()
         self.create_attachment()
 
-        self.errors = {}
-        self.context.validate(REQUEST=self.request, errors=self.errors, data=1, metadata=0)
-        if self.errors:
-            for msg in self.errors.values():
-                self.addPortalStatusMessage(msg)
-            return self.errors
-
-        allowed_params = set(['comment', 'oc-target', 'text_file', 'title', 'text', 'attachmentFile', 'submitted', 'text_text_format', 'attachmentTitle', 'task|save'])
-        new_form = {}
-        for k in self.request.form:
-            if k in allowed_params:
-                new_form[k] = self.request.form[k]
-        
+        new_form = self.filter_params()
         # don't call process form, because we do our own cleaning of html
         # self.context.processForm(values=self.request)
-
         page_title = new_form['title']
         page_text = new_form['text']
         # XXX check description on news page
@@ -189,6 +182,25 @@ class WikiEdit(WikiBase, OctopoLite):
         repo = self.context.portal.portal_repository
         repo.save(self.context, comment = self.request.form.get('comment', ''))
         self.context.reindexObject()
+
+    def filter_params(self):
+        allowed_params = set(['comment', 'oc-target', 'text_file', 'title', 'text', 'attachmentFile', 'submitted', 'text_text_format', 'attachmentTitle', 'task|save'])
+        new_form = {}
+        for k in self.request.form:
+            if k in allowed_params:
+                new_form[k] = self.request.form[k]
+        return new_form
+
+    @action('save')
+    def handle_save(self, target=None, fields=None):
+        self.errors = self.validate()
+        if self.errors:
+            for msg in self.errors.values():
+                self.addPortalStatusMessage(msg)
+            return self.errors
+
+        self.save()
+
         self.addPortalStatusMessage(u'Your changes have been saved.')
 
         self.redirect(self.context.absolute_url())

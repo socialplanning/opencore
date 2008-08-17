@@ -140,17 +140,21 @@ class ProjectAddView(ProjectBaseView, OctopoLite):
         id_ = self.request.form['projid']
 
         proj = self.context.restrictedTraverse('portal_factory/OpenProject/%s' %id_)
+        import pdb; pdb.set_trace()
         # not calling validate because it explodes on "'" for project titles
         # XXX is no validation better than an occasional ugly error?
         #proj.validate(REQUEST=self.request, errors=self.errors, data=1, metadata=0)
 
         self.context.portal_factory.doCreate(proj, id_)
-        proj = aq_inner(self.context)._getOb(id_)
+        proj = self.context[proj.getId()]
         self.notify(proj)
 
         self.save()  # instead i think it would be much preferable to invoke a save
         # ............ on the newly created project directly:
         # ............ >>> IEditForm(proj).save(request.form) 
+        # this is hard, though, because things behave strangely here;
+        # the self.notify(proj) [event subscriptions] is where the attributes
+        # are actually set on the content...
 
         self.template = None  # Don't render anything before redirect.
         #site_url = getToolByName(self.context, 'portal_url')()

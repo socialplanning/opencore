@@ -103,6 +103,15 @@
      template="preferences.pt"
      />
 
+  <!-- maybe one day?
+  <opencore:editform
+    for="opencore.interfaces.IProject"
+    name="preferences"
+    template="preferences.pt"
+    class=".preferences.ProjectPreferencesView"
+    redirect="."
+    /> -->
+
   <browser:page
      for="opencore.interfaces.IProject"
      class=".preferences.ProjectDeletionView"

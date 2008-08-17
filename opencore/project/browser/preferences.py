@@ -102,6 +102,14 @@ class ProjectPreferencesView(ProjectBaseView, OctopoLite):
         return errors
 
     def save(self):
+        # possibly this filtering should happen on the IEditable object?
+        new_form = self.filter_params()
+        old_form = self.request.form
+        self.request.form = new_form
+        from opencore.browser.editform import IEditable
+        IEditable(self.context).save(self.request)
+        self.request.form = old_form
+
         # this codeblock is equivalent to an opencore.editform viewlet's .save()
         logo = self.request.form.get('logo')
         if logo:
@@ -119,13 +127,6 @@ class ProjectPreferencesView(ProjectBaseView, OctopoLite):
                 hp_url = '%s/%s' % (self.context.absolute_url(), home_page)
                 hpcontext.home_page = home_page
 
-        # possibly this filtering should happen on the IEditable object?
-        new_form = self.filter_params()
-        old_form = self.request.form
-        self.request.form = new_form
-        from opencore.browser.editform import IEditable
-        IEditable(self.context).save(self.request)
-        self.request.form = old_form
         
         # We're inventing a convention by which viewlets can extend
         # forms with more form data to save: just provide a save
