@@ -72,7 +72,7 @@ If you give us your email address, <br />we will let you know when this problem 
   </div>
 </div>
 
-</tal:opencore.editform>
+</tal:opencore.content>
 
 </body>
 </html>

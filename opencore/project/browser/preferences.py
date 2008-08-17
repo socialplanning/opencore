@@ -130,6 +130,7 @@ class ProjectPreferencesView(ProjectBaseView, OctopoLite):
         # We're inventing a convention by which viewlets can extend
         # forms with more form data to save: just provide a save
         # method.
+        from opencore.browser.editform import edit_form_manager
         manager = edit_form_manager(self)
         manager.save()
 

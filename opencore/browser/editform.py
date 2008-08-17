@@ -12,7 +12,8 @@ def edit_form_manager(view, context=None):
     assert IEditForm.providedBy(manager)
     return manager
 
-class IEditable(Interface)
+from zope.interface import Interface
+class IEditable(Interface):
     """
     Standard interface for editable content.
 
