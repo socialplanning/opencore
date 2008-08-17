@@ -1,3 +1,5 @@
+<tal:var tal:define="fdata view/handle_request;
+   		     login view/handle_login"/>
 <html i18n:domain="opencore" metal:use-macro="here/@@standard_macros/master">
   <head>
     <title metal:fill-slot="title" 
