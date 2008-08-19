@@ -5,9 +5,9 @@
  <property name="title">File attachment</property>
  <property name="description">A file attachment</property>
  <property name="content_icon">file_icon.gif</property>
- <property name="content_meta_type">FileAttachment</property>
- <property name="product">SimpleAttachment</property>
- <property name="factory">addFileAttachment</property>
+ <property name="content_meta_type">ATBlobAttachment</property>
+ <property name="product">OpenPlans</property>
+ <property name="factory">addATBlobAttachment</property>
  <property name="immediate_view">fileattachment_view</property>
  <property name="global_allow">False</property>
  <property name="filter_content_types">False</property>

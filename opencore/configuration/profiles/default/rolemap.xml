@@ -210,6 +210,14 @@
       <role name="ProjectMember"/>
       <role name="Reviewer"/>
     </permission>
+    <permission name="OpenPlans: Add ATBlobAttachment"
+                acquire="False">
+      <role name="Manager"/>
+      <role name="Owner"/>
+      <role name="ProjectAdmin"/>
+      <role name="ProjectMember"/>
+      <role name="Reviewer"/>
+    </permission>
     <permission name="OpenPlans: Make content visible"
                 acquire="False">
       <role name="Manager"/>
