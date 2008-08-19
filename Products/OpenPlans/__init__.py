@@ -37,13 +37,10 @@ def initialize(context):
     lrinit(context)
     # Importing the content types allows for their registration
     # with the Archetypes runtime
-    from content import *
-    from opencore.content import *
+    import content
+    import opencore.content
+    import opencore.wiki.content
     from opencore.listen import mailinglist
-
-    # Register customization policy
-    #import policy
-    #policy.register(context, config.GLOBALS)
 
     from AccessControl import ModuleSecurityInfo
 
@@ -59,7 +56,7 @@ def initialize(context):
     # XXX make this a 'z3types' data structure
     content_types = content_types + (mailinglist.OpenMailingList,)
     constructors = constructors + (mailinglist.addOpenMailingList,)
-    ftis = ftis + z3ftis
+    ftis = ftis + content.z3ftis
 
     permissions = initialize_permissions()
     permissions['Open Mailing List'] = AddMailingList
