@@ -274,7 +274,7 @@ class OpenMember(FolderishMember):
         """Represents a list of the user skills for BBB.
            This is indexed as a keywordindex"""
         skills = self.getSkills()
-        if not skills.strip():
+        if skills is None or not skills.strip():
             return []
         return [x.strip() for x in skills.split(',')]
 
