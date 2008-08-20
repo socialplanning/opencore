@@ -6,8 +6,10 @@ from zExceptions import Redirect
 from zope.interface import alsoProvides
 
 from Products.AdvancedQuery import Eq, RankByQueries_Sum
+from Products.CMFCore.utils import getToolByName
 from Products.CMFPlone.PloneBatch import Batch
 
+from topp.utils.pretty_date import prettyDate
 from opencore import redirect
 from opencore.interfaces import INewsItem
 from opencore.browser.base import BaseView

@@ -1,4 +1,4 @@
-from zope.interface import Interface, implements
+from zope.interface import Interface, Attribute, implements
 from zope.app.event.interfaces import IObjectModifiedEvent, IObjectCreatedEvent
 from zope.app.event.objectevent import ObjectModifiedEvent, ObjectCreatedEvent
 

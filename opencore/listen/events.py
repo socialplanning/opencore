@@ -16,7 +16,7 @@ from zope.i18n import translate
 
 # make sure that modification date gets updated
 # when new messages are sent to list
-def mailinglist_msg_delivered(ml, event):
+def mailinglist_changed(ml, event):
     ml.setModificationDate()
 
 #XXX this is directly copied from the wordpress event code to check
@@ -66,7 +66,7 @@ def listen_featurelet_installed(proj, event):
     """need to create a default discussion mailing list
        and subscribe all project members to the list"""
     proj_id = proj.getId()
-    proj_title = proj.Title().decode('utf-8')
+    proj_title = proj.Title()
     ml_id = '%s-discussion' % proj_id
     address = '%s%s' % (ml_id, getSuffix())
 
@@ -78,11 +78,9 @@ def listen_featurelet_installed(proj, event):
         # psm maybe?
         return
 
-    # XXX we need a request utility
-    request = proj.REQUEST
-    # invokeFactory depends on the title being set in the request
+    # XXX invokeFactory depends on the title being set in the request
     ml_title = u'%s discussion' % (proj_title)
-    request.set('title', ml_title)
+    proj.REQUEST.set('title', ml_title)
     lists_folder = proj.lists.aq_inner
     lists_folder.invokeFactory(OpenMailingList.portal_type, ml_id)
     ml = lists_folder._getOb(ml_id)
@@ -91,8 +89,7 @@ def listen_featurelet_installed(proj, event):
     cur_mem_id = unicode(ms_tool.getAuthenticatedMember().getId())
     ml.managers = (cur_mem_id,)
     ml.setDescription(translate(_(u'discussion_list_desc', u'Discussion list for this ${project_noun}, consisting of all ${project_noun} members.',
-                                  mapping={'project_noun':project_noun()}),
-                                            context=request))
+                                  mapping={'project_noun':project_noun()})))
     notify(ObjectCreatedEvent(ml))
 
     memlist = IWriteMembershipList(ml)

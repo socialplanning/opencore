@@ -38,10 +38,10 @@
             <ul class="oc-feed-list">
               <li class="oc-feed-item oc-clearAfter" tal:repeat="project view/recently_created_projects">
                 <a tal:attributes="href python:view.project_url(project)">
-                  <img class="oc-project-logo"
-                       tal:attributes="alt project/Title;
-                                       title project/Title;
-                                       src string:${project/getURL}/logo_thumb" />
+                  <tal:setvar define="logo python:view.logo_for_proj_brain(project);
+                                    thumb_url python:logo and ('%s/logo_thumb' % project.getURL()) or view.defaultProjLogoURL">
+                    <img class="oc-project-logo" tal:attributes="src thumb_url; alt project/Title; title project/Title" />
+                  </tal:setvar>
                 </a>
                 <h3 class="oc-feed-item-title">
                   <a tal:attributes="href python:view.project_url(project)" tal:content="project/Title">Project title</a>
@@ -89,13 +89,26 @@
       </div><!-- content-main -->
       
       <div id="oc-content-sidebar">
-        <tal:provider replace="structure provider:opencore.sidebar" />
+        <tal:comment replace="nothing">
+          <div id="oc-home-getstarted" class="oc-getstarted">
+              <h2>Get started!</h2>
+              <ul class="oc-getstarted-list">
+                  <li tal:condition="not: view/loggedin">
+                    <h3><a tal:attributes="href string:${context/portal_url}/join">Become a member</a></h3>
+                    <p class="oc-discreetText">or <a tal:attributes="href string:${context/portal_url}/login">log in</a>.</p>
+                  </li>
+                  <li>
+                    <h3><a tal:attributes="href string:${context/portal_url}/projects">Find <span tal:replace="view/project_noun">project</span>s</a></h3>  
+                  </li>
+                  <li>
+                    <h3><a tal:attributes="href string:${context/portal_url}/people">Find people</a></h3>
+                  </li>
+              </ul>
+            </div>
+          </tal:comment>
           <div id="oc-home-news" class="oc-widget oc-widget-feed">
-            <h2 class="oc-feed-title">
-              <a title="News"
-                 tal:attributes="href string:${context/portal_url}/news"
-                 tal:content="string:${view/portal_title} News" />
-            </h2>
+            <h2 class="oc-feed-title"
+                tal:content="string:${view/portal_title} News" />
             <ul class="oc-feed-list">
               <li tal:repeat="item view/news" class="oc-feed-item oc-clearAfter">
                 <h3 class="oc-feed-item-title">
@@ -114,6 +127,10 @@
               </li>
             </ul>
           </div><!-- OpenPlans News -->
+          <div class="oc-boxy" style="background: none;">
+            <a href="http://topp.openplans.org/"><img src="++resource++img/topp_logo.jpg" style="float: left; margin-right: 1em;"/></a>
+            <p><tal:block replace="view/portal_title" /> is proud to be one of the many projects supported by <a href="http://topp.openplans.org/">The Open Planning Project</a>, a New York City&ndash;based non-profit building technology to enhance civic participation. <a href="about">Learn more&hellip;</a>
+          </div>
       </div>
       
     </div><!-- content-fill-slot -->

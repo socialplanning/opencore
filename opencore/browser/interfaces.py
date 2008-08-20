@@ -40,9 +40,3 @@ class IAddOpenPlans(Interface):
 
 class IJSViewlets(IViewletManager):
     """Viewlet manager for javascript tags to insert into pages"""
-
-class IExtraHead(IViewletManager):
-    """Viewlet manager for adding additional content at the end of the head"""
-
-class IExtraBody(IViewletManager):
-    """Viewlet manager for adding additional content at the end of the body"""

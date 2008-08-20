@@ -42,7 +42,7 @@
               <td>
                 <!-- TITLE -->
                 <h2 class="oc-bigText"><a class="oc-version-current" tal:attributes="href string:version?version_id=${new_id}">
-                  <span tal:replace="python: view.version_title(new_id)" />
+                  <span tal:replace="python: view.version_title(new_id);" />
                 </a></h2>
               </td>
               <td>
@@ -82,7 +82,7 @@
               </td>
               <td>
                 <h2 class="oc-bigText"><a class="oc-version-old" tal:attributes="href string:version?version_id=${old_id}">
-                  <span tal:replace="python: view.version_title(old_id)" /> 
+                  <span tal:replace="python: view.version_title(old_id);" /> 
                 </a></h2>
               </td>
               <td>

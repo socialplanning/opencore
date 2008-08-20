@@ -55,6 +55,7 @@
     meta_type="Factory-based Type Information with dynamic views"/>
  <object name="ImageAttachment"
     meta_type="Factory-based Type Information with dynamic views"/>
+ <object name="IronicWiki" meta_type="Factory-based Type Information"/>
  <object name="Large Plone Folder"
     meta_type="Factory-based Type Information with dynamic views"/>
  <object name="Link"
@@ -80,6 +81,7 @@
     meta_type="Factory-based Type Information with dynamic views"/>
  <object name="RichDocument"
     meta_type="Factory-based Type Information with dynamic views"/>
+ <object name="Smartlink" meta_type="Factory-based Type Information"/>
  <object name="Team" meta_type="Factory-based Type Information"/>
  <object name="Team Membership" meta_type="Factory-based Type Information"/>
  <object name="TeamRoster" meta_type="Factory-based Type Information"/>
@@ -87,5 +89,7 @@
  <object name="TeamsTool" meta_type="Factory-based Type Information"/>
  <object name="TempFolder" meta_type="Factory-based Type Information"/>
  <object name="Topic"
+    meta_type="Factory-based Type Information with dynamic views"/>
+ <object name="WickedDoc"
     meta_type="Factory-based Type Information with dynamic views"/>
 </object>

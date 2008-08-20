@@ -1,7 +1,0 @@
-<?xml version="1.0" ?>
-<zodb-groups title="">
- <group group_id="Administrators" title="Administrators">
- </group>
- <group group_id="Reviewers" title="Reviewers">
- </group>
-</zodb-groups>

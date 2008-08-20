@@ -9,7 +9,7 @@ z3ftis = (mailinglist.fti,)
 # should use events, but IObjectWillBeRemovedEvents are not getting
 # fired unless <five:containerEvents /> is enabled, in which case
 # everything else breaks.
-from wicked.atcontent.wickeddoc import WickedDoc
+from Products.wicked.example.wickeddoc import WickedDoc
 from Products.ATContentTypes.content.document import ATDocument
 from Products.ploneundelete.interfaces import ICanBeUndeleted
 from Products.ploneundelete.interfaces import IUndeleteSupport

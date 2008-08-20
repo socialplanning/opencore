@@ -41,7 +41,7 @@ class MenuItemList(ViewletBase):
 
 
 class NavMenu(MenuItemList):
-    ### different modes for the Navigation Section of the Personal bar
+    ### different modes for the Navigation Secion of the Personal bar
 
     def addPersonalView(self):
         homefolder = self.mtool.getHomeFolder()

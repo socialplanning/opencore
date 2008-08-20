@@ -8,10 +8,10 @@ We need to register a utility with one interface and then change
 it to one of the same name::
 
     >>> sm = self.portal.getSiteManager()
-    >>> sm.registerUtility(Utility(), provided=INumberOne)
+    >>> sm.registerUtility(INumberOne, Utility())
     >>> utility1 = getUtility(INumberOne, context=self.portal)
-    >>> utility1 #@@repoze -- change in utility handling
-    <Utility at /plone/>
+    >>> utility1
+    <Utility at /plone/utilities/>
 
     >>> utility1.flag = True
 
@@ -22,40 +22,16 @@ it to one of the same name::
     ...
     ComponentLookupError: (<InterfaceClass __builtin__.INumberOne>, '')
 
-We get a component lookup error, because though the ifaces have the
-same name, they have different import paths.  We are faced with 2
-options: reregister the old utility under the new interface or install
-a brand new utility
-
-First we will migrate the interface on a utility (effectively
-re-register an existing utility for a interface of the same name as
-the original)::
-
     >>> from opencore.configuration.setuphandlers import register_local_utility
-    >>> from opencore.configuration.setuphandlers import migrate_local_utility_iface
     >>> out = StringIO()
-    >>> migrate_local_utility_iface(self.portal, out, INumberOne, klass=Utility)
+    >>> register_local_utility(self.portal, out, INumberOne, Utility)
     >>> out.getvalue()
     'INumberOne utility interface updated\n'
 
     >>> utility2 = getUtility(INumberOne, context=self.portal)
     >>> utility2
-    <Utility at /plone/>
+    <Utility at /plone/utilities/>
 
     >>> from Acquisition import aq_inner
     >>> utility2.flag
-    True
-
-Next, we will::
-
-    >>> out = StringIO()
-    >>> register_local_utility(self.portal, out, INumberOne, Utility, replace=True)
-    >>> out.getvalue()
-    'INumberOne utility installed\n'
-
-    >>> utility3 = getUtility(INumberOne, context=self.portal)
-    >>> utility3
-    <Utility at /plone/>
-
-    >>> utility2 is not utility3
     True

@@ -8,6 +8,7 @@ from opencore.browser.base import BaseView, _
 from opencore.browser.formhandler import * # start import are for pansies
 from opencore.member.interfaces import IHandleMemberWorkflow
 from plone.memoize import instance
+import urllib
 
 logger = logging.getLogger("opencore.account.confirmation")
     

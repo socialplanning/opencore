@@ -1,5 +1,3 @@
--*- mode: doctest ;-*-
-
 Test for Cookie Auth
 ====================
 

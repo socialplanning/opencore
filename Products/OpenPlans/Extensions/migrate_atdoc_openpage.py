@@ -1,5 +1,5 @@
-from Products.contentmigration.basemigrator.walker import CatalogWalker
-from Products.contentmigration.basemigrator.migrator import CMFItemMigrator
+from Products.ATContentTypes.migration.walker import CatalogWalker
+from Products.ATContentTypes.migration.migrator import CMFItemMigrator
 from Products.CMFCore.utils import getToolByName
 
 class OpenPageMigrator(CMFItemMigrator):
@@ -32,13 +32,12 @@ def migrate_atdoc_openpage(self):
     else:
         out.append('%s Migrated\n' % migrator.src_portal_type)
 
-    if getattr(w, 'counter', 0):
-        wf = getToolByName(self, 'portal_workflow')
-        count = wf.updateRoleMappings()
-        out.append('Workflow: %d object(s) updated.' % count)
+    wf = getToolByName(self, 'portal_workflow')
+    count = wf.updateRoleMappings()
+    out.append('Workflow: %d object(s) updated.' % count)
 
-        catalog.refreshCatalog(clear=1)
-        out.append('Portal catalog updated.')
+    catalog.refreshCatalog(clear=1)
+    out.append('Portal catalog updated.')
 
     ttool = getToolByName(self, 'portal_types')
     doc_fti = ttool.getTypeInfo('Document')

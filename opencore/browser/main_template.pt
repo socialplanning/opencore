@@ -51,9 +51,6 @@
 
     <!-- allows for the insertion of meta tags -->
     <metal:script-slot define-slot="meta"/>
-
-    <tal:extra-head replace="structure provider:opencore.extra.head" />
-
   </head>  
   <body>
     <div id="oc-page-container">
@@ -90,8 +87,6 @@
        tal:condition="exists: request/openplans-versions"
        tal:content="structure view/portal/@@openplans-versions"
        />
-
-  <tal:extra-body replace="structure provider:opencore.extra.body" />
 
   </body>
 </html>

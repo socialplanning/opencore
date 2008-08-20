@@ -6,9 +6,10 @@ from Products.OpenPlans.permissions import DEFAULT_PFOLDER_PERMISSIONS_DATA
 from Products.OpenPlans.permissions import PLACEFUL_PERMISSIONS_DATA
 from Products.OpenPlans.workflows import MEMBERSHIP_PLACEFUL_POLICIES
 from Products.OpenPlans.workflows import PLACEFUL_POLICIES
+from Products.PlonePAS.Extensions.Install import activatePluginInterfaces
+from Products.PluggableAuthService.interfaces.plugins import IChallengePlugin
 from Products.remember.utils import getAdderUtility
 from StringIO import StringIO
-from plone.app.controlpanel.markup import IMarkupSchema
 from opencore.configuration import OC_REQ as OPENCORE
 from opencore.content.member import OpenMember
 from opencore.content.membership import OpenMembership
@@ -22,18 +23,17 @@ from zope.component import queryUtility
 from zope.interface import alsoProvides
 import pkg_resources
 import socket
-import logging
 
-log = logging.getLogger('opencore.configuration.setuphandlers')
 
 Z_DEPS = ('PlacelessTranslationService', 'Five', 'membrane', 'remember',
           'GenericSetup', 'CMFPlone', 'ManagableIndex', 'QueueCatalog',
-          'SimpleAttachment', 'CacheSetup')
+          'txtfilter')
 
 MEM_DEPS = ('membrane', 'remember')
 
-DEPS = ('TeamSpace', 'CMFPlacefulWorkflow', 'RichDocument', 'listen',
-        'CMFDiffTool', 'CMFEditions', 'PleiadesGeocoder'
+DEPS = ('wicked', 'TeamSpace', 'CMFPlacefulWorkflow', 'RichDocument',
+        'listen', 'CMFDiffTool', 'CMFEditions',
+        'PleiadesGeocoder'
        )
 
 logger = None
@@ -44,8 +44,10 @@ def setuphandler(fn):
     """
     def execute_handler(context):
         stepname = fn.__name__
-        handlers = context.readDataFile('opencore.txt')
-        if handlers is None:
+        handlers = context.readDataFile('setuphandlers.txt')
+        #@@ DWM: this limits reuse of decorated functions
+        #@@ RJM: it's supposed to
+        if handlers is None or stepname not in handlers:
             return
         portal = context.getSite()
         out = StringIO()
@@ -158,6 +160,9 @@ def setupVersioning(portal, out):
     diff_tool = getToolByName(portal, 'portal_diff', None)
     if version_tool is not None:
         version_tool.setVersionableContentTypes(versioned_types)
+        action = version_tool.getActionObject('object/Versions')
+        if action is not None:
+            action.edit(title='History')
 
     for p_type in versioned_types:
         if version_tool is not None:
@@ -317,9 +322,15 @@ def setupPeopleFolder(portal, out):
 @setuphandler
 def migrateATDocToOpenPage(portal, out):
     print >> out, 'Migrating ATDocument type to OpenPage'
-    from Products.OpenPlans.Extensions.migrate_atdoc_openpage import \
-            migrate_atdoc_openpage
-    print >> out, migrate_atdoc_openpage(portal)
+    if not 'migrate_atdoc_openpage' in portal.objectIds():
+        portal.manage_addProduct['ExternalMethod'].manage_addExternalMethod(
+            'migrate_atdoc_openpage', '', 'OpenPlans.migrate_atdoc_openpage',
+            'migrate_atdoc_openpage')
+
+    import transaction as txn
+    txn.commit(1)
+    print >> out, portal.migrate_atdoc_openpage(portal)
+    portal.manage_delObjects(ids=['migrate_atdoc_openpage'])
 
 @setuphandler
 def setSiteIndexPage(portal, out):
@@ -329,8 +340,7 @@ def setSiteIndexPage(portal, out):
         print >> out, '-> creating site index page'
         portal.invokeFactory('Document', index_id, title=index_title)
         page = portal._getOb(index_id)
-        page_file = pkg_resources.resource_stream(OPENCORE,
-                                                  'copy/site_index.html')
+        page_file = pkg_resources.resource_stream(OPENCORE, 'copy/%s' %'site_index.html')
         page.setText(page_file.read())
         portal.setDefaultPage(index_id)
 
@@ -348,6 +358,52 @@ def setupTeamTool(portal, out):
     tmtool.setDefaultAllowedRoles(config.DEFAULT_ROLES)
     tmtool.setDefaultRoles(config.DEFAULT_ROLES[:1])
     tmtool.setDefaultActiveStates(config.DEFAULT_ACTIVE_MSHIP_STATES)
+
+@setuphandler
+def installCookieAuth(portal, out):
+    
+    uf = portal.acl_users
+
+    print >> out, "signed cookie plugin setup"
+
+    login_path = 'require_login'
+    logout_path = 'logged_out'
+    cookie_name = '__ac'
+
+    crumbler = getToolByName(portal, 'cookie_authentication', None)
+
+    if crumbler is not None:
+        login_path = crumbler.auto_login_page
+        logout_path = crumbler.logout_page
+        cookie_name = crumbler.auth_cookie
+
+    found = uf.objectIds(['Signed Cookie Auth Helper'])
+    if not found:
+        openplans = uf.manage_addProduct['OpenPlans']
+        openplans.manage_addSignedCookieAuthHelper('credentials_signed_cookie_auth',
+                                                   cookie_name=cookie_name)
+    print >> out, "Added Extended Cookie Auth Helper."
+    from Products.PlonePAS.Extensions.Install import activatePluginInterfaces
+    activatePluginInterfaces(portal, 'credentials_signed_cookie_auth', out)
+
+    signed_cookie_auth = uf._getOb('credentials_signed_cookie_auth')
+    if 'login_form' in signed_cookie_auth.objectIds():
+        signed_cookie_auth.manage_delObjects(ids=['login_form'])
+        print >> out, "Removed default login_form from signed cookie auth."
+    signed_cookie_auth.cookie_name = cookie_name
+    signed_cookie_auth.login_path = login_path
+
+    old_cookie_auth = uf._getOb('credentials_cookie_auth', None)
+    if old_cookie_auth is not None:
+        old_cookie_auth.manage_activateInterfaces([])
+        print >> out, "Deactivated unsigned cookie auth plugin"
+
+    plugins = uf._getOb('plugins', None)
+    if plugins is not None:
+        plugins.movePluginsUp(IChallengePlugin,
+                              ['credentials_signed_cookie_auth'],)
+        print >> out, ("Move signed cookie auth to be top priority challenge "
+                       "plugin")
 
 @setuphandler
 def installNewsFolder(portal, out):
@@ -370,30 +426,23 @@ def installNewsFolder(portal, out):
 @setuphandler
 def createValidationMember(portal, out):
     mdtool = getToolByName(portal, 'portal_memberdata')
-    if getattr(mdtool.aq_base, '_validation_member', None) is not None:
-        # already exists
-        return
-
     mem = OpenMember('validation_member')
-    from Products.remember.permissions import EDIT_SECURITY_PERMISSION
-    mem.getField('password').write_permission = EDIT_SECURITY_PERMISSION
     mdtool._validation_member = mem
 
 def register_local_utility(portal, out, iface, klass, factory_fn=None,
                            replace=False):
     setSite(portal) # specify the portal as the local utility context
-    sm = portal.getSiteManager()
-    util = queryUtility(iface)
-    if  util is not None:
+    if queryUtility(iface) is not None:
         if not replace:
             return
-        sm.unregisterUtility(component=util, provided=iface)
+        portal.utilities.manage_delObjects(iface.__name__)
+    sm = portal.getSiteManager()
     try:
         if factory_fn is not None:
             obj = factory_fn()
         else:
             obj = klass()
-        sm.registerUtility(obj, iface)
+        sm.registerUtility(iface, obj)
         print >> out, ('%s utility installed' %iface.__name__)
     except ValueError:
         # re-register object
@@ -402,33 +451,6 @@ def register_local_utility(portal, out, iface, klass, factory_fn=None,
         alsoProvides(old_utility, iface)
         sm.registerUtility(iface, old_utility)
         print >> out, ('%s utility interface updated' %iface.__name__)
-
-def migrate_local_utility_iface(portal, out, iface, old_iface=None, klass=None):
-    """re-register object w/ an iface of same name"""
-    setSite(portal) # specify the portal as the local utility context
-    sm = portal.getSiteManager()
-
-    if old_iface is None:
-        # sometimes you just moved the interface but they are
-        # equivalent. This finds the first iface of the same name
-        old_iface = retrieve_orphaned_iface(iface, sm.utilities)
-
-    old_utility = sm.queryUtility(old_iface)
-    if klass is not None:
-        # optional assertion 
-        # if this misses we might have a big problem
-        assert isinstance(old_utility, klass), "Classes do not match"
-
-    alsoProvides(old_utility, iface) # necessary?
-    sm.unregisterUtility(old_utility, old_iface)
-    sm.registerUtility(old_utility, iface)
-    print >> out, ('%s utility interface updated' %iface.__name__)
-
-def retrieve_orphaned_iface(new_iface, reg):
-    # bad touch
-    for iface in reg._adapters[0].keys():
-        if iface.__name__ == new_iface.__name__:
-            return iface
 
 @setuphandler
 def install_email_invites_utility(portal, out):
@@ -454,6 +476,18 @@ def addCatalogQueue(portal, out):
         queue.setLocation('portal_catalog')
 
 @setuphandler
+def install_remote_auth_plugin(portal, out):
+    plugin_id = 'opencore_remote_auth'
+    uf = portal.acl_users
+    if plugin_id in uf.objectIds():
+        # plugin is already there, do nothing
+        return
+    print >> out, "Adding OpenCore remote auth plugin"
+    openplans = uf.manage_addProduct['OpenPlans']
+    openplans.manage_addOpenCoreRemoteAuth(plugin_id)
+    activatePluginInterfaces(portal, plugin_id, out)
+
+@setuphandler
 def local_fqdn_return_address(portal, out):
     """
     If the boilerplate return address is there, we do a best-guess for
@@ -463,18 +497,3 @@ def local_fqdn_return_address(portal, out):
     if portal.getProperty('email_from_address') == default:
         addy = 'greetings@%s' % socket.getfqdn()
         portal.manage_changeProperties(email_from_address=addy)
-
-@setuphandler
-def activate_wicked(portal, out):
-    """
-    Turn on wicked's wiki linking.
-    """
-    # we don't use Plone's allowable types infrastructure, so we
-    # just set any type to turn on the wiki linking
-    markup_ctrl = IMarkupSchema(portal, None)
-    if markup_ctrl is None:
-        setSite(portal) # <-- req'd when called via 'zopectl run'
-        markup_ctrl = IMarkupSchema(portal)
-    if not markup_ctrl.wiki_enabled_types:
-        print >> out, "Activating wicked linking"
-        markup_ctrl.wiki_enabled_types = ['Page']

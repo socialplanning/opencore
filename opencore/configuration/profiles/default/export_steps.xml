@@ -1,9 +1,0 @@
-<?xml version="1.0"?>
-<export-steps>
-
-  <export-step id="pas_contents"
-               handler="opencore.configuration.exportimport.exportPAS"
-               title="PAS Contents">
-    Export the PAS' registry and plugins.
-  </export-step>
-</export-steps>

@@ -1,5 +1,3 @@
--*- mode: doctest ;-*-
-
 ====================
 views for main pages
 ====================
@@ -82,13 +80,6 @@ Searching for projects starting with a number::
    >>> titles
    []
 
-Cache the local site since the mailing list creation triggered by
-project creation will change this.
-
-   >>> from zope.app.component.hooks import setSite
-   >>> from zope.app.component.hooks import getSite
-   >>> cached_site = getSite()
-
 Create a project that starts with a number::
     >>> form_vars = dict(projid='5test', __initialize_project__=True,
     ...                  project_title='5test',
@@ -97,7 +88,6 @@ Create a project that starts with a number::
     >>> proj_view = self.portal.projects.restrictedTraverse("create")
     >>> proj_view.request.form.update(form_vars)
     >>> out = proj_view.handle_request()
-    >>> setSite(cached_site)
 
 Now search again::
 
@@ -265,6 +255,7 @@ We shouldn't have an add link because we're not the admin
 When we login as admin, we should have the link
    >>> self.logout()
    >>> self.loginAsPortalOwner()
+   >>> view.loggedinmember.getId = lambda *a:'whatever'
    >>> result = view()
    >>> 'Add news item...' in result
    True
@@ -317,7 +308,7 @@ Try irregular char::
 Search for everything::
    >>> brains = view.search_by_letter('all', sort_by='getId')
    >>> len(brains)
-   21
+   22
 
 Search for things starting with a number::
    >>> brains = view.search_by_letter('num')
@@ -393,7 +384,6 @@ Create a closed project::
     >>> proj_view = self.portal.projects.restrictedTraverse("create")
     >>> proj_view.request.form.update(form_vars)
     >>> out = proj_view.handle_request()
-    >>> setSite(cached_site)
 
 And ensure that the closed project does not come up::
    >>> view = search.HomeView(self.portal, request)

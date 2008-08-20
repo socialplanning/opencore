@@ -106,7 +106,7 @@ class BaseView(BrowserView):
     def render_macro(self, macro, extra_context={}):
         """
         Returns a rendered page template which contains nothing but a
-        provided macro.
+        provied macro.
 
         o macro: the macro list representation which should be
         rendered within the returned template object.
@@ -181,11 +181,6 @@ class BaseView(BrowserView):
         for item in chain:
             if IWikiContainer.providedBy(item):
                 return item
-
-    # this should be put in a viewlet in an oc-twirlip plugin -egj
-    def twirlip_uri(self):
-        uri = getUtility(IProvideSiteConfig).get("twirlip path", '')
-        return uri.strip()
 
     @view.memoizedproperty
     def area(self):

@@ -1,12 +1,13 @@
 """
 Working pieces now live in opencore.nui.indexing
 """
+import os, sys
 import unittest
 
 from Products.CMFCore.utils import getToolByName
 
 from opencore.testing.layer import OpencoreContent
-from openplanstestcase import OpenPlansTestCase
+from openplanstestcase import OpenPlansTestCase, makeContent
 
 class TestWorkflowActorMetadata(OpenPlansTestCase):
 

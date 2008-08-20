@@ -1,5 +1,3 @@
--*- mode: doctest ;-*-
-
 ==================
  opencore.project
 ==================
@@ -92,3 +90,19 @@ subsequent membership in the project::
     >>> handroll.users_with_local_role("Owner")
     []
 
+When a subproject is created, we add an additional subscriber that
+does 2 things: registers the redirect information and associates a
+child project to its parent. To test, we will need to prep a project
+as a parent::
+
+    >>> parent = projects.p1
+    >>> pinfo = redirect.activate(parent, "http://redirected") # note, no subprojects
+
+    >>> from opencore.project.handler import handle_subproject_redirection
+    >>> event = AfterSubProjectAddedEvent(handroll, projects.p1, request)
+    >>> handle_subproject_redirection(event)
+    >>> redirect.get_info(handroll).parent
+    '/plone/projects/p1'
+
+    >>> pinfo.values()
+    ['/plone/projects/handroll']

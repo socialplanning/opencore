@@ -1,6 +1,9 @@
 <configure xmlns="http://namespaces.zope.org/zope"
            xmlns:browser="http://namespaces.zope.org/browser"
-	   xmlns:five="http://namespaces.zope.org/five">
+	   xmlns:five="http://namespaces.zope.org/five"
+	   xmlns:fate="http://namespaces.plone.org/fate">
+
+  <include package="Products.Fate" file="meta.zcml" />
 
   <browser:resource
      file="projpage.js"
@@ -56,11 +59,6 @@
      name="export"
      attribute="export"
      /  -->
-
-  <adapter for="OFS.interfaces.IItem"
-           provides=".interfaces.IProjectInfo"
-           factory=".projectinfo.ProjectInfo"
-           />
 
   <browser:page
      for="OFS.interfaces.IItem"
@@ -173,14 +171,6 @@
      permission="zope2.View"
      name="view"
      />
-
-  <browser:page
-     for="opencore.interfaces.IProject"
-     class=".security_context.SecurityContextView"
-     permission="zope2.View"
-     name="security-context" 
-     /> 
-
 
   <subscriber
      for="opencore.interfaces.IOpenPage

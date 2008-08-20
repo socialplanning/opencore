@@ -1,10 +1,10 @@
 import re
+
 from opencore.featurelets.interfaces import IListenContainer
 from opencore.feed.base import BaseFeedAdapter
 from opencore.feed.base import FeedItemResponses
 from opencore.feed.interfaces import IFeedData
 from opencore.listen.interfaces import IOpenMailingList
-from opencore.utils import get_utility_for_context
 from Products.listen.interfaces import ISearchableArchive
 from Products.listen.lib.browser_utils import getAddressInfo
 from Products.listen.lib.browser_utils import messageStructure, obfct
@@ -51,9 +51,7 @@ class ListsFeedAdapter(BaseFeedAdapter):
         all_msgs = []
         for ml_id in self.mlists:
             mlist = self.context._getOb(ml_id)
-            cat = get_utility_for_context(ISearchableArchive, mlist)
-            # aq wrap since brains work better this way            
-            cat = cat.__of__(mlist)
+            cat = getUtility(ISearchableArchive, context=mlist)
             msgs = cat(sort_limit=n_items,
                        sort_order='descending',
                        sort_on='modification_date')

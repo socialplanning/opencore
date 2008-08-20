@@ -22,8 +22,7 @@
         <tal:block
              tal:define="type_css_map python: {'info':'portalMessage',
                                                'warn':'portalWarningMessage',
-                                               'stop':'portalStopMessage',
-                                               'error': 'portalWarningMessage',
+                                               'stop':'portalStopMessage'
                                               };
                          mtype message/type | nothing;">
             <div class=""

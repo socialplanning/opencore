@@ -15,7 +15,7 @@ First, let's instantiate an email sender
     <opencore.utility.email_sender.EmailSender object at ...>
     >>> mh = getToolByName(portal, 'MailHost')
     >>> mh
-    <opencore.testing.utility.MailHostMock object at ...>
+    <opencore.testing.layer.MailHostMock object at ...>
 
 Check converting to email addresses
     >>> es._to_email_address('m1')

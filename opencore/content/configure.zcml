@@ -1,11 +1,13 @@
 <configure xmlns="http://namespaces.zope.org/zope"
            xmlns:five="http://namespaces.zope.org/five"
 	   >
+  <five:traversable
+     class="Products.ATContentTypes.content.folder.ATBTreeFolder" />
 
-  <class class=".page.OpenPage">
+  <content class=".page.OpenPage">
     <implements
       interface="Products.ploneundelete.interfaces.ICanBeUndeleted" />
-  </class>
+  </content>
 
   <subscriber handler=".membership.post_wf_transition" />
 

@@ -21,7 +21,6 @@ def test_suite():
     from StringIO import StringIO
     from OFS.SimpleItem import SimpleItem
 
-
     class INumberOne(Interface):
         """pseudo iface #one"""
 

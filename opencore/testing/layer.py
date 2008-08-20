@@ -1,21 +1,16 @@
-from Acquisition import aq_chain
-from Testing import ZopeTestCase
-from Testing import makerequest
+from Products.Five import pythonproducts
+from Products.Five.site.localsite import enableLocalSiteHook
 from Products.OpenPlans.Extensions.create_test_content import create_test_content
 from Products.PloneTestCase.layer import PloneSite, ZCML
 from Products.PloneTestCase.setup import setupPloneSite
-from five.localsitemanager import make_objectmanager_site
-from opencore.configuration.setuphandlers import DEPS
+from Testing import ZopeTestCase
 from opencore.project.handler import add_redirection_hooks 
 from opencore.testing.utility import setup_mock_http
-from opencore.testing.utility import setup_mock_mailhost
-from opencore.testing.utility import teardown_mock_mailhost
 from opencore.testing.utility import setup_mock_config
-from sys import stdout
-from utils import get_portal_as_owner
+from utils import get_portal, get_portal_as_owner
 from utils import zinstall_products
 from utils import monkey_proj_noun
-from zope.app.component.hooks import setSite
+from zope.app.component.hooks import setSite, setHooks
 import random
 import transaction as txn
 from opencore.utility.interfaces import IProvideSiteConfig
@@ -30,26 +25,23 @@ try:
 except ImportError:
     setup_cabochon_mock = lambda *args: None
 
-def makerequest_decorator(orig_fn, obj):
-    def new_fn(app, stdout=stdout, environ=None):
-        app = orig_fn(app, stdout, environ)
-        req = app.REQUEST
-        chain = aq_chain(obj)
-        req['PARENTS'] = chain
-        return app
-    return new_fn
-
-def monkeypatch_makerequest(obj):
+class MailHostMock(object):
     """
-    Monkey patches the makerequest function to add a PARENTS value
-    so PTS translations won't throw an error.
+    mock up the send method so that emails do not actually get sent
+    during automated tests
     """
-    makerequest.orig_makerequest = makerequest.makerequest
-    makerequest.makerequest = makerequest_decorator(makerequest.makerequest,
-                                                    obj)
-
-def unmonkey_makerequest():
-    makerequest.makerequest = makerequest.orig_makerequest
+    def __init__(self):
+        self.messages = []
+    def send(self, msg, mto=None, mfrom=None, subject=None):
+        msg = {'msg': msg,
+               'mto': mto,
+               'mfrom': mfrom,
+               'subject': subject,
+               }
+        self.messages.append(msg)
+    secureSend = send
+    def validateSingleEmailAddress(self, email):
+        return True
 
 
 class BrowserIdManagerMock(object):
@@ -67,66 +59,66 @@ class BrowserIdManagerMock(object):
             return str(random.random())
 
 
-class Install(ZCML):
-    setupPloneSite(
-        products = ('OpenPlans',) + DEPS,
-        extension_profiles=['opencore.configuration:default'])
+class SiteSetupLayer(PloneSite):
+    setupPloneSite()
+
     @classmethod
     def setUp(cls):
+        portal = get_portal()
+
         zinstall_products()
         ZopeTestCase.installProduct('OpenPlans')
-        ZopeTestCase.installPackage('borg.localrole')
-        make_objectmanager_site(ZopeTestCase.app())
         ZopeTestCase.installProduct('PleiadesGeocoder')
+        enableLocalSiteHook(portal)
+        setSite(portal)
+        setHooks()
 
         txn.commit()
-        
+
     @classmethod
     def tearDown(cls):
         raise NotImplementedError
 
-SiteSetupLayer = Install
 
-class OpenPlansLayer(Install, PloneSite):
+class OpenPlansLayer(SiteSetupLayer):
     @classmethod
     def setUp(cls):
+        # need to explicitly apply pythonproducts patches to get the
+        # borg.localrole package's FactoryDispatcher to work
+        pythonproducts.applyPatches()
         portal = get_portal_as_owner()
 
-        portal.clearCurrentSkin()
-        portal.setupCurrentSkin(portal.REQUEST)
+        setup_tool = portal.portal_setup
+        setup_tool.setImportContext('profile-opencore.configuration:default')
+        setup_tool.runAllImportSteps()
 
-        setup_mock_mailhost(portal)
+        portal.oldMailHost = portal.MailHost
+        portal.MailHost = MailHostMock()
 
         portal.browser_id_manager = BrowserIdManagerMock()
         setup_cabochon_mock(portal)
         setup_mock_config()
-        monkeypatch_makerequest(portal)
-
         txn.commit()
 
     @classmethod
     def tearDown(cls):
         portal = get_portal_as_owner()
-        teardown_mock_mailhost(portal)
-        unmonkey_makerequest()
+        del portal.MailHost
+        portal.MailHost = portal.oldMailHost
+        del portal.oldMailHost
         del portal.browser_id_manager
+
 
 class OpencoreContent(OpenPlansLayer):
     @classmethod
     def setUp(cls):
         portal = get_portal_as_owner()
-        portal.clearCurrentSkin()
-        portal.setupCurrentSkin(portal.REQUEST)
-        setSite(portal)
-
         # Many things depend on the word for project being 'project'.
         # Here's a hack to ensure that works at content creation time,
         # regardless of your config.
         # It's OK for other tests to override this...
         monkey_proj_noun('project')
-
-        # create and setup the rest of the test content
-        create_test_content(portal, all_events=False)
+        create_test_content(portal)
         add_redirection_hooks(portal.projects)
         txn.commit()
 
@@ -155,10 +147,11 @@ class MockHTTPWithContent(OpencoreContent):
     def setUp(cls):
         setup_mock_http()
         portal = get_portal_as_owner()
-        getUtility(IProvideSiteConfig)._set('wordpress uri',
-                                            "http://nohost:wordpress")
+        getUtility(IProvideSiteConfig)._set('wordpress uri', "http://nohost:wordpress")
         txn.commit()
     
     @classmethod
     def tearDown(cls):
         raise NotImplementedError
+
+

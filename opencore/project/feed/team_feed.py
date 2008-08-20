@@ -15,11 +15,9 @@ class BlankSlateTeamFeed(Acquisition.Implicit):
     template = ZopeTwoPageTemplateFile('team_feed_snippet.pt')
 
     def __init__(self, context, request, view):
-        super(BlankSlateTeamFeed, self).__init__(context, request)
-        self.context = context
+        adapted = getAdapter(context, IFeedData, 'team')
+        self.context = adapted
         self.request = request
-        # really shouldn't be doing this much work in a constructor
-        self.feed = getAdapter(context, IFeedData, 'team')
         self.view = view
         self.n_members = len(context.projectMemberIds())
         self.is_blank = self.n_members < 2 and context.isProjectAdmin()

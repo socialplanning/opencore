@@ -1,9 +1,9 @@
+import os, sys
 import unittest
 
 from Products.Archetypes.Field import Image
 from Products.CMFCore.utils import getToolByName
-from openplanstestcase import OpenPlansTestCase
-from opencore.testing.utils import makeContent
+from openplanstestcase import OpenPlansTestCase, makeContent
 
 class TestOpenProject(OpenPlansTestCase):
 

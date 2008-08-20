@@ -43,7 +43,7 @@ class JoinView(browser.AccountView, OctopoLite):
         """
         factory = ICreateMembers(self.portal)
 
-        self.errors = factory.validate(self.request)
+        self.errors = factory.validate(self.request.form)
         if self.errors:
             # XXX let's raise something instead of returning.
             # it's ugly to overload function return values to signal errors.
@@ -69,20 +69,19 @@ class JoinView(browser.AccountView, OctopoLite):
         return mem
 
     create_member = action('join', apply=post_only(raise_=False))(_create_member)
-    # the fact that we need to separate the decorated (user-facing)
-    # and undecorated methods here suggests to me that we can refactor
-    # some functionality out of the view here. -egj
+    # the fact that we need to separate the decorated (user-facing) and undecorated methods here
+    # suggests to me that we can refactor some functionality out of the view here. -egj
 
     @action('validate')
     def validate(self, targets=None, fields=None):
         """ this is really dumb. """
 
-        # a special case for when the user has not yet entered a
-        # password confirmation: pretend that they have
+        #a special case for when the user has not yet entered a password confirmation:
+        #pretend that they have
         if not self.request.form.get('confirm_password'):
             self.request.form['confirm_password'] = self.request.form.get('password', '')
 
-        errors = ICreateMembers(self.portal).validate(self.request)
+        errors = ICreateMembers(self.portal).validate(self.request.form)
 
         erase = [error for error in errors if error not in self.request.form]
         also_erase = [field for field in self.request.form if field not in errors]
@@ -104,22 +103,8 @@ class InviteJoinView(JoinView, ConfirmAccountView):
     """
 
     template = ZopeTwoPageTemplateFile('invite-join.pt')
-    badrequest_template = ZopeTwoPageTemplateFile('invite-join-badrequest.pt')
-
-    required_request_variables = ('project', 'email', '__k')
 
     truncate = staticmethod(truncate)
-
-    def __call__(self, *args, **kwargs):
-        """ This view should only be called with certain request variables. If
-        they are not set, we should display a separate template instead of
-        having an error """
-        f = self.request.form
-        missing_vars = [v for v in self.required_request_variables
-                        if v not in self.request.form]
-        if missing_vars:
-            return self.badrequest_template()
-        return super(InviteJoinView, self).__call__(*args, **kwargs)
 
     @property
     def proj_ids(self):

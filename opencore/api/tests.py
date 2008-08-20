@@ -3,10 +3,9 @@ from zope.testing import doctest
 from Testing import ZopeTestCase as ztc
 from opencore.testing.layer import OpencoreContent as test_layer
 
-#import warnings; warnings.filterwarnings("ignore")
+import warnings; warnings.filterwarnings("ignore")
 
-#optionflags = doctest.REPORT_ONLY_FIRST_FAILURE | doctest.ELLIPSIS
-optionflags = doctest.ELLIPSIS
+optionflags = doctest.REPORT_ONLY_FIRST_FAILURE | doctest.ELLIPSIS
 
 def test_suite():
     from Products.OpenPlans.tests.openplanstestcase import OpenPlansTestCase

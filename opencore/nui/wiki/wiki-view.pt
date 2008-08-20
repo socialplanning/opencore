@@ -18,8 +18,6 @@
             </p>
           </tal:description>
 
-	  <a tal:condition="python:view.loggedin and view.in_project()" tal:attributes="href view/twirlip_watch_uri" rel="include"></a>
-
           <div id="oc-wiki-content" class="oc-wiki-content" tal:content="structure here/getText"/>
         </div><!-- end .oc-wiki -->
 

@@ -7,9 +7,6 @@
 # expects
 #         news item with given id and title exists
 
-# XXX using "notfind '404'" below is a bit brittle; '404' may show up
-#     in the timestamp on the error page.
-
 # check direct traversal
 go ${base_url}/news/${id}/edit
 notfind '404'

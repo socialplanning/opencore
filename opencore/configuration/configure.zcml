@@ -1,7 +1,6 @@
 <configure xmlns="http://namespaces.zope.org/zope"
            xmlns:zcml="http://namespaces.zope.org/zcml"
-           xmlns:topp="http://namespaces.openplans.org/topp"
-           xmlns:i18n="http://namespaces.zope.org/i18n">
+           xmlns:topp="http://namespaces.openplans.org/topp">
   <include package="topp.zcmlloader" file="meta.zcml" />
   <include file="permissions.zcml" />
   <include file="profiles.zcml" />
@@ -17,24 +16,16 @@
   <include package="opencore.nui" />
   <include package="opencore.project" />
   <include package="opencore.listen" />
-  <include package="opencore.tales" />
   <include package="opencore.wordpress" />
   <include package="opencore.redirect" />
   <include package="opencore.utility" />
   <include package="opencore.geotagging"
        zcml:condition="installed opencore.geotagging" />
-  <include package="opencore.upgrades" />
   <include package="topp.featurelets" />
   <include package="opencore.stats" />
-  <!-- XXX Products namespace packages should get loaded automatically,
-       but that doesn't seem to happen in ZTC; is there a better way
-       to pull them in than by listing them here? -->
-  <include package="Products.CacheSetup" />
-  <include package="Products.CMFSquidTool" />
-
-  <i18n:registerTranslations directory="../locales" />
 
   <!-- See zcmlloader; this loads all zcml from all packages that have a setuptools
        entry_point like [topp.zcmlloader] opencore = foo -->
   <topp:includePlugins target="opencore" />
+
 </configure>

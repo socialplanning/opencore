@@ -62,7 +62,6 @@ Need a username and password?
     While cookie authentication is disabled, cookie-based login is not available.
 </div>
 
-<metal:login define-macro="login">
 <form tal:attributes="action python:context.absolute_url()+'/'+template.id"
       method="post"
       id="login_form"
@@ -175,7 +174,6 @@ Need a username and password?
     </fieldset>
 
 </form>
-</metal:login>
 
 </div>
 

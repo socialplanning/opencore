@@ -589,9 +589,6 @@ ul.oc-tabs li a:visited {
 ul.oc-tabs li a.oc-actionLink:hover {
   background-color: transparent;
 }
-ul.oc-tabs li.oc-selected a.oc-actionLink:hover {
-  background: #332F2A;
-}
 /* Selected tab */
 ul.oc-tabs li.oc-selected a {
   color: #fff;
@@ -1442,18 +1439,15 @@ li.oc-invite .oc-invite-content {
 .oc-getstarted-list li h3 {
   margin: 0;
 }
-.oc-getstarted-list li a {
+.oc-getstarted-list li h3 a {
   text-decoration: none;
 }
-.oc-getstarted-list li a:hover {
+.oc-getstarted-list li h3 a:hover {
   text-decoration: underline;
 }
 .oc-getstarted-list li p.oc-discreetText {
   margin: 0 0 0.5em;
   line-height: normal;
-}
-#oc-home-getstarted ul {
-  margin-bottom: 0;
 }
 
 /* Map control */

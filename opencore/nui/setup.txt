@@ -1,5 +1,3 @@
--*- mode: doctest ;-*-
-
 =========================
  Tests for setup widgets
 =========================
@@ -7,7 +5,7 @@
 This doctest is for the testing and description of nui's setup
 widgets. 
 
-    >>> from opencore.upgrades.utils import move_blocking_content
+    >>> from opencore.nui import setup
 
 Move Blocking Content
 =====================
@@ -23,14 +21,14 @@ persistent objects.
 A plain dummy view will block a path name::
 
     >>> proj = self.projects.p1
-    >>> from opencore.browser.naming import Dummy
+    >>> from opencore.nui.wiki.add import Dummy
     >>> view = proj.restrictedTraverse('tasks')
     >>> isinstance(view, Dummy)
     True
 
 An ignorable dummy will block a name, but not trigger a renaming::
 
-    >>> from opencore.browser.naming import IgnorableDummy
+    >>> from opencore.nui.wiki.add import IgnorableDummy
     >>> view = proj.restrictedTraverse('lists')
     >>> isinstance(view, IgnorableDummy)
     True
@@ -59,19 +57,19 @@ blocking a reserved path name (ala deliverance)::
 
 Let's make sure our content got renamed::
 
-    >>> move_blocking_content(self.portal)
+    >>> setup.move_blocking_content(self.portal)
     >>> '%s-page' %id_ in proj.objectIds()
     True
 
 But our persistent object did not (blocked by an ignorable dummy)::
 
-    >>> move_blocking_content(self.portal)
+    >>> setup.move_blocking_content(self.portal)
     >>> not 'lists-page' in proj.objectIds()
     True
 
 Anything in a deliverance path name (ie something we blocked with a
 normal dummy) should be changed::
 
-    >>> move_blocking_content(self.portal)
+    >>> setup.move_blocking_content(self.portal)
     >>> 'tasks-page' in proj.objectIds()
     True

@@ -1,8 +1,10 @@
-from Products.Archetypes.tests.atsitetestcase import ATSiteTestCase as ArcheSiteTestCase
+from Products.Archetypes.tests.ArchetypesTestCase import ArcheSiteTestCase
 from Products.CMFCore.utils  import getToolByName
+from Testing import ZopeTestCase
 from Testing.ZopeTestCase import PortalTestCase
 from opencore.configuration.setuphandlers import migrateATDocToOpenPage
-from opencore.testing.layer import OpenPlansLayer
+from opencore.testing.layer import SiteSetupLayer, OpenPlansLayer
+from opencore.testing.utils import makeContent, getPortal, login_portal_owner
 from plone.memoize.instance import Memojito
 from plone.memoize.view import ViewMemo
 from zope.app.annotation.interfaces import IAnnotations
@@ -32,17 +34,6 @@ class OpenPlansTestCase(ArcheSiteTestCase):
         # add event subscriber to listen to all channel events
         self.listen_for_object_events()
 
-    @classmethod
-    def patch_wordpress_handlers(cls):
-        """All wordpress handlers involve sending a message to wordpress
-           on a different port. We patch the sending, so the methods still get
-           triggered, they just don't get sent anywhere"""
-        def patched_send_to_wordpress(uri, username, params, context):
-            pass
-
-        import opencore.wordpress.events
-        opencore.wordpress.events.send_to_wordpress = patched_send_to_wordpress
-
     def listen_for_object_events(self):
         """listen for all events so that tests can verify they were sent
 
@@ -55,15 +46,6 @@ class OpenPlansTestCase(ArcheSiteTestCase):
 
     def clear_events(self):
         self.events[:] = []
-
-    def event_fired(self, iface):
-        """
-        returns True if one or more of the fired events provides
-        the specified interface
-        """
-        for mship, event in self.events:
-            if iface.providedBy(event):
-                return True
 
     def tearDown(self):
         # avoid any premature tearing down

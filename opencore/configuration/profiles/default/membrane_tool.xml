@@ -97,8 +97,8 @@
  <index name="sortableLocation" meta_type="FieldIndex">
   <indexed_attr value="getLocation"/>
  </index>
- <index name="startendrange" meta_type="DateRangeIndex"
-        since_field="start" until_field="end"/>
+ <index name="startendrange" meta_type="DateRangeIndex" since_field="start"
+    until_field="end"/>
  <index name="project_ids" meta_type="KeywordIndex">
   <indexed_attr value="project_ids"/>
  </index>
@@ -138,7 +138,10 @@
   <active-workflow-state name="private"/>
  </membrane-type>
  <membrane-type name="OpenMember">
+  <active-workflow-state name="disabled"/>
+  <active-workflow-state name="new"/>
   <active-workflow-state name="private"/>
+  <active-workflow-state name="pending"/>
   <active-workflow-state name="public"/>
  </membrane-type>
  <query_index_map>

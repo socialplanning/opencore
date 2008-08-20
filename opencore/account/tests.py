@@ -1,4 +1,4 @@
-from Products.membrane.plugins.userfactory import MembraneUser
+from Products.PasswordResetTool.tests.test_doctests import MockMailHostTestCase
 from Products.OpenPlans.tests.openplanstestcase import OpenPlansTestCase
 from opencore.account.utils import turn_confirmation_on
 from opencore.member.interfaces import IHandleMemberWorkflow
@@ -15,6 +15,11 @@ turn_confirmation_on() # should maybe go in the layer
 
 optionflags = doctest.ELLIPSIS
  
+# event handler used in the tests
+events_fired = []
+def dummy_handler(obj, event):
+    events_fired.append((obj, event))
+
 class StubMemberWorkflow:
     """A stub to avoid depending on real members in some account tests.
     XXX Not sure where this should live? Move it if you have an idea.
@@ -36,12 +41,6 @@ class StubMemberWorkflow:
     def getId(self):
         return self.id
 
-def stub_getUserById(self, member_id):
-    """
-    used to temporarily monkeypatch PAS
-    """
-    return MembraneUser(member_id).__of__(self)
-
 def normalize_whitespace(astring):
     # just a little helper to avoid caring about indentation.
     return '\n'.join([li.strip() for li in astring.split('\n')]).strip()
@@ -52,7 +51,6 @@ def readme_setup(tc):
     tc.homepage = getattr(tc.portal, 'site-home')
     tc.request = tc.app.REQUEST
     member = tc.portal.portal_membership.getAuthenticatedMember()
-    member.update(email='testuser1@example.com')
     member = IHandleMemberWorkflow(member)
     if member.is_unconfirmed():
         member.confirm()
@@ -79,21 +77,20 @@ def test_suite():
 
     globs = locals()
     globs.update({'StubMemberWorkflow': StubMemberWorkflow,
-                  'normalize_whitespace': normalize_whitespace,
-                  'stub_getUserById': stub_getUserById})
+                  'normalize_whitespace': normalize_whitespace})
 
     readme = dtf.ZopeDocFileSuite("README.txt",
-                                  optionflags=optionflags,
-                                  package='opencore.account',
-                                  test_class=OpenPlansTestCase,
-                                  globs = globs,
-                                  setUp=readme_setup,
-                                  layer=MockHTTPWithContent
-                                  )
+                                        optionflags=optionflags,
+                                        package='opencore.account',
+                                        test_class=MockMailHostTestCase,
+                                        globs = globs,
+                                        setUp=readme_setup,
+                                        layer=MockHTTPWithContent
+                                        )
     invite = dtf.ZopeDocFileSuite("invite-join.txt",
                                   optionflags=optionflags,
                                   package='opencore.account',
-                                  test_class=OpenPlansTestCase,
+                                  test_class=MockMailHostTestCase,
                                   globs = globs,
                                   setUp=readme_setup,
                                   layer=MockHTTPWithContent

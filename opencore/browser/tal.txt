@@ -45,18 +45,18 @@ First we will create a context::
 
     >>> tcontext = tal.create_tal_context(view, hello='cruel world')
     >>> tcontext
-    <Products.PageTemplates.Expressions.ZopeContext object at ...>
-    
+    <Products.PageTemplates.TALES.Context instance at ...>
+
 Some global vars we care about should be in there::
 
-    >>> pprint(tcontext.vars)
+    >>> pprint(tcontext.global_vars)
     {'context': <Application at >,
-     'default': <object object at ...>,
+     'default': <Products.PageTemplates.TALES.Default instance at ...>,
      'hello': 'cruel world',
      'here': <Application at >,
-     'loop': {},
+     'loop': <Products.PageTemplates.TALES.SafeMapping object at ...>,
      'nothing': None,
-     'repeat': <Products.PageTemplates.Expressions.SafeMapping object at ...>,
+     'repeat': <Products.PageTemplates.TALES.SafeMapping object at ...>,
      'request': 'Im the request',
      'view': <Products.Five.metaclass.SimpleViewClass from ... object at ...>}
 

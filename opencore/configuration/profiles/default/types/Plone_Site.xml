@@ -30,6 +30,7 @@
  <alias from="login" to="@@login"/>
  <alias from="logout" to="@@logout"/>
  <alias from="pending" to="@@pending"/>
+ <alias from="require_login" to="@@require_login"/>
  <alias from="sharing" to="folder_localrole_form"/>
  <alias from="view" to="@@view"/>
  <action title="View" action_id="view" category="object" condition_expr=""

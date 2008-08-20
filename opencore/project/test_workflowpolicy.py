@@ -1,9 +1,8 @@
 from Products.CMFCore.utils import getToolByName
-from Products.OpenPlans.tests.openplanstestcase import OpenPlansTestCase
+from Products.OpenPlans.tests.openplanstestcase import OpenPlansTestCase, makeContent
 from opencore.interfaces.workflow import IReadWorkflowPolicySupport
 from opencore.interfaces.workflow import IWriteWorkflowPolicySupport
 from opencore.project.browser.add import ProjectAddView
-from opencore.testing.utils import makeContent
 import os
 import sys
 import unittest

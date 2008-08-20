@@ -1,7 +1,6 @@
 from Acquisition import aq_inner
 from opencore.browser.base import BaseView
 from opencore.browser.formhandler import OctopoLite, action
-from opencore.interfaces import IProject
 from opencore.nui.wiki.utils import unescape
 from opencore.utility.interfaces import IProvideSiteConfig
 from PIL import Image
@@ -24,6 +23,7 @@ __replace_meta_content_type = re.compile(
 
 from lxml.html.clean import Cleaner
 from lxml.html.clean import _find_external_links
+from lxml.html import fromstring
 from lxml.html import tostring
 from opencore.interfaces.catalog import ILastModifiedAuthorId
 from topp.utils.pretty_date import prettyDate
@@ -66,15 +66,6 @@ class WikiBase(BaseView):
 
     def lastModifiedAuthor(self):
         return ILastModifiedAuthorId(self.context)
-
-    def in_project(self):
-        return IProject.providedBy(self.area)
-
-    def twirlip_watch_uri(self):
-        twirlip_uri = self.twirlip_uri()
-        if twirlip_uri:
-            return "%s/watch/control" % twirlip_uri
-        return ''
 
 class WikiView(WikiBase):
     displayLastModified = True # see wiki_macros.pt
@@ -165,7 +156,7 @@ class WikiEdit(WikiBase, OctopoLite):
         doc = fromstring(clean_text)
         for el in _find_external_links(doc):
             if el.get('isempty', u''):
-                del el['isempty']
+                el.set('isempty', u'')
         clean_text = tostring(doc, encoding='utf-8')
         #XXX will for sure remove this when xinha is upgraded
 
@@ -218,8 +209,7 @@ class WikiEdit(WikiBase, OctopoLite):
             
         imageId = self._findUniqueId(imageId)
         
-        newImageId = self.context.invokeFactory(id = imageId,
-                                                type_name = 'FileAttachment')
+        newImageId = self.context.invokeFactory(id = imageId, type_name = 'FileAttachment')
         if newImageId is not None and newImageId != '':
             imageId = newImageId
             
@@ -230,16 +220,10 @@ class WikiEdit(WikiBase, OctopoLite):
         return object
 
     def _findUniqueTitle(self, title):
-        # FIXME: this method is stateless. if we passed in the list of
-        # titles, it could be a function and we could trivially
-        # unit-test it with no setup needed.
-        
-        titles = [obj.Title() for obj in self.context.objectValues()]
+        titles = [self.context._getOb(i).Title() for i in self.context.objectIds()]
  
         def getVersion(title, number):
             """returns the version string of a title"""
-            # FIXME: this could be unit-tested (with no setup!) if it
-            # wasn't a nested function for no reason.
             delimiter = ' v'
             try:
                 version = int(title.rsplit(delimiter, 1)[1])

@@ -2,20 +2,19 @@
 Profile View
 """
 from AccessControl import allow_module
-from Acquisition import aq_inner
 from Products.CMFCore.permissions import ModifyPortalContent
 from Products.CMFCore.utils import getToolByName
 from Products.Five import BrowserView
 from Products.remember.interfaces import IReMember
-from opencore import redirect
-from opencore.utils import interface_in_aq_chain
+from opencore import redirect 
 from opencore.interfaces import IProject, IConsumeNewMembers
 from opencore.interfaces.event import IFirstLoginEvent
 from opencore.interfaces.member import IMemberFolder, IMemberHomePage
 from opencore.interfaces.member import IMemberInfo
-from plone.memoize.instance import memoizedproperty
+from plone.memoize.instance import memoizedproperty, memoize
 from topp.utils.pretty_date import prettyDate
-from zope.component import getMultiAdapter, adapter
+from zope.component import getMultiAdapter, adapts, adapter
+from zope.event import notify
 from zope.interface import implements, alsoProvides
 
 
@@ -35,7 +34,10 @@ class MemberInfoView(BrowserView):
         return self._context[0]
 
     def interfaceInAqChain(self, iface):
-        return interface_in_aq_chain(aq_inner(self.context), iface)
+        chain = self.context.aq_inner.aq_chain
+        for item in chain:
+            if iface.providedBy(item):
+                return item
 
     @memoizedproperty
     def member_folder(self):
@@ -194,6 +196,8 @@ def auto_approve_member(event):
     # request which implements IConsumeNewMembers,
     # automatically register the user as a member
     # of the project.
+
+
     request = event.request
     parent = get_parent_project(request)
 

@@ -1,5 +1,3 @@
--*- mode: doctest ;-*-
-
 ====================
  Join by Invitation
 ====================
@@ -128,16 +126,14 @@ create_member as confirmed::
     
     >>> inv_join.login(member.getId())
 
-bob should be logged in::
+bob should be logged in (but no cookies in the test) so we fake it
+with ztc::
 
     >>> from AccessControl import getSecurityManager
     >>> getSecurityManager().getUser()
-    <MembraneUser 'bob'>
+    <SpecialUser 'Anonymous User'>
 
-bob should have a member area::
-
-    >>> self.portal.people['bob']
-    <ATFolder at /plone/people/bob>
+    >>> self.login(member.getId())
 
 Finally, it processes the invites::
 

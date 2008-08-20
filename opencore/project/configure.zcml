@@ -5,13 +5,15 @@
            xmlns:opencore="http://namespaces.openplans.org/opencore">
 
   <include package="opencore.configuration" file="permissions.zcml" />
+  <five:traversable
+     class=".content.OpenProject" />
 
-  <class class="Products.OpenPlans.content.project.OpenProject">
+  <content class="Products.OpenPlans.content.project.OpenProject">
     <implements
       interface="opencore.interfaces.IEditProject
-                 zope.annotation.interfaces.IAttributeAnnotatable
+                 zope.app.annotation.interfaces.IAttributeAnnotatable
                  Products.ploneundelete.interfaces.IUndeleteContainer" />
-  </class>
+  </content>
 
 
   <adapter
@@ -29,6 +31,8 @@
      />
 
   <subscriber handler=".handler.handle_postcreation" />
+  <subscriber handler=".handler.handle_subproject_redirection" />
+  <subscriber handler=".deliver.handle_subproject_vhoster" />
 
   <subscriber
      for="opencore.interfaces.IProject

@@ -13,13 +13,13 @@
    -->
 
   <browser:pages
-     for="wicked.interfaces.IAmWicked"
-     class='wicked.link.WickedAdd'
+     for="Products.wicked.interfaces.IAmWicked"
+     class='Products.wicked.browser.add.WickedAdd'
      permission='zope2.Private'>
 
     <browser:page
        name='wickedadd'
-       attribute='add_content'
+       attribute='addContent'
        />
 
     <browser:page

@@ -1,17 +1,27 @@
+import os, sys
 import unittest
+
+from Testing import ZopeTestCase
+
 import zope.event
 from zope.app.event import objectevent
+from zope.component import provideUtility
 from zope.component import getAdapter
 from zope.component import getUtility
 
+from topp.featurelets.registry import FeatureletRegistry
 from topp.featurelets.interfaces import IFeatureletRegistry
+from topp.featurelets.interfaces import IMenuSupporter
 from topp.featurelets.interfaces import IFeaturelet
 from topp.featurelets.interfaces import IFeatureletSupporter
 
+from Products.CMFCore.utils import getToolByName
+
 from zope.app.component.hooks import setSite, setHooks
+from Products.Five.site.localsite import enableLocalSiteHook
 
 from openplanstestcase import OpenPlansTestCase
-from opencore.testing.utils import makeContent
+from openplanstestcase import makeContent
 
 
 class TestFeaturelets(OpenPlansTestCase):
@@ -21,6 +31,7 @@ class TestFeaturelets(OpenPlansTestCase):
         self.folder.manage_permission('OpenPlans: Add OpenProject',
                                       roles=('Manager', 'Owner'))
         self.proj = makeContent(self.folder, 'project1', 'OpenProject')
+        enableLocalSiteHook(self.portal)
         setSite(self.portal)
         setHooks()
 

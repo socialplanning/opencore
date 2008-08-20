@@ -31,7 +31,7 @@
         <!-- feeds -->      
 	<div class="oc-columnGroup">
 
-          <tal:feeds replace="structure provider:opencore.feed_summaries">
+	  <tal:feeds replace="structure provider:opencore.feed_summaries">
             Rendering happens with viewlets in featurelet packages
           </tal:feeds>
 

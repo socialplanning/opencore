@@ -55,7 +55,7 @@ orig_setBody = HTTPResponse.setBody
 def setBody(self, *args, **kw):
     kw['is_error'] = 0
     try:
-        if isinstance(args[0], tuple) and len(args[0]) == 2:
+        if len(args[0]) == 2:
             title, body = args[0]
             args = (body,) + args[1:]
     except (TypeError, IndexError):
@@ -66,11 +66,6 @@ def setBody(self, *args, **kw):
 def _traceback(self, t, v, tb, as_html=1):
     return ''.join(format_exception(t, v, tb, as_html=as_html))
 
-# XXX Why are we patching at import time anyway? Evil.  This can (and
-# has already) lead to mysterious breakage in other test suites if
-# they run later in the same process.  We should at least move this
-# into some layer setup, and either tear it down or force the layer
-# into a subprocess.
 HTTPResponse._error_format = 'text/plain'
 HTTPResponse._traceback = _traceback
 HTTPResponse.exception = exception
@@ -83,6 +78,7 @@ def test_suite():
     DocFileSuite = ZopeTestCase.FunctionalDocFileSuite
     tests = (
         ('auth.txt', FunctionalTestCase, OpenPlansLayer),
+        ('remote_auth.txt', FunctionalTestCase, MockHTTPWithContent),
         )
 
     for fname, klass, layer in tests:

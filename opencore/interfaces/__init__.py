@@ -1,5 +1,5 @@
 from Products.TeamSpace.interfaces.team import ITeam
-from wicked.interfaces import IAmWicked
+from Products.wicked.interfaces import IAmWicked
 from opencore.interfaces.adding import IAddProject
 from opencore.interfaces.adding import IAmANewsFolder
 from opencore.interfaces.adding import IAmAPeopleFolder

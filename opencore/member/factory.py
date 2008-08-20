@@ -3,10 +3,6 @@ from zope.interface import implements
 from zope.event import notify
 from zope.app.event.objectevent import ObjectCreatedEvent
 
-from AccessControl.SecurityManagement import getSecurityManager
-from AccessControl.SecurityManagement import newSecurityManager
-from AccessControl.SecurityManagement import setSecurityManager
-from AccessControl.SpecialUsers import system as system_user
 from Products.CMFCore.utils import getToolByName
 from Products.CMFPlone.utils import transaction_note
 
@@ -51,47 +47,16 @@ class MemberFactory(object):
     def _validation_member(self):
         return self._membertool._validation_member
 
-    def validate(self, request):
-        """
-        Delegates to AT validation on a shared persistent reference
-        member object.
-        """
-        # XXX changes to AT in Plone 3 have made this convenience hack
-        # for using AT's validation machinery way more painful.  we
-        # really need to replace this with a different validation
-        # mechanism. (ra)
-
-        validation_member = self._validation_member
-
-        # XXX we temporarily become a Manager user b/c we have to have
-        # write privs on a field before AT will perform the validation
-        orig_sec_mgr = getSecurityManager()
-        app = validation_member.getPhysicalRoot()
-        user = system_user
-        newSecurityManager(request, user)
+    def validate(self, fields):
         errors = {}
-        request = _FakeRequest(request.form) # why fake request? (ra)
-        
-        errors = validation_member.validate(REQUEST=request,
-                                            errors=errors,
-                                            data=1, metadata=0)
-
-        # return to being the original user
-        setSecurityManager(orig_sec_mgr)
-
+        request = _FakeRequest(fields)
+        errors = self._validation_member.validate(REQUEST=request,
+                                                  errors=errors,
+                                                  data=1, metadata=0)
         pw, pw_ = (request.form.get("password"),
                    request.form.get("confirm_password"))
         if not pw and not pw_:
             errors['password'] = _(u'no_password', u'Please enter a password')
-
-        if not errors.has_key('password'):
-            # XXX now we have to (re)validate the password, b/c being a
-            # Manager meant the password length check was too lenient
-            regtool = getToolByName(self.context, 'portal_registration')
-            pwerror = regtool.testPasswordValidity(pw, pw_)
-            if pwerror is not None:
-                errors['password'] = pwerror
-        
         return errors
 
     def create(self, fields):

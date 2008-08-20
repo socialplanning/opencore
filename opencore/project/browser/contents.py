@@ -12,7 +12,6 @@ from opencore.utility.interfaces import IProvideSiteConfig
 from plone.memoize.instance import memoize, memoizedproperty
 from opencore.browser import tal
 from zope.component import getUtility
-from zExceptions import BadRequest
 import ZTUtils
 
 _marker = object()
@@ -183,12 +182,7 @@ class ProjectContentsView(ProjectBaseView, OctopoLite):
                 else:
                     parent = self.context.restrictedTraverse(parent)
                 deletees = list(child_ids)
-                try:
-                    parent.manage_delObjects(child_ids)  ## dels ids from list as objs are deleted
-                except (AttributeError, BadRequest):
-                    # if deletion failed for a child, an error is raised and the
-                    # child_ids will not be removed
-                    pass
+                parent.manage_delObjects(child_ids)  ## dels ids from list as objs are deleted
             if child_ids: # deletion failed for some objects
                 surviving_objects.extend(child_ids)  ## what's left in 'child_ids' was not deleted
                 deleted_objects.extend([oid for oid in deletees

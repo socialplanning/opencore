@@ -1,5 +1,3 @@
--*- mode: doctest ;-*-
-
 ===============================
  account confirmation
 ==============================
@@ -81,13 +79,6 @@ Since the member is a property, this is a little awkward::
     >>> orig_member = view.__class__.member
     >>> view.__class__.member = StubMemberWorkflow('fred', confirmed=False)
 
-And we need to monkey-patch PAS so it doesn't complain about our
-stub member:
-
-    >>> from Products.PluggableAuthService.PluggableAuthService import PluggableAuthService as PAS
-    >>> PAS._orig_getUserById = PAS.getUserById
-    >>> PAS.getUserById = stub_getUserById
-
 Calling handle_confirmation with an unconfirmed member should
 confirm you and redirect to the "initial login" welcome page::
 
@@ -110,16 +101,14 @@ redirect you to the login page, with an error status message::
     >>> get_status_messages(view)
     [u'...not pending...']
 
-Now clean up the stub member and un-patch the monkey. The EPA fine for
-not doing this is $1M.
+Now clean up the stub member. The EPA fine for not doing this is $1M.
 
     >>> view.__class__.member = orig_member
     >>> view = portal.restrictedTraverse('@@confirm-account')
     >>> view.request.form.clear()
     >>> print view.member
     None
-    >>> PAS.getUserById = PAS._orig_getUserById
-    >>> del PAS._orig_getUserById
+
 
 
 Confirming a Real OpenMember

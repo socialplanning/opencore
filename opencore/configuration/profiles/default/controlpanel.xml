@@ -6,9 +6,9 @@
     visible="True">
   <permission>Manage portal</permission>
  </configlet>
- <configlet title="Site" action_id="PloneReconfig" appId="Plone"
+ <configlet title="Portal Settings" action_id="PloneReconfig" appId="Plone"
     category="Plone" condition_expr=""
-    url_expr="string:${portal_url}/@@site-controlpanel" visible="True">
+    url_expr="string:${portal_url}/reconfig_form" visible="True">
   <permission>Manage portal</permission>
  </configlet>
  <configlet title="Users and Groups Administration" action_id="UsersGroups"
@@ -21,9 +21,9 @@
     url_expr="string:${portal_url}/prefs_groups_overview" visible="False">
   <permission>Manage portal</permission>
  </configlet>
- <configlet title="Mail" action_id="MailHost" appId="MailHost"
+ <configlet title="Mail Settings" action_id="MailHost" appId="MailHost"
     category="Plone" condition_expr=""
-    url_expr="string:${portal_url}/@@mail-controlpanel" visible="True">
+    url_expr="string:${portal_url}/prefs_mailhost_form" visible="True">
   <permission>Manage portal</permission>
  </configlet>
  <configlet title="Skins" action_id="PortalSkin" appId="PortalSkin"

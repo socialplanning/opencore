@@ -70,26 +70,16 @@ def send_to_wordpress(uri, username, params, context):
         raise AssertionError('Failed to update wordpress: %s %s' % (error_code, error_message))
 
 def notify_wordpress_user_created(mem, event):
-    ftool = getToolByName(mem, 'portal_factory')
-    if ftool.isTemporary(mem):
-        # don't create records for the temporary member objects
-        return
     uri = "openplans-create-user.php"
     #XXX we can't get the member home folder by calling
     # mship_tool.getHomeFolder because it hasn't been created yet
     username = mem.getId()
-    portal_url = getToolByName(mem, 'portal_url')()
+    portal_url = getToolByName(mem, 'portal_url').getPortalObject().absolute_url()
     profile_page = 'profile'
     home_page = '%s/people/%s/%s' % (portal_url, username, profile_page)
-    email=mem.getEmail()
-    if not email:
-        # get email from request form... not ideal to use acquisition
-        # to get the request, but not sure how else to get it (ra)
-        request = mem.REQUEST
-        email = request.form.get('email', '')
     params = dict(
             username=username,
-            email=email,
+            email=mem.getEmail(),
             home_page=home_page,
             )
     error_code, error_message = try_to_send_to_wordpress(uri, username, params, mem)

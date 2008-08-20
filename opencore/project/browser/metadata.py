@@ -2,23 +2,24 @@
 selective catalog metadata handling 
 """
 from zope.app.event import objectevent
+from zope.interface import implements
 from zope.app.annotation.interfaces import IAnnotations
 import zope.event
 from BTrees.OOBTree import OOBTree
-from Products.CMFCore.interfaces import IFolderish
 from Products.CMFCore.utils import getToolByName
 from Products.CMFPlone.CatalogTool import registerIndexableAttribute
+from Products.CMFEditions.interfaces.IArchivist import ArchivistUnregisteredError
 from opencore.interfaces import IProject
 from opencore.interfaces import IOpenPage
+from opencore.interfaces.catalog import ILastModifiedAuthorId
 from opencore.interfaces.catalog import IIndexingGhost
 from opencore.interfaces.event import IAfterProjectAddedEvent
 from Missing import MV
 
-from Products.listen.interfaces import ISearchableMessage
-from Products.listen.interfaces import IMailMessage
-from Products.listen.interfaces import IMailingList
-from zope.app.event.interfaces import IObjectModifiedEvent
+from Products.listen.interfaces import ISearchableMessage, ISearchableArchive, IMailMessage, IMailingList
+from zope.app.event.interfaces import IObjectModifiedEvent, IObjectCreatedEvent
 from zope.component import adapter
+from zope.interface import alsoProvides
 
 # where the last modified author is stored
 ANNOT_KEY = 'opencore.project.browser.metadata'
@@ -34,12 +35,6 @@ def updateThreadCount(obj, event):
         ml_obj = msg
         while not IMailingList.providedBy(ml_obj):
             ml_obj = ml_obj.aq_parent
-        # sometimes we get our mailing lists wrapped in a component
-        # registry, thanks to local utility weirdness, and aq_inner
-        # won't even fix it
-        if not IFolderish.providedBy(ml_obj.aq_parent):
-            # we've got one of the weird ones, up two more steps
-            ml_obj = ml_obj.aq_parent.aq_parent
         list_path = '/'.join(ml_obj.getPhysicalPath())
         cat = getToolByName(msg, 'portal_catalog')
         md = cat.getMetadataForUID(list_path)

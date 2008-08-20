@@ -1,5 +1,3 @@
--*- mode: doctest ;-*-
-
 =========================
 opencore.nui.email_sender
 =========================
@@ -15,11 +13,9 @@ First, let's instantiate an email sender
     >>> es = EmailSender(view)
     >>> es
     <opencore.nui.email_sender.EmailSender object at ...>
-    >>> from Products.CMFCore.utils import getToolByName
-    >>> mh = getToolByName(view.context, 'MailHost')
+    >>> mh = view.get_tool('MailHost')
     >>> mh
-    <opencore.testing.utility.MailHostMock object at ...>
-    >>> mh.messages = []
+    <opencore.testing.layer.MailHostMock object at ...>
 
 Check converting to email addresses
     >>> es.toEmailAddress('m1')

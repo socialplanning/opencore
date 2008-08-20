@@ -1,7 +1,7 @@
+import sys
 from Products.CMFCore.utils import getToolByName
 from opencore.project.handler import _initialize_project
 from zope.app.event.objectevent import ObjectCreatedEvent
-from zope.app.container.contained import ObjectAddedEvent
 from zope.event import notify
 
 projects_map = {'p1':{'title':'Project One',},
@@ -46,8 +46,7 @@ members_map = {'m1':{'fullname':'Member One',
 
 
 
-def create_test_content(self, p_map=projects_map, m_map=members_map,
-                        all_events=True):
+def create_test_content(self, p_map=projects_map, m_map=members_map):
     """ populates an openplans site w/ dummy test content """
     portal = getToolByName(self, 'portal_url').getPortalObject()
 
@@ -72,8 +71,7 @@ def create_test_content(self, p_map=projects_map, m_map=members_map,
         out.append('Project %s added' % p_id)
 
     for mem_id, mem_data in m_map.items():
-        member = create_member(self, mem_id, all_events=all_events,
-                               **mem_data)
+        member = create_member(self, mem_id, **mem_data)
         out.append('Member %s added' % mem_id)
         projdata = mem_data.get('projects', {})
         for p_id, p_roles in projdata.items():
@@ -94,8 +92,7 @@ def create_test_content(self, p_map=projects_map, m_map=members_map,
     wftool.updateRoleMappings()
     return "\n".join(out)
 
-def create_member(context, mem_id, all_events=True,
-                  out=None, **mem_data):
+def create_member(context, mem_id, out=None, **mem_data):
     """creates and confirms a member"""
     mdc = getToolByName(context, 'portal_memberdata')
 
@@ -114,24 +111,18 @@ def create_member(context, mem_id, all_events=True,
     mem.setFullname(mem_data['fullname'])
 
     # and confirm it.
-    confirm_member(mem)
 
-    mem.reindexObject()
-    notify(ObjectCreatedEvent(mem))
-    if all_events:
-        notify(ObjectAddedEvent(mem, newParent=mdc, newName=mem_id))
-    ms_tool = getToolByName(context, 'portal_membership')
-    ms_tool.createMemberArea(mem.getId())
-    return mem
-
-def confirm_member(mem):
-    """ forces the member ob into active w/f state """
     # need to set/delete the attribute for the workflow guards
     setattr(mem, 'isConfirmable', True)
-    wftool = getToolByName(mem, 'portal_workflow')
+    wftool = getToolByName(context, 'portal_workflow')
     wf_id = 'openplans_member_workflow'
     status = wftool.getStatusOf(wf_id, mem)
     status['review_state'] = 'public'
     wftool.setStatusOf(wf_id, mem, status)
     delattr(mem, 'isConfirmable')
-    
+
+    mem.reindexObject()
+    notify(ObjectCreatedEvent(mem))
+    ms_tool = getToolByName(context, 'portal_membership')
+    ms_tool.createMemberArea(mem.getId())
+    return mem
