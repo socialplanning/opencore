@@ -93,6 +93,13 @@
       <role name="ProjectMember"/>
       <role name="Reviewer"/>
     </permission>
+    <permission name="Add Attachment" acquire="False">
+      <role name="Manager"/>
+      <role name="Owner"/>
+      <role name="ProjectAdmin"/>
+      <role name="ProjectMember"/>
+      <role name="Reviewer"/>
+    </permission>
     <permission name="Add portal member" acquire="False">
       <role name="Anonymous"/>
     </permission>
