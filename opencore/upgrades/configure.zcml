@@ -33,4 +33,18 @@
 
   </genericsetup:upgradeSteps>
 
+  <genericsetup:upgradeSteps
+     profile="opencore.configuration:default"
+     source="0.13.0"
+     destination="0.14.0"
+     sortkey="10">
+
+    <genericsetup:upgradeStep
+       title="Migrate attachments to BLOB storage"
+       description="Migrates all FileAttachment objects to use ZODB BLOB storage"
+       handler=".to_0_14_0.migrate_attachments_to_blob"
+       />
+    
+  </genericsetup:upgradeSteps>
+
 </configure>
