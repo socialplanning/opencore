@@ -5,6 +5,7 @@ from opencore.interfaces import IProject
 from opencore.nui.wiki.utils import unescape
 from opencore.utility.interfaces import IProvideSiteConfig
 from PIL import Image
+from Products.CMFCore.utils import getToolByName
 from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
 from StringIO import StringIO
 from zope.app.event import objectevent
@@ -186,7 +187,7 @@ class WikiEdit(WikiBase, OctopoLite):
         # it's important to do this before the repo saves the new version
         notify(objectevent.ObjectModifiedEvent(self.context))
 
-        repo = self.context.portal.portal_repository
+        repo = getToolByName(self.context, 'portal_repository')
         repo.save(self.context, comment = self.request.form.get('comment', ''))
         self.context.reindexObject()
         self.addPortalStatusMessage(u'Your changes have been saved.')
@@ -217,7 +218,6 @@ class WikiEdit(WikiBase, OctopoLite):
             imageId = plone_utils.normalizeString(attachmentTitle)
             
         imageId = self._findUniqueId(imageId)
-        
         newImageId = self.context.invokeFactory(id = imageId,
                                                 type_name = 'FileAttachment')
         if newImageId is not None and newImageId != '':
