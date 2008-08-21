@@ -17,7 +17,7 @@ AddOpenPage = 'OpenPlans: Add OpenPage ' # XXX add defaults for this below.
 
 DEFAULT_PFOLDER_PERMISSIONS_DATA = (
     (['Manager', 'Member'],
-     ['OpenPlans: Add OpenProject', 'OpenPlans: Add OpenPage',
+     ['OpenPlans: Add OpenProject', AddOpenPage,
        'ATContentTypes: Add Image', 'Add portal content',]
      ),
     
