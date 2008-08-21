@@ -77,6 +77,7 @@ setup(
           'Products.CacheSetup==1.2',
           'Products.GenericSetup==1.4.1',
           'plone.app.blob==1.0b2',
+          'ZODB3>=3.8.0,<3.8.999'
           ],
       extras_require=dict(ubuntu=['hprof']),
 
