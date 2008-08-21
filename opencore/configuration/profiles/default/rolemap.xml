@@ -71,6 +71,14 @@
                 acquire="True">
       <role name="Owner"/>
     </permission>
+    <permission name="Add Attachment"
+                acquire="False">
+      <role name="Manager"/>
+      <role name="Owner"/>
+      <role name="ProjectAdmin"/>
+      <role name="ProjectMember"/>
+      <role name="Reviewer"/>
+    </permission>
     <permission name="Add Documents, Images, and Files"
                 acquire="False">
       <role name="Manager"/>
@@ -203,14 +211,6 @@
       <role name="Owner"/>
     </permission>
     <permission name="OpenPlans: Add OpenPage"
-                acquire="False">
-      <role name="Manager"/>
-      <role name="Owner"/>
-      <role name="ProjectAdmin"/>
-      <role name="ProjectMember"/>
-      <role name="Reviewer"/>
-    </permission>
-    <permission name="OpenPlans: Add ATBlobAttachment"
                 acquire="False">
       <role name="Manager"/>
       <role name="Owner"/>

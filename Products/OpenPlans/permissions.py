@@ -1,13 +1,11 @@
-from Products.CMFCore.permissions import setDefaultRoles, \
-     AddPortalMember
+from Products.CMFCore.permissions import setDefaultRoles
+from Products.CMFCore.permissions import AddPortalMember
 from Products.TeamSpace.permissions import ManageTeamMembership
-from Products.listen.permissions import AddMailingList, SubscribeSelf, \
-     ManageSubscriptions, InviteSubscribers
+from Products.SimpleAttachment.config import DEFAULT_ADD_CONTENT_PERMISSION as \
+     AddAttachment
+
 import Products.Archetypes.public as atapi
 import config
-
-# XXX These permissions are partially redundant with definitions in
-# opencore/configuration/permissions.zcml ...  D.R.Y.
 
 CopyOrMove = "Copy or Move"
 
@@ -16,40 +14,6 @@ ManageWorkflowPolicy = "OpenPlans: Manage workflow policy"
 ViewEmails = 'OpenPlans: View emails'
 
 AddOpenPage = 'OpenPlans: Add OpenPage ' # XXX add defaults for this below.
-
-DEFAULT_PERMISSIONS_DATA = (
-    (['Manager', 'Owner', 'ProjectAdmin', 'ProjectMember', 'Reviewer'],
-     ['Add portal content', 'Add portal folders',
-      'Add Documents, Images, and Files',
-      'ATContentTypes: Add Document', 'ATContentTypes: Add Event',
-      'ATContentTypes: Add File', 'ATContentTypes: Add Folder',
-      'ATContentTypes: Add Image', 'ATContentTypes: Add Link',
-      'ATContentTypes: Add News Item', 'OpenPlans: Add OpenPage',
-      'Reply to item', 'Delete objects', CopyOrMove, AddMailingList,
-      ViewEmails]),
-
-    (['Manager', 'Owner', 'ProjectAdmin', 'ProjectMember', 'Reviewer',
-      'Member', 'Anonymous'],
-     [SubscribeSelf]),
-
-    (['Manager', 'Owner', 'ProjectAdmin', 'Reviewer'],
-     ['List folder contents',
-      'Quills: Add WeblogEntry', 'Quills: Add WeblogTopic',
-      'Quills: Add WeblogArchive',]),
-
-    (['Manager', 'ProjectAdmin', 'Owner'],
-     [ManageTeamMembership, 'TeamSpace: Manage team',
-      ManageWorkflowPolicy, InviteSubscribers]),
-
-    (['Manager', 'ProjectAdmin'],
-     [MakeContentVisible,]),
-
-    (['Manager',],
-     [ManageSubscriptions,]),
-
-    (['Anonymous'],
-     ['Add portal member',]),
-    )
 
 DEFAULT_PFOLDER_PERMISSIONS_DATA = (
     (['Manager', 'Member'],
@@ -68,27 +32,25 @@ PLACEFUL_PERMISSIONS_DATA = {
                      )
     }
 
-ADD_DEFAULT_ROLES = {
-    'OpenRoster': ('Manager', 'ProjectAdmin', 'Owner'),
+DEFAULT_ADD_PERMISSIONS = {
+    'OpenMember': AddPortalMember,
+    'OpenMembership': ManageTeamMembership,
+    'ATBlobAttachment': AddAttachment,
     }
 
 def initialize():
     permissions = {}
     types = atapi.listTypes(config.PROJECTNAME)
-    for atype in  types:
+
+    for atype in types:
         typename = atype['name']
-        if typename == 'OpenMember':
-            permissions[atype['portal_type']] = AddPortalMember
-        elif typename == 'OpenMembership':
-            permissions[atype['portal_type']] = ManageTeamMembership
+        if typename in DEFAULT_ADD_PERMISSIONS:
+            permissions[atype['portal_type']] = DEFAULT_ADD_PERMISSIONS[typename]
         else:
             permission = "%s: Add %s" % (config.PROJECTNAME, atype['portal_type'])
+            setDefaultRoles(permission, ('Manager',))
             permissions[atype['portal_type']] = permission
-            # Assign default roles
-            if ADD_DEFAULT_ROLES.has_key(typename):
-                setDefaultRoles(permission, ADD_DEFAULT_ROLES[typename])
-            else:
-                setDefaultRoles(permission, ('Manager',))
+
     perms_to_set = [MakeContentVisible, ViewEmails]
     for permission in perms_to_set:
         setDefaultRoles(permission, ('Manager',))
