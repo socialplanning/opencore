@@ -41,10 +41,16 @@
 
     <genericsetup:upgradeStep
        title="Migrate attachments to BLOB storage"
-       description="Migrates all FileAttachment objects to use ZODB BLOB storage"
+       description="Migrates all current FileAttachment objects to use ZODB BLOB storage"
        handler=".to_0_14_0.migrate_attachments_to_blob"
        />
     
+    <genericsetup:upgradeStep
+       title="Migrate attachments to BLOB storage"
+       description="Migrates all historical FileAttachment objects to use ZODB BLOB storage"
+       handler=".to_0_14_0.migrate_historical_attachments_to_blob"
+       />
+
   </genericsetup:upgradeSteps>
 
 </configure>
