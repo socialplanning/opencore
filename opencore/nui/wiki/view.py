@@ -193,7 +193,7 @@ class WikiEdit(WikiBase, OctopoLite):
 
     @action('save')
     def handle_save(self, target=None, fields=None):
-        from opencore.browser.editform import edit_form_manager
+        from opencore.framework.editform import edit_form_manager
         manager = edit_form_manager(self)
 
         self.errors = self.validate()

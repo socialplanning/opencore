@@ -91,27 +91,17 @@ class ProjectPreferencesView(ProjectBaseView, OctopoLite):
                     }
                 }
 
-    def validate(self):
-        from opencore.browser.editform import IEditable
-        errors = IEditable(self.context).validate(self.request)
-        
-        from opencore.browser.editform import edit_form_manager
-        manager = edit_form_manager(self)
-        errors.update(manager.validate())
-
-        return errors
-
-    def save(self):
+    def save(self, request):
         # possibly this filtering should happen on the IEditable object?
-        new_form = self.filter_params()
-        old_form = self.request.form
-        self.request.form = new_form
-        from opencore.browser.editform import IEditable
-        IEditable(self.context).save(self.request)
-        self.request.form = old_form
+        new_form = self.filter_params(request)
+        old_form = request.form
+        request.form = new_form
+        from opencore.framework.editform import IEditable
+        IEditable(self.context).save(request)
+        request.form = old_form
 
         # this codeblock is equivalent to an opencore.editform viewlet's .save()
-        logo = self.request.form.get('logo')
+        logo = request.form.get('logo')
         if logo:
             try:
                 self.set_logo(logo)
@@ -120,58 +110,41 @@ class ProjectPreferencesView(ProjectBaseView, OctopoLite):
             del self.request.form['logo']
 
         # this codeblock is equivalent to an opencore.editform viewlet's .save()
-        home_page = self.request.form.get('home-page', None)
+        home_page = request.form.get('home-page', None)
         hpcontext = IHomePage(self.context)
         if home_page is not None:
             if hpcontext.home_page != home_page:
                 hp_url = '%s/%s' % (self.context.absolute_url(), home_page)
                 hpcontext.home_page = home_page
 
-        
-        # We're inventing a convention by which viewlets can extend
-        # forms with more form data to save: just provide a save
-        # method.
-        from opencore.browser.editform import edit_form_manager
-        manager = edit_form_manager(self)
-        manager.save()
 
         self.add_status_message('Your changes have been saved.')
 
-    def filter_params(self):
+    def filter_params(self, request):
         allowed_params = set(['__initialize_project__', 'update', 'set_flets',
                               'project_title', 'description', 'logo', 'workflow_policy',
                               'featurelets', 'home-page',
                               'location',])
         new_form = {}
         for k in allowed_params:
-            if k in self.request.form:
+            if k in request.form:
                 if 'project_title' == k:
                     # Aarrgghh!! #*!&% plone snoops into the request, and reads the form variables directly,
                     # so we have to set the form variables with the same names as the schema
-                    new_form['title'] = self.request.form[k]
+                    new_form['title'] = request.form[k]
                 else:
-                    new_form[k] = self.request.form[k]
+                    new_form[k] = request.form[k]
         return new_form
+
+    def error_handler(self, errors):
+        self.errors = errors
+        self.add_status_message(_(u'psm_correct_errors_below',
+                                  u'Please correct the errors indicated below.'))
 
     @formhandler.button('update')
     def handle_request(self):
-        # First do validation. We don't treat validation problems as
-        # exceptions, because we want to warn user of as many problems
-        # as possible, not just the first one that fails.  But this
-        # also means this method needs to manually bail out after
-        # validation failure, to avoid saving bad data.
-        self.errors = self.validate()
 
-        if self.errors:
-            self.add_status_message(_(u'psm_correct_errors_below',
-                                      u'Please correct the errors indicated below.'))
-            return
-
-        # Validation passed, so we save the data and set status PSMs.
-        self.save()
-
-        self.redirect(self.context.absolute_url())
-
+        
     def current_home_page(self):
         return IHomePage(self.context).home_page
 

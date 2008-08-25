@@ -23,7 +23,7 @@
 
   <adapter
      for="opencore.interfaces.IProject"
-     provides="opencore.browser.editform.IEditable"
+     provides="opencore.framework.editform.IEditable"
      factory="opencore.project.content.ProjectEditAdapter"
      />
 

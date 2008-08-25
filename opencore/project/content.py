@@ -3,7 +3,7 @@ from Products.OpenPlans.content.project import *
 from zope.interface import implements
 from zope.component import adapts
 
-from opencore.browser.editform import IEditable
+from opencore.framework.editform import IEditable
 from opencore.interfaces import IProject
 
 from topp.utils import text

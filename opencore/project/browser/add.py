@@ -90,7 +90,7 @@ class ProjectAddView(ProjectBaseView, OctopoLite):
         # Give plugin viewlets a chance to validate. We don't have a
         # project yet, so they'll have to tolerate validating with the
         # project container as the context.
-        from opencore.browser.editform import edit_form_manager
+        from opencore.framework.editform import edit_form_manager
         manager = edit_form_manager(self)
         errors.update(manager.validate())
         return errors
@@ -110,7 +110,7 @@ class ProjectAddView(ProjectBaseView, OctopoLite):
 
         # We have to look up the viewlets again, now that we have
         # a project for them to use as the context to save to.
-        from opencore.browser.editform import edit_form_manager
+        from opencore.framework.editform import edit_form_manager
         manager = edit_form_manager(self, context=proj)
         manager.save()
 

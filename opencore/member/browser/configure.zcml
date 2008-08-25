@@ -130,8 +130,8 @@
   <browser:viewletManager
      name="opencore.editform"
      for="opencore.interfaces.member.IMemberFolder"
-     provides="opencore.browser.editform.IEditForm"
-     class="opencore.browser.editform.EditForm"
+     provides="opencore.framework.editform.IEditForm"
+     class="opencore.framework.editform.EditForm"
      permission="zope2.View"
      />
 

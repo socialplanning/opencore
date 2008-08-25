@@ -1,4 +1,4 @@
-Take a look at featurelets; they are really doing the same thing as opencore.editform viewlets now, but with (I think) a less explicit API.  Could potentially clean them up to conform to the same IEditable interface and merge with EditFormViewlet.
+ * Take a look at featurelets; they are really doing the same thing as opencore.editform viewlets now, but with (I think) a less explicit API.  Could potentially clean them up to conform to the same IEditable interface and merge with EditFormViewlet.
 
 That might in turn help unify the code between content-add and content-edit.  Which would go a long way towards reducing code in general.
 
@@ -7,3 +7,13 @@ At that point, things might be clean enough to try creating an explicit "edit fo
 Open question: should plugins provide abstraction layer for validate() and save() that sits between content and viewlet class? I don't think so; just rename EditFormViewlet to EditFormPlugin or something, since the viewlet is actually the dynamically typed object created by configuration; the viewlet's class _is_ that abstraction layer, just make that more explicit. (So the template isn't actually necessary for interacting with it.)
 
 One day: clean up things like view code for file attachments, image upload, etc.. put them in base IEditable(contenttype) or plugin-type code
+
+ * Perhaps plugins should actually register as subscription adapters? [IEditable(adapted) for adapted in IExtensions(content)]
+
+ * Content types for extensible content, implementations as plone/AT type factories
+
+def __call__():
+    if POST:
+       self.validate()
+       self.save()
+       self.redirect()

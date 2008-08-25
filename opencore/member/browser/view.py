@@ -204,7 +204,7 @@ class ProfileEditView(ProfileView, OctopoLite):
                 errors['portrait'] = "Invalid portrait"
 
         # Do validation from any plugins.
-        from opencore.browser.editform import edit_form_manager
+        from opencore.framework.editform import edit_form_manager
         manager = edit_form_manager(self)
         errors.update(manager.validate())
         for key, msg in errors.items():
