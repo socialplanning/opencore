@@ -8,6 +8,7 @@ from PIL import Image
 from Products.CMFCore.utils import getToolByName
 from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
 from StringIO import StringIO
+from zExceptions import BadRequest
 from zope.app.event import objectevent
 from zope.component import getUtility
 from zope.event import notify
@@ -533,7 +534,10 @@ class ImageManager(WikiEdit, OctopoLite):
         if target is None:
             target = []
         survivors = list(target)
-        self.context.manage_delObjects(survivors)
+        try:
+            self.context.manage_delObjects(survivors)
+        except (AttributeError, BadRequest):
+            pass
         return self.backend_images_snippet()
 
     def parse_parent_from(self, brain):
