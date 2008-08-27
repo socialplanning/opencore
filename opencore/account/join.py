@@ -74,24 +74,31 @@ class JoinView(browser.AccountView, OctopoLite):
     # some functionality out of the view here. -egj
 
     @action('validate')
-    def validate(self, targets=None, fields=None):
-        """ this is really dumb. """
+    def ajax_validate(self, targets=None, fields=None):
+        """This is a validation method that is used by oc-js for presenting
+        live validation to the user.  It will return a python dictionary that
+        will be eventually converted into a JSON response."""
 
-        # a special case for when the user has not yet entered a
-        # password confirmation: pretend that they have
-        if not self.request.form.get('confirm_password'):
-            self.request.form['confirm_password'] = self.request.form.get('password', '')
+        # Working under the assumption that users don't need to be informed
+        # when they haven't yet confirmed their password (because they're about
+        # to), we set the correct confirmation password.
+        ignore_password_confirmation = not self.request.form.get('confirm_password')
 
-        errors = ICreateMembers(self.portal).validate(self.request)
+        validation_errors = ICreateMembers(self.portal).validate(self.request)
 
-        erase = [error for error in errors if error not in self.request.form]
-        also_erase = [field for field in self.request.form if field not in errors]
-        for e in erase + also_erase:
-            errors[e] = ''
+        if ignore_password_confirmation and 'confirm_password' in validation_errors:
+            del(validation_errors['confirm_password'])
+
         ret = {}
-        for e in errors:
-            ret['oc-%s-error' % e] = {
-                'html': str(errors[e]),
+        for error in validation_errors:
+            # The AJAX submit only includes the field(s) that we are
+            # validating, and so we have to remove errors that we don't want
+            # displayed to the user.
+            if error not in self.request.form:
+                continue
+
+            ret['oc-%s-error' % error] = {
+                'html': str(validation_errors[error]),
                 'action': 'copy', 'effects': 'highlight'}
 
         return ret
