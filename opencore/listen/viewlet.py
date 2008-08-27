@@ -7,6 +7,7 @@ from zope.interface import implements
 from zope.interface import Interface, alsoProvides, noLongerProvides
 from zope.component import adapts
 
+from OFS.interfaces import IObjectManager
 
 class ListenInstallationViewlet(EditFormViewlet):
 
@@ -26,6 +27,7 @@ class ListenInstallationViewlet(EditFormViewlet):
     def disable(self, context):
         if not self.enabled:
             return
+        remove_listen_container(context, 'lists')
         noLongerProvides(context, IListenFeatureletInstalled)
 
     def save(self, context, request):
@@ -46,8 +48,11 @@ from zope.interface import implementer
 def get_listen_container(context):
     return context['lists']
 
+def remove_listen_container(context, id):
+    object_manager = IObjectManager(context)
+    object_manager.manage_delObjects(ids=[id])
+
 from Products.CMFCore.utils import getToolByName
-from OFS.interfaces import IObjectManager
 from zope.event import notify
 from opencore.feed.interfaces import ICanFeed
 def create_listen_container(context, id):
