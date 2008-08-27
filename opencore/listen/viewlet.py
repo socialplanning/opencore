@@ -20,6 +20,7 @@ class ListenInstallationViewlet(EditFormViewlet):
     def enable(self, context):
         if self.enabled:
             return
+        create_listen_container(context, 'lists')
         alsoProvides(context, IListenFeatureletInstalled)
 
     def disable(self, context):
@@ -35,7 +36,7 @@ class ListenInstallationViewlet(EditFormViewlet):
             self.disable(context)
 
     def render(self):
-        return "<input type='checkbox'>Mailing Lists</input>"
+        return "<input type='checkbox' name='listen'>Mailing Lists</input>"
 
 from zope.component import adapter
 from zope.interface import implementer
@@ -43,24 +44,18 @@ from zope.interface import implementer
 @adapter(IListenFeatureletInstalled)
 @implementer(IListenContainer)
 def get_listen_container(context):
-    try:
-        ret = context['lists']
-        print ret
-    except AttributeError:
-        # this lazy creation really isn't the right approach i don't think
-        create_listen_container(context, 'lists')
-        print "Created a list"
-        return context._getOb('lists')
+    return context['lists']
 
 from Products.CMFCore.utils import getToolByName
 from OFS.interfaces import IObjectManager
 from zope.event import notify
+from opencore.feed.interfaces import ICanFeed
 def create_listen_container(context, id):
     type_factory = getToolByName(context, 'portal_types')
     object_manager = IObjectManager(context)
 
     type_factory.constructContent('Folder', object_manager,
-                                  id, 'Mailing lists')
+                                  id, title='Mailing lists')
     container = context._getOb('lists')
 
     # this next line sets the (default view) of the new Folder object
@@ -72,6 +67,15 @@ def create_listen_container(context, id):
     alsoProvides(container, ICanFeed) # ?~? seems like this could be global reg..?
     listen_featurelet_installed(context)
 
+from opencore.listen.utils import getSuffix
+from zope.component import getUtility
+from Products.listen.interfaces import IListLookup
+from opencore.listen.mailinglist import OpenMailingList
+from zope.i18n import translate
+from opencore.project.utils import project_noun
+from opencore.i18n import _
+from zope.app.event.objectevent import ObjectCreatedEvent
+from Products.listen.interfaces import IWriteMembershipList
 def listen_featurelet_installed(proj):
     """need to create a default discussion mailing list
        and subscribe all project members to the list"""

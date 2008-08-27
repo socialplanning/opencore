@@ -578,7 +578,6 @@ class ListsView(BaseView):
     def __call__(self):
         """if there is only one list and the user is not an admin,
            we automatically redirect to the mailing list"""
-        import pdb; pdb.set_trace()
         list_ids = self.context.objectIds()
         if not self.can_delete_list() and len(list_ids) == 1:
             ml = getattr(self.context, list_ids[0])
