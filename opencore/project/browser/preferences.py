@@ -158,7 +158,6 @@ class ProjectPreferencesView(ProjectBaseView, OctopoLite):
         self.save(request)
         plugins.save(request)
         
-        
     def current_home_page(self):
         return IHomePage(self.context).home_page
 

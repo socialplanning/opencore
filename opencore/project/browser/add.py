@@ -112,7 +112,7 @@ class ProjectAddView(ProjectBaseView, OctopoLite):
         # a project for them to use as the context to save to.
         from opencore.framework.editform import edit_form_manager
         manager = edit_form_manager(self, context=proj)
-        manager.save()
+        manager.save(self.request)
 
     @action('add')
     def handle_request(self, target=None, fields=None):

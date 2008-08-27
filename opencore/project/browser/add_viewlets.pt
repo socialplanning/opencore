@@ -9,7 +9,7 @@
     </span>:
     <span tal:replace="viewlet/title | viewlet/name/title">Viewlet Title</span>
   </legend>
-  <span tal:replace="structure viewlet" />
+  <span tal:replace="structure viewlet/render" />
   </fieldset>
 
 </span>

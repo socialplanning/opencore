@@ -35,5 +35,12 @@
        manager="opencore.framework.editform.IEditForm"
        name="listen.featurelet"
        />
+    <browser:viewlet
+       for="opencore.interfaces.adding.IAddProject"
+       class="opencore.listen.viewlet.ListenInstallationViewlet"
+       permission="cmf.ModifyPortalContent"
+       manager="opencore.framework.editform.IEditForm"
+       name="listen.featurelet"
+       />
 
 </configure>
