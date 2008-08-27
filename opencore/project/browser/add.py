@@ -92,7 +92,7 @@ class ProjectAddView(ProjectBaseView, OctopoLite):
         # project container as the context.
         from opencore.framework.editform import edit_form_manager
         manager = edit_form_manager(self)
-        errors.update(manager.validate())
+        errors.update(manager.validate(self.request))
         return errors
 
     def save(self):
@@ -140,7 +140,6 @@ class ProjectAddView(ProjectBaseView, OctopoLite):
         id_ = self.request.form['projid']
 
         proj = self.context.restrictedTraverse('portal_factory/OpenProject/%s' %id_)
-        import pdb; pdb.set_trace()
         # not calling validate because it explodes on "'" for project titles
         # XXX is no validation better than an occasional ugly error?
         #proj.validate(REQUEST=self.request, errors=self.errors, data=1, metadata=0)

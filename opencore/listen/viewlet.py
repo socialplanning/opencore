@@ -1,4 +1,4 @@
-from opencore.listen.interface import IListenContainer, IListenFeatureletInstalled
+from opencore.listen.interfaces import IListenContainer, IListenFeatureletInstalled
 
 from opencore.framework.editform import IEditForm
 from opencore.framework.editform import EditFormViewlet
@@ -37,13 +37,19 @@ class ListenInstallationViewlet(EditFormViewlet):
     def render(self):
         return "<input type='checkbox'>Mailing Lists</input>"
 
+from zope.component import adapter
+from zope.interface import implementer
+
 @adapter(IListenFeatureletInstalled)
 @implementer(IListenContainer)
 def get_listen_container(context):
     try:
-        return context['lists']
+        ret = context['lists']
+        print ret
     except AttributeError:
+        # this lazy creation really isn't the right approach i don't think
         create_listen_container(context, 'lists')
+        print "Created a list"
         return context._getOb('lists')
 
 from Products.CMFCore.utils import getToolByName
@@ -56,9 +62,14 @@ def create_listen_container(context, id):
     type_factory.constructContent('Folder', object_manager,
                                   id, 'Mailing lists')
     container = context._getOb('lists')
+
+    # this next line sets the (default view) of the new Folder object
+    # to the "mailing lists" layout, which is set up to render the
+    # @@mailing_lists view, defined in opencore.listen.browser
     container.setLayout('mailing_lists')
+
     alsoProvides(container, IListenContainer)
-    alsoProvides(container, ICanFeed) # ?~?
+    alsoProvides(container, ICanFeed) # ?~? seems like this could be global reg..?
     listen_featurelet_installed(context)
 
 def listen_featurelet_installed(proj):

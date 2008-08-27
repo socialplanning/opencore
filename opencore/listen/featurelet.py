@@ -46,9 +46,11 @@ class ListenFeaturelet(BaseFeaturelet):
         """
         See IFeaturelet.
         """
+        return self._info
+
         BaseFeaturelet.deliverPackage(self, obj)
         container = obj._getOb(self._info['content'][0]['id'])
-        container.setLayout('mailing_lists')
+        container.setLayout('mailing_lists') # i wonder what this does
         alsoProvides(container, IListenContainer)
-        alsoProvides(container, ICanFeed)
+        alsoProvides(container, ICanFeed) # seems like we can register this globally..?
         return self._info

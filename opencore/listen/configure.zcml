@@ -33,4 +33,14 @@
        name="listen"
        />
 
+    <adapter factory="opencore.listen.viewlet.get_listen_container" />
+
+    <browser:viewlet
+       for="opencore.framework.IExtensibleContent"
+       class="opencore.listen.viewlet.ListenInstallationViewlet"
+       permission="cmf.ModifyPortalContent"
+       manager="opencore.framework.editform.IEditForm"
+       name="listen.featurelet"
+       />
+
 </configure>

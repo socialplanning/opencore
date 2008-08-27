@@ -141,9 +141,23 @@ class ProjectPreferencesView(ProjectBaseView, OctopoLite):
         self.add_status_message(_(u'psm_correct_errors_below',
                                   u'Please correct the errors indicated below.'))
 
+    def validate(self, request):
+        return {}
+
     @formhandler.button('update')
     def handle_request(self):
+        from opencore.framework.editform import edit_form_manager
+        plugins = edit_form_manager(self)
+        request = self.request
 
+        errors = self.validate(request)
+        errors.update(plugins.validate(request))
+        if errors:
+            return self.error_handler(errors)
+
+        self.save(request)
+        plugins.save(request)
+        
         
     def current_home_page(self):
         return IHomePage(self.context).home_page
