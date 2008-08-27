@@ -144,7 +144,7 @@
               <legend><strong>Which additional tools would you like to install?</strong></legend>
               <ul class="oc-form-radiolist oc-form-fieldBlock"
                   tal:define="warning string:Warning: Removing this feature may result in data loss.">
-                <li class="oc-js-featurelet-undelete-warner"
+<!--                <li class="oc-js-featurelet-undelete-warner"
                     tal:repeat="flet view/featurelets">
                   <input type="checkbox"
                          class="oc-input-typeCheck oc-js-toggler"
@@ -160,7 +160,7 @@
                         style="display: none"
                         tal:content="warning"
                         />
-                </li>
+                </li> -->
               </ul>
             </fieldset>
             

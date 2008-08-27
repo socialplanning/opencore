@@ -12,7 +12,6 @@ from opencore.interfaces import IHomePage
 from opencore.interfaces.event import AfterProjectAddedEvent
 from opencore.browser.naming import get_view_names
 from opencore.project.browser.base import ProjectBaseView
-from topp.featurelets.interfaces import IFeatureletSupporter, IFeaturelet
 from topp.utils import text
 from zope import event
 from zope.component import getAdapters, getMultiAdapter
@@ -131,9 +130,6 @@ class ProjectAddView(ProjectBaseView, OctopoLite):
                                       u'Please correct the errors indicated below.'))
             return
 
-        # @@ what is this for?
-        self.request.form['featurelets'] = [f['id'] for f in self.featurelets()]
-
         # Aarrgghh!! #*!&% plone snoops into the request, and reads the form variables directly,
         # so we have to set the form variables with the same names as the schema
         self.request.form['title'] = self.request.form['project_title']
@@ -174,31 +170,11 @@ class ProjectAddView(ProjectBaseView, OctopoLite):
     def notify(self, project):
         event.notify(AfterProjectAddedEvent(project, self.request))
 
-    def featurelets(self):
-        # create a stub object that provides IFeatureletSupporter
-        # is there a better way to get the list of adapters without having
-        # the "for" object?
-
-        # @@ dwm: look at the adapter reg or uses the apidoc api which
-        # featurelet to display is a policy decision on the portal
-        # (like opencore_properties). Might work best to build the ui
-        # around a policy abstraction
-        
-        obj = DummyFeatureletSupporter()
-        flets = getAdapters((obj,), IFeaturelet)
-        flet_data = [dict(id=f.id,
-                          title=f.title,
-                          url=f._info['menu_items'][0]['action'],
-                          checked=False,
-                          )
-                     for name, f in flets]
-        return flet_data
-
     def homepages(self):
-        flet_data = self.intrinsic_homepages() + self.featurelets()
+        flet_data = self.intrinsic_homepages()
+        from opencore.project.browser.home_page import IHomePageable
+        from zope.component import subscribers
+        import pdb; pdb.set_trace()
         return flet_data
 
-
-class DummyFeatureletSupporter(object):
-    implements(IFeatureletSupporter)
 

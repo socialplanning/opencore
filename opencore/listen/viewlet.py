@@ -134,3 +134,17 @@ def listen_featurelet_installed(proj):
     mships = cat(portal_type='OpenMembership', review_state=active_states, path=team_path)
     for mship in mships:
         memlist.subscribe(mship.getId)
+
+from zope.interface import implementer
+from zope.component import adapter
+from opencore.frameworkk import IExtensibleContent
+from opencore.project.browser.home_page import HomePageable, IHomePageable
+
+@adapter(IExtensibleContent)
+@implementer(IHomePageable)
+def listen_home_page(context):
+    container = IListenContainer(context)
+    return HomePageable(container.getId(), container.Title(), container.absolute_url())
+from zope.component import getGlobalSiteManager
+gsm = getGlobalSiteManager()
+gsm.registerSubscriptionAdapter(listen_home_page)

@@ -161,22 +161,19 @@ class ProjectPreferencesView(ProjectBaseView, OctopoLite):
     def current_home_page(self):
         return IHomePage(self.context).home_page
 
-    def featurelets(self):
-        supporter = IFeatureletSupporter(self.context)
-        all_flets = [flet for name, flet in getAdapters((supporter,), IFeaturelet)]
-        installed_flets = [flet.id for flet in all_flets if flet.installed]
-        flet_data = [dict(id=f.id,
-                          title=f.title,
-                          url=f._info['menu_items'][0]['action'],
-                          checked=f.id in installed_flets,
-                          )
-                     for f in all_flets]
-        return flet_data
-
     def homepages(self):
         """possible homepages for the app"""        
 
-        flet_data = self.intrinsic_homepages() + self.featurelets()
+        flet_data = self.intrinsic_homepages()
+        from opencore.project.browser.home_page import IHomePageable
+        from zope.component import subscribers
+        homepages = subscribers((self.context,), IHomePageable)
+        for homepage in homepages:
+            checked = homepage.url == self.current_home_page()
+            flet_data.append(dict(id=homepage.id,
+                                  title=homepage.title,
+                                  url=homepage.url,
+                                  checked=checked))
         return flet_data
 
 

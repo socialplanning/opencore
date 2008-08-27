@@ -35,3 +35,20 @@ class HomePage(object):
         self.annot['home_page'] = value
 
     home_page = property(fget=_get_home_page, fset=_set_home_page)
+
+from zope.interface import Interface
+class IHomePageable(Interface):
+    """
+    has: id, title, url
+    """
+
+from zope.interface import implements
+from zope.component import adapts
+from opencore.framework import IExtensibleContent
+class HomePageable(object):
+    implements(IHomePageable)
+    adapts(IExtensibleContent)
+
+    def __init__(self, id, title, url):
+        self.id, self.title, self.url = id, title, url
+
