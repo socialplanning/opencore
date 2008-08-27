@@ -164,17 +164,18 @@ class ProjectPreferencesView(ProjectBaseView, OctopoLite):
     def homepages(self):
         """possible homepages for the app"""        
 
-        flet_data = self.intrinsic_homepages()
         from opencore.project.browser.home_page import IHomePageable
         from zope.component import subscribers
         homepages = subscribers((self.context,), IHomePageable)
+        
+        homepage_data = []
         for homepage in homepages:
             checked = homepage.url == self.current_home_page()
-            flet_data.append(dict(id=homepage.id,
+            homepage_data.append(dict(id=homepage.id,
                                   title=homepage.title,
                                   url=homepage.url,
                                   checked=checked))
-        return flet_data
+        return homepage_data
 
 
 class ProjectDeletionView(ProjectBaseView):

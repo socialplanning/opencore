@@ -137,7 +137,7 @@ def listen_featurelet_installed(proj):
 
 from zope.interface import implementer
 from zope.component import adapter
-from opencore.frameworkk import IExtensibleContent
+from opencore.framework import IExtensibleContent
 from opencore.project.browser.home_page import HomePageable, IHomePageable
 
 @adapter(IExtensibleContent)

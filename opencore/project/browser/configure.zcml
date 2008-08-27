@@ -259,4 +259,9 @@
      name="project-pages-export.zip"
      />
 
+  <adapter factory="opencore.project.browser.homepages.wiki_home_page"
+           name="wiki" />
+  <adapter factory="opencore.project.browser.homepages.summary_home_page"
+           name="summary" />
+
 </configure>

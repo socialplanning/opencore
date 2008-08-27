@@ -47,28 +47,6 @@ class ProjectBaseView(BaseView):
             return False
         return flet_adapter.installed
 
-    #@@ wiki should just be another featurelet
-    @staticmethod
-    def intrinsic_homepages():
-        """return data for homepages intrinsic to opencore
-        (not featurelet-dependent)
-        """
-        # XXX maybe this should just be a list?
-        # @@ maybe this should just be an ini?
-        return [
-                 dict(id='latest-activity',
-                      title='Summary',
-                      url=LATEST_ACTIVITY,
-                      checked=True,
-                      ),
-
-                 dict(id='wiki',
-                      title='Pages',
-                      url=PROJ_HOME,
-                      checked=False,
-                      ),
-                 ]
-
     valid_id = staticmethod(text.valid_id)
     valid_title = staticmethod(text.valid_title)
 

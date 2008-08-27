@@ -27,6 +27,13 @@ Traceback (most recent call last):
 ComponentLookupError...
 
 So I think we only need one particular concept: a "Featurelet" is something that installs an associated marker interface on a content object which enables particular configured behavior ie IObjectCreated subscribers and adapters. Let's start out with an informal convention for this Featurelet type.
+
+After playing with it a little, I think a "Featurelet" consists of the following things:
+ * An Object Container
+ * A marker interface to determine Featurelet Installation (though adaptation to the Object Container is also valid and perhaps this is just an implementation detail)
+ * An IEditForm Viewlet (this is the IListenFeaturelet which installs and uninstalls the featurelet)
+ * An IHomePage subscriber
+
 --
 
 That might in turn help unify the code between content-add and content-edit.  Which would go a long way towards reducing code in general.

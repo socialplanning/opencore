@@ -170,11 +170,5 @@ class ProjectAddView(ProjectBaseView, OctopoLite):
     def notify(self, project):
         event.notify(AfterProjectAddedEvent(project, self.request))
 
-    def homepages(self):
-        flet_data = self.intrinsic_homepages()
-        from opencore.project.browser.home_page import IHomePageable
-        from zope.component import subscribers
-        import pdb; pdb.set_trace()
-        return flet_data
 
 
