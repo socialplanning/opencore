@@ -3,7 +3,6 @@ from opencore.featurelets.interfaces import IListenContainer
 from opencore.featurelets.interfaces import IListenFeatureletInstalled
 from opencore.feed.interfaces import ICanFeed
 from opencore.interfaces import IProject
-from opencore.interfaces.event import ListenFeatureletCreatedEvent
 from opencore.listen.mailinglist import OpenMailingList
 from Products.CMFCore.utils import getToolByName
 from Products.listen.interfaces import IListLookup
@@ -15,8 +14,6 @@ from zope.component import getUtility
 from zope.interface import Interface
 from zope.interface import alsoProvides
 from zope.interface import implements
-from zope.event import notify
-
 
 log = logging.getLogger('opencore.featurelets.listen')
 
@@ -54,5 +51,4 @@ class ListenFeaturelet(BaseFeaturelet):
         container.setLayout('mailing_lists')
         alsoProvides(container, IListenContainer)
         alsoProvides(container, ICanFeed)
-        notify(ListenFeatureletCreatedEvent(obj))
         return self._info

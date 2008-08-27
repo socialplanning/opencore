@@ -29,10 +29,6 @@ class IMemberModifiedEvent(IObjectModifiedEvent):
        the handlers for this can be expensive"""
 
 
-class IListenFeatureletCreatedEvent(IObjectCreatedEvent):
-    """when a listen featurelet gets installed on a project"""
-
-
 class IFirstLoginEvent(Interface):
     """ Interface for FirstLoginEvent """
 
@@ -66,10 +62,6 @@ class AfterSubProjectAddedEvent(AfterProjectAddedEvent):
 
 class ChangedTeamRolesEvent(ObjectModifiedEvent):
     implements(IChangedTeamRolesEvent)
-
-
-class ListenFeatureletCreatedEvent(ObjectCreatedEvent):
-    implements(IListenFeatureletCreatedEvent)
 
 
 class FirstLoginEvent(object):

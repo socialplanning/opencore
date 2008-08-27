@@ -26,12 +26,6 @@
      handler=".events.member_left_project"
      />
 
-   <subscriber
-     for="opencore.interfaces.IProject
-          opencore.interfaces.event.IListenFeatureletCreatedEvent"
-     handler=".events.listen_featurelet_installed"
-     />
-
    <adapter
        for="topp.featurelets.interfaces.IFeatureletSupporter"
        provides="topp.featurelets.interfaces.IFeaturelet"
