@@ -16,7 +16,12 @@ class ProjectBaseView(BaseView):
 
     @memoizedproperty
     def has_mailing_lists(self):
-        return self._has_featurelet('listen')
+        from zope.component import ComponentLookupError
+        try:
+            from opencore.listen.interfaces import IListenContainer
+            return IListenContainer(self.context)
+        except ComponentLookupError:
+            return False
 
     @memoizedproperty
     def has_task_tracker(self):

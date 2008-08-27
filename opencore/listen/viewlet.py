@@ -38,6 +38,9 @@ class ListenInstallationViewlet(EditFormViewlet):
             self.disable(context)
 
     def render(self):
+        from opencore.interfaces.adding import IAddProject
+        if IAddProject.providedBy(self.context):
+            return "<input type='hidden' name='listen' value='1' />"
         return "<input type='checkbox' name='listen'>Mailing Lists</input>"
 
 from zope.component import adapter

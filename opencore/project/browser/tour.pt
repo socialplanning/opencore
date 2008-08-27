@@ -63,8 +63,9 @@
             </ul>
           </div>
         
-          <div tal:condition="view/has_mailing_lists">
-            <a tal:attributes="href string:${context/absolute_url}/lists">
+          <div tal:define="lists view/has_mailing_lists"
+	       tal:condition="nocall:lists">
+            <a tal:attributes="href view/has_mailing_lists/absolute_url">
               <img src="++resource++img/touricons/mailinglist.gif" alt="Mailing lists" class="oc-tour-icon" />
               <h3>Mailing lists</h3>
             </a>
