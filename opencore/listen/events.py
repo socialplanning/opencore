@@ -19,48 +19,43 @@ from zope.i18n import translate
 def mailinglist_msg_delivered(ml, event):
     ml.setModificationDate()
 
-#XXX this is directly copied from the wordpress event code to check
-# need to extract a method, or utility, or something
-@decorator
-def is_listen_featurelet_installed(f, mship_obj, action):
-    team = mship_obj.aq_inner.aq_parent
-    proj_id = team.getId()
-    portal = getToolByName(mship_obj, 'portal_url').getPortalObject()
-    try:
-        project = portal.projects._getOb(proj_id)
-    except KeyError:
-        # cannot find project with same name as team (unit test only?)
-        return
-    for flet in get_featurelets(project):
-        if flet['name'] == 'listen':
-            break
-    else:
-        # no mailing lists on project
-        return
-    f(mship_obj, action)
+from opencore.listen.interfaces import IListenFeatureletInstalled
 
-
-@is_listen_featurelet_installed
-def perform_listen_action(mship, action):
-    mem_id = mship.getId()
+def project_for_membership(mship):
+    """
+    This should really be IOpenProject(mship)...?
+    """
     team = mship.aq_inner.aq_parent
     proj_id = team.getId()
     portal = getToolByName(mship, 'portal_url').getPortalObject()
-    default_list_name = '%s-discussion' % proj_id
-    try:
-        ml = portal.projects._getOb(proj_id).lists._getOb(default_list_name)
-    except AttributeError:
-        # somebody could have removed the default mailing list
-        # silently fail
-        return
-    memlist = IWriteMembershipList(ml)
-    getattr(memlist, action)(mem_id)
+    return portal.projects[proj_id]
 
 def member_joined_project(mship, event):
-    perform_listen_action(mship, 'subscribe')
+    project = project_for_membership(mship)
+    default_list_name = '%s-discussion' % project.getId()
+    # \  / or just try: IListenContainer(project)[default_list_name]
+    #  \/  ... which could be formalized to IListenContainer(project).default_list
+    #      ..... so this whole function could look like:
+    #      .....  IWriteMembershipList(IListenContainer(IOpenProject(mship)).default_list).subscribe(IOpenMember(mship))
+    #      ..... if we really wanted it to
+    if IListenFeatureletInstalled.providedBy(project):
+        try:
+            ml = project['lists'][default_list_name]
+        except AttributeError:
+            return
+        memlist = IWriteMembershipList(ml)
+        memlist.subscribe(mship.getId())
 
 def member_left_project(mship, event):
-    perform_listen_action(mship, 'unsubscribe')
+    project = project_for_membership(mship)
+    default_list_name = '%s-discussion' % project.getId()
+    if IListenFeatureletInstalled.providedBy(project):
+        try:
+            ml = project['lists'][default_list_name]
+        except AttributeError:
+            return
+        memlist = IWriteMembershipList(ml)
+        memlist.unsubscribe(mship.getId())
 
 def listen_featurelet_installed(proj, event):
     """need to create a default discussion mailing list

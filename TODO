@@ -1,4 +1,33 @@
  * Take a look at featurelets; they are really doing the same thing as opencore.editform viewlets now, but with (I think) a less explicit API.  Could potentially clean them up to conform to the same IEditable interface and merge with EditFormViewlet.
+--
+So my first thought is that "FeatureletSupporter" is not a very useful concept.  I think it misses an opportunity for straightforward adaptation -- perhaps you register subscription adapters for featurelets, and iterate over the subscribed featurelets.
+
+But actually, why not just directly adapt "featurelet supporters" to "featurelet types"?  I think that is more direct:
+
+opencore.listen.featurelet
+
+>>> project = IProject(name='aproject')
+>>> project
+<OpenProject aproject at /openplans/projects/aproject/ >
+>>> IListenContainer(project)
+<ATFolder lists at /openplans/projects/aproject/lists/ >
+>>> page = IWikiPage(name='apage', parent=project)
+>>> page
+<OpenPage apage at /openplans/projects/aproject/wiki/apage/ >
+>>> IListenContainer(page)
+<OpenPage apage at /openplans/projects/aproject/wiki/apage/ >
+>>> IListenContainer(page).lists
+[<OpenList apage-discussion at /openplans/project/aproject/wiki/apage/apage-discussion/ >]
+>>> IListenFeaturelet(project)
+<ListenFeatureletSupporter adapting /openplans/projects/aproject/ >
+>>> IListenFeaturelet(project).uninstall()
+>>> IListenContainer(project)
+Traceback (most recent call last):
+...
+ComponentLookupError...
+
+So I think we only need one particular concept: a "Featurelet" is something that installs an associated marker interface on a content object which enables particular configured behavior ie IObjectCreated subscribers and adapters. Let's start out with an informal convention for this Featurelet type.
+--
 
 That might in turn help unify the code between content-add and content-edit.  Which would go a long way towards reducing code in general.
 
