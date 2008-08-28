@@ -124,7 +124,7 @@ class ProjectAddView(ProjectBaseView, OctopoLite):
             return self.error_handler(errors)
 
         from opencore.project.factory import ProjectFactory
-        ProjectFactory.new(request, self.context)
+        proj = ProjectFactory.new(request, self.context)
         
         self.save(request)  # instead i think it would be much preferable to invoke a save
         # ............ on the newly created project directly:

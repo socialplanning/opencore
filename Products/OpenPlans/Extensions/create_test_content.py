@@ -1,5 +1,4 @@
 from Products.CMFCore.utils import getToolByName
-from opencore.project.handler import _initialize_project
 from zope.app.event.objectevent import ObjectCreatedEvent
 from zope.app.container.contained import ObjectAddedEvent
 from zope.event import notify
@@ -68,7 +67,7 @@ def create_test_content(self, p_map=projects_map, m_map=members_map,
         request = self.REQUEST
         request.form['workflow_policy'] = p_data.get('workflow_policy',
                                                      'medium_policy')
-        _initialize_project(getattr(pcontainer, p_id), request)
+        ######## @@TODO -- fix this_initialize_project(getattr(pcontainer, p_id), request)
         out.append('Project %s added' % p_id)
 
     for mem_id, mem_data in m_map.items():

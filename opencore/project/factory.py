@@ -1,4 +1,4 @@
-
+from opencore.interfaces.workflow import IWriteWorkflowPolicySupport
 
 class ProjectFactory(object):
 
@@ -31,21 +31,22 @@ class ProjectFactory(object):
         
         # ugh... roster might have been created by an event before a
         # team was associated (in _initializeProject), need to fix up
-        roster_id = instance.objectIds(spec='OpenRoster')
+        roster_id = proj.objectIds(spec='OpenRoster')
         if roster_id:
-            roster = instance._getOb(roster_id[0])
+            roster = proj._getOb(roster_id[0])
             if not roster.getTeams():
-                roster.setTeams(instance.getTeams())
+                roster.setTeams(proj.getTeams())
         # @@TODO: ^^^ do we still use OpenRoster at all? i don't think so?
 
         # we need to remove the Owner role which is assigned to the
         # member who created the project; otherwise the creator will
         # have all administrative privileges even after he leaves
         # the project or is demoted to member.
-        owners = instance.users_with_local_role("Owner")
-        instance.manage_delLocalRoles(owners)
+        owners = proj.users_with_local_role("Owner")
+        proj.manage_delLocalRoles(owners)
         # @@ why don't i need to reindex allowed roles and users?
 
         from zope import event
         from opencore.interfaces.event import AfterProjectAddedEvent
         event.notify(AfterProjectAddedEvent(proj, request))
+        return proj
