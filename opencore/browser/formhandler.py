@@ -172,13 +172,13 @@ class OctopoLite(opencore.browser.octopus.Octopus):
             return self.index()
 
     def _octopus_async_postprocess(self, ret):
-        #self.response.setHeader('Content-Type', "application/javascript;charset=utf-8")
         try:
             psm_macro = self.main_macros.macros['status-messages']
             status_msg_html = self.render_macro(psm_macro)
-            ret['oc-statusMessage-container'] = {'action': 'replace',
-                                                 'html': status_msg_html,
-                                                 'effects': 'blink'}
+            if status_msg_html.strip():
+                ret['oc-statusMessage-container'] = {'action': 'replace',
+                                                     'html': status_msg_html,
+                                                     'effects': 'blink'}
         except AttributeError:
             pass
 
