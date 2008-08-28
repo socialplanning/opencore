@@ -6,7 +6,6 @@ from Products.PloneTestCase.layer import PloneSite, ZCML
 from Products.PloneTestCase.setup import setupPloneSite
 from five.localsitemanager import make_objectmanager_site
 from opencore.configuration.setuphandlers import DEPS
-from opencore.project.handler import add_redirection_hooks 
 from opencore.testing.utility import setup_mock_http
 from opencore.testing.utility import setup_mock_mailhost
 from opencore.testing.utility import teardown_mock_mailhost
@@ -127,7 +126,6 @@ class OpencoreContent(OpenPlansLayer):
 
         # create and setup the rest of the test content
         create_test_content(portal, all_events=False)
-        add_redirection_hooks(portal.projects)
         txn.commit()
 
     @classmethod

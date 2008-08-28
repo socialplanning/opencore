@@ -25,7 +25,6 @@ def test_suite():
     from Products.listen.interfaces import IListLookup
     from Testing.ZopeTestCase import installProduct
     from opencore.interfaces.workflow import IReadWorkflowPolicySupport
-    from opencore.listen.featurelet import ListenFeaturelet
     from opencore.nui.indexing import authenticated_memberid
 
     # for delete-project
@@ -34,7 +33,6 @@ def test_suite():
     from opencore.testing.utils import get_status_messages
     from pprint import pprint
     from topp.clockqueue.interfaces import IClockQueue
-    from opencore.listen.featurelet import ListenFeaturelet
 
     # for delete-project
     from topp.featurelets.interfaces import IFeatureletSupporter

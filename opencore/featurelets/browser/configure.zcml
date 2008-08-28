@@ -5,20 +5,4 @@
 
   <include package="Products.listen" file="permissions.zcml" />
 
-  <browser:page
-     for="opencore.featurelets.interfaces.IListenFeatureletInstalled"
-     name="listen_config"
-     template="listen_config.pt"
-     class=".listen.ListenConfigView"
-     permission="zope2.View"
-     />
-
-  <browser:page
-     for="opencore.featurelets.interfaces.IListenContainer"
-     name="confirm_delete_list"
-     class=".listen.DeleteListView"
-     permission="listen.AddMailingList"
-     attribute="confirmDeleteList"
-     />
-
 </configure>
