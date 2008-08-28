@@ -5,7 +5,6 @@ project and subproject adding
 """
 from Acquisition import aq_inner
 from Products.CMFCore.utils import getToolByName
-from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
 from opencore.browser.base import _
 from opencore.browser.formhandler import OctopoLite, action
 from opencore.interfaces import IHomePage
@@ -20,16 +19,14 @@ import logging
 log = logging.getLogger('opencore.project.browser.add')
 
 from opencore.framework.editform import AddView
-class ProjectAddView(ProjectBaseView, OctopoLite, AddView):
+class ProjectAddView(ProjectBaseView, AddView):
 
-    template = ZopeTwoPageTemplateFile('create.pt')
     valid_id = staticmethod(text.valid_id)
     valid_title = staticmethod(text.valid_title)
     
     def reserved_names(self):
         return list(get_view_names(self.context)) + ['people', 'projects', 'unique', 'summary', 'pending']
 
-    @action('validate')
     def handle_validation(self, target=None, fields=None):
         putils = getToolByName(self.context, 'plone_utils')
         errors = {}
@@ -78,6 +75,8 @@ class ProjectAddView(ProjectBaseView, OctopoLite, AddView):
         return errors
 
     def save(self, request, project):
+        if 'add' not in request.form:
+            return
 
         hpcontext = IHomePage(project)
         hpcontext.home_page = 'summary'
@@ -92,14 +91,8 @@ class ProjectAddView(ProjectBaseView, OctopoLite, AddView):
         project = ProjectFactory.new(request, self.context)
         return project
         
-    @action('add')
-    def handle_request(self, target=None, fields=None):
-        #XXX all of the errors that are reported back here are not going
-        # through the translation machinery
-        self.POST()
-
-        self.template = None  # Don't render anything before redirect.
-        self.redirect(self.context.absolute_url())
+    def redirect(self, request):
+        return request.response.redirect(self.context.absolute_url())
 
         
 

@@ -51,6 +51,7 @@
      name="create"
      class=".add.ProjectAddView"
      permission="openplans.AddOpenProject"
+     template="create.pt"
      />
 
    <!-- move to contents.py; these will share functionality -->
