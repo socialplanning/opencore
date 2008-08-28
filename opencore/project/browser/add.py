@@ -50,14 +50,6 @@ class ProjectAddView(ProjectBaseView, OctopoLite, AddView):
                 }
         return errors
 
-    def check_logo(self, project, logo):
-        try:
-            project.setLogo(logo)
-        except ValueError: # must have tried to upload an unsupported filetype
-            self.addPortalStatusMessage('Please choose an image in gif, jpeg, png, or bmp format.')
-            return False
-        return True
-
     def validate(self, request):
         errors = {}
 
@@ -86,13 +78,6 @@ class ProjectAddView(ProjectBaseView, OctopoLite, AddView):
         return errors
 
     def save(self, request, project):
-
-        logo = request.form.get('logo')
-        if logo:
-            if not self.check_logo(project, logo):
-                # the above call actually sets the logo. yuck.
-                return
-            del request.form['logo']
 
         hpcontext = IHomePage(project)
         hpcontext.home_page = 'summary'

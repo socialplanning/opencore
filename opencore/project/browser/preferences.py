@@ -1,12 +1,10 @@
 """
 Preference view
 """
-from DateTime import DateTime
 from OFS.interfaces import IObjectWillBeRemovedEvent
 from Products.CMFCore.utils import getToolByName
 from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
 from opencore.browser import formhandler
-from opencore.browser import tal
 from opencore.browser.base import _
 from opencore.browser.formhandler import OctopoLite, action
 from opencore.interfaces import IHomePage
@@ -34,63 +32,6 @@ class ProjectPreferencesView(ProjectBaseView, OctopoLite, EditView):
 
     template = ZopeTwoPageTemplateFile('preferences.pt')
 
-    def mangled_logo_url(self):
-        """When a project logo is changed, the logo_url remains the same.
-        This method appends a timestamp to logo_url to trick the browser into
-        fetching the new image instead of using the cached one which could be --
-        out of date (and always will be in the ajaxy case).
-        """
-        logo = self.context.getLogo()
-        if logo:
-            timestamp = str(DateTime()).replace(' ', '_')
-            return '%s?%s' % (logo.absolute_url(), timestamp)
-        return self.defaultProjLogoURL
-
-    @action("uploadAndUpdate")
-    def change_logo(self, logo=None, target=None, fields=None):
-        if logo is None or isinstance(logo, list):
-            logo = self.request.form.get("logo")
-            
-        try:
-            self.set_logo(logo)
-        except ValueError: # @@ this hides resizing errors
-            return
-
-        self.context.reindexObject('logo')
-        return {
-            'oc-project-logo' : {
-                'html': self.logo_html,
-                'action': 'replace',
-                'effects': 'highlight'
-                }
-            }
-
-    def set_logo(self, logo):
-        try:
-            self.context.setLogo(logo)
-        except ValueError: # must have tried to upload an unsupported filetype
-            # is this the only kind of ValueError that could be raised?
-            self.addPortalStatusMessage('Please choose an image in gif, jpeg, png, or bmp format.')
-            raise
-
-    @property
-    def logo_html(self):
-        macro = self.template.macros['logo']
-        return tal.render(macro, tal.make_context(self))
-
-    @action("remove")
-    def remove_logo(self, target=None, fields=None):
-        proj = self.context
-        proj.setLogo("DELETE_IMAGE")  # blame the AT API
-        proj.reindexObject('logo')
-        return {
-                'oc-project-logo' : {
-                    'html': self.logo_html,
-                    'action': 'replace',
-                    'effects': 'highlight'
-                    }
-                }
-
     def save(self, request):
         # possibly this filtering should happen on the IEditable object?
         new_form = self.filter_params(request)
@@ -99,15 +40,6 @@ class ProjectPreferencesView(ProjectBaseView, OctopoLite, EditView):
         from opencore.framework.editform import IEditable
         IEditable(self.context).save(request)
         request.form = old_form
-
-        # this codeblock is equivalent to an opencore.editform viewlet's .save()
-        logo = request.form.get('logo')
-        if logo:
-            try:
-                self.set_logo(logo)
-            except ValueError:
-                pass
-            del self.request.form['logo']
 
         # this codeblock is equivalent to an opencore.editform viewlet's .save()
         home_page = request.form.get('home-page', None)

@@ -238,4 +238,22 @@
   <adapter factory="opencore.project.browser.homepages.summary_home_page"
            name="summary" />
 
+  
+  <browser:viewlet
+     for="opencore.interfaces.adding.IAddProject"
+     class="opencore.project.browser.editform.LogoViewlet"
+     permission="cmf.ModifyPortalContent"
+     manager="opencore.framework.editform.IEditForm"
+     name="logo.featurelet"
+     template="logo-viewlet.pt"
+     />
+  <browser:viewlet
+     for="opencore.interfaces.IProject"
+     class="opencore.project.browser.editform.LogoViewlet"
+     permission="cmf.ModifyPortalContent"
+     manager="opencore.framework.editform.IEditForm"
+     name="logo.featurelet"
+     template="logo-edit-viewlet.pt"
+     />
+
 </configure>
