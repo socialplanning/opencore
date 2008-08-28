@@ -33,6 +33,9 @@ class ProjectPreferencesView(ProjectBaseView, EditView):
     template = ZopeTwoPageTemplateFile('preferences.pt')
 
     def save(self, request):
+        if not 'update' in request.form:
+            return
+
         # possibly this filtering should happen on the IEditable object?
         new_form = self.filter_params(request)
         old_form = request.form
@@ -76,12 +79,6 @@ class ProjectPreferencesView(ProjectBaseView, EditView):
     def validate(self, request):
         return {}
 
-    @formhandler.button('update')
-    def handle_request(self):
-        self.POST()        
-        self.template = None
-        self.redirect('%s/tour' % self.context.absolute_url())
-
     def current_home_page(self):
         return IHomePage(self.context).home_page
 
@@ -101,6 +98,8 @@ class ProjectPreferencesView(ProjectBaseView, EditView):
                                   checked=checked))
         return homepage_data
 
+    def redirect(self, request):
+        return request.response.redirect(self.context.absolute_url())
 
 class ProjectDeletionView(ProjectBaseView):
     

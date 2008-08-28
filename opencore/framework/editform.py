@@ -103,7 +103,7 @@ class EditView(object):
             return self.index()
         elif self.request['REQUEST_METHOD'] == 'POST':
             self.POST()
-            return self.redirect(request)
+            return self.redirect(self.request)
         # else .. method not supported?
 
     def POST(self):
