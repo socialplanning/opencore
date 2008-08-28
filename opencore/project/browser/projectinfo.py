@@ -71,11 +71,7 @@ class ProjectInfo(object):
 
     @view.memoizedproperty
     def featurelets(self):
-        flets = []
-        if self.project is not None:
-            flets = get_featurelets(self.project)
-        return flets
-
+        return []
 
 
 # assumption here is that all instances of a piv in a request will be

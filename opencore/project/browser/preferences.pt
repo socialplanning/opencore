@@ -140,29 +140,32 @@
 
           <fieldset class="oc-boxy">
             <legend class="oc-legend-heading oc-biggerText">Tools</legend>
+<!--
             <fieldset>
               <legend><strong>Which additional tools would you like to install?</strong></legend>
               <ul class="oc-form-radiolist oc-form-fieldBlock"
-                  tal:define="warning string:Warning: Removing this feature may result in data loss.">
-<!--                <li class="oc-js-featurelet-undelete-warner"
-                    tal:repeat="flet view/featurelets">
+                  tal:define="featurelets provider:opencore.featurelets">
+                <li class="oc-js-featurelet-undelete-warner"
+                    tal:define="flet featurelets">
+		    <span tal:replace="structure flet" />
                   <input type="checkbox"
                          class="oc-input-typeCheck oc-js-toggler"
                          name="featurelets:list"
                          tal:attributes="id string:oc-js-toggler-${flet/id};
-                                         checked flet/checked;
+                                         checked flet/enabled;
                                          value flet/id"
                          />
                   <label tal:attributes="for string:oc-js-toggler-${flet/id}"
                          tal:content="flet/title"
                          />
                   <span class="oc-warning"
-                        style="display: none"
-                        tal:content="warning"
-                        />
-                </li> -->
+                        style="display: none">
+                        Warning: Removing this feature may result in data loss.
+                  </span>
+                </li>
               </ul>
             </fieldset>
+-->
             
             <fieldset>
               <legend  class="oc-legend-label">Select the home page for your <span tal:replace="view/project_noun">project</span>:</legend>

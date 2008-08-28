@@ -85,6 +85,7 @@ class ProjectAddView(ProjectBaseView, OctopoLite):
             self.add_status_message(_(u'psm_project_name_reserved',
                                       u'The name "${project_name}" is reserved. Please try a different name.',
                                       mapping={u'project_name':id_}))
+        return errors
 
     def save(self, request):
         proj = self.context[request.form['projid']]
@@ -119,28 +120,15 @@ class ProjectAddView(ProjectBaseView, OctopoLite):
         plugins = edit_form_manager(self)
         request = self.request
         
-        request.set('__initialize_project__', True) # @@ what is this for?
         errors = self.validate(request)
-
-        # Give plugin viewlets a chance to validate. We don't have a
-        # project yet, so they'll have to tolerate validating with the
-        # project container as the context.
         errors.update(plugins.validate(request))
         if errors:
             return self.error_handler(errors)
+
+        from opencore.project.factory import ProjectFactory
+        ProjectFactory.new(request, self.context)
         
-        # Aarrgghh!! #*!&% plone snoops into the request, and reads the form variables directly,
-        # so we have to set the form variables with the same names as the schema
-        self.request.form['title'] = self.request.form['project_title']
-        id_ = self.request.form['projid']
-
-        proj = self.context.restrictedTraverse('portal_factory/OpenProject/%s' %id_)
-        # not calling validate because it explodes on "'" for project titles
-        # XXX is no validation better than an occasional ugly error?
-        #proj.validate(REQUEST=self.request, errors=self.errors, data=1, metadata=0)
-
-        self.context.portal_factory.doCreate(proj, id_)
-        proj = self.context[proj.getId()]
+        proj = self.context[request.form['projid']]
         self.notify(proj)
 
         self.save(request)  # instead i think it would be much preferable to invoke a save

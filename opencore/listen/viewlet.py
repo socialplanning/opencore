@@ -32,6 +32,7 @@ class ListenInstallationViewlet(EditFormViewlet):
 
     def save(self, context, request):
         enable = request.form.get('listen', False)
+        import pdb; pdb.set_trace()
         if enable:
             self.enable(context)
         else:
@@ -41,7 +42,7 @@ class ListenInstallationViewlet(EditFormViewlet):
         from opencore.interfaces.adding import IAddProject
         if IAddProject.providedBy(self.context):
             return "<input type='hidden' name='listen' value='1' />"
-        return "<input type='checkbox' name='listen'>Mailing Lists</input>"
+        return "<input type='checkbox' name='listen' checked='%s' >Mailing Lists</input>" % self.enabled
 
 from zope.component import adapter
 from zope.interface import implementer

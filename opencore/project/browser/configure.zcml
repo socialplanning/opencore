@@ -31,32 +31,6 @@
      allowed_interface="opencore.interfaces.workflow.IWriteWorkflowPolicySupport"
      />
 
-  <browser:page
-     for="opencore.interfaces.IProject"
-     class=".featurelet.FeatureletSupporterView"
-     permission="zope2.View"
-     name="featurelet_support"
-     allowed_interface="topp.featurelets.interfaces.IFeatureletSupporter"
-     allowed_attributes="getSupportableFeaturelets"
-     />
-
-  <browser:page
-     for="opencore.interfaces.IProject"
-     class=".featurelet.FeatureletMenuView"
-     permission="zope2.View"
-     name="featurelet_menu"
-     allowed_attributes="menu_items"
-     />
-
-  <!-- unhooked on purpose - see export.py
-  <browser:page
-     for="opencore.interfaces.IProject"
-     class=".export.ExportView"
-     permission="zope2.View"
-     name="export"
-     attribute="export"
-     /  -->
-
   <adapter for="OFS.interfaces.IItem"
            provides=".interfaces.IProjectInfo"
            factory=".projectinfo.ProjectInfo"

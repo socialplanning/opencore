@@ -117,6 +117,12 @@
      permission="zope2.Public"
      />
 
+  <browser:viewletManager
+     name="opencore.featurelets"
+     provides="opencore.framework.featurelet.IAdditionalTools"
+     permission="zope2.View"
+     />
+
   <!-- a place for plugins to insert javascript tags. -->
   <browser:viewletManager
      name="opencore.additional_scripts"
