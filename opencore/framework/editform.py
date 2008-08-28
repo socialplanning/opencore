@@ -64,6 +64,10 @@ class AddView(object):
 
         object = self.create(request)
         self.save(request, object)
+
+        # now we have a fully created object, so we can pass in 
+        # a true context to editforms
+        plugins = edit_form_manager(self, context=object)
         plugins.save(request)
 
     def validate(self, request):

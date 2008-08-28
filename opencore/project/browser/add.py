@@ -97,12 +97,6 @@ class ProjectAddView(ProjectBaseView, OctopoLite, AddView):
         hpcontext = IHomePage(project)
         hpcontext.home_page = 'summary'
 
-        # We have to look up the viewlets again, now that we have
-        # a project for them to use as the context to save to.
-        from opencore.framework.editform import edit_form_manager
-        manager = edit_form_manager(self, context=project)
-        manager.save(request)
-
     def error_handler(self, errors):
         self.errors = errors
         self.add_status_message(_(u'psm_correct_errors_below',
