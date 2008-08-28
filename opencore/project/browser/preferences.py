@@ -28,7 +28,7 @@ import logging
 log = logging.getLogger('opencore.project.browser.preferences')
 
 from opencore.framework.editform import EditView
-class ProjectPreferencesView(ProjectBaseView, OctopoLite, EditView):
+class ProjectPreferencesView(ProjectBaseView, EditView):
 
     template = ZopeTwoPageTemplateFile('preferences.pt')
 
