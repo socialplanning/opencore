@@ -215,6 +215,7 @@ class OpenProject(BrowserDefaultMixin, TeamSpaceMixin, BaseBTreeFolder):
         BaseBTreeFolder.__init__(self, id)
         self.title = title or self.meta_type
 
+    # @@TODO: adapt to ITeam? not sure
     def _createTeam(self):
         """
         Create and associate a team object.
@@ -246,6 +247,7 @@ class OpenProject(BrowserDefaultMixin, TeamSpaceMixin, BaseBTreeFolder):
             except WorkflowException:
                 pass
 
+    # @@TODO: move into a IWikiContainer or something
     def _createIndexPage(self):
         """
         Create the project index page from the specified file.

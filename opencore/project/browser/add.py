@@ -9,11 +9,9 @@ from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
 from opencore.browser.base import _
 from opencore.browser.formhandler import OctopoLite, action
 from opencore.interfaces import IHomePage
-from opencore.interfaces.event import AfterProjectAddedEvent
 from opencore.browser.naming import get_view_names
 from opencore.project.browser.base import ProjectBaseView
 from topp.utils import text
-from zope import event
 from zope.component import getAdapters, getMultiAdapter
 from zope.interface import implements
 
@@ -128,23 +126,13 @@ class ProjectAddView(ProjectBaseView, OctopoLite):
         from opencore.project.factory import ProjectFactory
         ProjectFactory.new(request, self.context)
         
-        proj = self.context[request.form['projid']]
-        self.notify(proj)
-
         self.save(request)  # instead i think it would be much preferable to invoke a save
         # ............ on the newly created project directly:
         # ............ >>> IEditForm(proj).save(request.form) 
-        # this is hard, though, because things behave strangely here;
-        # the self.notify(proj) [event subscriptions] is where the attributes
-        # are actually set on the content...
 
         self.template = None  # Don't render anything before redirect.
         self.redirect('%s/tour' % proj.absolute_url())
 
-    def notify(self, project):
-        import pdb; pdb.set_trace()
-        eve = AfterProjectAddedEvent(project, self.request)
-        event.notify(eve)
         
 
 

@@ -34,8 +34,6 @@
      permission="openplans.ManageWorkflowPolicy"
      />
 
-  <subscriber handler=".handler.handle_postcreation" />
-
   <subscriber
      for="opencore.interfaces.IProject
           zope.app.event.interfaces.IObjectModifiedEvent"

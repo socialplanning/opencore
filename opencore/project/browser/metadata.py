@@ -149,6 +149,7 @@ def proxy(attrs):
     return obj
 
 # not sure if this belongs here, but it's a catalog update
+# @@TODO: this could be asynchronous
 @adapter(IAfterProjectAddedEvent)
 def reindex_project_ids_for_project_creator(evt):
     proj = evt.project
