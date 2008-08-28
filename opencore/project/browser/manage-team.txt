@@ -436,7 +436,7 @@ UnicodeDecodeError. We get a portal status message saying that the email
 address could not be decoded for now. Maybe we should try to decode utf-8 instead?
 
     >>> self.clearMemoCache()
-    >>> inviteview.request.form['email-invites'] = 'samiam ñ'
+    >>> inviteview.request.form['email-invites'] = 'samiam \xc3\xb1'
     >>> inviteview.add_email_invites()
     >>> get_status_messages(inviteview)
     [u'An invalid email address was entered. If you believe this is incorrect, please <a href="http://nohost/plone/contact-site-admin">contact</a> us']
