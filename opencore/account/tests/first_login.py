@@ -1,3 +1,4 @@
+"""
 ===================
  First Login Event
 ===================
@@ -45,3 +46,4 @@ The member wiki page is marked with the proper interface::
     >>> defpage = getattr(folder, 'm1-home')
     >>> IMemberHomePage.providedBy(defpage)
     True
+"""

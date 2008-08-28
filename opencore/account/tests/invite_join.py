@@ -1,5 +1,4 @@
--*- mode: doctest ;-*-
-
+"""
 ====================
  Join by Invitation
 ====================
@@ -185,3 +184,4 @@ Pending Users
     >>> 
 
 # @@ could use some edge case and error case testing in general
+"""

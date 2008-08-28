@@ -1,5 +1,4 @@
--*- mode: doctest ;-*-
-
+"""
 ====================
  account management
 ====================
@@ -523,3 +522,4 @@ Bug #1711. Member creation message should use the portal title.
     >>> emailtext = mh.messages[-1].get('msg')
     >>> view.portal_title() in emailtext
     True
+"""

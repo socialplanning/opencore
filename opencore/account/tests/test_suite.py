@@ -82,42 +82,39 @@ def test_suite():
                   'normalize_whitespace': normalize_whitespace,
                   'stub_getUserById': stub_getUserById})
 
-    readme = dtf.ZopeDocFileSuite("README.txt",
+    account = dtf.ZopeDocTestSuite("opencore.account.tests.account",
                                   optionflags=optionflags,
-                                  package='opencore.account',
                                   test_class=OpenPlansTestCase,
                                   globs = globs,
                                   setUp=readme_setup,
                                   layer=MockHTTPWithContent
                                   )
-    invite = dtf.ZopeDocFileSuite("invite-join.txt",
+    invite = dtf.ZopeDocTestSuite("opencore.account.tests.invite_join",
                                   optionflags=optionflags,
-                                  package='opencore.account',
                                   test_class=OpenPlansTestCase,
                                   globs = globs,
                                   setUp=readme_setup,
                                   layer=MockHTTPWithContent
                                   )
     
-    confirm = dtf.ZopeDocFileSuite("confirm.txt",
+
+    confirm = dtf.ZopeDocTestSuite("opencore.account.tests.confirm",
                                    optionflags=optionflags,
-                                   package='opencore.account',
                                    test_class=ptc.PloneTestCase,
-                                   globs = globs,
+                                   globs=globs,
                                    setUp=readme_setup,
-                                   layer = MockHTTPWithContent
+                                   layer=MockHTTPWithContent,
                                    )
 
-    first_login = dtf.ZopeDocFileSuite("firstlogin.txt",
+    first_login = dtf.ZopeDocTestSuite("opencore.account.tests.first_login",
                                        optionflags=optionflags,
-                                       package='opencore.account',
                                        test_class=ptc.PloneTestCase,
                                        globs = globs,
                                        setUp=readme_setup,
                                        layer = OpencoreContent
                                        )
 
-    return unittest.TestSuite((readme, invite, confirm, first_login))
+    return unittest.TestSuite((account, invite, confirm, first_login))
 
 
 if __name__ == '__main__':
