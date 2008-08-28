@@ -257,17 +257,6 @@ class OpenProject(BrowserDefaultMixin, TeamSpaceMixin, BaseBTreeFolder):
         page_file = pkg_resources.resource_stream(OPENCORE, 'copy/%s' % self.home_page_file)
         page.setText(page_file.read().replace('${project_noun}', project_noun()))
 
-    def _initProjectHomeMenuItem(self):
-        """
-        Sets up an initial 'project home' menu item in the featurelets
-        menu.
-        """        
-        menusupporter = IMenuSupporter(self)
-        menu_item = project_menu_item.copy()
-        menusupporter.addMenuItem(MENU_ID, menu_item)
-        menu_item = project_menu_preferences.copy()
-        menusupporter.addMenuItem(MENU_ID, menu_item)
-
     # Validation
     def _hasDuplicate(self, index, value):
         """

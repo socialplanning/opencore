@@ -142,7 +142,10 @@ class ProjectAddView(ProjectBaseView, OctopoLite):
         self.redirect('%s/tour' % proj.absolute_url())
 
     def notify(self, project):
-        event.notify(AfterProjectAddedEvent(project, self.request))
+        import pdb; pdb.set_trace()
+        eve = AfterProjectAddedEvent(project, self.request)
+        event.notify(eve)
+        
 
 
 
