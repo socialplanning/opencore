@@ -29,8 +29,8 @@ import logging
 
 log = logging.getLogger('opencore.project.browser.preferences')
 
-
-class ProjectPreferencesView(ProjectBaseView, OctopoLite):
+from opencore.framework.editform import EditView
+class ProjectPreferencesView(ProjectBaseView, OctopoLite, EditView):
 
     template = ZopeTwoPageTemplateFile('preferences.pt')
 
@@ -146,18 +146,10 @@ class ProjectPreferencesView(ProjectBaseView, OctopoLite):
 
     @formhandler.button('update')
     def handle_request(self):
-        from opencore.framework.editform import edit_form_manager
-        plugins = edit_form_manager(self)
-        request = self.request
+        self.POST()        
+        self.template = None
+        self.redirect('%s/tour' % self.context.absolute_url())
 
-        errors = self.validate(request)
-        errors.update(plugins.validate(request))
-        if errors:
-            return self.error_handler(errors)
-
-        self.save(request)
-        plugins.save(request)
-        
     def current_home_page(self):
         return IHomePage(self.context).home_page
 

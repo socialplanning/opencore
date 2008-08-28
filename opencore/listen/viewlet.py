@@ -32,7 +32,6 @@ class ListenInstallationViewlet(EditFormViewlet):
 
     def save(self, context, request):
         enable = request.form.get('listen', False)
-        import pdb; pdb.set_trace()
         if enable:
             self.enable(context)
         else:

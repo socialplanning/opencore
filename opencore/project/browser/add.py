@@ -19,8 +19,8 @@ import logging
 
 log = logging.getLogger('opencore.project.browser.add')
 
-
-class ProjectAddView(ProjectBaseView, OctopoLite):
+from opencore.framework.editform import AddView
+class ProjectAddView(ProjectBaseView, OctopoLite, AddView):
 
     template = ZopeTwoPageTemplateFile('create.pt')
     valid_id = staticmethod(text.valid_id)
@@ -85,23 +85,22 @@ class ProjectAddView(ProjectBaseView, OctopoLite):
                                       mapping={u'project_name':id_}))
         return errors
 
-    def save(self, request):
-        proj = self.context[request.form['projid']]
+    def save(self, request, project):
 
         logo = request.form.get('logo')
         if logo:
-            if not self.check_logo(proj, logo):
+            if not self.check_logo(project, logo):
                 # the above call actually sets the logo. yuck.
                 return
             del request.form['logo']
 
-        hpcontext = IHomePage(proj)
+        hpcontext = IHomePage(project)
         hpcontext.home_page = 'summary'
 
         # We have to look up the viewlets again, now that we have
         # a project for them to use as the context to save to.
         from opencore.framework.editform import edit_form_manager
-        manager = edit_form_manager(self, context=proj)
+        manager = edit_form_manager(self, context=project)
         manager.save(request)
 
     def error_handler(self, errors):
@@ -109,29 +108,19 @@ class ProjectAddView(ProjectBaseView, OctopoLite):
         self.add_status_message(_(u'psm_correct_errors_below',
                                   u'Please correct the errors indicated below.'))
 
+    def create(self, request):
+        from opencore.project.factory import ProjectFactory
+        project = ProjectFactory.new(request, self.context)
+        return project
+        
     @action('add')
     def handle_request(self, target=None, fields=None):
         #XXX all of the errors that are reported back here are not going
         # through the translation machinery
-
-        from opencore.framework.editform import edit_form_manager
-        plugins = edit_form_manager(self)
-        request = self.request
-        
-        errors = self.validate(request)
-        errors.update(plugins.validate(request))
-        if errors:
-            return self.error_handler(errors)
-
-        from opencore.project.factory import ProjectFactory
-        proj = ProjectFactory.new(request, self.context)
-        
-        self.save(request)  # instead i think it would be much preferable to invoke a save
-        # ............ on the newly created project directly:
-        # ............ >>> IEditForm(proj).save(request.form) 
+        self.POST()
 
         self.template = None  # Don't render anything before redirect.
-        self.redirect('%s/tour' % proj.absolute_url())
+        self.redirect(self.context.absolute_url())
 
         
 

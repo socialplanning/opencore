@@ -35,6 +35,60 @@ class IEditable(Interface):
 class IEditForm(IViewletManager, IEditable):
     """ Viewlet manager for settings you can modify on a piece of content. """
 
+class AddView(object):
+    
+    #   @@TODO: don't dispatch on REQUEST_METHOD; think about tearing something
+    #           out of opencore.browser.formhandler (formlite or the octopus
+    #            dispatching) instead?
+    def __call__(self):
+        if self.request['REQUEST_METHOD'] == 'GET':
+            return # the view mechanism should handle rendering the template
+        elif self.request['REQUEST_METHOD'] == 'POST':
+            self.POST()
+            return self.redirect(request)
+        # else .. method not supported?
+
+    def POST(self):
+        """
+        Called when a form is POSTed. This should probably be dispatched 
+        on something else, like the form submit button, instead of on the
+        request method, but that feels like a detail at this point.
+        """
+        plugins = edit_form_manager(self)
+        request = self.request
+
+        errors = self.validate(request)
+        errors.update(plugins.validate(request))
+        if errors:
+            return self.error_handler(errors)
+
+        object = self.create(request)
+        self.save(request, object)
+        plugins.save(request)
+
+    def validate(self, request):
+        return IEditable(self.context).validate(request)
+
+    def save(self, request, object):
+        IEditable(object).save(request)
+
+    def error_handler(self, errors):
+        """
+        Takes a dict of errors (key, errortext) and handles them in
+        the appropriate way (eg status messages, inline validation,
+        etc)
+        """
+        pass
+
+    def redirect(self, request):
+        """
+        Issues a client side redirect (which is good behavior for a
+        form) at the end of the form handler's actions. Intended to
+        be overridden/configured.
+        """
+        raise NotImplementedError("redirect() should be implemented by a subclass")
+    
+
 class EditView(object):
     
     #   @@TODO: don't dispatch on REQUEST_METHOD; think about tearing something
