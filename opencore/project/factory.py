@@ -1,5 +1,16 @@
 from opencore.interfaces.workflow import IWriteWorkflowPolicySupport
 
+def initialize_project(project, request):
+    project._createTeam()
+    
+    # Set initial security policy
+    policy = request.get('workflow_policy', None)
+    policy_writer = IWriteWorkflowPolicySupport(project)
+    if policy_writer is not None:
+        policy_writer.setPolicy(policy)
+        
+    project._createIndexPage() # create the initial "getting started" wiki page
+
 class ProjectFactory(object):
 
     @classmethod
@@ -19,16 +30,9 @@ class ProjectFactory(object):
         proj = context[id_]
 
         proj.processForm(metadata=1) # what is this metadata=1?
-        proj._createTeam()
-    
-        # Set initial security policy
-        policy = request.get('workflow_policy', None)
-        policy_writer = IWriteWorkflowPolicySupport(proj)
-        if policy_writer is not None:
-            policy_writer.setPolicy(policy)
 
-        proj._createIndexPage() # create the initial "getting started" wiki page
-        
+        initialize_project(proj, request)
+
         # ugh... roster might have been created by an event before a
         # team was associated (in _initializeProject), need to fix up
         roster_id = proj.objectIds(spec='OpenRoster')

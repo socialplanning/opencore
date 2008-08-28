@@ -10,20 +10,6 @@ subscribers, etc
     >>> import pdb; st = pdb.set_trace
     >>> projects = self.portal.projects
 
-Default Project State
-=====================
-
-The layer runs opencore.project.handler.addredirection_hooks.  Let's
-make sure the hooks are there::
-
-    >>> from pprint import pprint
-    >>> pprint([getattr(proj, '__before_traverse__', None) for proj in projects.objectValues()])
-    [...,
-     {(1, '__redirection_hook__'): <...AccessRule instance at ...>},
-     {(1, '__redirection_hook__'): <...AccessRule instance at ...>},
-     {(1, '__redirection_hook__'): <...AccessRule instance at ...>},
-     {(1, '__redirection_hook__'): <...AccessRule instance at ...>...}]
-
 
 Project Creation
 ================

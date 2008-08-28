@@ -67,7 +67,8 @@ def create_test_content(self, p_map=projects_map, m_map=members_map,
         request = self.REQUEST
         request.form['workflow_policy'] = p_data.get('workflow_policy',
                                                      'medium_policy')
-        ######## @@TODO -- fix this_initialize_project(getattr(pcontainer, p_id), request)
+        from opencore.project.factory import initialize_project
+        initialize_project(getattr(pcontainer, p_id), request)
         out.append('Project %s added' % p_id)
 
     for mem_id, mem_data in m_map.items():
