@@ -187,7 +187,7 @@ Deletes work the same way, but have to be done via POST::
 The form handler should return the ids of all deleted objects, which
 includes both the deleted page and the file that was attached to it::
     >>> sorted(dehtml(view()))
-    ['fa2', 'new1', 'oc-statusMessage-container']
+    ['fa2', 'new1']
 
 
 The deleted object no longer exists inside container::
@@ -244,7 +244,7 @@ the items listed in the batch will be acted upon::
     ...         'files':['fa1', 'img1']}
     >>> request.form = form
     >>> sorted(dehtml(view()).keys())
-    ['fa1', 'img1', 'oc-statusMessage-container']
+    ['fa1', 'img1']
 
     >>> proj.img1.Title()
     'Polydeuces'
@@ -266,7 +266,7 @@ Batch deletes work the same way::
     ...         'files':['fa1', 'img1']}
     >>> request.form = form
     >>> sorted(dehtml(view()))
-    ['fa1', 'img1', 'oc-statusMessage-container']
+    ['fa1', 'img1']
 
     >>> proj.restrictedTraverse('img1')
     Traceback (most recent call last):
@@ -284,7 +284,7 @@ Let's delete the mailing list too, to clean up::
     ...         'mode': 'async'}
     >>> request.form = form
     >>> dehtml(view())
-    {'list1': {'action': 'delete'}, 'oc-statusMessage-container': {...}}
+    {'list1': {'action': 'delete'}}
     >>> len(view.lists)
     0
 
