@@ -1,5 +1,8 @@
 import sys
 import simplejson
+from zope.component import queryMultiAdapter
+from zope.viewlet.interfaces import IViewletManager
+from opencore.browser.interfaces import IEditForm
 
 def htmlify(js):
     js = simplejson.dumps(js)
@@ -128,6 +131,14 @@ class Octopus(object):
         
         #check self and superclasses for appropriate action methods
         bases = [self.__class__]
+
+        #XXX here we manually call update on the opencore.editform viewlet manager
+        # if we have one registered for the page
+        # this is necessary to allow the viewlet itself to inject a button into octopus
+        edit_manager = queryMultiAdapter((self.context, self.request, self), IViewletManager, name='opencore.editform')
+        if edit_manager is not None:
+            edit_manager.update()
+
         while bases:
             base = bases[0]
             if hasattr(base, 'actions'):
@@ -155,13 +166,16 @@ class Actions(dict):
 
 class Action(object):
 
-    def __init__(self, name, apply=None, **options):
+    def __init__(self, name, apply=None,
+                 instance=None, **options):
         self.name = name
-        self.options = options
         self.apply = apply
-
-    def __call__(self, instance_, *args, **kw):
-        method = getattr(instance_, self.name)
+        self.instance = instance
+        self.options = options
+        
+    def __call__(self, instance, *args, **kw):
+        instance = self.instance or instance
+        method = getattr(instance, self.name)
         options = dict(self.options, **kw)
         if not self.apply:
             return method(*args, **options)
@@ -169,7 +183,7 @@ class Action(object):
         for decorator in self.apply:
             newmethod = decorator(newmethod)
         newmethod.__name__ = method.__name__
-        return newmethod(instance_, **options)  # our method is now unbound
+        return newmethod(instance, **options)  # our method is now unbound
 
 class action(object):
     # modfied from zope.formlib (ZPL)
