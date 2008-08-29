@@ -12,20 +12,24 @@ from zope.publisher.interfaces import IRequest
 import itertools
 
 
-class Dummy(BaseView):
-    """Creates dummy for blocking the overcreation of a path (as
-    determined by the zcml registration name).  Any view registered
-    with this class will show up in `get_view_names`
+class ProjectDummy(BaseView):
+    """This is a dummy view used to take the place of a URL space that is not
+    handled by Zope, or is configurable on an object.  When featurelets are
+    available on projects, this prevents the creation of, for example, wiki
+    pages that would be installed at this URL.  Views set up using this class
+    will show up in the list of views associated with this object (which can be
+    retrieved by using get_view_names).
 
-    Redirects to the preferences view and is intend for use with projects."""
+    This implementation redirects back to the object and is intended for use
+    with projects."""
     def __init__(self, context, request):
-        super(Dummy, self).__init__(context, request)
+        super(ProjectDummy, self).__init__(context, request)
         
     def __call__(self, *args, **kw):
-        raise Redirect, "%s/%s" %(self.area.absolute_url(), "preferences")
+        raise Redirect, self.area.absolute_url()
 
-class IgnorableDummy(Dummy):
-    """same as `Dummy` but the `ignorable` flag will filter these from
+class IgnorableProjectDummy(ProjectDummy):
+    """same as `ProjectDummy` but the `ignorable` flag will filter these from
     a return by `get_view_names`.  Useful for preserving names for
     special persistent objects"""
     _dummy_ignore = True
