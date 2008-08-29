@@ -7,9 +7,6 @@ Module for simple tal related utilities
 render_tal
 ==========
 
-This will need to be updated for zope 2.10 and z3 (this test is here
-in part to make that move easier).
-
 We use The opencore.browser.tal.create_tal_context creates a context
 with an abbreviated subset of normal vars found in a template (no modules).
 
