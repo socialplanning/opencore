@@ -34,6 +34,8 @@ After playing with it a little, I think a "Featurelet" consists of the following
  * An IEditForm Viewlet (this is the IListenFeaturelet which installs and uninstalls the featurelet)
  * An IHomePage subscriber
 
+Possibly the edit form viewlet thing is just an encapsulated set of subscription adapters -- the validate() and save() bits seem most naturally to just adapt a context, with request information passed in to the functions, though there may be need for a proper viewlet for the rendering behavior, and anyway traversal-marked requests might change this.
+
 --
 
 That might in turn help unify the code between content-add and content-edit.  Which would go a long way towards reducing code in general.

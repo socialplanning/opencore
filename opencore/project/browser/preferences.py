@@ -1,28 +1,19 @@
 """
 Preference view
 """
-from OFS.interfaces import IObjectWillBeRemovedEvent
-from Products.CMFCore.utils import getToolByName
 from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
 from opencore.browser import formhandler
 from opencore.browser.base import _
 from opencore.browser.formhandler import OctopoLite, action
 from opencore.interfaces import IHomePage
-from opencore.interfaces import IProject
 from opencore.interfaces.adding import IAddProject
 from opencore.interfaces.workflow import IReadWorkflowPolicySupport
 from opencore.project.browser.base import ProjectBaseView
 from opencore.interfaces.membership import IEmailInvites
-from topp.featurelets.interfaces import IFeatureletSupporter
 from topp.featurelets.supporter import FeatureletSupporter, IFeaturelet
 from topp.utils import text
 from topp.utils import zutils
-from zope.app.container.contained import IObjectRemovedEvent
-from zope.component import adapter, adapts
-from zope.interface import implements
-from zope.component import getUtility, getAdapters, getMultiAdapter
 
-import inspect
 import logging
 
 log = logging.getLogger('opencore.project.browser.preferences')
@@ -117,13 +108,18 @@ class ProjectDeletionView(ProjectBaseView):
 
 
 ## XXX event subscribers do *not* belong in a browser module
-
+from OFS.interfaces import IObjectWillBeRemovedEvent
+from opencore.interfaces import IProject
+from topp.featurelets.interfaces import IFeatureletSupporter
+from zope.component import adapter
 @adapter(IProject, IObjectWillBeRemovedEvent)
 def handle_flet_uninstall(project, event=None):
     supporter = IFeatureletSupporter(project)
     for flet_id in supporter.getInstalledFeatureletIds():
         supporter.removeFeaturelet(flet_id, raise_error=False)
 
+from Products.CMFCore.utils import getToolByName
+from zope.app.container.contained import IObjectRemovedEvent
 @adapter(IProject, IObjectRemovedEvent)
 def delete_team(proj, event=None):
     pt = getToolByName(proj, 'portal_teams')
@@ -133,6 +129,7 @@ def delete_team(proj, event=None):
     if pt.has_key(team_id):
         pt.manage_delObjects([team_id])
 
+from zope.component import getUtility
 @adapter(IProject, IObjectRemovedEvent)
 def delete_email_invites(proj, event=None):
     invite_util = getUtility(IEmailInvites, context=proj)
@@ -142,8 +139,9 @@ def delete_email_invites(proj, event=None):
 def handle_blog_delete(project, event=None):
     pass
 
-## XXX --end complaint
-
+from zope.interface import implements
+from zope.component import adapts
+import inspect
 class ProjectFeatureletSupporter(FeatureletSupporter):
     adapts(IProject)
     implements(IFeatureletSupporter)
@@ -154,8 +152,10 @@ class ProjectFeatureletSupporter(FeatureletSupporter):
         """
         name, featurelet=self._fetch_featurelet(featurelet)
         if self.storage.has_key(name):
-            if 'raise_error' in inspect.getargspec(featurelet.removePackage)[0]:
+            if 'raise_error' in inspect.getargspec(featurelet.removePackage)[0]: #@@ excuse me?!
                 featurelet.removePackage(self.context, raise_error=raise_error)
             else:
                 featurelet.removePackage(self.context)
             self.storage.pop(name)
+## XXX --end complaint
+
