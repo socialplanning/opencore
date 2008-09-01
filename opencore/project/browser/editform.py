@@ -64,5 +64,39 @@ class LogoViewlet(EditFormViewlet):
                     }
                 }
 
+from opencore.interfaces import IHomePage
+class HomepageViewlet(EditFormViewlet):
 
+    title = "Home page"
+    sort_order = 35
+
+    def save(self, context, request):
+        home_page = request.form.get('home-page')
+        hpcontext = IHomePage(context)
+        if home_page is not None:
+            if hpcontext.home_page != home_page:
+                hp_url = '/'.join((context.absolute_url(), home_page))
+                hpcontext.home_page = home_page
+
+        return IHomePage(self.context).home_page
+
+    def homepages(self):
+        """possible homepages for the app"""        
+
+        from opencore.project.browser.home_page import IHomePageable
+        from zope.component import subscribers
+
+        homepages = subscribers((self.context,), IHomePageable)
+        
+        homepage_data = []
+        for homepage in homepages:
+            checked = False
+            if IHomePage(self.context).home_page == homepage.url:
+                checked = True
+
+            homepage_data.append(dict(id=homepage.id,
+                                  title=homepage.title,
+                                  url=homepage.url,
+                                  checked=checked))
+        return homepage_data
 

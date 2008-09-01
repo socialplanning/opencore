@@ -119,37 +119,6 @@
             </fieldset>
 -->
             
-            <fieldset>
-              <legend  class="oc-legend-label">Select the home page for your <span tal:replace="view/project_noun">project</span>:</legend>
-
-              <ul class="oc-form-radiolist oc-form-fieldBlock">
-                <li tal:repeat="flet view/homepages">
-                  <tal:home_page_item define="
-                                              id flet/id;
-                                              url flet/url;
-                                              title flet/title;
-                                              cur_home view/current_home_page;
-                                              checked python: url == cur_home;
-                                              ">
-                    <label tal:attributes="for id; id string:oc-js-togglee-${id}">
-                      <tal:selected condition="checked">
-                        <input type="radio" class="" name="home-page"
-                               tal:attributes="value url; id id"
-                               checked="yes"
-                               />
-                      </tal:selected>
-                      <tal:not_selected condition="not:checked">
-                        <input type="radio" class="" name="home-page"
-                               tal:attributes="value url; id id"
-                               />
-                      </tal:not_selected>
-                      <span tal:replace="title" />
-                    </label>
-                  </tal:home_page_item>
-                </li>
-              </ul>
-            </fieldset>
-          </fieldset>
                 <!-- Delete Project -->
           <fieldset class="oc-boxy">
             <legend class="oc-legend-heading oc-biggerText">Delete <span tal:replace="view/project_noun/title">Project</span></legend>

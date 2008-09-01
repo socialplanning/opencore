@@ -257,4 +257,13 @@
      template="logo-edit-viewlet.pt"
      />
 
+  <browser:viewlet
+     for="opencore.interfaces.IProject"
+     class="opencore.project.browser.editform.HomepageViewlet"
+     permission="cmf.ModifyPortalContent"
+     manager="opencore.framework.editform.IEditForm"
+     name="homepage.featurelet"
+     template="homepage-edit-viewlet.pt"
+     />
+
 </configure>
