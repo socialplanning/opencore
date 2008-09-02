@@ -20,13 +20,13 @@ class ProjectDummy(BaseView):
     will show up in the list of views associated with this object (which can be
     retrieved by using get_view_names).
 
-    This implementation redirects back to the object and is intended for use
+    This implementation redirects back to the preferences page and is intended for use
     with projects."""
     def __init__(self, context, request):
         super(ProjectDummy, self).__init__(context, request)
         
     def __call__(self, *args, **kw):
-        raise Redirect, self.area.absolute_url()
+        raise Redirect, "%s/%s" %(self.area.absolute_url(), "preferences")
 
 class IgnorableProjectDummy(ProjectDummy):
     """same as `ProjectDummy` but the `ignorable` flag will filter these from
