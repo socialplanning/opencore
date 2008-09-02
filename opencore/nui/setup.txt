@@ -23,14 +23,14 @@ persistent objects.
 A plain dummy view will block a path name::
 
     >>> proj = self.projects.p1
-    >>> from opencore.browser.naming import Dummy
+    >>> from opencore.browser.naming import ProjectDummy as Dummy # FIXME: doug says this test needs to move
     >>> view = proj.restrictedTraverse('tasks')
     >>> isinstance(view, Dummy)
     True
 
 An ignorable dummy will block a name, but not trigger a renaming::
 
-    >>> from opencore.browser.naming import IgnorableDummy
+    >>> from opencore.browser.naming import IgnorableProjectDummy as IgnorableDummy # FIXME: doug says this test needs to move
     >>> view = proj.restrictedTraverse('lists')
     >>> isinstance(view, IgnorableDummy)
     True
