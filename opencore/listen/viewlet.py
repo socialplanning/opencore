@@ -140,7 +140,7 @@ from zope.component import adapter
 from opencore.framework import IExtensibleContent
 from opencore.project.browser.home_page import HomePageable, IHomePageable
 
-@adapter(IExtensibleContent)
+@adapter(IListenFeatureletInstalled)
 @implementer(IHomePageable)
 def listen_home_page(context):
     container = IListenContainer(context)

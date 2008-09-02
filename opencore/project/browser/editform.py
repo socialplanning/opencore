@@ -6,6 +6,8 @@ class LogoViewlet(EditFormViewlet):
     title = "Logo"
     sort_order = 25
 
+    defaultProjLogoURL = '++resource++img/default-projlogo.gif'
+
     def save(self, context, request):
         if request.form.get('task|oc-project-logo|uploadAndUpdate'):
             self.change_logo(context, request)
@@ -87,8 +89,9 @@ class HomepageViewlet(EditFormViewlet):
         from zope.component import subscribers
 
         homepages = subscribers((self.context,), IHomePageable)
-        
+
         homepage_data = []
+
         for homepage in homepages:
             checked = False
             if IHomePage(self.context).home_page == homepage.url:

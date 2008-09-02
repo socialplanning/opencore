@@ -1,0 +1,25 @@
+              <ul class="oc-form-radiolist oc-form-fieldBlock">
+                <li tal:repeat="homepage view/homepages">
+                  <tal:home_page_item define="
+                                              id homepage/id;
+                                              url homepage/url;
+                                              title homepage/title;
+                                              checked homepage/checked;
+                                              ">
+                    <label tal:attributes="for id; id string:oc-js-togglee-${id}">
+                      <tal:selected condition="checked">
+                        <input type="radio" class="" name="home-page"
+                               tal:attributes="value url; id id"
+                               checked="yes"
+                               />
+                      </tal:selected>
+                      <tal:not_selected condition="not:checked">
+                        <input type="radio" class="" name="home-page"
+                               tal:attributes="value url; id id"
+                               />
+                      </tal:not_selected>
+                      <span tal:replace="title" />
+                    </label>
+                  </tal:home_page_item>
+                </li>
+              </ul>
