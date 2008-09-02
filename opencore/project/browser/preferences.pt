@@ -62,10 +62,18 @@
               </tbody>
             </table>
           </fieldset>
+
           <tal:stuff
                replace="structure provider:opencore.editform">
                project prefs viewlet stuff goes here!
 	  </tal:stuff>
+
+          <fieldset class="oc-boxy" tal:repeat="plugin view/plugins">
+            <legend class="oc-legend-heading oc-biggerText"
+                    tal:content="plugin/title" />
+            <span tal:replace="structure plugin/render" />
+          </fieldset>
+
           <fieldset class="oc-boxy">
             <legend class="oc-legend-heading oc-biggerText">Security</legend>
             <fieldset>

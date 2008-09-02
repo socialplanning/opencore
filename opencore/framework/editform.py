@@ -3,15 +3,6 @@ from zope.component import getMultiAdapter
 from zope.interface import implements
 from zope.viewlet.interfaces import IViewletManager
 
-def edit_form_manager(view, context=None):
-    context = context or view.context
-    manager = getMultiAdapter((context,
-                               view.request,
-                               view),
-                              name='opencore.editform')
-    assert IEditForm.providedBy(manager)
-    return manager
-
 from zope.interface import Interface
 class IEditable(Interface):
     """
@@ -31,9 +22,6 @@ class IEditable(Interface):
 
     def save(request):
         """ save state based on the current request. """
-
-class IEditForm(IViewletManager, IEditable):
-    """ Viewlet manager for settings you can modify on a piece of content. """
 
 class AddView(object):
     
@@ -116,12 +104,22 @@ class EditView(object):
         request = self.request
 
         errors = self.validate(request)
-        errors.update(plugins.validate(request))
+        for plugin in plugins:
+            errors.update(plugin.validate(self.context, request))
         if errors:
             return self.error_handler(errors)
 
         self.save(request)
-        plugins.save(request)
+        for plugin in plugins:
+            plugin.save(self.context, request)
+
+    def plugins(self):
+        """
+        Returns a list of plugin objects
+        """
+        mgr = edit_form_manager(self)
+        mgr.update()
+        return mgr.viewlets
 
     def validate(self, request):
         return IEditable(self.context).validate(request)
@@ -162,27 +160,6 @@ class NUIEditView(EditView):
     def add_status_message(self, text):
         pass
 
-class EditForm(ViewletManagerBase):
-    implements(IEditForm)
-
-    def validate(self, request):
-        if not hasattr(self, 'viewlets'):
-            # is this really necessary?
-            self.update()
-
-        errors = {}
-        for viewlet in self.viewlets:
-            errors.update(viewlet.validate(self.context, request))
-        return errors
-
-    def save(self, request):
-        if not hasattr(self, 'viewlets'):
-            # is this really necessary?
-            self.update()
-
-        for viewlet in self.viewlets:
-            viewlet.save(self.context, request)
-
 class EditFormViewlet(object):
 
     def validate(self, context, request):
@@ -190,3 +167,24 @@ class EditFormViewlet(object):
 
     def save(self, context, request):
         pass
+
+    def title(self):
+        raise NotImplementedError("Provide a title")
+
+
+# Below lies the stuff that I think should more or less go away or at least not be API
+def edit_form_manager(view, context=None):
+    context = context or view.context
+    manager = getMultiAdapter((context,
+                               view.request,
+                               view),
+                              name='opencore.editform')
+    assert IEditForm.providedBy(manager)
+    return manager
+
+class IEditForm(IViewletManager):
+    """ Viewlet manager for settings you can modify on a piece of content. """
+
+class EditForm(ViewletManagerBase):
+    implements(IEditForm)
+

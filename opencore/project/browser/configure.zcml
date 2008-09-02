@@ -206,13 +206,16 @@
      permission="zope2.View"
      />
 
-  <!-- Viewlet managers allow plugins to add stuff to these forms -->
+  <!-- Viewlet managers allow plugins to add stuff to these forms.
+       Ideally these viewlet managers (which is an implementation detail;
+       more importantly, they're content-plugin-manager thingies)
+       could be registered for content more easily, since all of this
+       registration is just boilerplate -->
   <browser:viewletManager
      name="opencore.editform"
      for="opencore.interfaces.IProject"
      provides="opencore.framework.editform.IEditForm"
      class="opencore.framework.editform.EditForm"
-     template="preferences_viewlets.pt"
      permission="zope2.View"
      />
 
@@ -221,7 +224,6 @@
      for="opencore.interfaces.IAddProject"
      provides="opencore.framework.editform.IEditForm"
      class="opencore.framework.editform.EditForm"
-     template="add_viewlets.pt"
      permission="zope2.View"
      />
 
