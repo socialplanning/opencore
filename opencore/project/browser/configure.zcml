@@ -242,6 +242,7 @@
            name="summary" />
 
   
+  
   <browser:viewlet
      for="opencore.interfaces.adding.IAddProject"
      class="opencore.project.browser.editform.LogoViewlet"

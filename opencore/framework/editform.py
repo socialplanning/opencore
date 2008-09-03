@@ -23,7 +23,7 @@ class IEditable(Interface):
     def save(request):
         """ save state based on the current request. """
 
-class AddView(object):
+class BaseEditView(object):
     
     #   @@TODO: don't dispatch on REQUEST_METHOD; think about tearing something
     #           out of opencore.browser.formhandler (formlite or the octopus
@@ -36,33 +36,8 @@ class AddView(object):
             return self.redirect(self.request)
         # else .. method not supported?
 
-    def POST(self):
-        """
-        Called when a form is POSTed. This should probably be dispatched 
-        on something else, like the form submit button, instead of on the
-        request method, but that feels like a detail at this point.
-        """
-        plugins = edit_form_manager(self)
-        request = self.request
-
-        errors = self.validate(request)
-        errors.update(plugins.validate(request))
-        if errors:
-            return self.error_handler(errors)
-
-        object = self.create(request)
-        self.save(request, object)
-
-        # now we have a fully created object, so we can pass in 
-        # a true context to editforms
-        plugins = edit_form_manager(self, context=object)
-        plugins.save(request)
-
     def validate(self, request):
         return IEditable(self.context).validate(request)
-
-    def save(self, request, object):
-        IEditable(object).save(request)
 
     def error_handler(self, errors):
         """
@@ -79,20 +54,46 @@ class AddView(object):
         be overridden/configured.
         """
         raise NotImplementedError("redirect() should be implemented by a subclass")
-    
 
-class EditView(object):
+    def plugins(self):
+        """
+        Returns a list of plugin objects
+        """
+        mgr = edit_form_manager(self)
+        mgr.update()
+        return mgr.viewlets
+
     
-    #   @@TODO: don't dispatch on REQUEST_METHOD; think about tearing something
-    #           out of opencore.browser.formhandler (formlite or the octopus
-    #            dispatching) instead?
-    def __call__(self):
-        if self.request['REQUEST_METHOD'] == 'GET':
-            return self.index()
-        elif self.request['REQUEST_METHOD'] == 'POST':
-            self.POST()
-            return self.redirect(self.request)
-        # else .. method not supported?
+class AddView(object):
+
+    def POST(self):
+        """
+        Called when a form is POSTed. This should probably be dispatched 
+        on something else, like the form submit button, instead of on the
+        request method, but that feels like a detail at this point.
+        """
+        plugins = edit_form_manager(self)
+        request = self.request
+
+        errors = self.validate(request)
+        for plugin in plugins:
+            errors.update(plugin.validate(self.context, request))
+        if errors:
+            return self.error_handler(errors)
+
+        object = self.create(request)
+        self.save(request, object)
+
+        # now we have a fully created object, so we can pass in 
+        # a true context to editforms
+        plugins = edit_form_manager(self, context=object)
+        for plugin in plugins:
+            plugin.save(object, request)
+
+    def save(self, request, object):
+        IEditable(object).save(request)
+    
+class EditView(BaseEditView):
 
     def POST(self):
         """
@@ -113,35 +114,9 @@ class EditView(object):
         for plugin in plugins:
             plugin.save(self.context, request)
 
-    def plugins(self):
-        """
-        Returns a list of plugin objects
-        """
-        mgr = edit_form_manager(self)
-        mgr.update()
-        return mgr.viewlets
-
-    def validate(self, request):
-        return IEditable(self.context).validate(request)
-
     def save(self, request):
         IEditable(self.context).save(request)
 
-    def error_handler(self, errors):
-        """
-        Takes a dict of errors (key, errortext) and handles them in
-        the appropriate way (eg status messages, inline validation,
-        etc)
-        """
-        pass
-
-    def redirect(self, request):
-        """
-        Issues a client side redirect (which is good behavior for a
-        form) at the end of the form handler's actions. Intended to
-        be overridden/configured.
-        """
-        raise NotImplementedError("redirect() should be implemented by a subclass")
     
 class NUIEditView(EditView):
     """
