@@ -16,6 +16,7 @@ class BlankSlateViewlet(ViewletBase):
         # and an is_blank function
         assert self.is_blank
 
+        # XXX maybe do stateful things like this in self.update()?
         self.feed = self.adapt()
 
         if self.is_blank():

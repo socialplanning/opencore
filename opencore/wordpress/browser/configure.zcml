@@ -12,6 +12,14 @@
      attribute="sync"
      />
   
+  <!-- placeholder view for blog to prevent other content from taking our URL space. -->
+  <browser:page
+     class="opencore.browser.naming.IgnorableProjectDummy"
+     for="opencore.interfaces.IProject"
+     permission="zope2.View"
+     name="blog"
+     />
+
   <opencore:menuitem
      name="Blog"
      filter="opencore.browser.topnav.viewlet.contained_within"

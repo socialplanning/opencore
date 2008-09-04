@@ -20,25 +20,30 @@ is added.  Currently our only adding is done by wicked and we use
 dummy views to block names either used by deliverance or special
 persistent objects.
 
-A plain dummy view will block a path name::
+A plain dummy view will block a path name. But we don't have any of
+those registered unless oc-tt is installed.
 
     >>> proj = self.projects.p1
-    >>> from opencore.browser.naming import Dummy
-    >>> view = proj.restrictedTraverse('tasks')
-    >>> isinstance(view, Dummy)
-    True
+    >>> from opencore.browser.naming import ProjectDummy
+
+XXX we should probably test this by registering a dummy to test::
+#    >>> view = proj.restrictedTraverse('tasks')
+#    >>> # XXX this only works until opencore.wordpress gets moved out,
+#    >>> # we should probably test this by registering a blocker here.
+#    >>> isinstance(view, ProjectDummy)
+#    True
 
 An ignorable dummy will block a name, but not trigger a renaming::
 
-    >>> from opencore.browser.naming import IgnorableDummy
+    >>> from opencore.browser.naming import IgnorableProjectDummy # FIXME: doug says this test needs to move
     >>> view = proj.restrictedTraverse('lists')
-    >>> isinstance(view, IgnorableDummy)
+    >>> isinstance(view, IgnorableProjectDummy)
     True
 
-Ignorable dummy is a subclass of Dummy, and inherits the call method:
+Ignorable dummy is a subclass of ProjectDummy, and inherits the call method:
 a raise that redirects to the preferences page::
 
-    >>> issubclass(IgnorableDummy, Dummy)
+    >>> issubclass(IgnorableProjectDummy, ProjectDummy)
     True
     
     >>> view()
@@ -71,7 +76,8 @@ But our persistent object did not (blocked by an ignorable dummy)::
 
 Anything in a deliverance path name (ie something we blocked with a
 normal dummy) should be changed::
+XXX see above, this shouldn't depend on oc-tt being installed.
 
-    >>> move_blocking_content(self.portal)
-    >>> 'tasks-page' in proj.objectIds()
-    True
+#    >>> move_blocking_content(self.portal)
+#    >>> 'tasks-page' in proj.objectIds()
+#    True

@@ -177,9 +177,9 @@
   <browser:page
      for="opencore.interfaces.IProject"
      class=".security_context.SecurityContextView"
-     permission="zope.Public"
+     permission="zope2.View"
      name="security-context" 
-     /> <!-- this is open to anyone because it does security internally -->
+     /> 
 
 
   <subscriber
@@ -253,6 +253,14 @@
      attribute="export"
      permission="cmf.ModifyPortalContent"
      name="project-pages-export.zip"
+     />
+
+  <!-- placeholder view for lists -->
+  <browser:page
+     class="opencore.browser.naming.IgnorableProjectDummy"
+     for="opencore.interfaces.IProject"
+     permission="zope2.View"
+     name="lists"
      />
 
 </configure>

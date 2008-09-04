@@ -1,9 +1,8 @@
 0.14.0dev (UNRELEASED)
 =======================
 
-
- * Added a dedicated security context url at
-   projects/foo/security-context (novalis)
+ * Added per-project security context page for twirlip and other uses 
+   at projects/foo/security-context (novalis)
 
  * Resolve potential errors on page deletions from contents view.
    (rmarianski)
@@ -23,10 +22,10 @@
 
  * Fixed: Base view now uses the *external* path so that twirlip knows
    where to send the form. (novalis)
+ 
 
-
-0.13.0.dev (UNRELEASED)
-=======================
+0.13.0 (2008/08/12)
+===================
 
  * Code migrated to Zope 2.10 / Plone 3.0, older versions no longer supported.
    This requires database migrations that cannot be undone, so make backups

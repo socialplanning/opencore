@@ -844,8 +844,14 @@ class InviteView(ManageTeamView):
         bad = self.validate_email_invites(invites)
         if bad:
             plural = len(bad) != 1
-            psm = (u"Poorly formed email address%s, please correct: %s"
-                   % (plural and 'es' or '', ', '.join(bad)))
+            try:
+                psm = (u"Poorly formed email address%s, please correct: %s"
+                       % (plural and 'es' or '', ', '.join(bad)))
+            except UnicodeDecodeError:
+                portal_url = getToolByName(self.context, 'portal_url')()
+                contact_link = '<a href="%s/contact-site-admin">contact</a>' % portal_url
+                psm = (u"An invalid email address was entered. If you believe this is incorrect, please %s us"
+                       % contact_link)
             self.add_status_message(psm)
             return # don't do anything, just re-render the form
 

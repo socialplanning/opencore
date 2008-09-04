@@ -119,32 +119,6 @@
     permission="cmf.ManagePortal"
     />
 
-  <!-- placeholder views for blog, logo, lists & tasks -->
-  <browser:page
-     class="opencore.browser.naming.IgnorableDummy"
-     for="opencore.interfaces.IProject"
-     permission="zope2.View"
-     name="blog"
-     />
-  <browser:page
-     class="opencore.browser.naming.IgnorableDummy"
-     for="opencore.interfaces.IProject"
-     permission="zope2.View"
-     name="logo"
-     />
-  <browser:page
-     class="opencore.browser.naming.IgnorableDummy"
-     for="opencore.interfaces.IProject"
-     permission="zope2.View"
-     name="lists"
-     />
-  <browser:page
-     class="opencore.browser.naming.Dummy"
-     for="opencore.interfaces.IProject"
-     permission="zope2.View"
-     name="tasks"
-     />
-
   <!-- link renderer -->
   <browser:page
      for="opencore.interfaces.IOpenPage"

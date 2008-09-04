@@ -76,7 +76,8 @@ def get_utility_for_context(iface, context):
     """
     does a getSite / setSite dance to get the utility in the given
     context since five.localsitemanager has a bug which makes using
-    getUtility's context argument fail
+    getUtility's context argument fail;
+    see https://bugs.launchpad.net/zope2/+bug/223872
     """
     new_site = interface_in_aq_chain(context, ISite)
     orig_site = getSite()

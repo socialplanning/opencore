@@ -1,5 +1,4 @@
--*- mode: doctest ;-*-
-
+"""
 ====================
  account management
 ====================
@@ -196,16 +195,15 @@ Log out and fill in the form::
 
 The view has a validate() method which returns an error dict::
 
-    >>> validate_map = view.validate()
-    >>> len([i for i in validate_map.values() if i['html']])
-    0
+    >>> view.ajax_validate()
+    {}
+    >>> # Make sure the password does not match the password confirmation
     >>> request.form['confirm_password'] = 'mesty'
+    >>> # Set an invalid email address
     >>> request.form['email'] = 'fakeemail'
-    >>> validate_map = view.validate()
-    >>> err_keys = [k for k, v in validate_map.items() if v['html']]
-    >>> err_keys = [i.split('-')[1] for i in err_keys]
-    >>> sorted(err_keys)
-    ['confirm_password', 'email', 'password']
+
+    >>> sorted(view.ajax_validate().keys())
+    ['oc-confirm_password-error', 'oc-email-error', 'oc-password-error']
 
 Test what happens when password is "password"
 
@@ -254,33 +252,24 @@ the member has been created::
     >>> request.form = form
 
 
-If you add 'task|validate' to the request before submitting
-the form the validate() method will be triggered::
+If you add 'task|validate' to the request before submitting the form the
+ajax_validate() method will be triggered. We set the mode to 'async' so we get
+the response we send out for AJAX requests::
 
     >>> request.form['task|validate'] = 'Foo'
-    >>> str(view())
-    '...<!-- join form -->...We will not share...'
+    >>> request.form['mode'] = 'async'
+    >>> view()
+    '<html><head><meta http-equiv="x-deliverance-no-theme" content="1"/></head><body> {} </body></html>'
+    >>> del request.form['mode'], request.form['task|validate']
 
-The template was rerendered with the error messages; to get the error
-dict directly, make the request asynchronous::
+Submit the form for real now; we need to add 'task|join' to the request::
 
-# XXX this should be fixed+uncommented or removed
-
-#    >>> request.form['mode'] = 'async'
-#    >>> sorted([i for i in view().keys() if i.split('-')[1] in request.form])
-#    ['confirm_password', 'email', 'password']
-
-Submit the form for real now; we need to add 'task|join' to the request
-and delete the existing task::
-
-    >>> del request.form['task|validate']
     >>> request.form['confirm_password'] = 'testy'
     >>> request.form['email'] = 'foobar@example.com'
     >>> request.form['task|join'] = 'Foo'
     >>> view = portal.restrictedTraverse("@@join")
-    >>> validate_map = view.validate()
-    >>> len([i for i in validate_map.values() if i['html']])
-    0
+    >>> view.ajax_validate()
+    {}
 
 Verify that the proper events gets sent out when a member gets created::
 
@@ -533,3 +522,4 @@ Bug #1711. Member creation message should use the portal title.
     >>> emailtext = mh.messages[-1].get('msg')
     >>> view.portal_title() in emailtext
     True
+"""
