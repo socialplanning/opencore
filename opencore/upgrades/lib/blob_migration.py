@@ -1,4 +1,5 @@
 from Acquisition import aq_base
+from Acquisition import aq_inner
 from Products.CMFCore.utils import getToolByName
 from Products.contentmigration.basemigrator.walker import CatalogWalker
 from Products.contentmigration.basemigrator.walker import registerWalker
@@ -18,7 +19,8 @@ class FileAttachmentToBlobMigrator(ATFileToBlobMigrator):
         Check for the 'historical' kwarg and extracts the parent
         object from its hiding place.
         """
-        super(FileAttachmentToBlobMigrator, self).__init__(obj, *args, **kwargs)
+        obj = aq_inner(obj)
+        ATFileToBlobMigrator.__init__(self, obj, *args, **kwargs)
         self.historical = kwargs.get('historical', False)
         if self.historical:
             self.parent = obj._historical_parent
@@ -31,7 +33,7 @@ class FileAttachmentToBlobMigrator(ATFileToBlobMigrator):
     def last_migrate_reindex(self):
         """ Only when we're the current version of the attachment """
         if not self.historical:
-            super(FileAttachmentToBlobMigrator, self).last_migrate_reindex()
+            ATFileToBlobMigrator.last_migrate_reindex(self)
 
 
 class FileAttachmentHistoryWalker(CatalogWalker):
@@ -50,7 +52,7 @@ class FileAttachmentHistoryWalker(CatalogWalker):
         long) migrate method.
         """
         kwargs['historical'] = True
-        super(FileAttachmentHistoryWalker, self).migrate(objs, **kwargs)
+        CatalogWalker.migrate(self, objs, **kwargs)
         
     def walk(self):
         """
