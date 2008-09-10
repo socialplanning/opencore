@@ -3,6 +3,11 @@
     <title metal:fill-slot="title"
            tal:content="string: Openplans: free project management tools, wikis, blogs, mailing lists
 and task tracking for neighborhood and global communities." />
+
+    <metal:script fill-slot="meta">
+      <meta name="keywords" content="free wikis, free mailing lists, free blogs, free task tracking, free project management" />
+      <meta name="description" content="OpenPlans offers free tools to help you build an online community and promote real-world change"/>
+    </metal:script>
   </head>
   <body>
     <div metal:fill-slot="content">
