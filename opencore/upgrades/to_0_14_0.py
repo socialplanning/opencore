@@ -2,6 +2,7 @@ from Products.CMFCore.utils import getToolByName
 from Products.contentmigration.walker import CustomQueryWalker
 from opencore.upgrades.utils import logger
 from opencore.upgrades.lib.blob_migration import FileAttachmentToBlobMigrator
+from opencore.upgrades.lib.blob_migration import HistoricalAttachmentToBlobMigrator
 from opencore.upgrades.lib.blob_migration import FileAttachmentHistoryWalker
 from transaction import savepoint
 
@@ -9,7 +10,8 @@ def get_attachment_walker(context, historical=False):
     """ set up walker for migrating FileAttachment instances """
     portal = getToolByName(context, 'portal_url').getPortalObject()
     if historical:
-        return FileAttachmentHistoryWalker(portal, FileAttachmentToBlobMigrator)
+        return FileAttachmentHistoryWalker(portal,
+                                           HistoricalAttachmentToBlobMigrator)
     return CustomQueryWalker(portal, FileAttachmentToBlobMigrator,
                              query={})
 
