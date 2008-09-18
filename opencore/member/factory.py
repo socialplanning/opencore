@@ -71,7 +71,7 @@ class MemberFactory(object):
         request = _FakeRequest(fields)
         newSecurityManager(request, user)
         errors = {}
-        
+
         errors = validation_member.validate(REQUEST=request,
                                             errors=errors,
                                             data=1, metadata=0)
