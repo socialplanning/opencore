@@ -110,6 +110,7 @@ nuischema = Schema((
                       'skills',
                       index='ZCTextIndex,lexicon_id=plone_lexicon,index_type=Cosine Measure|TextIndex:brains',
                       searchable=1,
+                      rosterSearch=1,
                       widget=StringWidget(
                         label='skills',
                         label_msgid='label_skills',
@@ -268,6 +269,15 @@ class OpenMember(FolderishMember):
                     projects[space] = None
         return projects.keys()
     
+    security.declareProtected(View, 'interests')
+    def interests(self):
+        """Represents a list of the user skills. It used to be called "skills".
+           This is indexed as a keywordindex"""
+        skills = self.getSkills()
+        if skills is None or not skills.strip():
+            return []
+        return [x.strip().lower() for x in skills.split(',')]
+
     security.declareProtected(View, 'project_ids')
     def project_ids(self):
         """ids of active teams. this attr is indexed"""

@@ -114,6 +114,11 @@ class ProjectAddView(ProjectBaseView, OctopoLite):
         # not calling validate because it explodes on "'" for project titles
         # XXX is no validation better than an occasional ugly error?
         #proj.validate(REQUEST=self.request, errors=self.errors, data=1, metadata=0)
+
+        location = self.request.form.get('location', u'')
+        if location:
+            proj.setLocation(location)
+
         if self.errors:
             self.add_status_message(_(u'psm_correct_errors_below', u'Please correct the errors indicated below.'))
             return 
