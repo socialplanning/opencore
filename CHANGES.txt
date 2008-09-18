@@ -1,3 +1,15 @@
+0.13.1dev (UNRELEASED)
+======================
+
+ * Fix error when request membership, missing getToolByName import
+   (errors-openplans #38) (pw)
+
+ * Avoid a UnicodeDecodeError when inviting by email, if an invalid
+   email address isn't ascii. (fixes el#3) (rmarianski)
+
+ * Fix broken test monkeypatching in opencore.auth.tests. (pw)
+
+
 0.13.0 (2008/08/12)
 ===================
 
