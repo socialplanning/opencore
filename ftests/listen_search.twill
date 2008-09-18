@@ -6,7 +6,10 @@
 #
 
 go ${base_url}/projects/${projname}/lists/${listtitle}/archive/search_archive
+code 200
+
 fv 2 1 ${search}
 submit
+
 follow ${search}
 find ${search}
