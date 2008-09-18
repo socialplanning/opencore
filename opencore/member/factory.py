@@ -51,7 +51,7 @@ class MemberFactory(object):
     def _validation_member(self):
         return self._membertool._validation_member
 
-    def validate(self, request):
+    def validate(self, fields):
         """
         Delegates to AT validation on a shared persistent reference
         member object.
@@ -68,9 +68,9 @@ class MemberFactory(object):
         orig_sec_mgr = getSecurityManager()
         app = validation_member.getPhysicalRoot()
         user = system_user
+        request = _FakeRequest(fields)
         newSecurityManager(request, user)
         errors = {}
-        request = _FakeRequest(request.form) # why fake request? (ra)
         
         errors = validation_member.validate(REQUEST=request,
                                             errors=errors,

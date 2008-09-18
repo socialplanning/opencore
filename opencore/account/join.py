@@ -43,7 +43,7 @@ class JoinView(browser.AccountView, OctopoLite):
         """
         factory = ICreateMembers(self.portal)
 
-        self.errors = factory.validate(self.request)
+        self.errors = factory.validate(self.request.form)
         if self.errors:
             # XXX let's raise something instead of returning.
             # it's ugly to overload function return values to signal errors.
