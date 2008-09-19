@@ -1,18 +1,19 @@
 <?xml version="1.0"?>
 <dc-workflow workflow_id="closed_policy_workflow"
              title="Closed Security Policy Workflow"
-             state_variable="review_state"
+             description="" state_variable="review_state"
              initial_state="visible">
  <permission>Access contents information</permission>
- <permission>Modify portal content</permission>
- <permission>View</permission>
- <permission>Delete objects</permission>
+ <permission>Add RichDocument</permission>
  <permission>CMFEditions: Access previous versions</permission>
- <permission>CMFEditions: Save new version</permission>
  <permission>CMFEditions: Apply version control</permission>
  <permission>CMFEditions: Revert to previous versions</permission>
- <permission>Add RichDocument</permission><!-- Deprecated in favor of Add OpenPage -->
+ <permission>CMFEditions: Save new version</permission>
+ <permission>Delete objects</permission>
+ <permission>Modify portal content</permission>
  <permission>OpenPlans: Add OpenPage</permission>
+ <permission>View</permission>
+ <permission>Add Attachment</permission>
  <state state_id="team_visible" title="Mgmt Only">
   <exit-transition transition_id="lockAsTeamVisible"/>
   <exit-transition transition_id="makeVisible"/>
@@ -22,8 +23,6 @@
    <permission-role>Owner</permission-role>
    <permission-role>ProjectAdmin</permission-role>
    <permission-role>ProjectContentMgr</permission-role>
-  </permission-map>
-  <permission-map name="OpenPlans: Add OpenPage" acquired="True">
   </permission-map>
   <permission-map name="Add RichDocument" acquired="True">
   </permission-map>
@@ -62,6 +61,9 @@
    <permission-role>Manager</permission-role>
    <permission-role>ProjectAdmin</permission-role>
    <permission-role>ProjectContentMgr</permission-role>
+  </permission-map>
+  <permission-map name="OpenPlans: Add OpenPage"
+                  acquired="True">
   </permission-map>
   <permission-map name="View" acquired="False">
    <permission-role>Manager</permission-role>
@@ -82,8 +84,6 @@
   </permission-map>
   <permission-map name="Add RichDocument" acquired="True">
   </permission-map>
-  <permission-map name="OpenPlans: Add OpenPage" acquired="True">
-  </permission-map>
   <permission-map name="CMFEditions: Access previous versions"
                   acquired="False">
    <permission-role>Manager</permission-role>
@@ -114,6 +114,9 @@
                   acquired="False">
    <permission-role>Manager</permission-role>
    <permission-role>ProjectAdmin</permission-role>
+  </permission-map>
+  <permission-map name="OpenPlans: Add OpenPage"
+                  acquired="True">
   </permission-map>
   <permission-map name="View" acquired="False">
    <permission-role>Manager</permission-role>
@@ -132,12 +135,12 @@
    <permission-role>ProjectMember</permission-role>
    <permission-role>Reviewer</permission-role>
   </permission-map>
-  <permission-map name="Add RichDocument" acquired="False">
+  <permission-map name="Add Attachment" acquired="False">
    <permission-role>Manager</permission-role>
    <permission-role>ProjectAdmin</permission-role>
    <permission-role>ProjectMember</permission-role>
   </permission-map>
-  <permission-map name="OpenPlans: Add OpenPage" acquired="False">
+  <permission-map name="Add RichDocument" acquired="False">
    <permission-role>Manager</permission-role>
    <permission-role>ProjectAdmin</permission-role>
    <permission-role>ProjectMember</permission-role>
@@ -172,6 +175,12 @@
    <permission-role>ProjectMember</permission-role>
   </permission-map>
   <permission-map name="Modify portal content"
+                  acquired="False">
+   <permission-role>Manager</permission-role>
+   <permission-role>ProjectAdmin</permission-role>
+   <permission-role>ProjectMember</permission-role>
+  </permission-map>
+  <permission-map name="OpenPlans: Add OpenPage"
                   acquired="False">
    <permission-role>Manager</permission-role>
    <permission-role>ProjectAdmin</permission-role>
@@ -197,8 +206,6 @@
   </permission-map>
   <permission-map name="Add RichDocument" acquired="True">
   </permission-map>
-  <permission-map name="OpenPlans: Add OpenPage" acquired="True">
-  </permission-map>
   <permission-map name="CMFEditions: Access previous versions"
                   acquired="False">
    <permission-role>Manager</permission-role>
@@ -229,6 +236,9 @@
                   acquired="False">
    <permission-role>Manager</permission-role>
    <permission-role>ProjectAdmin</permission-role>
+  </permission-map>
+  <permission-map name="OpenPlans: Add OpenPage"
+                  acquired="True">
   </permission-map>
   <permission-map name="View" acquired="False">
    <permission-role>Manager</permission-role>
