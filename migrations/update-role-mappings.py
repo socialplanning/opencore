@@ -39,7 +39,6 @@ def _recursiveUpdateRoleMappings(ob, wfs):
                 if did:
                     changed = 1
         if changed:
-            import pdb; pdb.set_trace()
             count = count + 1
             outer_count = outer_count + 1
             if hasattr(aq_base(ob), 'reindexObject'):
@@ -58,8 +57,6 @@ def _recursiveUpdateRoleMappings(ob, wfs):
         obs = ob.objectItems()
         if obs:
             for k, v in obs:
-                if k in ('people', 'projects', 'portal_teams'):
-                    import pdb; pdb.set_trace()
                 changed = getattr(v, '_p_changed', 0)
                 count = count + _recursiveUpdateRoleMappings(v, wfs)
                 if changed is None:
