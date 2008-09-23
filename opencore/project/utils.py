@@ -25,10 +25,14 @@ def get_featurelets(project):
             )
     return result
 
+_project_noun = None
 def project_noun():
     """Returns our global config's projtxt setting, which should be
     used everywhere we refer to 'projects'.
     """
+    global _project_noun
+    if _project_noun:
+        return _project_noun
     default = 'project'
     try:
         config = getUtility(IProvideSiteConfig)
@@ -40,7 +44,8 @@ def project_noun():
         # default; I'm hoping this is OK because we don't actually
         # care about archetypes labels.  - PMW
         return default
-    return config.get('projtxt', default=default)
+    _project_noun = config.get('projtxt', default=default)
+    return _project_noun
 
 def project_path(proj_id=None):
     """
