@@ -1,4 +1,3 @@
-from Acquisition import aq_parent
 from Acquisition import aq_inner
 from zope.interface import implements
 from zope.component import adapts
@@ -13,7 +12,7 @@ from opencore.interfaces import IOpenSiteRoot
 from opencore.interfaces.pending_requests import IRequestMembership
 from opencore.project.utils import project_noun
 from opencore.utility.interfaces import IEmailSender
-from opencore.project.utils import project_noun
+from opencore.utils import interface_in_aq_chain
 
 class RequestMembershipWithEmail(object):
     """
@@ -26,14 +25,7 @@ class RequestMembershipWithEmail(object):
 
     def __init__(self, context):
         self.context = context
-        portal = aq_inner(context)
-        
-        # XXX this is no good at all
-        while portal is not None:
-            portal = aq_parent(portal)
-            if IOpenSiteRoot.providedBy(portal):
-                break
-        self.portal = portal
+        self.portal = interface_in_aq_chain(aq_inner(context), IOpenSiteRoot)
 
     # XXX kill
     @property
