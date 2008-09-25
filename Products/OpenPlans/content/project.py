@@ -1,10 +1,15 @@
 from AccessControl import ClassSecurityInfo
-from Acquisition import aq_base, aq_parent, aq_inner
-from Products.Archetypes.Field import Image
+from Acquisition import aq_inner
 from Products.ATReferenceBrowserWidget.ATReferenceBrowserWidget import ReferenceBrowserWidget
-from Products.Archetypes.ExtensibleMetadata import ExtensibleMetadata
-from Products.Archetypes.config import REFERENCE_CATALOG
-from Products.Archetypes.public import *
+from Products.Archetypes.Field import Image
+from Products.Archetypes.public import BaseBTreeFolder
+from Products.Archetypes.public import ComputedField
+from Products.Archetypes.public import ComputedWidget
+from Products.Archetypes.public import ImageWidget
+from Products.Archetypes.public import Schema
+from Products.Archetypes.public import StringField
+from Products.Archetypes.public import StringWidget
+from Products.Archetypes.public import registerType
 from Products.Archetypes.utils import shasattr
 from Products.CMFCore.WorkflowCore import WorkflowException
 from Products.CMFCore.permissions import ManagePortal, View
@@ -13,26 +18,22 @@ from Products.CMFCore.utils import getToolByName
 from Products.CMFDynamicViewFTI.browserdefault import BrowserDefaultMixin
 from Products.CMFPlone.utils import _createObjectByType
 from Products.OpenPlans.permissions import CopyOrMove
-from Products.OpenPlans.permissions import ManageWorkflowPolicy
-from Products.TeamSpace.space import TeamSpaceMixin
 from Products.TeamSpace.space import TeamSpace
+from Products.TeamSpace.space import TeamSpaceMixin
 from Products.ZCTextIndex import ParseTree
-from ZODB.POSException import ConflictError
 from opencore.configuration import DEFAULT_ROLES
 from opencore.configuration import OC_REQ as OPENCORE
-from opencore.content.page import OpenPage
 from opencore.content.fields import SquareScaledImageField
 from opencore.interfaces import IProject
+from opencore.project.utils import project_noun
 from topp.featurelets.config import MENU_ID
 from topp.featurelets.interfaces import IMenuSupporter
-from zope.app.annotation.interfaces import IAnnotatable
 from zope.app.annotation.interfaces import IAttributeAnnotatable
 from zope.component import getMultiAdapter
 from zope.interface import Interface, implements
+import opencore.browser.img
 import os.path
 import pkg_resources
-from opencore.project.utils import project_noun
-import opencore.browser.img
 
 #this has the location of the default project logos
 img_path = os.path.dirname(opencore.browser.img.__file__)
