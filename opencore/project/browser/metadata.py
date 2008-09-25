@@ -12,6 +12,7 @@ from opencore.interfaces import IProject
 from opencore.interfaces import IOpenPage
 from opencore.interfaces.catalog import IIndexingGhost
 from opencore.interfaces.event import IAfterProjectAddedEvent
+from opencore.utils import interface_in_aq_chain
 from Missing import MV
 
 from Products.listen.interfaces import ISearchableMessage
@@ -31,9 +32,7 @@ def updateThreadCount(obj, event):
         # we'd like to just reindexObject on the list
         # but the new msg obj isn't really created yet
         # so we have to do a lot of nonsense instead
-        ml_obj = msg
-        while not IMailingList.providedBy(ml_obj):
-            ml_obj = ml_obj.aq_parent
+        ml_obj = interface_in_aq_chain(msg, IMailingList)
         # sometimes we get our mailing lists wrapped in a component
         # registry, thanks to local utility weirdness, and aq_inner
         # won't even fix it
@@ -127,16 +126,9 @@ def _update_last_modified_author(page, user_id=None):
     page.reindexObject(idxs=['lastModifiedAuthor'])
 
     # if part of a project, annotate the project with the user id as well
-    obj = page.aq_inner
-    while obj is not None:
-        if IProject.providedBy(obj): break
-        obj = getattr(obj, 'aq_parent', None)
-    else:
-        # no project found in tree
+    proj = interface_in_aq_chain(page.aq_inner, IProject)
+    if proj is None:
         return
-
-    # set the project if we're in a project
-    proj = obj
     proj_annot = IAnnotations(proj)
     annot = proj_annot.setdefault(ANNOT_KEY, OOBTree())
     annot['lastModifiedAuthor'] = user_id
