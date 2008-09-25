@@ -1,7 +1,7 @@
-from Acquisition import aq_parent, aq_inner
+from Acquisition import aq_inner
+from Acquisition import aq_parent
 import transaction
 from zExceptions import Redirect
-from Acquisition import aq_inner
 from Products.CMFCore.permissions import DeleteObjects
 from AccessControl.interfaces import IRoleManager
 from Products.CMFCore.utils import getToolByName
@@ -15,7 +15,6 @@ from Products.listen.browser.mail_message_views import ForumMailMessageView, Thr
                                                        MessageReplyView, SearchDebugView
 from Products.listen.browser.manage_membership import ManageMembersView
 from Products.listen.browser.moderation import ModerationView as BaseModerationView
-from Products.listen.config import PROJECTNAME
 from Products.listen.config import MODERATION_FAILED
 from Products.listen.content import ListTypeChanged
 from Products.listen.lib.common import assign_local_role
@@ -33,6 +32,7 @@ from opencore.browser.base import BaseView, _
 from opencore.listen.mailinglist import OpenMailingList
 from opencore.listen.mailinglist_views import MailingListView
 from opencore.listen.utils import isValidPrefix
+from opencore.utils import interface_in_aq_chain
 from plone.app.form import _named
 from plone.memoize.view import memoize as req_memoize
 from zope.app.component.hooks import getSite
@@ -61,22 +61,16 @@ def oc_json_error(v):
 class ListenBaseView(BaseView):
     @req_memoize
     def list_url(self):
-        obj = self.context
-        while not IMailingList.providedBy(obj):
-            try:
-                obj = obj.aq_parent
-            except AttributeError:
-                return ''
+        obj = interface_in_aq_chain(self.context, IMailingList)
+        if obj is None:
+            return ''
         return obj.absolute_url()            
 
     @req_memoize
     def list_title(self):
-        obj = self.context
-        while not IMailingList.providedBy(obj):
-            try:
-                obj = obj.aq_parent
-            except AttributeError:
-                return ''
+        obj = interface_in_aq_chain(self.context, IMailingList)
+        if obj is None:
+            return ''
         return obj.Title()            
         
     @property
@@ -462,9 +456,7 @@ from zope.component import getAdapter
 class SubscriptionSnippetMixin:
     def subscription_snippet(self):
         # fix #2049.
-        the_list = aq_inner(self.context)
-        while not IMailingList.providedBy(the_list):
-            the_list = the_list.aq_parent
+        the_list = interface_in_aq_chain(aq_inner(self.context), IMailingList)
         return the_list.restrictedTraverse("subscription_snippet")()
     
 class ArchiveForumView(SubscriptionSnippetMixin,
