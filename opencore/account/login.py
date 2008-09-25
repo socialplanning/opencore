@@ -10,7 +10,6 @@ from opencore.browser.formhandler import button, post_only, anon_only
 from opencore.interfaces import IPendingRequests
 from opencore.interfaces.event import FirstLoginEvent
 from opencore.interfaces.membership import IEmailInvites
-from opencore.interfaces.pending_requests import IRequestMembership
 from opencore.nui.email_sender import EmailSender
 from opencore.utility.interfaces import IProvideSiteConfig
 from plone.memoize import instance
