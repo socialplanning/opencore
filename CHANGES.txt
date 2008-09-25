@@ -1,6 +1,24 @@
 0.14.0dev (UNRELEASED)
 =======================
 
+ * Fixed: potential Unicode errors in email_sender (slinkp).
+
+ * memoize project_noun for performance (novalis)
+
+ * correct permission issues with Attachments (rafrombrc)
+
+ * fixed NameError: getToolByName in project membership request
+   handler (slinkp)
+
+ * search engine optimization tweaks (novalis)
+
+ * Octopus no longer returns JSON messages when there's nothing to
+   report (douglas)
+
+ * Fixed: potential UnicodeDecodeError when inviting by email (rmarianski)
+
+ * Fixed: potential AttributeError when deleting images (rmarianski)
+
  * Added per-project security context page for twirlip and other uses 
    at projects/foo/security-context (novalis)
 
@@ -13,7 +31,7 @@
  * Add a separate template for the invite join page if we don't have
    all the request variables. (rmarianski)
 
- * Remove more subproject-related cruft from opencore.project. (pw)
+ * Remove more subproject-related cruft from opencore.project. (slinkp)
 
  * Add twirlip transclusion link for wiki pages. (novalis)
 
@@ -22,7 +40,9 @@
 
  * Fixed: Base view now uses the *external* path so that twirlip knows
    where to send the form. (novalis)
- 
+
+ * Various refactoring, code cleanup, css tweaks (everybody)
+
 
 0.13.0 (2008/08/12)
 ===================
