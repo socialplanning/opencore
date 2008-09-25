@@ -32,7 +32,12 @@ def updateThreadCount(obj, event):
         # we'd like to just reindexObject on the list
         # but the new msg obj isn't really created yet
         # so we have to do a lot of nonsense instead
-        ml_obj = interface_in_aq_chain(msg, IMailingList)
+
+        # First get the list object.  We must acquire this from obj,
+        # not from msg, because msg.aq_foo works but aq_foo(msg)
+        # doesn't, due to a SearchableMessage.__getattr__.
+        ml_obj = interface_in_aq_chain(obj, IMailingList)
+        
         # sometimes we get our mailing lists wrapped in a component
         # registry, thanks to local utility weirdness, and aq_inner
         # won't even fix it
