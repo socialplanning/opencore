@@ -65,8 +65,9 @@ def set_opencore_properties(context=None, **kw):
 def interface_in_aq_chain(obj, iface):
     """
     climbs obj's aq chain looking for any parent that provides iface
+    (including obj)
 
-    returns the parent, if found, None if not
+    returns the matching object, if found; otherwise None.
     """
     for parent in aq_chain(obj):
         if iface.providedBy(parent):
