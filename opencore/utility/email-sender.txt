@@ -24,6 +24,10 @@ Check converting to email addresses
     'fooey@example.com'
     >>> es._to_email_address('notreal1@example.com')
     'notreal1@example.com'
+    >>> es._to_email_address('<foo@bar.com>')
+    'foo@bar.com'
+    >>> print es._to_email_address('nosuchmember')
+    None
 
 Check translation machinery::
     >>> from zope.i18nmessageid import Message
@@ -34,9 +38,22 @@ Check translation machinery::
 Test the mail message construction, which really just translates a
 previously constructed Message::
     >>> from opencore.i18n import _
-    >>> msg = _(u"email_membership_requested", mapping=dict(project_title="p1", member_id="lammy", team_manage_url="bloop"))
+    >>> mapping=dict(project_title="p1", member_id="lammy", team_manage_url="bloop")
+    >>> msg = _(u"email_membership_requested", mapping=mapping)
     >>> es.constructMailMessage(msg)
     u'...p1...lammy...bloop...'
+
+It should handle unicode in the mapping dict:
+    >>> mapping['member_id'] = u'I like pi\xf1atas'
+    >>> es.constructMailMessage(msg)
+    u'...p1...I like pi\xf1atas...bloop...'
+
+It should handle raw byte strings in the mapping too, because those
+may come from raw user input:
+
+    >>> mapping['member_id'] = 'I like pi\xc3\xb1atas'
+    >>> es.constructMailMessage(msg)
+    u'...p1...I like pi\xf1atas...bloop...'
 
 Send some emails, and check that they went out
     >>> es.sendMail(
@@ -58,3 +75,12 @@ Send some emails, and check that they went out
     ...     )
     >>> len(mh.messages)
     2
+    >>> es.sendMail(
+    ...     'Rolando Pen\xc3\xb1ate <bammy@example.com>',
+    ...     msg=u'hi there, unicode',
+    ...     subject='more testing with pi\xc3\xb1atas',
+    ...     mfrom=u'Gabriel Rold\xe1n <hammy@example.com>',
+    ...     )
+    >>> len(mh.messages)
+    3
+

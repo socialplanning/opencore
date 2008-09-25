@@ -36,12 +36,18 @@ class EmailSender(object):
         pprint(locals(), sys.stderr)
 
     @property
+    def _encoding(self):
+        putils = getToolByName(self.context, 'plone_utils')
+        return putils.getSiteEncoding()
+
+    @property
     def _send(self):
         if self.debug:
             return self.debug_send
         return self._mailhost.send
 
     def _to_email_address(self, addr_token):
+        addr_token = addr_token.lstrip('<').rstrip('>')
         if regex.match(addr_token) is None:
             # not an address, it should be a member id
             membertool = getToolByName(self.context, "portal_membership")
@@ -62,18 +68,24 @@ class EmailSender(object):
             if isinstance(v, unicode):
                 result[k] = v
             else:
-                result[k] = unicode(v, 'utf-8')
+                result[k] = unicode(v, self._encoding)
         return result
 
     def _translate(self, msgid, domain=i18n_domain, mapping=None,
                    target_language=None, default=None):
-        kw = dict(domain=domain, mapping=mapping, context=self.context,
+        # Ensure that, whichever mapping gets used, it does not contain
+        # binary encoded strings.
+        if isinstance(msgid, Message):
+            mapping = msgid.mapping or mapping
+        if mapping:
+            mapping.update(self._unicode_values(mapping))
+        kw = dict(domain=domain, mapping=mapping,
+                  context=self.context,
                   target_language=target_language, default=default)
         return translate(msgid, **kw)
 
     def constructMailMessage(self, msg):
         msg.mapping.setdefault('portal_title', self.context.Title())
-        #unicode_kwargs = self._unicode_values(kwargs)
         return self._translate(msg)
 
     def sendMail(self, mto, msg=None, subject=None,
@@ -111,30 +123,31 @@ class EmailSender(object):
             if email_addr is not None:
                 mfrom = email_addr
 
-        if isinstance(msg, unicode):
-            msg = msg.encode('utf-8')
-
         #we construct the mail message ourselves ... because the mailhost generates bogus messages
         #by bogus i mean that the mail message generated has 2 sets of separate headers
-        msg_body = msg
+        mapping = self._unicode_values(dict(
+            mfrom=mfrom,
+            recips='; '.join(recips),
+            subject=subject,
+            msg_body=msg,
+            ))
         if subject:
-            msg = """\
+            msg = u"""\
 From: %(mfrom)s
 To: %(recips)s
 Subject: %(subject)s
 
-%(msg_body)s""" % dict(mfrom=mfrom,
-                       recips='; '.join(recips),
-                       subject=subject,
-                       msg_body=msg_body,
-                       )
+%(msg_body)s""" % mapping
         else:
-            msg = """\
+            msg = u"""\
 From: %(mfrom)s
 To: %(recips)s
-%(msg_body)s""" % dict(mfrom=mfrom,
-                       recips='; '.join(recips),
-                       msg_body=msg_body,
-                       )
-            
+%(msg_body)s""" % mapping
+
+        # At this point we should have a unicode string; we need raw bytes
+        # to send.
+        try:
+            msg = msg.encode('ascii')
+        except UnicodeEncodeError:
+            msg = msg.encode(self._encoding)
         self._send(msg)
