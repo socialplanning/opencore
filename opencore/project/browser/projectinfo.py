@@ -1,17 +1,16 @@
 """
 this is a forerunner for something that go into TeamSpaces
 """
-from zope.interface import implements
-
+from Acquisition import aq_inner
 from Products.CMFCore.utils import getToolByName 
 from Products.Five.browser.TrustedExpression import getEngine
-from opencore.interfaces import IProject, IOpenTeam
-from plone.memoize.instance import memoizedproperty, memoize
 from interfaces import IProjectInfo
-from topp.featurelets.interfaces import IFeatureletSupporter
+from opencore.interfaces import IProject, IOpenTeam
 from opencore.browser.base import BaseView
 from opencore.project.utils import get_featurelets
-from plone.memoize import instance, view
+from opencore.utils import find_interface_parent
+from plone.memoize import view
+from zope.interface import implements
 
 view.memoizedproperty = lambda func: property(view.memoize(func))
 
@@ -43,11 +42,9 @@ class ProjectInfoView(BaseView):
         if IOpenTeam.providedBy(self.context):
             # get the related project
             return self.context.getProject()
-        # probably wrap this in an adapter
-        chain = self.context.aq_inner.aq_chain
-        for item in chain:
-            if IProject.providedBy(item):
-                return item
+        item = find_interface_parent(aq_inner(self.context),
+                                     IProject) # might be None
+        return item
 
     @property
     def inProject(self):
