@@ -19,6 +19,9 @@ class EmailSender(object):
     """
     A thing that sends email. Based on opencore.nui.email_sender.EmailSender
     but somewhat less dependent on opencore.nui views.
+
+    XXX commonalities seriously need to be factored out, this is ridiculous.
+    Either that, or kill off the nui one.
     """
     implements(IEmailSender)
     adapts(IOpenSiteRoot)
@@ -47,7 +50,9 @@ class EmailSender(object):
         return self._mailhost.send
 
     def _to_email_address(self, addr_token):
-        addr_token = addr_token.lstrip('<').rstrip('>')
+        addr_token = addr_token.strip().lstrip('<').rstrip('>')
+        if not addr_token:
+            return None
         if regex.match(addr_token) is None:
             # not an address, it should be a member id
             membertool = getToolByName(self.context, "portal_membership")

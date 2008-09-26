@@ -18,6 +18,14 @@ It should require all the fields.
     >>> utils.get_status_messages(view)
     [u'Please correct the specified errors.']
 
+
+The email must be valid.
+    >>> view.request.form.clear()
+    >>> view.request.form['sender_from_address'] = 'blah!'
+    >>> view.validate()
+    >>> view.errors['sender_from_address']
+    'Invalid email address'
+
 If you provide them all, it should send the mail.
 
     >>> view = ContactView(self.portal, self.portal.REQUEST)

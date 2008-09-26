@@ -1,8 +1,12 @@
+from Products.validation.validators.BaseValidators import EMAIL_RE
 from plone.memoize.view import memoize as req_memoize
-
 from opencore.browser.base import BaseView, _
 from opencore.browser import formhandler
-from opencore.nui.email_sender import EmailSender
+from opencore.utility.interfaces import IEmailSender
+import re
+
+
+email_regex = re.compile(EMAIL_RE)
 
 #XXX this would be easier if moved to formlib
 class ContactView(BaseView, formhandler.OctopoLite):
@@ -22,12 +26,18 @@ class ContactView(BaseView, formhandler.OctopoLite):
     @property
     @req_memoize
     def email_sender(self):
-        return EmailSender(self)
+        return IEmailSender(self.portal)
 
     def validate(self):
+        form = self.request.form
         for field in self.form_fields:
-            if not self.request.form.get(field, '').strip():
+            value = form.get(field, '').strip()
+            if not value:
                 self.errors[field] = 'Input required'
+            form[field] = value
+        email = form.get('sender_from_address', '')
+        if email and not email_regex.match(email):
+            self.errors['sender_from_address'] = 'Invalid email address'
 
     @formhandler.action('send')
     def send(self, targets=None, fields=None):
@@ -50,8 +60,8 @@ class ContactView(BaseView, formhandler.OctopoLite):
         subject = form.get('subject')
         mfrom = form.get('sender_from_address')
         # XXX we require sender_fullname but we ignore it! duh.
-        self.email_sender.sendEmail(mto, msg=msg, subject=subject,
-                                    mfrom=mfrom)
+        self.email_sender.sendMail(mto, msg=msg, subject=subject,
+                                   mfrom=mfrom)
         self.addPortalStatusMessage(_(u'psm_message_sent_to_admin', u'Message sent.'))
         self.index = None
         self.redirect(self.portal.absolute_url())

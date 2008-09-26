@@ -49,6 +49,9 @@ class EmailSender(object):
         not, then it will be assumed to be a member id and the member's
         address will be returned.
         """
+        addr_token = addr_token.strip().lstrip('<').rstrip('>')
+        if not addr_token:
+            return None
         view = self.view
         if regex.match(addr_token) is None:
             # not an address, it should be a member id
