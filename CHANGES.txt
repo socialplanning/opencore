@@ -1,7 +1,11 @@
 0.14.0dev (UNRELEASED)
 =======================
 
+ * Fixed: errors on invalid input to contact-site-admin page. (slinkp)
+   (http://trac.openplans.org/errors-openplans/ticket/43)
+
  * Fixed: potential Unicode errors in email_sender (slinkp).
+   (http://trac.openplans.org/errors-openplans/ticket/44)
 
  * memoize project_noun for performance (novalis)
 
@@ -9,6 +13,7 @@
 
  * fixed NameError: getToolByName in project membership request
    handler (slinkp)
+   (http://trac.openplans.org/errors-openplans/ticket/38)
 
  * search engine optimization tweaks (novalis)
 
@@ -18,18 +23,22 @@
  * Fixed: potential UnicodeDecodeError when inviting by email (rmarianski)
 
  * Fixed: potential AttributeError when deleting images (rmarianski)
+   (http://trac.openplans.org/errors-openplans/ticket/9)
 
  * Added per-project security context page for twirlip and other uses 
    at projects/foo/security-context (novalis)
 
  * Resolve potential errors on page deletions from contents view.
    (rmarianski)
+   (http://trac.openplans.org/errors-openplans/ticket/8
+    and http://trac.openplans.org/errors-openplans/ticket/5)
 
  * Wiki edit: removing the isempty attributes that xinha inserts is
    better than just making them blank (rmarianski)
 
  * Add a separate template for the invite join page if we don't have
    all the request variables. (rmarianski)
+   (http://trac.openplans.org/errors-openplans/ticket/6)
 
  * Remove more subproject-related cruft from opencore.project. (slinkp)
 
@@ -87,6 +96,7 @@
 
  * resolve unicode project title error in listen subscriber on project creation
    (rmarianski)
+   (http://trac.openplans.org/errors-openplans/ticket/4)
 
  * Output error messages for Supervisord
 
