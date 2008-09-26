@@ -11,6 +11,7 @@ from opencore.nui.wiki import utils
 from opencore.nui.wiki.interfaces import IWikiHistory, IReversionEvent
 from opencore.project.browser.metadata import get_member
 from plone.memoize import instance
+from plone.memoize import view
 from topp.utils.pretty_date import prettyDate
 from view import WikiBase
 from zExceptions import Redirect
@@ -31,7 +32,8 @@ class WikiVersionView(WikiBase):
     def get_page(self, version_id):
         doc = self.pr.retrieve(self.context, version_id)
         return doc.object
-        
+
+    @instance.memoize
     def get_versions(self):
         """
         Returns a list of versions on the object.
@@ -41,6 +43,7 @@ class WikiVersionView(WikiBase):
 
     def get_version(self, version_id):
         version_id = int(version_id)
+        # can raise ArchivistRetrieveError
         return self.pr.retrieve(self.context, version_id)
 
     def version_title(self, version_id, rollback=False): 
@@ -79,6 +82,8 @@ class WikiVersionView(WikiBase):
     def can_revert(self):
         return self.get_tool('portal_membership').checkPermission('CMFEditions: Revert to previous versions', self)
 
+    @instance.clearbefore
+    @instance.clearafter
     @post_only(raise_=True)
     def rollback_version(self, version_id=None):
         if version_id is None:
