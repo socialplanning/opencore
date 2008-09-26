@@ -8,7 +8,7 @@ from interfaces import IProjectInfo
 from opencore.interfaces import IProject, IOpenTeam
 from opencore.browser.base import BaseView
 from opencore.project.utils import get_featurelets
-from opencore.utils import find_interface_parent
+from opencore.utils import interface_in_aq_chain
 from plone.memoize import view
 from zope.interface import implements
 
@@ -42,7 +42,7 @@ class ProjectInfoView(BaseView):
         if IOpenTeam.providedBy(self.context):
             # get the related project
             return self.context.getProject()
-        item = find_interface_parent(aq_inner(self.context),
+        item = interface_in_aq_chain(aq_inner(self.context),
                                      IProject) # might be None
         return item
 

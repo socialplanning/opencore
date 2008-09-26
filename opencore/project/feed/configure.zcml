@@ -63,4 +63,16 @@
       handler=".page.page_feed_listener"
       />
 
+   <subscriber
+      for="opencore.content.membership.OpenMembership
+           opencore.interfaces.event.IJoinedProjectEvent"
+      handler=".team.team_feed_listener"
+      />
+
+   <subscriber
+      for="opencore.content.membership.OpenMembership
+           opencore.interfaces.event.ILeftProjectEvent"
+      handler=".team.team_feed_listener"
+      />
+
 </configure>

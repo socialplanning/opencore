@@ -1,6 +1,8 @@
 from AccessControl import getSecurityManager
+from DateTime import DateTime
 from Globals import get_request
 from opencore.feed.interfaces import IFeedData
+from opencore.utils import get_rel_url_for
 
 def page_feed_listener(page, event):
     """
@@ -13,11 +15,11 @@ def page_feed_listener(page, event):
     feed = IFeedData(page)
     description = req.form.get('comment', '')
     title = page.Title()
-    link = page.absolute_url()
-    pubDate = page.modified()
+    rel_link = get_rel_url_for(page)
+    pubDate = DateTime()
     author = getSecurityManager().getUser().getId()
     feed.add_item(title=title,
                   description=description,
-                  link=link,
+                  rel_link=rel_link,
                   author=author,
                   pubDate=pubDate)
