@@ -25,9 +25,8 @@ class ContactView(BaseView, formhandler.OctopoLite):
         return EmailSender(self)
 
     def validate(self):
-        req = self.request
         for field in self.form_fields:
-            if not req.form.get(field):
+            if not self.request.form.get(field, '').strip():
                 self.errors[field] = 'Input required'
 
     @formhandler.action('send')
