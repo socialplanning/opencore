@@ -1,13 +1,16 @@
 0.13.1dev (UNRELEASED)
 ======================
 
+ * Show a useful error message when doing wiki version comparison
+   against an old binary upload. (slinkp) (errors-openplans #31)
+
  * Fix error when request membership, missing getToolByName import
-   (errors-openplans #38) (pw)
+   (errors-openplans #38) (slinkp)
 
  * Avoid a UnicodeDecodeError when inviting by email, if an invalid
    email address isn't ascii. (fixes el#3) (rmarianski)
 
- * Fix broken test monkeypatching in opencore.auth.tests. (pw)
+ * Fix broken test monkeypatching in opencore.auth.tests. (slinkp)
 
 
 0.13.0 (2008/08/12)
