@@ -158,9 +158,18 @@ class WikiVersionCompare(WikiVersionView):
         self.new_version_id, self.new_version = self.versions['new']
         old_page = self.get_page(self.old_version_id)
         new_page = self.get_page(self.new_version_id)
-        self.html_diff = htmldiff2.htmldiff(unicode(old_page.EditableBody(), 'utf-8'), 
-                                            unicode(new_page.EditableBody(), 'utf-8'))
-
+        binary_error = u'Comparison not possible: %s is a binary file.'
+        old = new = None
+        try:
+            old = unicode(old_page.EditableBody(), 'utf-8')
+        except UnicodeDecodeError:
+            self.html_diff = binary_error % self.version_title(self.old_version_id)
+        try:
+            new = unicode(new_page.EditableBody(), 'utf-8')
+        except UnicodeDecodeError:
+            self.html_diff = binary_error % self.version_title(self.new_version_id)
+        if None not in (new, old):
+            self.html_diff = htmldiff2.htmldiff(old, new)
         self.old_next_enabled = self.old_version_id + 1 < self.new_version_id
         self.old_prev_enabled = self.old_version_id > 0
         self.new_next_enabled = self.new_version_id < self.current_id() 

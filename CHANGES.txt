@@ -1,6 +1,9 @@
 0.14.0dev (UNRELEASED)
 =======================
 
+ * Show a useful error message when doing wiki version comparison
+   against an old binary upload. (slinkp) (errors-openplans #31)
+
  * Fixed: errors on invalid input to contact-site-admin page. (slinkp)
    (http://trac.openplans.org/errors-openplans/ticket/43)
 
@@ -8,6 +11,8 @@
    (http://trac.openplans.org/errors-openplans/ticket/44)
 
  * memoize project_noun for performance (novalis)
+
+ * Fix broken test monkeypatching in opencore.auth.tests. (slinkp)
 
  * correct permission issues with Attachments (rafrombrc)
 

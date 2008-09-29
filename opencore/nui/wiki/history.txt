@@ -259,3 +259,26 @@ Iterating over the history should give us the initial version first
       'comment': 'Rolled back to Initial Version',
       'modification_date': DateTime('...'),
       'version_id': 4}
+
+
+
+Version comparison API::
+
+     >>> view = page.restrictedTraverse('@@version_compare')
+     >>> request = view.request.form = {}
+     >>> request['version_id'] = ['0', '1']
+     >>> view.handle_diff()
+     >>> view.html_diff
+     '<ins>some even newer text</ins> <del>some new text</del>'
+
+Binary data in a version should give a sensible error::
+
+     >>> view = page.restrictedTraverse('@@version_compare')
+     >>> request['version_id'] = ['4', '5']
+     >>> data = '\xff\xd8\xff\xe0\x00\x10JFIF\x00\x01\x01\x01\x00'
+     >>> page.processForm(values={'text': data})
+     >>> repo.save(page, comment='some binary data')
+     >>> view.handle_diff()
+     >>> view.html_diff
+     u'Comparison not possible: Current Version is a binary file.'
+
