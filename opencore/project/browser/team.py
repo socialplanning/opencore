@@ -1,32 +1,16 @@
 from Products.CMFCore.utils import getToolByName
 from Products.CMFPlone.utils import transaction_note
 from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
-from Products.MailHost.MailHost import MailHostError
-from Products.validation.validators.BaseValidators import EMAIL_RE
 from opencore.account.login import LoginView
 from opencore.browser import formhandler
 from opencore.browser.base import _
 from opencore.configuration import DEFAULT_ROLES
-from opencore.content.membership import OpenMembership
-from opencore.interfaces.event import ChangedTeamRolesEvent
-from opencore.interfaces.membership import IEmailInvites
-from opencore.interfaces.message import ITransientMessage
-from opencore.nui.email_sender import EmailSender
 from opencore.nui.main import SearchView
-from opencore.nui.main.search import searchForPerson
-from opencore.project.browser import mship_messages
 from opencore.utility.interfaces import IEmailSender
 from operator import attrgetter
-from plone.memoize.instance import memoize, memoizedproperty
-from plone.memoize.view import memoize as req_memoize
-from plone.memoize.view import memoize_contextless
-from topp.utils.detag import detag
-from zope.component import getUtility
+from plone.memoize.instance import memoizedproperty
 from zope.event import notify
-from zope.i18nmessageid import Message
 import itertools
-import re
-import urllib
 
 
 class TeamRelatedView(SearchView):
@@ -293,6 +277,7 @@ class ProjectTeamView(TeamRelatedView):
         self.results = self.membranetool(**query)
         return self._get_batch(self.results, self.request.get('b_start', 0))
 
+    @memoizedproperty
     def memberships(self, sort_by=None):
         if sort_by is None:
             sort_by = self.sort_by
@@ -351,7 +336,7 @@ class ProjectTeamView(TeamRelatedView):
         return dict((b.getId, b) for b in pbrains)
 
     def membership_records(self):
-        for membrain in self.memberships():
+        for membrain in self.memberships:
             yield self._membership_record(membrain)
 
     def can_view_email(self):
