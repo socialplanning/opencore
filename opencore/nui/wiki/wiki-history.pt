@@ -24,7 +24,7 @@
       
      <tal:if condition="python:len(history) > 0"> 
      
-    <div class="oc-headingBlock oc-boxy" tal:define="lastChange python:history[0]"> 
+    <div class="oc-headingBlock oc-boxy" tal:define="lastChange python:history[-1]"> 
     <h2>All versions of &ldquo;<span tal:replace="here/title_or_id">page</span>&rdquo;</h2>
     <span class="oc-headingContext oc-discreetText">
      <span tal:replace="python:len(history)"/> versions total. Last edit performed by 

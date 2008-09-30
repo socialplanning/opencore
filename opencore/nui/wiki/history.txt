@@ -261,6 +261,17 @@ Iterating over the history should give us the initial version first
       'version_id': 4}
 
 
+You can also directly get items from the history by id:
+
+     >>> history[0]['version_id']
+     0
+
+And you can look up items in reverse order with negative indeces,
+so -1 is the most recent item:
+
+     >>> history[-1]['version_id']
+     4
+
 
 Version comparison API::
 

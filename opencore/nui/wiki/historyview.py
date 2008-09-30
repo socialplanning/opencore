@@ -222,13 +222,19 @@ class AnnotationCachedWikiHistory(object):
         self.annot = wiki_annot
 
     def __iter__(self):
+        # Gotcha: We iterate from highest id (most recent) to low (oldest).
         for version_id in reversed(self.annot.keys()):
             yield self.annot[version_id]
 
     def __len__(self):
+        # XXX why not just len(self.annot)?
         return len(self.annot.keys())
 
     def __getitem__(self, version_id):
+        if version_id < 0:
+            # Support list-like negative indexing.
+            keys = sorted(self.annot.keys())
+            version_id = keys[version_id]
         return self.annot[version_id]
 
     def new_history_item(self, message=None, reversion=False, history=None, author=None):
