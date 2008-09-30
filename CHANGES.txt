@@ -1,6 +1,21 @@
 0.14.0dev (UNRELEASED)
 =======================
 
+This is mostly a bugfix release, but it does contain a couple of small
+enhancements.
+
+Features:
+
+ * search engine optimization tweaks (novalis)
+
+ * Added per-project security context page for twirlip and other uses 
+   at projects/foo/security-context (novalis)
+
+ * Add twirlip transclusion link for wiki pages. (novalis)
+
+
+Bug fixes and non-featureful changes:
+
  * Wiki history "Last edit performed by..." now correctly shows the
    last edit, not the first. (slinkp) (ticket #2704)
 
@@ -23,8 +38,6 @@
    handler (slinkp)
    (http://trac.openplans.org/errors-openplans/ticket/38)
 
- * search engine optimization tweaks (novalis)
-
  * Octopus no longer returns JSON messages when there's nothing to
    report (douglas)
 
@@ -32,9 +45,6 @@
 
  * Fixed: potential AttributeError when deleting images (rmarianski)
    (http://trac.openplans.org/errors-openplans/ticket/9)
-
- * Added per-project security context page for twirlip and other uses 
-   at projects/foo/security-context (novalis)
 
  * Resolve potential errors on page deletions from contents view.
    (rmarianski)
@@ -49,8 +59,6 @@
    (http://trac.openplans.org/errors-openplans/ticket/6)
 
  * Remove more subproject-related cruft from opencore.project. (slinkp)
-
- * Add twirlip transclusion link for wiki pages. (novalis)
 
  * CSS: on oc tabs action links, don't use a transparent background
    for the selected link. (rmarianski)
