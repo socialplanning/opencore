@@ -77,17 +77,18 @@ results are saved on the view::
     >>> pprint(sorted([x.getId for x in view.results]))
     ['m1', 'm3', 'm4']
 
-Using the list of results and the project ids, the view retrieves the
-brains for every project who's data needs to be displayed::
+Using the current set of members, for every project whose data needs
+to be displayed, the view provides a mapping of project id to project
+brain:
 
-    >>> pprint(view.project_info(view.results))
+    >>> pprint(view.all_projects_to_display)
     {'p1': <Products.ZCatalog.Catalog.mybrains object at ...>,
      'p2': <Products.ZCatalog.Catalog.mybrains object at ...>,
      'p3': <Products.ZCatalog.Catalog.mybrains object at ...>,
      'p4': <Products.ZCatalog.Catalog.mybrains object at ...>}
 
-Note, project order is done on id. this matter because projects are
-limited to first 10
+Note, project order is done on id. This matters because projects are
+limited to the first 10.
 
 Clear the memoize from the request::
 

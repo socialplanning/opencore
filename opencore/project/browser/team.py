@@ -9,6 +9,7 @@ from opencore.nui.main import SearchView
 from opencore.utility.interfaces import IEmailSender
 from operator import attrgetter
 from plone.memoize.instance import memoizedproperty
+from plone.memoize.instance import memoize
 from zope.event import notify
 import itertools
 
@@ -277,6 +278,7 @@ class ProjectTeamView(TeamRelatedView):
         self.results = self.membranetool(**query)
         return self._get_batch(self.results, self.request.get('b_start', 0))
 
+    @memoize
     def memberships(self, sort_by=None):
         if sort_by is None:
             sort_by = self.sort_by
@@ -295,15 +297,15 @@ class ProjectTeamView(TeamRelatedView):
         activation = self.pretty_date(membership.made_active_date)
         modification = self.pretty_date(membership.ModificationDate())
 
-        # filter against search returns to insure private projects not
-        # included unless view user also a member
-        project_info = self.project_info(self.results)
+        # Filter against search returns to ensure private projects are not
+        # included unless the view user is also a member.
+        viewable_projects = self.all_projects_to_display
 
-        project_ids = [project_info[id_] for id_ in brain.project_ids
-                       if project_info.has_key(id_)]
+        member_projects = [viewable_projects[id_] for id_ in brain.project_ids
+                           if viewable_projects.has_key(id_)]
 
         # sort then truncate
-        ten_projects = sorted(project_ids, key=lambda x: x.Title)[:10]
+        ten_projects = sorted(member_projects, key=lambda x: x.Title)[:10]
 
         # calculate the portrait thumbnail URL
         # XXX: default URL should come from config
@@ -320,15 +322,17 @@ class ProjectTeamView(TeamRelatedView):
                     modification=modification,
                     portrait_thumb_url=portrait_thumb_url,
                     project_brains=ten_projects,
-                    num_projects=len(project_ids)
+                    num_projects=len(member_projects)
                     )
-    
-    def project_info(self, mem_brains):
+
+    @memoizedproperty
+    def all_projects_to_display(self):
         """
-        concatenates a series of project ids for a collection of
-        member brains and looks up the project brains
+        Aggregates a list of all project ids for the currently viewed
+        set of members, and looks up the project brains.
         """
-        proj_ids = set(itertools.chain(*[sorted(brain.project_ids) for brain in mem_brains]))
+        proj_ids = set(itertools.chain(
+            *[sorted(brain.project_ids) for brain in self.results]))
 
         # @@ DWM: matching on id not as good as matching on UID
         cat = self.get_tool('portal_catalog')

@@ -16,6 +16,9 @@ Features:
 
 Bug fixes and non-featureful changes:
 
+ * Memoize member and project lists in ProjectTeamView for
+   performance; change names for clarity. (slinkp)
+
  * Fix upgrades/to_0_13_0.py to actually migrate all the mailing lists
    (slinkp et al.)
 
