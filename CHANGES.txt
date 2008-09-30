@@ -1,6 +1,9 @@
 0.14.0dev (UNRELEASED)
 =======================
 
+ * Wiki history "Last edit performed by..." now correctly shows the
+   last edit, not the first. (slinkp) (ticket #2704)
+
  * Show a useful error message when doing wiki version comparison
    against an old binary upload. (slinkp) (errors-openplans #31)
 
