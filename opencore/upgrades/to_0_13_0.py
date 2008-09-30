@@ -42,10 +42,22 @@ def migrate_mlist_component_registries(context):
     """
     site = getToolByName(context, 'portal_url').getPortalObject()
     cat = getToolByName(context, 'portal_catalog')
-    list_brains = cat(portal_type='Open Mailing List')
+    list_brains = cat.unrestrictedSearchResults(
+        portal_type='Open Mailing List', sort_on='id')
+    from AccessControl import getSecurityManager
+    logger.debug("Running as %s" %  getSecurityManager().getUser())
+    logger.debug("Got %d lists to migrate" % len(list_brains))
 
     for lbrain in list_brains:
         lst = lbrain.getObject()
+
+        if 'utilities' in lst.objectIds():
+            logger.debug(" MIGRATING %r" % lbrain.id)
+        else:
+            # We already migrated this one.
+            logger.debug("    already migrated %r, skipping..." % lbrain.id)
+            continue
+
         utilities = lst.utilities.objectItems()
 
         disableLocalSiteHook(lst)

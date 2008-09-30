@@ -39,6 +39,7 @@ def run_plone_migrations(context):
                 inst_version = vfrom
                 break
         req = context.REQUEST
+        req.environ['REQUEST_METHOD'] = 'POST'
         req.form = {'force_instance_version': inst_version}
         req.force_instance_version = inst_version
         result = migtool.upgrade(REQUEST=req)
