@@ -261,12 +261,12 @@ class OpenMember(FolderishMember):
     security.declareProtected(View, 'getProjectListing')
     def getProjectListing(self):
         mtool = getToolByName(self, 'portal_membership')
-        projects = {}
+        projects = set()
         for team in self.getActiveTeams():
             for space in team.getTeamSpaces():
                 if mtool.checkPermission(View, space):
-                    projects[space] = None
-        return projects.keys()
+                    projects.add(space)
+        return list(projects)
     
     security.declareProtected(View, 'project_ids')
     def project_ids(self):
