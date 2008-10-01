@@ -1,9 +1,12 @@
 from AccessControl import ClassSecurityInfo
+from Acquisition import aq_base
 from Products.Archetypes.ArchetypeTool import base_factory_type_information as bfti
 from Products.Archetypes.ExtensibleMetadata import ExtensibleMetadata
 from Products.Archetypes.Field import STRING_TYPES
 from Products.Archetypes.public import Schema, StringField, StringWidget
-from Products.CMFCore.permissions import *
+from Products.CMFCore.permissions import ManagePortal
+from Products.CMFCore.permissions import ModifyPortalContent
+from Products.CMFCore.permissions import View
 from Products.CMFCore.utils import getToolByName
 from Products.membrane.config import TOOLNAME as MBTOOLNAME
 from Products.remember.config import ALLOWED_MEMBER_ID_PATTERN
@@ -26,11 +29,14 @@ from types import TupleType, ListType, UnicodeType
 from zope.component import getAdapter
 from zope.component import getUtility
 import Products.Archetypes.public as atapi
+import logging
 import random
 import re
 import sys
 from opencore.project.utils import project_noun
 
+log_subsystem = 'opencore.content.member'
+logger = logging.getLogger(log_subsystem)
 regex = re.compile(EMAIL_RE)
 
 member_schema = id_schema + contact_schema + plone_schema + \
@@ -244,7 +250,18 @@ class OpenMember(FolderishMember):
         Return the user's unique confirmation code to complete
         registration manually
         """
-        return '%sconfirm%s' % (self.UID(), self._confirmation_key)
+        key = getattr(aq_base(self), '_confirmation_key', None)
+        if key is None:
+            # http://trac.openplans.org/errors-openplans/ticket/49
+            # Rarely, we get an error when inviting members that
+            # somehow have workflow state of 'pending' but lack a
+            # _confirmation_key attribute. - slinkp
+            logger.error(
+                "Member %r had no confirmation code, creating one."
+                % self.getId())
+            self.setUserConfirmationCode()
+            key = self._confirmation_key
+        return '%sconfirm%s' % (self.UID(), key)
 
     security.declareProtected(ManagePortal, 'setUserConfirmationCode')
     def setUserConfirmationCode(self):

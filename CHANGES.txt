@@ -23,8 +23,13 @@ Bug fixes and non-featureful changes:
    This fix prevents the problem from happening in the future;
    to fix your existing data, reindex the membrane tool:
    in the ZMI go to .../membrane_tool/manage_catalogAdvanced and click
-   "Update Catalog". Warning, this can take a very long time!
-   (436 secs XXX
+   "Update Catalog". Warning, this can take a very long time, and you
+   might get conflict errors.
+
+ * Work around rare bug where a pending member doesn't have a
+   confirmation code.
+   (http://trac.openplans.org/errors-openplans/ticket/49)
+   (slinkp)
 
  * Fix stats view, broken by plone3 upgrade (cabraham, slinkp)
 
