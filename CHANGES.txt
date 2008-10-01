@@ -16,6 +16,18 @@ Features:
 
 Bug fixes and non-featureful changes:
 
+ * Fix bug in reindex_member_project_ids that could prevent a member
+   from showing up on a private project's team page.
+   (slinkp) (http://trac.openplans.org/errors-openplans/ticket/36)
+
+   This fix prevents the problem from happening in the future;
+   to fix your existing data, reindex the membrane tool:
+   in the ZMI go to .../membrane_tool/manage_catalogAdvanced and click
+   "Update Catalog". Warning, this can take a very long time!
+   (436 secs XXX
+
+ * Fix stats view, broken by plone3 upgrade (cabraham, slinkp)
+
  * Memoize member and project lists in ProjectTeamView for
    performance; change names for clarity. (slinkp)
 

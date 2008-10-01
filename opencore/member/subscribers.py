@@ -1,3 +1,6 @@
+from AccessControl.SecurityManagement import getSecurityManager
+from AccessControl.SecurityManagement import newSecurityManager
+from AccessControl.SecurityManagement import setSecurityManager
 from Products.CMFCore.utils import getToolByName
 from opencore.member.interfaces import IOpenMember
 from zExceptions import BadRequest
@@ -19,6 +22,21 @@ def remove_member_folder(member, event):
         pass
 
 def reindex_member_project_ids(mship, event):
-    ms = getToolByName(mship, 'portal_membership')
-    mem = ms.getMemberById(mship.id)
-    mem.reindexObject(idxs=['project_ids'])
+    """
+    Event subscriber to update the project_ids index for this member.
+    """
+    # Make sure we have privileges to see all the projects the user's
+    # a member of!  Otherwise, if this is triggered by a project
+    # manager approving a join request, and the joiner is a member of
+    # private projects that the project mgr cannot see, those projects
+    # would be removed from the index!
+    # http://trac.openplans.org/errors-openplans/ticket/36
+    orig_security_mgr = getSecurityManager()
+    try:
+        user = getToolByName(mship, 'acl_users').getUserById(mship.id)
+        ms_tool = getToolByName(mship, 'portal_membership')
+        newSecurityManager(mship, user)
+        mem = ms_tool.getMemberById(mship.id)
+        mem.reindexObject(idxs=['project_ids'])
+    finally:
+        setSecurityManager(orig_security_mgr)
