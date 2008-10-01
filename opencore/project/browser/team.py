@@ -1,16 +1,15 @@
 from Products.CMFCore.utils import getToolByName
-from Products.CMFPlone.utils import transaction_note
 from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
 from opencore.account.login import LoginView
 from opencore.browser import formhandler
 from opencore.browser.base import _
 from opencore.configuration import DEFAULT_ROLES
+from opencore.member.interfaces import ICreateMembers
 from opencore.nui.main import SearchView
 from opencore.utility.interfaces import IEmailSender
 from operator import attrgetter
 from plone.memoize.instance import memoizedproperty
 from plone.memoize.instance import memoize
-from zope.event import notify
 import itertools
 
 
@@ -85,43 +84,15 @@ class RequestMembershipView(TeamRelatedView, formhandler.OctopoLite, LoginView):
 
     # XXX get this outta here right away
     def _create(self):
-        mdc = self.get_tool('portal_memberdata')
-        mem = mdc._validation_member
-
-        self.errors = {}
-        
-        self.errors = mem.validate(REQUEST=self.request,
-                                   errors=self.errors,
-                                   data=1, metadata=0)
-        password = self.request.form.get('password')
-        password2 = self.request.form.get('confirm_password')
-        if not password and not password2:
-            self.errors.update({'password': _(u'no_password', u'Please enter a password') })
-
+        factory = ICreateMembers(self.portal)
+        self.errors = factory.validate(self.request.form)
         if self.errors:
             return self.errors
 
-        # create a member in portal factory
-        mdc = self.get_tool('portal_memberdata')
-        pf = mdc.portal_factory
+        mem = factory.create(self.request.form)
 
-        #00 pythonscript call, move to fs code
-        id_ = self.context.generateUniqueId('OpenMember')
-
-        mem_folder = pf._getTempFolder('OpenMember')
-        mem = mem_folder.restrictedTraverse('%s' % id_)
-
-        # now we have mem, a temp member. create him for real.
-        mem_id = self.request.form.get('id')
-        mem = pf.doCreate(mem, mem_id)
-        transaction_note('Created %s with id %s in %s' %
-                         (mem.getTypeInfo().getId(), mem_id,
-                          self.context.absolute_url()))
-        result = mem.processForm()
-        from zope.app.event.objectevent import ObjectCreatedEvent
-        notify(ObjectCreatedEvent(mem))
-        mem.setUserConfirmationCode()
-
+        mdc = getToolByName(self.context, 'portal_memberdata')
+        mem_id = mem.getId()
         code = mem.getUserConfirmationCode()
         site_url = getToolByName(self.context, 'portal_url')()
         url = "%s/confirm-account?key=%s" % (site_url, code)
