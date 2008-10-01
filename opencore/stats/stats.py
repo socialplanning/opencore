@@ -1,10 +1,8 @@
-from Products.CMFPlone.interfaces import IPloneSiteRoot
 from Products.Five import BrowserView
-from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
 from Products.CMFCore.utils import getToolByName
 import DateTime
 from Products.listen.interfaces import ISearchableArchive
-from zope.component import queryUtility
+from opencore.utils import get_utility_for_context
 
 
 class StatsView(BrowserView):
@@ -50,7 +48,8 @@ class StatsView(BrowserView):
         mailing_lists = [brain for brain in ml_brains if brain.created <= self.report_date]
         mls = []
         for lst in mailing_lists:
-            mail_catalog = queryUtility(ISearchableArchive, context=lst.getObject())
+            mail_catalog = get_utility_for_context(ISearchableArchive,
+                                                   context=lst.getObject())
             latest_date = DateTime.DateTime(0)
             if mail_catalog:
                 query = dict(sort_on='date',
