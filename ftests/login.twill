@@ -8,7 +8,7 @@
 #    user exists with given password
 #
 
-
+go ${base_url}
 notfind 'sign out' i
 find 'join' i
 find 'sign in' i
