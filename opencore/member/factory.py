@@ -66,18 +66,16 @@ class MemberFactory(object):
         # XXX we temporarily become a Manager user b/c we have to have
         # write privs on a field before AT will perform the validation
         orig_sec_mgr = getSecurityManager()
-        app = validation_member.getPhysicalRoot()
-        user = system_user
-        newSecurityManager(request, user)
         errors = {}
-        request = _FakeRequest(request.form) # why fake request? (ra)
-        
-        errors = validation_member.validate(REQUEST=request,
-                                            errors=errors,
-                                            data=1, metadata=0)
-
-        # return to being the original user
-        setSecurityManager(orig_sec_mgr)
+        newSecurityManager(request, system_user)
+        try:
+            request = _FakeRequest(request.form) # why fake request? (ra)
+            errors = validation_member.validate(REQUEST=request,
+                                                errors=errors,
+                                                data=1, metadata=0)
+        finally:
+            # return to being the original user
+            setSecurityManager(orig_sec_mgr)
 
         pw, pw_ = (request.form.get("password"),
                    request.form.get("confirm_password"))
