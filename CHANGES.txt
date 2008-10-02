@@ -4,6 +4,13 @@
 This is mostly a bugfix release, but it does contain a couple of small
 enhancements.
 
+Data Migrations:
+
+ * There is one migration script that you should run after upgrading:
+   zopectl run opencore/migrations/update_member_project_ids.py
+   See the list of bug fixes below for details.
+
+
 Features:
 
  * search engine optimization tweaks (novalis)
@@ -21,10 +28,8 @@ Bug fixes and non-featureful changes:
    (slinkp) (http://trac.openplans.org/errors-openplans/ticket/36)
 
    This fix prevents the problem from happening in the future;
-   to fix your existing data, reindex the membrane tool:
-   in the ZMI go to .../membrane_tool/manage_catalogAdvanced and click
-   "Update Catalog". Warning, this can take a very long time, and you
-   might get conflict errors.
+   to fix your existing data, run this script once after upgrading:
+   zopectl run opencore/migrations/update_member_project_ids.py
 
  * Work around rare bug where a pending member doesn't have a
    confirmation code.
