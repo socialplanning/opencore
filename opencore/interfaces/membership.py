@@ -1,14 +1,11 @@
 # @@ maybe these should go in a team.py
 from zope.interface import Interface, Attribute
 from zope.interface import implements
+from TeamSpace.interfaces.membership import ITeamMembership
 
-
-class IOpenMembership(Interface):
+class IOpenMembership(ITeamMembership):
     """
     Interface provided by OpenMembership objects.
-
-    XXX: TeamSpace needs to be updated to use Z3 interfaces so we can
-    subclass from those.
     """
 
 

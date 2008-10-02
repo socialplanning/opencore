@@ -60,9 +60,6 @@ class IEditProject(Interface):
 class IOpenTeam(ITeam):
     """
     Interface provided by OpenTeam objects.
-
-    XXX: TeamSpace needs to be updated to use Z3 interfaces so we can
-    subclass from those.
     """
     def getProject():
         """Returns the associated project object.
