@@ -4,8 +4,8 @@
 No changes.
 
 
-0.14.0dev (UNRELEASED)
-=======================
+0.14.0 (2008/10/02)
+===================
 
 This is mostly a bugfix release, but it does contain a couple of small
 enhancements.
@@ -48,7 +48,7 @@ Bug fixes and non-featureful changes:
    performance; change names for clarity. (slinkp)
 
  * Fix upgrades/to_0_13_0.py to actually migrate all the mailing lists
-   (slinkp et al.)
+   (rafrombrc et al.)
 
  * Wiki history "Last edit performed by..." now correctly shows the
    last edit, not the first. (slinkp) (ticket #2704)
