@@ -42,7 +42,7 @@ Bug fixes and non-featureful changes:
    performance; change names for clarity. (slinkp)
 
  * Fix upgrades/to_0_13_0.py to actually migrate all the mailing lists
-   (slinkp et al.)
+   (rafrombrc et al.)
 
  * Wiki history "Last edit performed by..." now correctly shows the
    last edit, not the first. (slinkp) (ticket #2704)
