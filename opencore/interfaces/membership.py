@@ -1,7 +1,7 @@
 # @@ maybe these should go in a team.py
 from zope.interface import Interface, Attribute
 from zope.interface import implements
-from TeamSpace.interfaces.membership import ITeamMembership
+from Products.TeamSpace.interfaces.membership import ITeamMembership
 
 class IOpenMembership(ITeamMembership):
     """
