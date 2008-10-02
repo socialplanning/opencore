@@ -27,13 +27,13 @@
   <subscriber
     for="opencore.interfaces.membership.IOpenMembership
          opencore.interfaces.event.IJoinedProjectEvent"
-    handler=".subscribers.reindex_member_project_ids"
+    handler=".subscribers.reindex_membership_project_ids"
     />
 
   <subscriber
     for="opencore.interfaces.membership.IOpenMembership
          opencore.interfaces.event.ILeftProjectEvent"
-    handler=".subscribers.reindex_member_project_ids"
+    handler=".subscribers.reindex_membership_project_ids"
     />
 
 </configure>

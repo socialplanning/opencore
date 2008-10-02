@@ -21,7 +21,18 @@ def remove_member_folder(member, event):
         # fail silently
         pass
 
-def reindex_member_project_ids(mship, event):
+
+
+def reindex_membership_project_ids(mship, event):
+    """
+    Event subscriber to update the project_ids index for a member,
+    given a membership.
+    """
+    ms_tool = getToolByName(mship, 'portal_membership')
+    mem = ms_tool.getMemberById(mship.id)
+    return reindex_member_project_ids(mem, event)
+
+def reindex_member_project_ids(member, event):
     """
     Event subscriber to update the project_ids index for this member.
     """
@@ -33,10 +44,8 @@ def reindex_member_project_ids(mship, event):
     # http://trac.openplans.org/errors-openplans/ticket/36
     orig_security_mgr = getSecurityManager()
     try:
-        user = getToolByName(mship, 'acl_users').getUserById(mship.id)
-        ms_tool = getToolByName(mship, 'portal_membership')
-        newSecurityManager(mship, user)
-        mem = ms_tool.getMemberById(mship.id)
-        mem.reindexObject(idxs=['project_ids'])
+        user = getToolByName(member, 'acl_users').getUserById(member.getId())
+        newSecurityManager(member, user)
+        member.reindexObject(idxs=['project_ids'])
     finally:
         setSecurityManager(orig_security_mgr)

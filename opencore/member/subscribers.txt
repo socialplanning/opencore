@@ -1,19 +1,19 @@
 -*- mode: doctest ;-*-
 
-(TODO: need a better integration test for reindex_member_project_ids()
+(TODO: need a better integration test for reindex_membership_project_ids()
  here.  but setting that up with reasonable isolation is more effort
  than I have time for now.  For now, just make sure it doesn't
  explode.)
 
   >>> self.loginAsPortalOwner()
-  >>> from opencore.member.subscribers import reindex_member_project_ids
+  >>> from opencore.member.subscribers import reindex_membership_project_ids
   >>> mship = self.portal.portal_teams.p1['m1']
   >>> m1 = self.portal.portal_membership.getMemberById('m1')
   >>> m1path = '/'.join(m1.getPhysicalPath())
   >>> brain = self.portal.membrane_tool(path=m1path)[0]
   >>> set(m1.project_ids()) == set(brain.project_ids)
   True
-  >>> reindex_member_project_ids(mship, event=None)
+  >>> reindex_membership_project_ids(mship, event=None)
   >>> # No change.
   >>> brain = self.portal.membrane_tool(path=m1path)[0]
   >>> set(m1.project_ids()) == set(brain.project_ids)
