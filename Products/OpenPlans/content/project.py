@@ -32,12 +32,8 @@ from zope.app.annotation.interfaces import IAttributeAnnotatable
 from zope.component import queryMultiAdapter
 from zope.interface import Interface, implements
 import logging
-import opencore.browser.img
 import os.path
 import pkg_resources
-
-#this has the location of the default project logos
-img_path = os.path.dirname(opencore.browser.img.__file__)
 
 logger = logging.getLogger('opencore.Project')
 
