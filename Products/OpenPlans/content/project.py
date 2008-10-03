@@ -29,14 +29,17 @@ from opencore.project.utils import project_noun
 from topp.featurelets.config import MENU_ID
 from topp.featurelets.interfaces import IMenuSupporter
 from zope.app.annotation.interfaces import IAttributeAnnotatable
-from zope.component import getMultiAdapter
+from zope.component import queryMultiAdapter
 from zope.interface import Interface, implements
+import logging
 import opencore.browser.img
 import os.path
 import pkg_resources
 
 #this has the location of the default project logos
 img_path = os.path.dirname(opencore.browser.img.__file__)
+
+logger = logging.getLogger('opencore.Project')
 
 ProjectSchema = TeamSpace.schema.copy()
 # Prevent bug 1689 from affecting projects too.
@@ -395,12 +398,21 @@ class OpenProject(BrowserDefaultMixin, TeamSpaceMixin, BaseBTreeFolder):
             return self.logo
 
     def _default_img_data(self, name, request):
-        l = self.default_project_logos.get(name, 'default')
-        imgpath = getMultiAdapter((request,), name='img').context.path
-        f = open(os.path.join(imgpath, l['fname']))
-        data = f.read()
-        f.close()
-        im = Image(l['name'], l['title'], data)
+        logo = self.default_project_logos.get(name, 'default')
+        image_view = queryMultiAdapter((request,), name='img')
+        if image_view is None:
+            # for hysterical reasons.  This lookup failed on one known
+            # project (openplans.org/projects/nycstreets) which prevented
+            # reindexing the references_catalog.
+            logger.error("Could not look up 'img' view for project %r" %
+                         self.getId())
+            data = ''
+        else:
+            imgpath = image_view.context.path
+            f = open(os.path.join(imgpath, logo['fname']))
+            data = f.read()
+            f.close()
+        im = Image(logo['name'], logo['title'], data)
         return im
 
     def __bobo_traverse__(self, REQUEST, name):
