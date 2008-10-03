@@ -399,8 +399,8 @@ class OpenProject(BrowserDefaultMixin, TeamSpaceMixin, BaseBTreeFolder):
 
     def _default_img_data(self, name, request):
         logo = self.default_project_logos.get(name, 'default')
-        image_view = queryMultiAdapter((request,), name='img')
-        if image_view is None:
+        img_resource_dir = queryMultiAdapter((request,), name='img')
+        if img_resource_dir is None:
             # for hysterical reasons.  This lookup failed on one known
             # project (openplans.org/projects/nycstreets) which prevented
             # reindexing the references_catalog.
@@ -408,7 +408,7 @@ class OpenProject(BrowserDefaultMixin, TeamSpaceMixin, BaseBTreeFolder):
                          self.getId())
             data = ''
         else:
-            imgpath = image_view.context.path
+            imgpath = img_resource_dir.context.path
             f = open(os.path.join(imgpath, logo['fname']))
             data = f.read()
             f.close()
