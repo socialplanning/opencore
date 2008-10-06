@@ -85,6 +85,10 @@ def create_test_content(self, p_map=projects_map, m_map=members_map):
                 mship.editTeamRoles(p_roles)
                 out.append('-> project roles granted: %s' % str(p_roles))
 
+    for team in tm_tool.getTeams():
+        if 'admin' in team.objectIds():
+            team.removeMember('admin')
+
     mdc.unit_test_mode = False
 
     # force w/f security updating
