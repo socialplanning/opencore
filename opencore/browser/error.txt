@@ -20,11 +20,22 @@ On a 404, we should search the results, and only get the expected portal types
 in return::
     >>> self.request.URL = 'http://nohost/plone/m1'
     >>> view = ErrorView(self.portal, self.request)
-    >>> results = view.query()
+    >>> results = view.suggestions()
     >>> len(results)
     1
     >>> results[0].getURL()
     'http://nohost/plone/people/m1/m1-home'
+
+If the name guessed from the URL can't be searched in the catalog, we
+should return no suggestions instead of raising an error:
+
+    >>> self.request.URL = 'http://nohost/plone/and'
+    >>> ErrorView(self.portal, self.request).suggestions()
+    []
+    >>> self.request.URL = 'http://nohost/plone/...'
+    >>> ErrorView(self.portal, self.request).suggestions()
+    []
+
 
 On error, an email should get sent out.
 

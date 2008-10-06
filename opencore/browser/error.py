@@ -1,4 +1,5 @@
 from Products.CMFCore.utils import getToolByName
+from Products.ZCTextIndex.ParseTree import ParseError
 from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
 from datetime import datetime
 from opencore.browser.base import BaseView
@@ -18,16 +19,24 @@ class ErrorView(BaseView):
                              'FileAttachment']
 
     def find_name(self):
-        """ this is really dumb. there must be a better way. """
+        """get the name of the resource we're looking for."""
+        # this is really dumb. there must be a better way.
         return self.request.getURL().split('/')[-1]
 
     def suggestions(self):
+        """Find pages likely related to a nonexistent URL.
+        """
         name = self.find_name()
         cat = getToolByName(self.context, 'portal_catalog')
-        results = cat(path='/'.join(self.context.getPhysicalPath()),
-                      SearchableText=name,
-                      portal_type=self.notfound_portal_types)
+        try:
+            results = cat(path='/'.join(self.context.getPhysicalPath()),
+                          SearchableText=name,
+                          portal_type=self.notfound_portal_types)
+        except ParseError:
+            # happens when the name is eg. '...' or 'and'
+            results = []
         return results[:10]
+
 
     def user_email(self):
         membertool = getToolByName(self.context, 'portal_membership')

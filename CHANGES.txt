@@ -1,3 +1,24 @@
+0.14.1 (2008/10/06)
+===================
+
+Data Migrations:
+
+ * The migration from 0.14.0 has been rewritten to work as a
+   standard GenericSetup upgrade.  You can now upgrade via the
+   portal_setup tool in the ZMI; go to the upgrades tab and run the
+   upgrade registered for version 0.14.0.
+   The script also still exists at
+   migrations/update_member_project_ids.py if you prefer to run it via
+   zopectl.
+
+
+Bug fixes:
+
+ * Error page doesn't barf on 404s if the catalog has a problem coming
+   up with suggestions based on the current URL (slinkp)
+   (http://trac.openplans.org/errors-openplans/ticket/23)
+
+
 0.14.0 (2008/10/02)
 ===================
 
