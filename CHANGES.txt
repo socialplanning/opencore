@@ -3,7 +3,7 @@
 
 Data Migrations:
 
- * The migration from 0.14.0 has been rewritten to work as a
+ * The migration needed for 0.14.0 has been rewritten to work as a
    standard GenericSetup upgrade.  You can now upgrade via the
    portal_setup tool in the ZMI; go to the upgrades tab and run the
    upgrade registered for version 0.14.0.
