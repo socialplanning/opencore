@@ -27,40 +27,39 @@ class TopnavManager(ViewletManagerBase):
             viewlets,
             key=lambda x:int(x[1].sort_order))
 
-    @classmethod
-    def create_topnav_viewlet(cls, name, sort_order,
-                              text,
-                              url,
-                              item_url,
-                              filter,
-                              container,
-                              css_class,
-                              selected,
-                              application_header,
-                              template,
-                              **kw
-                              ):
-        """factory function that creates viewlet classes
-           based on configuration"""
-        # set the name to help when getting a repr on the object"""
-        klass_name = "%s-%s" % (ViewletBase.__name__, str(name))
+def create_topnav_viewlet(name, sort_order,
+                          text,
+                          url,
+                          item_url,
+                          filter,
+                          container,
+                          css_class,
+                          selected,
+                          application_header,
+                          template,
+                          **kw
+                          ):
+    """factory function that creates viewlet classes
+       based on configuration"""
+    # set the name to help when getting a repr on the object"""
+    klass_name = "%s-%s" % (ViewletBase.__name__, str(name))
 
-        # replaces 'project' text with the dynamic project_noun that comes from base.ini
-        text = text.replace('Project', project_noun().title()).replace('project', project_noun())
+    # replaces 'project' text with the dynamic project_noun that comes from base.ini
+    text = text.replace('Project', project_noun().title()).replace('project', project_noun())
 
-        attrs = dict(name=name,
-                     _text=text,
-                     sort_order=sort_order,
-                     url=url,
-                     item_url=item_url,
-                     filter=filter,
-                     container=container,
-                     css_class=css_class,
-                     selected=selected,
-                     application_header=application_header,
-                     render=template,
-                     )
-        return type(klass_name, (TopnavViewletBase,), attrs)
+    attrs = dict(name=name,
+                 _text=text,
+                 sort_order=sort_order,
+                 url=url,
+                 item_url=item_url,
+                 filter=filter,
+                 container=container,
+                 css_class=css_class,
+                 selected=selected,
+                 application_header=application_header,
+                 render=template,
+                 )
+    return type(klass_name, (TopnavViewletBase,), attrs)
 
             
 def oc_menuitem_directive(_context, name, sort_order,
@@ -82,7 +81,7 @@ def oc_menuitem_directive(_context, name, sort_order,
         text = name
     if template is None:
         template = ZopeTwoPageTemplateFile('menuitem.pt')
-    viewlet_factory = TopnavManager.create_topnav_viewlet(
+    viewlet_factory = create_topnav_viewlet(
         name,
         sort_order,
         text,
