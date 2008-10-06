@@ -18,6 +18,9 @@ Bug fixes:
    up with suggestions based on the current URL (slinkp)
    (http://trac.openplans.org/errors-openplans/ticket/23)
 
+ * Fixed rare error in recataloging projects, raised by
+   the project's _default_img_data method. (slinkp)
+
 
 0.14.0 (2008/10/02)
 ===================
