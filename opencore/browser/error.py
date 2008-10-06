@@ -21,7 +21,7 @@ class ErrorView(BaseView):
         """ this is really dumb. there must be a better way. """
         return self.request.getURL().split('/')[-1]
 
-    def query(self):
+    def suggestions(self):
         name = self.find_name()
         cat = getToolByName(self.context, 'portal_catalog')
         results = cat(path='/'.join(self.context.getPhysicalPath()),
