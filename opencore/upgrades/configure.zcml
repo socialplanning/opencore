@@ -33,4 +33,19 @@
 
   </genericsetup:upgradeSteps>
 
+
+  <genericsetup:upgradeSteps
+     profile="opencore.configuration:default"
+     source="0.13.0"
+     destination="0.14.0"
+     sortkey="20">
+
+    <genericsetup:upgradeStep
+       title="Fix bad project_ids in membrane index"
+       description="Fixes bad data left by a (fixed) bug in member request approval"
+       handler=".to_0_14_0.fix_member_indexes"
+       />
+  </genericsetup:upgradeSteps>
+
+
 </configure>

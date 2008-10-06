@@ -23,7 +23,7 @@
       You've tried to find something that's not here.  Sorry about that!
     </p>
 
-    <div tal:define="results view/query">
+    <div tal:define="results view/suggestions">
        <div tal:condition="results">
      	 Were you trying to find one of these pages?
          <ul>
