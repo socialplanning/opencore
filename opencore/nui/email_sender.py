@@ -44,10 +44,11 @@ class EmailSender(object):
         """
         Returns the appropriate email address for a given token.
 
-        o token: must be either an email address or a member id; if
-        an address is provided, it will be returned unchanged.  if
-        not, then it will be assumed to be a member id and the member's
-        address will be returned.
+        o token: must be either an email address or a member id; if an
+        address is provided, it will be returned unchanged.  if not,
+        then it will be assumed to be a member id and the member's
+        address will be returned (including member fullname, if it
+        exists).
         """
         view = self.view
         if regex.match(addr_token) is None:
@@ -55,9 +56,12 @@ class EmailSender(object):
             # getToolByName(self.context, "portal_membership")
             member = view.membertool.getMemberById(addr_token)
 
-            # member.getEmail()
             member_info = view.member_info_for_member(member)
-            return member_info.get('email')
+            email_string = member_info.get('email')
+            if member_info.get('fullname'):
+                email_string = '%s <%s>' % (member_info.get('fullname'),
+                                            email_string)
+            return email_string
         else:
             # it's already an email address
             return addr_token
