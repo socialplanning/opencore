@@ -1,0 +1,18 @@
+#
+# Checks version history of a given project's home page.
+#
+# projname - the id of the project to edit 
+# projtitle - the title to set for the project
+# 
+# expects: 
+#   project exists, home page has at least 1 historical version
+#
+
+go ${base_url}/projects/${projname}/project-home
+follow history
+code 200
+follow version_initial_title
+code 200
+find version_initial_title
+go ${base_url}/projects/${projname}/project-home/version
+find version_unspecified

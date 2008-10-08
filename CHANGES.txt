@@ -11,6 +11,9 @@ Data Migrations:
    migrations/update_member_project_ids.py if you prefer to run it via
    zopectl.
 
+Features:
+
+ * Added i18n for some wiki history views, if you can call that a feature.
 
 Bug fixes:
 
@@ -23,6 +26,7 @@ Bug fixes:
 
  * Fixed rare error in recataloging projects, raised by
    the project's _default_img_data method. (slinkp)
+
 
 
 0.14.0 (2008/10/02)
