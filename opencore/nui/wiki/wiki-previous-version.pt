@@ -1,4 +1,5 @@
-<html metal:use-macro="here/@@standard_macros/master">
+<html i18n:domain="opencore"
+    metal:use-macro="here/@@standard_macros/master">
   <head>
     <title metal:fill-slot="title" tal:content="python:view.window_title(mode='history')" />
     <meta metal:fill-slot="meta" name="ROBOTS" content="NOINDEX" />  
@@ -9,7 +10,12 @@
 
     <div metal:fill-slot="content">
       <div id="oc-content-main" class="oc-content-main-fullWidth">
-        <div class="oc-wiki">
+        <div class="oc-wiki"
+           tal:define="got_version python:request.get('version_id') is not None;">
+        <tal:if condition="not: got_version">
+	   <h2 i18n:translate="version_unspecified">No version specified.</h2>
+        </tal:if>
+        <tal:if condition="got_version">
           <tal:let define="people_url python:here.portal_membership.getMembersFolder().absolute_url();
                version_id python:int(request['version_id']); 
                version python:view.get_version(version_id);
@@ -53,9 +59,9 @@
                       </td>
                   </tr>
                 </table>
-                 <tal:if condition="python: version_id != view.current_id()">
+                 <tal:if condition="python: version_id != cur_id">
                   <ul class="oc-actions">
-                    <tal:if condition="python: version_id != view.current_id()">
+                    <tal:if condition="python: version_id != cur_id">
                       <li>
                         <a tal:attributes = "href string:version_compare?version_id=${version_id}&version_id=${cur_id}">compare with current version</a>
                       </li>
@@ -79,6 +85,7 @@
               <div class="oc-wiki-content" tal:content="structure python: view.get_page(version_id).EditableBody()" />
       
           </tal:let>
+        </tal:if>
         </div> <!-- end .oc-wiki --> 
       </div> <!-- end #oc-content-main -->
     </div><!-- end content slot -->
