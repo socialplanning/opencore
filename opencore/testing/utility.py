@@ -17,6 +17,7 @@ class MailHostMock(Implicit):
     def __init__(self, name):
         self.messages = []
         self.name = name
+
     def send(self, msg, mto=None, mfrom=None, subject=None):
         if (mto is None) or (mfrom is None) or (subject is None):
             # support headers embedded in message text
@@ -33,7 +34,9 @@ class MailHostMock(Implicit):
                'subject': subject,
                }
         self.messages.append(msg)
+
     secureSend = send
+
     def validateSingleEmailAddress(self, email):
         return True
 
