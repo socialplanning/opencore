@@ -1,4 +1,5 @@
-from opencore.browser.base import BaseView, _
+from opencore.browser.base import BaseView
+from opencore.i18n import _
 from opencore.member.interfaces import IHandleMemberWorkflow
 from opencore.utility.interfaces import IEmailSender
 from AccessControl.SecurityManagement import newSecurityManager

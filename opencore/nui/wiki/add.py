@@ -1,8 +1,7 @@
 from Acquisition import aq_inner, aq_parent
 from opencore.browser.base import BaseView
-from opencore.browser.base import _
 from opencore.browser.naming import get_view_names
-
+from opencore.i18n import _
 from wicked.at.link import ATWickedAdd as WickedAdd
 
 # we have a local copy of the normalize module b/c the wicked trunk

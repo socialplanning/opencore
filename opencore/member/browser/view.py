@@ -2,8 +2,9 @@ from DateTime import DateTime
 from Products.AdvancedQuery import Eq
 from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
 from Products.remember.interfaces import IReMember
-from opencore.browser.base import BaseView, _
+from opencore.browser.base import BaseView
 from opencore.browser.formhandler import OctopoLite, action
+from opencore.i18n import _
 from opencore.interfaces.event import MemberModifiedEvent
 from topp.utils.pretty_date import prettyDate
 from zope.app.event.objectevent import ObjectModifiedEvent

@@ -2,12 +2,13 @@
 views pertaining to accounts -- creation, login, password reset
 """
 from Products.CMFCore.utils import getToolByName
-import logging
 from opencore.account.browser import AccountView
-from opencore.browser.base import BaseView, _
-from opencore.browser.formhandler import * # start import are for pansies
+from opencore.browser.formhandler import anon_only
+from opencore.browser.formhandler import post_only
+from opencore.i18n import _
 from opencore.member.interfaces import IHandleMemberWorkflow
 from plone.memoize import instance
+import logging
 
 logger = logging.getLogger("opencore.account.confirmation")
     

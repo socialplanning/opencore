@@ -3,18 +3,17 @@ from AccessControl.User import UnrestrictedUser
 from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
 from Products.CMFCore.WorkflowCore import WorkflowException
 from Products.CMFCore.utils import getToolByName
-from opencore.browser.base import BaseView, _
+from opencore.browser.base import BaseView
 from opencore.browser.formhandler import OctopoLite, action, post_only
 from opencore.member.utils import member_path
+from opencore.i18n import _
 from opencore.interfaces.catalog import ILastWorkflowActor
 from opencore.interfaces.event import JoinedProjectEvent
 from opencore.interfaces.event import LeftProjectEvent
 from opencore.interfaces.event import MemberModifiedEvent
 from opencore.interfaces.message import ITransientMessage
-from opencore.utility.interfaces import IProvideSiteConfig
 from plone.memoize.view import memoize as req_memoize
 from zope.event import notify
-from zope.component import getUtility
 
 
 class MemberAccountView(BaseView, OctopoLite):
