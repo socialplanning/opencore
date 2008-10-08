@@ -5,8 +5,9 @@ import logging
 from Products.CMFCore.utils import getToolByName
 from opencore.account.browser import AccountView
 from opencore.account.utils import email_confirmation
-from opencore.browser.base import BaseView, _
+from opencore.browser.base import BaseView
 from opencore.browser.formhandler import button, post_only, anon_only
+from opencore.i18n import _
 from opencore.interfaces import IPendingRequests
 from opencore.interfaces.event import FirstLoginEvent
 from opencore.interfaces.membership import IEmailInvites

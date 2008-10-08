@@ -7,8 +7,8 @@ from Products.CMFCore.utils import getToolByName
 from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
 from opencore.browser import formhandler
 from opencore.browser import tal
-from opencore.browser.base import _
 from opencore.browser.formhandler import OctopoLite, action
+from opencore.i18n import _
 from opencore.interfaces import IHomePage
 from opencore.interfaces import IProject
 from opencore.interfaces.adding import IAddProject

@@ -6,7 +6,7 @@ from Products.CMFCore.utils import getToolByName
 from Products.MailHost.MailHost import MailHostError
 
 from topp.utils.detag import detag
-from opencore.browser.base import _
+from opencore.i18n import _
 from opencore.interfaces import IOpenTeam
 from opencore.interfaces import IOpenSiteRoot
 from opencore.interfaces.pending_requests import IRequestMembership

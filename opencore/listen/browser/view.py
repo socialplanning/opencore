@@ -28,7 +28,8 @@ from Products.listen.interfaces import IUserEmailMembershipPolicy
 
 from Products.listen.utilities.list_lookup import ListLookupView
 from opencore.browser.formhandler import OctopoLite, action
-from opencore.browser.base import BaseView, _
+from opencore.browser.base import BaseView
+from opencore.i18n import _
 from opencore.listen.mailinglist import OpenMailingList
 from opencore.listen.mailinglist_views import MailingListView
 from opencore.listen.utils import isValidPrefix

@@ -6,8 +6,8 @@ project and subproject adding
 from Acquisition import aq_inner
 from Products.CMFCore.utils import getToolByName
 from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
-from opencore.browser.base import _
 from opencore.browser.formhandler import OctopoLite, action
+from opencore.i18n import _
 from opencore.interfaces import IHomePage
 from opencore.interfaces.event import AfterProjectAddedEvent
 from opencore.browser.naming import get_view_names

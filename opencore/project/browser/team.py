@@ -2,8 +2,8 @@ from Products.CMFCore.utils import getToolByName
 from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
 from opencore.account.login import LoginView
 from opencore.browser import formhandler
-from opencore.browser.base import _
 from opencore.configuration import DEFAULT_ROLES
+from opencore.i18n import _
 from opencore.member.interfaces import ICreateMembers
 from opencore.nui.main import SearchView
 from opencore.utility.interfaces import IEmailSender

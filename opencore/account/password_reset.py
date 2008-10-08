@@ -1,6 +1,7 @@
 from Products.CMFCore.utils import getToolByName
 from opencore.browser.formhandler import button, post_only
-from opencore.account.browser import AccountView, _
+from opencore.account.browser import AccountView
+from opencore.i18n import _
 from zExceptions import Forbidden
 
 

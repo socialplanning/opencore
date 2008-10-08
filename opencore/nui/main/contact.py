@@ -1,7 +1,8 @@
 from Products.validation.validators.BaseValidators import EMAIL_RE
 from plone.memoize.view import memoize as req_memoize
-from opencore.browser.base import BaseView, _
+from opencore.browser.base import BaseView
 from opencore.browser import formhandler
+from opencore.i18n import _
 from opencore.utility.interfaces import IEmailSender
 import re
 

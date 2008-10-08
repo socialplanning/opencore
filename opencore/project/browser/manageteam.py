@@ -9,8 +9,8 @@ from opencore.interfaces.event import JoinedProjectEvent
 from opencore.interfaces.event import LeftProjectEvent
 from opencore.browser import formhandler
 from opencore.account.utils import email_confirmation
-from opencore.browser.base import _
 from opencore.browser.base import view
+from opencore.i18n import _
 from opencore.nui.email_sender import EmailSender
 from opencore.interfaces.message import ITransientMessage
 from opencore.interfaces.membership import IEmailInvites

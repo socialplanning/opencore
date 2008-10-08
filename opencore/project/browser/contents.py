@@ -2,8 +2,8 @@ from Products.CMFCore.permissions import DeleteObjects, ModifyPortalContent
 from Products.CMFCore.utils import getToolByName
 from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
 from Products.ZCatalog.Catalog import AbstractCatalogBrain
-from opencore.browser.base import _
 from opencore.browser.formhandler import OctopoLite, action
+from opencore.i18n import _
 from opencore.nui import indexing
 from opencore.project import PROJ_HOME
 from opencore.project.browser.base import ProjectBaseView
