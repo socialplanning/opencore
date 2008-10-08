@@ -3,8 +3,10 @@ from DateTime import DateTime
 from Products.CMFCore.utils import getToolByName
 from Products.CMFEditions.interfaces.IArchivist import ArchivistRetrieveError
 from Products.Five import BrowserView
+from opencore.browser.base import _
 from opencore.browser.base import BaseView
 from opencore.browser.formhandler import post_only
+from opencore.i18n import translate
 from opencore.interfaces.catalog import ILastModifiedAuthorId, ILastModifiedComment
 from opencore.nui.wiki import htmldiff2
 from opencore.nui.wiki import utils
@@ -18,8 +20,6 @@ from zope.app.annotation.interfaces import IAnnotations
 from zope.app.event.objectevent import ObjectModifiedEvent
 from zope.event import notify
 from zope.interface import alsoProvides, implements
-
-# XXX i18n 
 
 
 class WikiVersionView(WikiBase): 
@@ -43,13 +43,14 @@ class WikiVersionView(WikiBase):
         version_id = int(version_id)
         return self.pr.retrieve(self.context, version_id)
 
-    def version_title(self, version_id, rollback=False): 
+    def version_title(self, version_id, rollback=False):
         if version_id == 0:
-            return "Initial Version"
+            return _(u'version_initial_title', u"Initial Version")
         elif version_id == self.current_id() and not rollback:
-            return "Current Version"
+            return _(u'version_current_title', u"Current Version")
         else: 
-            return "Version %d" % (version_id + 1)
+            return _(u'version_requested_title', "Version ${version_num}",
+                     mapping={'version_num': version_id + 1})
 
     def current_id(self): 
         return len(self.get_versions()) - 1
@@ -107,7 +108,11 @@ class WikiVersionView(WikiBase):
         # actually do the revert
         self.pr.revert(self.context, version_id)
 
-        message = "Rolled back to %s" % self.version_title(version_id, rollback=True)
+        # XXX This message is used by the CMFEditions gunk. Looks like
+        # I have to translate *and* convert to ascii before saving? Icky.
+        message = "Rolled back to %s" % translate(
+            self.version_title(version_id, rollback=True))
+        message = message.encode('ascii', 'ignore')
         if self.pr.supportsPolicy(self.context, 'version_on_revert'):
             self.pr.save(obj=self.context, comment=message)
         reverter = get_member(self.context)
@@ -130,12 +135,12 @@ class WikiVersionCompare(WikiVersionView):
     def versions(self):
         versions = self.request.form.get('version_id')
         req_error = None
-        if not versions:
-            req_error = 'Please choose the two versions you would like to compare.'
-        elif not isinstance(versions, list) or len(versions) < 2:
-            req_error = 'Please choose the two versions you would like to compare.'
+        if not versions or not isinstance(versions, list) or len(versions) < 2:
+            req_error = _(u'version_error_choose_two',
+                          u'Please choose the two versions you would like to compare.')
         elif len(versions) > 2:
-            req_error = 'Please choose only two versions to compare.'
+            req_error = _(u'version_error_too_many',
+                          u'Please choose only two versions to compare.')
         if not req_error:
             versions.sort()
             old_version_id, new_version_id = self.sort_versions(*versions)
@@ -143,7 +148,8 @@ class WikiVersionCompare(WikiVersionView):
                 old_version = self.get_version(old_version_id)
                 new_version = self.get_version(new_version_id)
             except ArchivistRetrieveError:
-                req_error = 'Please choose a valid version.'
+                req_error = _(u'version_invalid_id',
+                              u'Please choose a valid version.')
             
         if req_error:
             # redirect to input page on error
@@ -163,11 +169,13 @@ class WikiVersionCompare(WikiVersionView):
         try:
             old = unicode(old_page.EditableBody(), 'utf-8')
         except UnicodeDecodeError:
-            self.html_diff = binary_error % self.version_title(self.old_version_id)
+            self.html_diff = binary_error % self.translate(
+                self.version_title(self.old_version_id))
         try:
             new = unicode(new_page.EditableBody(), 'utf-8')
         except UnicodeDecodeError:
-            self.html_diff = binary_error % self.version_title(self.new_version_id)
+            self.html_diff = binary_error % self.translate(
+                self.version_title(self.new_version_id))
         if None not in (new, old):
             self.html_diff = htmldiff2.htmldiff(old, new)
         self.old_next_enabled = self.old_version_id + 1 < self.new_version_id
