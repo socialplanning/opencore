@@ -154,11 +154,15 @@ class BaseView(BrowserView):
     def add_status_message(self, msg):
         plone_utils = self.get_tool('plone_utils')
 
-        # portal messages don't seem to get translated implicitly
-        # this is why there's an explicit translate here
         if isinstance(msg, Message):
+            # Need to explicitly translate now because the cleaner needs
+            # to be passed text, not a msg. plone_utils *could* translate
+            # the message automatically if we didn't do the cleaning.
             msg = self.translate(msg)
         else:
+            # XXX Dates back to r9569; is this to allow passing in a
+            # msgid?  If so, it's useless because translation must
+            # happen before clean_html().
             msg = _(msg)
 
         cleaner = Cleaner()

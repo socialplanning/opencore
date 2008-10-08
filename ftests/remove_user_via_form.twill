@@ -14,8 +14,9 @@ submit
 # You are now logged out.
 url $base_url
 
-# XXX this should be psm_account_deleted, is it because it's a PSM?
-find "account '${user}' has been permanently deleted." i
+# If this isn't a psm, your message catalogs are probably stale, see
+# http://www.openplans.org/projects/opencore/i18n-usage-in-opencore
+find psm_account_deleted
 find "sign in" i
 
 go ${base_url}/people/${user}

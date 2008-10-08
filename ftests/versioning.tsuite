@@ -7,6 +7,7 @@ create_project
 edit_project(projbody=${projbody1})
 edit_project(projbody=${projbody2})
 edit_project(projbody=${projbody3})
+page_version_view
 rollback(version_id="1", version_name="Version 2", expected=${projbody2})
 rollback(version_id="0", version_name="Initial Version", expected=${projbody1})
 logout

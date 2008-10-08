@@ -1,4 +1,5 @@
-<html metal:use-macro="here/@@standard_macros/master">
+<html i18n:domain="opencore"
+   metal:use-macro="here/@@standard_macros/master">
   <head>
     <title metal:fill-slot="title" tal:content="python:view.window_title(mode='history')" />
   </head>

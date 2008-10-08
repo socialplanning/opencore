@@ -11,8 +11,14 @@ Data Migrations:
    migrations/update_member_project_ids.py if you prefer to run it via
    zopectl.
 
+Features:
+
+ * Added i18n for some wiki history views, if you can call that a feature.
 
 Bug fixes:
+
+ * Wiki version view doesn't error when no version_id is specified
+   (slinkp) (http://trac.openplans.org/errors-openplans/ticket/30)
 
  * Error page doesn't barf on 404s if the catalog has a problem coming
    up with suggestions based on the current URL (slinkp)
@@ -20,6 +26,7 @@ Bug fixes:
 
  * Fixed rare error in recataloging projects, raised by
    the project's _default_img_data method. (slinkp)
+
 
 
 0.14.0 (2008/10/02)
