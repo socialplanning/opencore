@@ -14,6 +14,9 @@ Data Migrations:
 
 Bug fixes:
 
+ * Wiki version view doesn't error when no version_id is specified
+   (slinkp) (http://trac.openplans.org/errors-openplans/ticket/30)
+
  * Error page doesn't barf on 404s if the catalog has a problem coming
    up with suggestions based on the current URL (slinkp)
    (http://trac.openplans.org/errors-openplans/ticket/23)
