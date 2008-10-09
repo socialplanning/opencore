@@ -17,6 +17,9 @@ Features:
 
 Bug fixes:
 
+ * List manager address was showing up as escaped HTML.
+   (slinkp) (openplans:#2706)
+
  * Wiki version view doesn't error when no version_id is specified
    (slinkp) (http://trac.openplans.org/errors-openplans/ticket/30)
 
