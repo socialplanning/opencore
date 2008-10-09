@@ -117,11 +117,11 @@
           <span class="oc-discreetText" style="white-space: nowrap;" tal:condition="error" tal:content="error"/>
         </fieldset>
       </tal:anon>
-      <tal:pending tal:condition="python: isPending">
+      <tal:pending tal:condition="python: 'XXX' or isPending">
         <h2 i18n:translate="mailinglist_view_sub_pending">Subscription pending</h2>
         <p i18n:translate="mailinglist_view_sub_pending_desc">
           Your subscription request is pending moderation by the list manager. 
-          <span id="manager_email" tal:content="view/manager_email" i18n:name="manager_email">
+          <span id="manager_email" tal:content="structure view/manager_email" i18n:name="manager_email">
             Please direct inquiries to listmanager@example.com.
           </span>
         </p>
