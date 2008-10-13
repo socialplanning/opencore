@@ -20,6 +20,6 @@ fv 2 archival_policy ${attach}
 submit create_create_button
 notfind "site error" i
 go ${base_url}/projects/${projname}/lists/${listtitle}
-notfind "404"
+notfind error_404_title
 find $listtitle
 find $user

@@ -23,7 +23,7 @@ find 'That email address is already in use.  *Please choose another.'
 # confirm first user
 get_uid $user $admin $adminpw
 go ${base_url}/confirm-account?key=${__uid__}
-notfind 404
+notfind error_404_title
 notfind 'site error' i
 # It's the "tour" page now. Jeff - please update when we know what to
 # look for on this page.

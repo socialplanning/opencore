@@ -8,7 +8,7 @@ go ${base_url}/${object}/opencore_redirect_config
 fv 2 form.activate 1
 fv 2 form.redirect_url ${to_url}
 submit
-notfind "404"
+notfind error_404_title
 notfind "site error" i
 find "changes saved" i
 

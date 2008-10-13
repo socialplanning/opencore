@@ -9,6 +9,7 @@
 # make sure it doesn't exist already...
 go ${base_url}/projects/${projname}/${new_page}
 code 404
+find error_404_title
 
 # Fail to create it...
 go ${base_url}/projects/${projname}/project-home/@@add-page?Title=${new_page}&section=text
@@ -17,6 +18,7 @@ find 'psm_please_sign_in|psm_not_sufficient_perms'
 
 go ${base_url}/projects/${projname}/${new_page}
 code 404
+find error_404_title
 
 
 # You can't use the old wicked add views either.
@@ -31,3 +33,4 @@ find 'psm_please_sign_in|psm_not_sufficient_perms'
 
 go ${base_url}/projects/${projname}/${new_page}
 code 404
+find error_404_title

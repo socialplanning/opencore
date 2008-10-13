@@ -18,7 +18,7 @@ find "psm_thankyou_for_joining"
 get_uid $user $admin $adminpw
 go ${base_url}/confirm-account?key=${__uid__}
 
-notfind 404
+notfind error_404_title
 notfind 'site error' i
 
 # Jeff: please update this when we know what text goes on the Tour page

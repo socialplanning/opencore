@@ -11,7 +11,7 @@ go ${base_url}/projects/${projname}/edit
 fv prefs_form title $projfullname
 fv prefs_form home-page $homepage
 submit 'update:boolean'
-notfind 404
+notfind error_404_title
 notfind 'site error' i
 
 

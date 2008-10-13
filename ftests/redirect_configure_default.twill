@@ -16,5 +16,5 @@ fv 2 form.url ${default_redirect_host}
 fv 2 form.ignore_path ${default_redirect_ignore_path}
 submit 'Save changes'
 notfind 'site error' i 
-notfind '404' 
+notfind error_404_title
 find 'Changes saved' 

@@ -8,6 +8,6 @@
 
 go ${base_url}/projects/${projname}/tasks
 notfind 'site error' i
-notfind '404' i
+notfind error_404_title
 notfind ${tasklistname}
 notfind 'Create a new list' i

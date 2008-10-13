@@ -21,3 +21,4 @@ find "sign in" i
 
 go ${base_url}/people/${user}
 code 404
+find error_404_title

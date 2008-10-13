@@ -8,5 +8,5 @@
 
 go ${test_url}
 url ${to_url}
-notfind 404
+notfind error_404_title
 notfind "site error" i

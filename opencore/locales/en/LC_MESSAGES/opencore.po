@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: opencore\n"
-"POT-Creation-Date: 2008-10-08 21:14+0000\n"
+"POT-Creation-Date: 2008-10-13 18:05+0000\n"
 "PO-Revision-Date: 2008-10-08 15:57-0400\n"
 "Last-Translator: \n"
 "Language-Team: The Open Planning Project <opencore-dev@lists.openplans.org>\n"
@@ -336,7 +336,7 @@ msgid "discussion_list_desc"
 msgstr ""
 
 #. Default: "You requested a password reset for your ${portal_title} account. If you did not request this information, please ignore this message.\n\nTo change your password, please visit the following URL: ${url}"
-#: ./opencore/account/login.py:288
+#: ./opencore/account/login.py:289
 msgid "email_forgot_password"
 msgstr ""
 "Forgot your ${portal_title} password?  No problem.\n"
@@ -347,7 +347,7 @@ msgstr ""
 "The ${portal_title} Team"
 
 #. Default: "${portal_title} - Password reset"
-#: ./opencore/account/login.py:293
+#: ./opencore/account/login.py:294
 #, fuzzy
 msgid "email_forgot_password_subject"
 msgstr "${portal_title} - Reset Password"
@@ -490,7 +490,7 @@ msgstr ""
 " \n"
 "The ${portal_title} Team"
 
-#: ./opencore/account/browser.py:64
+#: ./opencore/account/browser.py:65
 msgid "email_to_pending_user"
 msgstr ""
 "Subject: Welcome to ${portal_title}! - Please confirm your email address\n"
@@ -512,13 +512,18 @@ msgstr ""
 "${portal_url}"
 
 #. Default: "Could not moderate!"
-#: ./opencore/listen/browser/view.py:407
+#: ./opencore/listen/browser/view.py:408
 msgid "err_could_not_moderate"
 msgstr ""
 
 #. Default: "The name must contain at least 2 characters with at least 1 letter or number."
 #: ./opencore/project/browser/preferences.py:105
 msgid "err_project_name"
+msgstr ""
+
+#. Default: "Whoops!"
+#: ./opencore/browser/notfound.pt:21
+msgid "error_404_title"
 msgstr ""
 
 #. Default: "Chances are, we're already on it. But, if you would please tell us what you were trying to do, it will help us fix the problem faster.  Thank you."
@@ -812,52 +817,52 @@ msgid "label_send"
 msgstr ""
 
 #. Default: "The requested list prefix is already taken."
-#: ./opencore/listen/browser/view.py:182
+#: ./opencore/listen/browser/view.py:183
 msgid "list_create_duplicate_error"
 msgstr ""
 
 #. Default: "\"${title}\" has been created."
-#: ./opencore/listen/browser/view.py:277
+#: ./opencore/listen/browser/view.py:278
 msgid "list_created"
 msgstr ""
 
 #. Default: "The mailing list archival method must be set to all, text-only, or none."
-#: ./opencore/listen/browser/view.py:170
+#: ./opencore/listen/browser/view.py:171
 msgid "list_invalid_archive_error"
 msgstr ""
 
 #. Default: "The following managers are not members of this site: ${managers}"
-#: ./opencore/listen/browser/view.py:154
+#: ./opencore/listen/browser/view.py:155
 msgid "list_invalid_managers_error"
 msgstr ""
 
 #. Default: "Only the following characters are allowed in list address prefixes: alpha-numerics, underscores, hyphens, and periods (i.e. A-Z, a-z, 0-9, and _-. symbols)"
-#: ./opencore/listen/browser/view.py:178
+#: ./opencore/listen/browser/view.py:179
 msgid "list_invalid_prefix_error"
 msgstr ""
 
 #. Default: "The mailing list must have a title."
-#: ./opencore/listen/browser/view.py:132
+#: ./opencore/listen/browser/view.py:133
 msgid "list_invalid_title"
 msgstr ""
 
 #. Default: "The mailing list security must be set to open, moderated, or closed."
-#: ./opencore/listen/browser/view.py:161
+#: ./opencore/listen/browser/view.py:162
 msgid "list_invalid_workflow_error"
 msgstr ""
 
 #. Default: "The mailing list must have a list prefix."
-#: ./opencore/listen/browser/view.py:176
+#: ./opencore/listen/browser/view.py:177
 msgid "list_missing_prefix_error"
 msgstr ""
 
 #. Default: "The mailing list must have at least one manager."
-#: ./opencore/listen/browser/view.py:143
+#: ./opencore/listen/browser/view.py:144
 msgid "list_no_managers_error"
 msgstr ""
 
 #. Default: "Your changes have been saved."
-#: ./opencore/listen/browser/view.py:338
+#: ./opencore/listen/browser/view.py:339
 msgid "list_preferences_updated"
 msgstr ""
 
@@ -1500,62 +1505,62 @@ msgid "promote_to_admin"
 msgstr "${name} is now an administrator"
 
 #. Default: "Account %r has been permanently deleted."
-#: ./opencore/member/browser/account.py:539
+#: ./opencore/member/browser/account.py:538
 msgid "psm_account_deleted"
 msgstr ""
 
 #. Default: "Your account has not yet been activated. An email was sent to ${user} from ${email_from_address} containing a link to activate your account."
-#: ./opencore/account/login.py:54
+#: ./opencore/account/login.py:55
 msgid "psm_account_not_activated"
 msgstr ""
 
 #. Default: "Account not deleted."
-#: ./opencore/member/browser/account.py:514
+#: ./opencore/member/browser/account.py:513
 msgid "psm_account_not_deleted"
 msgstr ""
 
 #. Default: "You cannot leave this ${project_noun}."
-#: ./opencore/member/browser/account.py:160
+#: ./opencore/member/browser/account.py:159
 msgid "psm_cannot_leave_project"
 msgstr ""
 
 #. Default: "Please check the old password you entered."
-#: ./opencore/member/browser/account.py:403
+#: ./opencore/member/browser/account.py:402
 msgid "psm_check_old_password"
 msgstr ""
 
 #. Default: "Please check your username and password. If you still have trouble, you can <a href=\"forgot\">retrieve your sign in information</a>."
-#: ./opencore/account/login.py:90
+#: ./opencore/account/login.py:91
 msgid "psm_check_username_password"
 msgstr "Oops! Your username and password do not match.  Please try again or <a href=\"forgot\">retrieve your sign in information</a>."
 
 #. Default: "Please choose an image in gif, jpeg, png, or bmp format."
-#: ./opencore/member/browser/view.py:157
+#: ./opencore/member/browser/view.py:158
 msgid "psm_choose_image"
 msgstr ""
 
 #. Default: "Please correct the errors indicated below."
-#: ./opencore/listen/browser/view.py:186
+#: ./opencore/listen/browser/view.py:187
 msgid "psm_correct_errors_below"
 msgstr ""
 
 #. Default: "Denied -- bad key"
-#: ./opencore/account/confirmation.py:52
+#: ./opencore/account/confirmation.py:53
 msgid "psm_denied"
 msgstr ""
 
 #. Default: "Your email address has been changed."
-#: ./opencore/member/browser/account.py:441
+#: ./opencore/member/browser/account.py:440
 msgid "psm_email_changed"
 msgstr ""
 
 #. Default: "Please enter your new email address."
-#: ./opencore/member/browser/account.py:425
+#: ./opencore/member/browser/account.py:424
 msgid "psm_enter_new_email"
 msgstr ""
 
 #. Default: "Please enter your username or email address."
-#: ./opencore/account/login.py:303
+#: ./opencore/account/login.py:304
 msgid "psm_enter_username_email"
 msgstr ""
 
@@ -1575,12 +1580,12 @@ msgid "psm_featurelet_removed"
 msgstr ""
 
 #. Default: "Your username is ${user_id}.  If you would like to reset your password, please check your email account for further instructions."
-#: ./opencore/account/login.py:251
+#: ./opencore/account/login.py:252
 msgid "psm_forgot_login"
 msgstr ""
 
 #. Default: "You are the only administrator of \"${proj_title}\". You can't leave this ${project_noun} without appointing another."
-#: ./opencore/member/browser/account.py:148
+#: ./opencore/member/browser/account.py:147
 msgid "psm_leave_project_admin"
 msgstr "You are the only administrator of \"${proj_title}.\"  You cannot leave this ${project_noun} without appointing another administrator."
 
@@ -1600,11 +1605,11 @@ msgid "psm_many_requests_approved"
 msgstr ""
 
 #. Default: "Message sent."
-#: ./opencore/nui/main/contact.py:65
+#: ./opencore/nui/main/contact.py:66
 msgid "psm_message_sent_to_admin"
 msgstr ""
 
-#: ./opencore/account/confirmation.py:100
+#: ./opencore/account/confirmation.py:101
 msgid "psm_new_activation"
 msgstr "A new activation email has been sent to ${email} from ${mfrom}. <br />Please follow the link in the email to activate your account."
 
@@ -1614,7 +1619,7 @@ msgid "psm_no_items_to_delete"
 msgstr ""
 
 #. Default: "You have tried to activate an account that is not pending confirmation. Please sign in normally."
-#: ./opencore/account/confirmation.py:41
+#: ./opencore/account/confirmation.py:42
 msgid "psm_not_pending_account"
 msgstr ""
 
@@ -1629,37 +1634,37 @@ msgid "psm_one_request_approved"
 msgstr ""
 
 #. Default: "Creating \"${pagetitle}\" has failed because ${reason}"
-#: ./opencore/nui/wiki/add.py:58
+#: ./opencore/nui/wiki/add.py:57
 msgid "psm_page_create-failed"
 msgstr ""
 
 #. Default: "\"${pagetitle}\" has been created"
-#: ./opencore/nui/wiki/add.py:67
+#: ./opencore/nui/wiki/add.py:66
 msgid "psm_page_created"
 msgstr ""
 
 #. Default: "Your password reset request has expired. You can <a href=\"login\">sign in</a> again using your old username and password or <a href=\"forgot\">request a new password</a> again."
-#: ./opencore/account/password_reset.py:33
+#: ./opencore/account/password_reset.py:34
 msgid "psm_pass_reset_expired"
 msgstr "Your request to reset your password has expired.  Please <a href=\"forgot\">send the request again</a>."
 
 #. Default: "Password reset attempt failed. Did you mistype your username or password?"
-#: ./opencore/account/password_reset.py:28
+#: ./opencore/account/password_reset.py:29
 msgid "psm_pass_reset_fail"
 msgstr "Oops!  Your attempt to reset your password failed.  Did you mistype your username or password?"
 
 #. Default: "Your password has been changed."
-#: ./opencore/member/browser/account.py:409
+#: ./opencore/member/browser/account.py:408
 msgid "psm_password_changed"
 msgstr ""
 
 #. Default: "Welcome! Your password has been reset, and you are now signed in."
-#: ./opencore/account/password_reset.py:44
+#: ./opencore/account/password_reset.py:45
 msgid "psm_password_reset"
 msgstr ""
 
 #. Default: "Please correct the specified errors."
-#: ./opencore/nui/main/contact.py:51
+#: ./opencore/nui/main/contact.py:52
 msgid "psm_please_correct_errors"
 msgstr ""
 
@@ -1705,12 +1710,12 @@ msgid "psm_select_members_discard"
 msgstr ""
 
 #. Default: "You have signed out."
-#: ./opencore/account/login.py:148
+#: ./opencore/account/login.py:149
 msgid "psm_signed_out"
 msgstr ""
 
 #. Default: "Welcome! You have signed in."
-#: ./opencore/account/login.py:67
+#: ./opencore/account/login.py:68
 msgid "psm_signin_welcome"
 msgstr ""
 
@@ -1759,7 +1764,7 @@ msgid "team_already_project_member"
 msgstr ""
 
 #. Default: "Your request to join \"${project_title}\" has been sent to the ${project_noun} administrator(s)."
-#: ./opencore/account/login.py:219
+#: ./opencore/account/login.py:220
 msgid "team_proj_join_request_sent"
 msgstr ""
 
@@ -1799,12 +1804,12 @@ msgid "title_required"
 msgstr ""
 
 #. Default: "<a href=\"${member_url}\">${id}</a> has declined your invitation to join <a href=\"${project_url}\">${proj_id}</a>"
-#: ./opencore/member/browser/account.py:338
+#: ./opencore/member/browser/account.py:337
 msgid "tmsg_decline_invite"
 msgstr ""
 
 #. Default: "<a href=\"${member_url}\">${id}</a> has joined <a href=\"${project_url}\">${proj_id}</a>"
-#: ./opencore/member/browser/account.py:286
+#: ./opencore/member/browser/account.py:285
 msgid "tmsg_joined_project"
 msgstr ""
 

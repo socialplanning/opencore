@@ -14,6 +14,6 @@
 go ${base_url}/opencore_redirect_install_default
 find "install default redirect store" i 
 submit
-notfind "404" 
+notfind error_404_title 
 notfind "site error" i 
 find "the default redirect store is installed" i

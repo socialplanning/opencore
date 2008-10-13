@@ -5,7 +5,7 @@ follow edit
 fv edit_form title $projfullname
 fv edit_form text ${projbody}${pagelink}
 submit 'Save'
-notfind 404
+notfind error_404_title
 notfind 'site error' i
 find $projfullname
 find $projbody
@@ -16,7 +16,7 @@ follow edit
 fv edit_form title $projfullname
 fv edit_form text ${projoldbody}${pagelink}
 submit 'Save'
-notfind 404
+notfind error_404_title
 notfind 'site error' i
 find $projfullname
 find $projoldbody
