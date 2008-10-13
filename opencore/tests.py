@@ -1,22 +1,18 @@
 import unittest
 
-class Storage(object):
-    pass
-
 class TestUtils(unittest.TestCase):
 
     def test_timestamp_memoize(self):
         from opencore.utils import timestamp_memoize
-        s = Storage()
 
-        @timestamp_memoize(1, s)
+        @timestamp_memoize(1)
         def doubler(val):
             return val + val
 
         self.assertEqual(10, doubler(5))
         self.assertEqual(10, doubler(10))
 
-        @timestamp_memoize(0, s)
+        @timestamp_memoize(0)
         def doubler(val):
             return val + val
 

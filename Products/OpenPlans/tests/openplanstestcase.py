@@ -11,6 +11,8 @@ from zope.app.event.interfaces import IObjectEvent
 from zope.component import provideHandler
 from zope.interface import Interface
 
+import opencore.utils
+
 migrateOpenPage = migrateATDocToOpenPage.orig
 
 
@@ -78,7 +80,7 @@ class OpenPlansTestCase(ArcheSiteTestCase):
         if cache is not None:
             annotations[ViewMemo.key] = dict()
         # from the timestamp cache
-        self.portal._opencore_timestamp_memoize = OOBTree()
+        opencore.utils.timestamp_cache = {}
 
     def clearInstanceCache(self, obj):
         propname = Memojito.propname

@@ -90,7 +90,9 @@ def get_utility_for_context(iface, context):
     setSite(orig_site)
     return utility
 
-def timestamp_memoize(secs, storage_obj=None):
+timestamp_cache = {}
+
+def timestamp_memoize(secs):
     """
     Decorator to memoize the return value of the wrapped function for
     the specified number of seconds.  Stores the value in a special
@@ -109,20 +111,12 @@ def timestamp_memoize(secs, storage_obj=None):
             fn_key = '%s.%s' % (fn.__module__, fn_key)
         
         def wrapped(*arg, **kw):
-            storage = storage_obj
-            if storage is None:
-                # store it on the portal object
-                context = getSite()
-                storage = getToolByName(context, 'portal_url').getPortalObject()
-            btree = getattr(aq_base(storage), '_opencore_timestamp_memoize', None)
-            if btree is None:
-                storage._opencore_timestamp_memoize = OOBTree()
-                btree = storage._opencore_timestamp_memoize
-            timestamp, value = btree.get(fn_key, (0, None))
+            global timestamp_cache
+            timestamp, value = timestamp_cache.get(fn_key, (0, None))
             now = time.time()
             if now - timestamp > secs:
                 value = fn(*arg, **kw)
-                btree[fn_key] = (now, value)
+                timestamp_cache[fn_key] = (now, value)
             return value
         return wrapped
 
