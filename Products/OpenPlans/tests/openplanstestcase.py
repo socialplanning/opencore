@@ -1,3 +1,4 @@
+from BTrees.OOBTree import OOBTree
 from Products.Archetypes.tests.atsitetestcase import ATSiteTestCase as ArcheSiteTestCase
 from Products.CMFCore.utils  import getToolByName
 from Testing.ZopeTestCase import PortalTestCase
@@ -70,11 +71,14 @@ class OpenPlansTestCase(ArcheSiteTestCase):
         PortalTestCase.tearDown(self)
 
     def clearMemoCache(self):
+        # from the request
         req = self.portal.REQUEST
         annotations = IAnnotations(req)
         cache = annotations.get(ViewMemo.key, None)
         if cache is not None:
             annotations[ViewMemo.key] = dict()
+        # from the timestamp cache
+        self.portal._opencore_timestamp_memoize = OOBTree()
 
     def clearInstanceCache(self, obj):
         propname = Memojito.propname

@@ -4,11 +4,14 @@ opencore helper functions
 from Acquisition import aq_base
 from Acquisition import aq_chain
 from Acquisition import aq_inner
+from BTrees.OOBTree import OOBTree
 from Products.CMFCore.utils import getToolByName
 from zope.app.component.hooks import getSite
 from zope.app.component.hooks import setSite
 from zope.app.component.interfaces import ISite
 from zope.component import getUtility
+
+import time
 
 oc_props_id = 'opencore_properties'
 
@@ -86,3 +89,41 @@ def get_utility_for_context(iface, context):
     utility = getUtility(iface) # may raise an exception, this is okay
     setSite(orig_site)
     return utility
+
+def timestamp_memoize(secs, storage_obj=None):
+    """
+    Decorator to memoize the return value of the wrapped function for
+    the specified number of seconds.  Stores the value in a special
+    BTree attribute on the portal object, keyed by the function's
+    dotted name.
+    """
+    def arg_wrapper(fn):
+        fn_key = fn.__name__
+        fn_self = getattr(fn, '__self__', None)
+        if fn_self is not None:
+            # we're a method, get dotted name of the object's class
+            klass = fn_self.__class__
+            fn_key = '%s.%s.%s' % (klass.__module__, klass.__name__, fn_key)
+        else:
+            # we're a function, we can compute our own dotted name
+            fn_key = '%s.%s' % (fn.__module__, fn_key)
+        
+        def wrapped(*arg, **kw):
+            storage = storage_obj
+            if storage is None:
+                # store it on the portal object
+                context = getSite()
+                storage = getToolByName(context, 'portal_url').getPortalObject()
+            btree = getattr(aq_base(storage), '_opencore_timestamp_memoize', None)
+            if btree is None:
+                storage._opencore_timestamp_memoize = OOBTree()
+                btree = storage._opencore_timestamp_memoize
+            timestamp, value = btree.get(fn_key, (0, None))
+            now = time.time()
+            if now - timestamp > secs:
+                value = fn(*arg, **kw)
+                btree[fn_key] = (now, value)
+            return value
+        return wrapped
+
+    return arg_wrapper
