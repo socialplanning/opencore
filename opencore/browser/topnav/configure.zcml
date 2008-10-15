@@ -5,7 +5,6 @@
     i18n_domain="opencore"
     >
 
-  <!-- topnav -->
   <browser:page
      for="*"
      class=".topnav.TopNavView"
@@ -14,7 +13,6 @@
      template="topnav.pt"
      />
 
-  <!-- topnav-project-menu -->
   <browser:page
      for="*"
      class=".topnav.ProjectMenuView"
@@ -23,7 +21,6 @@
      template="context-menu.pt"
      />
 
-  <!-- topnav-member-menu -->
   <browser:page
      for="*"
      class=".topnav.MemberMenuView"
@@ -32,7 +29,6 @@
      template="context-menu.pt"
      />
 
-  <!-- topnav-default-menu -->
   <browser:page
      for="*"
      class=".topnav.TopNavView"
@@ -41,7 +37,6 @@
      template="default-menu.pt"
      />
 
-  <!-- topnav-auth-user-menu -->
   <browser:page
      for="*"
      class=".topnav.AuthMenuView"
@@ -50,7 +45,6 @@
      template="user-menu.pt"
      />
 
-  <!-- topnav-anon-user-menu -->
   <browser:page
      for="*"
      class=".topnav.AnonMenuView"
@@ -59,7 +53,6 @@
      template="user-menu.pt"
      />
 
-  <!-- topnav-explore-menu -->
   <browser:page
      for="*"
      class="opencore.browser.base.BaseView"
@@ -68,7 +61,6 @@
      template="explore-menu.pt"
      />
 
-  <!-- topnav-explore-menu -->
   <browser:page
      for="*"
      class=".topnav.AuthMenuView"
@@ -77,7 +69,6 @@
      template="mystuff-menu.pt"
      />
 
-  <!-- topnav-accessibility -->
   <browser:page
      for="*"
      class=".topnav.TopNavView"
