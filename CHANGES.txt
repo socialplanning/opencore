@@ -30,6 +30,11 @@ Bug fixes:
  * Fixed rare error in recataloging projects, raised by
    the project's _default_img_data method. (slinkp)
 
+Refactoring:
+
+  * Removed a ton of FormLite and Octopus cruft from opencore/browser.
+    Everything left is in opencore/browser/formhandler.py, with more
+    tests. (slinkp)
 
 
 0.14.0 (2008/10/02)
