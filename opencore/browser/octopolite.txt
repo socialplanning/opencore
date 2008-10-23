@@ -1,14 +1,13 @@
-OctopoLite.
-It is a fusion of Octopus and FormLite.
+OctopoLite form handling.
 
-FormLite provides a simple base class and @action decorator to handle
-method dispatch based on request keys; see formlite.txt for details.
+OctopoLite provides a base class to be used with an @action decorator
+to handle method dispatch based on request keys.
 
-Octopus provides handling of some form conventions that allow views to
-provide form handling both synchronously (returning complete HTML to
-the browser) and asynchronously (returning JSON for AJAX usage).
+It also provides handling of some form conventions that allow views to
+handle forms both synchronously (returning complete HTML to the
+browser) and asynchronously (returning JSON for AJAX usage).
 
-OctopoLite combines them. To use OctopoLite in a view::
+To use OctopoLite in a view::
 
  * bind a single view in ZCML with no attribute or template
 
@@ -25,7 +24,7 @@ OctopoLite combines them. To use OctopoLite in a view::
 
  * specify dispatchable methods for all of your form actions, eg
 
-          @action('delete', apply=post_only)
+          @action('delete', apply=post_only())
           def handle_delete(self, target=None, fields=None):
               cmds = {}
               for oid in target:
@@ -34,16 +33,17 @@ OctopoLite combines them. To use OctopoLite in a view::
               return cmds
 
 And that's about it! Note the required target, fields signature for
-your action methods. See bottom of this file for the syntax of
-the JSON object to be returned to the client.
+your action methods.
+XXX TODO: what do 'target' and 'fields' mean?
+XXX TODO: test case when method signature doesn't have target & fields
+
+See bottom of this file for the syntax of the JSON object to be
+returned to the client for AJAX requests.
+
+
+
 
    >>> from opencore.browser.formhandler import OctopoLite, action
-   >>> def decorator(func):
-   ...     def inner(self, *a, **b):
-   ...         print "in decorator!"
-   ...         return func(self, *a, **b)
-   ...     return inner
-   >>> 
    >>> class FormTest(OctopoLite):
    ...     
    ...     template = lambda self: 'my template'
@@ -54,23 +54,174 @@ the JSON object to be returned to the client.
    ...         print "Rock!"
    ...         
    ...     @action('sod')
-   ...     def do_sign_of_devil(self, target, fields=None):
+   ...     def do_sign_of_devil(self, target=None, fields=None):
    ...         print "eggs of the devil!"
-   ...         return [i for i in target]
+   ...         return [i for i in target]   # XXX why's this here?
    ...     
-   ...     @action('fine', apply=decorator)
-   ...     def fine(self, target=None, fields=None):
-   ...         print "fine!"
-   ...         
 
    >>> view = FormTest()
 
-The dispatcher is a rock. It dispatches based on the action it finds
-in the form, encoded in an octopized format in the "task" field::
+The dispatcher is dumb as a rock. It dispatches based on the first
+action it finds in the form, encoded in special format in the "task"
+field::
 
    >>> view.request.form['task|dummy|sod'] = 'Foo'
    >>> view()
    eggs of the devil!
+   'my template'
+
+XXX TODO: explain the special format. What's 'dummy'?
+
+The dispatch methods are loaded into a dictlike object::
+
+   >>> pprint(view.actions)
+   {'roklok': <....Action object at ...>,
+    'sod': <....Action object at ...>}
+
+
+We marked the 'roklok' action as the default action::
+
+   >>> view.actions.default is view.actions['roklok']
+   True
+
+So if no action is specified, the roklok action is called::
+
+   >>> view.request.form = {}
+   >>> view()
+   Rock!
+   'my template'
+
+
+Using Decorated Methods as Actions
+==================================
+
+The __name__ of the method decorated with @action is used in a getattr
+to find the method to call. If you use additional decorators, the
+outermost decorator before @action must ensure that the __name__ of
+the function it returns is identical to that of the underlying method.
+
+If your decorator doesn't do that, you'll get an AttributeError::
+
+   >>> def dumb_decorator(func):
+   ...     def inner(self, *args, **kw):
+   ...         print "in dumb_decorator"
+   ...         return func(self, *args, **kw)
+   ...     return inner
+
+   >>> class FormTest2(FormTest):
+   ...     
+   ...     @action('yes1')
+   ...     @dumb_decorator
+   ...     def broken(self, target=None, fields=None):
+   ...         print "ok"
+
+   >>> view = FormTest2()
+   >>> view.request.form = {'task|dummy|yes1': True}
+   >>> view()
+   Traceback (most recent call last):
+   ...
+   AttributeError: 'FormTest2' object has no attribute 'inner'
+
+
+It works if your decorator properly sets __name__::
+
+   >>> def better(func):
+   ...     def myinner(self, *args, **kw):
+   ...         print "in better"
+   ...         return func(self, *args, **kw)
+   ...     myinner.__name__ = func.__name__
+   ...     return myinner
+
+   >>> class FormTest3(FormTest):
+   ...     
+   ...     @action('yes2')
+   ...     @better
+   ...     def working(self, target=None, fields=None):
+   ...         print "working!"
+
+   >>> view = FormTest3()
+   >>> view.request.form = {'task|dummy|yes2': True}
+   >>> view()
+   in better
+   working!
+   'my template'
+
+Alternatively you can pass a decorator or a tuple of decorators to
+@action in the `apply' argument. These decorators will be applied to
+the method before it is called on dispatch, and the decorators do not
+have to worry about setting __name__.
+
+   >>> class FormTest4(FormTest):
+   ...     
+   ...     @action('yes3', apply=(dumb_decorator, dumb_decorator))
+   ...     def notbroken(self, target=None, fields=None):
+   ...         print "fine!"
+   ...         
+
+   >>> view = FormTest4()
+   >>> view.request.form = {'task|dummy|yes3': True}
+   >>> view()
+   in dumb_decorator
+   in dumb_decorator
+   fine!
+   'my template'
+
+In that case, your methods will be decorated *if and only if* they are
+called by action dispatch; when called directly the methods will not
+be decorated::
+
+   >>> view.notbroken()
+   fine!
+
+And all methods still work as normal::
+
+   >>> view.do_roklok()
+   Rock!
+
+
+Some Useful Decorators
+======================
+
+@post_only raises an exception if the request isn't a POST::
+
+
+   >>> from opencore.browser.formhandler import post_only, anon_only
+   >>> class FormTest5(FormTest):
+   ...     
+   ...     @action('post_only_test', apply=post_only())
+   ...     def foo(self, *args, **kw):
+   ...         print "ok from foo"
+   ...     
+   ...     @action('anon_only_test', apply=anon_only())
+   ...     def bar(self, *args, **kw):
+   ...         print "ok from bar"
+   ...     
+   ...     def redirect(self, url):  # satisy anon_only's requirements.
+   ...         print "redirected to %r" % url
+   ...         
+   >>> view = FormTest5()
+   >>> view.request.environ['REQUEST_METHOD'] = 'GET'
+   >>> view.request.form = {'task|dummy|post_only_test': True}
+   >>> view()
+   Traceback (most recent call last):
+   ...
+   Forbidden: GET is not allowed here
+   >>> view.request.environ['REQUEST_METHOD'] = 'POST'
+   >>> view()
+   ok from foo
+   'my template'
+
+@anon_only redirects if there's an authenticated user::
+
+   >>> view.request.form = {'task|dummy|anon_only_test': True}
+   >>> view.loggedin = True   # satisfy anon_only's requirements.
+   >>> view.came_from = 'where i came from'  # ditto.
+   >>> view()
+   redirected to 'where i came from'
+   'my template'
+   >>> view.loggedin = False
+   >>> view()
+   ok from bar
    'my template'
 
 
@@ -82,7 +233,8 @@ swallowed the method's return value and returned a rendered
 template. We can issue requests asynchronously to get back the return
 value directly. To do that, add mode=async to the request::
 
-   >>> view.request.form['mode'] = 'async'
+   >>> view = FormTest()
+   >>> view.request.form = {'mode': 'async', 'task|dummy|sod': 'Foo'}
 
 Stub out response (will be set in BaseView when live)
    >>> class ResponseStub(object):
@@ -101,18 +253,6 @@ A request with no actions will dispatch to the action specified as default::
    Rock!
    '...{}...'
 
-You will probably want to specify decorators, like post_only or
-jsonify, to be triggered only if the action is dispatched to, but
-are not triggered if the action is called directly::
-
-   >>> view.request.form['task|dummy|fine'] = 'Click here!'
-   >>> view()
-   in decorator!
-   fine!
-   '...{}...'
-
-   >>> view.fine()
-   fine!
 
 
 Returning JSON from actions
