@@ -45,11 +45,6 @@ def test_suite():
 
     globs = locals()
 
-    formlite = doctest.DocFileSuite("formlite.txt",
-                                    optionflags=optionflags,
-                                    globs=globs
-                                    )
-
     readme = dtf.ZopeDocFileSuite("README.txt",
                                   optionflags=optionflags,
                                   package='opencore.browser',
@@ -69,8 +64,7 @@ def test_suite():
                                   layer = test_layer
                                   )
 
-    return unittest.TestSuite((formlite,
-                               readme,
+    return unittest.TestSuite((readme,
                                formhandler.test_suite(),
                                tal.test_suite(),
                                errors,
