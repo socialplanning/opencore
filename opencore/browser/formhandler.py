@@ -21,6 +21,7 @@ def button(name):
 
 
 def post_only(raise_=True):
+    '''Decorator that raises an exception if the request is not POST.'''
     def inner_post_only(func):
         """usually wrapped by a button"""
         def new_method(self, *args, **kw):
@@ -63,90 +64,92 @@ def anon_only(redirect_to=None):
     return inner_anon_only
 
 
-def octopus(func):
-    """
-    A (hopefully) generic decorator to handle complex forms with
-    multiple actions and multiple items which can be acted upon
-    either singly or in a batch, with the call made either 
-    asynchronously or synchronously with javascript disabled.
+# XXX REMOVE, UNUSED
+## def octopus(func):
+##     """
+##     A (hopefully) generic decorator to handle complex forms with
+##     multiple actions and multiple items which can be acted upon
+##     either singly or in a batch, with the call made either 
+##     asynchronously or synchronously with javascript disabled.
 
-    This method expects to decorate a method which takes, in order,
-      * an action to apply (a unique identifier for a method to
-                            delegate to or an action to perform),
-      * a list of targets (unique identifiers for items to act upon),
-      * a list of fields (a dict of fieldname:values to apply to the
-                          targets, in the same order as the targets)
+##     This method expects to decorate a method which takes, in order,
+##       * an action to apply (a unique identifier for a method to
+##                             delegate to or an action to perform),
+##       * a list of targets (unique identifiers for items to act upon),
+##       * a list of fields (a dict of fieldname:values to apply to the
+##                           targets, in the same order as the targets)
 
-    It expects to be returned a value to be sent, unmodified, directly
-    to the client in the case of an AJAX request.
+##     It expects to be returned a value to be sent, unmodified, directly
+##     to the client in the case of an AJAX request.
 
-    It expects a very specific format for the request; this is 
-    documented in opencore.project.browser/contents.txt
-    """
-    def inner(self):
-        # XXX todo don't rely on '_' or ':' special characters
-        target, action = self.request.form.get("task").split("_")
+##     It expects a very specific format for the request; this is 
+##     documented in opencore.project.browser/contents.txt
+##     """
+##     def inner(self):
+##         # XXX todo don't rely on '_' or ':' special characters
+##         target, action = self.request.form.get("task").split("_")
 
-        if target.startswith('batch:'):
-            target_elem = target.split(':')[1]
-            target = self.request.form.get(target_elem)
-            if target is None:
-                target = []
-        if not isinstance(target, (tuple, list)):
-            target = [target]
+##         if target.startswith('batch:'):
+##             target_elem = target.split(':')[1]
+##             target = self.request.form.get(target_elem)
+##             if target is None:
+##                 target = []
+##         if not isinstance(target, (tuple, list)):
+##             target = [target]
 
-        # grab items' fields from request and fill dicts in an ordered list
-        fields = []
-        for item in target:
-            itemdict = {}
-            filterby = item + '_'
-            keys = [key for key in self.request.form if key.startswith(filterby)]
-            for key in keys:
-                itemdict[key.replace(filterby, '')] = self.request.form.get(key)
-            fields.append(itemdict)
+##         # grab items' fields from request and fill dicts in an ordered list
+##         fields = []
+##         for item in target:
+##             itemdict = {}
+##             filterby = item + '_'
+##             keys = [key for key in self.request.form if key.startswith(filterby)]
+##             for key in keys:
+##                 itemdict[key.replace(filterby, '')] = self.request.form.get(key)
+##             fields.append(itemdict)
 
-        ret = func(self, action, target, fields)
-        mode = self.request.form.get("mode")
+##         ret = func(self, action, target, fields)
+##         mode = self.request.form.get("mode")
 
-        if mode == "async":
-            self.response.setHeader('Content-Type', "application/javascript;charset=utf-8")
-            return ret
-        return self.redirect(self.request.environ['HTTP_REFERER'])
+##         if mode == "async":
+##             self.response.setHeader('Content-Type', "application/javascript;charset=utf-8")
+##             return ret
+##         return self.redirect(self.request.environ['HTTP_REFERER'])
 
-    return inner
+##     return inner
 
-def deoctopize(func):
-    """
-    A decorator to reformat an octopized request to match zope's conventions.
-    Intended to be decorated by octopus.
+# XXX REMOVE, UNUSED!
+## def deoctopize(func):
+##     """
+##     A decorator to reformat an octopized request to match zope's conventions.
+##     Intended to be decorated by octopus.
 
-    Constructs a zope-style request for each item in the target list and calls
-    the decorated function with that request per item, and constructs a JSONish
-    return value to match the format expected by the javascript based on the action.
+##     Constructs a zope-style request for each item in the target list and calls
+##     the decorated function with that request per item, and constructs a JSONish
+##     return value to match the format expected by the javascript based on the action.
 
-    Passes in an extra request field, 'octopus-item', with the id of the item being
-    acted upon, so that the decorated function has the necessary information about 
-    what item to act upon. This can, of course, be ignored entirely.
-    """
-    def inner(self, action, target, fields):
-        octo_form = self.request.form.copy()
-        if action == 'delete':
-            ret = []
-        elif action == 'update':
-            ret = {}
-        for t, f in zip(target, fields):
-            form = f.copy()
-            form['octopus-item'] = t
-            self.request.form = form
-            tret = func(self)
-            if action == 'delete':
-                if tret:
-                    ret.append[target]
-            elif action == 'update':
-                ret[t] = tret
-        self.request.form = octo_form
-        return ret
-    return inner
+##     Passes in an extra request field, 'octopus-item', with the id of the item being
+##     acted upon, so that the decorated function has the necessary information about 
+##     what item to act upon. This can, of course, be ignored entirely.
+##     """
+##     def inner(self, action, target, fields):
+##         octo_form = self.request.form.copy()
+##         if action == 'delete':
+##             ret = []
+##         elif action == 'update':
+##             ret = {}
+##         for t, f in zip(target, fields):
+##             form = f.copy()
+##             form['octopus-item'] = t
+##             self.request.form = form
+##             tret = func(self)
+##             if action == 'delete':
+##                 if tret:
+##                     ret.append[target]
+##             elif action == 'update':
+##                 ret[t] = tret
+##         self.request.form = octo_form
+##         return ret
+##     return inner
 
 class OctopoLite(opencore.browser.octopus.Octopus):
     """
@@ -182,20 +185,9 @@ class OctopoLite(opencore.browser.octopus.Octopus):
         except AttributeError:
             pass
 
-#    def _octopus_allows(self):
-#        oreq = self._octopus_request()
-#        if oreq.has_key('-C'):
-#            return True #we allow all non-editing requests
-#
-#        auth = self.get_tool('browser_id_manager').getBrowserId()
-#        log.debug("authenticators:", self._octopus_get('authenticator'),
-#                  auth)
-#        #return self._octopus_get('authenticator') == auth
-#        return True
-        
-# XXX remove as unused
+
 class FormLite(object):
-    """formlike but definitely not formlib"""
+    """formlike but definitely not formlib; see formlite.txt"""
 
     def handle_request(self, raise_=False):
         for key in self.actions:
@@ -206,12 +198,11 @@ class FormLite(object):
         if self.actions.default is not None:
             return self.actions.default(self)
 
-    
 
 
 def test_suite():
     from zope.testing import doctest
-    flags = doctest.ELLIPSIS | doctest.REPORT_ONLY_FIRST_FAILURE
+    flags = doctest.ELLIPSIS #| doctest.REPORT_ONLY_FIRST_FAILURE
     return doctest.DocFileSuite('octopolite.txt', optionflags=flags)
 
 if __name__ == '__main__':

@@ -1,23 +1,32 @@
 OctopoLite.
+It is a fusion of Octopus and FormLite.
 
-What is it??
+FormLite provides a simple base class and @action decorator to handle
+method dispatch based on request keys; see formlite.txt for details.
 
-It is a fusion of Octopus and FormLite!  It is a wonderful thing!
+Octopus provides handling of some form conventions that allow views to
+provide form handling both synchronously (returning complete HTML to
+the browser) and asynchronously (returning JSON for AJAX usage).
 
-See octopus.txt and formlite.txt for details of each.
-
-To use OctopoLite in a NUI view::
+OctopoLite combines them. To use OctopoLite in a view::
 
  * bind a single view in ZCML with no attribute or template
+
  * extend BaseView and OctopoLite, eg
+
+
       class MyView(BaseView, OctopoLite):
+
  * specify a default dispatchable method for rendering the form, eg
+
           @action('render_form', default=True)
           def render_form(self, target=None, fields=None):
               return ZopeTwoPageTemplateFile('myform.pt')()
+
  * specify dispatchable methods for all of your form actions, eg
+
           @action('delete', apply=post_only)
-          def render_form(self, target=None, fields=None):
+          def handle_delete(self, target=None, fields=None):
               cmds = {}
               for oid in target:
                   del self.obj[oid]
@@ -34,11 +43,11 @@ the JSON object to be returned to the client.
    ...         print "in decorator!"
    ...         return func(self, *a, **b)
    ...     return inner
+   >>> 
    >>> class FormTest(OctopoLite):
+   ...     
    ...     template = lambda self: 'my template'
    ...     request = type('request', (object,), dict(form={}, environ={'HTTP_REFERER': "http://nohost"}))
-   ...     def redirect(self, to):
-   ...         return to
    ...     
    ...     @action('roklok', default=True)
    ...     def do_roklok(self, target=None, fields=None):
@@ -64,9 +73,14 @@ in the form, encoded in an octopized format in the "task" field::
    eggs of the devil!
    'my template'
 
-Since that request was not issued asynchronously, Octopolite swallowed
-the method's return value and returned a rendered template. We
-can issue requests asynchronously to get back the return value directly::
+
+Using OctopoLite with AJAX
+===========================
+
+Since the requests we've made were issued synchronously, Octopolite
+swallowed the method's return value and returned a rendered
+template. We can issue requests asynchronously to get back the return
+value directly. To do that, add mode=async to the request::
 
    >>> view.request.form['mode'] = 'async'
 
@@ -82,7 +96,7 @@ Stub out response (will be set in BaseView when live)
 
 A request with no actions will dispatch to the action specified as default::
 
-   >>> del view.request.form['task|dummy|sod']
+   >>> view.request.form = {'mode': 'async'}
    >>> view()
    Rock!
    '...{}...'
@@ -100,7 +114,12 @@ are not triggered if the action is called directly::
    >>> view.fine()
    fine!
 
-The JSON object to be returned from your action methods:
+
+Returning JSON from actions
+============================
+
+The JSON is for consumption by the opencore.js javascript library, so
+it must conform to this format:
 
 Return a dictionary whose KEYS are ids of existing DOM elements on the
 page, and whose VALUES are a JSON object (with all fields optional):
