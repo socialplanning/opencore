@@ -76,14 +76,14 @@ def htmlify(js):
 
 
 class Actions(dict):
-    """ functions registry """
+    """ functions registry for use by the @action decorator"""
     __repr__ = dict.__repr__
     def __init__(self):
         dict.__init__(self)
         self.default = None
 
 class Action(object):
-
+    '''function wrapper used by the @action decorator '''
     def __init__(self, name, apply=None, **options):
         self.name = name
         self.options = options
@@ -101,6 +101,8 @@ class Action(object):
         return newmethod(instance_, **options)  # our method is now unbound
 
 class action(object):
+    '''Decorator that wraps the decorated method as an Action,
+    and adds it to an Actions mapping for later dispatching.'''
     # modfied from zope.formlib (ZPL)
     def __init__(self, label, default=False, 
                  actions=None, apply=None,
@@ -137,7 +139,8 @@ class action(object):
 
 class Octopus(object):
     """
-    Request form handling, using FormLite actions.
+    Request form handling, using action delegation via the @action
+    decorator.
 
     Not tied to any framework - just needs a dict to be returned by
     self._octopus_request() and HTML from self._octopus_template().
