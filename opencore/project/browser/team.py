@@ -1,3 +1,4 @@
+from Acquisition import aq_base
 from Products.CMFCore.utils import getToolByName
 from Products.CMFPlone.utils import transaction_note
 from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
@@ -292,7 +293,12 @@ class ProjectTeamView(TeamRelatedView):
         membership = team._getOb(mem_id)
 
         contributions = 'XXX'
-        activation = self.pretty_date(membership.made_active_date)
+        made_active_date = getattr(aq_base(membership), 'made_active_date',
+                                           None)
+        if made_active_date is not None:
+            activation = self.pretty_date(made_active_date)
+        else:
+            activation = 'never'
         modification = self.pretty_date(membership.ModificationDate())
 
         # filter against search returns to insure private projects not
