@@ -1,25 +1,39 @@
-from AccessControl import getSecurityManager
-from DateTime import DateTime
-from Globals import get_request
+from Products.CMFCore.utils import getToolByName
+from opencore.interfaces import IOpenPage
+from opencore.feed.base import BaseFeedAdapter
 from opencore.feed.interfaces import IFeedData
-from opencore.utils import get_rel_url_for
+from opencore.feed.interfaces import IFeedItem
+from zope.component import adapts
+from zope.component import createObject
+from zope.interface import alsoProvides
+from zope.interface import implements
 
-def page_feed_listener(page, event):
-    """
-    event subscriber that adds items to a single wiki page's feed
-    """
-    req = get_request()
-    if req is None:
-        # try acquisition as a fail-over
-        req = page.REQUEST
-    feed = IFeedData(page)
-    description = req.form.get('comment', '')
-    title = page.Title()
-    rel_link = get_rel_url_for(page)
-    pubDate = DateTime()
-    author = getSecurityManager().getUser().getId()
-    feed.add_item(title=title,
-                  description=description,
-                  rel_link=rel_link,
-                  author=author,
-                  pubDate=pubDate)
+class PageFeedAdapter(BaseFeedAdapter):
+    """feed for wiki page modifications"""
+    
+    implements(IFeedData)
+    adapts(IOpenPage)
+
+    @property
+    def items(self):
+        if hasattr(self,'_items'):
+            # If the property already contains something, there's no need to
+            # regenerate it.
+            return self._items
+
+        pr = getToolByName(self.context, 'portal_repository')
+        self._items = []
+        for version in pr.getHistory(self.context, countPurged=False):
+            description = version.comment
+            page = version.object
+            title = page.Title()
+            link = page.absolute_url()
+            pubDate = page.modified()
+            author = version.sys_metadata.get('principal')
+
+            self.add_item(title=title,
+                          description=description,
+                          link=link,
+                          author=author,
+                          pubDate=pubDate)
+        return self._items

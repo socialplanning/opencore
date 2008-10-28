@@ -30,7 +30,7 @@
    <adapter
       for="opencore.interfaces.IOpenPage"
       provides="opencore.feed.interfaces.IFeedData"
-      factory="opencore.feed.base.BaseFeedAdapter"
+      factory=".page.PageFeedAdapter"
       />   
 
   <!-- views and related -->
@@ -50,29 +50,5 @@
       name="opencore.extra_feeds"
       />
 
-   <!-- subscribers which put items in the feeds -->
-   <subscriber
-      for="opencore.content.page.OpenPage
-           zope.app.event.interfaces.IObjectModifiedEvent"
-      handler=".project.wiki_feed_listener"
-      />
-
-   <subscriber
-      for="opencore.content.page.OpenPage
-           zope.app.event.interfaces.IObjectModifiedEvent"
-      handler=".page.page_feed_listener"
-      />
-
-   <subscriber
-      for="opencore.content.membership.OpenMembership
-           opencore.interfaces.event.IJoinedProjectEvent"
-      handler=".team.team_feed_listener"
-      />
-
-   <subscriber
-      for="opencore.content.membership.OpenMembership
-           opencore.interfaces.event.ILeftProjectEvent"
-      handler=".team.team_feed_listener"
-      />
 
 </configure>
