@@ -76,7 +76,7 @@ Send some emails, and check that they went out
     >>> len(mh.messages)
     2
     >>> es.sendMail(
-    ...     'Rolando Pen\xc3\xb1ate <bammy@example.com>',
+    ...     'Rolando Pe\xc3\xb1ate <bammy@example.com>',
     ...     msg=u'hi there, unicode',
     ...     subject='more testing with pi\xc3\xb1atas',
     ...     mfrom=u'Gabriel Rold\xe1n <hammy@example.com>',
