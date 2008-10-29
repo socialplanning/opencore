@@ -1,4 +1,3 @@
-import sys
 from Products.CMFCore.utils import getToolByName
 from opencore.project.handler import _initialize_project
 from zope.app.event.objectevent import ObjectCreatedEvent
@@ -10,7 +9,7 @@ projects_map = {'p1':{'title':'Project One',},
                 'p4':{'title':'Project Four',},
                 }
 
-members_map = {'m1':{'fullname':'Member One',
+members_map = {'m1':{'fullname':'Mèmber Oñe',
                      'password':'testy',
                      'email':'notreal1@example.com',
                      'projects': {'p1':tuple(),
@@ -18,7 +17,7 @@ members_map = {'m1':{'fullname':'Member One',
                                   'p3':('ProjectAdmin',),
                                   },
                      },
-               'm2':{'fullname':'Member Two',
+               'm2':{'fullname':'Mëmber Two',
                      'password':'testy',
                      'email':'notreal2@example.com',
                      'projects': {'p2':tuple(),
@@ -26,7 +25,7 @@ members_map = {'m1':{'fullname':'Member One',
                                   'p4':('ProjectAdmin',),
                                   },
                      },
-               'm3':{'fullname':'Member Three',
+               'm3':{'fullname':'Mëmber Three',
                      'password':'testy',
                      'email':'notreal3@example.com',
                      'projects': {'p3':tuple(),
@@ -34,7 +33,7 @@ members_map = {'m1':{'fullname':'Member One',
                                   'p1':('ProjectAdmin',),
                                   },
                      },
-               'm4':{'fullname':'Member Four',
+               'm4':{'fullname':'Mëmber Four',
                      'password':'testy',
                      'email':'notreal4@example.com',
                      'projects': {'p4':tuple(),
@@ -43,7 +42,6 @@ members_map = {'m1':{'fullname':'Member One',
                                   },
                      },
                }
-
 
 
 def create_test_content(self, p_map=projects_map, m_map=members_map):
