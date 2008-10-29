@@ -153,7 +153,13 @@ class EmailSender(object):
         else:
             mfrom = self.toEmailAddress(mfrom)
 
+        charset = 'utf-8'
         if isinstance(msg, unicode):
-            msg = msg.encode('utf-8')
+            msg = msg.encode(charset)
 
-        self.send(msg, recips, mfrom, subject)
+        try:
+            self.send(msg, recips, mfrom, subject, charset=charset)
+        except TypeError:
+            # damn those inconsistent MailHost APIs
+            self.send(msg, recips, mfrom, subject, encode=charset)
+            
