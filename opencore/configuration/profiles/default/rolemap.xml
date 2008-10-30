@@ -221,6 +221,12 @@
       <role name="Owner"/>
       <role name="ProjectAdmin"/>
     </permission>
+    <permission name="OpenPlans: Send contact email"
+                acquire="False">
+      <role name="Manager"/>
+      <role name="Owner"/>
+      <role name="Member"/>
+    </permission>
     <permission name="OpenPlans: View emails"
                 acquire="False">
       <role name="Manager"/>

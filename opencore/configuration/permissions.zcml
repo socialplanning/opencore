@@ -35,4 +35,9 @@
      title="OpenPlans: Add OpenPage"
      />
 
+  <permission
+     id="openplans.SendContactEmail"
+     title="OpenPlans: Send contact email"
+     />
+
 </configure>
