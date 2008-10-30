@@ -1135,6 +1135,9 @@ height: 1em; */
   padding: 0;
   font-size: 11px;
 }
+.oc-actions * { 
+  vertical-align: text-bottom;
+ }
 .oc-actions li {
   margin: 0;
   display: inline;
