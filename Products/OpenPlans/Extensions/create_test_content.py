@@ -9,7 +9,7 @@ projects_map = {'p1':{'title':'Project One',},
                 'p4':{'title':'Project Four',},
                 }
 
-members_map = {'m1':{'fullname':'Mèmber Oñe',
+members_map = {'m1':{'fullname':'Mëmber Oñe',
                      'password':'testy',
                      'email':'notreal1@example.com',
                      'projects': {'p1':tuple(),
