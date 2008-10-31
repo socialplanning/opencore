@@ -30,13 +30,13 @@ setup(
       zip_safe=False,
       dependency_links=["http://svn.openplans.org/eggs/",
                         'http://download.savannah.nongnu.org/releases/pyprof/hprof-0.1.1.tar.gz#egg=hprof',
-                        'https://svn.openplans.org/svn/oc-js/tags/0.6.0#egg=oc-js-0.',
+                        'https://svn.openplans.org/svn/oc-js/tags/0.6.1#egg=oc-js-0.',
                         'http://feedparser.googlecode.com/files/feedparser-4.1.zip',
                         ],
 
       install_requires=[
           # -*- Extra requirements: -*-
-          "oc-js==0.6.0",
+          "oc-js==0.6.1",
           'oc-feed==0.1',
           "ClockQueue==0.1.1",
           'simplejson==1.7.3',

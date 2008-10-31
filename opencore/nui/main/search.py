@@ -129,7 +129,7 @@ class SearchView(BaseView):
         else:
             self.search_results = self._get_batch(self.search_by_letter('all', self.sort_by), self.start)
             self.search_query = 'for all %s' % self.noun
-            
+
         return self.index()
     
     noun = 'please define a plural noun in your subclass'
