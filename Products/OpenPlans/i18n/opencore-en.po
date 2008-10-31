@@ -348,9 +348,9 @@ msgstr "${portal_title} - Reset Password"
 #: opencore/project/browser/mship_messages.py:51
 msgid "email_invitation_retracted"
 msgstr ""
-"Subject: ${portal_title} - Your Invitation to join ”${project_title}” \n"
+"Subject: ${portal_title} - Your Invitation to join \"${project_title}\" \n"
 " \n"
-"Your invitation to join ”${project_title}” on ${portal_title} has expired.  For more information, please contact an administrator of this ${project_noun}.\n"
+"Your invitation to join \"${project_title}\" on ${portal_title} has expired.  For more information, please contact an administrator of this ${project_noun}.\n"
 "\n"
 "The ${portal_title} Team"
 
