@@ -334,7 +334,9 @@ class ProjectTeamView(TeamRelatedView):
         concatenates a series of project ids for a collection of
         member brains and looks up the project brains
         """
-        proj_ids = set(itertools.chain(*[sorted(brain.project_ids) for brain in mem_brains]))
+        proj_ids = set(itertools.chain(*[sorted(brain.project_ids)
+                                         for brain in mem_brains
+                                         if hasattr(brain, 'project_ids')]))
 
         # @@ DWM: matching on id not as good as matching on UID
         cat = self.get_tool('portal_catalog')
