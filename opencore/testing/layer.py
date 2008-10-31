@@ -32,7 +32,7 @@ class MailHostMock(object):
     """
     def __init__(self):
         self.messages = []
-    def send(self, msg, mto=None, mfrom=None, subject=None):
+    def send(self, msg, mto=None, mfrom=None, subject=None, **kw):
         msg = {'msg': msg,
                'mto': mto,
                'mfrom': mfrom,

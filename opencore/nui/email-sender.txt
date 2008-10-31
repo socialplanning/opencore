@@ -19,7 +19,7 @@ First, let's instantiate an email sender
 
 Check converting to email addresses
     >>> es.toEmailAddress('m1')
-    'notreal1@example.com'
+    'M\xc3\xabmber O\xc3\xb1e <notreal1@example.com>'
     >>> es.toEmailAddress('fooey@example.com')
     'fooey@example.com'
     >>> es.toEmailAddress('notreal1@example.com')
