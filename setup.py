@@ -30,7 +30,7 @@ setup(
       zip_safe=False,
       dependency_links=["http://svn.openplans.org/eggs/",
                         'http://download.savannah.nongnu.org/releases/pyprof/hprof-0.1.1.tar.gz#egg=hprof',
-                        'https://svn.openplans.org/svn/oc-js/tags/0.6.1#egg=oc-js',
+                        'https://svn.openplans.org/svn/oc-js/tags/0.6.1#egg=oc-js-0.6.1',
                         'http://feedparser.googlecode.com/files/feedparser-4.1.zip',
                         ],
 
