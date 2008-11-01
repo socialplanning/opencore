@@ -10,6 +10,8 @@ from opencore.testing.utility import setup_mock_config
 from utils import get_portal, get_portal_as_owner
 from utils import zinstall_products
 from utils import monkey_proj_noun
+from utils import monkey_stringio
+from utils import unmonkey_stringio
 from zope.app.component.hooks import setSite, setHooks
 import random
 import transaction as txn
@@ -73,11 +75,13 @@ class SiteSetupLayer(PloneSite):
         setSite(portal)
         setHooks()
 
+        monkey_stringio()
+
         txn.commit()
 
     @classmethod
     def tearDown(cls):
-        raise NotImplementedError
+        unmonkey_stringio()
 
 
 class OpenPlansLayer(SiteSetupLayer):
