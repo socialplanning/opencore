@@ -315,7 +315,7 @@ Ensure that you can't join the site with another foobar::
 
     >>> clear_status_messages(view)
     >>> view()
-    u'...The login name you selected is already in use. Please choose another...'
+    '...The login name you selected is already in use. Please choose another...'
     
 You also shouldn't be able to join with case-variants::
 
@@ -326,7 +326,7 @@ You also shouldn't be able to join with case-variants::
     ...             confirm_password='testy')
     >>> view.request.form.update(form)
     >>> view()
-    u'...The login name you selected is already in use. Please choose another...'
+    '...The login name you selected is already in use. Please choose another...'
 
 Email address are also unique::
 
@@ -336,7 +336,7 @@ Email address are also unique::
     ...             confirm_password='testy')
     >>> view.request.form.update(form)
     >>> view()
-    u'...That email address is already in use.  Please choose another...'
+    '...That email address is already in use.  Please choose another...'
 
 But we do allow appending to existing logins::
     >>> form = dict(id='foobar3',
