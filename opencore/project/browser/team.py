@@ -10,6 +10,7 @@ from opencore.nui.main import SearchView
 from opencore.utility.interfaces import IEmailSender
 from operator import attrgetter
 from plone.memoize.instance import memoizedproperty
+from plone.memoize.instance import memoize
 from zope.event import notify
 import itertools
 
@@ -278,7 +279,7 @@ class ProjectTeamView(TeamRelatedView):
         self.results = self.membranetool(**query)
         return self._get_batch(self.results, self.request.get('b_start', 0))
 
-    @memoizedproperty
+    @memoize
     def memberships(self, sort_by=None):
         if sort_by is None:
             sort_by = self.sort_by
