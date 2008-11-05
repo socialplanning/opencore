@@ -124,7 +124,9 @@ Make sure a nonmember of this new closed project can't access it::
 Log back in as the creator and deactivate him; now he can't access
 views on his project either::
     >>> self.login('m2')
-    >>> view = projects.test1341.restrictedTraverse("manage-team")
+    >>> from opencore.project.browser.manageteam import ManageTeamView
+    >>> proj = projects.test1341
+    >>> view = ManageTeamView(proj, proj.REQUEST)
     >>> wftool = view.get_tool("portal_workflow")
     >>> team = view.team
     >>> mship = team._getOb("m2")

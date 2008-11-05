@@ -19,9 +19,8 @@ Let's add some featurelets::
 Add some invites
 ======================
 
-    >>> mt_view = project.restrictedTraverse('manage-team')
-    >>> mt_view
-    <Products.Five.metaclass.ManageTeamView object at ...>
+    >>> from opencore.project.browser.manageteam import ManageTeamView
+    >>> mt_view = ManageTeamView(project, project.REQUEST)
     >>> team = project.getTeams()[0]
     >>> team.manage_delObjects(ids=['m3']) # <-- remove to re-add
     >>> team.addMember('m3')
