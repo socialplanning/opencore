@@ -207,11 +207,8 @@ class ProjectContentsView(ProjectBaseView, OctopoLite):
 
     @memoize
     def show_deletes(self):
-        # XXX this is a speed hack for #1158,
-        # delete button is only shown for
-        # project members, it is not
-        # fine grained.
-        return 'ProjectMember' in self.context.getTeamRolesForAuthMember()
+        mtool = getToolByName(self.context, 'portal_membership')
+        return mtool.checkPermission('Delete objects', self.context)
 
     def _resort(self, item_type, sort_by=None, sort_order=None):
         sort_by = self.needed_values[item_type].sortable(sort_by)
