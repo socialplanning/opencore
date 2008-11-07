@@ -526,6 +526,18 @@ class OpenMember(FolderishMember):
                                        default='"password" is not a valid password.',
                                        domain='remember-plone')
 
+    def _change_member_id(self, newid):
+        """Changes the id of this member object and all of the related
+        objects (home folder, memberships)"""
+        mtool = getToolByName(self, 'portal_membership')
+        memfolder = mtool.getHomeFolder(self.getId())
+        self.update(id=newid)
+        memfolder.update(id=newid)
+        mships = self.getRefs('Team Membership Relation')
+        for mship in mships:
+            mship.update(id=newid)
+        return 'ID changed to %s' % newid
+
 atapi.registerType(OpenMember, package=PROJECTNAME)
 
 def member_path(mem_id):
