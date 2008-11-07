@@ -69,7 +69,6 @@ setup(
           'lxml>=2.0alpha5',
           'plone.mail',
           'borg.localrole==2.0.1',
-          'wsseauth',
           'uuid',
           'flunc>=0.1.3',
           'zcmlloader',
