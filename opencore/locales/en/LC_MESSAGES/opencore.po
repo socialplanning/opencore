@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: opencore\n"
-"POT-Creation-Date: 2008-10-13 18:05+0000\n"
+"POT-Creation-Date: 2008-11-07 23:50+0000\n"
 "PO-Revision-Date: 2008-10-08 15:57-0400\n"
 "Last-Translator: \n"
 "Language-Team: The Open Planning Project <opencore-dev@lists.openplans.org>\n"
@@ -1337,22 +1337,22 @@ msgid "no_password"
 msgstr ""
 
 #. Default: "There is no member named \"${user_id}\"."
-#: ./opencore/browser/base.py:531
+#: ./opencore/browser/base.py:530
 msgid "password_no_member_error"
 msgstr ""
 
 #. Default: "You must enter a password."
-#: ./opencore/browser/base.py:537
+#: ./opencore/browser/base.py:536
 msgid "password_no_password_error"
 msgstr ""
 
 #. Default: "You need to enter your username."
-#: ./opencore/browser/base.py:526
+#: ./opencore/browser/base.py:525
 msgid "password_no_username_error"
 msgstr ""
 
 #. Default: "Please make sure that both password fields are the same."
-#: ./opencore/browser/base.py:540
+#: ./opencore/browser/base.py:539
 msgid "password_not_same_error"
 msgstr ""
 

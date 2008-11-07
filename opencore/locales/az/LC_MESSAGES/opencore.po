@@ -1089,19 +1089,19 @@ msgstr "news_read_more"
 msgid "no_password"
 msgstr "no_password"
 #. Default: "There is no member named \"${user_id}\"."
-#: ./opencore/browser/base.py:531
+#: ./opencore/browser/base.py:530
 msgid "password_no_member_error"
 msgstr "password_no_member_error"
 #. Default: "You must enter a password."
-#: ./opencore/browser/base.py:537
+#: ./opencore/browser/base.py:536
 msgid "password_no_password_error"
 msgstr "password_no_password_error"
 #. Default: "You need to enter your username."
-#: ./opencore/browser/base.py:526
+#: ./opencore/browser/base.py:525
 msgid "password_no_username_error"
 msgstr "password_no_username_error"
 #. Default: "Please make sure that both password fields are the same."
-#: ./opencore/browser/base.py:540
+#: ./opencore/browser/base.py:539
 msgid "password_not_same_error"
 msgstr "password_not_same_error"
 #: ./opencore/nui/main/contact-site-admin.pt:106
