@@ -1,6 +1,7 @@
 <configure xmlns="http://namespaces.zope.org/zope"
            xmlns:genericsetup="http://namespaces.zope.org/genericsetup">
 
+  <!-- from v0.12 to v0.13 -->
   <genericsetup:upgradeSteps
      profile="opencore.configuration:default"
      source="0.12.0"
@@ -34,6 +35,7 @@
   </genericsetup:upgradeSteps>
 
 
+  <!-- from v0.13 to v0.14 -->
   <genericsetup:upgradeSteps
      profile="opencore.configuration:default"
      source="0.13.0"
@@ -48,18 +50,33 @@
 
   </genericsetup:upgradeSteps>
 
+  <!-- from v0.14 to v0.15 -->
   <genericsetup:upgradeSteps
      profile="opencore.configuration:default"
      source="0.14.0"
      destination="0.15.0"
      sortkey="10">
-
     <genericsetup:upgradeStep
        title="Re-import Type information"
        description="Reruns the 'typeinfo' import step from the profile"
        handler=".to_0_15_0.reapply_type_information"
        />
 
+    <genericsetup:upgradeStep
+       title="Re-import workflow information"
+       description="Reruns the 'workflow' import step from the profile"
+       handler=".to_0_15_0.reapply_workflow_profile"
+       />
   </genericsetup:upgradeSteps>
+
+  <genericsetup:upgradeStep
+     profile="opencore.configuration:default"
+     source="0.14.0"
+     destination="0.15.0"
+     sortkey="20"
+     title="Synchronize workflow permissions"
+     description="Re-applies to w/f permission settings to the live objects (takes a while)"
+     handler=".to_0_15_0.update_workflow_permissions"
+     />
 
 </configure>
