@@ -26,7 +26,7 @@ class MailHostMock(Implicit):
             mto = mto or msgob.get('to')
             mfrom = mfrom or msgob.get('from')
             subject = subject or msgob.get('subject')
-            if mto and type(mto) is not list:
+            if isinstance(mto, basestring):
                 mto = [addy.strip() for addy in mto.split(',')]
         msg = {'msg': msg,
                'mto': mto,
