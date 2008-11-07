@@ -11,6 +11,12 @@ Data Migrations:
    migrations/update_member_project_ids.py if you prefer to run it via
    zopectl.
 
+ * Turns out the 'addable types' setting for the OpenTeam types was
+   incorrect; it was set to all implicitly allowable types instead of
+   explicitly allowing OpenMembership object (and nothing else).
+   Edited the GS profile to reflect the new setting and added an
+   upgradeStep to automate its application.
+
 Features:
 
  * Added i18n for some wiki history views, if you can call that a feature.

@@ -10,9 +10,11 @@
  <property name="product">OpenPlans</property>
  <property name="factory">addOpenTeam</property>
  <property name="immediate_view">base_edit</property>
- <property name="global_allow">True</property>
- <property name="filter_content_types">False</property>
- <property name="allowed_content_types"/>
+ <property name="global_allow">False</property>
+ <property name="filter_content_types">True</property>
+ <property name="allowed_content_types">
+   <element value="OpenMembership" />
+ </property>
  <property name="allow_discussion">False</property>
  <alias from="(Default)" to="openteam_membership"/>
  <alias from="edit" to="base_edit"/>
