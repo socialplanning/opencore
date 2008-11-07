@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: opencore\n"
-"POT-Creation-Date: 2008-10-13 18:04+0000\n"
+"POT-Creation-Date: 2008-11-07 23:48+0000\n"
 "PO-Revision-Date: 2008-10-08 15:57-0400\n"
 "Last-Translator: \n"
 "Language-Team: The Open Planning Project <opencore-dev@lists.openplans.org>\n"
