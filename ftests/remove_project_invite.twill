@@ -11,11 +11,7 @@
 #
 
 
-extend_with flunc.checkbox
-
-go ${base_url}/projects/${projname}
-follow "Team"
-check_group_values invitation checked:list '+${membername}'
-submit 
+go ${base_url}/projects/${projname}/team?selector=pending
+follow "retract-invite-${membername}"
 find "Invitation removed: ${membername}"
 

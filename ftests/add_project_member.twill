@@ -14,10 +14,13 @@ follow "Team"
 fv search-members search_for $membername
 submit
 fv search-members search_for $membername
-submit 3
+submit Invite
 
-# finds membername somewhere below "Pending membership"
-# to avoid matching the logged in user
-find "Pending membership.*${membername}" s
-# and the psm
 find "You invited ${membername} to join this ${projtxt}"
+  
+follow "1 pending"
+# finds membername somewhere below the "pending" text
+# to avoid matching the logged in user
+find "pending.*${membername}" s
+
+

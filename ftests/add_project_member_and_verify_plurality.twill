@@ -20,17 +20,18 @@ fv search-members search_for $membername
 submit
 fv search-members search_for $membername
 submit 3
-
-# finds membername somewhere below "Pending membership"
-# to avoid matching the logged in user
-find "Pending membership invitations.*${membername}" s
-# and the psm
+# find the psm
 find "You invited ${membername} to join this ${projtxt}"
+
+follow "pending-selector"
+# finds membername somewhere below the select text
+# to avoid matching the logged in user
+find "member.*admin.*pending.*${membername}" s
 # end copied test
 
 # Here we should verify that there is exactly one membership
 # and one pending member
 # these may be brittle if the text changes, but the important
 # thing is that they test plurality correctly
-find "1 member,"
-find "1 pending invitation\b"
+find "1 admin"
+find "1 pending"

@@ -127,6 +127,14 @@
       </div><!-- end #oc-content-main -->
 
       <div id="oc-content-sidebar">
+        <div id="contact" class="oc-boxy">
+          <a class="oc-banana" title="Send message"
+             tal:attributes="href string:${context/absolute_url}/contact"
+             i18n:translate="send-message">
+            Send message
+          </a>
+        </div>
+
         <metal:status-messages use-macro="view/member_macros/macros/recent-activity" />
 
         <span tal:define="viewlets provider:opencore.profile_edit_sidebar"

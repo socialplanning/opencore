@@ -24,38 +24,38 @@ remove member 'm3' to re-add::
     >>> team.manage_delObjects(ids=['m3']) 
     >>> team.addMember('m3')
     <OpenMembership at ...m3>
-    >>> view = proj.restrictedTraverse('manage-team')
+    >>> view = proj.restrictedTraverse('team')
     >>> view
-    <Products.Five.metaclass.ManageTeamView object at ...>
+    <Products.Five.metaclass.ProjectTeamView object at ...>
 
-The view has properties to get info for the team members and all
-pending membership invitations and requests::
+#The view has properties to get info for the team members and all
+#pending membership invitations and requests::
 
-    >>> len(view.pending_requests)
-    1
-    >>> len(view.pending_invitations)
-    1
-    >>> len(view.active_mships)
-    3
-    >>> len(view.pending_mships)
-    2
+#    >>> len(view.pending_requests)
+#    1
+#    >>> len(view.pending_invitations)
+#    1
+#    >>> len(view.active_mships)
+#    3
+#    >>> len(view.pending_mships)
+#    2
 
 Verify that we get the appropriate error messages when actions
 are attempted without anything checked::
 
     >>> self.clearMemoCache()
-    >>> view.approve_requests([])
-    {}
-    >>> get_status_messages(view)
-    [u'Please select members to approve.']
-    >>> view.discard_requests([])
-    {}
-    >>> get_status_messages(view)
-    [u'Please select members to discard.']
-    >>> view.reject_requests([])
-    {}
-    >>> get_status_messages(view)
-    [u'Please select members to deny.']
+#    >>> view.approve_requests([])
+#    {}
+#    >>> get_status_messages(view)
+#    [u'Please select members to approve.']
+#    >>> view.discard_requests([])
+#    {}
+#    >>> get_status_messages(view)
+#    [u'Please select members to discard.']
+#    >>> view.reject_requests([])
+#    {}
+#    >>> get_status_messages(view)
+#    [u'Please select members to deny.']
 
 Now let's make sure the project admin can approve membership requests.
 And an event should get fired as well.
@@ -481,3 +481,12 @@ Make sure that email invites to existing project members are reported correctly:
     18
     >>> pprint(get_status_messages(view))
     [u'You have added m4.', u'm4 is already a member of this project.']
+
+
+The old manage-team view is now just a redirect:
+
+    >>> view = proj.restrictedTraverse('manage-team')
+    >>> view
+    <Products.Five.metaclass.ManageTeamRedirect object at ...>
+    >>> view()
+    'XXX'

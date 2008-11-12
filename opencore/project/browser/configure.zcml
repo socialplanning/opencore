@@ -138,7 +138,7 @@
 
   <browser:page
      for="opencore.interfaces.IProject"
-     class=".manageteam.ManageTeamView"
+     class=".redirect.ManageTeamRedirect"
      permission="teamspace.ManageTeamMemberships"
      name="manage-team"
      />

@@ -1,6 +1,11 @@
 <metal:login-info define-macro="login-info">
   <div class="oc-headingBlock">
-    <h1 class="fn nickname" tal:content="memberdata/id" />
+    <h1 class="fn nickname">
+      <a tal:content="memberdata/id"
+         tal:attributes="href context/absolute_url">member id</a>
+      <a tal:condition="view/viewingself" class="oc-actionLink"
+         tal:attributes="href string:${context/absolute_url}/profile-edit?field=fullname">Edit</a>
+    </h1>
     <p class="oc-headingContext oc-discreetText">
       member since
       <span tal:replace="memberdata/membersince" />,

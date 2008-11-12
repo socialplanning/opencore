@@ -1,0 +1,290 @@
+<!-- MEMBER TYPE SELECTOR -->
+<metal:selector define-macro="selector">
+  <ul class="oc-searchresults-summary" id="selector-snippet"
+      tal:define="selector view/selector">
+
+    <li tal:repeat="descriptor python:('member', 'admin')"
+        tal:attributes="class python:selector==descriptor and 'current' or nothing">
+      <a tal:define="attr_name string:${descriptor}_mship_brains;
+                     number python:len(getattr(view, attr_name));
+                     noun python:number == 1 and descriptor or '%ss' % descriptor"
+         tal:attributes="href string:${view/name}?selector=${descriptor};
+                         name string:${descriptor}-selector"
+         tal:content="python:'%d %s' % (number, noun)" />
+    </li>
+    
+    <!--li tal:attributes="class python:selector=='fan' and 'current' or nothing"><a tal:attributes="href string:${view/name}?selector=fan">XX fans</a></li-->
+    
+    <li tal:attributes="class python:selector=='pending' and 'current' or nothing"
+        tal:define="number python:len(view.pending_mship_brains) + len(view.pending_email_invites)"
+        tal:condition="python:view.can_manage and number">
+      <a tal:attributes="href string:${view/name}?selector=pending;
+                         name string:pending-selector"
+         tal:content="python:'%d pending' % number" />
+    </li>
+
+  </ul>
+</metal:selector>
+
+
+<!-- SINGLE MEMBER ROW -->
+<metal:member-row define-macro="member-row">
+  <li class="oc-clearAfter oc-boxy" tal:attributes="id member_record/id">
+    <!-- getting object for each member is slow -->
+    <tal:member-info define="ms context/portal_membership;
+                             homeurl python:ms.getHomeUrl(member_record['id'])">
+      <div class="oc-avatar">
+        <a tal:attributes="href homeurl" tal:omit-tag="not:homeurl">
+          <img class="photo" tal:attributes="src string:${homeurl}/portrait_square_thumb" />
+        </a>
+      </div>
+      <div class="oc-roster-content">
+        <div class="oc-headingBlock">
+          <h3>
+            <a tal:attributes="href homeurl"
+               class="fn"
+               tal:content="python:member_record['id']"
+               />
+          </h3>
+          <p class="oc-headingContext oc-discreetText">
+            team member since <span tal:replace="member_record/activation">January 1, 2000</span>
+          </p>
+        </div>
+        <ul class="oc-plainList"
+            tal:define="current_user python:view.loggedinmember;
+                        is_current_user python:current_user is not None and current_user.getId() == member_record['id'];
+                        show_manage python: view.can_manage and not is_current_user">
+          <li tal:condition="not: is_current_user"><a tal:attributes="href python:'%s/contact' % view.memfolder_url(member_record['id'])" class="oc-actionLink">Send a message</a></li>
+          <li tal:condition="show_manage">
+            <a class="oc-actionLink oc-js-actionPost oc-js-confirm"
+               tal:attributes="href string:${request/ACTUAL_URL}?selector=${request/selector|python:'member'}&b_start:int=${request/b_start|python:0}&task|${member_record/id}|remove-members">Remove member</a>
+          </li>
+          <li tal:condition="view/can_manage"
+              tal:define="member_role member_role | member_record/highestTeamRole;
+                          is_admin python:member_role == 'ProjectAdmin';
+                          select_name string:${member_record/id}_role;">
+            <div class="oc-js-liveEdit">
+              <div class="oc-js-liveEdit-value oc-js-liveEdit_showForm oc-liveEdit-value oc-directEdit"
+                   tal:content="python:is_admin and 'Administrator' or 'Member'"/>
+              <div class="oc-js-liveEdit-editForm oc-js-actionSelect oc-liveEdit-editForm"
+                   tal:condition="python:view.loggedinmember.getId() != member_record['id']">
+
+                <select tal:attributes="disabled not:show_manage;
+                                        name select_name;
+                                        id select_name;">
+                  <tal:roleoptions repeat="roleitem view/rolemap/items">
+                    <option tal:attributes="value python:roleitem[0];
+                                            selected python:(roleitem[0] == member_role);"
+                            tal:content="python:roleitem[1]" />
+                  </tal:roleoptions>
+                </select>
+
+                <input type="submit" value="go" tal:attributes="name string:task|${member_record/id}|set-roles" />
+
+              </div>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </tal:member-info>
+  </li>
+</metal:member-row>
+
+
+<!-- PENDING MEMBER ROW -->
+<metal:pending-member-row define-macro="pending-member-row">
+  <li class="oc-feed-item oc-feed-item-attention oc-clearAfter"
+      tal:define="mem_id member_record/id;
+                  wf_actor python:member_record.get('lastWorkflowActor');
+                  is_mship python:wf_actor is not None;
+                  actual_url request/ACTUAL_URL;
+                  b_start request/b_start | python:0"
+      tal:attributes="id mem_id">
+
+    <tal:mship condition="is_mship"
+               define="invited python:wf_actor != mem_id">
+      <h4 class="oc-feed-item-title"
+          tal:define="ms context/portal_membership;
+                      home_url python:ms.getHomeUrl(mem_id)">
+        <tal:comment replace="nothing">
+          The weird mem_string define in the anchor tag is so we can
+          gracefully handle None, '' (empty string), or ' ' (non-empty
+          but all whitespace string) as a fullname, failing over to
+          the userid in each case.
+        </tal:comment>
+        <a tal:define="mem_string python:member_record.get('fullname');
+                       mem_string python:mem_string or '';
+                       mem_string python:mem_string.strip() or mem_id"
+           tal:omit-tag="not: home_url"
+           tal:attributes="title mem_string;
+                           href home_url"
+           tal:content="mem_string" />
+        <span tal:condition="not: home_url"
+              i18n:translate="unconfirmed-user">(unconfirmed user)</span>
+      </h4>
+      <span class="oc-feed-item-data oc-discreetText">
+        <tal:requested condition="not: invited"
+                       i18n:translate="requested">requested</tal:requested>
+        <tal:invited condition="invited"
+                     i18n:translate="was invited">was invited</tal:invited>
+        to join <tal:requestdate define="requestdate member_record/lastWorkflowTransitionDate"
+                                 replace="python:view.pretty_date(requestdate)" />
+      </span>
+      <ul class="oc-actions" tal:condition="not: invited">
+        <li>
+          <a class="oc-actionLink oc-js-actionPost"
+             tal:attributes="href string:${actual_url}?selector=pending&b_start:int=${b_start}&task|${mem_id}|approve-request"
+             i18n:translate="approve">Approve</a>
+        </li>
+        <li>
+          <a class="oc-actionLink oc-js-actionPost oc-js-confirm"
+             tal:attributes="href string:${actual_url}?selector=pending&b_start:int=${b_start}&task|${mem_id}|deny-request"
+             i18n:translate="deny">Deny</a>
+        </li>
+      </ul>
+      <ul class="oc-actions" tal:condition="invited">
+        <li>
+          <a class="oc-actionLink oc-js-actionPost"
+             tal:attributes="href string:${actual_url}?selector=pending&b_start:int=${b_start}&task|${mem_id}|remind-invite;
+                             name string:remind-invite-${mem_id}"
+             i18n:translate="remind">Send Reminder</a>
+        </li>
+        <li>
+          <a class="oc-actionLink oc-js-actionPost oc-js-confirm"
+             tal:attributes="href string:${actual_url}?selector=pending&b_start:int=${b_start}&task|${mem_id}|retract-invite;
+                             name string:retract-invite-${mem_id}"
+             i18n:translate="retract">Retract Invitation</a>
+        </li>
+      </ul>
+    </tal:mship>
+
+    <tal:emailinvite condition="not: is_mship">
+      <h4 class="oc-feed-item-title"
+          tal:content="member_record/address" />
+      <span class="oc-feed-item-data oc-discreetText">
+        was invited to join <tal:requestdate define="requestdate member_record/timestamp"
+                                             replace="python:view.pretty_date(requestdate)" />
+      </span>
+      <ul class="oc-actions">
+        <li>
+          <a class="oc-actionLink"
+             tal:attributes="href string:${context/absolute_url}/invite?remind=True&email-invites=${mem_id};
+                             name string:remind-email-invite-${member_record/address}"
+             i18n:translate="remind">Send Reminder</a>
+        </li>
+        <li>
+          <a class="oc-actionLink oc-js-actionPost oc-js-confirm"
+             tal:attributes="href string:${actual_url}?selector=pending&b_start:int=${b_start}&task|${mem_id}|retract-email-invite;
+                             name string:retract-email-invite-${member_record/address}"
+             i18n:translate="retract">Retract Invitation</a>
+        </li>
+      </ul>
+    </tal:emailinvite>
+  </li>
+</metal:pending-member-row>
+
+
+<!-- MEMBER ROLE CHANGE PLACEHOLDER -->
+<metal:member-role-changed define-macro="member-role-changed">
+  <li class="oc-clearAfter oc-boxy"
+      tal:define="mem_id member_record/id;
+                  actual_url request/ACTUAL_URL"
+      tal:attributes="id mem_id">
+    <div class="oc-roster-content">
+      <a tal:content="member_record/fullname"
+         tal:attributes="href home_url"/> has been given the role of <span tal:replace="member_role" />.
+      <ul class="oc-plainList">
+        <li>
+          <a class="oc-actionLink oc-js-actionPost"
+             tal:attributes="href string:${actual_url}?selector=${selector}&b_start:int=${b_start}&${mem_id}_role=${undo_role}&task|${mem_id}|set-roles;
+                             name string:undo-role-change-${mem_id}"
+             i18n:translate="undo">Undo</a>
+        </li>
+      </ul>
+    </div>
+  </li>
+</metal:member-role-changed>
+
+
+<!-- MEMBER SEARCH RESULTS SUMMARY -->
+<metal:search-results-summary define-macro="search-results-summary">
+  <div class="oc-searchresults-summary" id="search-results-summary">
+    Member<tal:plural condition="many">s</tal:plural> <span tal:replace="start">1</span>
+    <tal:plural condition="many">through <span tal:replace="end">10</span></tal:plural>
+    of <span tal:replace="sequence_length">376</span> 
+  </div>
+</metal:search-results-summary>
+
+
+<!-- MEMBER SEARCH FORM -->
+<metal:search-members define-macro="search-members-results">
+
+  <table class="oc-dataTable" tal:condition="view/search_results | nothing">
+    <thead>
+      <tr>
+        <th scope="col">Image</th>
+        <th scope="col">Username</th>
+        <th scope="col">Full name</th>
+        <th scope="col">Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr tal:repeat="member view/search_results">
+        <tal:mem_url define="ms context/portal_membership;
+                             mem_url python:ms.getHomeUrl(member.getId);
+                             imgtxt string:${member/getId} image">
+          <td>
+            <img tal:attributes="src string:${mem_url}/portrait_square_fifty_thumb;
+                                 title imgtxt;
+                                 alt imgtxt" />
+          </td>
+          <td>
+            <a tal:omit-tag="not:mem_url" tal:attributes="href mem_url">
+              <strong tal:content="string: ${member/getId}" /></a>
+          </td>
+          <td tal:content="string: ${member/getFullname}" />
+        </tal:mem_url>
+        <td>
+          <input type="submit" value="Invite" class="oc-button"
+                 tal:attributes="name string:task|${member/getId}|invite-member" />
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</metal:search-members>
+
+
+<!-- MEMBER INVITE FORM -->
+<metal:invite-members define-macro="invite-members">
+  <div class="oc-boxy">
+    <h2>Invite new members</h2>
+    
+    <form name="search-members" id="search-members" method="POST" 
+          tal:attributes="action request/ACTUAL_URL">
+      
+      <div class="oc-headingBlock">
+        <h3>Search for members</h3>
+        <p class="oc-headingContext">Search for and invite existing members</p>
+      </div>
+      <fieldset class="oc-form-fieldBlock" style="margin-bottom: 1em;">
+        <input class="oc-input-typeText" type="text" name="search_for" />
+
+        <tal:comment replace="nothing">ie6 hack</tal:comment>
+        <input type="hidden" name="task|none|search-members" value="Search" />
+
+        <input type="submit" name="task|none|search-members"
+               value="Search" class="oc-button" />
+      </fieldset>
+      
+      <metal:search-members use-macro="view/team_macros/macros/search-members-results" />
+    </form><!-- end #search-members -->
+    
+    <hr />
+    
+    <div class="oc-headingBlock">
+      <h3>Invite by email address</h3>
+      <p class="oc-headingContext"><a i18n:translate="team-manage_send_email_invite" 
+                                      href="invite" name="email-invite">Send an email to invite people to join</a></p>
+    </div>
+  </div>
+</metal:invite-members>

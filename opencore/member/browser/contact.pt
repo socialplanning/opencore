@@ -1,0 +1,81 @@
+<tal:vars define="memberdata view/viewed_member_info;
+                  authed_memberdata view/member_info">
+
+<html i18n:domain="opencore" metal:use-macro="here/@@standard_macros/master">
+  <body>
+    <div metal:fill-slot="content">
+
+      <div id="oc-member-badge" class="oc-boxy oc-clearAfter">
+        <div i18n:domain="opencore" class="oc-avatar" id="oc-profile-avatar">
+          <a tal:attributes="href context/absolute_url"><img tal:attributes="src memberdata/portrait_url" /></a>
+        </div>
+        <div class="oc-member-details" tal:attributes="style python:'margin-left: %spx' % memberdata['portrait_width']">
+          <metal:login-info use-macro="view/member_macros/macros/login-info" />
+        </div>
+      </div>
+
+      <div id="oc-content-main">
+        <form method="post" id="oc-memberContact" name="oc-memberContact"
+              tal:attributes="action request/ACTUAL_URL">
+          <table class="oc-form">
+            <thead></thead>
+            <tbody>
+              <tr class="oc-form-row">
+                <th class="oc-form-label" scope="row">
+                  <label i18n:translate="to-label" for="to">To:</label>
+                </th>
+                <td class="oc-form-value">
+                  <span tal:replace="memberdata/fullname" />
+                </td>
+              </tr>
+              <tr class="oc-form-row">
+                <th class="oc-form-label" scope="row">
+                  <label i18n:translate="from-label" for="from">From:</label>
+                </th>
+                <td class="oc-form-value">
+                  <span tal:replace="string:${authed_memberdata/fullname} <${authed_memberdata/email}>" />
+                </td>
+              </tr>
+              <tr class="oc-form-row">
+                <th class="oc-form-label" scope="row">
+                  <label i18n:translate="subject-label" for="subject">Subject:</label>
+                </th>
+                <td class="oc-form-value">
+                  <input type="text" id="subject" name="subject" class="oc-autoFocus"
+                         tal:attributes="value request/subject | nothing" />
+                </td>
+              </tr>
+              <tr class="oc-form-row">
+                <th class="oc-form-label" scope="row">
+                  <label i18n:translate="message-label" for="message">Message:</label>
+                </th>
+                <td class="oc-form-value">
+                  <div calss="oc-boxy">
+                    <textarea rows="8" cols="80" name="message" id="message"
+                              tal:content="request/message | nothing" />
+                  </div>
+                </td>
+              </tr>
+              <tr class="oc-form-row">
+                <th class="oc-actions" scope="row" />
+                <td class="oc-form-value" tal:define="referer view/referer">
+                  <ul class="oc-actions">
+                    <li><input type="submit" name="task|send"
+                               value="Send" class="oc-button oc-chooseThis" /></li>
+                    <li>or <a tal:attributes="href python:referer or context.absolute_url()">Cancel</a></li>
+                    <input type="hidden" name="ret_url" 
+                           tal:condition="referer"
+                           tal:attributes="value referer">
+                  </ul>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </form>
+      </div>
+
+    </div>
+  </body>
+</html>
+
+</tal:vars>

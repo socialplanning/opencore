@@ -9,8 +9,8 @@
 #
 #
 
-go ${base_url}/projects/${projname}/manage-team
-follow 'team-manage_send_email_invite'
+go ${base_url}/projects/${projname}/team
+follow 'email-invite'
 find invite-w-m_invite_title
 fv oc-inviteByEmail email-invites ${email}
 submit

@@ -11,15 +11,14 @@
 #
 extend_with flunc.checkbox
 
-go ${base_url}/projects/${projname}/manage-team
+go ${base_url}/projects/${projname}/team?selector=pending
 find ${email}
-check_group_values email-invite checked:list ${email}
-submit 'Remind'
+follow "remind-email-invite-${email}"
 fv oc-inviteByEmail subject 'hi'
 submit
 find 'Reminder sent:'
-check_group_values email-invite checked:list ${email}
-submit 'Remove'
+follow "pending-selector"
+follow "retract-email-invite-${email}"
 find 'Email invitation removed:'
-go ${base_url}/projects/${projname}/manage-team
-notfind ${email}
+notfind "member.*admin.*${email}" s
+

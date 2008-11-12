@@ -150,5 +150,14 @@
      permission="zope2.View"
      />
 
-     
+  <browser:page
+     for="opencore.interfaces.member.IMemberFolder"
+     class=".contact.MemberContactView"
+     permission="zope2.View"
+     name="contact"
+     />
+  <!-- XXX originally that was: -->
+  <!-- permission="openplans.SendContactEmail"  -->
+  <!-- ... but I can't find where in sputnik or opencore that permission is defined, so zope won't start.  -->
+
 </configure>
