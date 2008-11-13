@@ -37,6 +37,7 @@ def create_az(file_name=None, file_name2=None):
     f1 = open(file_name, 'r')
     f2 = open(file_name2, 'w')
 
+    # find the first comment line
     for line in f1:
         if '#' in line:
             break
