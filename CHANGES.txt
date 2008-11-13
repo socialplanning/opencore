@@ -10,9 +10,6 @@ Data Migrations:
    openplans/portal_setup/manage_upgrades , select the
    opencore.configuration profile, and run all the available upgrades.
 
-   XXX need to test building an 0.13 site instance w/ fresh zodb,
-   then upgrading it to 0.15 and running the upgrades.
-
 
 Features:
 
