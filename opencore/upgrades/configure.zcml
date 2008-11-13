@@ -51,6 +51,17 @@
   </genericsetup:upgradeSteps>
 
   <!-- from v0.14 to v0.15 -->
+
+  <genericsetup:upgradeStep
+     profile="opencore.configuration:default"
+     source="0.14.0"
+     destination="0.15.0"
+     sortkey="5"
+     title="Re-import permissions"
+     description="Re-import rolemap to add a 'Send contact email' permision"
+     handler=".to_0_15_0.update_rolemap"
+     />
+
   <genericsetup:upgradeSteps
      profile="opencore.configuration:default"
      source="0.14.0"

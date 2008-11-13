@@ -1,0 +1,68 @@
+-*- mode: doctest ;-*-
+
+=========================
+Contact view for members
+=========================
+
+The contact view requires you to be logged in as a member:
+
+    >>> self.logout()
+    >>> contact = self.portal.restrictedTraverse('people/m1/contact')
+    Traceback (most recent call last):
+    ...
+    Unauthorized...
+
+    >>> self.login('m2')
+    >>> contact = self.portal.restrictedTraverse('people/m1/contact')
+
+Once logged in, you can send messages to the viewed member:
+
+    >>> contact.request.form['subject'] = 'Sitting on a cornflake'
+    >>> contact.request.form['message'] = 'Waiting for the van to come'
+    >>> result = contact.send()
+    >>> utils.get_status_messages(contact)
+    [u'Message sent.']
+    >>> mh = getToolByName(contact.context, 'MailHost')
+    >>> pprint(mh.messages[-1])  # it's our mock mailhost.
+    {'mfrom': 'notreal2@example.com',
+     'msg': 'Waiting for the van to come',
+     'mto': ['notreal1@example.com'],
+     'subject': 'Sitting on a cornflake'}
+
+
+Redirect control
+----------------
+
+Referer (used in template for the 'cancel' button, and to set the next
+url after success) is limited to urls within the site. Relative is OK.
+
+    >>> contact.request['HTTP_REFERER'] = 'http://blah.com'
+    >>> print contact.referer
+    None
+    >>> contact.request['HTTP_REFERER'] = contact.context.absolute_url()
+    >>> contact.referer == contact.context.absolute_url()
+    True
+    >>> contact.request['HTTP_REFERER'] = 'something_relative'
+    >>> contact.referer
+    'something_relative'
+
+
+If ret_url is set in the request (the template sets it from the
+referer attribute), then we redirect to that URL:
+
+    >>> self.request.form['message'] = 'test message'
+    >>> contact.request.form['ret_url'] = 'XYZ'
+    >>> contact.send()
+    'XYZ'
+    >>> self.response.status, self.response.getHeader('Location')
+    (302, 'XYZ')
+
+Otherwise, we redirected to the context:
+
+    >>> contact.request.form['ret_url'] = None
+    >>> contact.send() == contact.context.absolute_url()
+    True
+    >>> self.response.status
+    302
+    >>> self.response.getHeader('Location') == contact.context.absolute_url()
+    True

@@ -1,16 +1,43 @@
+
 0.15.0dev (UNRELEASED)
 ======================
 
+
+Data Migrations:
+
+ * You will need to use the portal_setup tool to run all the upgrades
+   through 0.15. This is done the usual way: In the ZMI, go to
+   openplans/portal_setup/manage_upgrades , select the
+   opencore.configuration profile, and run all the available upgrades.
+
+   XXX need to test building an 0.13 site instance w/ fresh zodb,
+   then upgrading it to 0.15 and running the upgrades.
+
+
+Features:
+
+ * Member objects now have a _change_member_id() method. This is not
+   exposed by UI yet, but admins can use it in eg. zopectl debug.
+
+ * Member profile now has a "contact" button which links to a mail
+   form. The member's email address is not exposed. (slinkp, rafrombrc)
+
+
 Bug fixes:
 
- * Turns out the 'addable types' setting for the OpenTeam types was
-   incorrect; it was set to all implicitly allowable types instead of
-   explicitly allowing OpenMembership object (and nothing else).
-   Edited the GS profile to reflect the new setting and added an
-   upgradeStep to automate its application.
+
+ * "Delete" button on project contents page now is shown or hidden
+   based on correct permission check. There is a GS upgradeStep to fix
+   existing workflows. (rafrombrc)
+
+ * The 'addable types' setting for the OpenTeam types was incorrect;
+   it was set to all implicitly allowable types instead of explicitly
+   allowing OpenMembership (and nothing else).  Edited the GS profile
+   to reflect the new setting and added an upgradeStep to automate its
+   application. (rafrombrc)
 
 
-0.14.1 (2008/10/07)
+0.14.1 (2008/11/07)
 ===================
 
 Data Migrations:
@@ -44,9 +71,9 @@ Bug fixes:
 
 Refactoring:
 
-  * Removed a ton of FormLite and Octopus cruft from opencore/browser.
-    Everything left is in opencore/browser/formhandler.py, with more
-    tests. (slinkp)
+ * Removed a ton of FormLite and Octopus cruft from opencore/browser.
+   Everything left is in opencore/browser/formhandler.py, with more
+   tests. (slinkp)
 
 
 0.14.0 (2008/10/02)

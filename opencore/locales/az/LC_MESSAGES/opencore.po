@@ -532,6 +532,10 @@ msgstr "forum_threaded_option"
 #: ./opencore/listen/browser/forum_message_view.pt:51
 msgid "forum_update_button"
 msgstr "forum_update_button"
+#. Default: "From:"
+#: ./opencore/member/browser/contact.pt:33
+msgid "from-label"
+msgstr "from-label"
 #. Default: "No results found."
 #: ./opencore/nui/main/home-searchresults.pt:107
 msgid "home-searchresults_no_results"
@@ -964,6 +968,10 @@ msgstr "member_macros_pages_modified"
 #: ./opencore/member/browser/member_macros.pt:17
 msgid "member_macros_recent_activity"
 msgstr "member_macros_recent_activity"
+#. Default: "Message:"
+#: ./opencore/member/browser/contact.pt:50
+msgid "message-label"
+msgstr "message-label"
 #. Default: "Attachments"
 #: ./opencore/listen/browser/message_macros.pt:66
 msgid "message_macros_attms"
@@ -1306,6 +1314,10 @@ msgstr "psm_many_requests_approved"
 #: ./opencore/nui/main/contact.py:66
 msgid "psm_message_sent_to_admin"
 msgstr "psm_message_sent_to_admin"
+#. Default: "Message sent."
+#: ./opencore/member/browser/contact.py:35
+msgid "psm_message_sent_to_user"
+msgstr "psm_message_sent_to_user"
 #: ./opencore/account/confirmation.py:101
 msgid "psm_new_activation"
 msgstr "psm_new_activation"
@@ -1416,6 +1428,14 @@ msgstr "reset-password_new_password_label"
 #: ./opencore/account/reset-password.pt:28
 msgid "reset-password_username_label"
 msgstr "reset-password_username_label"
+#. Default: "Send message"
+#: ./opencore/member/browser/profile.pt:134
+msgid "send-message"
+msgstr "send-message"
+#. Default: "Subject:"
+#: ./opencore/member/browser/contact.pt:41
+msgid "subject-label"
+msgstr "subject-label"
 #. Default: "Send an email to invite people to join"
 #: ./opencore/project/browser/team-manage.pt:99
 msgid "team-manage_send_email_invite"
@@ -1468,6 +1488,10 @@ msgstr "tmsg_decline_invite"
 #: ./opencore/member/browser/account.py:285
 msgid "tmsg_joined_project"
 msgstr "tmsg_joined_project"
+#. Default: "To:"
+#: ./opencore/member/browser/contact.pt:25
+msgid "to-label"
+msgstr "to-label"
 #. Default: "Let other ${portal_title} members know who you are and what you're interested in. The more information you provide, the more contacts you'll make."
 #: ./opencore/member/browser/tour.pt:17
 msgid "tour_complete_profile_desc"

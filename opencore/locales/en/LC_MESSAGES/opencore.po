@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: opencore\n"
-"POT-Creation-Date: 2008-11-07 23:50+0000\n"
+"POT-Creation-Date: 2008-11-13 21:47+0000\n"
 "PO-Revision-Date: 2008-10-08 15:57-0400\n"
 "Last-Translator: \n"
 "Language-Team: The Open Planning Project <opencore-dev@lists.openplans.org>\n"
@@ -641,6 +641,11 @@ msgstr ""
 msgid "forum_update_button"
 msgstr ""
 
+#. Default: "From:"
+#: ./opencore/member/browser/contact.pt:33
+msgid "from-label"
+msgstr ""
+
 #. Default: "No results found."
 #: ./opencore/nui/main/home-searchresults.pt:107
 msgid "home-searchresults_no_results"
@@ -1181,6 +1186,11 @@ msgstr ""
 msgid "member_macros_recent_activity"
 msgstr ""
 
+#. Default: "Message:"
+#: ./opencore/member/browser/contact.pt:50
+msgid "message-label"
+msgstr ""
+
 #. Default: "Attachments"
 #: ./opencore/listen/browser/message_macros.pt:66
 msgid "message_macros_attms"
@@ -1609,6 +1619,11 @@ msgstr ""
 msgid "psm_message_sent_to_admin"
 msgstr ""
 
+#. Default: "Message sent."
+#: ./opencore/member/browser/contact.py:35
+msgid "psm_message_sent_to_user"
+msgstr ""
+
 #: ./opencore/account/confirmation.py:101
 msgid "psm_new_activation"
 msgstr "A new activation email has been sent to ${email} from ${mfrom}. <br />Please follow the link in the email to activate your account."
@@ -1748,6 +1763,16 @@ msgstr ""
 msgid "reset-password_username_label"
 msgstr ""
 
+#. Default: "Send message"
+#: ./opencore/member/browser/profile.pt:134
+msgid "send-message"
+msgstr ""
+
+#. Default: "Subject:"
+#: ./opencore/member/browser/contact.pt:41
+msgid "subject-label"
+msgstr ""
+
 #. Default: "Send an email to invite people to join"
 #: ./opencore/project/browser/team-manage.pt:99
 msgid "team-manage_send_email_invite"
@@ -1811,6 +1836,11 @@ msgstr ""
 #. Default: "<a href=\"${member_url}\">${id}</a> has joined <a href=\"${project_url}\">${proj_id}</a>"
 #: ./opencore/member/browser/account.py:285
 msgid "tmsg_joined_project"
+msgstr ""
+
+#. Default: "To:"
+#: ./opencore/member/browser/contact.pt:25
+msgid "to-label"
 msgstr ""
 
 #. Default: "Let other ${portal_title} members know who you are and what you're interested in. The more information you provide, the more contacts you'll make."

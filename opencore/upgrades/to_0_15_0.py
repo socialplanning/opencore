@@ -18,3 +18,7 @@ def reapply_workflow_profile(context):
 def update_workflow_permissions(context):
     wftool = getToolByName(context, 'portal_workflow')
     wftool.updateRoleMappings()
+
+def update_rolemap(context):
+    result = run_import_step(context, 'rolemap')
+    logger.info(result)
