@@ -20,7 +20,7 @@ Test wiki page registrations::
     >>> page.restrictedTraverse('@@edit')
     Traceback (most recent call last):
     ...
-    Unauthorized: You are not allowed to access '@@edit' in this context
+    Unauthorized: ...
 
 Make sure notallowed css class is applied to edit tab
 since we don't have permissions to edit::
@@ -56,17 +56,17 @@ Test wiki attachment registrations which are not used any more::
     >>> page.restrictedTraverse('@@updateAtt')
     Traceback (most recent call last):
     ...
-    Unauthorized: You are not allowed to access '@@updateAtt' in this context
+    Unauthorized: ...
 
     >>> page.restrictedTraverse('@@createAtt')    
     Traceback (most recent call last):
     ...
-    Unauthorized: You are not allowed to access '@@createAtt' in this context
+    Unauthorized: ...
 
     >>> page.restrictedTraverse('@@deleteAtt')    
     Traceback (most recent call last):
     ...
-    Unauthorized: You are not allowed to access '@@deleteAtt' in this context
+    Unauthorized: ...
 
 Test logged in user::
 

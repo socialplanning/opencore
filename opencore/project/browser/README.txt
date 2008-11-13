@@ -118,7 +118,7 @@ Make sure a nonmember of this new closed project can't access it::
     >>> view = projects.test1341.restrictedTraverse("preferences")
     Traceback (most recent call last):
     ...
-    Unauthorized: You are not allowed to access 'preferences' in this context
+    Unauthorized: ...
     >>> self.logout()
 
 Log back in as the creator and deactivate him; now he can't access
@@ -133,13 +133,13 @@ views on his project either::
     >>> view = projects.test1341.restrictedTraverse("preferences")
     Traceback (most recent call last):
     ...
-    Unauthorized: You are not allowed to access 'preferences' in this context
+    Unauthorized: ...
 
 Make sure he can't access wiki pages in his project, too::
     >>> view = projects.test1341.restrictedTraverse("project-home")
     Traceback (most recent call last):
     ...
-    Unauthorized: You are not allowed to access 'project-home' in this context
+    Unauthorized: ...
 
     >>> self.logout()
     >>> self.login('test_user_1_')
@@ -225,7 +225,7 @@ Now set a valid title::
     >>> proj.restrictedTraverse('preferences')
     Traceback (most recent call last):
     ...
-    Unauthorized: You are not allowed to access 'preferences' in this context
+    Unauthorized: ...
 
     We should also not be able to edit the default page
     >>> page_id = 'project-home'
@@ -233,7 +233,7 @@ Now set a valid title::
     >>> page.restrictedTraverse('edit')
     Traceback (most recent call last):
     ...
-    Unauthorized: You are not allowed to access 'edit' in this context
+    Unauthorized: ...
 
     Log back in as the right user
     >>> self.login('test_user_1_')
