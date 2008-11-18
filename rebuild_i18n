@@ -1,0 +1,37 @@
+#!/bin/sh
+
+# Run this from the base of an opencore source dir.
+if [ ! -d opencore/locales ]; then
+    echo "Must be run from the root of an opencore source tree"
+    exit 1
+fi
+
+
+LOCALES=opencore/locales
+POTFILE=$LOCALES/opencore.pot
+
+echo Rebuilding POT file $POTFILE...
+i18ndude rebuild-pot --pot $POTFILE --create opencore . || exit 1
+
+for POFILE in `find $LOCALES -type f -name opencore.po`; do
+    echo Syncing messages to PO file $POFILE...
+    i18ndude sync --pot $POTFILE $POFILE || exit 1
+done
+
+echo Now would be a good time for you to edit any translation .po files
+echo
+echo Creating fake AZ translation for tests...
+python opencore/locales/create-az.py || exit 1
+
+echo Running msgfmt to ensure .mo files are compiled with no syntax issues
+type msgfmt
+if [ $? -ne 0 ]; then
+    echo Could not find msgfmt command. Try installing gnu gettext.
+    exit 1
+else
+    for subdir in `find . -name LC_MESSAGES`; do
+       echo "  running msgfmt -o $subdir/opencore.mo $subdir/opencore.po"
+       msgfmt -o $subdir/opencore.mo $subdir/opencore.po
+    done
+fi
+
