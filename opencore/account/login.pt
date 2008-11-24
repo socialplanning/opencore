@@ -5,6 +5,7 @@
   <head>
     <title metal:fill-slot="title" 
            tal:content="string:${view/portal_title} Login" />
+  </head>
   <body>
     <div metal:fill-slot="content">
       <div id="oc-content-main">

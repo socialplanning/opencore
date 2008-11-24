@@ -14,11 +14,11 @@
   <table>
     <tr>
       <td class="form-label">Id</td>
-      <td><input type="text" name="id"></td>
+      <td><input type="text" name="id"/></td>
     </tr>
     <tr>
       <td class="form-label">Title</td>
-      <td><input type="text" name="Title"></td>
+      <td><input type="text" name="Title"/></td>
     </tr>
     <tr>
       <td colspan="2">

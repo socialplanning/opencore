@@ -10,8 +10,8 @@
     _resized_prefix = ".resized";
     _resized_dir = ".resized";
   </script>
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
- <link href="++resource++xinha/plugins/ImageManager/assets/manager.css" rel="stylesheet" type="text/css">
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+ <link href="++resource++xinha/plugins/ImageManager/assets/manager.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="++resource++xinha/plugins/ImageManager/assets/popup.js"></script>
 <script type="text/javascript" src="++resource++xinha/popups/popup.js"></script>
 <script type="text/javascript" src="++resource++xinha/plugins/ImageManager/assets/dialog.js"></script>
@@ -36,14 +36,14 @@
             <tr>
           <th align="left">Upload:</th>
           <td colspan="2">
-            <input name="attachmentFile" id="attachmentFile" type="file">
-            <input type="submit" name="task|upload-attachment-manager" class="oc-js-actionButton" value="Upload" /> or <a href="#" class="oc-js-expander_close">Cancel</a>
+            <input name="attachmentFile" id="attachmentFile" type="file"/>
+            <input type="submit" name="task|upload-attachment-manager" class="oc-js-actionButton" value="Upload"/> or <a href="#" class="oc-js-expander_close">Cancel</a>
           </td>
         </tr>
         
   </tbody></table>
 
-  <div id="messages" style="display: none;"><span id="message">Uploading</span><img src="++resource++xinha/plugins/ImageManager/img/dots.gif/dots.gif" alt="..." height="12" width="22"></div>
+  <div id="messages" style="display: none;"><span id="message">Uploading</span><img src="++resource++xinha/plugins/ImageManager/img/dots.gif/dots.gif" alt="..." height="12" width="22"/></div>
 
   <iframe src="backend-images" name="imgManager" id="imgManager" class="imageFrame" title="Image Selection" frameborder="0" scrolling="auto"></iframe>
 
@@ -55,34 +55,34 @@
   <tbody><tr>
     <th align="left">Description:</th>
     <td colspan="6">
-      <input id="f_alt" style="width: 100%;" type="text">
+      <input id="f_alt" style="width: 100%;" type="text"/>
     </td>
   </tr>
 
   <tr>
     <th align="left">Width:</th>
     <td>
-      <input id="f_width" name="f_width" size="4" onchange="javascript:checkConstrains('width');" type="text">
+      <input id="f_width" name="f_width" size="4" onchange="javascript:checkConstrains('width');" type="text"/>
     </td>
     <td rowspan="2">
       <div style="position: relative;">
-        <img src="++resource++img/locked.gif" id="imgLock" alt="Constrained Proportions" valign="middle" height="32" width="25"><input id="constrain_prop" checked="checked" onclick="javascript:toggleConstrains(this);" style="position: absolute; top: 8px; left: 0px;" type="checkbox">
+        <img src="++resource++img/locked.gif" id="imgLock" alt="Constrained Proportions" valign="middle" height="32" width="25"/><input id="constrain_prop" checked="checked" onclick="javascript:toggleConstrains(this);" style="position: absolute; top: 8px; left: 0px;" type="checkbox"/>
       </div>
     </td>
     <th align="left">Margin:</th>
     <td colspan="3">
-      <input name="f_margin" id="f_margin" size="3" type="text">
+      <input name="f_margin" id="f_margin" size="3" type="text"/>
       px </td>
   </tr>
 
   <tr>
     <th align="left">Height:</th>
     <td>
-      <input name="f_height" id="f_height" size="4" type="text">
+      <input name="f_height" id="f_height" size="4" type="text"/>
     </td>
     <th align="left">Padding:</th>
     <td>
-      <input name="f_padding" id="f_padding" size="3" type="text">
+      <input name="f_padding" id="f_padding" size="3" type="text"/>
       px </td>
   </tr>
 
@@ -105,7 +105,7 @@
     </td>
     <th align="left">Border:</th>
     <td>
-      <input name="f_border" id="f_border" size="3" type="text">
+      <input name="f_border" id="f_border" size="3" type="text"/>
       px </td>
 
   </tr>
@@ -113,15 +113,15 @@
 </tbody></table>
 
 <div style="text-align: right;">
-  <hr>
+  <hr/>
   <button type="button" class="buttons" onclick="return refresh();">Refresh</button>
   <button type="button" class="buttons" onclick="return onOK();">OK</button>
   <button type="button" class="buttons" onclick="return onCancel();">Cancel</button>
 </div>
 
 <!--// image properties -->
-<input id="orginal_width" type="hidden">
-<input id="orginal_height" type="hidden">
-<input id="f_url" class="largelWidth" value="" type="hidden">
+<input id="orginal_width" type="hidden"/>
+<input id="orginal_height" type="hidden"/>
+<input id="f_url" class="largelWidth" value="" type="hidden"/>
 </form>
 <div></div></body></html>

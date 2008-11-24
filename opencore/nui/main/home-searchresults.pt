@@ -85,8 +85,9 @@
                         modified by
                         <a tal:attributes="href string:${context/portal_url}/people/${userid}/profile" tal:content="userid" />,
                       </tal:has_updated_author>
-                      last updated
-                      <span tal:replace="python: view.pretty_date(item.ModificationDate)" />
+		      last updated		      
+		      <span tal:replace="python: view.pretty_date(item.ModificationDate)" />
+		      </span>
                     </tal:not_user>
                   </tal:defines>
               </li>

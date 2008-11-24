@@ -153,8 +153,9 @@
           </fieldset>
           <fieldset>
             <ul class="oc-actions">
-            <li><input type="submit" name="task|request-membership" value="Join" class="oc-button oc-chooseThis" /> </li>
-            <li>or <a tal:attributes="href context/absolute_url">Cancel</a></li>
+              <li><input type="submit" name="task|request-membership" value="Join" class="oc-button oc-chooseThis" /> </li>
+	      <li>or <a tal:attributes="href context/absolute_url">Cancel</a></li>
+	    </ul>
           </fieldset>
         </form>
       </div><!--end oc-content-main -->

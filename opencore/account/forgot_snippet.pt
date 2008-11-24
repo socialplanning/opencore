@@ -31,7 +31,8 @@
                 <td>
                   <button class="oc-button" type="submit" 
                           name="send:boolean" 
-                          value="True">Send</button>
+			  value="True">Send</button>
+		</td>
                 <td class="oc-form-help"></td>
               </tr>                    
             </tbody>

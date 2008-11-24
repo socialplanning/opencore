@@ -65,7 +65,7 @@
                     <li>or <a tal:attributes="href python:referer or context.absolute_url()">Cancel</a></li>
                     <input type="hidden" name="ret_url" 
                            tal:condition="referer"
-                           tal:attributes="value referer">
+			   tal:attributes="value referer"/>
                   </ul>
                 </td>
               </tr>

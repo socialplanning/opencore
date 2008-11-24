@@ -78,7 +78,7 @@
       <div id="oc-content-sidebar">
       	<div class="oc-getstarted oc-boxy">
       		<h2>Start a project</h2>
-      		<p class="oc-boxy-content">Can&rsquo;t find a project you are interested in? See a need that is not being met? Why not <a href="">start a new project</a>?
+		<p class="oc-boxy-content">Can&rsquo;t find a project you are interested in? See a need that is not being met? Why not <a href="">start a new project</a>?</p>
       	</div>
       	<div class="oc-boxy">
 	  <a href="/featured-projects#oc-wiki-content" rel="include">Featured Projects</a>
