@@ -9,9 +9,10 @@ fi
 
 LOCALES=opencore/locales
 POTFILE=$LOCALES/opencore.pot
+MANUALPOT=$LOCALES/manual.pot
 
 echo Rebuilding POT file $POTFILE...
-i18ndude rebuild-pot --pot $POTFILE --create opencore . || exit 1
+i18ndude rebuild-pot --pot $POTFILE --merge $MANUALPOT --create opencore . || exit 1
 
 for POFILE in `find $LOCALES -type f -name opencore.po`; do
     echo Syncing messages to PO file $POFILE...
