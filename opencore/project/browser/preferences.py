@@ -154,9 +154,19 @@ class ProjectPreferencesView(ProjectBaseView, OctopoLite):
             del self.request.form['logo']
 
         #store change status of flet, security, title, description, logo...
+        try:
+            title_changed = self.context.title != self.request.form.get('project_title', self.context.title)
+        except UnicodeDecodeError:
+            title_changed = self.context.title != self.request.form.get('project_title', self.context.title).decode('utf-8','ignore')
+ 
+        try:
+            desc_changed = self.context.Description() != self.request.form.get('description', self.context.Description())
+        except UnicodeDecodeError:
+            desc_changed = self.context.Description() != self.request.form.get('description', self.context.Description()).decode('utf-8','ignore')
+ 
         changed = {
-            _(u'psm_project_title_changed') : self.context.title != (self.request.form.get('project_title', '').decode('utf-8','ignore') or self.context.title),
-            _(u'psm_project_desc_changed') : self.context.Description() != (self.request.form.get('description', '').decode('utf-8','ignore') or self.context.Description()),
+            _(u'psm_project_title_changed') : title_changed,
+            _(u'psm_project_desc_changed') : desc_changed,
             _(u'psm_project_logo_changed') : logochanged,
             _(u'psm_security_changed') : old_workflow_policy != self.request.form.get('workflow_policy'),
             #_(u'psm_location_changed'): bool(locationchanged),
