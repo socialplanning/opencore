@@ -2,19 +2,18 @@ msgid ""
 msgstr ""
 "Project-Id-Version: opencore\n"
 "POT-Creation-Date: 2008-11-24 09:32+0000\n"
-"PO-Revision-Date: 2008-10-08 15:57-0400\n"
-"Last-Translator: \n"
-"Language-Team: The Open Planning Project <opencore-dev@lists.openplans.org>\n"
+"PO-Revision-Date: 2008-06-02 22:20+0200\n"
+"Last-Translator: Pierre George <pierregrg@gmail.com>\n"
+"Language-Team: OpenFSM Team <openfsm@lists.openfsm.net>\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=1; plural=0\n"
-"Language-Code: en\n"
-"Language-Name: English\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"Language-Code: es\n"
+"Language-Name: Español\n"
 "Preferred-Encodings: utf-8 latin1\n"
 "Domain: opencore\n"
-"X-Poedit-Language: English\n"
-"X-Poedit-Country: UNITED STATES\n"
+"X-Is-Fallback-For: es-ar es-bo es-cl es-co es-cr es-do es-ec es-es es-sv es-gt es-hn es-mx es-ni es-pa es-py es-pe es-pr es-us es-uy es-ve\n"
 
 msgid "Account"
 msgstr ""
@@ -70,32 +69,32 @@ msgstr ""
 #. Default: "Cancel"
 #: ./opencore/member/browser/account.pt:170
 msgid "account_cancel_change_pass"
-msgstr ""
+msgstr "Anular"
 
 #. Default: "Cancel"
 #: ./opencore/member/browser/account.pt:144
 msgid "account_cancel_hide_email"
-msgstr ""
+msgstr "Anular"
 
 #. Default: "Change email"
 #: ./opencore/member/browser/account.pt:124
 msgid "account_change_email"
-msgstr ""
+msgstr "Cambiar de direccion electronica"
 
 #. Default: "Change password"
 #: ./opencore/member/browser/account.pt:152
 msgid "account_change_pass"
-msgstr ""
+msgstr "Cambiar contraseña"
 
 #. Default: "Confirm new password"
 #: ./opencore/member/browser/account.pt:164
 msgid "account_confirm_new_pass"
-msgstr ""
+msgstr "Confirmar nueva contraseña"
 
 #. Default: "Current password"
 #: ./opencore/member/browser/account.pt:156
 msgid "account_current_pass"
-msgstr ""
+msgstr "Contraseña actual"
 
 #. Default: "Delete This Account Permanently?"
 #: ./opencore/member/browser/delete.pt:12
@@ -105,172 +104,179 @@ msgstr ""
 #. Default: "View and manage your memberships and account settings."
 #: ./opencore/member/browser/account.pt:13
 msgid "account_description"
-msgstr ""
+msgstr "Ver y gestionar sus membresias y parametros personales"
 
 #. Default: "Edit profile"
 #: ./opencore/member/browser/account.pt:120
 msgid "account_edit_profile"
-msgstr ""
+msgstr "Editar perfil"
 
 #. Default: "Email"
 #: ./opencore/member/browser/account.pt:128
 msgid "account_email_label"
-msgstr ""
+msgstr "Direccion electronica"
 
 #. Default: "Your account"
 #: ./opencore/member/browser/account.pt:12
 msgid "account_heading"
-msgstr ""
+msgstr "Su cuenta"
 
 #. Default: "${project} ${project} has invited you to become a member"
 #: ./opencore/member/browser/account.pt:56
+#, fuzzy
 msgid "account_invite"
-msgstr ""
+msgstr "${project} ${project} te ha invitado a ser miembro en su equipo "
 
 #. Default: "Latest updates (${num_updates})"
 #: ./opencore/member/browser/account.pt:25
+#, fuzzy
 msgid "account_latest_updates"
-msgstr ""
+msgstr " Cambios recientes (${num_updates})"
 
 #. Default: "<p><strong>What does it mean to be &ldquo;listed&rdquo; on a ${project_noun}?</strong></p> <p>For your privacy, you can choose whether or not to be publicly listed as a member of a ${project_noun}.</p> <p>If you choose not to be listed then only fellow team members can see your affiliation. Those who are not members of the team will not see you listed in the team roster, nor will they see the ${project_noun} listed anywhere on your profile.</p> <p>However, any updates you make on a publicly viewable ${project_noun} could still display your username and a link to your profile.</p>"
 #: ./opencore/member/browser/account.pt:185
+#, fuzzy
 msgid "account_listed_explanation"
-msgstr ""
+msgstr "<p><strong>Que significa ser &ldquo;listado&rdquo; en  un ${project_noun}?</strong></p> <p>Para su privacidad, puede escoger ser o no publicamente mencionad@ como miembro del equipo de ${project_noun}.</p> <p>Si escoge no ser listad@, entonces solos los otros miembros del equipo ven su participacion. Los que no son miembros del equipo no van a ver su nombre en la lista, y no van a ver el   ${project_noun} mencionado en Su perfil.</p> <p>Sin embargo cualquier cambio que Ud introduzca en un ${project_noun} visible publicamente podria enseñar Su nombre de usuario y un vinculo hacia  su perfil </p>"
 
 #. Default: "New password"
 #: ./opencore/member/browser/account.pt:160
 msgid "account_new_pass"
-msgstr ""
+msgstr "Nueva contraseña"
 
 #. Default: "Actions"
 #: ./opencore/member/browser/account_project_table.pt:19
 msgid "account_project_actions_header"
-msgstr ""
+msgstr "Acciones"
 
 #. Default: "${project_noun}s you belong to (${num_projects})"
 #: ./opencore/member/browser/account_project_table.pt:8
+#, fuzzy
 msgid "account_project_belong_to"
-msgstr ""
+msgstr "(${num_projects}) ${project_noun}s en los cuales Ud esta presente"
 
 #. Default: "Listed"
 #: ./opencore/member/browser/account_project_table.pt:18
 msgid "account_project_listed_header"
-msgstr ""
+msgstr "Listado"
 
 #. Default: "<h2>You don't belong to any ${project_noun}s.</h2> <p>Why not <a href=\"${DYNAMIC_CONTENT}\">look for one to join</a> or <a href=\"${DYNAMIC_CONTENT}\">start your own</a>?</p>"
 #: ./opencore/member/browser/account_project_table.pt:50
+#, fuzzy
 msgid "account_project_no_projects"
-msgstr ""
+msgstr "<h2>Ud no esta incluid@ en ningun ${project_noun}s.</h2> <p>Porque no  <a href=\"${DYNAMIC_CONTENT}\">buscar uno donde incluirse</a> o <a href=\"${DYNAMIC_CONTENT}\">iniciar el suyo </a>?</p>"
 
 #. Default: "${project_noun}"
 #: ./opencore/member/browser/account_project_table.pt:15
 msgid "account_project_project_header"
-msgstr ""
+msgstr "${project_noun}"
 
 #. Default: "Role"
 #: ./opencore/member/browser/account_project_table.pt:16
 msgid "account_project_role_header"
-msgstr ""
+msgstr "Papel"
 
 #. Default: "Since"
 #: ./opencore/member/browser/account_project_table.pt:17
 msgid "account_project_since_header"
-msgstr ""
+msgstr "Desde"
 
 #. Default: "Account settings"
 #: ./opencore/member/browser/account.pt:119
 msgid "account_settings"
-msgstr ""
+msgstr "Parametros de la cuenta"
 
 #. Default: "view all"
 #: ./opencore/listen/browser/archive_date_view.pt:17
 msgid "archive_date_view_all"
-msgstr ""
+msgstr "ver todo"
 
 #. Default: "View by <a href=\"forum_view\">conversation</a> or <strong>date</strong>"
 #: ./opencore/listen/browser/archive_date_view.pt:10
 msgid "archive_date_view_by"
-msgstr ""
+msgstr "Ver por <a href=\"forum_view\">conversacion</a> o <strong>fecha</strong>"
 
 #. Default: "Started by"
 #: ./opencore/listen/browser/archive_forum_view.pt:23
 msgid "archive_forum_list_thread_starter"
-msgstr ""
+msgstr "Iniciado por"
 
 #. Default: "Last activity"
 #: ./opencore/listen/browser/archive_forum_view.pt:25
 msgid "archive_forum_thread_last_activity"
-msgstr ""
+msgstr "Ultima actividad"
 
 #. Default: "Replies"
 #: ./opencore/listen/browser/archive_forum_view.pt:24
 msgid "archive_forum_thread_replies"
-msgstr ""
+msgstr "Respuestas"
 
 #. Default: "Subject"
 #: ./opencore/listen/browser/archive_forum_view.pt:22
 msgid "archive_forum_thread_subject"
-msgstr ""
+msgstr "Asunto"
 
 #. Default: "View by <strong>conversation</strong> or <a href=\"date_view\">date</a>"
 #: ./opencore/listen/browser/archive_forum_view.pt:10
 msgid "archive_forum_view_by"
-msgstr ""
+msgstr "Ver por <strong>conversacion</strong> o <a href=\"date_view\">fecha</a>"
 
 #. Default: "There are currently no posts in this archive."
 #: ./opencore/listen/browser/archive_thread_messages.pt:35
 msgid "archive_no_posts"
-msgstr ""
+msgstr "De momento, no hay elementos en este archivo"
 
 #. Default: "View by <a href=\"../forum_view\">conversation</a> or <strong>date</strong> (<strong>threaded</strong> or <a id=\"switch_view\" href=\"by_date\">flat</a>)"
 #: ./opencore/listen/browser/archive_thread_messages.pt:13
+#, fuzzy
 msgid "archive_thread_view_by"
-msgstr ""
+msgstr "Ver por <a href=\"../forum_view\">conversacion</a> o <strong>fecha</strong> (<strong>hilado</strong> o <a id=\"switch_view\" href=\"by_date\">llano</a>)"
 
 #. Default: "View by <a href=\"../forum_view\">conversation</a> or <strong>date</strong> (<strong>flat</strong> or <a id=\"switch_view\" href=\"by_thread\">threaded</a>)"
 #: ./opencore/listen/browser/archive_date_messages.pt:12
+#, fuzzy
 msgid "archive_view_by"
-msgstr ""
+msgstr "Ver por<a href=\"../forum_view\">conversacion</a> o <strong>fecha</strong> (<strong>llano</strong> o <a id=\"switch_view\" href=\"by_thread\">hilado</a>)"
 
 #. Default: "Next"
 #: ./opencore/nui/main/batch_macros.pt:102
 msgid "batch_macros_next_x_items"
-msgstr ""
+msgstr "Siguiente"
 
 #. Default: "Prev"
 #: ./opencore/nui/main/batch_macros.pt:21
 msgid "batch_macros_previous_x_items"
-msgstr ""
+msgstr "Previo"
 
 #. Default: "Fill in the form below to contact the site administrators."
 #: ./opencore/nui/main/contact-site-admin.pt:12
 msgid "contact-site-admin_description"
-msgstr ""
+msgstr "Llenar la ficha abajo para contactar los administradores del sitio web"
 
 #. Default: "Message"
 #: ./opencore/nui/main/contact-site-admin.pt:99
 msgid "contact-site-admin_label_message"
-msgstr ""
+msgstr "Mensaje"
 
 #. Default: "(Required)"
 #: ./opencore/nui/main/contact-site-admin.pt:51
 msgid "contact-site-admin_label_required"
-msgstr ""
+msgstr "(Requerido)"
 
 #. Default: "E-Mail"
 #: ./opencore/nui/main/contact-site-admin.pt:48
 msgid "contact-site-admin_label_sender_from_address"
-msgstr ""
+msgstr "Correo electronico"
 
 #. Default: "Name"
 #: ./opencore/nui/main/contact-site-admin.pt:30
 msgid "contact-site-admin_label_sender_fullname"
-msgstr ""
+msgstr "Nombre"
 
 #. Default: "Subject"
 #: ./opencore/nui/main/contact-site-admin.pt:78
 msgid "contact-site-admin_label_subject"
-msgstr ""
+msgstr "Asunto"
 
 #. Default: "At-a-glance view of all documents within this ${project_noun}."
 #: ./opencore/project/browser/contents.pt:13
@@ -364,7 +370,7 @@ msgstr ""
 
 #: ./opencore/project/browser/manageteam.py:589
 msgid "demote_to_member"
-msgstr "${name} is no longer an administrator"
+msgstr "${name} ya no es mas un administrador"
 
 #. Default: "Discussion list for this ${project_noun}, consisting of all ${project_noun} members."
 #: ./opencore/listen/events.py:93
@@ -375,187 +381,140 @@ msgstr ""
 #: ./opencore/account/login.py:289
 msgid "email_forgot_password"
 msgstr ""
-"Forgot your ${portal_title} password?  No problem.\n"
-"\n"
-"Click this link to reset your password: ${url}\n"
-"\n"
-"Cheers, \n"
-"The ${portal_title} Team"
 
 #. Default: "${portal_title} - Password reset"
 #: ./opencore/account/login.py:294
-#, fuzzy
 msgid "email_forgot_password_subject"
-msgstr "${portal_title} - Reset Password"
+msgstr ""
 
 #. Default: "Subject: ${portal_title} - Invitation to join  ${project_title}\n\nThe invitation extended to you to join \"${project_title}\" on ${portal_title} has been revoked.\n"
 #: ./opencore/project/browser/mship_messages.py:51
 msgid "email_invitation_retracted"
 msgstr ""
-"Subject: ${portal_title} – Your Invitation to join ”${project_title}” \n"
-" \n"
-"Your invitation to join ”${project_title}” on ${portal_title} has expired.  For more information, please contact an administrator of this ${project_noun}.\n"
+"Asunto: ${portal_title} - Invitacion a incluirse en  ${project_title}\n"
 "\n"
-"The ${portal_title} Team"
+"La invitacion mandada a Ud para incluirse en \"${project_title}\" en ${portal_title} fue cancelada."
 
 #. Default: "${inviter_name} has invited you to join \"${project_title}\" on ${portal_title}. ${portal_title} is a free toolset for social change. With ${portal_title}, you can build collaborative pages for organizing ${project_noun}s. You can also blog, set up mailing lists, store and share files, and keep track of tasks."
 #: ./opencore/project/browser/invite-with-message.pt:74
+#, fuzzy
 msgid "email_invite_default_body"
-msgstr ""
+msgstr "${inviter_name} le invito a incluirse en \"${project_title}\" en ${portal_title}. ${portal_title} es un caja de herramientas libre para el cambio social . Con ${portal_title}, Ud puede editarr paginas en colaboracion para organizar ${project_noun}s. Ud puede tambien blogar, establecer listas de correo, guardar y compartir archivos, y documentar tareas."
 
 #. Default: "Subject: You've been invited to join \"${project_title}\"\n\nHi ${user_name},\n\nYou have been invited to join \"${project_title}\" by ${inviter_name}.\nPlease visit your account page to accept or decline the invitation: ${account_url}\n\nCheers,\nThe ${portal_name} Team\n${portal_url}\n"
 #: ./opencore/project/browser/mship_messages.py:3
 msgid "email_invite_member"
 msgstr ""
-"Subject: You've been invited to join \"${project_title}\"\n"
+"Asunto: Ud fue invitad@ a incluirse en \"${project_title}\"\n"
 "\n"
-"Hi ${user_name},\n"
+"Hola ${user_name},\n"
 "\n"
-"You have been invited to join \"${project_title}\" by ${inviter_name}. Please visit your account page to accept or decline the invitation: ${account_url}\n"
+"Ha sido invitad@ a incluirse en \"${project_title}\" por ${inviter_name}.\n"
+"Por favor visite su pagina 'mi cuenta' para acceptar o rechazar la invitacion: ${account_url}\n"
 "\n"
-"Cheers,\n"
-"The ${portal_title} Team"
+"Saludos,\n"
+"El equipo ${portal_name} \n"
+"${portal_url}"
 
 #. Default: "Subject: You've been invited to join \"${project_title}\"\n\nHi ${user_name},\n\nYou have been invited to join \"${project_title}\" by ${inviter_name}.\nPlease first confirm your email address at the following address: ${conf_url}\nand then you can accept or decline the invitation.\n\nCheers,\nThe ${portal_name} Team\n${portal_url}\n"
 #: ./opencore/project/browser/mship_messages.py:15
 msgid "email_invite_pending_member"
 msgstr ""
-"Subject: You've been invited to join \"${project_title}\"\n"
+"Asunto: Ud fue invitad@ a incluirse en \"${project_title}\"\n"
 "\n"
-"Hi ${user_name},\n"
+"Hola ${user_name},\n"
 "\n"
-"You have been invited to join \"${project_title}\" by ${inviter_name}.Please visit your account page to accept or decline the invitation: ${account_url}\n"
+"Ha sido invitad@ a incluirse en \"${project_title}\" por ${inviter_name}.\n"
+"Por favor confirma su direccion electronica en la direccion siguiente: ${conf_url}\n"
+"y luego puede acceptar o rechazar la invitacion.\n"
 "\n"
-"Cheers,\n"
-"The ${portal_title} Team"
+"Saludos,\n"
+"EL equipo ${portal_name} \n"
+"${portal_url}"
 
 #: ./opencore/project/browser/manageteam.py:757
 msgid "email_invite_static_body"
 msgstr ""
 "${user_message}\n"
-"To accept this invitation or to learn more about this ${project_noun}, click here: ${join_url} \n"
-" \n"
-"Cheers,\n"
-"The ${portal_title} Team"
+"Para acceptar la invitacion o saber mas de  ${project_noun}, haga clic aqui:\n"
+"${join_url}. \n"
+"\n"
+"---------------------------------------------------------------------\n"
+"Este mensaje fue enviado por  ${portal_title}.\n"
+"Para contactar ${portal_title}, irse a :\n"
+"${site_contact_url}"
 
 #. Default: "Subject: ${portal_title} - Membership deactivated for ${project_title}\n\nYou are no longer a member of \"${project_title}\" on ${portal_title}.\n"
 #: ./opencore/project/browser/mship_messages.py:56
+#, fuzzy
 msgid "email_membership_deactivated"
 msgstr ""
-"Subject: ${portal_title} – Your \"${project_title}\" membership\n"
+"Asunto: ${portal_title} - Membresia desactivada para ${project_title}\n"
 "\n"
-"Dear ${user_name},\n"
-"\n"
-"You are no longer a member of \"${project_title}\".  For more information, please contact an administrator of this ${project_noun}.\n"
-"\n"
-"The ${portal_title} Team"
+"Ud ya no es miembro del equipo de  \"${project_title}\" en ${portal_title}."
 
 #: ./opencore/project/browser/team_membership.py:45
 msgid "email_membership_requested"
 msgstr ""
-"Subject: ${portal_title} - Request to join ${project_title}\n"
-"\n"
-"${member_id} would like to get involved with \"${project_title}\".\n"
-"\n"
-"To approve or deny this request please visit the ${project_noun}'s team management screen: ${team_manage_url}\n"
-" "
 
 #: ./opencore/project/browser/team_membership.py:57
 msgid "email_mship_request_message"
 msgstr ""
-" \n"
-"\n"
-"${member_id} included the following message:\n"
-"\n"
-"\"${member_message}\"\n"
-" "
 
 #. Default: "This is a reminder. ${inviter_name} has invited you to join \"${project_title}\" on ${portal_title}. ${portal_title} is a free toolset for social change. With ${portal_title}, you can build collaborative pages for organizing ${project_noun}s. You can also blog, set up mailing lists, store and share files, and keep track of tasks."
 #: ./opencore/project/browser/invite-with-message.pt:68
+#, fuzzy
 msgid "email_remind_default_body"
-msgstr ""
+msgstr "Esto es para hacerle recordar. ${inviter_name} invito Ud a incluirse en \"${project_title}\" en ${portal_title}. ${portal_title} es una caja de herramientas libre para el cambio social . Con ${portal_title}, Ud puede redactar paginas conjuntamente para organizar ${project_noun}s. Puede tambien blogar, instalar listas de correo, guardar y compartir archivos, documentar tareas."
 
 #. Default: "Subject: ${portal_title} - Invitation to join ${project_title}\n\nThis is a reminder that you've been invited to join \"${project_title}\" on ${portal_title}.\nPlease visit your account page to accept or decline the invitation: ${account_url}\n"
 #: ./opencore/project/browser/mship_messages.py:28
 msgid "email_remind_invitee"
 msgstr ""
-"Subject: ${portal_title} – Invitation to join \"${project_title}\" \n"
+"Asunto: ${portal_title} – Invitacion a incluirse en ${project_title}\n"
 "\n"
-"Hi ${user_name},\n"
-"\n"
-"This is a reminder that you’ve been invited to join \"${project_title}\" by ${inviter_name}.  Please visit your account page to accept or decline the invitation: ${account_url}\n"
-"\n"
-"Cheers,\n"
-"The ${portal_title} Team"
+"Esto es para hacerle recordar que Ud ha sido invitad@ a incluirse en \"${project_title}\" en ${portal_title}.\n"
+"Por favor visite la  pagina de su cuenta para acceptar o rechazar la invitacion: ${account_url}"
 
 #. Default: "Subject: ${portal_title} - Invitation to join ${project_title}\n\nThis is a reminder that you've been invited to join \"${project_title}\" on ${portal_title}.\nPlease first confirm your email address at the following address: ${conf_url}\nand then you can accept or decline the invitation.\n"
 #: ./opencore/project/browser/mship_messages.py:34
 msgid "email_remind_pending_invitee"
 msgstr ""
-"Subject: A reminder to join \"${project_title}\" on ${portal_title}\n"
-" \n"
-"This is a reminder that ${inviter_name} has invited you to join \"${project_title},\" a ${project_noun} on ${portal_title}.  ${portal_title} is a network of news, film and community action working to better our public spaces. With a ${portal_title} account, you can contribute to the \"${project_title}\" ${project_noun}, and connect yourself to the larger ${portal_title} community.\n"
-" \n"
-"To accept this invitation or to learn more about this ${project_noun}, click here: ${join_url}\n"
-" \n"
-" Cheers,\n"
-"The ${portal_title} Team"
+"Subject: ${portal_title} – Invitacion a incluirse en ${project_title}\n"
+"\n"
+"Este es para hacerle recordar que ha estado invitad@ a incluirse en \"${project_title}\" on ${portal_title}.\n"
+"Por favor confirma su direccion email a la siguiente direccion : ${conf_url}\n"
+"luego puede acceptar o rechazar la invitacion."
 
 #. Default: "Subject: ${portal_title} - Welcome to ${project_title}\n\nYour request to join \"${project_title}\" on ${portal_title} has been approved.  The ${project_noun} is accessible at the following address: ${project_url}\n"
 #: ./opencore/project/browser/mship_messages.py:41
 msgid "email_request_approved"
 msgstr ""
-"Subject: ${portal_title} – Welcome to \"${project_title}\"\n"
-" \n"
-"Hi ${user_name},\n"
-" \n"
-"Your request to join \"${project_title}\" on ${portal_title} has been approved.  You can now participate in this ${project_noun} by clicking here: ${project_url}\n"
-" \n"
-"Cheers,\n"
-" The ${portal_title} Team"
+"Asunto: ${portal_title} – Bienvenida a ${project_title}\n"
+"\n"
+"Su pedido para incluirse en \"${project_title}\" on ${portal_title} fue aprobado.  El  ${project_noun} es accesible en la direccion siguiente: ${project_url}"
 
 #. Default: "Subject: ${portal_title} - Your request to join ${project_title}\n\nYour request to join \"${project_title}\" on ${portal_title} has been denied.\n"
 #: ./opencore/project/browser/mship_messages.py:46
 msgid "email_request_denied"
 msgstr ""
-"Subject: ${portal_title} – Your request to join \"${project_title}\" \n"
-" \n"
-"Dear ${user_name},\n"
-" \n"
-"Your request to join \"${project_title}\" has been denied.  For more information, please contact an administrator of this ${project_noun}.\n"
-" \n"
-"The ${portal_title} Team"
+"Asunto: ${portal_title} – Su pedido de inclusion en  ${project_title}\n"
+"\n"
+"Su pedido de inclusion en  \"${project_title}\" en ${portal_title} fue rechazado."
 
 #: ./opencore/account/browser.py:65
 msgid "email_to_pending_user"
 msgstr ""
-"Subject: Welcome to ${portal_title}! - Please confirm your email address\n"
-"\n"
-"${user_name},\n"
-"\n"
-"You recently signed up to use ${portal_title}. \n"
-"\n"
-"Please confirm your email address at the following address: ${url}\n"
-"\n"
-"If you cannot click on the link, you can cut and paste it into your browser's address bar.\n"
-"\n"
-"Once you have confirmed, you can start using ${portal_title}.\n"
-"\n"
-"If you did not initiate this request or believe it was sent in error you can safely ignore this message.\n"
-"\n"
-"Cheers,\n"
-"The ${portal_title} Team\n"
-"${portal_url}"
 
 #. Default: "Could not moderate!"
 #: ./opencore/listen/browser/view.py:408
 msgid "err_could_not_moderate"
-msgstr ""
+msgstr "No fue possible moderar!"
 
 #. Default: "The name must contain at least 2 characters with at least 1 letter or number."
 #: ./opencore/project/browser/preferences.py:105
 msgid "err_project_name"
-msgstr ""
+msgstr "El nombre tiene que tener 2 signas con al menos 1 letra o numero"
 
 #. Default: "Whoops!"
 #: ./opencore/browser/notfound.pt:21
@@ -564,53 +523,56 @@ msgstr ""
 
 #. Default: "Chances are, we're already on it. But, if you would please tell us what you were trying to do, it will help us fix the problem faster.  Thank you."
 #: ./opencore/browser/error.pt:21
+#, fuzzy
 msgid "error_site_description"
-msgstr ""
+msgstr "Talvez ya estamos trabajando en corregir eso. Pero, si guste decirnos que es lo que queria hacer, esto nos ayudara a arreglar el problema mas rapidamente. Gracias"
 
 #. Default: "Oops!"
 #: ./opencore/browser/error.pt:18
 msgid "error_site_heading"
-msgstr ""
+msgstr "Opa!"
 
 #. Default: "about"
 #: ./opencore/browser/footer.pt:3
 msgid "footer_about_link"
-msgstr ""
+msgstr "acerca de"
 
 #. Default: "contact"
 #: ./opencore/browser/footer.pt:4
 msgid "footer_contact_link"
-msgstr ""
+msgstr "contacto"
 
 #. Default: "&copy; 2007 <a href=\"http://topp.openplans.org/\">The Open Planning Project</a>"
 #: ./opencore/browser/footer.pt:16
+#, fuzzy
 msgid "footer_copyright"
-msgstr ""
+msgstr "&copy; 2007 <a href=\"http://topp.openplans.org/\">The Open Planning Project</a>"
 
 #. Default: "help"
 #: ./opencore/browser/footer.pt:6
 msgid "footer_help_link"
-msgstr ""
+msgstr "ayuda"
 
 #. Default: "news"
 #: ./opencore/browser/footer.pt:5
 msgid "footer_news_link"
-msgstr ""
+msgstr "noticias"
 
 #. Default: "${num_people} people"
 #: ./opencore/browser/footer.pt:13
 msgid "footer_num_people"
-msgstr ""
+msgstr "${num_people} gente"
 
 #. Default: "${num_projects} ${project_noun}s"
 #: ./opencore/browser/footer.pt:14
+#, fuzzy
 msgid "footer_num_projects"
-msgstr ""
+msgstr "${num_projects} ${project_noun}s"
 
 #. Default: "New users"
 #: ./opencore/account/forgot.pt:13
 msgid "forgot_new_users"
-msgstr ""
+msgstr "Nuevos usuarios"
 
 #. Default: "Whether your group is mobilizing voters, planning a protest, or growing a garden, ${DYNAMIC_CONTENT} can help you become more effective."
 #: ./opencore/account/forgot.pt:14
@@ -620,57 +582,58 @@ msgstr ""
 #. Default: "Enter your username or email address to retrieve your login information."
 #: ./opencore/account/forgot_snippet.pt:8
 msgid "forgot_snippet_enter_username"
-msgstr ""
+msgstr "Entre su nombre de usuario o direccion de correo para extraer su informacion de login"
 
 #. Default: "<a class=\"oc-js-expander_open oc-expanderLink-open oc-expanderLink\" href=\"forgot\">Forgot your username or password?</a>"
 #: ./opencore/account/forgot_snippet.pt:4
 msgid "forgot_snippet_title"
-msgstr ""
+msgstr "<a class=\"oc-js-expander_open oc-expanderLink-open oc-expanderLink\" href=\"forgot\">Se olvido su nombre de usuario o su contraseña?</a>"
 
 #. Default: "Username or email address"
 #: ./opencore/account/forgot_snippet.pt:14
 msgid "forgot_snippet_username_label"
-msgstr ""
+msgstr "Nombre de usuario o direccion de correo electronico"
 
 #. Default: "Flat"
 #: ./opencore/listen/browser/forum_message_view.pt:39
 msgid "forum_flat_option"
-msgstr ""
+msgstr "Llano"
 
 #. Default: "Oldest first"
 #: ./opencore/listen/browser/forum_message_view.pt:45
 msgid "forum_oldest_option"
-msgstr ""
+msgstr "Viejos primeros"
 
 #. Default: "Recent First"
 #: ./opencore/listen/browser/forum_message_view.pt:47
 msgid "forum_recent_option"
-msgstr ""
+msgstr "Ultimos primeros"
 
 #. Default: "Return to conversation view"
 #: ./opencore/listen/browser/forum_message_view.pt:29
 msgid "forum_return_conv_view"
-msgstr ""
+msgstr "Regresar a la vista de conversacion"
 
 #. Default: "Thread order:"
 #: ./opencore/listen/browser/forum_message_view.pt:43
 msgid "forum_thread_order_label"
-msgstr ""
+msgstr "Orden por hilo de conversacion"
 
 #. Default: "Thread Outline:"
 #: ./opencore/listen/browser/forum_message_view.pt:18
+#, fuzzy
 msgid "forum_thread_outline_label"
-msgstr ""
+msgstr "resumen de hilo de conversacion"
 
 #. Default: "Thread view:"
 #: ./opencore/listen/browser/forum_message_view.pt:35
 msgid "forum_thread_view_label"
-msgstr ""
+msgstr "Vista por hilos de conversacion"
 
 #. Default: "Threaded"
 #: ./opencore/listen/browser/forum_message_view.pt:37
 msgid "forum_threaded_option"
-msgstr ""
+msgstr "Hilado"
 
 #. Default: "Update"
 #: ./opencore/listen/browser/forum_message_view.pt:51
@@ -685,12 +648,13 @@ msgstr ""
 #. Default: "No results found."
 #: ./opencore/nui/main/home-searchresults.pt:108
 msgid "home-searchresults_no_results"
-msgstr ""
+msgstr "no se encontraron resultados"
 
 #. Default: "Find ${project_noun}s"
 #: ./opencore/nui/main/home.pt:29
+#, fuzzy
 msgid "home_find_projects"
-msgstr ""
+msgstr "Encontrar ${project_noun}s"
 
 #. Default: "OpenPlans offers free mailing lists, wikis, task tracking, team management, and blogs to help you build an online community and promote real-world change."
 #: ./opencore/nui/main/home.pt:38
@@ -700,87 +664,94 @@ msgstr ""
 #. Default: "Do good, better."
 #: ./opencore/nui/main/home.pt:17
 msgid "home_header"
-msgstr ""
+msgstr "Haga buenas cosas, de mejor manera"
 
 #. Default: "Learn more"
 #: ./opencore/nui/main/home.pt:26
 msgid "home_learn_more"
-msgstr ""
+msgstr "Aprenda mas"
 
 #. Default: "Newest ${project_noun}s"
 #: ./opencore/nui/main/home.pt:44
+#, fuzzy
 msgid "home_newest_projects"
-msgstr ""
+msgstr "Nuevos ${project_noun}s"
 
 #. Default: "You want to <strong>make a difference</strong>, we want to <strong>make it easy</strong>. OpenPlans is the simple way to bring groups together, promote your cause, make plans, manage projects, and get things done."
 #: ./opencore/nui/main/home.pt:37
+#, fuzzy
 msgid "home_opening_blurb"
-msgstr ""
+msgstr "Ud quiere <strong>ser efficientes</strong>, queremos <strong>hacerlo mas facil</strong>. ${portal_title} es un sitio para juntar grupos, promover sus causas, hacer planes , y realizar cosas."
 
 #. Default: "created ${creation_date}"
 #: ./opencore/nui/main/home.pt:58
 msgid "home_project_created"
-msgstr ""
+msgstr "creado ${creation_date}"
 
 #. Default: "last updated ${project_updated}"
 #: ./opencore/nui/main/home.pt:89
 msgid "home_project_updated"
-msgstr ""
+msgstr "actualisado por ultimo en ${project_updated}"
 
 #. Default: "Start a ${project_noun}"
 #: ./opencore/nui/main/home.pt:32
 msgid "home_start_project"
-msgstr ""
+msgstr "Iniciar un ${project_noun}"
 
 #. Default: "Updated ${project_noun}s"
 #: ./opencore/nui/main/home.pt:71
+#, fuzzy
 msgid "home_updated_projects"
-msgstr ""
+msgstr "${project_noun}s actualizado"
 
 #. Default: "You do not have sufficient privileges to view this page."
 #: ./opencore/account/insufficient_privileges.pt:10
 msgid "insufficient_privileges_description"
-msgstr ""
+msgstr "Ud no tiene permisos suficientes para ver esta pagina"
 
 #. Default: "Insufficient Privileges"
 #: ./opencore/account/insufficient_privileges.pt:8
 msgid "insufficient_privileges_heading"
-msgstr ""
+msgstr "permisos insuficientes"
 
 #. Default: "${project} has invited you to become a member"
 #: ./opencore/member/browser/invitations.pt:13
+#, fuzzy
 msgid "invitations_invite"
-msgstr ""
+msgstr "${project} le ha invitado a ser miembro"
 
 #. Default: "Comma separated, or one per line"
 #: ./opencore/project/browser/invite-with-message.pt:32
 msgid "invite-w-m_comma"
-msgstr ""
+msgstr "separado por comas, o uno por linea"
 
 #. Default: "Customize an email to invite people to join"
 #: ./opencore/project/browser/invite-with-message.pt:12
 msgid "invite-w-m_invite_desc"
-msgstr ""
+msgstr "Adaptar un mensaje electronico para invitar gente a incluirse"
 
 #. Default: "Invite users"
 #: ./opencore/project/browser/invite-with-message.pt:10
+#, fuzzy
 msgid "invite-w-m_invite_title"
-msgstr ""
+msgstr "Invitar participantes"
 
 #. Default: "Customize an email to remind people to join"
 #: ./opencore/project/browser/invite-with-message.pt:11
 msgid "invite-w-m_remind_desc"
-msgstr ""
+msgstr "Adaptar un mensaje electronico par hacer recordar a la gente incluirse"
 
 #. Default: "Remind users"
 #: ./opencore/project/browser/invite-with-message.pt:9
+#, fuzzy
 msgid "invite-w-m_remind_title"
-msgstr ""
+msgstr "Hacer recordar a los  participantes"
 
 #. Default: "Already a member?"
 #: ./opencore/account/join.pt:174
+#, fuzzy
 msgid "join_already_member_heading"
-msgstr ""
+msgstr "Ya eres miembro  del equipo?"
 
 #. Default: "Join"
 #: ./opencore/account/join.pt:142
@@ -790,77 +761,79 @@ msgstr ""
 #. Default: "Check your email to confirm registration"
 #: ./opencore/account/join.pt:20
 msgid "join_check_email"
-msgstr ""
+msgstr "Verifique sur direccion electronica para confirmar su inscripcion"
 
 #. Default: "Confirm password"
 #: ./opencore/account/join.pt:119
 msgid "join_conf_password_label"
-msgstr ""
+msgstr "Confirmar contraseña"
 
 #. Default: "We will not share your email with anyone. Ever."
 #: ./opencore/account/join.pt:159
+#, fuzzy
 msgid "join_description"
-msgstr ""
+msgstr "La inscripcion es libre y su direccion electronica no sera dada a nadie, sin embargo, Ud debera confirmar su  direccion electronica, esto para evitar que robotes de spam engañen a este sistema"
 
 #. Default: "Email"
 #: ./opencore/account/join.pt:75
 msgid "join_email_label"
-msgstr ""
+msgstr "Correo electronico"
 
 #. Default: "Full Name"
 #: ./opencore/account/join.pt:53
 msgid "join_full_name_label"
-msgstr ""
+msgstr "Nombre completo"
 
 #. Default: "Becoming a member means…"
 #: ./opencore/account/join.pt:166
+#, fuzzy
 msgid "join_get_started"
-msgstr ""
+msgstr "Volverse un miembro significa…"
 
 #. Default: "<li>You can join and participate in existing ${project_noun}s</li> <li>You can create your own ${project_noun} and invite others to join</li> <li>You can share information about yourself</li>"
 #: ./opencore/account/join.pt:169
 msgid "join_get_started_list"
-msgstr ""
+msgstr "<li>Ud puede incluirse y participar en el  ${project_noun}s existente</li> <li>Ud puede crear su propio ${project_noun} e invitar otros a que se incluyan </li> <li>Ud puede compartir informacion sobre Ud</li>"
 
 #. Default: "Create an account on ${page_title}"
 #: ./opencore/account/join.pt:15
 msgid "join_page_title"
-msgstr ""
+msgstr " Registrarse en ${page_title}"
 
 #. Default: "Password"
 #: ./opencore/account/join.pt:97
 msgid "join_password_label"
-msgstr ""
+msgstr "Contraseña"
 
 #. Default: "Sign in"
 #: ./opencore/account/join.pt:175
 msgid "join_sign_in"
-msgstr ""
+msgstr "Entrar"
 
 #. Default: "Username"
 #: ./opencore/account/join.pt:31
 msgid "join_username_label"
-msgstr ""
+msgstr "Nombre de usuario"
 
 #. Default: "by"
 #: ./opencore/listen/browser/threaded_message.pt:38
 msgid "label_author"
-msgstr ""
+msgstr "por"
 
 #. Default: "(Required)"
 #: ./opencore/nui/main/contact-site-admin.pt:102
 msgid "label_required"
-msgstr ""
+msgstr "(Requirido)"
 
 #. Default: "Send"
 #: ./opencore/nui/main/contact-site-admin.pt:121
 msgid "label_send"
-msgstr ""
+msgstr "Enviar"
 
 #. Default: "The requested list prefix is already taken."
 #: ./opencore/listen/browser/view.py:183
 msgid "list_create_duplicate_error"
-msgstr ""
+msgstr "El prefixo de lista requerido ya esta tomado"
 
 #. Default: "\"${title}\" has been created."
 #: ./opencore/listen/browser/view.py:278
@@ -870,7 +843,7 @@ msgstr ""
 #. Default: "The mailing list archival method must be set to all, text-only, or none."
 #: ./opencore/listen/browser/view.py:171
 msgid "list_invalid_archive_error"
-msgstr ""
+msgstr "El metodo de archivar la lista de correo debe estar puesto en : todo, solo texto , o nada"
 
 #. Default: "The following managers are not members of this site: ${managers}"
 #: ./opencore/listen/browser/view.py:155
@@ -880,82 +853,82 @@ msgstr ""
 #. Default: "Only the following characters are allowed in list address prefixes: alpha-numerics, underscores, hyphens, and periods (i.e. A-Z, a-z, 0-9, and _-. symbols)"
 #: ./opencore/listen/browser/view.py:179
 msgid "list_invalid_prefix_error"
-msgstr ""
+msgstr "Solo estan autorizados para prefixos de listas de correo los signos siguientes: alfanumericos, subrayos, guiones y puntos  (i.e. signos A-Z, a-z, 0-9, y _-. )"
 
 #. Default: "The mailing list must have a title."
 #: ./opencore/listen/browser/view.py:133
 msgid "list_invalid_title"
-msgstr ""
+msgstr "La lista de correo tiene que tener un nombre"
 
 #. Default: "The mailing list security must be set to open, moderated, or closed."
 #: ./opencore/listen/browser/view.py:162
 msgid "list_invalid_workflow_error"
-msgstr ""
+msgstr "La seguridad de la lista de correo tiene que ser puesta en « abierto, moderado o cerrado "
 
 #. Default: "The mailing list must have a list prefix."
 #: ./opencore/listen/browser/view.py:177
 msgid "list_missing_prefix_error"
-msgstr ""
+msgstr "La lista de correo tiene que tener un prefixo de lista"
 
 #. Default: "The mailing list must have at least one manager."
 #: ./opencore/listen/browser/view.py:144
 msgid "list_no_managers_error"
-msgstr ""
+msgstr "La lista de correo tiene que tener por lo menos un gestor"
 
 #. Default: "Your changes have been saved."
 #: ./opencore/listen/browser/view.py:339
 msgid "list_preferences_updated"
-msgstr ""
+msgstr "Sus cambios fueron guardados"
 
 #. Default: "List Address Prefix"
 #: ./opencore/listen/interfaces.py:16
 msgid "listen_address_prefix"
-msgstr ""
+msgstr "Prefixo de direccion de lista "
 
 #. Default: "The prefix portion of the main address for the mailing list."
 #: ./opencore/listen/interfaces.py:17
 msgid "listen_address_prefix_description"
-msgstr ""
+msgstr "La parte prefixo de la direccion principal  de la lista de correo"
 
 #. Default: "Membership"
 #: ./opencore/listen/browser/listen_macros.pt:20
 msgid "listen_macros_membership"
-msgstr ""
+msgstr "Membresia"
 
 #. Default: "Messages"
 #: ./opencore/listen/browser/listen_macros.pt:15
 msgid "listen_macros_messages"
-msgstr ""
+msgstr "Mensajes"
 
 #. Default: "Moderation"
 #: ./opencore/listen/browser/listen_macros.pt:25
 msgid "listen_macros_moderation"
-msgstr ""
+msgstr "Moderacion"
 
 #. Default: "none"
 #: ./opencore/listen/browser/listen_macros.pt:63
 msgid "listen_macros_no_desc"
-msgstr ""
+msgstr "ninguno"
 
 #. Default: "Write new message"
 #: ./opencore/listen/browser/listen_macros.pt:49
 msgid "listen_macros_post"
-msgstr ""
+msgstr "redactar nuevo mensaje"
 
 #. Default: "Preferences"
 #: ./opencore/listen/browser/listen_macros.pt:41
 msgid "listen_macros_preferences"
-msgstr ""
+msgstr "Preferencias"
 
 #. Default: "Search"
 #: ./opencore/listen/browser/listen_macros.pt:30
 msgid "listen_macros_search"
-msgstr ""
+msgstr "Buscar"
 
 #. Default: "Summary"
 #: ./opencore/listen/browser/listen_macros.pt:34
 msgid "listen_macros_summary"
-msgstr ""
+msgstr "Sumario"
 
 #. Default: "Search"
 #: ./opencore/listen/browser/search.pt:24
@@ -965,17 +938,18 @@ msgstr ""
 #. Default: "Started by"
 #: ./opencore/listen/browser/search.pt:37
 msgid "listen_search_creator"
-msgstr ""
+msgstr "Inciado por"
 
 #. Default: "<h2>About &ldquo;${list_title}&rdquo;</h2> <dl class=\"oc-plainList\"> <dt>Address</dt> ${list_address} <dt>Description</dt> ${list_desc} </dl>"
 #: ./opencore/listen/browser/search.pt:75
+#, fuzzy
 msgid "listen_search_sidebar"
-msgstr ""
+msgstr "<h2>Acerca de  &ldquo;${list_title}&rdquo;</h2> <dl class=\"oc-plainList\"> <dt>Direccion</dt> ${list_address} <dt>Descripcion</dt> ${list_desc} </dl>"
 
 #. Default: "Subject"
 #: ./opencore/listen/browser/search.pt:35
 msgid "listen_search_subject"
-msgstr ""
+msgstr "Asunto"
 
 #. Default: "Whether your group is mobilizing voters, planning a protest, or growing a garden, ${DYNAMIC_CONTENT} can help you become more effective."
 #: ./opencore/account/login.pt:21
@@ -985,17 +959,17 @@ msgstr ""
 #. Default: "New users"
 #: ./opencore/account/login.pt:20
 msgid "login_heading"
-msgstr ""
+msgstr "Nuevos usuarios"
 
 #. Default: "Sign in"
 #: ./opencore/account/login_snippet.pt:23
 msgid "login_snippet_header"
-msgstr ""
+msgstr "Entrar"
 
 #. Default: "Keep me logged in"
 #: ./opencore/account/login_snippet.pt:54
 msgid "login_snippet_keep_logged_in"
-msgstr ""
+msgstr "Mantengan me adentro "
 
 #. Default: "Sign in"
 #: ./opencore/account/login_snippet.pt:62
@@ -1005,27 +979,27 @@ msgstr ""
 #. Default: "Password"
 #: ./opencore/account/login_snippet.pt:45
 msgid "login_snippet_password_label"
-msgstr ""
+msgstr "Contraseña"
 
 #. Default: "Username"
 #: ./opencore/account/login_snippet.pt:27
 msgid "login_snippet_username_label"
-msgstr ""
+msgstr "Nombre de usuario"
 
 #. Default: "List Address"
 #: ./opencore/listen/browser/lookup_view.pt:11
 msgid "lookup_view_address"
-msgstr ""
+msgstr "Direccion de la lista"
 
 #. Default: "Registered Mailing Lists"
 #: ./opencore/listen/browser/lookup_view.pt:6
 msgid "lookup_view_heading"
-msgstr ""
+msgstr "Listas de correo registradas"
 
 #. Default: "List Path"
 #: ./opencore/listen/browser/lookup_view.pt:12
 msgid "lookup_view_path"
-msgstr ""
+msgstr "Camino de la lista"
 
 #. Default: "Purge Invalid Entries"
 #: ./opencore/listen/browser/lookup_view.pt:27
@@ -1035,77 +1009,78 @@ msgstr ""
 #. Default: "Actions"
 #: ./opencore/listen/browser/mailing_lists.pt:28
 msgid "mailing_lists_actions"
-msgstr ""
+msgstr "Acciones"
 
 #. Default: "Mailing list"
 #: ./opencore/listen/browser/mailing_lists.pt:26
 msgid "mailing_lists_column_header"
-msgstr ""
+msgstr "Lista de correo"
 
 #. Default: "View<span> or manage exisiting</span> mailing lists<span> or <a href=\"${DYNAMIC_CONTENT}\">add a new mailing list</a></span>."
 #: ./opencore/listen/browser/mailing_lists.pt:16
+#, fuzzy
 msgid "mailing_lists_description"
-msgstr ""
+msgstr " Ver<span> or gestar </span> listas de correo<span>  existentes o <a href=\"${DYNAMIC_CONTENT}\">agregar una nueva lista de correo</a></span>."
 
 #. Default: "Mailing lists"
 #: ./opencore/listen/browser/mailing_lists.pt:14
 msgid "mailing_lists_heading"
-msgstr ""
+msgstr "Listas de correo"
 
 #. Default: "Last activity"
 #: ./opencore/listen/browser/mailing_lists.pt:27
 msgid "mailing_lists_last_activity"
-msgstr ""
+msgstr "Ultima actividad"
 
 #. Default: "There are currently no mailing lists for this ${project_noun}."
 #: ./opencore/listen/browser/mailing_lists.pt:86
 msgid "mailing_lists_no_lists"
-msgstr ""
+msgstr "De momento no hay listas de correo para este ${project_noun}."
 
 #. Default: "Address"
 #: ./opencore/listen/browser/mailinglist_view.pt:19
 msgid "mailinglist_view_address"
-msgstr ""
+msgstr "Direccion"
 
 #. Default: "Message archive"
 #: ./opencore/listen/browser/mailinglist_view.pt:44
 msgid "mailinglist_view_archive"
-msgstr "Message archive"
+msgstr "Archivo de mensajes"
 
 #. Default: "View messages."
 #: ./opencore/listen/browser/mailinglist_view.pt:51
 msgid "mailinglist_view_archive_link"
-msgstr ""
+msgstr "Ver mensajes"
 
 #. Default: "Contact"
 #: ./opencore/listen/browser/mailinglist_view.pt:55
 msgid "mailinglist_view_contact"
-msgstr ""
+msgstr "Contacto"
 
 #. Default: "Description"
 #: ./opencore/listen/browser/mailinglist_view.pt:15
 msgid "mailinglist_view_desc"
-msgstr ""
+msgstr "Descripcion"
 
 #. Default: "<strong>Email address:</strong>"
 #: ./opencore/listen/browser/listen_macros.pt:107
 msgid "mailinglist_view_email_add"
-msgstr ""
+msgstr "<strong>Direccion de correo:</strong>"
 
 #. Default: "To subscribe to the list enter your email in the field below."
 #: ./opencore/listen/browser/listen_macros.pt:102
 msgid "mailinglist_view_enter_email"
-msgstr ""
+msgstr "Para incluirse en la lista de correo, entre su direccion electronica en el campo abajo"
 
 #. Default: "Managers"
 #: ./opencore/listen/browser/mailinglist_view.pt:27
 msgid "mailinglist_view_managers"
-msgstr ""
+msgstr "Gestores"
 
 #. Default: "You are currently <strong>not subscribed</strong> to this list."
 #: ./opencore/listen/browser/listen_macros.pt:90
 msgid "mailinglist_view_not_subscribed"
-msgstr ""
+msgstr "De momento, Ud  <strong> no esta incluid@ </strong> en esta lista "
 
 #. Default: "Subscribe"
 #: ./opencore/listen/browser/listen_macros.pt:96
@@ -1120,37 +1095,38 @@ msgstr ""
 #. Default: "Subscription status"
 #: ./opencore/listen/browser/listen_macros.pt:86
 msgid "mailinglist_view_sub_form_heading"
-msgstr ""
+msgstr "Estado de inclusion"
 
 #. Default: "Subscription pending"
 #: ./opencore/listen/browser/listen_macros.pt:121
 msgid "mailinglist_view_sub_pending"
-msgstr ""
+msgstr "Inclusiones pendientes"
 
 #. Default: "Your subscription request is pending moderation by the list manager. ${manager_email}"
 #: ./opencore/listen/browser/listen_macros.pt:124
 msgid "mailinglist_view_sub_pending_desc"
-msgstr ""
+msgstr "Su pedido de inclusion esta esperando moderacion por el gestor de la lista. ${manager_email}"
 
 #. Default: "You are currently <strong>subscribed</strong> to this list."
 #: ./opencore/listen/browser/listen_macros.pt:87
 msgid "mailinglist_view_subscribed"
-msgstr ""
+msgstr "Ud esta <strong>incluid@ </strong>en esta lista. "
 
 #. Default: "Title"
 #: ./opencore/listen/browser/mailinglist_view.pt:12
 msgid "mailinglist_view_title"
-msgstr ""
+msgstr "Titulo"
 
 #. Default: "To unsubscribe from this list send an email to the list with the subject \"${sunsubscribe_keyword}\" and an empty body."
 #: ./opencore/listen/browser/listen_macros.pt:77
+#, fuzzy
 msgid "mailinglist_view_to_unsubscribe"
-msgstr ""
+msgstr "Para salirse de esta lista , enviar un correo a la lista con el asunto \"${sunsubscribe_keyword}\" y sin texto en el cuerpo"
 
 #. Default: "Type"
 #: ./opencore/listen/browser/mailinglist_view.pt:38
 msgid "mailinglist_view_type"
-msgstr ""
+msgstr "Tipo"
 
 #. Default: "Unsubscribe"
 #: ./opencore/listen/browser/listen_macros.pt:94
@@ -1170,7 +1146,7 @@ msgstr ""
 #. Default: "Search"
 #: ./opencore/nui/main/main_macros.pt:21
 msgid "main_macros_search_button"
-msgstr "Search"
+msgstr ""
 
 #. Default: "Search"
 #: ./opencore/nui/main/main_macros.pt:4
@@ -1180,47 +1156,47 @@ msgstr ""
 #. Default: "Add:"
 #: ./opencore/listen/browser/manage_membership.pt:49
 msgid "manage_membership_add"
-msgstr ""
+msgstr "Agregar"
 
 #. Default: "Remove"
 #: ./opencore/listen/browser/manage_membership.pt:19
 msgid "manage_membership_remove"
-msgstr ""
+msgstr "Sacar"
 
 #. Default: "Subscribe?"
 #: ./opencore/listen/browser/manage_membership.pt:54
 msgid "manage_membership_subscribe"
-msgstr ""
+msgstr "Incluir?"
 
 #. Default: "Subscribed"
 #: ./opencore/listen/browser/manage_membership.pt:21
 msgid "manage_membership_subscribed"
-msgstr ""
+msgstr "Incluido"
 
 #. Default: "Address / User ID"
 #: ./opencore/listen/browser/manage_membership.pt:20
 msgid "manage_membership_user"
-msgstr ""
+msgstr "Direccion / identificador de usuario"
 
 #. Default: "Date"
 #: ./opencore/member/browser/member_macros.pt:25
 msgid "member_macros_date_header"
-msgstr ""
+msgstr "Fecha"
 
 #. Default: "Page"
 #: ./opencore/member/browser/member_macros.pt:26
 msgid "member_macros_page_header"
-msgstr ""
+msgstr "Pagina"
 
 #. Default: "Pages last modified by ${member}"
 #: ./opencore/member/browser/member_macros.pt:20
 msgid "member_macros_pages_modified"
-msgstr ""
+msgstr "Paginas modificadas recientemente por ${member}"
 
 #. Default: "Recent activity"
 #: ./opencore/member/browser/member_macros.pt:17
 msgid "member_macros_recent_activity"
-msgstr ""
+msgstr "Actividad reciente"
 
 #. Default: "Message:"
 #: ./opencore/member/browser/contact.pt:50
@@ -1230,17 +1206,17 @@ msgstr ""
 #. Default: "Attachments"
 #: ./opencore/listen/browser/message_macros.pt:66
 msgid "message_macros_attms"
-msgstr ""
+msgstr "Piezas adjuntas"
 
 #. Default: "from"
 #: ./opencore/listen/browser/message_macros.pt:52
 msgid "message_macros_from"
-msgstr ""
+msgstr "de parte de"
 
 #. Default: "Reply"
 #: ./opencore/listen/browser/message_macros.pt:43
 msgid "message_macros_reply"
-msgstr ""
+msgstr "Responder"
 
 #. Default: "Actions"
 #: ./opencore/listen/browser/moderation.pt:82
@@ -1334,53 +1310,57 @@ msgstr ""
 
 #. Default: "From:"
 #: ./opencore/listen/browser/new_topic_view.pt:27
+#, fuzzy
 msgid "new_topic_view_from"
-msgstr ""
+msgstr "de parte de"
 
 #. Default: "New post to &ldquo;${list_title}&rdquo;"
 #: ./opencore/listen/browser/new_topic_view.pt:12
+#, fuzzy
 msgid "new_topic_view_heading"
-msgstr ""
+msgstr " Nuevo envio a  &ldquo;${list_title}&rdquo;"
 
 #. Default: "Message:"
 #: ./opencore/listen/browser/new_topic_view.pt:48
 msgid "new_topic_view_message_body"
-msgstr ""
+msgstr "Mensaje"
 
 #. Default: "(Required)"
 #: ./opencore/listen/browser/new_topic_view.pt:40
 msgid "new_topic_view_required"
-msgstr ""
+msgstr "(Requerido)"
 
 #. Default: "Subject:"
 #: ./opencore/listen/browser/new_topic_view.pt:31
 msgid "new_topic_view_subject"
-msgstr ""
+msgstr "Asunto:"
 
 #. Default: "We would love to hear from you. Learn more <a href=\"${DYNAMIC_CONTENT}\">about us and our software</a> or <a href=\"${DYNAMIC_CONTENT}\">contact us</a> for more information."
 #: ./opencore/nui/main/news.pt:41
+#, fuzzy
 msgid "news_about_us_description"
-msgstr ""
+msgstr "Quisieramos saber algo de Ud. Aprenda mas<a href=\"${DYNAMIC_CONTENT}\">acerca de este sitio internet</a> or <a href=\"${DYNAMIC_CONTENT}\">contactenos</a> para mas informacion "
 
 #. Default: "About us"
 #: ./opencore/nui/main/news.pt:40
 msgid "news_about_us_heading"
-msgstr ""
+msgstr "Acerca de nosotros"
 
 #. Default: "Add news item..."
 #: ./opencore/nui/main/news.pt:16
 msgid "news_add_item"
-msgstr ""
+msgstr "Agregar item de noticias"
 
 #. Default: "Read more…"
 #: ./opencore/nui/main/news.pt:33
+#, fuzzy
 msgid "news_read_more"
-msgstr ""
+msgstr "Leer mas…"
 
 #. Default: "Please enter a password"
 #: ./opencore/member/factory.py:83
 msgid "no_password"
-msgstr ""
+msgstr "Entre su contraseña"
 
 #. Default: "There is no member named \"${user_id}\"."
 #: ./opencore/browser/base.py:530
@@ -1390,41 +1370,41 @@ msgstr ""
 #. Default: "You must enter a password."
 #: ./opencore/browser/base.py:536
 msgid "password_no_password_error"
-msgstr ""
+msgstr "Ud debe entrar una contraseña."
 
 #. Default: "You need to enter your username."
 #: ./opencore/browser/base.py:525
 msgid "password_no_username_error"
-msgstr ""
+msgstr "Ud necesita entrar su nombre de usuario."
 
 #. Default: "Please make sure that both password fields are the same."
 #: ./opencore/browser/base.py:539
 msgid "password_not_same_error"
-msgstr ""
+msgstr "Por favor, asegurese que en los dos campos las contraseñas son identicos"
 
 #: ./opencore/browser/error.pt:36
 msgid "password_send_warning"
-msgstr "Please do not include your password or any other sensitive information."
+msgstr "Por favor no ponga su contraseña o cualquier otra informacion confidencial."
 
 #. Default: "Or enter a new address where you would like to receive the activation email for this account again"
 #: ./opencore/account/pending.pt:24
 msgid "pending_description"
-msgstr ""
+msgstr "O entre una direccion nueva donde Ud quisiera nuevamente recibir el correo de activacion para esta cuenta"
 
 #. Default: "Email"
 #: ./opencore/account/pending.pt:41
 msgid "pending_email_label"
-msgstr ""
+msgstr "Direccion electronica"
 
 #. Default: "Enter a different email address"
 #: ./opencore/account/pending.pt:33
 msgid "pending_enter_new_email"
-msgstr ""
+msgstr "Entre una direccion electronica diferente"
 
 #. Default: "<a class=\"oc-js-expander_open oc-expanderLink\"> If you think this is a mistake, you can try to login again </a>"
 #: ./opencore/account/pending.pt:69
 msgid "pending_mistake"
-msgstr ""
+msgstr "<a class=\"oc-js-expander_open oc-expanderLink\"> Si Ud piensa que es un error, puede tratar de entrar nuevamente </a>"
 
 #. Default: "Send me another activation email"
 #: ./opencore/account/pending.pt:13
@@ -1434,87 +1414,89 @@ msgstr ""
 #. Default: "No results found."
 #: ./opencore/nui/main/people-searchresults.pt:92
 msgid "people-searchresults_no_results"
-msgstr ""
+msgstr "No hay resultados"
 
 #. Default: "${num_members} members, <span>and growing</span> <span>and <a href=\"${DYNAMIC_CONTENT}\">you</a></span>"
 #: ./opencore/nui/main/people.pt:14
+#, fuzzy
 msgid "people_members"
-msgstr ""
+msgstr "${num_members} participantes, <span>y creciendo</span> <span>y <a href=\"${DYNAMIC_CONTENT}\">tu</a></span>"
 
 #. Default: "Cancel"
 #: ./opencore/member/browser/portrait-snippet.pt:31
 msgid "portrait-snippet_cancel"
-msgstr ""
+msgstr "Anular"
 
 #. Default: "Change image"
 #: ./opencore/member/browser/portrait-snippet.pt:10
 msgid "portrait-snippet_change_image"
-msgstr ""
+msgstr "Cambiar imagen"
 
 #. Default: "About"
 #: ./opencore/member/browser/profile-edit.pt:56
 msgid "profile-edit_about_label"
-msgstr ""
+msgstr "Acerca de"
 
 #. Default: "Cancel"
 #: ./opencore/member/browser/profile-edit.pt:105
 msgid "profile-edit_cancel"
-msgstr ""
+msgstr "Anular"
 
 #. Default: "Interests"
 #: ./opencore/member/browser/profile-edit.pt:62
 msgid "profile-edit_interests_label"
-msgstr ""
+msgstr "Intereses"
 
 #. Default: "Location"
 #: ./opencore/member/browser/profile-edit.pt:35
 msgid "profile-edit_location_label"
-msgstr ""
+msgstr "Lugar"
 
 #. Default: "Name"
 #: ./opencore/member/browser/profile-edit.pt:21
 msgid "profile-edit_name_label"
-msgstr ""
+msgstr "Nombre"
 
 #. Default: "Website"
 #: ./opencore/member/browser/profile-edit.pt:45
 msgid "profile-edit_website_label"
-msgstr ""
+msgstr "Sitio Web"
 
 #. Default: "Edit"
 #: ./opencore/member/browser/profile.pt:13
 msgid "profile_edit"
-msgstr ""
+msgstr "Editar"
 
 #. Default: "Location"
 #: ./opencore/member/browser/profile.pt:28
 msgid "profile_location"
-msgstr ""
+msgstr "Lugar"
 
 #. Default: "Member home"
 #: ./opencore/member/browser/profile.pt:63
+#, fuzzy
 msgid "profile_member_home"
-msgstr ""
+msgstr "Pagina incial del participante"
 
 #. Default: "Name"
 #: ./opencore/member/browser/profile.pt:19
 msgid "profile_name"
-msgstr ""
+msgstr "Nombre"
 
 #. Default: "visible to all:"
 #: ./opencore/member/browser/profile.pt:44
 msgid "profile_visible_all"
-msgstr ""
+msgstr "visible por todos:"
 
 #. Default: "visible only to team members:"
 #: ./opencore/member/browser/profile.pt:52
 msgid "profile_visible_team"
-msgstr ""
+msgstr "visible solo por miembros del equipo"
 
 #. Default: "Website"
 #: ./opencore/member/browser/profile.pt:70
 msgid "profile_website"
-msgstr ""
+msgstr "Sitio web"
 
 #. Default: "\"${title}\" has been created. Create a team by searching for other members to invite to your ${project_noun}, then <a href=\"${proj_edit_url}\">edit your ${project_noun} home page</a>."
 #: ./opencore/project/browser/add.py:157
@@ -1524,31 +1506,34 @@ msgstr ""
 #. Default: "No results found."
 #: ./opencore/nui/main/projects-searchresults.pt:114
 msgid "projects-searchresults_no_results"
-msgstr ""
+msgstr "No hay resultados"
 
 #. Default: "Currently serving ${num_projects} ${project_noun}s"
 #: ./opencore/nui/main/projects.pt:10
+#, fuzzy
 msgid "projects_currently_serving"
-msgstr ""
+msgstr "De momento hospedando ${num_projects} ${project_noun}s "
 
 #. Default: "Can&rsquo;t find a ${project_noun} you are interested in? See a need that is not being met?"
 #: ./opencore/nui/main/projects.pt:57
+#, fuzzy
 msgid "projects_get_started"
-msgstr ""
+msgstr "No hay ${project_noun} que le interese? O Ve Ud una necessidad que no esta cubierta?"
 
 #. Default: "Get started…"
 #: ./opencore/nui/main/projects.pt:56
+#, fuzzy
 msgid "projects_get_started_heading"
-msgstr ""
+msgstr "Comenzar…"
 
 #. Default: "Start a new ${project_noun}"
 #: ./opencore/nui/main/projects.pt:59
 msgid "projects_start_project_button"
-msgstr ""
+msgstr "Inciar un nuevo ${project_noun}"
 
 #: ./opencore/project/browser/manageteam.py:585
 msgid "promote_to_admin"
-msgstr "${name} is now an administrator"
+msgstr "${name} es ahora un administrador"
 
 #. Default: "Account %r has been permanently deleted."
 #: ./opencore/member/browser/account.py:538
@@ -1573,42 +1558,42 @@ msgstr ""
 #. Default: "Please check the old password you entered."
 #: ./opencore/member/browser/account.py:402
 msgid "psm_check_old_password"
-msgstr ""
+msgstr "Por favor verifique la contraseña antigua que Ud tipio "
 
 #. Default: "Please check your username and password. If you still have trouble, you can <a href=\"forgot\">retrieve your sign in information</a>."
 #: ./opencore/account/login.py:91
 msgid "psm_check_username_password"
-msgstr "Oops! Your username and password do not match.  Please try again or <a href=\"forgot\">retrieve your sign in information</a>."
+msgstr "Por favor verifique el nombre de usuario y contraseña. Si tiene problemas, puede <a href=\"forgot\">recuperar su informacion para entrar</a>."
 
 #. Default: "Please choose an image in gif, jpeg, png, or bmp format."
 #: ./opencore/member/browser/view.py:158
 msgid "psm_choose_image"
-msgstr ""
+msgstr "Por favor escoga una imagen en formato gif, jpeg, png, or bmp "
 
 #. Default: "Please correct the errors indicated below."
 #: ./opencore/listen/browser/view.py:187
 msgid "psm_correct_errors_below"
-msgstr ""
+msgstr "Por favor, corriga los errores indicados abajo."
 
 #. Default: "Denied -- bad key"
 #: ./opencore/account/confirmation.py:53
 msgid "psm_denied"
-msgstr ""
+msgstr "Rechazado – llave mala"
 
 #. Default: "Your email address has been changed."
 #: ./opencore/member/browser/account.py:440
 msgid "psm_email_changed"
-msgstr ""
+msgstr "Su direccion electronica  fue cambiada."
 
 #. Default: "Please enter your new email address."
 #: ./opencore/member/browser/account.py:424
 msgid "psm_enter_new_email"
-msgstr ""
+msgstr "Por favor entre su nueva direccion electronica."
 
 #. Default: "Please enter your username or email address."
 #: ./opencore/account/login.py:304
 msgid "psm_enter_username_email"
-msgstr ""
+msgstr " Por favor entre su nombre de usuario o su direccion electronica."
 
 #. Default: "Error sending mail to: ${mem_id}"
 #: ./opencore/project/browser/manageteam.py:532
@@ -1633,17 +1618,17 @@ msgstr ""
 #. Default: "You are the only administrator of \"${proj_title}\". You can't leave this ${project_noun} without appointing another."
 #: ./opencore/member/browser/account.py:147
 msgid "psm_leave_project_admin"
-msgstr "You are the only administrator of \"${proj_title}.\"  You cannot leave this ${project_noun} without appointing another administrator."
+msgstr ""
 
 #. Default: "Mailing list deleted."
 #: ./opencore/featurelets/browser/listen.py:53
 msgid "psm_mailing_list_deleted"
-msgstr ""
+msgstr "Lista de correo destruida"
 
 #. Default: "Mailing list deletion cancelled."
 #: ./opencore/featurelets/browser/listen.py:48
 msgid "psm_mailing_list_deletion_cancelled"
-msgstr ""
+msgstr "Anular destruccion de la lista de correo"
 
 #. Default: "You have added ${num_approved} members."
 #: ./opencore/project/browser/manageteam.py:255
@@ -1653,7 +1638,7 @@ msgstr ""
 #. Default: "Message sent."
 #: ./opencore/nui/main/contact.py:66
 msgid "psm_message_sent_to_admin"
-msgstr ""
+msgstr "Mensaje enviado."
 
 #. Default: "Message sent."
 #: ./opencore/member/browser/contact.py:29
@@ -1662,22 +1647,22 @@ msgstr ""
 
 #: ./opencore/account/confirmation.py:101
 msgid "psm_new_activation"
-msgstr "A new activation email has been sent to ${email} from ${mfrom}. <br />Please follow the link in the email to activate your account."
+msgstr ""
 
 #. Default: "Please select items to delete."
 #: ./opencore/project/browser/contents.py:155
 msgid "psm_no_items_to_delete"
-msgstr ""
+msgstr "Por favor, escoger items a supprimir."
 
 #. Default: "You have tried to activate an account that is not pending confirmation. Please sign in normally."
 #: ./opencore/account/confirmation.py:42
 msgid "psm_not_pending_account"
-msgstr ""
+msgstr "Ud trato de activar una cuenta que no esta esperando confirmacion. Por favor entre normalmente."
 
 #. Default: "You do not have sufficient permissions."
 #: OpenPlans/skins/openplans_login_patches/insufficient_privileges.cpy:54
 msgid "psm_not_sufficient_perms"
-msgstr "You do not have sufficient permissions."
+msgstr "Ud no tiene permisos suficientes."
 
 #. Default: "You have added ${mem_id}."
 #: ./opencore/project/browser/manageteam.py:252
@@ -1697,50 +1682,51 @@ msgstr ""
 #. Default: "Your password reset request has expired. You can <a href=\"login\">sign in</a> again using your old username and password or <a href=\"forgot\">request a new password</a> again."
 #: ./opencore/account/password_reset.py:34
 msgid "psm_pass_reset_expired"
-msgstr "Your request to reset your password has expired.  Please <a href=\"forgot\">send the request again</a>."
+msgstr "Su pedido de reiniciacion de contraseña se vencio. Ud puede <a href=\"login\">entrar</a> nuevamente usando su nombre de usuario y contraseña previos o <a href=\"forgot\">pedir nueva contraseña</a> nuevamente."
 
 #. Default: "Password reset attempt failed. Did you mistype your username or password?"
 #: ./opencore/account/password_reset.py:29
 msgid "psm_pass_reset_fail"
-msgstr "Oops!  Your attempt to reset your password failed.  Did you mistype your username or password?"
+msgstr "La tentativa de reinicializar su contraseña fracaso. Talvez Ud tipio mal su nombre de usuario o contraseña ?"
 
 #. Default: "Your password has been changed."
 #: ./opencore/member/browser/account.py:408
 msgid "psm_password_changed"
-msgstr ""
+msgstr "Su contraseña ha sido cambiada"
 
 #. Default: "Welcome! Your password has been reset, and you are now signed in."
 #: ./opencore/account/password_reset.py:45
 msgid "psm_password_reset"
-msgstr ""
+msgstr "Bienvenida! Su contraseña ha sido reiniciada, y Ud entro en el sitio"
 
 #. Default: "Please correct the specified errors."
 #: ./opencore/nui/main/contact.py:52
 msgid "psm_please_correct_errors"
-msgstr ""
+msgstr "Por favor corrija los errores mencionados"
 
 #. Default: "Please select members to approve."
 #: ./opencore/project/browser/manageteam.py:194
+#, fuzzy
 msgid "psm_please_select_members"
-msgstr ""
+msgstr "Por favor escoja participantes a ser aprobados"
 
 #. Default: "Please sign in to continue."
 #: OpenPlans/skins/openplans_login_patches/require_login.py:30
 msgid "psm_please_sign_in"
-msgstr ""
+msgstr "Por favor entre en el sitio para continuar"
 
 #. Default: "${project_noun} home page set to: <a href=\"${hp_url}\">${homepage}</a>"
 #: ./opencore/project/browser/preferences.py:205
 msgid "psm_proj_homepage_change"
-msgstr "${project_noun} homepage set to: <a href=\"${hp_url}\">${homepage}</a>."
+msgstr ""
 
 #: ./opencore/project/browser/preferences.py:159
 msgid "psm_project_desc_changed"
-msgstr "The description has been changed."
+msgstr "La descripcion fue cambiada."
 
 #: ./opencore/project/browser/preferences.py:160
 msgid "psm_project_logo_changed"
-msgstr "The project image has been changed."
+msgstr "La imagen del  ${project_noun} fue cambiada."
 
 #. Default: "The name \"${project_name}\" is reserved. Please try a different name."
 #: ./opencore/project/browser/add.py:122
@@ -1749,26 +1735,26 @@ msgstr ""
 
 #: ./opencore/project/browser/preferences.py:158
 msgid "psm_project_title_changed"
-msgstr "The title has been changed."
+msgstr "El titulo fue cambiado."
 
 #: ./opencore/project/browser/preferences.py:161
 msgid "psm_security_changed"
-msgstr "The security policy has been changed."
+msgstr "La politica de seguridad fue cambiada."
 
 #. Default: "Please select members to discard."
 #: ./opencore/project/browser/manageteam.py:273
 msgid "psm_select_members_discard"
-msgstr ""
+msgstr "Por favor, escoja los miembros a desactivar"
 
 #. Default: "You have signed out."
 #: ./opencore/account/login.py:149
 msgid "psm_signed_out"
-msgstr ""
+msgstr "Ud salio del sitio"
 
 #. Default: "Welcome! You have signed in."
 #: ./opencore/account/login.py:68
 msgid "psm_signin_welcome"
-msgstr ""
+msgstr "Bienvenida! Ud entro en el sitio"
 
 #. Default: "Thanks for joining ${portal_title}, ${mem_id}!<br/>\nA confirmation email has been sent to you with instructions on activating your account."
 #: ./opencore/account/join.py:61
@@ -1776,28 +1762,29 @@ msgid "psm_thankyou_for_joining"
 msgstr ""
 
 #: ./opencore/project/browser/manageteam.py:408
+#, fuzzy
 msgid "remind_invite_none_selected"
-msgstr "Please select at least one person to send a reminder to."
+msgstr "Por favor escoger por lo menos una persona a quien mandar un mensaje de recuerdo."
 
 #. Default: "Reset password"
 #: ./opencore/account/reset-password.pt:74
 msgid "reset-password_button"
-msgstr ""
+msgstr "Reinicializar contraseña"
 
 #. Default: "Confirm password"
 #: ./opencore/account/reset-password.pt:57
 msgid "reset-password_confirm_label"
-msgstr ""
+msgstr "Confirmar contraseña"
 
 #. Default: "New password"
 #: ./opencore/account/reset-password.pt:41
 msgid "reset-password_new_password_label"
-msgstr ""
+msgstr "Nueva contraseña"
 
 #. Default: "Username"
 #: ./opencore/account/reset-password.pt:28
 msgid "reset-password_username_label"
-msgstr ""
+msgstr "Nombre de usuario"
 
 #. Default: "Send message"
 #: ./opencore/member/browser/profile.pt:134
@@ -1812,7 +1799,7 @@ msgstr ""
 #. Default: "Send an email to invite people to join"
 #: ./opencore/project/browser/team-manage.pt:99
 msgid "team-manage_send_email_invite"
-msgstr ""
+msgstr "Mandar un mensaje par invitar la gente a incluirse"
 
 #. Default: "You are already a pending or active member of ${project_title}."
 #: ./opencore/project/browser/team.py:151
@@ -1832,37 +1819,37 @@ msgstr ""
 #. Default: "flat"
 #: ./opencore/listen/browser/threaded_message.pt:18
 msgid "threaded_message_flat"
-msgstr ""
+msgstr "Llano"
 
 #. Default: "Next in thread:"
 #: ./opencore/listen/browser/threaded_message.pt:58
 msgid "threaded_message_next"
-msgstr ""
+msgstr "Siguiente en el hilado"
 
 #. Default: "Replies:"
 #: ./opencore/listen/browser/threaded_message.pt:29
 msgid "threaded_message_replies"
-msgstr ""
+msgstr "Respuestas"
 
 #. Default: "Return to date view:"
 #: ./opencore/listen/browser/threaded_message.pt:14
 msgid "threaded_message_return"
-msgstr ""
+msgstr "Regresar a la vista por fechas:"
 
 #. Default: "In reply to:"
 #: ./opencore/listen/browser/threaded_message.pt:47
 msgid "threaded_message_thread_reply"
-msgstr ""
+msgstr "Respondiendo a:"
 
 #. Default: "threaded"
 #: ./opencore/listen/browser/threaded_message.pt:15
 msgid "threaded_message_threaded"
-msgstr ""
+msgstr "Hilado"
 
 #. Default: "Required"
 #: ./opencore/nui/main/contact-site-admin.pt:51
 msgid "title_required"
-msgstr ""
+msgstr "Requerido"
 
 #. Default: "<a href=\"${member_url}\">${id}</a> has declined your invitation to join <a href=\"${project_url}\">${proj_id}</a>"
 #: ./opencore/member/browser/account.py:337
@@ -1881,18 +1868,21 @@ msgstr ""
 
 #. Default: "Let other ${portal_title} members know who you are and what you're interested in. The more information you provide, the more contacts you'll make."
 #: ./opencore/member/browser/tour.pt:17
+#, fuzzy
 msgid "tour_complete_profile_desc"
-msgstr ""
+msgstr " Informe otros participantes en  ${portal_title} sobre quien es Ud y que le interesa. Dando mas informaciones, se hacen mas contactos. "
 
 #. Default: "<a href=\"${DYNAMIC_CONTENT}\">Complete your profile</a>"
 #: ./opencore/member/browser/tour.pt:16
+#, fuzzy
 msgid "tour_complete_profile_heading"
-msgstr ""
+msgstr "<a href=\"${DYNAMIC_CONTENT}\">Completar su perfil</a>"
 
 #. Default: "Welcome to ${portal_title}!"
 #: ./opencore/member/browser/tour.pt:11
+#, fuzzy
 msgid "tour_heading"
-msgstr ""
+msgstr "Bienvenida en ${portal_title}!"
 
 #. Default: "We hope you will use this website to plan events, start ${project_noun}s, and improve your communities. Now you can…"
 #: ./opencore/member/browser/tour.pt:12
@@ -1901,28 +1891,31 @@ msgstr ""
 
 #. Default: "${project} has invited you to become a member"
 #: ./opencore/member/browser/tour.pt:42
+#, fuzzy
 msgid "tour_invite"
-msgstr ""
+msgstr "${project} le invito a ser integrante de su equipo"
 
 #. Default: "You have been invited to:"
 #: ./opencore/member/browser/tour.pt:34
 msgid "tour_invite_heading"
-msgstr ""
+msgstr "Ud fue invitado a: "
 
 #. Default: "Found something you're interested in? Want to volunteer an hour of your time? Join a ${project_noun} and help someone's vision become a reality."
 #: ./opencore/member/browser/tour.pt:22
 msgid "tour_join_projects_desc"
-msgstr ""
+msgstr "Ud encontro algo que le interesaba? Puede estar de voluntari@ algo de su tiempo ? Incluyese en un ${project_noun} e ayude la vision de otra persona a volverse realidad"
 
 #. Default: "<a href=\"${DYNAMIC_CONTENT}\">Join a ${project_noun} and help it succeed</a>"
 #: ./opencore/member/browser/tour.pt:21
+#, fuzzy
 msgid "tour_join_projects_heading"
-msgstr ""
+msgstr "<a href=\"${DYNAMIC_CONTENT}\">Incluyese en un  ${project_noun} y participa en su dinamica</a>"
 
 #. Default: "${project_noun}s you belong to:"
 #: ./opencore/member/browser/tour.pt:61
+#, fuzzy
 msgid "tour_projects_belong"
-msgstr ""
+msgstr "${project_noun}s en cuales Ud participa:"
 
 #. Default: "Is there something you'd like to do? Install bike parking? Create a community garden? Throw a block party? Start your own ${project_noun} and use our toolkit to stay organized."
 #: ./opencore/member/browser/tour.pt:27
@@ -1931,8 +1924,9 @@ msgstr ""
 
 #. Default: "<a href=\"${DYNAMIC_CONTENT}\">Start your own ${project_noun}</a>"
 #: ./opencore/member/browser/tour.pt:26
+#, fuzzy
 msgid "tour_start_projects_heading"
-msgstr ""
+msgstr "<a href=\"${DYNAMIC_CONTENT}\">Inicie su propio ${project_noun}</a>"
 
 #. Default: "Current Version"
 #: ./opencore/nui/wiki/historyview.py:50

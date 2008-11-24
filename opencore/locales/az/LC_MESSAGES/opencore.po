@@ -146,7 +146,7 @@ msgstr "archive_forum_thread_subject"
 msgid "archive_forum_view_by"
 msgstr "archive_forum_view_by"
 #. Default: "There are currently no posts in this archive."
-#: ./opencore/listen/browser/archive_date_view.pt:31
+#: ./opencore/listen/browser/archive_thread_messages.pt:35
 msgid "archive_no_posts"
 msgstr "archive_no_posts"
 #. Default: "View by <a href=\"../forum_view\">conversation</a> or <strong>date</strong> (<strong>threaded</strong> or <a id=\"switch_view\" href=\"by_date\">flat</a>)"
@@ -537,7 +537,7 @@ msgstr "forum_update_button"
 msgid "from-label"
 msgstr "from-label"
 #. Default: "No results found."
-#: ./opencore/nui/main/home-searchresults.pt:107
+#: ./opencore/nui/main/home-searchresults.pt:108
 msgid "home-searchresults_no_results"
 msgstr "home-searchresults_no_results"
 #. Default: "Find ${project_noun}s"
@@ -613,39 +613,39 @@ msgstr "invite-w-m_remind_desc"
 msgid "invite-w-m_remind_title"
 msgstr "invite-w-m_remind_title"
 #. Default: "Already a member?"
-#: ./opencore/account/invite-join.pt:209
+#: ./opencore/account/join.pt:174
 msgid "join_already_member_heading"
 msgstr "join_already_member_heading"
 #. Default: "Join"
-#: ./opencore/account/invite-join.pt:185
+#: ./opencore/account/join.pt:142
 msgid "join_button"
 msgstr "join_button"
 #. Default: "Check your email to confirm registration"
-#: ./opencore/account/invite-join.pt:68
+#: ./opencore/account/join.pt:20
 msgid "join_check_email"
 msgstr "join_check_email"
 #. Default: "Confirm password"
-#: ./opencore/account/invite-join.pt:164
+#: ./opencore/account/join.pt:119
 msgid "join_conf_password_label"
 msgstr "join_conf_password_label"
-#. Default: "Registration is free and your email will not be shared with anyone, however, you will need to confirm your email address in order to avoid spam bots abusing this system."
-#: ./opencore/account/invite-join.pt:61
+#. Default: "We will not share your email with anyone. Ever."
+#: ./opencore/account/join.pt:159
 msgid "join_description"
 msgstr "join_description"
 #. Default: "Email"
-#: ./opencore/account/invite-join.pt:119
+#: ./opencore/account/join.pt:75
 msgid "join_email_label"
 msgstr "join_email_label"
 #. Default: "Full Name"
-#: ./opencore/account/invite-join.pt:99
+#: ./opencore/account/join.pt:53
 msgid "join_full_name_label"
 msgstr "join_full_name_label"
 #. Default: "Becoming a member means…"
 #: ./opencore/account/join.pt:166
 msgid "join_get_started"
 msgstr "join_get_started"
-#. Default: "<li>You can join and participate in existing ${project_noun}s</li> <li>You can create your own ${project_noun} and invite people to participate</li> <li>You can share information about yourself</li>"
-#: ./opencore/account/invite-join.pt:219
+#. Default: "<li>You can join and participate in existing ${project_noun}s</li> <li>You can create your own ${project_noun} and invite others to join</li> <li>You can share information about yourself</li>"
+#: ./opencore/account/join.pt:169
 msgid "join_get_started_list"
 msgstr "join_get_started_list"
 #. Default: "Create an account on ${page_title}"
@@ -653,15 +653,15 @@ msgstr "join_get_started_list"
 msgid "join_page_title"
 msgstr "join_page_title"
 #. Default: "Password"
-#: ./opencore/account/invite-join.pt:144
+#: ./opencore/account/join.pt:97
 msgid "join_password_label"
 msgstr "join_password_label"
 #. Default: "Sign in"
-#: ./opencore/account/invite-join.pt:210
+#: ./opencore/account/join.pt:175
 msgid "join_sign_in"
 msgstr "join_sign_in"
 #. Default: "Username"
-#: ./opencore/account/invite-join.pt:79
+#: ./opencore/account/join.pt:31
 msgid "join_username_label"
 msgstr "join_username_label"
 #. Default: "by"
@@ -773,11 +773,11 @@ msgstr "listen_search_sidebar"
 msgid "listen_search_subject"
 msgstr "listen_search_subject"
 #. Default: "Whether your group is mobilizing voters, planning a protest, or growing a garden, ${DYNAMIC_CONTENT} can help you become more effective."
-#: ./opencore/account/login.pt:20
+#: ./opencore/account/login.pt:21
 msgid "login_description"
 msgstr "login_description"
 #. Default: "New users"
-#: ./opencore/account/login.pt:19
+#: ./opencore/account/login.pt:20
 msgid "login_heading"
 msgstr "login_heading"
 #. Default: "Sign in"
@@ -1112,7 +1112,7 @@ msgstr "password_no_username_error"
 #: ./opencore/browser/base.py:539
 msgid "password_not_same_error"
 msgstr "password_not_same_error"
-#: ./opencore/nui/main/contact-site-admin.pt:106
+#: ./opencore/browser/error.pt:36
 msgid "password_send_warning"
 msgstr "password_send_warning"
 #. Default: "Or enter a new address where you would like to receive the activation email for this account again"
@@ -1315,7 +1315,7 @@ msgstr "psm_many_requests_approved"
 msgid "psm_message_sent_to_admin"
 msgstr "psm_message_sent_to_admin"
 #. Default: "Message sent."
-#: ./opencore/member/browser/contact.py:35
+#: ./opencore/member/browser/contact.py:29
 msgid "psm_message_sent_to_user"
 msgstr "psm_message_sent_to_user"
 #: ./opencore/account/confirmation.py:101
