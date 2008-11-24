@@ -156,7 +156,7 @@ class RequestMembershipView(TeamRelatedView, formhandler.OctopoLite, LoginView):
 
         self.add_status_message(_(u'team_proj_join_request_sent',
                                   u'Your request to join "${project_title}" has been sent to the ${project_noun} administrator(s).',
-                                  mapping={u'project_title':self.context.Title(),
+                                  mapping={u'project_title':self.context.Title().decode('utf-8'),
                                            u'project_noun': self.project_noun}))
         self.template = None # don't render the form before the redirect
         self.redirect(self.context.absolute_url())
