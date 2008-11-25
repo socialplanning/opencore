@@ -133,7 +133,7 @@
 								<tal:for repeat="item item_collection">
 									<metal:row define-macro="item_row">
 									<tr class="oc-js-liveEdit" 
-										tal:attributes="id item/id"
+										tal:attributes="id python:item['path'].replace('/', '__')"
 										tal:define="item item | options/item;
 													item_type item_type | options/item_type;
 													item_editable  editable | options/editable | not:item/readonly | not:default;

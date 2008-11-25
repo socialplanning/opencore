@@ -61,6 +61,11 @@ class ProjectContentsView(ProjectBaseView, OctopoLite):
                 obj_dict[field] = val
             else:
                 raise KeyError("field is missing: %s -- %s" %(field, obj))
+
+        if hasattr(obj, 'getPath'):
+            obj_dict['path'] = obj.getPath()
+        else:
+            obj_dict['path'] = '/'.join(obj.getPhysicalPath())
         return obj_dict
 
     @memoizedproperty
@@ -310,7 +315,8 @@ class ProjectContentsView(ProjectBaseView, OctopoLite):
                         )
             
             tal_context = tal.create_tal_context(self, **data)
-            snippets[page.getId()] = {
+            path = '__'.join(page.getPhysicalPath())
+            snippets[path] = {
                 'html': tal.render_tal(macro, tal_context),
                 'effects': 'highlight',
                 'action': 'replace'
