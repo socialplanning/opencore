@@ -132,10 +132,11 @@ class ProjectContentsView(ProjectBaseView, OctopoLite):
             obj_dict[field] = val
         return obj_dict
 
-    def _delete(self, brains):
+    def _delete(self, brains, sources):
         """
-        delete the objects referenced by the list of brains passed in.
-        returns ([deleted_ids], [failed_nondeleted_ids])
+        delete the objects named by the list of sources and referenced
+        by the list of brains passed in.  returns ([deleted_ids],
+        [failed_nondeleted_ids])
 
         nowhere does this view code explicitly check that the requesting
         user has delete privileges on the objects that are to be deleted;
@@ -161,10 +162,13 @@ class ProjectContentsView(ProjectBaseView, OctopoLite):
                                       u'Please select items to delete.'))
 
         # put obj ids in dict keyed on their parents for optimal batch deletion
-        for brain in brains:                
-            parent_path, brain_id = brain.getPath().rsplit('/', 1)
+        for brain in brains:    
+            if not brain.getPath() in sources:
+                continue
+            path = brain.getPath()
+            parent_path, brain_id = path.rsplit('/', 1)
             parent_path = parent_path.split(self.project_path, 1)[-1].strip('/')
-            parents.setdefault(parent_path, []).append(brain_id)
+            parents.setdefault(parent_path, []).append((brain_id, path))
             
             type = brain.portal_type
             ### our Documents are currently folderish 
@@ -187,6 +191,8 @@ class ProjectContentsView(ProjectBaseView, OctopoLite):
                     parent = self.context
                 else:
                     parent = self.context.restrictedTraverse(parent)
+                paths = dict(child_ids)
+                child_ids = [x[0] for x in child_ids]
                 deletees = list(child_ids)
                 try:
                     parent.manage_delObjects(child_ids)  ## dels ids from list as objs are deleted
@@ -195,11 +201,11 @@ class ProjectContentsView(ProjectBaseView, OctopoLite):
                     # child_ids will not be removed
                     pass
             if child_ids: # deletion failed for some objects
-                surviving_objects.extend(child_ids)  ## what's left in 'child_ids' was not deleted
-                deleted_objects.extend([oid for oid in deletees
+                surviving_objects.extend(paths[x] for x in child_ids)  ## what's left in 'child_ids' was not deleted
+                deleted_objects.extend([paths[oid] for oid in deletees
                                         if oid not in child_ids]) ## the difference btn deletees and child_ids == deleted
             else: # deletion succeeded for every object
-                deleted_objects.extend(deletees)
+                deleted_objects.extend(paths[x] for x in deletees)
         
         # if any additional objects (ie file attachments) were deleted
         # as a consequence, add them to deleted_objects too
@@ -275,9 +281,10 @@ class ProjectContentsView(ProjectBaseView, OctopoLite):
         if item_type == 'pages' and PROJ_HOME in sources:
             sources.remove("project-home")
 
-        brains = self.catalog(id=sources, path=self.project_path)
+        ids = [x.split("/")[-1] for x in sources]
+        brains = self.catalog(id=ids, path=self.project_path)
 
-        deletions, survivors = self._delete(brains)
+        deletions, survivors = self._delete(brains, sources)
         # for now we'll only return the deleted obj ids. later we may return the survivors too.
         commands = {}
         for obj_id in deletions:
@@ -297,11 +304,12 @@ class ProjectContentsView(ProjectBaseView, OctopoLite):
         if item_type == 'pages' and PROJ_HOME in sources:
             sources.remove("project-home")
 
-        brains = self.catalog(id=sources, path=self.project_path)
+        ids = [x.split("/")[-1] for x in sources]
+        brains = self.catalog(id=ids, path=self.project_path)
 
         snippets = {}
-        objects = dict([(b.getId, b.getObject()) for b in brains])
-
+        objects = dict([(b.getPath(), b.getObject()) for b in brains])
+        
         macro = self.template.macros['item_row']
         for old, new in zip(sources, fields):
             page = objects[old]
@@ -315,7 +323,7 @@ class ProjectContentsView(ProjectBaseView, OctopoLite):
                         )
             
             tal_context = tal.create_tal_context(self, **data)
-            path = '__'.join(page.getPhysicalPath())
+            path = '/'.join(page.getPhysicalPath())
             snippets[path] = {
                 'html': tal.render_tal(macro, tal_context),
                 'effects': 'highlight',

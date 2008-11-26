@@ -133,17 +133,17 @@
 								<tal:for repeat="item item_collection">
 									<metal:row define-macro="item_row">
 									<tr class="oc-js-liveEdit" 
-										tal:attributes="id python:item['path'].replace('/', '__')"
+										tal:attributes="id python:item['path']"
 										tal:define="item item | options/item;
 													item_type item_type | options/item_type;
 													item_editable  editable | options/editable | not:item/readonly | not:default;
 													deletable not:item/nodelete | nothing">
 										<td tal:condition="item_collection/editable">
 											<input tal:condition="not:deletable" type="checkbox" class="oc-js-checkAll-never" name="deletes:list"
-												 tal:attributes="value item/id" 
+												 tal:attributes="value item/path" 
 												 disabled="True" />
 											<input tal:condition="deletable" type="checkbox" name="deletes:list"
-												 tal:attributes="value item/id" />
+												 tal:attributes="value item/path" />
 										</td>
 										<td>
 										<div class="oc-js-liveEdit-value">
@@ -152,9 +152,9 @@
 										<div tal:condition="item_editable"
 											 class="oc-js-liveEdit-editForm oc-liveEdit-editForm">
 											<input type="text" 
-													 tal:attributes="name string:${item/id}_title; value item/title" />
+													 tal:attributes="name string:${item/path}_title; value item/title" />
 											<input type="submit" class="oc-js-actionButton" value="Save"
-													 tal:attributes="name string:task|${item/id}|update" /> or
+													 tal:attributes="name string:task|${item/path}|update" /> or
 											<a href="" class="oc-js-liveEdit_hideForm" tal:content="string:Cancel" />
 										</div>
 										</td>
@@ -174,7 +174,7 @@
 											<a href="#" class="oc-js-liveEdit_showForm oc-actionLink">Rename</a></li>
 											<li tal:condition="deletable">
 											<a class="oc-js-actionPost oc-actionLink oc-js-confirm"
-												 tal:attributes="href string:contents?task|${item/id}|delete=Delete&item_type=${item_type}&authenticator=${view/authenticator}">
+												 tal:attributes="href string:contents?task|${item/path}|delete=Delete&item_type=${item_type}&authenticator=${view/authenticator}">
 												Delete <span class="oc-hidden oc-warning oc-confirm">This deletion is permanent. Are you sure you want to delete?</span>
 											</a>
 											</li>
