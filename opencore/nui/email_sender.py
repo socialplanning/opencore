@@ -161,5 +161,5 @@ class EmailSender(object):
             self.send(msg, recips, mfrom, subject, charset=charset)
         except TypeError:
             # damn those inconsistent MailHost APIs
-            self.send(msg, recips, mfrom, subject, encode='quoted-printable')
+            self.send(msg, recips, mfrom, subject, encode='8bit')
             
