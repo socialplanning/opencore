@@ -6,6 +6,7 @@ from ZODB.POSException import TransactionFailedError
 from Acquisition import aq_parent
 from BTrees.OOBTree import OOBTree
 from zope.app.annotation.interfaces import IAnnotations
+from Products.Archetypes.interfaces import IBaseObject
 from Products.CMFCore.interfaces._content import IDynamicType
 from Products.CMFCore.interfaces._tools import ICatalogTool
 from Products.CMFCore.utils import getToolByName
@@ -15,7 +16,6 @@ from opencore.interfaces.workflow import IReadWorkflowPolicySupport
 from Products.ZCatalog.CatalogBrains import AbstractCatalogBrain
 from Products.listen.interfaces import ISearchableArchive
 from Products.listen.interfaces.mailinglist import IMailingList
-from Products.remember.interfaces import IReMember
 from opencore.interfaces.catalog import ILastWorkflowActor, ILastModifiedAuthorId, \
      IIndexingGhost, IMetadataDictionary, ILastWorkflowTransitionDate, \
      IMailingListThreadCount, IHighestTeamRole, ILastModifiedComment, \
@@ -214,7 +214,7 @@ def metadata_for_portal_content(context, catalog):
         metadata['Title'] = context.title_or_id()
     return metadata
 
-@adapter(IReMember)
+@adapter(IBaseObject)
 @implementer(ISortableTitle)
 def sortable_title(context):
     return context.Title().lower()
