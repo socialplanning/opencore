@@ -108,6 +108,9 @@
  <index name="has_portrait" meta_type="FieldIndex">
   <indexed_attr value="has_portrait"/>
  </index>
+ <index name="sortable_title" meta_type="FieldIndex">
+   <indexed_attr value="sortable_title"/>
+ </index>
  <column value="has_portrait"/>
  <column value="project_ids"/>
  <column value="CreationDate"/>

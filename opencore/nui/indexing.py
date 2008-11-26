@@ -17,9 +17,9 @@ from Products.listen.interfaces import ISearchableArchive
 from Products.listen.interfaces.mailinglist import IMailingList
 from Products.remember.interfaces import IReMember
 from opencore.interfaces.catalog import ILastWorkflowActor, ILastModifiedAuthorId, \
-     IIndexingGhost, IMetadataDictionary, ILastWorkflowTransitionDate, IMailingListThreadCount, \
-     IHighestTeamRole, ILastModifiedComment, \
-     IImageWidthHeight, IImageSize, IIsImage
+     IIndexingGhost, IMetadataDictionary, ILastWorkflowTransitionDate, \
+     IMailingListThreadCount, IHighestTeamRole, ILastModifiedComment, \
+     IImageWidthHeight, IImageSize, IIsImage, ISortableTitle
 from opencore.interfaces import IOpenMembership, IOpenPage
 from opencore.nui.wiki.interfaces import IWikiHistory
 
@@ -214,6 +214,11 @@ def metadata_for_portal_content(context, catalog):
         metadata['Title'] = context.title_or_id()
     return metadata
 
+@adapter(IReMember)
+@implementer(ISortableTitle)
+def sortable_title(context):
+    return context.Title().lower()
+
 class MailingListThreadCount(object):
     adapts(IMailingList)
     implements(IMailingListThreadCount)
@@ -276,7 +281,7 @@ def register_indexable_attrs():
     registerInterfaceIndexer('lastModifiedAuthor', ILastModifiedAuthorId)
     registerInterfaceIndexer('mailing_list_threads', IMailingListThreadCount,
                              'getValue')
-
+    registerInterfaceIndexer('sortable_title', ISortableTitle)
 
 
 class _extra:
