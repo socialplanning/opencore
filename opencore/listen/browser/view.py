@@ -448,7 +448,7 @@ class ModerationView(BaseModerationView):
             if policy_result == MODERATION_FAILED:
                 self.errors = _(u'err_could_not_moderate', u'Could not moderate!')
             json = {'member_%s' % postid : {'action': 'delete'}}
-        if 'mode' in self.request.keys() and self.request.mode == 'async':
+        if 'mode' in self.request and self.request.mode == 'async':
             return json
         else:
             self.redirect(self.request.ACTUAL_URL)
