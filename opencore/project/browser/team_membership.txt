@@ -9,7 +9,7 @@ Make sure the RequestMembershipWithEmail adapter is hooked up::
     >>> from opencore.interfaces.pending_requests import IRequestMembership
     >>> rm = IRequestMembership(team)
     >>> rm
-    <opencore.project.browser.team_membership.RequestMembershipWithEmail object ...>
+    <....project.browser.team_membership.RequestMembershipWithEmail object ...>
 
 It should have found a site::
     >>> rm.portal
