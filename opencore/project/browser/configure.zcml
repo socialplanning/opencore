@@ -138,6 +138,14 @@
 
   <browser:page
      for="opencore.interfaces.IProject"
+     class=".manageteam.InviteMemberCustomView"
+     permission="teamspace.ManageTeamMemberships"
+     name="invite-member"
+     template="invite-member.pt"
+     />
+
+  <browser:page
+     for="opencore.interfaces.IProject"
      class=".manageteam.ManageTeamView"
      permission="teamspace.ManageTeamMemberships"
      name="manage-team"

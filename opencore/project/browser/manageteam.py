@@ -601,6 +601,9 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite, AccountView,
     #### MEMBER SEARCH BUTTON HANDLER
     ##################
 
+    # XXX this method has always been very slow (subjective impression)
+    #     .. not sure why, but there are a few obvious improvements that
+    #        could be made. should profile this, though. -egj
     @formhandler.action('search-members')
     def search_members(self, targets=None, fields=None):
         """
@@ -611,14 +614,18 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite, AccountView,
         """
         filtered_states = ('pending', 'private', 'public')
         existing_ids = self.team.getMemberIdsByStates(filtered_states)
-        existing_ids = dict.fromkeys(existing_ids)
+        existing_ids = dict.fromkeys(existing_ids) # XXX why on earth..? -egj
 
         search_for = self.request.form.get('search_for')
         if not search_for:
             self.add_status_message(u'Please enter search text.')
             return
+
+        # XXX searchForPerson seems excessive here, why not just a catalog query? -egj
         results = searchForPerson(self.membranetool, search_for)
+
         results = [r for r in results if r.getId not in existing_ids]
+
         self.results = results
         if not len(results):
             self.add_status_message(u'No members were found.')
@@ -680,10 +687,13 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite, AccountView,
                 'portal_name': self.portal.title,
                 'portal_url': self.portal.absolute_url(),
                 }
-
+        
+        self.send_invite_member_email(mem_id, msg_subs)
+        self.add_status_message(u'You invited %s to join this %s' % (mem_id, self.project_noun))
+        
+    def send_invite_member_email(self,mem_id, msg_subs):
         _email_sender(self).sendEmail(mem_id, msg_id='invite_member',
                                     **msg_subs)
-        self.add_status_message(u'You invited %s to join this %s' % (mem_id, self.project_noun))
 
     @view.memoizedproperty
     def invite_util(self):
@@ -931,3 +941,10 @@ class InviteView(ManageTeamView):
                     mem_already_member=mem_already_member)
 
 
+class InviteMemberCustomView(ManageTeamView):
+    template = ZopeTwoPageTemplateFile('invite-member.pt')
+    
+    def send_invite_member_email(self, mem_id, msg_subs):
+        message = self.request.form.get('message')
+        subject = self.request.form.get('subject')
+        _email_sender(self).sendEmail(mem_id, msg=message, subject=subject)

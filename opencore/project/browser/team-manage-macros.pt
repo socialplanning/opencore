@@ -330,6 +330,7 @@
           <td>
             <input type="submit" value="Invite" class="oc-button"
                    tal:attributes="name string:task|${member/getId}|invite-member" />
+            <a tal:attributes="href string:invite-member?id=${member/getId}">customize it</a>
           </td>
         </tr>
       </tbody>

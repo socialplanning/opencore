@@ -1,0 +1,83 @@
+<html i18n:domain="opencore" metal:use-macro="here/@@standard_macros/master">
+  <head>
+    <title metal:fill-slot="title" tal:content="string:Invite - ${view/area/Title}" />
+  </head>
+  <body>
+    <div metal:fill-slot="content">
+    
+      <div class="oc-headingBlock">
+        <h1>Invite users</h1>
+        <p class="oc-headingContext">Customize an email to invite people to join</p>
+      </div>
+    
+      <div id="oc-content-main">
+        <form id="oc-inviteByEmail" name="oc-inviteByEmail"
+              tal:attributes="action view/request/ACTUAL_URL"
+              method="POST">
+          <table class="oc-form">
+            <thead></thead>
+            <tbody>
+              <tr class="oc-form-row">
+                <th class="oc-form-label" scope="row">
+                  <label for="email-invites">To:</label>
+                </th>
+                <td class="oc-form-value" tal:content="request/form/id | nothing">
+                </td>
+              </tr>
+              <tr class="oc-form-row">
+                <th class="oc-form-label" scope="row">
+                  <label for="from">From:</label>
+                </th>
+                <td class="oc-form-value">
+                  &ldquo;<span tal:replace="python: view.loggedinmember.getFullname() or view.loggedinmember.id" />&rdquo; &lt;<span tal:replace="python: view.loggedinmember.email" />&gt;
+                </td>
+                <td class="oc-form-help">
+                </td>
+              </tr>
+              <tr class="oc-form-row">
+                <th class="oc-form-label" scope="row">
+                  <label for="subject">Subject:</label>
+                </th>
+                <td class="oc-form-value">
+                  <input style="width: 30em;" type="text" name="subject" tal:attributes="value string:You've been invited to join `${view/area/Title}'" />
+                </td>
+              </tr>
+              <tr class="oc-form-row">
+                <th class="oc-form-label" scope="row">
+                  <label for="message">Message:</label>
+                </th>
+                <td class="oc-form-value">
+                <div class="oc-boxy">
+
+
+<textarea rows="9" cols="70"  name="message">
+Hi <span tal:replace="request/form/id  | nothing" />,
+
+You have been invited to join <span tal:replace="view/area/Title" /> by  <span tal:replace="python: view.loggedinmember.getFullname() or view.loggedinmember.id" />. Please visit your account page to accept or decline the invitation.
+
+Cheers,  
+The OpenPlans team
+</textarea>
+                </div>
+                <td class="oc-form-help">
+                </td>
+              </tr>
+              <tr class="oc-form-row">
+                <th class="oc-actions" scope="row">
+                </th>
+                <td class="oc-form-value">
+                  <input type="submit" 
+                         tal:attributes="name string:task|${request/form/id|nothing}|invite-member" value="Send"
+                         class="oc-button" />
+                </td>
+                <td class="oc-form-help">
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </form>
+      </div>
+
+    </div><!-- end content-fill-slot -->
+  </body>
+</html>
