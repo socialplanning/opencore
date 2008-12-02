@@ -14,6 +14,6 @@ extend_with flunc.checkbox
 go ${base_url}/projects
 follow $projname 
 follow "Contents" 
-edit_checkbox pages_contents deletes:list ${item}
+edit_checkbox pages_contents deletes:list /openplans/projects/${projname}/${item}
 submit Delete
 notfind ${item}
