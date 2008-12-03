@@ -2,6 +2,8 @@
 opencore helper functions
 """
 from Acquisition import aq_base
+from Acquisition import aq_chain
+from Acquisition import aq_inner
 from Products.CMFCore.utils import getToolByName
 from zope.app.component.hooks import getSite
 
@@ -56,3 +58,14 @@ def set_opencore_properties(context=None, **kw):
     pprops = getToolByName(context, 'portal_properties')
     oc_props = pprops._getOb(oc_props_id)
     return oc_props.manage_changeProperties(**kw)
+
+def interface_in_aq_chain(obj, iface):
+    """
+    climbs obj's aq chain looking for any parent that provides iface
+    (including obj)
+
+    returns the matching object, if found; otherwise None.
+    """
+    for parent in aq_chain(obj):
+        if iface.providedBy(parent):
+            return aq_inner(parent)

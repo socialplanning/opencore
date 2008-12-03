@@ -1,7 +1,7 @@
-from Acquisition import aq_parent, aq_inner
+from Acquisition import aq_parent
+from Acquisition import aq_inner
 import transaction
 from zExceptions import Redirect
-from Acquisition import aq_inner
 from Products.CMFCore.permissions import DeleteObjects
 from AccessControl.interfaces import IRoleManager
 from Products.CMFCore.utils import getToolByName
@@ -30,9 +30,11 @@ from Products.listen.interfaces import IMailingList, IMembershipModeratedList, \
 from Products.listen.utilities.list_lookup import ListLookupView
 from opencore.browser.formhandler import OctopoLite, action
 from opencore.browser.base import BaseView, _
+from opencore.listen.interfaces import IListenContainer
 from opencore.listen.mailinglist import OpenMailingList
 from opencore.listen.mailinglist_views import MailingListAddForm, MailingListEditForm, MailingListView
 from opencore.listen.utils import isValidPrefix
+from opencore.utils import interface_in_aq_chain
 from plone.app.form import _named
 from plone.memoize.view import memoize as req_memoize
 from zope.app.annotation.interfaces import IAnnotations
@@ -55,6 +57,7 @@ _ml_type_to_workflow = {
 _workflow_to_ml_type = dict((y, x) for x, y in _ml_type_to_workflow.items())
 
 _list_error_fields = ['title', 'mailto']
+
 def oc_json_error(v):
     return {'html': v,
             'action': 'copy',
@@ -79,7 +82,13 @@ class ListenBaseView(BaseView):
             except AttributeError:
                 return ''
         return obj.Title()            
-        
+
+    @req_memoize
+    def listen_container(self):
+        context = aq_inner(self.context)
+        container = interface_in_aq_chain(context, IListenContainer)
+        return container
+
     @property
     def portal_status_message(self):
         if hasattr(self, '_redirected'):
