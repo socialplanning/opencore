@@ -89,6 +89,13 @@ class ListenBaseView(BaseView):
         container = interface_in_aq_chain(context, IListenContainer)
         return container
 
+    @req_memoize
+    def num_lists(self):
+        container = self.listen_container()
+        obs = container.objectValues()
+        num_lists = len([ob for ob in obs if IMailingList.providedBy(ob)])
+        return num_lists
+
     @property
     def portal_status_message(self):
         if hasattr(self, '_redirected'):
