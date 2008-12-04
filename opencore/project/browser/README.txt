@@ -51,14 +51,14 @@ How about an invalid id?::
     >>> view.request.form['projid'] = ''
     >>> out = view.handle_request()
     >>> view.errors
-    {'id': 'The url must contain 2 or more characters.'}
+    {'id': 'The url must contain 2 or more characters; only A-Z, 0-9 and "-" are valid characters.'}
     >>> view.errors = {}
 
 And, another invalid id::
     >>> view.request.form['projid'] = 'abcd1-_+'
     >>> out = view.handle_request()
     >>> view.errors
-    {'id': 'The url must contain 2 or more characters.'}
+    {'id': 'The url must contain 2 or more characters; only A-Z, 0-9 and "-" are valid characters.'}
     >>> view.errors = {}
 
 And an id with a reserved name also produces an error::
