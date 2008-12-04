@@ -22,6 +22,8 @@ Features:
 
 Bug fixes:
 
+ * Account creation forms no longer explode when the id contains '('
+   or ')'. (egj)
 
  * "Delete" button on project contents page now is shown or hidden
    based on correct permission check. There is a GS upgradeStep to fix

@@ -80,7 +80,8 @@ class ProjectAddView(ProjectBaseView, OctopoLite):
 
         id_ = self.request.form.get('projid')
         if not self.valid_id(id_):
-            self.errors['id'] = 'The url must contain 2 or more characters.'
+            self.errors['id'] = 'The url must contain 2 or more characters; ' + \
+                'only A-Z, 0-9 and "-" are valid characters.'
         else:
             id_ = putils.normalizeString(id_)
             if self.context.has_key(id_):
