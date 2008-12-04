@@ -397,14 +397,17 @@ class OpenMember(FolderishMember):
             # we only validate if we're changing the id
             mbtool = getToolByName(self, 'membrane_tool')
             msg = None
-            if len(mbtool.unrestrictedSearchResults(getUserName=id)) > 0L:
-                msg = "The login name you selected is already " + \
-                    "in use. Please choose another." 
-            elif not ALLOWED_MEMBER_ID_PATTERN.match(id):
+
+            # check this first to avoid bad tokens getting into the membertool search
+            # see http://trac.openplans.org/openplans/ticket/2713
+            if not ALLOWED_MEMBER_ID_PATTERN.match(id):
                 msg = "The login name you selected is not valid. " + \
                     "Usernames must start with a letter and consist " + \
                     "only of letters, numbers, and underscores.  Please " +\
                     "choose another."
+            elif len(mbtool.unrestrictedSearchResults(getUserName=id)) > 0L:
+                msg = "The login name you selected is already " + \
+                    "in use. Please choose another." 
             else:
                 for prefix in PROHIBITED_MEMBER_PREFIXES:
                     if id.lower().startswith(prefix):
