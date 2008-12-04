@@ -611,19 +611,20 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite, AccountView,
         """
         filtered_states = ('pending', 'private', 'public')
         existing_ids = self.team.getMemberIdsByStates(filtered_states)
-        existing_ids = dict.fromkeys(existing_ids)
+        # XXX TODO: it should just be easier to get these casually, really
+        self.existing_ids = dict.fromkeys(existing_ids)
 
         search_for = self.request.form.get('search_for')
         if not search_for:
             self.add_status_message(u'Please enter search text.')
             return
         results = searchForPerson(self.membranetool, search_for)
-        results = [r for r in results if r.getId not in existing_ids]
+
         self.results = results
         if not len(results):
             self.add_status_message(u'No members were found.')
 
-
+        
     ##################
     #### MEMBER ADD BUTTON HANDLER
     ##################
