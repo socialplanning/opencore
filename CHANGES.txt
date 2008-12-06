@@ -22,6 +22,11 @@ Features:
 
 Bug fixes:
 
+ * Fix a longstanding point of user confusion, openplans:#1474. The member
+   search in team management view no longer ignores existing team members
+   but instead displays them with a contextual note that they are already
+   in the project. (egj)
+
  * Account creation forms no longer explode when the id contains '('
    or ')'. (egj)
 
