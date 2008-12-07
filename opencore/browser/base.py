@@ -375,20 +375,16 @@ class BaseView(BrowserView):
     def portal_title(self):
         return self.portal.Title()
     
-    @view.memoize
-    def get_view(self, name):
-        # as of 2008/04/14, this is only used by this class and topnav
-        view = getMultiAdapter((self.context, self.request), name=name)
-        return view.__of__(aq_inner(self.context))
-
     #egj: piv? miv? these names suck.
     @property
     def piv(self):
-        return self.get_view('project_info')
+        view = getMultiAdapter((self.context, self.request), name='project_info')
+        return view.__of__(aq_inner(self.context))
 
     @property
     def miv(self):
-        return self.get_view('member_info')
+        view = getMultiAdapter((self.context, self.request), name='member_info')
+        return view.__of__(aq_inner(self.context))
 
     @property
     def dob(self):

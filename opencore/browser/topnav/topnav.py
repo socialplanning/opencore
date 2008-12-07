@@ -1,6 +1,7 @@
 """
 TopNav view classes.
 """
+from Acquisition import aq_inner
 from Products.CMFCore.utils import getToolByName
 from Products.TeamSpace.permissions import ManageTeamMembership
 from opencore.browser.base import BaseView
@@ -41,7 +42,8 @@ class TopNavView(HeaderHijackable, BaseMenuView):
             viewname = 'topnav-auth-user-menu'
         else:
             viewname = 'topnav-anon-user-menu'
-        return self.get_view(viewname)
+        view = getMultiAdapter((self.context, self.request), name=viewname)
+        return view.__of__(aq_inner(self.context))
 
     def siteroot_link(self, urn, name):
         here = self.request.ACTUAL_URL.split('/')[-1]
