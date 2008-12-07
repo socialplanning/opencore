@@ -2,15 +2,15 @@
  configuration.utils tests
 ============================
 
+NOTE: This whole thing should be deprecated ASAP.
+
    >>> from opencore.configuration import utils
 
 
 We can read stuff from zope.conf's product-config directives.
-XXX this test fails if the user has modified their zope.conf.
-That's not very reliable...
 
-   >>> print utils.product_config('email-confirmation', 'opencore.nui')
-   True
+   >>> utils.product_config('build_ini_path', 'opencore.nui')
+   '...build.ini'
 
 If either the name or the namespace isn't in the config file,
 the default is returned::
