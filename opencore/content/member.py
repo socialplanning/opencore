@@ -519,6 +519,34 @@ class OpenMember(FolderishMember):
                                        default='"password" is not a valid password.',
                                        domain='remember-plone')
 
+    def _change_member_id(self, newid):
+        """Changes the id of this member object and all of the related
+        objects (home folder, memberships)"""
+        old_id = self.getId()
+        mtool = getToolByName(self, 'portal_membership')
+        memfolder = mtool.getHomeFolder(self.getId())
+        # change mem object id
+        self.update(id=newid)
+        # change mem folder id
+        memfolder.update(id=newid)
+        # change id of all mship objects, and reindex the security
+        # on corresponding team and project objects
+        mships = self.getRefs('Team Membership Relation')
+        for mship in mships:
+            mship.update(id=newid)
+            team = mship.getTeam()
+            team_roles_map = team._team_roles_map
+            team_roles_map[newid] = team_roles_map[old_id]
+            del team_roles_map[old_id]
+            team.reindexObjectSecurity()
+            proj = team.getProject()
+            proj.reindexObjectSecurity()
+        # fix ownership permissions on mem folder
+        if 'Owner' in memfolder.get_local_roles_for_userid(old_id):
+            memfolder.manage_delLocalRoles((old_id,))
+        if 'Owner' not in memfolder.get_local_roles_for_userid(newid):
+            memfolder.manage_setLocalRoles(newid, ('Owner',))
+        return 'ID changed to %s' % newid
 
 atapi.registerType(OpenMember, package=PROJECTNAME)
 
