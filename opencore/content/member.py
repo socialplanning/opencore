@@ -547,6 +547,9 @@ class OpenMember(FolderishMember):
         for mship in mships:
             mship.update(id=newid)
             team = mship.getTeam()
+            team_roles_map = team._team_roles_map
+            team_roles_map[newid] = team_roles_map[old_id]
+            del team_roles_map[old_id]
             team.reindexObjectSecurity()
             proj = team.getProject()
             proj.reindexObjectSecurity()
