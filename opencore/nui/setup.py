@@ -500,6 +500,22 @@ def create_square_project_logos(portal):
                                  imgfield='logo')
 
 
+def retitle_member_areas(portal):
+    """change the title of the member areas on the site to use
+    member title instead of member id"""
+    mdtool = getToolByName(portal, 'portal_memberdata')
+    mem_ids = dict.fromkeys(mdtool.objectIds(spec='OpenMember'))
+    pfolder = portal.people
+    for mem_id, home in pfolder.objectItems():
+        if mem_id in mem_ids:
+            member = mdtool._getOb(mem_id)
+            mem_title = member.Title() or mem_id
+            if mem_title != mem_id:
+                home.setTitle(mem_title)
+                page = home._getOb('%s-home' % mem_id, None)
+                if page is not None:
+                    page.setTitle('%s Home' % mem_title)
+
 from Products.Archetypes.utils import OrderedDict
 
 # make rest of names readable  (maybe use config system)
@@ -544,6 +560,7 @@ nui_functions['Make profile default member page'] = make_profile_default_member_
 nui_functions['migrate_listen_container_to_feed'] = migrate_listen_container_to_feed
 nui_functions['recreate image scales'] = recreate_image_scales
 nui_functions['create square project logos'] = create_square_project_logos
+nui_functions['Re-title member areas'] = retitle_member_areas
 
 def run_nui_setup(portal):
     pm = portal.portal_migration

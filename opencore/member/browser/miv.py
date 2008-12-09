@@ -168,12 +168,14 @@ def initializeMemberArea(mtool, request, member_id=None):
         member = mtool.getAuthenticatedMember()
         member_id = member.getId()
 
+    member_title = member.Title() or member_id
     folder = mtool.getHomeFolder(member_id)
+    folder.setTitle(member_title)
     alsoProvides(folder, IMemberFolder)
     apply_member_folder_redirection(folder, request)
 
     page_id = "%s-home" % member_id
-    title = "%s Home" % member_id
+    title = "%s Home" % member_title
     folder.invokeFactory('Document', page_id, title=title)
     folder.setLayout('profile')
 
