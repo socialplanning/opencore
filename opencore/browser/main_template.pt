@@ -88,6 +88,8 @@
        tal:content="structure view/portal/@@openplans-versions"
        />
 
+  <tal:extra-body replace="structure provider:opencore.extra.body" />
+
   </body>
 </html>
 </metal:template>

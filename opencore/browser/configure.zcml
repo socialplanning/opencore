@@ -132,6 +132,10 @@
      permission="zope2.View"
      />
 
-
+  <browser:viewletManager
+     name="opencore.extra.body"
+     provides=".interfaces.IExtraBody"
+     permission="zope2.View"
+     />
 
 </configure>
