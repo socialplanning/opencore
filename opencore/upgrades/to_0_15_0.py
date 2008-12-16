@@ -22,3 +22,25 @@ def update_workflow_permissions(context):
 def update_rolemap(context):
     result = run_import_step(context, 'rolemap')
     logger.info(result)
+
+def retitle_member_areas(context):
+    """change the title of the member areas on the site to use
+    member title instead of member id"""
+    # forward-ported from the people-cloud branch.
+    portal = getToolByName(context, 'portal_url').getPortalObject()
+    mdtool = getToolByName(portal, 'portal_memberdata')
+    mem_ids = dict.fromkeys(mdtool.objectIds(spec='OpenMember'))
+    pfolder = portal.people
+    for mem_id, home in pfolder.objectItems():
+        if mem_id in mem_ids:
+            member = mdtool._getOb(mem_id)
+            mem_title = member.Title() or mem_id
+            if mem_title != mem_id:
+                home.setTitle(mem_title)
+                home.reindexObject(idxs=['Title'])
+                logger.info('retitled folder for %s' % mem_id)
+            page = home._getOb('%s-home' % mem_id, None)
+            if page is not None and page.Title() == '%s Home' % mem_id:
+                page.setTitle('%s Home' % mem_title)
+                page.reindexObject(idxs=['Title'])
+                logger.info('retitled home page for %s' % mem_id)

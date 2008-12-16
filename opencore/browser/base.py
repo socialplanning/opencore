@@ -216,11 +216,12 @@ class BaseView(BrowserView):
 
         if self.miv.inMemberArea or self.miv.inMemberObject:
             vmi = self.viewed_member_info
+            mem_title = vmi['fullname'] or vmi['id']
             if not mode and vmi['home_url'] == context.absolute_url():
                 # viewing member homepage
-                return '%s on %s' % (vmi['id'], self.portal.Title())
+                return '%s on %s' % (mem_title, self.portal.Title())
             else:
-                return '%s %s- %s on %s' % (title, mode, vmi['id'],
+                return '%s %s- %s on %s' % (title, mode, mem_title,
                                             self.portal.Title())
         elif self.piv.inProject:
             project = self.piv.project

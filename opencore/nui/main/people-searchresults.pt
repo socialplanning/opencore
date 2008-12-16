@@ -60,21 +60,29 @@
             </div>
 
             <!-- the results are displayed here -->
-            <ol class="oc-directory-list oc-clearAfter">
+            <ol class="oc-directory-list oc-clearAfter"
+                tal:define="ms_tool nocall:context/portal_membership">
               <li class="oc-clearAfter vcard" tal:repeat="item view/search_results">
-                <div class="oc-avatar"
-                  tal:define="mem item/getObject; memdata python:view.member_info_for_member(mem)">
-                  <a tal:attributes="href string:${context/portal_url}/people/${memdata/id}/profile">
-                    <img class="photo" tal:attributes="src memdata/portrait_thumb_url" />
+               <span tal:omit-tag=""
+                     tal:define="mem item/getObject;
+	                         memdata python:view.member_info_for_member(mem);
+                                 mem_title  memdata/opencore:member_title;
+                                 home_url python:ms_tool.getHomeUrl(memdata['id'])">
+                <div class="oc-avatar">
+                  <a tal:attributes="href home_url">
+                    <img class="photo" 
+                      tal:define="portraittxt string:${mem_title} portrait"
+                      tal:attributes="src memdata/portrait_thumb_url" />
                   </a>
                 </div>
                 <div class="oc-directory-content">
                   <h3 class="fn nickname">
-                    <a href="" tal:attributes="href string:${context/portal_url}/people/${item/getId}/profile"                     tal:content="item/getId">Username</a>
+                    <a href="" tal:attributes="href home_url"
+                       tal:content="mem_title">Username</a>
                   </h3>
-                  <div class="n" tal:content="item/getFullname">name</div>
                   <div class="oc-discreetText adr" tal:define="loc item/getLocation" tal:condition="loc"><span class="locality" tal:content="loc" /></div>
                 </div>
+               </span>
               </li>
             </ol>
             <div class="oc-directory-sorter" tal:define="many python: start!=end">

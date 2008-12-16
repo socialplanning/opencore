@@ -70,7 +70,7 @@
                     <a href=""
                        tal:attributes="href string:${context/portal_url}/people/${member_record/id}/profile"
                        class="fn nickname"
-                       tal:content="member_record/id"
+                       tal:content="member_record/opencore:member_title"
                        />
                     <span class="oc-discreetText" tal:condition="python: view.is_admin(path('member_record/id'))">
                       (Administrator)
