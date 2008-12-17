@@ -137,4 +137,12 @@
      permission="zope2.View"
      />
 
+  <!-- Temporary util view until we sort out custom namespace issues -->
+  <browser:view
+    for="*"
+    name="oc-utils"
+    permission="zope2.View"
+    class="opencore.utils.OpencoreUtils"
+  />
+
 </configure>

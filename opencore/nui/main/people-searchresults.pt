@@ -66,7 +66,8 @@
                <span tal:omit-tag=""
                      tal:define="mem item/getObject;
 	                         memdata python:view.member_info_for_member(mem);
-                                 mem_title  memdata/opencore:member_title;
+                                 mt nocall:context/@@oc-utils/member_title;
+                                 mem_title  python:mt(memdata);
                                  home_url python:ms_tool.getHomeUrl(memdata['id'])">
                 <div class="oc-avatar">
                   <a tal:attributes="href home_url">

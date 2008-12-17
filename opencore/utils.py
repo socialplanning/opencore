@@ -4,7 +4,6 @@ opencore helper functions
 from Acquisition import aq_base
 from Acquisition import aq_chain
 from Acquisition import aq_inner
-from BTrees.OOBTree import OOBTree
 from Products.CMFCore.utils import getToolByName
 from zope.app.component.hooks import getSite
 from zope.app.component.hooks import setSite
@@ -122,3 +121,15 @@ def timestamp_memoize(secs):
 
     return arg_wrapper
 
+
+# XXX Temporary hack to allow semi-convenient usage of functions in
+# templates, along the lines of Sputnik's SputnikUtils view.  A TALES
+# namespace would be much cleaner; see comments in opencore.tales.utils 
+# for problems with that. Once that works, this view should die.
+
+from opencore.tales.utils import member_title
+from Products.Five.browser import BrowserView
+
+class OpencoreUtils(BrowserView):
+    def member_title(self, arg):
+        return member_title(arg)

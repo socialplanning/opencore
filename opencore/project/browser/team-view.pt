@@ -55,7 +55,8 @@
             </div>
 
           <!-- the results are displayed here -->
-          <ol class="oc-roster oc-clearAfter">
+          <ol class="oc-roster oc-clearAfter"
+              tal:define="mem_title nocall:context/@@oc-utils/member_title">
             <li class="oc-clearAfter oc-boxy vcard" tal:repeat="member_record view/membership_records">
               <!-- getting object for each member is slow -->
               <!-- tal:member-result define="mem membrain/getObject" -->
@@ -70,7 +71,7 @@
                     <a href=""
                        tal:attributes="href string:${context/portal_url}/people/${member_record/id}/profile"
                        class="fn nickname"
-                       tal:content="member_record/opencore:member_title"
+                       tal:content="python:mem_title(member_record)"
                        />
                     <span class="oc-discreetText" tal:condition="python: view.is_admin(path('member_record/id'))">
                       (Administrator)
