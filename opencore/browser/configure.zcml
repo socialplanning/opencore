@@ -137,12 +137,4 @@
      permission="zope2.View"
      />
 
-  <!-- add analytics snippet to the extra body manager -->
-  <browser:viewlet
-     name="plone.analytics"
-     manager=".interfaces.IExtraBody"
-     class="plone.app.layout.analytics.view.AnalyticsViewlet"
-     permission="zope2.View"
-     />
-
 </configure>
