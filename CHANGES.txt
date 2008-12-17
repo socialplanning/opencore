@@ -19,6 +19,9 @@ Features:
  * Member profile now has a "contact" button which links to a mail
    form. The member's email address is not exposed. (slinkp, rafrombrc)
 
+ * We now use the member's full name in most places that conceptually
+   refer to a person, and the member's ID only in places that refer to
+   the account. Fixes openplans:#2740 (slinkp)
 
 Bug fixes:
 
