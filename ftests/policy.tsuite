@@ -133,3 +133,4 @@ logout
 create_user(user=${u3_name}, fullname=${u3_fullname}, email=${u3_email})
 login(user=${u1_name})
 add_project_member_custom_message(membername=${u3_name})
+logout
