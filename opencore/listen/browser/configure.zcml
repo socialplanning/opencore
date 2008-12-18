@@ -79,6 +79,14 @@
      permission="zope2.View"
      />
 
+  <!-- A membership listing for authorized non-managers. -->
+  <browser:page
+    for="Products.listen.interfaces.IHaveSubscribers"
+    name="membership"
+    class=".view.NuiMembersView"
+    permission="zope2.View"
+    />
+
   <opencore:menuitem
      name="Mailing Lists"
      filter="opencore.browser.topnav.viewlet.contained_within"
@@ -86,5 +94,8 @@
      item_url="lists"
      sort_order="30"
      />
+
+
+
 
 </configure>

@@ -23,6 +23,17 @@ Features:
    refer to a person, and the member's ID only in places that refer to
    the account. Fixes openplans:#2740 (slinkp)
 
+ * Mailing lists now have a /membership view that non-Managers can
+   see.  Includes a link to each member's contact form. Email
+   addresses are not exposed.  Sorted case-insensitively by member
+   Title or email. (closes openplans:#2752; partially closes
+   openplans:#2751) (slinkp)
+
+ * Mailing lists' manage_membership page now includes links to
+   members' contact form, and is sorted case-insensitively by member
+   Title or email address. (Partially closes openplans:#2751) (slinkp)
+
+
 Bug fixes:
 
  * Fix a longstanding point of user confusion, openplans:#1474. The member

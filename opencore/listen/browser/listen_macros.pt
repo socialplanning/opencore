@@ -21,6 +21,12 @@
       i18n:translate="listen_macros_membership" tal:attributes="href string:${view/list_url}/manage_membership" class="oc-actionLink">
     Membership</a>
   </li>
+  <li tal:attributes="class python:view.get_tab_class(u'membership')">
+    <a tal:condition="python:not view.get_tool('portal_membership').checkPermission(permissions.EditMailingList, context)" 
+      i18n:translate="listen_macros_membership" tal:attributes="href string:${view/list_url}/membership" class="oc-actionLink">
+    Membership</a>
+  </li>
+
   <li tal:attributes="class python:view.get_tab_class(u'moderation')">
     <a tal:condition="python:view.get_tool('portal_membership').checkPermission(permissions.ModerateMessage, context)" 
       i18n:translate="listen_macros_moderation" tal:attributes="href string:${view/list_url}/moderation" class="oc-actionLink">

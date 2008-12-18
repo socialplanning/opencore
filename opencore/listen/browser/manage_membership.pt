@@ -2,6 +2,7 @@
   metal:use-macro="here/@@standard_macros/master">
   <body>
     <div metal:fill-slot="content">
+      <script type="text/javascript" src="++resource++obfuscation.js"></script>
       <div metal:use-macro="here/@@listen_macros/bcrumb"/>
       <div metal:use-macro="here/@@listen_macros/tabs"/>
       <div id="oc-content-main">
@@ -20,28 +21,44 @@
               <th scope="col" i18n:translate="manage_membership_user">Address / User ID</th>
               <th scope="col" i18n:translate="manage_membership_subscribed">Subscribed</th>
               <th scope="col"></th>
+
+              <th scope="col"></th>
+
             </tr>
             </thead>
             <tbody>
-            <tr tal:repeat="user view/allowed_senders_data">
+            <tr tal:repeat="user view/sorted_allowed_senders_data">
               <td>
-                <input type="checkbox" tal:attributes="name python:'remove_'+user" />
+                <input type="checkbox" tal:attributes="name python:'remove_' + user['id']" />
               </td>
               <td> <!-- tal:content="string:${user}" />-->
-                <a tal:omit-tag="python:not view.is_member(user)"
-                   tal:attributes="href string:${here/portal_url}/people/${user}/profile">
-                  <span tal:replace="user">test@example.com</span>
+                <a tal:omit-tag="not: user/is_member"
+                   tal:attributes="href user/profile_url">
+                  <span tal:replace="structure user/name">test@example.com</span>
                 </a>
               </td>
-              <td tal:define="subscribed python:view.is_subscribed(user) and 1 or 0">
-                <input type="checkbox" tal:attributes="name python:'subscribed_'+user; checked subscribed" />
-                <input type="hidden" tal:condition="subscribed" tal:attributes="name python:'wassubscribed_'+user" />
+              <td tal:define="subscribed user/subscriber">
+                <input type="checkbox" tal:attributes="name python:'subscribed_'+ user['id']; checked subscribed" />
+                <input type="hidden" tal:condition="subscribed" tal:attributes="name python:'wassubscribed_' + user['id']" />
               </td>
               <td>
-                <span tal:replace="python: view.pending_status(user) " />
+                <span tal:replace="user/pending_status " />
               </td>
+
+              <td>
+                <a tal:condition="user/is_member"
+                   tal:attributes="href user/contact_url"
+                   i18n:translate="">Contact</a>
+
+                <a tal:condition="not: user/is_member"
+                   tal:attributes="href string:mailto:${user/name}"
+                   i18n:translate="">Contact (email)</a>
+
+              </td>
+
             </tr>
             </tbody>
+
             <tfoot style="background-color: #eee; padding: 0.25em 0; line-height: normal;">
             <tr>
               <td></td>
@@ -53,7 +70,11 @@
                 <input type="checkbox" id="add_subscribed" name="add_subscribed" />
                 <label i18n:translate="manage_membership_subscribe" for="add_subscribed">Subscribe?</label>
               </td>
+
               <td />
+
+	      <td />
+
             </tr>
             </tfoot>
           </table>

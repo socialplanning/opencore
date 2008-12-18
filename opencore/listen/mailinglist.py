@@ -10,6 +10,7 @@ from zope.interface import implements
 
 PKG_NAME = 'listen'
 
+# XXX Do we even use this FTI for anything? I guess not.
 factory_type_information = ( {
     'id'             : 'Open Mailing List',
     'icon'           : 'mailboxer_icon.png',
