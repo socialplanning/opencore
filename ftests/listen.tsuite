@@ -36,4 +36,8 @@ listen_mod_user
 #test search
 listen_search(search='twelve')
 
+# test membership
+listen_membership
+listen_managemembership
+
 logout

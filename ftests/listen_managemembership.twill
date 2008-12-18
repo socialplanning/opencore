@@ -1,39 +1,38 @@
 #
 # flex the membership management interface
 #
+#    expects: logged in.
+
+extend_with flunc.checkbox
 
 # verify our user is subscribed
 go ${base_url}/projects/${projname}/lists/${listtitle}/manage_membership
 find "manage_allowed_senders"
-find '<input type="checkbox" checked="checked"\s*name="subscribed_tester" />' s
+is_selected manage-form "subscribed_${user}"
 
 # unsubscribe user
 fv manage-form "subscribed_${user}" 'false'
 submit
-notfind '<input type="checkbox" checked="checked"\s*name="subscribed_tester" />' s
+not_selected manage-form "subscribed_${user}"
 
 # subscribe user back - should be pending at this point
 fv manage-form "subscribed_${user}" 'true'
 submit
-find "Subscription Pending"
-notfind '<input type="checkbox" checked="checked"\s*name="subscribed_tester" />' s
+find "subscription pending" i
+not_selected manage-form "subscribed_${user}"
 
 # add a new email address
 fv manage-form add_email ${new_email}
 submit
 find "${new_email}"
 
-# edit the new email address
-fv manage-form email_${new_email} edited_${new_email}
-submit
-find edited_${new_email}
-
 # subscribe the new email address
-fv manage-form "subscribed_edited_${new_email}" 'true'
+fv manage-form "subscribed_${new_email}" 'true'
 submit
-find "Subscription Pending.*Subscription Pending" s
+find "Subscription Pending.*Subscription Pending" si
 
 # remove the new email address
-fv manage-form "remove_edited_${new_email}" 'true'
+fv manage-form "remove_${new_email}" 'true'
 submit
-notfind "${new_email}"
+find "removed: ${new_email}" si
+notfind "subscribed_${new_email}"

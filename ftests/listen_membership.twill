@@ -1,0 +1,8 @@
+#
+# listen membership (non-manage) view
+#
+
+# verify our user is subscribed
+go ${base_url}/projects/${projname}/lists/${listtitle}/membership
+find "allowed_senders"
+find ${fullname}
