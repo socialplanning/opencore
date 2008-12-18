@@ -22,9 +22,10 @@ Features:
  * Member profile now has a "contact" button which links to a mail
    form. The member's email address is not exposed. (slinkp, rafrombrc)
 
- * We now use the member's full name in most places that conceptually
-   refer to a person, and the member's ID only in places that refer to
-   the account. Fixes openplans:#2740 (slinkp)
+ * We now use the member's full name (by way of Title()) in most
+   places that conceptually refer to a person, and the member's ID
+   only in places that refer to the account. Fixes openplans:#2740
+   (slinkp)
 
  * Mailing lists now have a /membership view that non-Managers can
    see.  Includes a link to each member's contact form. Email
@@ -40,6 +41,20 @@ Features:
    customize the email message sent (closes openplans:#2741) (egj)
 
  * Marked up a few more strings for translation (slinkp)
+
+ * There is now a rebuild_i18n script for conveniently merging new
+   message ids into all the .po files, and generating the test az
+   "translation". See for more info:
+   http://www.openplans.org/projects/opencore/i18n-usage-in-opencore
+   (slinkp)
+
+ * opencore.utils now includes a simple in-memory timestamp_memoize()
+   for caching expensive calls (rafrombrc)
+
+ * Added a manual.pot file to manually manage strings from zcml files
+   which can't be parsed automatically by i18ndude (dimo)
+
+ * Added viewlet for analytics JS snippets (rafrombrc)
 
 
 Bug fixes:
@@ -62,7 +77,45 @@ Bug fixes:
    to reflect the new setting and added an upgradeStep to automate its
    application. (rafrombrc)
 
- * The create-az.py script now reliably finds all message ids (slinkp)
+ * The create-az.py script now reliably finds all message ids, is less
+   likely to produce invalid output, and doesn't care what directory
+   you're in. (slinkp)
+
+ * Many flunc tests are slightly less fragile (slinkp)
+
+ * Unit tests no longer fail when VerboseSecurity is enabled (slinkp)
+
+ * Fix unicode errors in project preferences view (dimo, novalis)
+
+ * Fix unicode errors in request-membership view (dimo)
+
+ * Wiki attachments now have unique ids based on full path
+   (closes http://trac.openplans.org/openplans/ticket/2728) (novalis)
+
+ * Fixed AttributeError when anonymous user requests project
+   membership (http://trac.openplans.org/openplans/ticket/2735) (dimo)
+
+ * Slightly more useful error message on project creation when URL
+   does not contain enough ASCII characters
+   (http://trac.openplans.org/openplans/ticket/2733) (egj)
+
+
+Refactoring:
+
+ * Optimization: Cache number of users and projects for 10 minutes
+   (rafrombrc)
+
+ * simplify OpenMember's validate_id and do most expensive/brittle
+   checks last (egj)
+
+ * Removed obsolete do_nothing.py, which was a workaround for Plone < 3 
+   (slinkp)
+
+ * Remove more subproject cruft (openplans:#2670) (egj)
+
+ * Remove topnav cruft (openplans:#2581) (egj)
+
+ * Remove BaseView.get_view cruft (egj)
 
 
 0.14.1 (2008/11/07)
