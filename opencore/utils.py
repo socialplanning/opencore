@@ -94,9 +94,8 @@ timestamp_cache = {}
 def timestamp_memoize(secs):
     """
     Decorator to memoize the return value of the wrapped function for
-    the specified number of seconds.  Stores the value in a special
-    BTree attribute on the portal object, keyed by the function's
-    dotted name.
+    the specified number of seconds.  Stores the value in a global
+    dict, keyed by the function's dotted name.
     """
     def arg_wrapper(fn):
         fn_key = fn.__name__
