@@ -364,7 +364,7 @@ msgstr "email_invite_pending_member""Subject: You've been invited to join \"${pr
 "Cheers,\n"
 "The ${portal_title} Team"
 
-#: ./opencore/project/browser/manageteam.py:758
+#: ./opencore/project/browser/manageteam.py:769
 msgid "email_invite_static_body"
 msgstr "email_invite_static_body""${user_message}\n"
 "To accept this invitation or to learn more about this ${project_noun}, click here: ${join_url} \n"

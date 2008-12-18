@@ -10,6 +10,10 @@ Data Migrations:
    openplans/portal_setup/manage_upgrades , select the
    opencore.configuration profile, and run all the available upgrades.
 
+   WARNING, it is not known whether you can safely downgrade after
+   running these migrations.  We always recommend making backups and
+   testing with a copy of live data before you upgrade for real.
+
 
 Features:
 

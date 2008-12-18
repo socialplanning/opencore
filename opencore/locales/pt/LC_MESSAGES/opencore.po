@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: opencore\n"
-"POT-Creation-Date: 2008-12-18 17:22+0000\n"
+"POT-Creation-Date: 2008-12-18 21:43+0000\n"
 "PO-Revision-Date: 2008-06-02 22:40+0200\n"
 "Last-Translator: Thiago Benicchio <thiago.wsf@gmail.com>\n"
 "Language-Team: OpenFSM Team <openfsm@lists.openfsm.net>\n"
@@ -456,7 +456,7 @@ msgstr ""
 "O time ${portal_name} \n"
 "${portal_url}"
 
-#: ./opencore/project/browser/manageteam.py:758
+#: ./opencore/project/browser/manageteam.py:769
 msgid "email_invite_static_body"
 msgstr ""
 "${user_message}\n"

@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: opencore\n"
-"POT-Creation-Date: 2008-12-18 17:22+0000\n"
+"POT-Creation-Date: 2008-12-18 21:43+0000\n"
 "PO-Revision-Date: 2008-10-08 15:57-0400\n"
 "Last-Translator: \n"
 "Language-Team: The Open Planning Project <opencore-dev@lists.openplans.org>\n"
@@ -454,7 +454,7 @@ msgstr ""
 "Cheers,\n"
 "The ${portal_title} Team"
 
-#: ./opencore/project/browser/manageteam.py:758
+#: ./opencore/project/browser/manageteam.py:769
 msgid "email_invite_static_body"
 msgstr ""
 "${user_message}\n"
