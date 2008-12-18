@@ -14,6 +14,9 @@ MANUALPOT=$LOCALES/manual.pot
 echo Rebuilding POT file $POTFILE...
 i18ndude rebuild-pot --pot $POTFILE --merge $MANUALPOT --create opencore . || exit 1
 
+echo Removing fake AZ translation...
+rm -f $LOCALES/az/LC_MESSAGES/opencore.po
+
 for POFILE in `find $LOCALES -type f -name opencore.po`; do
     echo Syncing messages to PO file $POFILE...
     i18ndude sync --pot $POTFILE $POFILE || exit 1
