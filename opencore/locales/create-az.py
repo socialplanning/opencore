@@ -37,18 +37,37 @@ def create_az(file_name=None, file_name2=None):
     f1 = open(file_name, 'r')
     f2 = open(file_name2, 'w')
 
-    # find the first comment line
-    for line in f1:
-        if '#' in line:
-            break
+    import re
+    msgid_re = re.compile(r'msgid\s"(.*)"')
+
+    def get_msgid(line):
+        found = msgid_re.search(line)
+        if found:
+            return found.group(1)
+        else:
+            return None
 
     f2.write(header)
-    f2.write(line)
+    f2.flush()
+
+    in_header = True
+    msgid = None
+
     for line in f1:
-        if 'msgid' in line:
-            msgid = line.split()[1]
+        msgid = get_msgid(line) or msgid
+        if in_header:
+            # Skip the header, we wrote our own.
+            if msgid:
+                in_header = False
+            elif line.startswith('#'):
+                in_header = False
+                f2.write(line)
+            else:
+                continue
         if 'msgstr' in line and not line.startswith('#'):
-            f2.write('msgstr ' + msgid)
+            assert msgid
+            f2.write('msgstr "%s"' % msgid)
+            msgid = None  # Make sure we use each msgid only once.
         else:
             f2.write(line)
     return file_name2
