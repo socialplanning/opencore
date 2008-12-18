@@ -13,6 +13,9 @@ Data Migrations:
 
 Features:
 
+ * Partial translations of the UI into Spanish, French & Portuguese
+   (dimo)
+
  * Member objects now have a _change_member_id() method. This is not
    exposed by UI yet, but admins can use it in eg. zopectl debug.
 
