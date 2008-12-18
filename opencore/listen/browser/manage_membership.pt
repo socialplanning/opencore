@@ -48,11 +48,11 @@
               <td>
                 <a tal:condition="user/is_member"
                    tal:attributes="href user/contact_url"
-                   i18n:translate="">Contact</a>
+                   i18n:translate="Contact">Contact</a>
 
                 <a tal:condition="not: user/is_member"
                    tal:attributes="href string:mailto:${user/name}"
-                   i18n:translate="">Contact (email)</a>
+                   i18n:translate="Contact_email">Contact (email)</a>
 
               </td>
 

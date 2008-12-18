@@ -36,6 +36,9 @@ Features:
  * When inviting a site member to join a project, it is now possible to
    customize the email message sent (closes openplans:#2741) (egj)
 
+ * Marked up a few more strings for translation (slinkp)
+
+
 Bug fixes:
 
  * Fix a longstanding point of user confusion, openplans:#1474. The member
@@ -55,6 +58,8 @@ Bug fixes:
    allowing OpenMembership (and nothing else).  Edited the GS profile
    to reflect the new setting and added an upgradeStep to automate its
    application. (rafrombrc)
+
+ * The create-az.py script now reliably finds all message ids (slinkp)
 
 
 0.14.1 (2008/11/07)

@@ -3,8 +3,8 @@
 #
 
 # verify our user is subscribed
-go ${base_url}/projects/${projname}/lists/${list_name}/manage_membership
-find "Manage Allowed Senders"
+go ${base_url}/projects/${projname}/lists/${listtitle}/manage_membership
+find "manage_allowed_senders"
 find '<input type="checkbox" checked="checked"\s*name="subscribed_tester" />' s
 
 # unsubscribe user

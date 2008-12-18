@@ -522,6 +522,9 @@ class NuiManageMembersView(make_nui_listen_view_class(ManageMembersView)):
         import operator
         return sorted(sortable, key=operator.itemgetter('sortkey'))
 
+    def Title(self):
+        return _(u'manage_allowed_senders', u'Manage Allowed Senders')
+
 
 class NuiMembersView(NuiManageMembersView):
 
@@ -540,7 +543,7 @@ class NuiMembersView(NuiManageMembersView):
 
 
     def Title(self):
-        return _(u'Allowed Senders')
+        return _(u'allowed_senders', u'Allowed Senders')
 
 
 ##########################################################################
