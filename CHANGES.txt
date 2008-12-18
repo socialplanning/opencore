@@ -33,6 +33,8 @@ Features:
    members' contact form, and is sorted case-insensitively by member
    Title or email address. (Partially closes openplans:#2751) (slinkp)
 
+ * When inviting a site member to join a project, it is now possible to
+   customize the email message sent (closes openplans:#2741) (egj)
 
 Bug fixes:
 
