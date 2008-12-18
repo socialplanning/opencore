@@ -690,6 +690,7 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite, AccountView,
         
         self.send_invite_member_email(mem_id, msg_subs)
         self.add_status_message(u'You invited %s to join this %s' % (mem_id, self.project_noun))
+        self.redirect('manage-team')
         
     def send_invite_member_email(self,mem_id, msg_subs):
         _email_sender(self).sendEmail(mem_id, msg_id='invite_member',
