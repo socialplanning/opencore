@@ -2,4 +2,5 @@
 
 destroy_user(user=${u1_name})
 destroy_user(user=${u2_name})
+destroy_user(user=${u3_name})
 destroy_project
