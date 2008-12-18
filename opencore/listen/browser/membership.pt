@@ -1,0 +1,54 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en" i18n:domain="opencore"
+  metal:use-macro="here/@@standard_macros/master">
+  <body>
+    <div metal:fill-slot="content">
+      <script type="text/javascript" src="++resource++obfuscation.js"></script>
+      <div metal:use-macro="here/@@listen_macros/bcrumb"/>
+      <div metal:use-macro="here/@@listen_macros/tabs"/>
+      <div id="oc-content-main">
+        <div class="oc-headingBlock">
+          <h2 tal:content="view/Title" />
+        </div>
+
+          <table class="oc-dataTable" cellspacing="0">
+            <thead>
+            <tr>
+              <th scope="col" i18n:translate="manage_membership_user">Address / User ID</th>
+              <th scope="col">Susbscribed?</th>
+              <th scope="col"></th>
+              <th scope="col"></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr tal:repeat="user view/sorted_allowed_senders_data">
+              <td>
+                <a tal:omit-tag="not: user/is_member"
+                   tal:attributes="href user/profile_url">
+                  <span tal:replace="structure user/name">test@example.com</span>
+                </a>
+              </td>
+
+              <td>
+		<span tal:condition="user/subscriber" i18n:translate="">Yes</span>
+		<span tal:condition="not:user/subscriber" i18n:translate="">No</span>
+              </td>
+
+              <td>
+                <a tal:condition="user/is_member"
+                   tal:attributes="href user/contact_url"
+                   i18n:translate="">Contact</a>
+              </td>
+
+              <td>
+		<!-- Is this useful on this view? -->
+                <span tal:replace="user/pending_status " />
+              </td>
+
+            </tr>
+            </tbody>
+          </table>
+
+      </div>
+    </div>
+  </body>
+</html>
