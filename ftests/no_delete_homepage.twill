@@ -15,6 +15,6 @@ go ${base_url}/projects
 follow $projname
 follow "Contents"
 find ${item}
-is_disabled pages_contents deletes:list ${item}
+is_disabled pages_contents deletes:list /openplans/projects/${projname}/${item}
 find ${item}
 

@@ -297,36 +297,34 @@ Demotions should also yield transient messages
     [u'm3 is no longer an administrator']
 
 
-Now test member search.  We should be getting results on members w/o
-team memberships, and inactive team memberships, but not on those that
-are active or pending approval.
+Now test member search.  We should be getting results on with or without
+team memberships.
 
 For the first search, m1 is active, m2 is inactive, m3 has no
-membership, and m4 is rejected_by_admin.  m1 is the only one shouldn't
-be returned by the search:
+membership, and m4 is rejected_by_admin.  All should be returned:
 
     >>> team.removeMember('m3')
     >>> view.request.form.clear()
     >>> view.request.form['search_for'] = 'mem'
     >>> view.search_members()
     >>> len(view.results)
-    3
+    4
     >>> ids = [b.getId for b in view.results]
     >>> 'm1' in ids
-    False
+    True
 
-Now we add m3 as a pending member, should disappear from the results:
+Now we add m3 as a pending member, should remain in the results:
 
     >>> team.addMember('m3') # <-- now pending
     <OpenMembership at ...>
     >>> view.search_members()
     >>> len(view.results)
-    2
+    4
     >>> ids = [b.getId for b in view.results]
     >>> 'm1' in ids
-    False
+    True
     >>> 'm3' in ids
-    False
+    True
     >>> team.removeMember('m3')
 
 Next test the 'invite' button for member invitation.  First we try

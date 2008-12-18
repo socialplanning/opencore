@@ -18,6 +18,9 @@ class TestOpenMember(OpenPlansTestCase, LogInterceptor):
         result = mem.validate_id('m2')
         self.failIf(result is None)
 
+        result = mem.validate_id('(dfsf')
+        self.failIf(result is None)
+
         result = mem.validate_id('AnonYmouse')
         self.failIf(result is None)
 

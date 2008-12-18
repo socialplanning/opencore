@@ -39,13 +39,6 @@
      template="projects-searchresults.pt"
      />
 
-  <browser:page
-     for="opencore.interfaces.adding.IAddSubProject"
-     class=".search.SubProjectsSearchView"
-     permission="zope2.View"
-     name="projects"
-     template="subprojects.pt"
-     />
 
   <!-- people portal -->
   <browser:page

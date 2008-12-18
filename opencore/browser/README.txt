@@ -18,29 +18,10 @@ opencore.browser.base
     >>> view.portal_title()
     'OpenCore Site'
 
-
-'get_view' retrieves and wraps a view::
-
-    >>> piv0 = view.get_view('project_info')
-    >>> piv0.aq_parent
-    <OpenPage at /plone/site-home>
-
-Results are cached. Repeated calls to get view should return same
-object::
-
     >>> pview = BaseView(self.projects.p1, self.request)
     >>> pview = pview.__of__(self.projects.p1)
-    >>> piv1 = pview.get_view('project_info')
-    >>> piv2 = pview.get_view('project_info')
-    >>> piv1 == piv2
-    True
 
-But not equal views on other contexts::
-
-    >>> piv0 == piv2
-    False
-
-The properties 'piv' and 'miv' use 'get_view'::
+The properties 'piv' and 'miv' return cached views::
 
     >>> view.piv
     <...ProjectInfoView object at ...>

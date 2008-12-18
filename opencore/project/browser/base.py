@@ -64,9 +64,6 @@ class ProjectBaseView(BaseView):
                       ),
                  ]
 
-    valid_id = staticmethod(text.valid_id)
-    valid_title = staticmethod(text.valid_title)
-
     @view.mcproperty
     def project_info(self):
         """

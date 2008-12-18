@@ -13,7 +13,7 @@ from opencore.interfaces.event import AfterProjectAddedEvent
 from opencore.browser.naming import get_view_names
 from opencore.project.browser.base import ProjectBaseView
 from topp.featurelets.interfaces import IFeatureletSupporter, IFeaturelet
-from topp.utils import text
+from topp.utils.text import valid_title, valid_id, strip_extra_whitespace
 from zope import event
 from zope.component import getAdapters, getMultiAdapter
 from zope.interface import implements
@@ -26,8 +26,6 @@ log = logging.getLogger('opencore.project.browser.add')
 class ProjectAddView(ProjectBaseView, OctopoLite):
 
     template = ZopeTwoPageTemplateFile('create.pt')
-    valid_id = staticmethod(text.valid_id)
-    valid_title = staticmethod(text.valid_title)
     
     def reserved_names(self):
         return list(get_view_names(self.context)) + ['people', 'projects', 'unique', 'summary', 'pending']
@@ -70,17 +68,18 @@ class ProjectAddView(ProjectBaseView, OctopoLite):
 
         self.errors = {}
         title = self.request.form.get('project_title')
-        title = text.strip_extra_whitespace(title)
+        title = strip_extra_whitespace(title)
         if not isinstance(title, unicode):
             title = unicode(title, 'utf-8')
         self.request.form['project_title'] = title
-        if not self.valid_title(title):
+
+        if not valid_title(title):
             self.errors['project_title'] = 'The name must contain 2 or more characters.'
 
-
         id_ = self.request.form.get('projid')
-        if not self.valid_id(id_):
-            self.errors['id'] = 'The url must contain 2 or more characters.'
+        if not valid_id(id_):
+            self.errors['id'] = 'The url must contain 2 or more characters; ' + \
+                'only A-Z, 0-9 and "-" are valid characters.'
         else:
             id_ = putils.normalizeString(id_)
             if self.context.has_key(id_):

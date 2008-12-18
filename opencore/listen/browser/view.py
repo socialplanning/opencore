@@ -25,14 +25,16 @@ from Products.listen.interfaces import IMailingList
 from Products.listen.interfaces import IWriteMembershipList
 from Products.listen.interfaces import IEmailPostPolicy
 from Products.listen.interfaces import IUserEmailMembershipPolicy
-
+from Products.listen import permissions
 from Products.listen.utilities.list_lookup import ListLookupView
+from Products.listen.lib.browser_utils import obfct_de, obfct
 from opencore.browser.formhandler import OctopoLite, action
 from opencore.browser.base import BaseView
 from opencore.i18n import _
 from opencore.listen.mailinglist import OpenMailingList
 from opencore.listen.mailinglist_views import MailingListView
 from opencore.listen.utils import isValidPrefix
+from opencore.tales.utils import member_title
 from opencore.utils import interface_in_aq_chain
 from plone.app.form import _named
 from plone.memoize.view import memoize as req_memoize
@@ -481,11 +483,64 @@ NuiArchiveNewTopicView = make_nui_listen_view_class(ArchiveNewTopicView)
 NuiThreadedMailMessageView = make_nui_listen_view_class(ThreadedMailMessageView)
 NuiForumMailMessageView = make_nui_listen_view_class(ForumMailMessageView)
 NuiMessageReplyView = make_nui_listen_view_class(MessageReplyView)
-NuiManageMembersView = make_nui_listen_view_class(ManageMembersView)
 NuiModerationView = make_nui_listen_view_class(ModerationView)
 NuiSearchDebugView = make_nui_listen_view_class(SearchDebugView)
 NuiArchiveSearchView  = make_nui_listen_view_class(ArchiveSearchView)
 NuiListLookupView = make_nui_listen_view_class(ListLookupView)
+
+
+
+class NuiManageMembersView(make_nui_listen_view_class(ManageMembersView)):
+
+    def obfuscate(self, email):
+        # Manager has historically been allowed to see these email addresses.
+        # I guess that's good?
+        return email
+
+    def sorted_allowed_senders_data(self):
+        # User info for listen membership views, annotated with stuff
+        # used by templates, and sorted case-insensitively.
+        data = super(NuiManageMembersView, self).allowed_senders_data()
+        people_url = '%s/people' % getToolByName(self.context, 'portal_url')()
+        sortable = []
+        for key in data:
+            user = data[key].copy()
+            user.update({'id': key, 'is_member': self.is_member(key),
+                         'pending_status': self.pending_status(key),
+                         'profile_url': '%s/%s/profile' % (people_url, key),
+                         'contact_url': '%s/%s/contact' % (people_url, key),
+                         })
+            if user['is_member']:
+                name = member_title(key)
+                user['name'] = name
+                user['sortkey'] = name.lower()
+            else:
+                # It's an email.
+                user['name'] = self.obfuscate(key)
+                user['sortkey'] = key.lower()
+            sortable.append(user)
+        import operator
+        return sorted(sortable, key=operator.itemgetter('sortkey'))
+
+
+class NuiMembersView(NuiManageMembersView):
+
+    template=ZopeTwoPageTemplateFile("membership.pt")
+
+    def obfuscate(self, email):
+        # Non-managers should never be able to see email addresses.
+        return obfct(email)
+
+    def __call__(self):
+        mship_tool = getToolByName(self.context, 'portal_membership')
+        if mship_tool.checkPermission(permissions.EditMailingList, 
+                                      self.context):
+            self.redirect('%s/manage_membership' % self.context.absolute_url())
+        return self.template()
+
+
+    def Title(self):
+        return _(u'Allowed Senders')
 
 
 ##########################################################################

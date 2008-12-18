@@ -153,11 +153,6 @@ class SearchView(BaseView):
         return '%s/projects/%s' % (self.context.absolute_url(),
                                    project_brain.getId)
 
-    # is this used anywhere?
-    def add_class_to_img(self, imgdata, clss):
-        tag = str(imgdata)
-        return tag.replace('<img', '<img class="%s"' % clss)
-
 
 
 class ProjectsSearchView(SearchView):
@@ -398,30 +393,6 @@ class SitewideSearchView(SearchView):
             brains = _sort_by_id(brains)
 
         return brains
-    
-class SubProjectsSearchView(ProjectsSearchView):
-
-    def subproject_paths(self):
-        info = redirect.get_info(self.context)
-        if info:
-            return list(info.values())
-        else:
-            return []
-
-    def all_subprojects(self):
-        query = dict(portal_type="OpenProject",
-                     sort_on='sortable_title')
-
-        self.apply_context_restrictions(query)
-
-        project_brains = self.catalog(**query)
-        return project_brains
-        
-    def apply_context_restrictions(self, query):
-        query['path'] = self.subproject_paths()
-
-    def adv_context_restrictions_applied(self, query):
-        return query & In('path', self.subproject_paths())
 
 
 class HomeView(SearchView):

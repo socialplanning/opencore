@@ -393,29 +393,34 @@ class OpenMember(FolderishMember):
         if form.has_key('id') and not form['id']:
             return self.translate('Input is required but no input given.',
                                   default='You did not enter a login name.')
-        elif self.getId() and id != self.getId():
+        old_id = self.getId()
+        if old_id is None or id == old_id:
             # we only validate if we're changing the id
-            mbtool = getToolByName(self, 'membrane_tool')
-            msg = None
-            if len(mbtool.unrestrictedSearchResults(getUserName=id)) > 0L:
-                msg = "The login name you selected is already " + \
-                    "in use. Please choose another." 
-            elif not ALLOWED_MEMBER_ID_PATTERN.match(id):
-                msg = "The login name you selected is not valid. " + \
-                    "Usernames must start with a letter and consist " + \
-                    "only of letters, numbers, and underscores.  Please " +\
-                    "choose another."
-            else:
-                for prefix in PROHIBITED_MEMBER_PREFIXES:
-                    if id.lower().startswith(prefix):
-                        msg = ("The login name you selected is not valid " + 
-                            "because it starts with %s. Please choose " + 
-                            "another.") % prefix
-            if not msg and self._id_exists_remotely(id):
-                msg = "The login name you selected is already " + \
-                    "in use. Please choose another."
-            if msg:
+            return
+
+        # check this first to avoid bad tokens getting into the membertool search
+        # see http://trac.openplans.org/openplans/ticket/2713
+        if not ALLOWED_MEMBER_ID_PATTERN.match(id):
+            msg = "The login name you selected is not valid. " + \
+                "Usernames must start with a letter and consist " + \
+                "only of letters, numbers, and underscores.  Please " +\
+                "choose another."
+            return self.translate(msg, default=msg)
+
+        for prefix in PROHIBITED_MEMBER_PREFIXES:
+            if id.lower().startswith(prefix):
+                msg = ("The login name you selected is not valid " + 
+                       "because it starts with %s. Please choose " + 
+                       "another.") % prefix
                 return self.translate(msg, default=msg)
+
+        mbtool = getToolByName(self, 'membrane_tool')
+        if len(mbtool.unrestrictedSearchResults(getUserName=id)) > 0L \
+                or self._id_exists_remotely(id):
+            msg = "The login name you selected is already " + \
+                "in use. Please choose another." 
+            return self.translate(msg, default=msg)
+
 
     security.declarePrivate('_email_exists_remotely')
     def _email_exists_remotely(self, email):
@@ -542,6 +547,9 @@ class OpenMember(FolderishMember):
         for mship in mships:
             mship.update(id=newid)
             team = mship.getTeam()
+            team_roles_map = team._team_roles_map
+            team_roles_map[newid] = team_roles_map[old_id]
+            del team_roles_map[old_id]
             team.reindexObjectSecurity()
             proj = team.getProject()
             proj.reindexObjectSecurity()

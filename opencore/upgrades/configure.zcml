@@ -52,21 +52,18 @@
 
   <!-- from v0.14 to v0.15 -->
 
-  <genericsetup:upgradeStep
-     profile="opencore.configuration:default"
-     source="0.14.0"
-     destination="0.15.0"
-     sortkey="5"
-     title="Re-import permissions"
-     description="Re-import rolemap to add a 'Send contact email' permision"
-     handler=".to_0_15_0.update_rolemap"
-     />
-
   <genericsetup:upgradeSteps
      profile="opencore.configuration:default"
      source="0.14.0"
      destination="0.15.0"
      sortkey="10">
+
+    <genericsetup:upgradeStep
+       title="Re-import permissions"
+       description="Re-import rolemap to add a 'Send contact email' permision"
+       handler=".to_0_15_0.update_rolemap"
+       />
+ 
     <genericsetup:upgradeStep
        title="Re-import Type information"
        description="Reruns the 'typeinfo' import step from the profile"
@@ -78,16 +75,19 @@
        description="Reruns the 'workflow' import step from the profile"
        handler=".to_0_15_0.reapply_workflow_profile"
        />
+    <genericsetup:upgradeStep
+       title="Update member area titles to match member titles"
+       description="Update member area titles to match member title (full name if possible, falling back to id)"
+       handler=".to_0_15_0.retitle_member_areas"
+       />
+
+    <genericsetup:upgradeStep
+       title="Synchronize workflow permissions"
+       description="Re-applies to w/f permission settings to the live objects (takes a while)"
+       handler=".to_0_15_0.update_workflow_permissions"
+       />
+
   </genericsetup:upgradeSteps>
 
-  <genericsetup:upgradeStep
-     profile="opencore.configuration:default"
-     source="0.14.0"
-     destination="0.15.0"
-     sortkey="20"
-     title="Synchronize workflow permissions"
-     description="Re-applies to w/f permission settings to the live objects (takes a while)"
-     handler=".to_0_15_0.update_workflow_permissions"
-     />
 
 </configure>

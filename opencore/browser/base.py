@@ -216,11 +216,12 @@ class BaseView(BrowserView):
 
         if self.miv.inMemberArea or self.miv.inMemberObject:
             vmi = self.viewed_member_info
+            mem_title = vmi['fullname'] or vmi['id']
             if not mode and vmi['home_url'] == context.absolute_url():
                 # viewing member homepage
-                return '%s on %s' % (vmi['id'], self.portal.Title())
+                return '%s on %s' % (mem_title, self.portal.Title())
             else:
-                return '%s %s- %s on %s' % (title, mode, vmi['id'],
+                return '%s %s- %s on %s' % (title, mode, mem_title,
                                             self.portal.Title())
         elif self.piv.inProject:
             project = self.piv.project
@@ -375,20 +376,16 @@ class BaseView(BrowserView):
     def portal_title(self):
         return self.portal.Title()
     
-    @view.memoize
-    def get_view(self, name):
-        # as of 2008/04/14, this is only used by this class and topnav
-        view = getMultiAdapter((self.context, self.request), name=name)
-        return view.__of__(aq_inner(self.context))
-
     #egj: piv? miv? these names suck.
     @property
     def piv(self):
-        return self.get_view('project_info')
+        view = getMultiAdapter((self.context, self.request), name='project_info')
+        return view.__of__(aq_inner(self.context))
 
     @property
     def miv(self):
-        return self.get_view('member_info')
+        view = getMultiAdapter((self.context, self.request), name='member_info')
+        return view.__of__(aq_inner(self.context))
 
     @property
     def dob(self):

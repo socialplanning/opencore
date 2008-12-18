@@ -319,16 +319,18 @@
       </thead>
       <tbody>
         <tr tal:repeat="member view/results">
-          <tal:mem_url define="mem_url python:view.membertool.getHomeUrl(member.getId)">
-            <td>
+            <td tal:define="mem_url python:view.membertool.getHomeUrl(member.getId)">
                 <a tal:omit-tag="not:mem_url" tal:attributes="href string: ${mem_url}/profile">
                    <strong tal:content="string: ${member/getId}" 
                 /></a>
             </td>
-            <td tal:content="string: ${member/getFullname}" />
-          </tal:mem_url>
+            <td tal:content="member/getFullname" />
+
           <td>
-            <input type="submit" value="Invite" class="oc-button"
+            <span tal:condition="python:member.getId in view.existing_ids">Already a member</span>
+                  
+            <input tal:condition="python:member.getId not in view.existing_ids"
+                   type="submit" value="Invite" class="oc-button"
                    tal:attributes="name string:task|${member/getId}|invite-member" />
             <a tal:attributes="href string:invite-member?id=${member/getId}">customize it</a>
           </td>

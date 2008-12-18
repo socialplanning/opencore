@@ -77,7 +77,8 @@ flex_people_sort
 # search for home page search
 search_everything(query='site', expect='site-home')
 search_everything(query='project', expect='project-home')
-search_everything(query='fa', expect='fa Home')
+search_everything(query='fa', expect='foo fighter Home')
+search_everything(query='foo fighter', expect='foo fighter Home')
 search_everything(query='123', expect='123search_proj4')
 
 search_everything_letter(letter='F', expect='fa')

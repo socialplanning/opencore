@@ -85,7 +85,7 @@ class RequestMembershipView(TeamRelatedView, formhandler.OctopoLite, LoginView):
     # XXX get this outta here right away
     def _create(self):
         factory = ICreateMembers(self.portal)
-        self.errors = factory.validate(self.request.form)
+        self.errors = factory.validate(self.request)
         if self.errors:
             return self.errors
 

@@ -19,9 +19,30 @@ Features:
  * Member profile now has a "contact" button which links to a mail
    form. The member's email address is not exposed. (slinkp, rafrombrc)
 
+ * We now use the member's full name in most places that conceptually
+   refer to a person, and the member's ID only in places that refer to
+   the account. Fixes openplans:#2740 (slinkp)
+
+ * Mailing lists now have a /membership view that non-Managers can
+   see.  Includes a link to each member's contact form. Email
+   addresses are not exposed.  Sorted case-insensitively by member
+   Title or email. (closes openplans:#2752; partially closes
+   openplans:#2751) (slinkp)
+
+ * Mailing lists' manage_membership page now includes links to
+   members' contact form, and is sorted case-insensitively by member
+   Title or email address. (Partially closes openplans:#2751) (slinkp)
+
 
 Bug fixes:
 
+ * Fix a longstanding point of user confusion, openplans:#1474. The member
+   search in team management view no longer ignores existing team members
+   but instead displays them with a contextual note that they are already
+   in the project. (egj)
+
+ * Account creation forms no longer explode when the id contains '('
+   or ')'. (egj)
 
  * "Delete" button on project contents page now is shown or hidden
    based on correct permission check. There is a GS upgradeStep to fix
