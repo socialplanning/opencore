@@ -125,17 +125,26 @@ class ProjectPreferencesView(ProjectBaseView, OctopoLite):
             self.add_status_message(_(u'psm_correct_errors_below', u'Please correct the errors indicated below.'))
             return
 
-        # Validation passed, so we save the data and set status PSMs.
-        allowed_params = set(['__initialize_project__', 'update', 'set_flets',
-                              'project_title', 'description', 'logo', 'workflow_policy',
-                              'featurelets', 'home-page',
-                              'location',])
+        # Validation passed, we can get to work actually performing the
+        # save
+
+        # start w/ the viewlets, so they can munge the form if need be
+        for viewlet in viewlet_mgr.viewlets:
+            if hasattr(viewlet, 'save'):
+                viewlet.save()
+        
+        allowed_params = ['__initialize_project__', 'update', 'set_flets',
+                          'project_title', 'description', 'logo',
+                          'workflow_policy', 'featurelets', 'home-page',
+                          'location',]
         new_form = {}
         for k in allowed_params:
             if k in self.request.form:
                 if 'project_title' == k:
-                    # Aarrgghh!! #*!&% plone snoops into the request, and reads the form variables directly,
-                    # so we have to set the form variables with the same names as the schema
+                    # Aarrgghh!! #*!&% plone snoops into the request,
+                    # and reads the form variables directly, so we
+                    # have to set the form variables with the same
+                    # names as the schema
                     new_form['title'] = self.request.form[k]
                 else:
                     new_form[k] = self.request.form[k]
@@ -174,13 +183,6 @@ class ProjectPreferencesView(ProjectBaseView, OctopoLite):
         
         featurelets = set([(f.id, f.title) for f in flets if f.installed])
 
-        # We're inventing a convention by which viewlets can extend
-        # forms with more form data to save: just provide a save
-        # method.
-        for viewlet in viewlet_mgr.viewlets:
-            if hasattr(viewlet, 'save'):
-                viewlet.save()
-        
         for flet in featurelets:
             if flet not in old_featurelets:
                 changed[_(u'psm_featurelet_added', u'${flet} feature has been added.',
@@ -207,7 +209,6 @@ class ProjectPreferencesView(ProjectBaseView, OctopoLite):
                                                  u'project_noun':self.project_noun.title(),
                                                  }))
                 hpcontext.home_page = home_page
-
 
         self.redirect(self.context.absolute_url())
 
