@@ -10,7 +10,7 @@ from zope.interface import implements
 
 PKG_NAME = 'listen'
 
-# XXX Do we even use this FTI for anything? I guess not.
+# XXX We can probably delete this FTI, it's from when we used the plone UI.
 factory_type_information = ( {
     'id'             : 'Open Mailing List',
     'icon'           : 'mailboxer_icon.png',
