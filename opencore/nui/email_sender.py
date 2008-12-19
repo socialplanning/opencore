@@ -25,6 +25,15 @@ class EmailSender(object):
         o secureSend: whether we should attempt to use the secureSend
         vs. the send function
         """
+        # XXX This implementation has encoding bugs.
+        # Let's kill it and use the opencore.utility version instead,
+        # which seems to work better.
+        # I'd like to add a DeprecationWarning, but not until we've
+        # removed all usage of this from opencore itself.
+#         import warnings
+#         warnings.warn(DeprecationWarning(
+#                 "opencore.nui.email_sender should not be used; "
+#                 "use IEmailSender from opencore.utility instead"))
         self.view = view
         self.messages = messages
         self.secureSend = secureSend
