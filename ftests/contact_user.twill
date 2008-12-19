@@ -1,0 +1,9 @@
+# Verify the contact form shows up, and does not explode when fed utf8
+
+go "/people/${user}/profile"
+follow send-message
+fv oc-memberContact subject "I like piñatas"
+fv oc-memberContact message "do you like piñatas?"
+submit send
+code 302
+
