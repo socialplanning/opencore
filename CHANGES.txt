@@ -103,6 +103,13 @@ Bug fixes:
    does not contain enough ASCII characters
    (http://trac.openplans.org/openplans/ticket/2733) (egj)
 
+ * opencore.utility.email_sender now does quoted-printable encoding of
+   headers when it gets anything that can't be encoded as ascii.
+   (slinkp)
+
+ * opencore.utility.email_sender is now a bit smarter about
+   addresses. (slinkp)
+  
 
 Refactoring:
 
