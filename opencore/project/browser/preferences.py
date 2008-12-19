@@ -174,14 +174,18 @@ class ProjectPreferencesView(ProjectBaseView, OctopoLite):
         supporter = IFeatureletSupporter(self.context)
         flets = [f for n, f in getAdapters((supporter,), IFeaturelet)]
 
-        old_featurelets = set([(f.id, f.title) for f in flets if f.installed])
+        old_featurelets = set([(f.id, self.translate('flet_title_%s' % f.id,
+                                                     default=f.title))
+                               for f in flets if f.installed])
 
         old_form = self.request.form
         self.request.form = new_form
         self.context.processForm(REQUEST=self.request, metadata=1)
         self.request.form = old_form
         
-        featurelets = set([(f.id, f.title) for f in flets if f.installed])
+        featurelets = set([(f.id, self.translate('flet_title_%s' % f.id,
+                                                 default=f.title))
+                           for f in flets if f.installed])
 
         for flet in featurelets:
             if flet not in old_featurelets:
@@ -220,7 +224,8 @@ class ProjectPreferencesView(ProjectBaseView, OctopoLite):
         all_flets = [flet for name, flet in getAdapters((supporter,), IFeaturelet)]
         installed_flets = [flet.id for flet in all_flets if flet.installed]
         flet_data = [dict(id=f.id,
-                          title=f.title,
+                          title=self.translate('flet_title_%s' % f.id,
+                                               default=f.title),
                           url=f._info['menu_items'][0]['action'],
                           checked=f.id in installed_flets,
                           )
