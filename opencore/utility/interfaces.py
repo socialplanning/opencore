@@ -58,7 +58,7 @@ class IEmailSender(Interface):
 
     def constructMailMessage(msg):
         """
-        Given a message id, contructs and returns mail message text
+        Given a message id, contructs and returns mail message unicode
         that is ready to be delivered to a user: converts the message
         id into a message, substitutes variable names in the message
         with values based on a mapping provided, and triggers the
