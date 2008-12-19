@@ -8,6 +8,7 @@ from Products.OpenPlans.Extensions.setup import reinstallWorkflowPolicies
 from Products.OpenPlans.Extensions.setup import securityTweaks
 from Products.OpenPlans.Extensions.setup import migrate_listen_container_to_feed
 from Products.OpenPlans.Extensions.utils import reinstallSubskins
+from Products.PleiadesGeocoder.interfaces.simple import IGeoItemSimple
 from borg.localrole.utils import setup_localrole_plugin
 from logging import getLogger, INFO, WARNING
 from opencore.configuration.setuphandlers import addCatalogQueue
@@ -516,6 +517,28 @@ def retitle_member_areas(portal):
                 if page is not None:
                     page.setTitle('%s Home' % mem_title)
 
+def _set_geo_loop(container, spectype):
+    geotool = getToolByName(container, 'portal_geocoder')
+    for ob_id in container.objectIds(spec=spectype):
+        ob = container._getOb(ob_id)
+        location = ob.getLocation()
+        if location:
+            records = geotool.geocode(location)
+            if records:
+                lon, lat = (records[0]['lon'], records[0]['lat'])
+                geoitem = IGeoItemSimple(ob)
+                geoitem.setGeoInterface('Point', (lon, lat))
+
+def set_geo_coordinates(portal):
+    """grabs all of the project and member objects and tries to
+    geocode the value of the location field.  if geocoding is
+    successful, the coordinates are stored on the item using the geo
+    adapters."""
+    mdtool = getToolByName(portal, 'portal_memberdata')
+    _set_geo_loop(mdtool, 'OpenMember')
+    pfolder = portal.projects
+    _set_geo_loop(pfolder, 'OpenProject')
+
 from Products.Archetypes.utils import OrderedDict
 
 # make rest of names readable  (maybe use config system)
@@ -561,7 +584,7 @@ nui_functions['migrate_listen_container_to_feed'] = migrate_listen_container_to_
 nui_functions['recreate image scales'] = recreate_image_scales
 nui_functions['create square project logos'] = create_square_project_logos
 nui_functions['Re-title member areas'] = retitle_member_areas
-
+nui_functions['Set Geo Coordinates'] = set_geo_coordinates
 def run_nui_setup(portal):
     pm = portal.portal_migration
     import transaction as txn
