@@ -5,5 +5,6 @@ follow send-message
 fv oc-memberContact subject "I like piñatas"
 fv oc-memberContact message "do you like piñatas?"
 submit send
-code 302
+url "/people/${user}/profile"
+find psm_message_sent_to_user
 
