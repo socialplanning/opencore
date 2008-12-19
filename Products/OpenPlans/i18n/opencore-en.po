@@ -1864,6 +1864,10 @@ msgstr ""
 msgid "tour_start_projects_heading"
 msgstr ""
 
+#. Default: Mailing Lists
+msgid "flet_title_listen"
+msgstr "Mailing Lists"
+
 #~ msgid "remove_invite_none_selected"
 #~ msgstr "Please select at least one person to send a reminder to."
 #~ msgid "Button css class"
@@ -1881,4 +1885,3 @@ msgstr ""
 #~ "projects. You can also blog, set up mailing lists, store and share files, "
 #~ "and keep track of tasks. We hope you'll take ${portal_url} for a spin. "
 #~ "Cheers, The ${project_title} Team"
-

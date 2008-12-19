@@ -3,9 +3,9 @@
     tal:omit-tag="" tal:repeat="viewlet options/viewlets">
 
   <fieldset class="oc-boxy">
-  <legend class="oc-legend-heading oc-biggerText"
-    tal:content="viewlet/title | viewlet/name/title | nothing">Viewlet Title
-  </legend>
-  <span tal:replace="structure viewlet/render" />
+    <legend class="oc-legend-heading oc-biggerText"
+            tal:content="viewlet/title | viewlet/name/title | nothing">Viewlet Title
+    </legend>
+    <span tal:replace="structure viewlet/render" />
   </fieldset>
 </span>

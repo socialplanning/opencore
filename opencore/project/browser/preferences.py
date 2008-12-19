@@ -125,17 +125,26 @@ class ProjectPreferencesView(ProjectBaseView, OctopoLite):
             self.add_status_message(_(u'psm_correct_errors_below', u'Please correct the errors indicated below.'))
             return
 
-        # Validation passed, so we save the data and set status PSMs.
-        allowed_params = set(['__initialize_project__', 'update', 'set_flets',
-                              'project_title', 'description', 'logo', 'workflow_policy',
-                              'featurelets', 'home-page',
-                              'location',])
+        # Validation passed, we can get to work actually performing the
+        # save
+
+        # start w/ the viewlets, so they can munge the form if need be
+        for viewlet in viewlet_mgr.viewlets:
+            if hasattr(viewlet, 'save'):
+                viewlet.save()
+        
+        allowed_params = ['__initialize_project__', 'update', 'set_flets',
+                          'project_title', 'description', 'logo',
+                          'workflow_policy', 'featurelets', 'home-page',
+                          'location',]
         new_form = {}
         for k in allowed_params:
             if k in self.request.form:
                 if 'project_title' == k:
-                    # Aarrgghh!! #*!&% plone snoops into the request, and reads the form variables directly,
-                    # so we have to set the form variables with the same names as the schema
+                    # Aarrgghh!! #*!&% plone snoops into the request,
+                    # and reads the form variables directly, so we
+                    # have to set the form variables with the same
+                    # names as the schema
                     new_form['title'] = self.request.form[k]
                 else:
                     new_form[k] = self.request.form[k]
@@ -165,22 +174,19 @@ class ProjectPreferencesView(ProjectBaseView, OctopoLite):
         supporter = IFeatureletSupporter(self.context)
         flets = [f for n, f in getAdapters((supporter,), IFeaturelet)]
 
-        old_featurelets = set([(f.id, f.title) for f in flets if f.installed])
+        old_featurelets = set([(f.id, self.translate('flet_title_%s' % f.id,
+                                                     default=f.title))
+                               for f in flets if f.installed])
 
         old_form = self.request.form
         self.request.form = new_form
         self.context.processForm(REQUEST=self.request, metadata=1)
         self.request.form = old_form
         
-        featurelets = set([(f.id, f.title) for f in flets if f.installed])
+        featurelets = set([(f.id, self.translate('flet_title_%s' % f.id,
+                                                 default=f.title))
+                           for f in flets if f.installed])
 
-        # We're inventing a convention by which viewlets can extend
-        # forms with more form data to save: just provide a save
-        # method.
-        for viewlet in viewlet_mgr.viewlets:
-            if hasattr(viewlet, 'save'):
-                viewlet.save()
-        
         for flet in featurelets:
             if flet not in old_featurelets:
                 changed[_(u'psm_featurelet_added', u'${flet} feature has been added.',
@@ -208,7 +214,6 @@ class ProjectPreferencesView(ProjectBaseView, OctopoLite):
                                                  }))
                 hpcontext.home_page = home_page
 
-
         self.redirect(self.context.absolute_url())
 
     def current_home_page(self):
@@ -219,7 +224,8 @@ class ProjectPreferencesView(ProjectBaseView, OctopoLite):
         all_flets = [flet for name, flet in getAdapters((supporter,), IFeaturelet)]
         installed_flets = [flet.id for flet in all_flets if flet.installed]
         flet_data = [dict(id=f.id,
-                          title=f.title,
+                          title=self.translate('flet_title_%s' % f.id,
+                                               default=f.title),
                           url=f._info['menu_items'][0]['action'],
                           checked=f.id in installed_flets,
                           )
