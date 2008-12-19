@@ -114,10 +114,6 @@ class ProjectAddView(ProjectBaseView, OctopoLite):
         # XXX is no validation better than an occasional ugly error?
         #proj.validate(REQUEST=self.request, errors=self.errors, data=1, metadata=0)
 
-        location = self.request.form.get('location', u'')
-        if location:
-            proj.setLocation(location)
-
         if self.errors:
             self.add_status_message(_(u'psm_correct_errors_below', u'Please correct the errors indicated below.'))
             return 
@@ -150,6 +146,11 @@ class ProjectAddView(ProjectBaseView, OctopoLite):
             if hasattr(viewlet, 'save'):
                 viewlet.save()
         
+        location = self.request.form.get('location', u'')
+        if location:
+            proj.setLocation(location)
+            proj.reindexObject(idxs=['location'])
+
         self.template = None  # Don't render anything before redirect.
         site_url = getToolByName(self.context, 'portal_url')()
         proj_edit_url = '%s/projects/%s/project-home/edit' % (site_url, id_)
