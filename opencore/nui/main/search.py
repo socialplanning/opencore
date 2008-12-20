@@ -78,7 +78,6 @@ def searchForPerson(mcat, search_for, sort_by=None):
     
 
 class SearchView(BaseView):
-    match = staticmethod(first_letter_match)
 
     def logo_for_proj_brain(self, brain):
         proj = brain.getObject()
@@ -104,7 +103,7 @@ class SearchView(BaseView):
         self.search_results = None
         self.search_query = None
         
-    def _get_batch(self, brains, start=0):
+    def _get_batch(self, brains, start=0, size=10):
         return Batch(brains,
                      size=10,
                      start=start,
@@ -187,7 +186,7 @@ class ProjectsSearchView(SearchView):
             return project_brains
 
         project_brains = [brain for brain in project_brains \
-                          if self.match(brain.Title.lower(), letter)]
+                          if first_letter_match(brain.Title.lower(), letter)]
 
         return project_brains
 
@@ -358,7 +357,7 @@ class SitewideSearchView(SearchView):
         
         for brain in brains:
             if brain.portal_type in ('OpenProject', 'Document') and \
-                   self.match(brain.Title.lower(), letter):
+                   first_letter_match(brain.Title.lower(), letter):
                 out_brains.append(brain)
             elif brain.portal_type == ('OpenMember') and \
                     brain.getId.lower().startswith(letter):
