@@ -105,7 +105,7 @@ class SearchView(BaseView):
         
     def _get_batch(self, brains, start=0, size=10):
         return Batch(brains,
-                     size=10,
+                     size=size,
                      start=start,
                      end=0,
                      orphan=0,
