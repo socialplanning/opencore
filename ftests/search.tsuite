@@ -17,7 +17,17 @@ create_project(projname='123search_proj4', projfullname='123proj fullname4')
 # project search tests
 search_proj(query='fullname1', expect='search_proj1')
 search_proj(query='fullname2', expect='search_proj2')
+
+# make sure all projects are returned for a partial-text search
 search_proj(query='fullname', expect='search_proj3')
+search_proj(query='fullname', expect='search_proj2')
+search_proj(query='fullname', expect='search_proj1')
+
+# make sure not all projects are returned for a partial-text search with pagination
+search_proj_nofind(query='fullname', expect='search_proj3', batch_size=1)
+search_proj_nofind(query='fullname', expect='search_proj2', batch_size=1)
+search_proj(query='fullname', expect='search_proj1', batch_size=1)
+
 search_proj(query='123', expect='123search_proj4')
 
 # check that searching by letter works

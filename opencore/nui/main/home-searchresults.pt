@@ -52,6 +52,8 @@
                        tal:attributes="value request/search_for" />
                 <input tal:condition="request/letter_search | nothing" type="hidden" name="letter_search"
                        tal:attributes="value request/letter_search" />
+		<input tal:condition="request/batch_size | nothing" type="hidden" name="batch_size"
+		       tal:attributes="value request/batch_size" />
                 <input type="submit" name="action_sort" value="sort" />
               </form>
             </div>

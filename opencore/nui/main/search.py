@@ -99,6 +99,13 @@ class SearchView(BaseView):
     def sort_by(self):
         return self.request.get('sort_by', None)
 
+    @property
+    def batch_size(self):
+        try:
+            return int(self.request.get('batch_size', 10))
+        except ValueError:
+            return 10
+
     def clear_search_query(self):        
         self.search_results = None
         self.search_query = None
@@ -118,13 +125,19 @@ class SearchView(BaseView):
         self.clear_search_query()
 
         if self.letter_search:
-            self.search_results = self._get_batch(self.search_by_letter(self.letter_search, self.sort_by), self.start)
+            self.search_results = self._get_batch(
+                self.search_by_letter(self.letter_search, self.sort_by),
+                self.start, size=self.batch_size)
             self.search_query = 'for %s starting with &ldquo;%s&rdquo;' % (self.noun, self.letter_search)
         elif self.search_for:
-            self.search_results = self._get_batch(self.search_by_text(self.search_for, self.sort_by), self.start)
+            self.search_results = self._get_batch(
+                self.search_by_text(self.search_for, self.sort_by),
+                self.start, size=self.batch_size)
             self.search_query = 'for &ldquo;%s&rdquo;' % self.search_for
         else:
-            self.search_results = self._get_batch(self.search_by_letter('all', self.sort_by), self.start)
+            self.search_results = self._get_batch(
+                self.search_by_letter('all', self.sort_by),
+                self.start, size=self.batch_size)
             self.search_query = 'for all %s' % self.noun
             
         return self.index()

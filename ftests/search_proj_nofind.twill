@@ -17,4 +17,4 @@ find '${projtxt}'
 find 'of\s+\d+'
 find 'sorted'
 notfind 'No results found.'
-find_in_xpath '${expect}' "//h3[@class='oc-feed-item-title']"
+notfind_in_xpath '${expect}' "//h3[@class='oc-feed-item-title']"
