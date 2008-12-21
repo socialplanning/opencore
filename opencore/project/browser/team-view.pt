@@ -29,7 +29,7 @@
             </div>
 
             <!-- display the number of results that came back -->
-            <div class="oc-searchresults-nresults">
+            <div class="oc-directory-sorter">
               
               <!-- pagination uses the batch macro -->
               <div metal:use-macro="context/@@nui_batch_macros/pagination"/>
@@ -122,7 +122,7 @@
               <!-- /tal:member-result -->
             </li>
           </ol>
-          <div class="oc-searchresults-nresults" tal:define="many python: start!=end">
+          <div class="oc-directory-sorter" tal:define="many python: start!=end">
           
             <!-- we put pagination on the bottom of the page too -->
             <div metal:use-macro="context/@@nui_batch_macros/pagination"/>
