@@ -51,6 +51,8 @@
                   class="oc-button oc-chooseThis">
                   sort
                 </button> 
+                <small>(show up to <input size="3" type="text" name="batch_size" tal:attributes="value request/batch_size | string:10" />
+                results per page)</small>
               </form>
             </div>
 

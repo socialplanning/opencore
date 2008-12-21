@@ -202,7 +202,7 @@ class ProjectTeamView(TeamRelatedView):
         member_brains = self.results = self.membranetool(**query)
         lookup_dict = dict((b.getId, b) for b in member_brains if b.getId)
         batch_dict = [lookup_dict.get(b.getId) for b in membership_brains if lookup_dict.has_key(b.getId)]
-        return self._get_batch(batch_dict, self.request.get('b_start', 0))
+        return self._get_batch(batch_dict, self.request.get('b_start', 0), size=self.batch_size)
 
     @staticmethod
     def sort_location_then_name(x, y):
@@ -232,10 +232,10 @@ class ProjectTeamView(TeamRelatedView):
 
         # @@ DRY
         self.results = sorted(results, cmp=self.sort_location_then_name)
-        return self._get_batch(self.results, self.request.get('b_start', 0))
+        return self._get_batch(self.results, self.request.get('b_start', 0), size=self.batch_size)
 
     def handle_sort_contributions(self):
-        return self._get_batch([], self.request.get('b_start', 0))
+        return self._get_batch([], self.request.get('b_start', 0), size=self.batch_size)
 
     def handle_sort_default(self):
         #mem_ids = [mem_brain.getId for mem_brain in self.membership_brains]
@@ -247,7 +247,7 @@ class ProjectTeamView(TeamRelatedView):
         
         # @@ DRY
         self.results = self.membranetool(**query)
-        return self._get_batch(self.results, self.request.get('b_start', 0))
+        return self._get_batch(self.results, self.request.get('b_start', 0), size=self.batch_size)
 
     @memoize
     def memberships(self, sort_by=None):
