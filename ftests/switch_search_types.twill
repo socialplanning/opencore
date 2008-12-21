@@ -3,14 +3,16 @@
 # from one type of search to another
 #
 
+extend_with flunc.xpath
+
 go ${base_url}/projects
-notfind 'class="oc-widget-alphabet-selectedLetter">A'
+notfind_in_xpath "A" "//a[@class='oc-widget-alphabet-selectedLetter']"
 follow 'A'
-find 'class="oc-widget-alphabet-selectedLetter">A'
+find_in_xpath "A" "//a[@class='oc-widget-alphabet-selectedLetter']"
 follow 'main_macros_everything_label'
-find 'class="oc-widget-alphabet-selectedLetter">A'
+find_in_xpath "A" "//a[@class='oc-widget-alphabet-selectedLetter']"
 fv search_form search_for 'test for this'
 submit
 find 'value="test for this"'
 follow 'all'
-find 'class="oc-widget-alphabet-selectedLetter">all'
+find_in_xpath "all" "//a[@class='oc-widget-alphabet-selectedLetter']"
