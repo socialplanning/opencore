@@ -364,7 +364,8 @@ dl.oc-plainList dd {
   /* display: none; */
 }
 .oc-lineup .oc-paginator,
-.oc-directory-sorter .oc-paginator {
+.oc-directory-sorter .oc-paginator,
+.oc-feed-sorter .oc-paginator {
   float: right;
   clear: none;
   font-size: 10px;
