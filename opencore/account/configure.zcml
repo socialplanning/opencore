@@ -6,10 +6,6 @@
     class="Products.CMFPlone.Portal.PloneSite"
     interface="opencore.interfaces.IOpenSiteRoot" />
 
-  <five:implements
-    class="Products.OpenPlans.content.project.OpenProject"
-    interface="opencore.interfaces.IOpenSiteRoot" />
-
   <browser:pages
      class=".login.LoginView"
      for="opencore.interfaces.IOpenSiteRoot"
