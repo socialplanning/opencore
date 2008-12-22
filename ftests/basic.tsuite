@@ -18,3 +18,8 @@ enable_listen
 search_user
 logout
 check_footer
+
+create_user(user=${user2}, email=${email2})
+login(user=${user2})
+contact_user()
+logout

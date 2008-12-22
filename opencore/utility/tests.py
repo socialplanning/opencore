@@ -22,10 +22,12 @@ def test_suite():
     from Products.CMFCore.utils import getToolByName
     from opencore.testing import *
     from opencore.testing.utility import mock_utility
+    from pprint import pprint
+    globs = locals()
     readme = ztc.FunctionalDocFileSuite('README.txt',
                                         package='opencore.utility',
                                         optionflags=optionflags,
-                                        globs=locals())
+                                        globs=globs)
     
     zcml_suites = (readme,)
     for suite in zcml_suites:
@@ -35,7 +37,7 @@ def test_suite():
                                               optionflags=optionflags,
                                               package='opencore.utility',
                                               test_class=OpenPlansTestCase,
-                                              globs = locals()
+                                              globs = globs
                                               )
     email_sender.layer = test_layer
     

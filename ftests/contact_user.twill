@@ -1,0 +1,10 @@
+# Verify the contact form shows up, and does not explode when fed utf8
+
+go "/people/${user}/profile"
+follow send-message
+fv oc-memberContact subject "I like piñatas"
+fv oc-memberContact message "do you like piñatas?"
+submit send
+url "/people/${user}/profile"
+find psm_message_sent_to_user
+

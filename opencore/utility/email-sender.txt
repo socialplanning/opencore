@@ -26,6 +26,10 @@ Check converting to email addresses
     'notreal1@example.com'
     >>> es._to_email_address('<foo@bar.com>')
     'foo@bar.com'
+    >>> es._to_email_address(' <foo@bar.com> ')
+    'foo@bar.com'
+    >>> es._to_email_address('Joe <foo@bar.com>')
+    'Joe <foo@bar.com>'
     >>> print es._to_email_address('nosuchmember')
     None
 
@@ -38,10 +42,11 @@ Check translation machinery::
 Test the mail message construction, which really just translates a
 previously constructed Message::
     >>> from opencore.i18n import _
-    >>> mapping=dict(project_title="p1", member_id="lammy", team_manage_url="bloop")
+    >>> mapping=dict(project_title="p1", member_id="lammy", 
+    ...     team_manage_url="bloop", project_noun='banana')
     >>> msg = _(u"email_membership_requested", mapping=mapping)
     >>> es.constructMailMessage(msg)
-    u'...p1...lammy...bloop...'
+    u'...p1...lammy...banana\'s...bloop...'
 
 It should handle unicode in the mapping dict:
     >>> mapping['member_id'] = u'I like pi\xf1atas'
@@ -75,12 +80,20 @@ Send some emails, and check that they went out
     ...     )
     >>> len(mh.messages)
     2
+
+This one contains both utf8-encoded byte strings (in the recipient and
+subject) and unicode (in the sender and body)::
+
     >>> es.sendMail(
-    ...     'Rolando Pe\xc3\xb1ate <bammy@example.com>',
-    ...     msg=u'hi there, unicode',
+    ...     'Rolando Pe\xc3\xb1ate <fooey@example.com>',
+    ...     msg=u'I do enjoy pi\xf1atas',
     ...     subject='more testing with pi\xc3\xb1atas',
     ...     mfrom=u'Gabriel Rold\xe1n <hammy@example.com>',
     ...     )
     >>> len(mh.messages)
     3
-
+    >>> pprint(mh.messages[-1])
+    {'mfrom': 'Gabriel =?utf-8?q?Rold=C3=A1n?= <hammy@example.com>',
+     'msg': 'I do enjoy pi\xc3\xb1atas',
+     'mto': ['Rolando =?utf-8?q?Pe=C3=B1ate?= <fooey@example.com>'],
+     'subject': 'more testing with =?utf-8?q?pi=C3=B1atas?='}

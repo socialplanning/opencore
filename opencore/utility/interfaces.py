@@ -56,15 +56,16 @@ class IEmailSender(Interface):
     a very generic adapter.
     """
 
-    def constructMailMessage():
+    def constructMailMessage(msg):
         """
-        Contructs and returns mail message text that is ready to be
-        delivered to a user: converts a message id into a message,
-        substitutes variable names in the message with values based
-        on a mapping provided, and triggers the translation mechanism.
+        Given a message id, contructs and returns mail message unicode
+        that is ready to be delivered to a user: converts the message
+        id into a message, substitutes variable names in the message
+        with values based on a mapping provided, and triggers the
+        translation mechanism.
         """
 
-    def sendMail():
+    def sendMail(mto, msg=None, subject=None, mfrom=None, **kwargs):
         """Sends an email."""
        
 class IProvideSiteConfig(Interface):

@@ -1,4 +1,5 @@
 from Products.CMFCore.utils import getToolByName
+from Products.listen.lib.common import construct_simple_encoded_message
 from Products.validation.validators.BaseValidators import EMAIL_RE
 from opencore.i18n import i18n_domain
 from opencore.i18n import translate
@@ -12,8 +13,7 @@ from pprint import pprint
 import re
 import sys
 
-regex = re.compile(EMAIL_RE)
-
+email_regex = re.compile(EMAIL_RE)
 
 class EmailSender(object):
     """
@@ -50,20 +50,28 @@ class EmailSender(object):
         return self._mailhost.send
 
     def _to_email_address(self, addr_token):
-        addr_token = addr_token.strip().lstrip('<').rstrip('>')
         if not addr_token:
             return None
-        if regex.match(addr_token) is None:
-            # not an address, it should be a member id
+        maybe_email = addr_token.strip()
+        name = None
+        if maybe_email.count('<'):
+            name, maybe_email = maybe_email.split('<', 1)
+            name = name.strip()
+        maybe_email = maybe_email.strip('<> ')
+        if email_regex.match(maybe_email) is not None:
+            # It was already an email address.  Return with name if provided.
+            if name:
+                return '%s <%s>' % (name, maybe_email)
+            else:
+                return maybe_email
+        else:
+            # Not an address, it should be a member id.
             membertool = getToolByName(self.context, "portal_membership")
             member = membertool.getMemberById(addr_token)
             try:
                 return member.getEmail()
             except:
                 return None
-        else:
-            # it's already an email address
-            return addr_token
 
     def _unicode_values(self, d):
         result = {}
@@ -96,8 +104,6 @@ class EmailSender(object):
     def sendMail(self, mto, msg=None, subject=None,
                  mfrom=None, **kwargs):
         to_info = None
-        #if msg is None:
-        #    msg = self.constructMailMessage(msg_id, **kwargs)
         if isinstance(msg, Message):
             # insert the portal title, used by nearly every message,
             # including those that don't come from constructMailMessage().
@@ -116,6 +122,8 @@ class EmailSender(object):
             if recip:
                 recips.append(recip)
 
+        # XXX Validate that there's at least one recip??
+
         if mfrom is None:
             mfrom = self.context.getProperty('email_from_address')
         else:
@@ -127,32 +135,34 @@ class EmailSender(object):
             # we leave the mfrom alone in that case
             if email_addr is not None:
                 mfrom = email_addr
-
+        
         #we construct the mail message ourselves ... because the mailhost generates bogus messages
         #by bogus i mean that the mail message generated has 2 sets of separate headers
         mapping = self._unicode_values(dict(
-            mfrom=mfrom,
-            recips='; '.join(recips),
+            from_addr=mfrom,
+            to_addr='; '.join(recips),
             subject=subject,
-            msg_body=msg,
+            body=msg,
             ))
         if subject:
             msg = u"""\
-From: %(mfrom)s
-To: %(recips)s
+From: %(from_addr)s
+To: %(to_addr)s
 Subject: %(subject)s
 
-%(msg_body)s""" % mapping
+%(body)s""" % mapping
         else:
             msg = u"""\
-From: %(mfrom)s
-To: %(recips)s
-%(msg_body)s""" % mapping
+From: %(from_addr)s
+To: %(to_addr)s
+%(body)s""" % mapping
 
-        # At this point we should have a unicode string; we need raw bytes
-        # to send.
+        # At this point we should have a unicode string; we need raw
+        # bytes to send, and we need to do the weird quoted-printable
+        # encoding of non-ascii strings.
         try:
             msg = msg.encode('ascii')
         except UnicodeEncodeError:
-            msg = msg.encode(self._encoding)
+            mapping['encoding'] = self._encoding
+            msg = str(construct_simple_encoded_message(**mapping))
         self._send(msg)
