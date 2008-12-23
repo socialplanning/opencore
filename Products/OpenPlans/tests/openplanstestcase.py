@@ -1,4 +1,5 @@
 from Products.Archetypes.tests.ArchetypesTestCase import ArcheSiteTestCase
+from BTrees.OOBTree import OOBTree
 from Products.CMFCore.utils  import getToolByName
 from Testing import ZopeTestCase
 from Testing.ZopeTestCase import PortalTestCase
@@ -11,6 +12,8 @@ from zope.app.annotation.interfaces import IAnnotations
 from zope.app.event.interfaces import IObjectEvent
 from zope.component import provideHandler
 from zope.interface import Interface
+
+import opencore.utils
 
 migrateOpenPage = migrateATDocToOpenPage.orig
 
@@ -52,11 +55,14 @@ class OpenPlansTestCase(ArcheSiteTestCase):
         PortalTestCase.tearDown(self)
 
     def clearMemoCache(self):
+        # from the request
         req = self.portal.REQUEST
         annotations = IAnnotations(req)
         cache = annotations.get(ViewMemo.key, None)
         if cache is not None:
             annotations[ViewMemo.key] = dict()
+        # from the timestamp cache
+        opencore.utils.timestamp_cache = {}
 
     def clearInstanceCache(self, obj):
         propname = Memojito.propname

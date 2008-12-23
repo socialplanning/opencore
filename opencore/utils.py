@@ -4,8 +4,11 @@ opencore helper functions
 from Acquisition import aq_base
 from Acquisition import aq_chain
 from Acquisition import aq_inner
+from BTrees.OOBTree import OOBTree
 from Products.CMFCore.utils import getToolByName
 from zope.app.component.hooks import getSite
+
+import time
 
 oc_props_id = 'opencore_properties'
 
@@ -69,3 +72,36 @@ def interface_in_aq_chain(obj, iface):
     for parent in aq_chain(obj):
         if iface.providedBy(parent):
             return aq_inner(parent)
+
+
+timestamp_cache = {}
+
+def timestamp_memoize(secs):
+    """
+    Decorator to memoize the return value of the wrapped function for
+    the specified number of seconds.  Stores the value in a special
+    BTree attribute on the portal object, keyed by the function's
+    dotted name.
+    """
+    def arg_wrapper(fn):
+        fn_key = fn.__name__
+        fn_self = getattr(fn, '__self__', None)
+        if fn_self is not None:
+            # we're a method, get dotted name of the object's class
+            klass = fn_self.__class__
+            fn_key = '%s.%s.%s' % (klass.__module__, klass.__name__, fn_key)
+        else:
+            # we're a function, we can compute our own dotted name
+            fn_key = '%s.%s' % (fn.__module__, fn_key)
+        
+        def wrapped(*arg, **kw):
+            global timestamp_cache
+            timestamp, value = timestamp_cache.get(fn_key, (0, None))
+            now = time.time()
+            if now - timestamp > secs:
+                value = fn(*arg, **kw)
+                timestamp_cache[fn_key] = (now, value)
+            return value
+        return wrapped
+
+    return arg_wrapper

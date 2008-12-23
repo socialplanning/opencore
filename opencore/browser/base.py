@@ -13,6 +13,7 @@ from opencore.i18n import translate
 from opencore.utility.interfaces import IProvideSiteConfig
 from opencore.interfaces import IHomePage
 from opencore.project.utils import project_noun
+from opencore.utils import timestamp_memoize
 from plone.memoize import instance
 from plone.memoize import view
 from topp.utils import zutils
@@ -232,15 +233,13 @@ class BaseView(BrowserView):
         else:
             return '%s %s- %s' % (title, mode, self.portal.Title())
 
-    # XXX cache more rigorously
-    @view.memoize_contextless
+    @timestamp_memoize(600)
     def nusers(self): 
         """Returns the number of users of the site."""
-        users = self.membranetool(getId='')
+        users = self.membranetool(meta_type='OpenMember')
         return len(users)
 
-    # XXX cache more rigorously
-    @view.memoize_contextless
+    @timestamp_memoize(600)
     def projects_served_count(self): 
         """
         Returns the total number of projects hosted by the site,

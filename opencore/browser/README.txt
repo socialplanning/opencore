@@ -134,6 +134,7 @@ test nusers and projects_served_count
     >>> self.logout()
     >>> pview.loggedin
     False
+    >>> self.clearMemoCache()
     >>> pview.projects_served_count()
     5
 
