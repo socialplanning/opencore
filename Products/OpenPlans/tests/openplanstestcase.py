@@ -80,7 +80,7 @@ class OpenPlansTestCase(ArcheSiteTestCase):
         if cache is not None:
             annotations[ViewMemo.key] = dict()
         # from the timestamp cache
-        opencore.utils.timestamp_cache = {}
+        opencore.utils.timestamp_cache.clear()
 
     def clearInstanceCache(self, obj):
         propname = Memojito.propname
