@@ -10,7 +10,6 @@ from zope.interface import implements
 
 PKG_NAME = 'listen'
 
-# XXX We can probably delete this FTI, it's from when we used the plone UI.
 factory_type_information = ( {
     'id'             : 'Open Mailing List',
     'icon'           : 'mailboxer_icon.png',
@@ -27,42 +26,6 @@ factory_type_information = ( {
                         'subscribers'   :'@@editAllSubscribers',
                         'edit'          :'@@edit'},
     'actions'        : (
-                        {
-                        'id': 'view',
-                        'name': 'View',
-                        'action': 'string:${object_url}',
-                        'permissions': (CMFPermissions.View,)
-                        },
-                        {
-                        'id': 'edit',
-                        'name': 'Edit',
-                        'action': 'string:${object_url}/edit',
-                        'permissions': (permissions.EditMailingList,)
-                        },
-                        {
-                        'id': 'search_archive',
-                        'name': 'Search',
-                        'action': 'string:${object_url}/archive/search_archive',
-                        'permissions': (CMFPermissions.View,)
-                        },
-                        {
-                        'id': 'archive',
-                        'name': 'Archive',
-                        'action': 'string:${object_url}/archive',
-                        'permissions': (CMFPermissions.View,)
-                        },
-                        {
-                        'id': 'membership',
-                        'name': 'Membership',
-                        'action': 'string:${object_url}/manage_membership',
-                        'permissions': (permissions.EditMailingList,)
-                        },
-                        {
-                        'id': 'moderation',
-                        'name': 'Moderation',
-                        'action': 'string:${object_url}/moderation',
-                        'permissions': (permissions.EditMailingList,)
-                        },
                        ),
     'filter_content_types' : True,
     'allowed_content_types' : (),
