@@ -8,7 +8,7 @@ from Products.CMFCore.utils import getToolByName
 from Products.Five.browser.pagetemplatefile import getEngine
 from interfaces import IProjectInfo
 from opencore.interfaces import IProject, IOpenTeam
-from opencore.browser.base import BaseView
+from opencore.nui.contexthijack import  HeaderHijackable
 from opencore.project.utils import get_featurelets
 from opencore.utils import interface_in_aq_chain
 from plone.memoize import instance
@@ -36,10 +36,10 @@ class ProjectInfo(object):
         # probably wrap this in an adapter
         return interface_in_aq_chain(context, IProject)
 
-
     @property
     def inProject(self):
-        return self.project is not None
+        inside = self.project is not None
+        return inside
 
     @instance.memoizedproperty
     def projectMembership(self):
@@ -85,7 +85,8 @@ class ProjectInfo(object):
 # but there is a need for a project info view of some project 
 # eg when the topnav is contextualized by http headers.
 
-class ProjectInfoView(ProjectInfo, BaseView):
+class ProjectInfoView(ProjectInfo, HeaderHijackable):
+
     def __init__(self, context, request):
         self.context = context
         self.request = request
@@ -95,23 +96,16 @@ class ProjectInfoView(ProjectInfo, BaseView):
         proj_in_chain = super(ProjectInfoView, self).project
         if proj_in_chain is not None:
             return proj_in_chain
-        # Deliverance can ask for the theme and pass in the project
-        # and app through headers instead of in the url, so it won't
-        # be in the chain.  We'll check for those headers explicitly
-        # here.
-        app_header = self.request.environ.get('HTTP_X_OPENPLANS_APPLICATION',
-                                              'zope')
-        # deliverance sets the app_header to "zope" by default
-        if app_header != 'zope':
-            proj_name = self.request.environ.get('HTTP_X_OPENPLANS_PROJECT')
-            if proj_name is not None:
-                portal = getToolByName(self.context, 'portal_url').getPortalObject()
-                try:
-                    proj = portal.projects.restrictedTraverse(proj_name)
-                except AttributeError:
-                    return None
-                return proj
+        # Use the headerhijack stuff.
+        maybe_project = self.context
+        if IProject.providedBy(maybe_project):
+            return maybe_project
+        else:
+            return None
 
+    def person_folder_from_headers(self):
+        # We don't ever want to treat the person as a project!
+        return None
 
 engine = getEngine()
 evaluate = lambda text, ec: engine.compile(text)(ec)

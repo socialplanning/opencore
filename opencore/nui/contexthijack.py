@@ -13,9 +13,9 @@ class HeaderHijackable(BaseView):
     """
     
     def __init__(self, context, request):
+        # XXX saving these not necessary, the following __init__ is sufficient
         self.request = request
         self.original_context = context
-        
         BaseView.__init__(self, context, request)
 
     def _get_context(self):

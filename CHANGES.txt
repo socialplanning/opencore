@@ -7,10 +7,11 @@ Features Added:
  * ProjectInfoView.project (aka BaseView.piv.project) now takes
    advantage of special HTTP headers for specifying a default project
    if there's none in the acquisition context. (Deliverance has
-   apparently provided these headers for a while, but we haven't used
-   it.)  To use this, the proxy server can set headers
-   X_OPENPLANS_APPLICATION to anything other than 'zope', and
-   X_OPENPLANS_PROJECT to the ID of the project. (slinkp, rmarianski)
+   apparently provided these headers for a while, and we already use
+   them in the top nav, but we haven't used them in this view.) To use
+   this, the proxy server can set headers X-Openplans-Application to
+   anything other than 'zope', and X-Openplans-Project to the ID of
+   the project. (slinkp, rmarianski)
 
 
 Bugs Fixed:
