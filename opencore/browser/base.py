@@ -377,12 +377,13 @@ class BaseView(BrowserView):
         return self.portal.Title()
     
     #egj: piv? miv? these names suck.
-    @property
+    @instance.memoizedproperty
     def piv(self):
+        import sys; sys.stderr.write('\nPIVVED %d\n' % id(self.request))
         view = getMultiAdapter((self.context, self.request), name='project_info')
         return view.__of__(aq_inner(self.context))
 
-    @property
+    @instance.memoizedproperty
     def miv(self):
         view = getMultiAdapter((self.context, self.request), name='member_info')
         return view.__of__(aq_inner(self.context))

@@ -1,7 +1,12 @@
 0.16.0dev (UNRELEASED)
 =====================
 
-No changes.
+
+Refactoring:
+
+ * Optimization: Memoize BaseView.piv and BaseView.miv, to allow those
+   views' own memoizations to be useful. (slinkp)
+
 
 
 0.15.0 (2008-12-22)
