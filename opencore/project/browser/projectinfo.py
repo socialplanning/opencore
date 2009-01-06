@@ -106,7 +106,3 @@ class ProjectInfoView(ProjectInfo, HeaderHijackable):
     def person_folder_from_headers(self):
         # We don't ever want to treat the person as a project!
         return None
-
-engine = getEngine()
-evaluate = lambda text, ec: engine.compile(text)(ec)
-getContext = lambda data: engine.getContext(data)
