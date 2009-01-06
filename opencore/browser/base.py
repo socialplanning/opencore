@@ -383,7 +383,6 @@ class BaseView(BrowserView):
     #even worse.
     @instance.memoizedproperty
     def piv(self):
-        import sys; sys.stderr.write('\nPIVVED %d\n' % id(self.request))
         view = getMultiAdapter((self.context, self.request), name='project_info')
         return view.__of__(aq_inner(self.context))
 
