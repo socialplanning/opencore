@@ -377,6 +377,10 @@ class BaseView(BrowserView):
         return self.portal.Title()
     
     #egj: piv? miv? these names suck.
+
+    #pmw: even after memoization, we sometimes see piv called more
+    #than once per request. Tried view.memoizedproperty, but that's
+    #even worse.
     @instance.memoizedproperty
     def piv(self):
         import sys; sys.stderr.write('\nPIVVED %d\n' % id(self.request))
