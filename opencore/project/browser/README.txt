@@ -214,8 +214,13 @@ Now set a valid title::
     >>> view.request.set('flet_recurse_flag', None)
     >>> view.request.form['featurelets'] = ['listen']
     >>> view.handle_request()
-    >>> utils.get_status_messages(view)
-    [u'Mailing lists feature has been added.']
+    >>> psms = utils.get_status_messages(view)
+    >>> psms
+    [u'... feature has been added.']
+    >>> from opencore.i18n import translate
+    >>> flet_title = view.translate('flet_title_listen', default="Mailing lists")
+    >>> flet_title in psms[0]
+    True
 
     Verify who we are logged in as
     >>> getToolByName(self.portal, 'portal_membership').getAuthenticatedMember().getId()
