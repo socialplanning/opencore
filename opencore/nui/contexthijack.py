@@ -11,12 +11,8 @@ class HeaderHijackable(BaseView):
     context based on the values of the X-OpenPlans-*
     header values. 
     """
-    
-    def __init__(self, context, request):
-        # XXX saving these not necessary, the following __init__ is sufficient
-        self.request = request
-        self.original_context = context
-        BaseView.__init__(self, context, request)
+
+    # XXX Needs unit tests!
 
     def _get_context(self):
         if self.request.get_header('HTTP_X_OPENPLANS_APPLICATION') == 'zope':
@@ -24,6 +20,7 @@ class HeaderHijackable(BaseView):
         return self.context_from_headers() or self.original_context
     
     def _set_context(self, ctx):
+        # This takes care of doing the right thing in __init__
         self.original_context = ctx
     context = property(_get_context, _set_context)
 
