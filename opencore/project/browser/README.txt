@@ -241,3 +241,46 @@ Now set a valid title::
     Now we can see it again
     >>> proj.restrictedTraverse('preferences')
     <...SimpleViewClass ...preferences...>
+
+
+Project lookup
+==============
+
+Normally, the project_info view acquires the project from its context:
+
+   >>> self.portal.request = utils.new_request()
+   >>> view = proj.restrictedTraverse("project_info")
+   >>> view.project is None
+   False
+   >>> view.project == proj
+   True
+
+You can use the same view on a context that has no project; normally
+it will just not find a project:
+
+   >>> view = self.portal.restrictedTraverse('project_info')
+   >>> print view.project
+   None
+
+The project can be specified by some magic request headers:
+
+   >>> utils.clear_all_memos(view)
+   >>> view.request.environ['HTTP_X_OPENPLANS_APPLICATION'] = 'anything but zope'
+   >>> view.request.environ['HTTP_X_OPENPLANS_PROJECT'] = proj.getId()
+   >>> view.project == proj
+   True
+
+If the magic headers don't match a real project, we get None:
+
+   >>> utils.clear_all_memos(view)
+   >>> view.request.environ['HTTP_X_OPENPLANS_PROJECT'] = 'does not exist'
+   >>> print view.project
+   None
+
+Also if the APPLICATION header is set to 'zope', we get None:
+
+   >>> utils.clear_all_memos(view)
+   >>> view.request.environ['HTTP_X_OPENPLANS_PROJECT'] = proj.getId()
+   >>> view.request.environ['HTTP_X_OPENPLANS_APPLICATION'] = 'zope'
+   >>> print view.project
+   None

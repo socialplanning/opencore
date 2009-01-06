@@ -36,10 +36,10 @@ class ProjectInfo(object):
         # probably wrap this in an adapter
         return interface_in_aq_chain(context, IProject)
 
+
     @property
     def inProject(self):
-        inside = self.project is not None
-        return inside
+        return self.project is not None
 
     @instance.memoizedproperty
     def projectMembership(self):
@@ -89,6 +89,28 @@ class ProjectInfoView(ProjectInfo, BaseView):
     def __init__(self, context, request):
         self.context = context
         self.request = request
+
+    @instance.memoizedproperty
+    def project(self):
+        proj_in_chain = super(ProjectInfoView, self).project
+        if proj_in_chain is not None:
+            return proj_in_chain
+        # Deliverance can ask for the theme and pass in the project
+        # and app through headers instead of in the url, so it won't
+        # be in the chain.  We'll check for those headers explicitly
+        # here.
+        app_header = self.request.environ.get('HTTP_X_OPENPLANS_APPLICATION',
+                                              'zope')
+        # deliverance sets the app_header to "zope" by default
+        if app_header != 'zope':
+            proj_name = self.request.environ.get('HTTP_X_OPENPLANS_PROJECT')
+            if proj_name is not None:
+                portal = getToolByName(self.context, 'portal_url').getPortalObject()
+                try:
+                    proj = portal.projects.restrictedTraverse(proj_name)
+                except AttributeError:
+                    return None
+                return proj
 
 
 engine = getEngine()
