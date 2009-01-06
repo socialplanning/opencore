@@ -24,6 +24,7 @@ class ProjectScope(object):
         self.context = context
 
     def __call__(self):
+        # XXX 2009-01-05: This is not hit by any unit tests. Write something?
         projectinfo = IProjectInfo(self.context)
         scope_obj = projectinfo.project
         if scope_obj is None:
