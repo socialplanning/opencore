@@ -1,6 +1,12 @@
 0.15.1dev (UNRELEASED)
 ===================
 
+Bug fixes:
+
+* The user folder ID migration fix from opencore 0.14 (see below)
+  would barf on a few mysterious users. We work around that now.
+  (slinkp)
+
 
 0.15.0 (2008-12-22)
 ===================
