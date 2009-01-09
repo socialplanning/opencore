@@ -15,9 +15,18 @@ Features Added:
 
 Bugs Fixed:
 
-* The user folder ID migration fix from opencore 0.14 (see below)
-  would barf on a few mysterious users. Fixed upstream in membrane;
-  regardless of membrane, we work around that now.  (slinkp)
+ * The user folder ID migration fix from opencore 0.14 (see below)
+   would barf on a few mysterious users. We work around that now,
+   although the real fix is to upgrade membrane, which is done in the
+   latest Products bundle.  (slinkp)
+
+ * The member area title migration was tweaked to avoid some unnecessary
+   data changes, and commit every so often to avoid conflict errors.
+   (slinkp)
+
+ * The workflow update migration was refactored to commit every so
+   often, to avoid conflict errors. (slinkp)
+
 
 Refactoring:
 
