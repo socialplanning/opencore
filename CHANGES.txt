@@ -1,7 +1,6 @@
 0.16.0dev (UNRELEASED)
 =====================
 
-
 Features Added:
 
  * ProjectInfoView.project (aka BaseView.piv.project) now takes
@@ -16,14 +15,14 @@ Features Added:
 
 Bugs Fixed:
 
- None.
-
+* The user folder ID migration fix from opencore 0.14 (see below)
+  would barf on a few mysterious users. Fixed upstream in membrane;
+  regardless of membrane, we work around that now.  (slinkp)
 
 Refactoring:
 
  * Optimization: Memoize BaseView.piv and BaseView.miv, to allow those
    views' own memoizations to be useful. (slinkp)
-
 
 
 0.15.0 (2008-12-22)
