@@ -27,7 +27,8 @@ def fix_member_indexes(context, commit_batchsize=200):
         try:
             mem = mship_tool.getMemberById(brain.getId)
         except AssertionError:
-            logger.error('%s Got assertion error trying to find user %r, should not happen' % (msg, brain.getId))
+            # This should be fixed in membrane r73080.
+            logger.error('%s: Assertion error trying to find user %r, you probably need to update membrane?' % (msg, brain.getId))
             continue
         if mem is None:
             logger.info("%s Got no member for id %r, should not happen" % (msg, brain.getId))
