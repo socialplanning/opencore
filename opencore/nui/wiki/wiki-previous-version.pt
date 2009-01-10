@@ -63,7 +63,7 @@
                   <ul class="oc-actions">
                     <tal:if condition="python: version_id != cur_id">
                       <li>
-                        <a tal:attributes = "href string:version_compare?version_id=${version_id}&version_id=${cur_id}">compare with current version</a>
+                        <a tal:attributes = "href string:version_compare?version_id=${version_id}&amp;version_id=${cur_id}">compare with current version</a>
                       </li>
                     </tal:if>
                     <li>

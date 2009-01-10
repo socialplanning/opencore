@@ -72,7 +72,7 @@
              tal:attributes="value item/id" />
     </td>
 
-    <td tal:content="string:<${item/address}>" />
+    <td tal:content="string:&lt;${item/address}&gt;" />
 
     <td tal:content="string:awaiting registration" />
 

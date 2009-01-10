@@ -9,7 +9,7 @@
     <a i18n:translate="main_macros_people_label"
        tal:condition="python:current_search_page!='people'"
        class="oc-search-people"
-       tal:attributes="href string:${context/portal_url}/people/searchresults?letter_search=${letter_search}&search_for=${search_for}&batch_size=${batch_size}">
+       tal:attributes="href string:${context/portal_url}/people/searchresults?letter_search=${letter_search}&amp;search_for=${search_for}&amp;batch_size=${batch_size}">
       People</a>
     <strong i18n:translate="main_macros_people_label" tal:condition="python:current_search_page=='people'">People</strong>
         
@@ -18,7 +18,7 @@
     <a tal:content="python:view.project_noun.title() + 's'"
        tal:condition="python:current_search_page!='projects'"
        class="oc-search-projects"
-       tal:attributes="href string:${context/portal_url}/projects/searchresults?letter_search=${letter_search}&search_for=${search_for}&batch_size=${batch_size}">
+       tal:attributes="href string:${context/portal_url}/projects/searchresults?letter_search=${letter_search}&amp;search_for=${search_for}&amp;batch_size=${batch_size}">
       Projects</a>
     <strong tal:content="python:view.project_noun.title() + 's'" tal:condition="python:current_search_page=='projects'">Projects</strong>
       
@@ -27,7 +27,7 @@
     <a i18n:translate="main_macros_everything_label"
        tal:condition="python:current_search_page!='sitesearch'"
        class="oc-search-everything"
-       tal:attributes="href string:${context/portal_url}/sitesearch?letter_search=${letter_search}&search_for=${search_for}&batch_size=${batch_size}">
+       tal:attributes="href string:${context/portal_url}/sitesearch?letter_search=${letter_search}&amp;search_for=${search_for}&amp;batch_size=${batch_size}">
       Everything</a>
     <strong i18n:translate="main_macros_everything_label" tal:condition="python:current_search_page=='sitesearch'">Everything</strong>
      
@@ -40,32 +40,32 @@
 
   </form>
   
-  <ul class="oc-widget-alphabet oc-clearAfter oc-boxy" tal>
+  <ul class="oc-widget-alphabet oc-clearAfter oc-boxy">
     <li tal:repeat="letter modules/string/uppercase">
       <a tal:content="letter"
-	 tal:attributes="href string:${form_action_url}?letter_search=${letter}&batch_size=${batch_size}"
+	 tal:attributes="href string:${form_action_url}?letter_search=${letter}&amp;batch_size=${batch_size}"
 	 tal:condition="python:letter!=request.form.get('letter_search')">A</a>
 
       <a tal:content="letter"
-	 tal:attributes="href string:${form_action_url}?letter_search=${letter}&batch_size=${batch_size}"
+	 tal:attributes="href string:${form_action_url}?letter_search=${letter}&amp;batch_size=${batch_size}"
 	 tal:condition="python:letter==request.form.get('letter_search')"
 	 class="oc-widget-alphabet-selectedLetter">A</a>
     </li>
     
     <li>
-      <a tal:attributes="href string:${form_action_url}?letter_search=num&batch_size=${batch_size}"
+      <a tal:attributes="href string:${form_action_url}?letter_search=num&amp;batch_size=${batch_size}"
          tal:condition="python:request.form.get('letter_search')!='num'">#</a>
       
-      <a tal:attributes="href string:${form_action_url}?letter_search=num&batch_size=${batch_size}"
+      <a tal:attributes="href string:${form_action_url}?letter_search=num&amp;batch_size=${batch_size}"
 	 tal:condition="python:request.form.get('letter_search')=='num'"
 	 class="oc-widget-alphabet-selectedLetter">#</a>
     </li>
     
     <li>
-      <a tal:attributes="href string:${form_action_url}?letter_search=all&batch_size=${batch_size}"
+      <a tal:attributes="href string:${form_action_url}?letter_search=all&amp;batch_size=${batch_size}"
 	 tal:condition="python:request.form.get('letter_search')!='all'">all</a>
       
-      <a tal:attributes="href string:${form_action_url}?letter_search=all&batch_size=${batch_size}"
+      <a tal:attributes="href string:${form_action_url}?letter_search=all&amp;batch_size=${batch_size}"
 	 tal:condition="python:request.form.get('letter_search')=='all'"
 	 class="oc-widget-alphabet-selectedLetter">all</a>
     </li>

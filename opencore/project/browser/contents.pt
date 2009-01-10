@@ -60,7 +60,7 @@
 													myvalue string:title">
 									<metal:macro define-macro="sortable_header">
 										<a tal:condition="python: sort_on == myvalue"
-										 tal:attributes="href string:contents?task|resort=Resort&item_type=${item_type}&sort_by=${myvalue}&sort_order=${sort_order};
+										 tal:attributes="href string:contents?task|resort=Resort&amp;item_type=${item_type}&amp;sort_by=${myvalue}&amp;sort_order=${sort_order};
 														 class string:oc-columnSortable oc-selected oc-js-actionLink">
 										<tal:dummy replace="myname" />
 										<tal:nada condition="python: sort_order == 'ascending'">
@@ -71,7 +71,7 @@
 										</tal:nada>
 										</a>
 										<a tal:condition="python: sort_on != myvalue"
-										 tal:attributes="href string:contents?task|resort=Resort&item_type=${item_type}&sort_by=${myvalue};
+										 tal:attributes="href string:contents?task|resort=Resort&amp;item_type=${item_type}&amp;sort_by=${myvalue};
 														 class string:oc-columnSortable oc-js-actionLink">
 										<tal:dummy replace="myname" />
 										</a>
@@ -174,7 +174,7 @@
 											<a href="#" class="oc-js-liveEdit_showForm oc-actionLink">Rename</a></li>
 											<li tal:condition="deletable">
 											<a class="oc-js-actionPost oc-actionLink oc-js-confirm"
-												 tal:attributes="href string:contents?task|${item/path}|delete=Delete&item_type=${item_type}&authenticator=${view/authenticator}">
+												 tal:attributes="href string:contents?task|${item/path}|delete=Delete&amp;item_type=${item_type}&amp;authenticator=${view/authenticator}">
 												Delete <span class="oc-hidden oc-warning oc-confirm">This deletion is permanent. Are you sure you want to delete?</span>
 											</a>
 											</li>
@@ -226,7 +226,7 @@
 			</tal:macro>
 		</tal:setvar>
 
-		<tal:setvar define="item_header string:Images & Attachments;
+		<tal:setvar define="item_header string:Images &amp; Attachments;
 				    item_type string:files;
 				    item_collection view/files;
 				    item_date_author_header string:Created;
