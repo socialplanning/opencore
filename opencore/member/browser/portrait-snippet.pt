@@ -21,12 +21,14 @@
                 tal:attributes="class python:focus and input_class or default_class"
         name="portrait" size="14" />
         <input type="submit" name="task|oc-profile-avatar|uploadAndUpdate"
-               class="oc-js-actionButton" value="Update" />
+               class="oc-js-actionButton" value="Update"
+               i18n:attributes="value update" />
         <tal:hasportrait condition="python:
           view.viewed_member_info.get('portrait_url') !=
           view.defaultPortraitURL">
           <input type="submit" name="task|oc-profile-avatar|remove"
-                 class="oc-js-actionButton" value="Remove" />
+                 class="oc-js-actionButton" value="Remove"
+                 i18n:attributes="value remove" />
         </tal:hasportrait>
         <a i18n:translate="portrait-snippet_cancel" href="#" class="oc-js-expander_close">Cancel</a>
       </div>

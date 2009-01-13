@@ -61,8 +61,9 @@
                 <td class="oc-form-value" tal:define="referer view/referer">
                   <ul class="oc-actions">
                     <li><input type="submit" name="task|send"
+                               i18n:attributes="value send"
                                value="Send" class="oc-button oc-chooseThis" /></li>
-                    <li>or <a tal:attributes="href python:referer or context.absolute_url()">Cancel</a></li>
+                    <li i18n:translate="">or <a tal:attributes="href python:referer or context.absolute_url()" i18n:name="url">Cancel</a></li>
                     <input type="hidden" name="ret_url" 
                            tal:condition="referer"
 			   tal:attributes="value referer"/>

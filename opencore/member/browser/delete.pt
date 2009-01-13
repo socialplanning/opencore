@@ -14,17 +14,18 @@
   <div id="oc-content-main">
     <form method="POST" id="delete" 
          tal:attributes="action string:${request/URL}">
-     <p>Careful! You cannot undo this action!
+     <p i18n:translate="account_delete_warning">Careful! You cannot undo this action!
      </p>
 
      <p><input type="radio" name="delete:int" value="0" checked="checked" />
-       No, I want to keep this account.
+       <span i18n:translate="account_delete_cancel">No, I want to keep this account.</span>
      </p>
      <p><input type="radio" name="delete:int" value="1" />
-       Yes, delete this account permanently.
+       <span i18n:translate="account_delete_confirm">Yes, delete this account permanently.</span>
      </p>
 
-     <input type="submit" name="submit" value="Submit" />
+     <input type="submit" name="submit" value="Submit"
+       i18n:attributes="value submit" />
     </form>
   </div>
   
