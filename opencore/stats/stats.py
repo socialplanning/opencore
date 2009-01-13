@@ -3,6 +3,7 @@ from Products.CMFCore.utils import getToolByName
 import DateTime
 from Products.listen.interfaces import ISearchableArchive
 from opencore.utils import get_utility_for_context
+from opencore.i18n import _
 
 
 class StatsView(BrowserView):
@@ -182,7 +183,6 @@ class StatsView(BrowserView):
 
         return i, avg_active_length
         
-
     def get_active_data(self):
         # this is only useful for approximations of general trends in the past
         # it is not a very accurate way to get historical stats
@@ -194,7 +194,7 @@ class StatsView(BrowserView):
             self.ran_queries = False
             self._init_queries()
             data.append({'date':self.report_date,
-                         'members':len(self.get_active_members()),
+
                          'members_life':self.get_member_stickiness()[1],
                          'projects':len(self.get_active_projects()),
                          'projects_life':self.get_project_stickiness()[1],

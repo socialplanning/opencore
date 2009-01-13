@@ -1,26 +1,27 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html xmlns="http://www.w3.org/1999/xhtml"
+   i18n:domain="opencore">
   <head profile="http://gmpg.org/xfn/11">
     <link rel="stylesheet" href="/++resource++css/themes/openplans.css" type="text/css" media="all" />
     <link rel="stylesheet" href="/++resource++css/opencore.css" type="text/css" media="all" />
-    <title>Active Objects</title>
+    <title i18n:translate="active_objects">Active Objects</title>
   </head>  
   <body>
-    <h1>Active Objects</h1>
-    <p>This page is only good for approximating historical trends.</p>
+    <h1 i18n:translate="active_objects">Active Objects</h1>
+    <p i18n:translate="stats_approximate_disclaimer">This page is only good for approximating historical trends.</p>
     <table tal:define="data view/get_active_data" border="1" cellspacing="0">
-    <tr><td>date</td>
-      <td colspan="2">members</td>
-      <td colspan="2">projects</td>
-      <td colspan="2">mailing lists</td>
+    <tr><td i18n:translate="">date</td>
+      <td colspan="2" i18n:translate="">members</td>
+      <td colspan="2" i18n:translate="">projects</td>
+      <td colspan="2" i18n:translate="">mailing lists</td>
     </tr>
     <tr><td></td>
-      <td>active</td>
-      <td>avg life before dormancy</td>
-      <td>active</td>
-      <td>avg life before dormancy</td>
-      <td>active</td>
-      <td>avg life before dormancy</td>
+      <td i18n:translate="">active</td>
+      <td i18n:translate="life_before_dormancy">avg life before dormancy</td>
+      <td i18n:translate="">active</td>
+      <td i18n:translate="life_before_dormancy">avg life before dormancy</td>
+      <td i18n:translate="">active</td>
+      <td i18n:translate="life_before_dormancy">avg life before dormancy</td>
     </tr>
     <tr tal:repeat="point data">
       <td tal:content="point/date">date</td>

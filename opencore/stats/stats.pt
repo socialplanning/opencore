@@ -1,9 +1,12 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html xmlns="http://www.w3.org/1999/xhtml"
+   xmlns:tal="http://xml.zope.org/namespaces/tal"
+   xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+   i18n:domain="opencore">
   <head profile="http://gmpg.org/xfn/11">
     <link rel="stylesheet" href="/++resource++css/themes/openplans.css" type="text/css" media="all" />
     <link rel="stylesheet" href="/++resource++css/opencore.css" type="text/css" media="all" />
-    <title>Portal Stats</title>
+    <title i18n:translate="stats_title">Portal Stats</title>
 
     <style>
     ul {
@@ -20,35 +23,99 @@
     </style>
   </head>  
   <body>
-    <h1>Portal Stats</h1>
-    <h2>on date <span tal:replace="view/get_report_date"></span></h2>
+    <h1 i18n:translate="stats_title">Portal Stats</h1>
+    <h2 i18n:translate="stats_on_date">
+       on date
+       <span tal:replace="view/get_report_date" i18n:name="date" />
+    </h2>
+    <h2 i18n:translate="">members</h2>
+    <ul>
+    <li i18n:translate="stats_active_users">
+      <span i18n:name="num_users"
+            tal:replace="python: len(view.get_active_members())"/>
+      active, logged in after
+      <span tal:replace="view/expiry_date" i18n:name="expiry_date"/>
+    </li>
+    <li i18n:translate="stats_dormant_users" tal:define="stickiness view/get_member_stickiness">
+      <span i18n:name="dormant_users" tal:replace="python: stickiness[0]" />
+      dormant, after being active for an average of
+      <span tal:replace="python: '%.1f' % stickiness[1]"
+            i18n:name="stickiness_days" />
+      days
+    </li>
+    <li i18n:translate="stats_unused_members">
+      <span tal:replace="python: len(view.get_unused_members())"
+            i18n:name="unused_member_count" />
+      unused, after first 24 hours
+    </li>
+    <li i18n:translate="stats_members_total" class="total">
+      <span tal:replace="python: len(view.get_members())"
+            i18n:name="members_count"/>
+      total
+    </li>
+    </ul>
 
-    <h2>members</h2>
+    <h2 i18n:translate="">projects</h2>
     <ul>
-    <li><span tal:replace="python: len(view.get_active_members())"/> active, logged in after <span tal:replace="view/expiry_date"/></li>
-    <li><span tal:replace="python: '%d dormant, after being active for an average of %.1f days' % view.get_member_stickiness()"/></li>
-    <li><span tal:replace="python: len(view.get_unused_members())"/> unused, after first 24 hours</li>
-    <li class="total"><span tal:replace="python: len(view.get_members())"/> total</li>
+    <li i18n:translate="stats_active_projects">
+      <span tal:replace="python: len(view.get_active_projects())"
+            i18n:name="active_projects" />
+        active, edited after
+        <span tal:replace="view/expiry_date" i18n:name="expiry_date" />
+    </li>
+    <li i18n:translate="stats_dormant_projects"
+        tal:define="stickiness view/get_project_stickiness">
+      <span tal:replace="python:stickiness[0]" i18n:name="dormant_projects" />
+      dormant, after being active for an average of
+      <span tal:replace="python:'%.1f' % stickiness[1]"
+            i18n:name="stickiness_days" />
+      days
+    </li>
+    <li i18n:translate="stats_unused_projects">
+      <span tal:replace="python: len(view.get_unused_projects())"
+            i18n:name="unused_projects" />
+      unused, after first 24 hours
+    </li>
+    <li class="total" i18n:translate="stats_projects_total">
+      <span tal:replace="python: len(view.get_projects())"
+            i18n:name="projects_count" />
+      total
+    </li>
     </ul>
-    <h2>projects</h2>
+
+    <h2 i18n:translate="">mailing lists</h2>
     <ul>
-    <li><span tal:replace="python: len(view.get_active_projects())"/> active, edited after <span tal:replace="view/expiry_date"/></li>
-    <li><span tal:replace="python: '%d dormant, after being active for an average of %.1f days' % view.get_project_stickiness()"/></li>
-    <li><span tal:replace="python: len(view.get_unused_projects())"/> unused, after first 24 hours</li>
-    <li class="total"><span tal:replace="python: len(view.get_projects())"/> total</li>
-    </ul>
-    <h2>mailing lists</h2>
-    <ul>
-    <li><span tal:replace="python: len(view.get_active_mailing_lists())"/> active, after <span tal:replace="view/expiry_date"/></li>
-    <li><span tal:replace="python: '%d dormant, after being active for an average of %.1f days' % view.get_mailing_list_stickiness()"/></li>
-    <li><span tal:replace="python: len(view.get_unused_mailing_lists())"/> unused, after first 24 hours</li>
-    <li class="total"><span tal:replace="python: len(view.get_mailing_lists())"/> total</li>
+    <li i18n:translate="stats_active_lists">
+      <span i18n:name="active_lists_count"
+            tal:replace="python: len(view.get_active_mailing_lists())"/>
+      active, after
+      <span i18n:name="stats_expiry_date" tal:replace="view/expiry_date"/>
+    </li>
+    <li i18n:translate="stats_dormant_lists"
+        tal:define="stickiness view/get_mailing_list_stickiness">
+      <span tal:replace="python:stickiness[0]" i18n:name="dormant_lists" />
+      dormant, after being active for an average of
+      <span tal:replace="python:'%.1f' % stickiness[1]"
+            i18n:name="stickiness_days" />
+      days
+    </li>
+    <li i18n:translate="stats_unused_lists">
+      <span tal:replace="python: len(view.get_unused_mailing_lists())"
+            i18n:name="unused_lists"/>
+      unused, after first 24 hours
+    </li>
+    <li class="total" i18n:translate="stats_total_lists">
+      <span tal:replace="python: len(view.get_mailing_lists())"
+            i18n:name="total_lists" />
+      total
+    </li>
     </ul>
 
     <table tal:replace="nothing" border="1" cellspacing="0">
-      <tr><td>member</td>
-        <td>modified</td>
-        <td>created</td></tr>
+      <tr>
+        <td i18n:translate="">member</td>
+        <td i18n:translate="">modified</td>
+        <td i18n:translate="">created</td></tr>
       <tr tal:repeat="mem view/get_members">
         <td tal:content="mem/Title"/>
         <td tal:content="mem/modified" />
@@ -56,9 +123,10 @@
     </table>
 
     <table tal:replace="nothing" border="1" cellspacing="0">
-      <tr><td>project</td>
-        <td>modified</td>
-        <td>created</td></tr>
+      <tr>
+        <td i18n:translate="">project</td>
+        <td i18n:translate="">modified</td>
+        <td i18n:translate="">created</td></tr>
       <tr tal:repeat="proj view/get_projects">
         <td tal:content="proj/Title"/>
         <td tal:content="proj/modified" />
@@ -66,9 +134,10 @@
     </table>
 
     <table tal:replace="nothing" border="1" cellspacing="0">
-      <tr><td>mailing list</td>
-        <td>latest_date</td>
-        <td>created</td></tr>
+      <tr>
+        <td i18n:translate="">mailing list</td>
+        <td i18n:translate="">latest_date</td>
+        <td i18n:translate="">created</td></tr>
       <tr tal:repeat="ml view/get_mailing_lists">
         <td tal:content="ml/Title"/>
         <td tal:content="ml/latest_date" />
