@@ -27,6 +27,9 @@ Bugs Fixed:
  * The workflow update migration was refactored to commit every so
    often, to avoid conflict errors. (slinkp)
 
+ * Project summary now correctly shows the blank slate version of the
+   BlogSummaryViewlet when there are no blog posts. (slinkp, jhammel)
+
 
 Refactoring:
 

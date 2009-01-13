@@ -14,7 +14,7 @@ class BlogSummaryViewlet(BlankSlateViewlet):
     sort_order = 100
 
     def is_blank(self):
-        return not self.context.items
+        return not self.feed.items
 
     @property
     def project_noun(self):
