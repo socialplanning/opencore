@@ -28,7 +28,6 @@ class BlankSlateViewlet(ViewletBase):
         return getAdapter(self.context, IFeedData, self.adapter_name)
 
     def pretty_date(self, date):
-        # XXX this is copy/pasted
         return prettyDate(date)
 
     @property
