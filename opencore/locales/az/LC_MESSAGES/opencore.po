@@ -89,10 +89,22 @@ msgstr "account_confirm_new_pass"
 #: ./opencore/member/browser/account.pt:156
 msgid "account_current_pass"
 msgstr "account_current_pass"
+#. Default: "No, I want to keep this account."
+#: ./opencore/member/browser/delete.pt:21
+msgid "account_delete_cancel"
+msgstr "account_delete_cancel"
+#. Default: "Yes, delete this account permanently."
+#: ./opencore/member/browser/delete.pt:24
+msgid "account_delete_confirm"
+msgstr "account_delete_confirm"
 #. Default: "Delete This Account Permanently?"
 #: ./opencore/member/browser/delete.pt:12
 msgid "account_delete_heading"
 msgstr "account_delete_heading"
+#. Default: "Careful! You cannot undo this action!"
+#: ./opencore/member/browser/delete.pt:17
+msgid "account_delete_warning"
+msgstr "account_delete_warning"
 #. Default: "View and manage your memberships and account settings."
 #: ./opencore/member/browser/account.pt:13
 msgid "account_description"
@@ -157,6 +169,14 @@ msgstr "account_project_since_header"
 #: ./opencore/member/browser/account.pt:119
 msgid "account_settings"
 msgstr "account_settings"
+#. Default: "active"
+#: ./opencore/stats/active.pt:19
+msgid "active"
+msgstr "active"
+#. Default: "Active Objects"
+#: ./opencore/stats/active.pt:7
+msgid "active_objects"
+msgstr "active_objects"
 #. Default: "Allowed Senders"
 #: ./opencore/listen/browser/view.py:546
 msgid "allowed_senders"
@@ -305,6 +325,10 @@ msgstr "create_project_step_security_desc"
 #: ./opencore/project/browser/create.pt:35
 msgid "create_project_url"
 msgstr "create_project_url"
+#. Default: "date"
+#: ./opencore/stats/active.pt:13
+msgid "date"
+msgstr "date"
 #: ./opencore/project/browser/manageteam.py:589
 msgid "demote_to_member"
 msgstr "demote_to_member"
@@ -581,7 +605,7 @@ msgstr "forum_update_button"
 msgid "from-label"
 msgstr "from-label"
 #. Default: "No results found."
-#: ./opencore/nui/main/home-searchresults.pt:110
+#: ./opencore/nui/main/home-searchresults.pt:112
 msgid "home-searchresults_no_results"
 msgstr "home-searchresults_no_results"
 #. Default: "Find ${project_noun}s"
@@ -720,6 +744,10 @@ msgstr "label_required"
 #: ./opencore/nui/main/contact-site-admin.pt:121
 msgid "label_send"
 msgstr "label_send"
+#. Default: "avg life before dormancy"
+#: ./opencore/stats/active.pt:20
+msgid "life_before_dormancy"
+msgstr "life_before_dormancy"
 #. Default: "The requested list prefix is already taken."
 #: ./opencore/listen/browser/view.py:185
 msgid "list_create_duplicate_error"
@@ -860,6 +888,10 @@ msgstr "lookup_view_path"
 #: ./opencore/listen/browser/lookup_view.pt:27
 msgid "lookup_view_purge_button"
 msgstr "lookup_view_purge_button"
+#. Default: "mailing lists"
+#: ./opencore/stats/active.pt:16
+msgid "mailing lists"
+msgstr "mailing lists"
 #. Default: "Actions"
 #: ./opencore/listen/browser/mailing_lists.pt:28
 msgid "mailing_lists_actions"
@@ -961,19 +993,19 @@ msgstr "mailinglist_view_type"
 msgid "mailinglist_view_unsub_button"
 msgstr "mailinglist_view_unsub_button"
 #. Default: "Everything"
-#: ./opencore/nui/main/main_macros.pt:16
+#: ./opencore/nui/main/main_macros.pt:27
 msgid "main_macros_everything_label"
 msgstr "main_macros_everything_label"
 #. Default: "People"
-#: ./opencore/nui/main/main_macros.pt:5
+#: ./opencore/nui/main/main_macros.pt:9
 msgid "main_macros_people_label"
 msgstr "main_macros_people_label"
 #. Default: "Search"
-#: ./opencore/nui/main/main_macros.pt:21
+#: ./opencore/nui/main/main_macros.pt:36
 msgid "main_macros_search_button"
 msgstr "main_macros_search_button"
 #. Default: "Search"
-#: ./opencore/nui/main/main_macros.pt:4
+#: ./opencore/nui/main/main_macros.pt:8
 msgid "main_macros_search_label"
 msgstr "main_macros_search_label"
 #. Default: "Manage Allowed Senders"
@@ -1016,6 +1048,10 @@ msgstr "member_macros_pages_modified"
 #: ./opencore/member/browser/member_macros.pt:19
 msgid "member_macros_recent_activity"
 msgstr "member_macros_recent_activity"
+#. Default: "members"
+#: ./opencore/stats/active.pt:14
+msgid "members"
+msgstr "members"
 #. Default: "Message:"
 #: ./opencore/member/browser/contact.pt:50
 msgid "message-label"
@@ -1144,20 +1180,24 @@ msgstr "news_read_more"
 #: ./opencore/member/factory.py:83
 msgid "no_password"
 msgstr "no_password"
+#. Default: "or ${url}"
+#: ./opencore/member/browser/contact.pt:66
+msgid "or ${url}"
+msgstr "or ${url}"
 #. Default: "There is no member named \"${user_id}\"."
-#: ./opencore/browser/base.py:527
+#: ./opencore/browser/base.py:531
 msgid "password_no_member_error"
 msgstr "password_no_member_error"
 #. Default: "You must enter a password."
-#: ./opencore/browser/base.py:533
+#: ./opencore/browser/base.py:537
 msgid "password_no_password_error"
 msgstr "password_no_password_error"
 #. Default: "You need to enter your username."
-#: ./opencore/browser/base.py:522
+#: ./opencore/browser/base.py:526
 msgid "password_no_username_error"
 msgstr "password_no_username_error"
 #. Default: "Please make sure that both password fields are the same."
-#: ./opencore/browser/base.py:536
+#: ./opencore/browser/base.py:540
 msgid "password_not_same_error"
 msgstr "password_not_same_error"
 #: ./opencore/nui/main/contact-site-admin.pt:106
@@ -1184,7 +1224,7 @@ msgstr "pending_mistake"
 msgid "pending_send_another_activation"
 msgstr "pending_send_another_activation"
 #. Default: "No results found."
-#: ./opencore/nui/main/people-searchresults.pt:101
+#: ./opencore/nui/main/people-searchresults.pt:105
 msgid "people-searchresults_no_results"
 msgstr "people-searchresults_no_results"
 #. Default: "${num_members} members, <span>and growing</span> <span>and <a href=\"${DYNAMIC_CONTENT}\">you</a></span>"
@@ -1192,7 +1232,7 @@ msgstr "people-searchresults_no_results"
 msgid "people_members"
 msgstr "people_members"
 #. Default: "Cancel"
-#: ./opencore/member/browser/portrait-snippet.pt:31
+#: ./opencore/member/browser/portrait-snippet.pt:33
 msgid "portrait-snippet_cancel"
 msgstr "portrait-snippet_cancel"
 #. Default: "Change image"
@@ -1255,8 +1295,12 @@ msgstr "profile_website"
 #: ./opencore/project/browser/add.py:156
 msgid "project_created"
 msgstr "project_created"
+#. Default: "projects"
+#: ./opencore/stats/active.pt:15
+msgid "projects"
+msgstr "projects"
 #. Default: "No results found."
-#: ./opencore/nui/main/projects-searchresults.pt:114
+#: ./opencore/nui/main/projects-searchresults.pt:118
 msgid "projects-searchresults_no_results"
 msgstr "projects-searchresults_no_results"
 #. Default: "Currently serving ${num_projects} ${project_noun}s"
@@ -1460,6 +1504,10 @@ msgstr "psm_thankyou_for_joining"
 #: ./opencore/project/browser/manageteam.py:408
 msgid "remind_invite_none_selected"
 msgstr "remind_invite_none_selected"
+#. Default: "Remove"
+#: ./opencore/member/browser/portrait-snippet.pt:29
+msgid "remove"
+msgstr "remove"
 #. Default: "Reset password"
 #: ./opencore/account/reset-password.pt:74
 msgid "reset-password_button"
@@ -1476,14 +1524,82 @@ msgstr "reset-password_new_password_label"
 #: ./opencore/account/reset-password.pt:28
 msgid "reset-password_username_label"
 msgstr "reset-password_username_label"
+#. Default: "Send"
+#: ./opencore/member/browser/contact.pt:63
+msgid "send"
+msgstr "send"
 #. Default: "Send message"
 #: ./opencore/member/browser/profile.pt:134
 msgid "send-message"
 msgstr "send-message"
+#. Default: "${active_lists_count} active, after ${stats_expiry_date}"
+#: ./opencore/stats/stats.pt:92
+msgid "stats_active_lists"
+msgstr "stats_active_lists"
+#. Default: "${active_projects} active, edited after ${expiry_date}"
+#: ./opencore/stats/stats.pt:64
+msgid "stats_active_projects"
+msgstr "stats_active_projects"
+#. Default: "${num_users} active, logged in after ${expiry_date}"
+#: ./opencore/stats/stats.pt:37
+msgid "stats_active_users"
+msgstr "stats_active_users"
+#. Default: "This page is only good for approximating historical trends."
+#: ./opencore/stats/active.pt:11
+msgid "stats_approximate_disclaimer"
+msgstr "stats_approximate_disclaimer"
+#. Default: "${dormant_lists} dormant, after being active for an average of ${stickiness_days} days"
+#: ./opencore/stats/stats.pt:98
+msgid "stats_dormant_lists"
+msgstr "stats_dormant_lists"
+#. Default: "${dormant_projects} dormant, after being active for an average of ${stickiness_days} days"
+#: ./opencore/stats/stats.pt:70
+msgid "stats_dormant_projects"
+msgstr "stats_dormant_projects"
+#. Default: "${dormant_users} dormant, after being active for an average of ${stickiness_days} days"
+#: ./opencore/stats/stats.pt:42
+msgid "stats_dormant_users"
+msgstr "stats_dormant_users"
+#. Default: "${members_count} total"
+#: ./opencore/stats/stats.pt:52
+msgid "stats_members_total"
+msgstr "stats_members_total"
+#. Default: "on date ${date}"
+#: ./opencore/stats/stats.pt:29
+msgid "stats_on_date"
+msgstr "stats_on_date"
+#. Default: "${projects_count} total"
+#: ./opencore/stats/stats.pt:80
+msgid "stats_projects_total"
+msgstr "stats_projects_total"
+#. Default: "Portal Stats"
+#: ./opencore/stats/stats.pt:9
+msgid "stats_title"
+msgstr "stats_title"
+#. Default: "${total_lists} total"
+#: ./opencore/stats/stats.pt:108
+msgid "stats_total_lists"
+msgstr "stats_total_lists"
+#. Default: "${unused_lists} unused, after first 24 hours"
+#: ./opencore/stats/stats.pt:103
+msgid "stats_unused_lists"
+msgstr "stats_unused_lists"
+#. Default: "${unused_member_count} unused, after first 24 hours"
+#: ./opencore/stats/stats.pt:47
+msgid "stats_unused_members"
+msgstr "stats_unused_members"
+#. Default: "${unused_projects} unused, after first 24 hours"
+#: ./opencore/stats/stats.pt:75
+msgid "stats_unused_projects"
+msgstr "stats_unused_projects"
 #. Default: "Subject:"
 #: ./opencore/member/browser/contact.pt:41
 msgid "subject-label"
 msgstr "subject-label"
+#. Default: "Submit"
+#: ./opencore/member/browser/delete.pt:27
+msgid "submit"
+msgstr "submit"
 #. Default: "Send an email to invite people to join"
 #: ./opencore/project/browser/team-manage.pt:99
 msgid "team-manage_send_email_invite"
@@ -1584,6 +1700,10 @@ msgstr "tour_start_projects_desc"
 #: ./opencore/member/browser/tour.pt:26
 msgid "tour_start_projects_heading"
 msgstr "tour_start_projects_heading"
+#. Default: "Update"
+#: ./opencore/member/browser/portrait-snippet.pt:23
+msgid "update"
+msgstr "update"
 #. Default: "Current Version"
 #: ./opencore/nui/wiki/historyview.py:50
 msgid "version_current_title"
