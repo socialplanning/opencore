@@ -1,6 +1,5 @@
 from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
 from opencore.browser.blankslate import BlankSlateViewlet
-from opencore.project.utils import project_noun
 import opencore.feed.browser
 import os
 
@@ -15,9 +14,3 @@ class BlogSummaryViewlet(BlankSlateViewlet):
 
     def is_blank(self):
         return not self.feed.items
-
-    @property
-    def project_noun(self):
-        """Do we call them 'projects' or 'groups' or... ?
-        """
-        return project_noun()
