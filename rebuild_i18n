@@ -50,4 +50,4 @@ echo
 echo There are $ERRORS errors \(almost definitely missing i18n markup\)
 echo There are $WARNINGS warnings \(possibly missing i18n markup\)
 echo There are $FATAL fatal errors \(template could not be parsed, eg. if it\'s not html\)
-echo For more details, run \'find . -name "*pt" | xargs i18ndude find-untranslated\'
+echo For more details, run \'find . -name \"\*pt\" \| xargs i18ndude find-untranslated\'
