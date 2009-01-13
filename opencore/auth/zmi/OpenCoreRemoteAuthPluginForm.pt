@@ -1,9 +1,10 @@
-<h1 tal:replace="structure here/manage_page_header">Header</h1>
+<h1 tal:replace="structure here/manage_page_header"
+    i18n:domain="opencore">Header</h1>
 
 <h2 tal:define="form_title string:Add OpenCore Remote Auth Plugin"
     tal:replace="structure here/manage_form_title">Form Title</h2>
 
-  <p class="form-help">
+  <p class="form-help" i18n:translate="add_remote_auth_plugin_help">
   Install an OpenCore remote auth plugin. This plugin will enable one
   OpenCore installation to authenticate from another.  Fires an event
   upon success; the default handler creates a local user that mirrors
@@ -13,17 +14,18 @@
 <form action="manage_addOpenCoreRemoteAuth" method="POST">
   <table>
     <tr>
-      <td class="form-label">Id</td>
+      <td class="form-label" i18n:translate="id">Id</td>
       <td><input type="text" name="id"/></td>
     </tr>
     <tr>
-      <td class="form-label">Title</td>
+      <td class="form-label" i18n:translate="title">Title</td>
       <td><input type="text" name="Title"/></td>
     </tr>
     <tr>
       <td colspan="2">
         <div class="form-element">
-          <input type="submit" value="Add OpenCore remote auth plugin"/>
+          <input type="submit" value="Add OpenCore remote auth plugin"
+             i18n:attributes="value add_remote_auth_plugin_button" />
         </div>
       </td>
     </tr>
