@@ -66,7 +66,7 @@
               tal:content="request/skills | memberdata/skills"></textarea>
 
             <tal:comment replace="nothing">
-              <label for="background">Background</label>
+              <label for="background" i18n:translate="">Background</label>
               <textarea rows="1" cols="80" name="background" id="background"
                 class="oc-autoFocus"
                 tal:condition="python: request.form.get('field') == 'background'"
@@ -75,7 +75,7 @@
                 tal:condition="python: request.form.get('field') != 'background'"
                 tal:content="request/background | memberdata/background"></textarea>
   
-              <label for="affiliations">Affiliations</label>
+              <label for="affiliations" i18n:translate="">Affiliations</label>
               <textarea rows="1" cols="80" name="affiliations" id="affiliations"
                 class="oc-autoFocus"
                 tal:condition="python: request.form.get('field') == 'affiliations'"
@@ -84,7 +84,7 @@
                 tal:condition="python: request.form.get('field') != 'affiliations'"
                 tal:content="request/affiliations | memberdata/affiliations"></textarea>
   
-              <label for="favorites">Favorites</label>
+              <label for="favorites" i18n:translate="">Favorites</label>
               <textarea rows="1" cols="80" name="favorites" id="favorites"
                 class="oc-autoFocus"
                 tal:condition="python: request.form.get('field') == 'favorites'"
@@ -101,8 +101,10 @@
               <input type="submit" 
                      name="task|update"
                      value="Update"
-                     class="oc-button oc-chooseThis" />
-              or <a i18n:translate="profile-edit_cancel" href="profile">Cancel</a>
+                     class="oc-button oc-chooseThis"
+                     i18n:attributes="value" />
+              <span i18n:translate="">or</span>
+              <a i18n:translate="profile-edit_cancel" href="profile">Cancel</a>
             </li>
           </ul> 
       </div><!-- end #oc-content-main -->
