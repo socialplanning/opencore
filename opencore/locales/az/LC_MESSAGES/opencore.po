@@ -49,6 +49,10 @@ msgid "Summary"
 msgstr "Summary"
 msgid "Team"
 msgstr "Team"
+#. Default: "Update"
+#: ./opencore/member/browser/profile-edit.pt:101
+msgid "Update"
+msgstr "Update"
 #. Default: "Yes"
 #: ./opencore/listen/browser/membership.pt:32
 msgid "Yes"
@@ -1180,6 +1184,10 @@ msgstr "news_read_more"
 #: ./opencore/member/factory.py:83
 msgid "no_password"
 msgstr "no_password"
+#. Default: "or"
+#: ./opencore/member/browser/profile-edit.pt:106
+msgid "or"
+msgstr "or"
 #. Default: "or ${url}"
 #: ./opencore/member/browser/contact.pt:66
 msgid "or ${url}"
@@ -1244,7 +1252,7 @@ msgstr "portrait-snippet_change_image"
 msgid "profile-edit_about_label"
 msgstr "profile-edit_about_label"
 #. Default: "Cancel"
-#: ./opencore/member/browser/profile-edit.pt:105
+#: ./opencore/member/browser/profile-edit.pt:107
 msgid "profile-edit_cancel"
 msgstr "profile-edit_cancel"
 #. Default: "Interests"

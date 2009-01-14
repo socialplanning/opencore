@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: opencore\n"
-"POT-Creation-Date: 2009-01-13 23:45+0000\n"
+"POT-Creation-Date: 2009-01-14 00:48+0000\n"
 "PO-Revision-Date: 2008-06-02 22:20+0200\n"
 "Last-Translator: Pierre George <pierregrg@gmail.com>\n"
 "Language-Team: OpenFSM Team <openfsm@lists.openfsm.net>\n"
@@ -64,6 +64,11 @@ msgid "Summary"
 msgstr ""
 
 msgid "Team"
+msgstr ""
+
+#. Default: "Update"
+#: ./opencore/member/browser/profile-edit.pt:101
+msgid "Update"
 msgstr ""
 
 #. Default: "Yes"
@@ -1438,6 +1443,11 @@ msgstr "Leer mas…"
 msgid "no_password"
 msgstr "Entre su contraseña"
 
+#. Default: "or"
+#: ./opencore/member/browser/profile-edit.pt:106
+msgid "or"
+msgstr ""
+
 #. Default: "or ${url}"
 #: ./opencore/member/browser/contact.pt:66
 msgid "or ${url}"
@@ -1519,7 +1529,7 @@ msgid "profile-edit_about_label"
 msgstr "Acerca de"
 
 #. Default: "Cancel"
-#: ./opencore/member/browser/profile-edit.pt:105
+#: ./opencore/member/browser/profile-edit.pt:107
 msgid "profile-edit_cancel"
 msgstr "Anular"
 
