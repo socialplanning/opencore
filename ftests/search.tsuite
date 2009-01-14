@@ -24,6 +24,10 @@ search_proj(query='fullname', expect='search_proj2')
 search_proj(query='fullname', expect='search_proj1')
 
 # make sure not all projects are returned for a partial-text search with pagination
+
+# XXX unreliable! default 'relevancy' sorting doesn't seem to
+# guarantee what we're looking for, and there's no sort param on the
+# initial form.  If it had one, we could sort by name and expect proj_fullname3
 search_proj_nofind(query='fullname', expect='search_proj3', batch_size=1)
 search_proj_nofind(query='fullname', expect='search_proj2', batch_size=1)
 search_proj(query='fullname', expect='search_proj1', batch_size=1)
