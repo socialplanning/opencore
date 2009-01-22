@@ -276,6 +276,7 @@ class AnnotationCachedWikiHistory(object):
             author = ILastModifiedAuthorId(page)
             
         new_history_item = dict(
+            # XXX We should store the historical title in here too.
             version_id=new_version_id,
             comment=message,
             author=author,

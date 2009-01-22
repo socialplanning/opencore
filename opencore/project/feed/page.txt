@@ -1,42 +1,49 @@
 Test the page adapter for feed use
 
-Create a stub context used for the page adapter
+Create a stub context used for the page adapter:
+
     >>> from opencore.feed.tests import DummyContext
+    >>> from zope.interface import implements, classImplements, Interface
+    >>> class IDummyContext(Interface):
+    ...     pass
+    >>> classImplements(DummyContext, IDummyContext)
     >>> context = DummyContext()
 
-Register the actual factory used (simple enough)
-   >>> from opencore.feed.factory import feedItemFactory
-   >>> from zope.component import provideUtility
-   >>> provideUtility(feedItemFactory, name='opencore.feed.feeditem')
+Register the actual factory used:
 
-And override the repository history call
-to return a stub result
-    >>> class DummyRepository(object):
-    ...     def getHistory(self, context, **kw):
-    ...         return [StubResult()]
-    >>> context.portal_repository = DummyRepository()
+    >>> from opencore.feed.factory import feedItemFactory
+    >>> from zope.component import provideUtility
+    >>> provideUtility(feedItemFactory, name='opencore.feed.feeditem')
 
-Which returns a stub page
+And provide an IWikiHistory implementation that yields data in the
+same format used by the AnnotationCachedWikiHistory:
+
     >>> from datetime import datetime
-    >>> class StubPage(object):
-    ...     def Title(self):
-    ...         return 'Dummy title'
-    ...     def modified(self):
-    ...         return datetime.now()
-    ...     def absolute_url(self):
-    ...         return 'http://dummy/page/url'
+    >>> stub_result = {'version_id': 99,
+    ...               'comment': 'Dummy comment',
+    ...               'author': 'Whoever',
+    ...               'modification_date': datetime.now()}
+    ...
+    >>> from opencore.nui.wiki.interfaces import IWikiHistory
+    >>> class DummyWikiHistory(object):
+    ...    implements(IWikiHistory)
+    ...    def __init__(self, context):
+    ...        pass
+    ...    def __iter__(self):
+    ...        for x in [stub_result]: yield x
+    ...
+    >>> from zope.component import provideAdapter
+    >>> provideAdapter(DummyWikiHistory,
+    ...                adapts=[IDummyContext], provides=IWikiHistory)
 
-Here's the stub result
-    >>> class StubResult(object):
-    ...     object = StubPage()
-    ...     comment='Dummy comment'
-    ...	    sys_metadata = dict(principal='Whoever')
 
-Instantiate the page feed adapter with the dummy context
+Instantiate the page feed adapter with the dummy context:
+
     >>> from opencore.project.feed.page import PageFeedAdapter
     >>> page_adapter = PageFeedAdapter(context)
 
-Test the items method
+Test the items method:
+
     >>> lst = page_adapter.items
     >>> len(lst)
     1
@@ -45,12 +52,14 @@ Test the items method
     >>> IFeedItem.providedBy(feed_item)
     True
 
-Verify the item returned conforms to the interface
+Verify the item returned conforms to the interface:
+
     >>> from zope.interface.verify import verifyObject
     >>> verifyObject(IFeedItem, feed_item)
     True
 
-And finally check the object
+And finally check the object:
+
     >>> feed_item.title
     'Dummy title'
     >>> feed_item.description
@@ -58,6 +67,6 @@ And finally check the object
     >>> feed_item.pubDate
     datetime.datetime...
     >>> feed_item.link
-    'http://dummy/page/url'
+    'http://dummy/context/url/version?version_id=99'
     >>> feed_item.author
     'Whoever'
