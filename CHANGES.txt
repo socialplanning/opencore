@@ -15,6 +15,9 @@ Features Added:
 
 Bugs Fixed:
 
+ * RSS feeds of wiki page history was prohibitively expensive. Fixed.
+   (#2766) (slinkp)
+
  * The user folder ID migration fix from opencore 0.14 (see below)
    would barf on a few mysterious users. We work around that now,
    although the real fix is to upgrade membrane, which is done in the
