@@ -11,7 +11,7 @@ from opencore.browser import formhandler
 from opencore.account.utils import email_confirmation
 from opencore.browser.base import view
 from opencore.i18n import _
-from opencore.nui.email_sender import EmailSender
+from opencore.utility.interfaces import IEmailSender
 from opencore.interfaces.message import ITransientMessage
 from opencore.interfaces.membership import IEmailInvites
 from opencore.project.browser.team import TeamRelatedView
@@ -30,10 +30,10 @@ log = logging.getLogger('opencore.project.manageteam')
 EMAIL_RE = re.compile(EMAIL_RE)
 TA_SPLIT = re.compile('\n|,')
 
-#@@ change to use utility
 @req_memoize
 def _email_sender(view):
-    return EmailSender(view, mship_messages)
+    portal = getToolByName(view.context, 'portal_url').getPortalObject()
+    return IEmailSender(portal) #, mship_messages)
 
 class ManageTeamView(TeamRelatedView, formhandler.OctopoLite, AccountView,
                      ProjectBaseView):
@@ -230,8 +230,8 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite, AccountView,
 
             #XXX sending the email should go in an event subscriber
             try:
-                _email_sender(self).sendEmail(mem_id, msg_id='request_approved',
-                                              **msg_subs)
+                _email_sender(self).sendMail(
+                    mem_id, msg=mship_messages.request_approved, **msg_subs)
             except MailHostError: 
                 pass
             self._add_transient_msg_for(mem_id, 'You have been accepted to')
@@ -310,8 +310,9 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite, AccountView,
                 'project_noun': self.project_noun,                
                 }
         
-            msg = sender.constructMailMessage('request_denied', **msg_subs)
-            sender.sendEmail(mem_id, msg=msg)
+            msg = sender.constructMailMessage(mship_messages.request_denied,
+                                              **msg_subs)
+            sender.sendMail(mem_id, msg=msg)
             self._add_transient_msg_for(mem_id, 'You have been denied membership to')
 
         plural = len(mem_ids) != 1
@@ -340,7 +341,7 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite, AccountView,
                 'project_title': self.context.title,
                 'project_noun': self.project_noun,
                 }
-        msg = sender.constructMailMessage('invitation_retracted',
+        msg = sender.constructMailMessage(mship_messages.invitation_retracted,
                                           **msg_subs)
         ret = {}
         for mem_id in mem_ids:
@@ -360,7 +361,7 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite, AccountView,
                 deletes.append(mem_id)
             ret[mem_id] = {'action': 'delete'}
             if email_confirmation():
-                sender.sendEmail(mem_id, msg=msg)
+                sender.sendMail(mem_id, msg=msg)
 
         if deletes:
             self.team.manage_delObjects(ids=deletes)
@@ -400,9 +401,12 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite, AccountView,
             if mem_metadata['review_state'] == 'pending':
                 mem = mdtool.get(mem_id)
                 msg_vars['conf_url'] = self._confirmation_url(mem)
-                sender.sendEmail(mem_id, msg_id='remind_pending_invitee', **msg_vars)
+                sender.sendMail(mem_id, 
+                                msg=mship_messages.remind_pending_invitee,
+                                **msg_vars)
             else:
-                sender.sendEmail(mem_id, msg_id='remind_invitee', **msg_vars)
+                sender.sendMail(mem_id, msg=mship_messages.remind_invitee,
+                                 **msg_vars)
 
         if not mem_ids:
             self.add_status_message(_(u"remind_invite_none_selected"))
@@ -426,7 +430,7 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite, AccountView,
                 'project_title': self.context.title,
                 'project_noun': self.project_noun,
                 }
-        msg = sender.constructMailMessage('invitation_retracted',
+        msg = sender.constructMailMessage(mship_messages.invitation_retracted,
                                           **msg_subs)
 
         invite_util = getUtility(IEmailInvites, context=self.portal)
@@ -434,7 +438,7 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite, AccountView,
         for address in addresses:
             invite_util.removeInvitation(address, proj_id)
             if email_confirmation():
-                sender.sendEmail(address, msg=msg)
+                sender.sendMail(address, msg=msg)
 
         plural = len(addresses) != 1
         msg = u'Email invitation%s removed: %s' % (plural and 's' or '',', '.join(addresses))
@@ -527,7 +531,9 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite, AccountView,
                 }
             
             try:
-                sender.sendEmail(mem_id, msg_id='membership_deactivated',  **msg_subs)
+                sender.sendMail(mem_id,
+                                msg=mship_messages.membership_deactivated,
+                                **msg_subs)
             except MailHostError:
                 self.add_status_message(_(u'psm_error_sending_mail_to_member', 'Error sending mail to: ${mem_id}', mapping={u'mem_id': mem_id}))
             self._add_transient_msg_for(mem_id, 'You have been deactivated from')
@@ -694,8 +700,8 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite, AccountView,
         self.redirect('manage-team')
         
     def send_invite_member_email(self,mem_id, msg_subs):
-        _email_sender(self).sendEmail(mem_id, msg_id='invite_member',
-                                    **msg_subs)
+        _email_sender(self).sendMail(mem_id, msg=mship_messages.invite_member,
+                                     **msg_subs)
 
     @view.memoizedproperty
     def invite_util(self):
@@ -747,11 +753,12 @@ class InviteView(ManageTeamView):
                         )
 
         if email_confirmation():
-            _email_sender(self).sendEmail(addy, msg_id='email_invite_static_body', mfrom=self.loggedinmember.id,
-                                        **msg_subs)
+            _email_sender(self).sendMail(
+                addy, msg=mship_messages.email_invite_static_body,
+                mfrom=self.loggedinmember.id, **msg_subs)
         else:
-            msg = _email_sender(self).constructMailMessage(msg_id='email_invite_static_body',
-                                                         **msg_subs)
+            msg = _email_sender(self).constructMailMessage(
+                mship_messages.email_invite_static_body, **msg_subs)
             log.info(msg)
         return key
 
@@ -796,11 +803,12 @@ class InviteView(ManageTeamView):
                             )
         
             if email_confirmation():
-                sender.sendEmail(address, msg_id='email_invite_static_body', mfrom=self.loggedinmember.id,
+                sender.sendMail(address, msg_id='email_invite_static_body', mfrom=self.loggedinmember.id,
                                         **msg_subs)
             else:
-                msg = sender.constructMailMessage(msg_id='email_invite_static_body', mfrom=self.loggedinmember.id,
-                                                  **msg_subs)
+                msg = sender.constructMailMessage(
+                    mship_messages.email_invite_static_body,
+                    mfrom=self.loggedinmember.id, **msg_subs)
                 log.info(msg)
 
         plural = len(addresses) != 1
@@ -914,13 +922,14 @@ class InviteView(ManageTeamView):
                         if mem_metadata['review_state'] == 'pending':
                             mem = mdtool.get(mem_id)
                             msg_subs['conf_url'] = self._confirmation_url(mem)
-                            _email_sender(self).sendEmail(mem_id,
-                                                    msg_id='invite_pending_member',
-                                                    **msg_subs)
+                            _email_sender(self).sendMail(
+                                mem_id,
+                                msg=mship_messages.invite_pending_member,
+                                **msg_subs)
                         else:
-                            _email_sender(self).sendEmail(mem_id,
-                                                    msg_id='invite_member',
-                                                    **msg_subs)
+                            _email_sender(self).sendMail(
+                                mem_id, msg=mship_messages.invite_member,
+                                **msg_subs)
                     mem_invites.append(mem_id)
                 else:
                     # invitation attempt failed
@@ -949,4 +958,4 @@ class InviteMemberCustomView(ManageTeamView):
     def send_invite_member_email(self, mem_id, msg_subs):
         message = self.request.form.get('message')
         subject = self.request.form.get('subject')
-        _email_sender(self).sendEmail(mem_id, msg=message, subject=subject)
+        _email_sender(self).sendMail(mem_id, msg=message, subject=subject)

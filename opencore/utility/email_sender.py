@@ -97,21 +97,21 @@ class EmailSender(object):
                   target_language=target_language, default=default)
         return translate(msgid, **kw)
 
-    def constructMailMessage(self, msg):
-        msg.mapping.setdefault('portal_title', self.context.Title())
-        return self._translate(msg)
+    def constructMailMessage(self, msg, **kwargs):
+        kwargs.setdefault('portal_title', self.context.Title())
+        return self._translate(msg, mapping=kwargs)
 
     def sendMail(self, mto, msg=None, subject=None,
                  mfrom=None, **kwargs):
         to_info = None
+        # insert the portal title, used by nearly every message,
+        # including those that don't come from constructMailMessage().
+        # fixes bug #1711.
+        kwargs.setdefault('portal_title', self.context.Title())
         if isinstance(msg, Message):
-            # insert the portal title, used by nearly every message,
-            # including those that don't come from constructMailMessage().
-            # fixes bug #1711.
-            msg.mapping.setdefault('portal_title', self.context.Title())
-            msg = self._translate(msg)
+            msg = self._translate(msg, mapping=kwargs)
         if isinstance(subject, Message):
-            subject = self._translate(subject)
+            subject = self._translate(subject, mapping=kwargs)
         if type(mto) in StringTypes:
             mto = (mto,)
         recips = []

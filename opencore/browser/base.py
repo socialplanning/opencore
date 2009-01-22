@@ -213,34 +213,36 @@ class BaseView(BrowserView):
 
         context = self.context
         title = context.Title().decode("utf-8")
+        portal_title = self.portal.Title().decode('utf-8')
 
         if self.miv.inMemberArea or self.miv.inMemberObject:
             vmi = self.viewed_member_info
             mem_title = vmi['fullname'] or vmi['id']
             if not mode and vmi['home_url'] == context.absolute_url():
                 # viewing member homepage
-                return '%s on %s' % (mem_title, self.portal.Title())
+                return u'%s on %s' % (mem_title, portal_title)
             else:
-                return '%s %s- %s on %s' % (title, mode, mem_title,
-                                            self.portal.Title())
+                return u'%s %s- %s on %s' % (title, mode, mem_title, portal_title)
         elif self.piv.inProject:
             project = self.piv.project
+            proj_title = project.Title().decode('utf-8')
             if not mode and self.context.getId() == IHomePage(project).home_page:
                 # viewing project home page
-                return '%s - %s' % (project.Title().decode('utf-8'), self.portal.Title())
+                return u'%s - %s' % (proj_title, portal_title)
             elif self.context != project:
-                return '%s %s- %s - %s' % (title, mode, project.Title().decode('utf-8'),
-                                           self.portal.Title())
+                return u'%s %s- %s - %s' % (title, mode, proj_title,
+                                            portal_title)
         elif self.wiki_container is not None \
                  and context != self.wiki_container:
-            return '%s %s- %s - %s' % (title, mode, self.area.Title(),
-                                       self.portal.Title())
+            return u'%s %s- %s - %s' % (title, mode,
+                                       self.area.Title().decode('utf-8'),
+                                       portal_title)
 
         # safe catch-all for any case not specifically covered above
-        if title == self.portal.Title():
-            return '%s %s' % (title, mode)
+        if title == portal_title:
+            return u'%s %s' % (title, mode)
         else:
-            return '%s %s- %s' % (title, mode, self.portal.Title())
+            return u'%s %s- %s' % (title, mode, portal_title)
 
     @timestamp_memoize(600)
     def nusers(self): 
@@ -353,6 +355,20 @@ class BaseView(BrowserView):
             result['portrait_thumb_url'] = self.defaultPortraitThumbURL
             result['portrait_width'] = '200' # XXX don't hard code width of default portrait
 
+        # XXX We should do something like the following to avoid
+        # potential UnicodeDecodeErrors all over the place; But lots
+        # of tests are wired to expect str output and I don't have
+        # time to chase those down and decide if I'm right.  - Paul W.
+#         for key, val in result.items():
+#             # Much of this came from archetypes data, which
+#             # horrifically stores everything as encoded bytes...decode
+#             # it to be safe.
+#             if isinstance(val, str):
+#                 try:
+#                     result[key] = val.decode('utf-8')
+#                 except UnicodeDecodeError:
+#                     # XXX we have non-utf8 data? dunno what to do then.
+#                     pass
         return result
 
     # tool and view handling
@@ -374,7 +390,7 @@ class BaseView(BrowserView):
         return aq_iface(self.context, self.site_iface)
 
     def portal_title(self):
-        return self.portal.Title()
+        return self.portal.Title().decode('utf8')
     
     #egj: piv? miv? these names suck.
 

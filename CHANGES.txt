@@ -15,6 +15,9 @@ Features Added:
 
 Bugs Fixed:
 
+ * Fixed unicode decode error in member contact form (and hopefully avoid
+   related errors on other pages). (#2768) (slinkp)
+
  * RSS feeds of wiki page history was prohibitively expensive. Fixed.
    (#2766) (slinkp)
 

@@ -16,7 +16,7 @@ opencore.browser.base
     True
     
     >>> view.portal_title()
-    'OpenCore Site'
+    u'OpenCore Site'
 
     >>> pview = BaseView(self.projects.p1, self.request)
     >>> pview = pview.__of__(self.projects.p1)
