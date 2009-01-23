@@ -12,6 +12,7 @@ Features Added:
    anything other than 'zope', and X-Openplans-Project to the ID of
    the project. (slinkp, rmarianski)
 
+ * More templates marked up for translation.
 
 Bugs Fixed:
 
@@ -42,6 +43,7 @@ Refactoring:
  * Optimization: Memoize BaseView.piv and BaseView.miv, to allow those
    views' own memoizations to be useful. (slinkp)
 
+ * Working toward eliminating redundant opencore.nui.email_sender (slinkp)
 
 0.15.0 (2008-12-22)
 ===================
