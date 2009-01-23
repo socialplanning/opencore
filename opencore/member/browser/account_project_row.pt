@@ -47,12 +47,15 @@
             <div class="oc-js-liveEdit-editForm oc-liveEdit-editForm oc-js-actionSelect">
               <select tal:attributes="name string:${proj_id}_listing">
                         <option value="public"
+                                i18n:translate=""
                                 tal:attributes="selected listed">Yes</option>
                         <option value="private"
+                                i18n:translate=""
                                 tal:attributes="selected not: listed">No</option>
                   
                 </select>
                 <input type="submit" class="" value="Go"
+                             i18n:attributes="value"  
                              tal:attributes="name string:task|${proj_id}|change-listing" />
             </div><!-- end .oc-js-liveEdit-editForm -->
 
@@ -66,6 +69,7 @@
             >
           <li>
             <a class="oc-actionLink oc-js-actionLink"
+               i18n:translate="account_project_leave_project"
                tal:attributes="href string:${context/absolute_url}/${view/name}?task|${proj_id}|leave=Leave">Leave</a>
           </li>
         </ul>

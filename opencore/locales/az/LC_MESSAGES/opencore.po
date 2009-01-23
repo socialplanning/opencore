@@ -13,6 +13,11 @@ msgstr ""
 "Domain: opencore\n"
 "Language-Code: az\n"
 "Language-Name: Azerbaijani\n"
+#. Default: "(show up to ${batch_size} results per page)"
+#. Default: "(show up to ${batch_size} results per page)"
+#: ./opencore/nui/main/main_macros.pt:37
+msgid "(show up to ${batch_size} results per page)"
+msgstr "(show up to ${batch_size} results per page)"
 msgid "Account"
 msgstr "Account"
 #. Default: "Contact"
@@ -25,6 +30,13 @@ msgid "Contact_email"
 msgstr "Contact_email"
 msgid "Contents"
 msgstr "Contents"
+#: ./opencore/browser/topnav/topnav.py:72
+msgid "Create account"
+msgstr "Create account"
+#. Default: "Edit"
+#: ./opencore/member/browser/field_snippet.pt:5
+msgid "Edit"
+msgstr "Edit"
 msgid "Join Project"
 msgstr "Join Project"
 #. Default: "No"
@@ -43,6 +55,12 @@ msgid "Project Wiki"
 msgstr "Project Wiki"
 msgid "Projects"
 msgstr "Projects"
+#: ./opencore/browser/topnav/topnav.py:68
+msgid "Sign in"
+msgstr "Sign in"
+#: ./opencore/browser/topnav/topnav.py:110
+msgid "Sign out"
+msgstr "Sign out"
 msgid "Start A Project"
 msgstr "Start A Project"
 msgid "Summary"
@@ -70,27 +88,35 @@ msgstr "about_let_us_know"
 msgid "about_openplans"
 msgstr "about_openplans"
 #. Default: "Cancel"
-#: ./opencore/member/browser/account.pt:170
+#: ./opencore/member/browser/account.pt:177
 msgid "account_cancel_change_pass"
 msgstr "account_cancel_change_pass"
 #. Default: "Cancel"
-#: ./opencore/member/browser/account.pt:144
+#: ./opencore/member/browser/account.pt:148
 msgid "account_cancel_hide_email"
 msgstr "account_cancel_hide_email"
 #. Default: "Change email"
-#: ./opencore/member/browser/account.pt:124
+#: ./opencore/member/browser/account.pt:125
 msgid "account_change_email"
 msgstr "account_change_email"
 #. Default: "Change password"
-#: ./opencore/member/browser/account.pt:152
+#: ./opencore/member/browser/account.pt:156
 msgid "account_change_pass"
 msgstr "account_change_pass"
+#. Default: "Change"
+#: ./opencore/member/browser/account.pt:143
+msgid "account_change_submit"
+msgstr "account_change_submit"
+#. Default: "Close"
+#: ./opencore/member/browser/account.pt:97
+msgid "account_close_message"
+msgstr "account_close_message"
 #. Default: "Confirm new password"
-#: ./opencore/member/browser/account.pt:164
+#: ./opencore/member/browser/account.pt:168
 msgid "account_confirm_new_pass"
 msgstr "account_confirm_new_pass"
 #. Default: "Current password"
-#: ./opencore/member/browser/account.pt:156
+#: ./opencore/member/browser/account.pt:160
 msgid "account_current_pass"
 msgstr "account_current_pass"
 #. Default: "No, I want to keep this account."
@@ -114,11 +140,11 @@ msgstr "account_delete_warning"
 msgid "account_description"
 msgstr "account_description"
 #. Default: "Edit profile"
-#: ./opencore/member/browser/account.pt:120
+#: ./opencore/member/browser/account.pt:121
 msgid "account_edit_profile"
 msgstr "account_edit_profile"
 #. Default: "Email"
-#: ./opencore/member/browser/account.pt:128
+#: ./opencore/member/browser/account.pt:129
 msgid "account_email_label"
 msgstr "account_email_label"
 #. Default: "Your account"
@@ -134,11 +160,11 @@ msgstr "account_invite"
 msgid "account_latest_updates"
 msgstr "account_latest_updates"
 #. Default: "<p><strong>What does it mean to be &ldquo;listed&rdquo; on a ${project_noun}?</strong></p> <p>For your privacy, you can choose whether or not to be publicly listed as a member of a ${project_noun}.</p> <p>If you choose not to be listed then only fellow team members can see your affiliation. Those who are not members of the team will not see you listed in the team roster, nor will they see the ${project_noun} listed anywhere on your profile.</p> <p>However, any updates you make on a publicly viewable ${project_noun} could still display your username and a link to your profile.</p>"
-#: ./opencore/member/browser/account.pt:185
+#: ./opencore/member/browser/account.pt:192
 msgid "account_listed_explanation"
 msgstr "account_listed_explanation"
 #. Default: "New password"
-#: ./opencore/member/browser/account.pt:160
+#: ./opencore/member/browser/account.pt:164
 msgid "account_new_pass"
 msgstr "account_new_pass"
 #. Default: "Actions"
@@ -170,7 +196,7 @@ msgstr "account_project_role_header"
 msgid "account_project_since_header"
 msgstr "account_project_since_header"
 #. Default: "Account settings"
-#: ./opencore/member/browser/account.pt:119
+#: ./opencore/member/browser/account.pt:120
 msgid "account_settings"
 msgstr "account_settings"
 #. Default: "active"
@@ -333,7 +359,7 @@ msgstr "create_project_url"
 #: ./opencore/stats/active.pt:13
 msgid "date"
 msgstr "date"
-#: ./opencore/project/browser/manageteam.py:589
+#: ./opencore/project/browser/manageteam.py:595
 msgid "demote_to_member"
 msgstr "demote_to_member"
 #. Default: "Discussion list for this ${project_noun}, consisting of all ${project_noun} members."
@@ -392,7 +418,7 @@ msgstr "email_invite_pending_member""Subject: You've been invited to join \"${pr
 "Cheers,\n"
 "The ${portal_title} Team"
 
-#: ./opencore/project/browser/manageteam.py:769
+#: ./opencore/project/browser/manageteam.py:776
 msgid "email_invite_static_body"
 msgstr "email_invite_static_body""${user_message}\n"
 "To accept this invitation or to learn more about this ${project_noun}, click here: ${join_url} \n"
@@ -848,6 +874,10 @@ msgstr "listen_search_sidebar"
 #: ./opencore/listen/browser/search.pt:35
 msgid "listen_search_subject"
 msgstr "listen_search_subject"
+#. Default: "Edit"
+#: ./opencore/member/browser/profile.pt:30
+msgid "location-edit"
+msgstr "location-edit"
 #. Default: "Whether your group is mobilizing voters, planning a protest, or growing a garden, ${DYNAMIC_CONTENT} can help you become more effective."
 #: ./opencore/account/login.pt:21
 msgid "login_description"
@@ -996,6 +1026,10 @@ msgstr "mailinglist_view_type"
 #: ./opencore/listen/browser/listen_macros.pt:100
 msgid "mailinglist_view_unsub_button"
 msgstr "mailinglist_view_unsub_button"
+#. Default: "all"
+#: ./opencore/nui/main/main_macros.pt:65
+msgid "main_macros_all"
+msgstr "main_macros_all"
 #. Default: "Everything"
 #: ./opencore/nui/main/main_macros.pt:27
 msgid "main_macros_everything_label"
@@ -1037,19 +1071,23 @@ msgstr "manage_membership_subscribed"
 msgid "manage_membership_user"
 msgstr "manage_membership_user"
 #. Default: "Date"
-#: ./opencore/member/browser/member_macros.pt:27
+#: ./opencore/member/browser/member_macros.pt:28
 msgid "member_macros_date_header"
 msgstr "member_macros_date_header"
+#. Default: "member since ${membersince}, last login ${lastlogin}"
+#: ./opencore/member/browser/member_macros.pt:12
+msgid "member_macros_date_stats"
+msgstr "member_macros_date_stats"
 #. Default: "Page"
-#: ./opencore/member/browser/member_macros.pt:28
+#: ./opencore/member/browser/member_macros.pt:29
 msgid "member_macros_page_header"
 msgstr "member_macros_page_header"
 #. Default: "Pages last modified by ${member}"
-#: ./opencore/member/browser/member_macros.pt:22
+#: ./opencore/member/browser/member_macros.pt:23
 msgid "member_macros_pages_modified"
 msgstr "member_macros_pages_modified"
 #. Default: "Recent activity"
-#: ./opencore/member/browser/member_macros.pt:19
+#: ./opencore/member/browser/member_macros.pt:20
 msgid "member_macros_recent_activity"
 msgstr "member_macros_recent_activity"
 #. Default: "members"
@@ -1136,6 +1174,10 @@ msgstr "moderation_user_reject"
 #: ./opencore/listen/browser/moderation.pt:77
 msgid "moderation_users_heading"
 msgstr "moderation_users_heading"
+#. Default: "Edit"
+#: ./opencore/member/browser/profile.pt:20
+msgid "name-edit"
+msgstr "name-edit"
 #. Default: "Cancel"
 #: ./opencore/listen/browser/new_topic_view.pt:71
 msgid "new_topic_cancel_button"
@@ -1193,19 +1235,19 @@ msgstr "or"
 msgid "or ${url}"
 msgstr "or ${url}"
 #. Default: "There is no member named \"${user_id}\"."
-#: ./opencore/browser/base.py:531
+#: ./opencore/browser/base.py:547
 msgid "password_no_member_error"
 msgstr "password_no_member_error"
 #. Default: "You must enter a password."
-#: ./opencore/browser/base.py:537
+#: ./opencore/browser/base.py:553
 msgid "password_no_password_error"
 msgstr "password_no_password_error"
 #. Default: "You need to enter your username."
-#: ./opencore/browser/base.py:526
+#: ./opencore/browser/base.py:542
 msgid "password_no_username_error"
 msgstr "password_no_username_error"
 #. Default: "Please make sure that both password fields are the same."
-#: ./opencore/browser/base.py:540
+#: ./opencore/browser/base.py:556
 msgid "password_not_same_error"
 msgstr "password_not_same_error"
 #: ./opencore/nui/main/contact-site-admin.pt:106
@@ -1276,11 +1318,11 @@ msgstr "profile-edit_website_label"
 msgid "profile_edit"
 msgstr "profile_edit"
 #. Default: "Location"
-#: ./opencore/member/browser/profile.pt:28
+#: ./opencore/member/browser/profile.pt:29
 msgid "profile_location"
 msgstr "profile_location"
 #. Default: "Member home"
-#: ./opencore/member/browser/profile.pt:63
+#: ./opencore/member/browser/profile.pt:66
 msgid "profile_member_home"
 msgstr "profile_member_home"
 #. Default: "Name"
@@ -1288,15 +1330,15 @@ msgstr "profile_member_home"
 msgid "profile_name"
 msgstr "profile_name"
 #. Default: "visible to all:"
-#: ./opencore/member/browser/profile.pt:44
+#: ./opencore/member/browser/profile.pt:47
 msgid "profile_visible_all"
 msgstr "profile_visible_all"
 #. Default: "visible only to team members:"
-#: ./opencore/member/browser/profile.pt:52
+#: ./opencore/member/browser/profile.pt:55
 msgid "profile_visible_team"
 msgstr "profile_visible_team"
 #. Default: "Website"
-#: ./opencore/member/browser/profile.pt:70
+#: ./opencore/member/browser/profile.pt:73
 msgid "profile_website"
 msgstr "profile_website"
 #. Default: "\"${title}\" has been created. Create a team by searching for other members to invite to your ${project_noun}, then <a href=\"${proj_edit_url}\">edit your ${project_noun} home page</a>."
@@ -1307,6 +1349,10 @@ msgstr "project_created"
 #: ./opencore/stats/active.pt:15
 msgid "projects"
 msgstr "projects"
+#. Default: "Manage"
+#: ./opencore/member/browser/profile.pt:39
+msgid "projects-manage"
+msgstr "projects-manage"
 #. Default: "No results found."
 #: ./opencore/nui/main/projects-searchresults.pt:118
 msgid "projects-searchresults_no_results"
@@ -1327,7 +1373,7 @@ msgstr "projects_get_started_heading"
 #: ./opencore/nui/main/projects.pt:59
 msgid "projects_start_project_button"
 msgstr "projects_start_project_button"
-#: ./opencore/project/browser/manageteam.py:585
+#: ./opencore/project/browser/manageteam.py:591
 msgid "promote_to_admin"
 msgstr "promote_to_admin"
 #. Default: "Account %r has been permanently deleted."
@@ -1379,7 +1425,7 @@ msgstr "psm_enter_new_email"
 msgid "psm_enter_username_email"
 msgstr "psm_enter_username_email"
 #. Default: "Error sending mail to: ${mem_id}"
-#: ./opencore/project/browser/manageteam.py:532
+#: ./opencore/project/browser/manageteam.py:538
 msgid "psm_error_sending_mail_to_member"
 msgstr "psm_error_sending_mail_to_member"
 #. Default: "${flet} feature has been added."
@@ -1509,7 +1555,7 @@ msgstr "psm_signin_welcome"
 #: ./opencore/account/join.py:61
 msgid "psm_thankyou_for_joining"
 msgstr "psm_thankyou_for_joining"
-#: ./opencore/project/browser/manageteam.py:408
+#: ./opencore/project/browser/manageteam.py:412
 msgid "remind_invite_none_selected"
 msgstr "remind_invite_none_selected"
 #. Default: "Remove"
@@ -1537,7 +1583,7 @@ msgstr "reset-password_username_label"
 msgid "send"
 msgstr "send"
 #. Default: "Send message"
-#: ./opencore/member/browser/profile.pt:134
+#: ./opencore/member/browser/profile.pt:137
 msgid "send-message"
 msgstr "send-message"
 #. Default: "${active_lists_count} active, after ${stats_expiry_date}"

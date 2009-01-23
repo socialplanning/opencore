@@ -96,7 +96,8 @@
                    tal:content="structure msg" />
                 <a href="#" title="Close" class="oc-actionClose oc-actionLink oc-js-actionLink"
                    tal:attributes="href string:${request/ACTUAL_URL}?task|${idx}|close=Close"
-                   >Close</a>
+                   i18n:attributes="title account_close_message"
+		   i18n:translate="account_close_message">Close</a>
               </tal:info_msg>
             </li>
           </tal:for>
@@ -140,8 +141,11 @@
           </li>
           <li>
             <input type="submit" value="Change"
+                   i18n:attributes="value account_change_submit"
                    name="task|change-email" 
-                   class="oc-button oc-chooseThis" />  or <a href="#" i18n:translate="account_cancel_hide_email" class="oc-js-expander_close">Cancel</a>
+                   class="oc-button oc-chooseThis" />
+            <span tal:omit-tag="" i18n:translate="">or</span>
+            <a href="#" i18n:translate="account_cancel_hide_email" class="oc-js-expander_close">Cancel</a>
           </li>
         </ul>
       </fieldset>
@@ -166,8 +170,11 @@
           </li>
           <li>
             <input type="submit" value="Change"
+                   i18n:attributes="value account_change_submit"
                    name="task|change-password" 
-                   class="oc-button oc-chooseThis" /> or <a href="#" i18n:translate="account_cancel_change_pass" class="oc-js-expander_close">Cancel</a>
+                   class="oc-button oc-chooseThis" />
+            <span tal:omit-tag="" i18n:translate="">or</span>
+            <a href="#" i18n:translate="account_cancel_change_pass" class="oc-js-expander_close">Cancel</a>
           </li>
         </ul>
       </fieldset>

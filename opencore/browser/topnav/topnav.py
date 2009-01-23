@@ -6,6 +6,7 @@ from Products.CMFCore.utils import getToolByName
 from Products.TeamSpace.permissions import ManageTeamMembership
 from opencore.browser.base import BaseView
 from opencore.browser.topnav.interfaces import ITopnavMenuItems
+from opencore.i18n import _
 from opencore.interfaces.message import ITransientMessage
 from opencore.nui.contexthijack import HeaderHijackable
 from opencore.content.page import OpenPage
@@ -64,11 +65,11 @@ class AnonMenuView(BaseView):
 
         menudata = (
 
-            {'content': 'Sign in',
+            {'content': _(u'Sign in'),
              'href': '%s/login' % site_url,
              },
 
-            {'content': 'Create account',
+            {'content': _(u'Create account'),
              'href': '%s/join' % site_url,
              },
 
@@ -106,7 +107,7 @@ class AuthMenuView(BaseView):
         site_url = getToolByName(self.context, 'portal_url')()
         menudata = (
 
-            {'content': 'Sign out',
+            {'content': _(u'Sign out'),
              'href': '%s/logout' % site_url,
              },
 

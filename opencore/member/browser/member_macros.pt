@@ -1,14 +1,15 @@
+<i18n:domain domain="opencore">
 <metal:login-info define-macro="login-info">
   <div class="oc-headingBlock" >
     <h1 class="fn nickname"
       tal:define="mem_title nocall:context/@@oc-utils/member_title"
       tal:content="python:mem_title(memberdata)" />
-    <p class="oc-headingContext oc-discreetText">
+    <p class="oc-headingContext oc-discreetText"
+      i18n:translate="member_macros_date_stats">
       member since
-      <span tal:replace="memberdata/membersince" />,
-
+      <span tal:replace="memberdata/membersince" i18n:name="membersince"/>,
       last login
-      <span tal:replace="memberdata/lastlogin" />
+      <span tal:replace="memberdata/lastlogin" i18n:name="lastlogin" />
     </p>
   </div>
 </metal:login-info>
@@ -43,3 +44,4 @@
     </div><!-- end .oc-widget-lastModified -->
   </div><!-- end .oc-boxy -->
 </metal:recent-activity>
+</i18n:domain>

@@ -18,7 +18,8 @@
               <tal:fullname tal:define="fn memberdata/fullname" tal:condition="python:fn or view.viewingself()">
                 <dt><tal:label i18n:translate="profile_name">Name</tal:label>
                   <a tal:condition="view/viewingself" class="oc-actionLink"
-                      href="profile-edit?field=fullname">Edit</a>
+                      href="profile-edit?field=fullname"
+                      i18n:translate="name-edit">Edit</a>
                 </dt>
                 <dd class="n" tal:condition="fn" tal:content="fn" />
                 <dd class="oc-discreetText" tal:condition="not:fn" tal:content="string:N/A" />
@@ -27,14 +28,16 @@
               <tal:location tal:define="loc python:view.viewedmember().getLocation()" tal:condition="python:loc or view.viewingself()">
                 <dt><tal:label i18n:translate="profile_location">Location</tal:label>
                   <a tal:condition="view/viewingself" class="oc-actionLink"
-                    href="profile-edit?field=location">Edit</a>
+                    href="profile-edit?field=location"
+                    i18n:translate="location-edit">Edit</a>
                 </dt>
                 <dd class="adr" tal:condition="loc"><span class="locality" tal:content="loc" /></dd>
                 <dd class="oc-discreetText" tal:condition="not:loc" tal:content="string:N/A" />
               </tal:location>
 
               <dt><tal:label tal:content="python:view.project_noun.title() + 's'">Projects</tal:label>
-                <a tal:condition="view/viewingself" class="oc-actionLink" 
+                <a tal:condition="view/viewingself" class="oc-actionLink"
+                   i18n:translate="projects-manage"
                    href="account">Manage</a>
               </dt>
               <dd tal:define="not_used view/populate_project_lists;
@@ -133,6 +136,7 @@
             tal:condition="not:view/viewingself">
           <a class="oc-banana" title="Send message"
              tal:attributes="href string:${context/absolute_url}/contact"
+             i18n:attributes="title send-message"
              i18n:translate="send-message">
             Send message
           </a>
