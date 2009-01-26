@@ -51,7 +51,7 @@ setup(
           'plone.mail==0.1dev',
           'plone.app.form==0.1dev_r15470',
           'borg.localrole==1.0rc1',
-          'wsseauth==0.1',
+          'wsseauth==0.1.1',
           'uuid==1.30',
           'flunc==0.3',
           'zcmlloader==0.1',
