@@ -147,4 +147,14 @@
      permission="zope2.View"
      />
 
+  <!-- create a new analytics snippet that only inserts itself when
+       not in a closed project -->
+  <browser:viewlet
+     for="*"
+     manager=".interfaces.IExtraBody"
+     class=".analytics.GoogleAnalyticsSnippet"
+     name="opencore.googleanalytics"
+     permission="zope2.View"
+     />
+
 </configure>
