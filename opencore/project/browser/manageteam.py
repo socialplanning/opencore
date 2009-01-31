@@ -687,19 +687,19 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite, AccountView,
 
         # XXX if member hasn't logged in yet, acct_url will be whack
         msg_subs = {
-                'project_title': self.context.title,
-                'account_url': acct_url,
-                'user_name': mem_user_name,
-                'inviter_name': logged_in_mem_name,
-                'portal_name': self.portal.title,
-                'portal_url': self.portal.absolute_url(),
-                }
+            'project_title': self.context.title,
+            'account_url': acct_url,
+            'user_name': mem_user_name,
+            'inviter_name': logged_in_mem_name,
+            'portal_name': self.portal.title,
+            'portal_url': self.portal.absolute_url(),
+            }
         
         self.send_invite_member_email(mem_id, msg_subs)
         self.add_status_message(u'You invited %s to join this %s' % (mem_id, self.project_noun))
         self.redirect('manage-team')
         
-    def send_invite_member_email(self,mem_id, msg_subs):
+    def send_invite_member_email(self, mem_id, msg_subs):
         _email_sender(self).sendMail(mem_id, msg=mship_messages.invite_member,
                                      **msg_subs)
 
@@ -959,3 +959,4 @@ class InviteMemberCustomView(ManageTeamView):
         message = self.request.form.get('message')
         subject = self.request.form.get('subject')
         _email_sender(self).sendMail(mem_id, msg=message, subject=subject)
+
