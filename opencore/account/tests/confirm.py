@@ -145,6 +145,8 @@ def real_confirm():
         ...             confirm_password='testy')
         >>> request.form.update(form)
         >>> member = view.create_member()
+        Called httplib2.Http.request(
+        ...
         >>> from Products.CMFCore.utils import getToolByName
         >>> mt = getToolByName(portal, "portal_memberdata")
         >>> user = mt.restrictedTraverse('foobar')
@@ -195,5 +197,9 @@ def real_confirm():
 
         >>> self.logout()
         >>> portal.portal_memberdata.manage_delObjects('test_user_1_')
-
+        Called httplib2.Http.request(
+            'http://nohost:wordpress/openplans-remove-user.php',
+            'POST',
+            body='username=test_user_1_&signature=...,
+            headers={...'application/x-www-form-urlencoded'...})
     """

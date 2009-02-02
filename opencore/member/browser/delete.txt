@@ -13,12 +13,14 @@ Create a couple test members to delete::
     ...                     email='dead1@example.com',
     ...                     password='testy',
     ...                     confirm_password='testy'))
-
+    Called httplib2.Http.request...
+    ...
     >>> deadmeat2 = factory.create(dict(id='deadmeat2',
     ...                     email='dead2@example.com',
     ...                     password='testy',
     ...                     confirm_password='testy'))
-
+    Called httplib2.Http.request...
+    ...
     >>> self.portal.portal_membership.createMemberArea('deadmeat1')
     >>> self.portal.portal_membership.createMemberArea('deadmeat2')
     >>> self.request.form.clear()
@@ -55,8 +57,9 @@ But you can delete yourself::
     >>> self.login('deadmeat2')
     >>> delview = self.portal.unrestrictedTraverse('people/deadmeat2/delete')
     >>> delview.handle_delete()
-    'http://nohost/plone'
-
+    Called httplib2.Http.request(
+        'http://nohost:wordpress/openplans-remove-user.php',
+    ...
     >>> utils.get_status_messages(delview)
     [u"Account 'deadmeat2' has been permanently deleted."]
 
@@ -85,7 +88,6 @@ Even the site admin can't delete if the HTTP method is not POST::
 
 
 And if you set delete=0 in the request, that cancels the deletion::
-(XXX: why is this valuable?)
 
     >>> self.request.environ['REQUEST_METHOD'] = 'POST'
     >>> self.request.form['delete'] = 0
@@ -98,8 +100,11 @@ But if delete=1 and method is POST, the site admin can delete::
 
     >>> self.request.form['delete'] = 1
     >>> delview.handle_request()
+    Called httplib2.Http.request(
+        'http://nohost:wordpress/openplans-remove-user.php',
+        'POST',
+        ...
     'http://nohost/plone'
-
     >>> utils.get_status_messages(delview)
     [u"Account 'deadmeat1' has been permanently deleted."]
 

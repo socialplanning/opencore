@@ -3,7 +3,7 @@ from Products.OpenPlans.tests.openplanstestcase import OpenPlansTestCase
 from opencore.account.utils import turn_confirmation_on
 from opencore.member.interfaces import IHandleMemberWorkflow
 from opencore.testing import dtfactory as dtf
-from opencore.testing.layer import OpencoreContent, OpencoreContent
+from opencore.testing.layer import MockHTTPWithContent, OpencoreContent
 from zope.app.component.hooks import setSite
 from zope.interface import implements
 from zope.testing import doctest
@@ -87,14 +87,14 @@ def test_suite():
                                   test_class=OpenPlansTestCase,
                                   globs = globs,
                                   setUp=readme_setup,
-                                  layer=OpencoreContent
+                                  layer=MockHTTPWithContent
                                   )
     invite = dtf.ZopeDocTestSuite("opencore.account.tests.invite_join",
                                   optionflags=optionflags,
                                   test_class=OpenPlansTestCase,
                                   globs = globs,
                                   setUp=readme_setup,
-                                  layer=OpencoreContent
+                                  layer=MockHTTPWithContent
                                   )
     
 
@@ -103,7 +103,7 @@ def test_suite():
                                    test_class=ptc.PloneTestCase,
                                    globs=globs,
                                    setUp=readme_setup,
-                                   layer=OpencoreContent,
+                                   layer=MockHTTPWithContent,
                                    )
 
     first_login = dtf.ZopeDocTestSuite("opencore.account.tests.first_login",

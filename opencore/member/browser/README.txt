@@ -505,10 +505,15 @@ It's talented, isn't it?
     # should have different messages for both
 
     And now actually change the email address
-
+    and verify that the proper event was sent
     >>> self.clear_events()
     >>> request.form['email'] = 'foobarbazquux@example.com'
     >>> view.change_email()
+    Called httplib2.Http.request(
+        'http://nohost:wordpress/openplans-user-modified.php',
+        'POST',
+        body='...',
+        headers={...})
 
     >>> len(self.events)
     1

@@ -76,7 +76,7 @@ def test_suite():
                                     test_class=FunctionalTestCase,
                                     globs = globs,
                                     setUp=readme_setup,
-                                    layer = OpencoreContent,
+                                    layer = MockHTTPWithContent,
                                   )
     export = dtf.ZopeDocFileSuite("export.txt",
                                   optionflags=optionflags,
@@ -102,7 +102,7 @@ def test_suite():
                                       test_class=OpenPlansTestCase,
                                       globs=globs,
                                       setUp=readme_setup,
-                                      layer=OpencoreContent                                       
+                                      layer=MockHTTPWithContent                                       
                                       )
 
     delete = dtf.ZopeDocFileSuite("delete-project.txt",
@@ -111,7 +111,7 @@ def test_suite():
                                   test_class=OpenPlansTestCase,
                                   globs=globs,
                                   setUp=readme_setup,
-                                  layer=OpencoreContent                                       
+                                  layer=MockHTTPWithContent                                       
                                   )
     
     metadata = dtf.ZopeDocFileSuite("metadata.txt", 

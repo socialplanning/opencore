@@ -229,15 +229,22 @@ Test what happens when both passwords are blank
     {'password': u'no_password'}
     >>> view.errors
     {'password': u'no_password'}
-
-
-Now let's finally create a member without errors::
-
     >>> request.form.update(password='freddy',
     ...                     confirm_password='freddy',
     ...                     )
 
-    >>> view.create_member()
+MockHTTP will catch outward communication as event inform other apps
+the member has been created::
+
+    >>> getUtility(IProvideSiteConfig)._set('wordpress uri', 'http://nohost:wordpress')
+    >>> member = view.create_member()
+    Called httplib2.Http.request(
+        'http://nohost:wordpress/openplans-create-user.php',
+        'POST',
+        body='...',
+        headers={...})
+
+    >>> member
     <OpenMember at /plone/portal_memberdata/foouser>
     
     >>> pprint(view.errors)
@@ -265,7 +272,6 @@ Submit the form for real now; we need to add 'task|join' to the request::
     {}
 
 Verify that the proper events gets sent out when a member gets created::
-XXX (is this really necessary?)
 
     >>> self.listen_for_object_events()
     
@@ -274,6 +280,11 @@ We need to make the request a POST::
     >>> request.environ["REQUEST_METHOD"] = "POST"
     >>> view.membertool.getMemberById('foobar')
     >>> rendered = unicode(view())
+    Called httplib2.Http.request(
+        'http://nohost:wordpress/openplans-create-user.php',
+        'POST',
+        body='...',
+        headers={...})
 
     >>> view.membertool.getMemberById('foobar')
     <OpenMember at /plone/portal_memberdata/foobar...>
@@ -311,13 +322,18 @@ Email address are also unique::
     >>> view()
     u'...That email address is already in use.  Please choose another...'
 
-But we do allow appending to existing logins::  XXX appending what?
+But we do allow appending to existing logins::
     >>> form = dict(id='foobar3',
     ...             email='foobarthree@example.com',
     ...             password='testy',
     ...             confirm_password='testy')
     >>> view.request.form.update(form)
-    >>> rendered = view()
+    >>> rendered =  view()
+    Called httplib2.Http.request(
+        'http://nohost:wordpress/openplans-create-user.php',
+        'POST',
+        body='...',
+        headers={...})
 
     >>> 'Please choose another' not in rendered #@@ brittle
     True
@@ -484,6 +500,11 @@ Ensure test atomicity by removing the created user:
 
     >>> self.logout()
     >>> portal.portal_memberdata.manage_delObjects('test_user_1_')
+    Called httplib2.Http.request(
+        'http://nohost:wordpress/openplans-remove-user.php',
+        'POST',
+        body='username=test_user_1_&signature=...,
+        headers={...'application/x-www-form-urlencoded'...})
 
 Is the member still in the catalog?
 
