@@ -266,6 +266,13 @@ text-align: left;
   
 /* GENERIC layout elements */
 
+.oc-boxy#twirlip_control { 
+text-align: right;
+padding: 0;
+background: 0;
+border-top: none;
+}
+
 .oc-plainList { /* list with no formatting */
   list-style-type: none;
   padding: 0;
