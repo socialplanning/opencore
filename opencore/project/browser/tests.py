@@ -5,7 +5,6 @@ from opencore.configuration import OC_REQ
 from opencore.featurelets.interfaces import IListenContainer
 from opencore.testing import dtfactory as dtf
 from opencore.testing import setup as oc_setup
-from opencore.testing.layer import MockHTTPWithContent
 from opencore.testing.layer import OpencoreContent
 from zope.app.component.hooks import setSite, setHooks
 from zope.testing import doctest
