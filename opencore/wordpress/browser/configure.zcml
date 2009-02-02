@@ -1,0 +1,33 @@
+<configure xmlns="http://namespaces.zope.org/zope"
+           xmlns:browser="http://namespaces.zope.org/browser"
+           xmlns:five="http://namespaces.zope.org/five"
+           xmlns:opencore="http://namespaces.openplans.org/opencore"
+           >
+
+  <browser:page
+     for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+     permission="cmf.ModifyPortalContent"
+     class=".views.SyncUsersView"
+     name="sync-wordpress-users"
+     attribute="sync"
+     />
+  
+  <!-- placeholder view for blog to prevent other content from taking our URL space. -->
+  <browser:page
+     class="opencore.browser.naming.IgnorableProjectDummy"
+     for="opencore.interfaces.IProject"
+     permission="zope2.View"
+     name="blog"
+     />
+
+  <opencore:menuitem
+     name="Blog"
+     filter="opencore.browser.topnav.viewlet.contained_within"
+     container="opencore.wordpress.interfaces.IWordPressFeatureletInstalled"
+     item_url="blog"
+     sort_order="20"
+     selected="opencore.browser.topnav.viewlet.is_in_external_application"
+     application_header="wordpress"
+     />
+
+</configure>

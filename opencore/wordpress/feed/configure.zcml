@@ -1,0 +1,20 @@
+<configure xmlns="http://namespaces.zope.org/zope"
+           xmlns:browser="http://namespaces.zope.org/browser"
+           >
+
+  <adapter
+     for="opencore.interfaces.IProject"
+     provides="opencore.feed.interfaces.IFeedData"
+     factory=".wordpress.WordpressFeedAdapter"
+     name="blog"
+     />
+
+  <browser:viewlet
+     for="opencore.wordpress.interfaces.IWordPressFeatureletInstalled"
+     manager="opencore.project.browser.interfaces.ISummaryFeeds"
+     class=".blog.BlogSummaryViewlet"
+     name="blog"
+     permission="zope2.View"
+     />
+
+</configure>
