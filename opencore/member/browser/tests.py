@@ -49,7 +49,7 @@ readme = dtf.ZopeDocFileSuite("README.txt",
                               package='opencore.member.browser',
                               test_class=OpenPlansTestCase,
                               globs = globs,
-                              layer = MockHTTPWithContent,
+                              layer = OpencoreContent,
                               setUp = setup,
                               )
 
@@ -76,7 +76,7 @@ delete = dtf.ZopeDocFileSuite('delete.txt',
                               test_class=OpenPlansTestCase,
                               globs=globs,
                               setUp=simple_setup,
-                              layer=MockHTTPWithContent
+                              layer=OpencoreContent
                               )
 
 def test_suite():

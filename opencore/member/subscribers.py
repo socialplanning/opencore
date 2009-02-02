@@ -14,6 +14,9 @@ def remove_member_folder(member, event):
     
     id = member.getId()
     portal = getToolByName(member, 'portal_url').getPortalObject()
+
+    # XXX wouldn't it be better to explicitly check for the existence
+    #     of the member folder rather than catching a BadRequest? -egj
     try:
         portal.people.manage_delObjects([id])
     except BadRequest:
