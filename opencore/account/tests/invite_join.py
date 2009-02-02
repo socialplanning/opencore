@@ -107,11 +107,6 @@ create_member as confirmed::
     ...                     invites=['p1']))
 
     >>> member = inv_join._create_member(confirmed=True)
-    Called httplib2.Http.request(
-        'http://.../openplans-create-user.php',
-        'POST',
-        body='home_page=...',
-        headers={...})
 
     >>> member
     <OpenMember at /plone/portal_memberdata/bob>

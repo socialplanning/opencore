@@ -1,6 +1,6 @@
 from Products.OpenPlans.tests.openplanstestcase import OpenPlansTestCase
 from opencore.testing import dtfactory as dtf
-from opencore.testing.layer import MockHTTPWithContent
+from opencore.testing.layer import OpencoreContent
 from zope.testing import doctest
 from zope.app.component.hooks import setSite
 import unittest
@@ -37,7 +37,7 @@ def test_suite():
                                   test_class=FunctionalTestCase,
                                   globs = globs,
                                   setUp=readme_setup,
-                                  layer=MockHTTPWithContent
+                                  layer=OpencoreContent
                                   )
 
     transient = dtf.ZopeDocFileSuite('transient-message.txt',
@@ -52,7 +52,7 @@ def test_suite():
                                    package='opencore.member',
                                    test_class=OpenPlansTestCase,
                                    globs = globs,
-                                   layer=MockHTTPWithContent
+                                   layer=OpencoreContent
                                    )
 
     pending_multi = dtf.ZopeDocFileSuite("pending_requests_multiadapter.txt",
@@ -60,7 +60,7 @@ def test_suite():
                                          package='opencore.member',
                                          test_class=OpenPlansTestCase,
                                          globs = globs,
-                                         layer=MockHTTPWithContent
+                                         layer=OpencoreContent
                                          )
 
     subscribers = dtf.ZopeDocFileSuite("subscribers.txt",
@@ -68,7 +68,7 @@ def test_suite():
                                        package='opencore.member',
                                        test_class=OpenPlansTestCase,
                                        globs = globs,
-                                       layer=MockHTTPWithContent
+                                       layer=OpencoreContent
                                        )
 
     return unittest.TestSuite((readme, transient, pending, pending_multi,
