@@ -9,8 +9,14 @@ class LinkRenderer(BasicFiveLink):
         return aq_inner(self.context).absolute_url()
 
     def add_link(self):
-        """ replaces::
-        #$here_url/@@add-page?title=${view/chunk}&section=${view/section}&referring=${here/UID}
+        """
+            overrides default wicked link renderer to replace
+        ${here_url}/@@add-page?title=${view/chunk}&section=${view/section}&referring=${here/UID}
+            with
+        ${here_url}/@@add-page?title=${view/chunk}&section=${view/section}
+
+        @@@ ...so all we're doing is removing the "referring" argument i guess? anyone know why?
+
         """
         args = dict(title=self.chunk,
                     section=self.section)
