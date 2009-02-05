@@ -1,0 +1,3 @@
+We encountered an unknown error trying to process your email. Please try again, and if still have problems, send a message to <tal:email replace="context/manager_email" />
+
+Thanks!

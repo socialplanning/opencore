@@ -1,0 +1,7 @@
+We're sorry, the message that you're trying to send is too big. Please double
+check to see that you don't have any large attachments on your message, and try
+to send your message again.
+
+If you still have problems, please send a message to <tal:email replace="context/manager_email" />
+
+Thanks!

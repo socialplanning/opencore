@@ -39,4 +39,18 @@
        name="listen"
        />
 
+  <browser:page
+     for="opencore.interfaces.IOpenSiteRoot"
+     name="manage_event"
+     class=".manage_event.ManageMailboxerEvents"
+     permission="zope.Public"
+     />
+
+  <browser:view
+     for=".interfaces.IOpenMailingList"
+     name="event_template_sender"
+     class=".manage_event.EventTemplateSender"
+     permission="zope.Public"
+     />
+
 </configure>
