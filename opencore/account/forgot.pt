@@ -7,7 +7,7 @@
 	<metal:forgot use-macro="view/forgot_snippet/macros/forgot_snippet" />
 
       </div><!-- end #content-main --> 
-
+      
       <div id="oc-content-sidebar">
         <div class="oc-getstarted">
           <h2 i18n:translate="forgot_new_users">New users</h2>
