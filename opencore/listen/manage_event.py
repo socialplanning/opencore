@@ -36,25 +36,9 @@ class ManageMailboxerEvents(BrowserView):
 
 class EventTemplateSender(BrowserView):
 
-    manage_events_templates_dir = 'manage_events_templates'
-    template_path = os.path.join(os.path.dirname(__file__),
-                                 manage_events_templates_dir)
-
-    template = None
-    default_template_path = os.path.join(template_path,
-                                         'mail_event_default.pt')
-
     def __call__(self, event_code, headers):
-        try:
-            path = os.path.join(self.template_path,
-                                'mail_event_%s.pt' % event_code)
-            self.template = ViewPageTemplateFile(path)
-        except ValueError:
-            # a ValueError gets raised if the template location is not found
-            self.template = ViewPageTemplateFile(self.default_template_path)
-
         now = datetime.now()
-        return self.template(event_code=event_code,
-                             headers=headers,
-                             date=now.ctime(),
-                             )
+        return self.index(event_code=event_code,
+                          headers=headers,
+                          date=now.ctime(),
+                          )

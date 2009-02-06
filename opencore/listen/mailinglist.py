@@ -7,6 +7,7 @@ from interfaces import IOpenMailingList
 from opencore.configuration import PROJECTNAME
 from zope.interface import implements
 from zope.component import getMultiAdapter
+from zope.component import queryMultiAdapter
 
 PKG_NAME = 'listen'
 
@@ -107,7 +108,9 @@ class OpenMailingList(MailingList, DefaultDublinCoreImpl):
             from_ = headers.get('from')
             if from_ is None:
                 continue
-            view = getMultiAdapter((self, self.REQUEST), name='event_template_sender')
+            view = queryMultiAdapter((self, self.REQUEST), name='event_template_sender_%d' % code)
+            if view is None:
+                view = getMultiAdapter((self, self.REQUEST), name='event_template_sender_default')
             msg = view(code, headers)
             returnpath = self.getValueFor('returnpath') or self.manager_email
             self._send_msgs([from_], msg, returnpath)
