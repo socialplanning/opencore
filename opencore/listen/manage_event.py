@@ -1,6 +1,7 @@
 from Products.Five import BrowserView
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from Products.listen.interfaces import IListLookup
+from datetime import datetime
 from rfc822 import AddressList
 from zope.app.component.hooks import setSite
 from zope.component import getUtility
@@ -52,4 +53,8 @@ class EventTemplateSender(BrowserView):
             # a ValueError gets raised if the template location is not found
             self.template = ViewPageTemplateFile(self.default_template_path)
 
-        return self.template()
+        now = datetime.now()
+        return self.template(event_code=event_code,
+                             headers=headers,
+                             date=now.ctime(),
+                             )

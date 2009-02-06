@@ -32,8 +32,11 @@ class MailHostMock(object):
     mock up the send method so that emails do not actually get sent
     during automated tests
     """
+    meta_type = 'Maildrop Host'
     def __init__(self):
         self.messages = []
+    def _send(self, m_from, m_to, body):
+        return self.send(body, m_to, m_from)
     def send(self, msg, mto=None, mfrom=None, subject=None, **kw):
         msg = {'msg': msg,
                'mto': mto,

@@ -1,3 +1,8 @@
+Date: <tal:date replace="options/date" />
+From: <tal:from replace="context/manager_email" />
+To: <tal:to replace="options/headers/to" />
+Subject: Mailing list error: message too big
+
 We're sorry, the message that you're trying to send is too big. Please double
 check to see that you don't have any large attachments on your message, and try
 to send your message again.
