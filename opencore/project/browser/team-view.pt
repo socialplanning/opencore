@@ -34,12 +34,11 @@
               <!-- pagination uses the batch macro -->
               <div metal:use-macro="context/@@nui_batch_macros/pagination"/>
               
-              Member<tal:plural condition="many">s</tal:plural> <span tal:replace="start">1</span>
-              <tal:justone condition="many">&ndash; <span tal:replace="end">10</span></tal:justone> 
-              of <span tal:replace="sequence_length">376</span> sorted&nbsp;
-              <!-- when sorting, we post the action to distinguish between searching
-              this was necessary because the batch macro reposts the request data, and we see problems when trying to reset to page when the sorting changes -->
-              <form name="people_sort" class="enableUnloadProtection" method="POST" tal:attributes="action string:${view/name}">
+              Member<tal:plural condition="many">s</tal:plural> <span tal:replace="start"/>
+              <tal:justone condition="many">&ndash; <span tal:replace="end"/></tal:justone> 
+              of <span tal:replace="sequence_length"/> sorted&nbsp;
+
+              <form name="people_sort" class="enableUnloadProtection" tal:attributes="action string:${view/name}">
                 <input type="hidden" name="sort:boolean" value="True" />
               <!-- FIXME This should not require a button to work. -->
                 <select name="sort_by" class="oc-js-autoSelect" tal:define="sorted_by request/sort_by | nothing">

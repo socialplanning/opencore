@@ -93,7 +93,10 @@ class SearchView(BaseView):
 
     @property
     def start(self):
-        return self.request.get('b_start', 0)
+        try:
+            return int(self.request.get('b_start', 0))
+        except ValueError:
+            return 0
 
     @property
     def sort_by(self):
@@ -121,23 +124,31 @@ class SearchView(BaseView):
                      quantumleap=0,
                      b_start_str='b_start')
 
+    def from_page(self, page, batch_size):
+        return batch_size * (page - 1)
+
     def perform_search(self):
         self.clear_search_query()
+
+        if self.request.form.has_key('page'):
+            start = self.from_page(int(self.request.form['page']), self.batch_size)
+        else:
+            start = self.start
 
         if self.letter_search:
             self.search_results = self._get_batch(
                 self.search_by_letter(self.letter_search, self.sort_by),
-                self.start, size=self.batch_size)
+                start, size=self.batch_size)
             self.search_query = 'for %s starting with &ldquo;%s&rdquo;' % (self.noun, self.letter_search)
         elif self.search_for:
             self.search_results = self._get_batch(
                 self.search_by_text(self.search_for, self.sort_by),
-                self.start, size=self.batch_size)
+                start, size=self.batch_size)
             self.search_query = 'for &ldquo;%s&rdquo;' % self.search_for
         else:
             self.search_results = self._get_batch(
                 self.search_by_letter('all', self.sort_by),
-                self.start, size=self.batch_size)
+                start, size=self.batch_size)
             self.search_query = 'for all %s' % self.noun
             
         return self.index()

@@ -35,9 +35,6 @@
               <tal:justone condition="many">&ndash; <span tal:replace="end">10</span></tal:justone> 
               of <span tal:replace="sequence_length">376</span> sorted 
 
-              <!-- when sorting, we post the action to distinguish between searching
-                   this was necessary because the batch macro reposts the request data,
-		   and we see problems when trying to reset to page when the sorting changes -->
               <form name="people_sort" tal:attributes="action string:${context/absolute_url}/searchresults">
                 <!-- FIXME This should not require a button to work. -->
                 <select class="oc-js-autoSelect" name="sort_by" tal:define="sorted_by python: request.get('sort_by')">
