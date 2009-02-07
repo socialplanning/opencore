@@ -203,10 +203,8 @@ class ProjectTeamView(TeamRelatedView):
         lookup_dict = dict((b.getId, b) for b in member_brains if b.getId)
         batch_dict = [lookup_dict.get(b.getId) for b in membership_brains if lookup_dict.has_key(b.getId)]
         
-        if self.request.form.has_key('page'):
-            start = self.from_page(int(self.request.form['page']), self.batch_size)
-        else:
-            start = int(self.request.get('b_start', 0))
+        page = int(self.request.form.get('page'), 1)
+        start = self.from_page(page, self.batch_size)
 
         return self._get_batch(batch_dict, start, size=self.batch_size)
 
@@ -240,18 +238,13 @@ class ProjectTeamView(TeamRelatedView):
         # @@ DRY
         self.results = sorted(results, cmp=self.sort_location_then_name)
 
-        if self.request.form.has_key('page'):
-            start = self.from_page(int(self.request.form['page']), self.batch_size)
-        else:
-            start = int(self.request.get('b_start', 0))
+        start = self.from_page(self.page, self.batch_size)
 
         return self._get_batch(self.results, start, size=self.batch_size)
 
     def handle_sort_contributions(self):
-        if self.request.form.has_key('page'):
-            start = self.from_page(int(self.request.form['page']), self.batch_size)
-        else:
-            start = int(self.request.get('b_start', 0))
+
+        start = self.from_page(self.page, self.batch_size)
 
         return self._get_batch([], start, size=self.batch_size)
 
@@ -266,10 +259,7 @@ class ProjectTeamView(TeamRelatedView):
         # @@ DRY
         self.results = self.membranetool(**query)
 
-        if self.request.form.has_key('page'):
-            start = self.from_page(int(self.request.form['page']), self.batch_size)
-        else:
-            start = int(self.request.get('b_start', 0))
+        start = self.from_page(self.page, self.batch_size)
 
         return self._get_batch(self.results, start, size=self.batch_size)
 

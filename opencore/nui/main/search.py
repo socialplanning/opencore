@@ -92,13 +92,6 @@ class SearchView(BaseView):
         return self.request.get('letter_search', None)
 
     @property
-    def start(self):
-        try:
-            return int(self.request.get('b_start', 0))
-        except ValueError:
-            return 0
-
-    @property
     def sort_by(self):
         return self.request.get('sort_by', None)
 
@@ -108,6 +101,14 @@ class SearchView(BaseView):
             return int(self.request.get('batch_size', 10))
         except ValueError:
             return 10
+
+    @property
+    def page(self):
+        try:
+            return int(self.request.form.get('page', 1))
+        except ValueError:
+            return 1
+        
 
     def clear_search_query(self):        
         self.search_results = None
@@ -130,10 +131,7 @@ class SearchView(BaseView):
     def perform_search(self):
         self.clear_search_query()
 
-        if self.request.form.has_key('page'):
-            start = self.from_page(int(self.request.form['page']), self.batch_size)
-        else:
-            start = self.start
+        start = self.from_page(self.page, self.batch_size)
 
         if self.letter_search:
             self.search_results = self._get_batch(
