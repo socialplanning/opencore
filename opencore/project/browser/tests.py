@@ -5,7 +5,6 @@ from opencore.configuration import OC_REQ
 from opencore.featurelets.interfaces import IListenContainer
 from opencore.testing import dtfactory as dtf
 from opencore.testing import setup as oc_setup
-from opencore.testing.layer import MockHTTPWithContent
 from opencore.testing.layer import OpencoreContent
 from zope.app.component.hooks import setSite, setHooks
 from zope.testing import doctest
@@ -76,7 +75,7 @@ def test_suite():
                                     test_class=FunctionalTestCase,
                                     globs = globs,
                                     setUp=readme_setup,
-                                    layer = MockHTTPWithContent,
+                                    layer = OpencoreContent,
                                   )
     export = dtf.ZopeDocFileSuite("export.txt",
                                   optionflags=optionflags,
@@ -102,7 +101,7 @@ def test_suite():
                                       test_class=OpenPlansTestCase,
                                       globs=globs,
                                       setUp=readme_setup,
-                                      layer=MockHTTPWithContent                                       
+                                      layer=OpencoreContent                                       
                                       )
 
     delete = dtf.ZopeDocFileSuite("delete-project.txt",
@@ -111,7 +110,7 @@ def test_suite():
                                   test_class=OpenPlansTestCase,
                                   globs=globs,
                                   setUp=readme_setup,
-                                  layer=MockHTTPWithContent                                       
+                                  layer=OpencoreContent                                       
                                   )
     
     metadata = dtf.ZopeDocFileSuite("metadata.txt", 

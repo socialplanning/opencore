@@ -24,7 +24,6 @@ $Id: test_doctests.py 32811 2006-11-06 14:01:12Z shh42 $
 import unittest
 from Testing import ZopeTestCase
 from opencore.testing.layer import OpenPlansLayer
-from opencore.testing.layer import MockHTTPWithContent
 from Products.OpenPlans.tests.openplanstestcase import OpenPlansTestCase
 from Products.PloneTestCase.PloneTestCase import FunctionalTestCase
 from Products.PloneTestCase.PloneTestCase import setupPloneSite

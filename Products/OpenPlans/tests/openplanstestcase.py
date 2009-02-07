@@ -35,17 +35,6 @@ class OpenPlansTestCase(ArcheSiteTestCase):
         # add event subscriber to listen to all channel events
         self.listen_for_object_events()
 
-    @classmethod
-    def patch_wordpress_handlers(cls):
-        """All wordpress handlers involve sending a message to wordpress
-           on a different port. We patch the sending, so the methods still get
-           triggered, they just don't get sent anywhere"""
-        def patched_send_to_wordpress(uri, username, params, context):
-            pass
-
-        import opencore.wordpress.events
-        opencore.wordpress.events.send_to_wordpress = patched_send_to_wordpress
-
     def listen_for_object_events(self):
         """listen for all events so that tests can verify they were sent
 

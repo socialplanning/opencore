@@ -35,7 +35,7 @@ XXX we should probably test this by registering a dummy to test::
 
 An ignorable dummy will block a name, but not trigger a renaming::
 
-    >>> from opencore.browser.naming import IgnorableProjectDummy # FIXME: doug says this test needs to move
+    >>> from opencore.browser.naming import IgnorableProjectDummy # FIXME: doug says this test needs to move ... why, doug?
     >>> view = proj.restrictedTraverse('lists')
     >>> isinstance(view, IgnorableProjectDummy)
     True

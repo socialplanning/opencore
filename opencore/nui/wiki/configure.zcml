@@ -125,12 +125,6 @@
      name="link_renderer"
      permission="zope2.View"
      template="wicked_link.pt"
-     allowed_attributes="howmany
-			 multiple
-			 chunk
-			 singlelink
-			 links
-			 count"
      class=".linkrenderer.LinkRenderer"
      />
 
