@@ -115,11 +115,6 @@ class SearchView(BaseView):
             _sort_by_options[key] = li.text
         return _sort_by_options
 
-    def logo_for_proj_brain(self, brain):
-        ## XXX TODO: i'm sure we have a more efficient way of doing this now!
-        proj = brain.getObject()
-        return proj.getLogo()
-
     @property
     def search_for(self):
         return self.request.get('search_for', None)
@@ -166,26 +161,23 @@ class SearchView(BaseView):
         return batch_size * (page - 1)
 
     def perform_search(self):
+        """
+        delegates to a particular search method based on request query
+        and then wraps results in a standard batch object
+        """
         self.clear_search_query()
 
         start = self.from_page(self.page, self.batch_size)
 
         if self.letter_search:
-            self.search_results = self._get_batch(
-                self.search_by_letter(self.letter_search, self.sort_by),
-                start, size=self.batch_size)
-            self.search_query = 'for %s starting with &ldquo;%s&rdquo;' % (self.noun, self.letter_search)
+            search_results = self.search_by_letter(self.letter_search, self.sort_by)
         elif self.search_for:
-            self.search_results = self._get_batch(
-                self.search_by_text(self.search_for, self.sort_by),
-                start, size=self.batch_size)
-            self.search_query = 'for &ldquo;%s&rdquo;' % self.search_for
+            search_results = self.search_by_text(self.search_for, self.sort_by)
         else:
-            self.search_results = self._get_batch(
-                self.search_by_letter('all', self.sort_by),
-                start, size=self.batch_size)
-            self.search_query = 'for all %s' % self.noun
-            
+            search_results = self.search_by_letter('all', self.sort_by)
+
+        self.search_results = self._get_batch(search_results, start,
+                                              size=self.batch_size)
         return self.index()
     
     noun = 'please define a plural noun in your subclass'
@@ -203,14 +195,6 @@ class SearchView(BaseView):
         a subclass needs to define this method
         """
 
-    # is this used anywhere?
-    def project_url(self, project_brain):
-        if isinstance(project_brain, basestring):
-            return BaseView.project_url(self, project_brain)
-        
-        return '%s/projects/%s' % (self.context.absolute_url(),
-                                   project_brain.getId)
-
 
 from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
 class ProjectsSearchView(SearchView):
@@ -222,6 +206,11 @@ class ProjectsSearchView(SearchView):
     
     def __call__(self):
         return self.perform_search()
+
+    def logo_for_proj_brain(self, brain):
+        ## XXX TODO: i'm sure we have a more efficient way of doing this now!
+        proj = brain.getObject()
+        return proj.getLogo()
 
     def search_by_letter(self, letter, sort_by=None):
         letter = letter.lower()

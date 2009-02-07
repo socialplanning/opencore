@@ -168,10 +168,6 @@ class ProjectTeamView(TeamRelatedView):
     _sortable_fields = ZopeTwoPageTemplateFile('team-sortwidget.pt')
 
     admin_role = DEFAULT_ROLES[-1]
-
-    def __init__(self, context, request):
-        super(ProjectTeamView, self).__init__(context, request)
-        results = None
     
     def __call__(self):
         # @@ why is this redirect here? DWM
@@ -184,7 +180,16 @@ class ProjectTeamView(TeamRelatedView):
     def handle_request(self):
         # this is what controls which sort method gets dispatched to
         # in the memberships property
-        return 
+        sort_by = self.request.form.get('sort_by')
+        if sort_by is None:
+            return self.handle_sort_default()
+
+        if sort_by == 'location':
+            return self.handle_sort_location()
+        elif sort_by == 'membership_date':
+            return self.handle_sort_membership_date()
+        elif sort_by == 'username':
+            return self.handle_sort_default()
 
     def handle_sort_membership_date(self):
         # XXX for some reason, the descending sort is not working properly
@@ -324,10 +329,6 @@ class ProjectTeamView(TeamRelatedView):
         cat = self.get_tool('portal_catalog')
         pbrains = cat(getId=list(proj_ids), portal_type='OpenProject')
         return dict((b.getId, b) for b in pbrains)
-
-    def membership_records(self):
-        for membrain in self.memberships():
-            yield self._membership_record(membrain)
 
     def can_view_email(self):
         return self.get_tool('portal_membership').checkPermission('OpenPlans: View emails', self.context)

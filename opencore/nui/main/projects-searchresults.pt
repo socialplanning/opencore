@@ -40,7 +40,7 @@
             <!-- the results are displayed here -->
             <ol class="oc-feed-list">
               <li class="oc-feed-item oc-clearAfter" tal:repeat="item view/search_results">
-                <a tal:define="proj_url python:view.project_url(item)"
+                <a tal:define="proj_url python:view.project_url(item.getId)"
                    tal:attributes="href proj_url" >
                     <tal:setvar define="logo python:view.logo_for_proj_brain(item);
                                         logo_url python:logo and ('%s/logo_thumb' % proj_url) or view.defaultProjLogoURL">
