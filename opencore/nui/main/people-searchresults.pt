@@ -29,7 +29,6 @@
             <!-- display the number of results that came back -->
             <div class="oc-directory-sorter"
 		 tal:define="many python: start!=end;
-			     sort_by_options python:(('relevancy', 'by relevancy'), ('getId', 'by username'), ('exact_getFullname', 'by name'));
 			     search_prefix string:people;">
               <!-- pagination uses the batch macro -->
               <div metal:use-macro="here/@@nui_batch_macros/pagination"/>

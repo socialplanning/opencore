@@ -162,14 +162,11 @@ class RequestMembershipView(TeamRelatedView, formhandler.OctopoLite, LoginView):
         self.redirect(self.context.absolute_url())
 
 
+from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
 class ProjectTeamView(TeamRelatedView):
 
-    def sort_widget_string(self, start, end, sequence_length):
-        if start == end:
-            return "Member %s of %s sorted" % (start, sequence_length)
-        else:
-            return "Members %s &ndash; %s of %s sorted" % (start, end, sequence_length)
-    
+    _sortable_fields = ZopeTwoPageTemplateFile('team-sortwidget.pt')
+
     admin_role = DEFAULT_ROLES[-1]
 
     def __init__(self, context, request):
@@ -184,7 +181,6 @@ class ProjectTeamView(TeamRelatedView):
         else:
             return super(ProjectTeamView, self).__call__()
    
-    @formhandler.button('sort')
     def handle_request(self):
         # this is what controls which sort method gets dispatched to
         # in the memberships property

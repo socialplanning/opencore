@@ -27,7 +27,6 @@
             <!-- display the number of results that came back -->
             <div class="oc-lineup-sorter"
 		 tal:define="many python: start!=end;
-			     sort_by_options python:(('relevancy', 'by relevancy'), ('getId', 'A to Z'), ('modified', 'by date updated'), ('portal_type', 'by content type'));
 			     search_prefix string:people;">
               
               <!-- pagination uses the batch macro -->

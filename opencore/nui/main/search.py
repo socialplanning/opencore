@@ -76,7 +76,7 @@ def searchForPerson(mcat, search_for, sort_by=None):
         people_brains = _sort_by_id(people_brains)
     return people_brains
     
-
+import lxml.html
 class SearchView(BaseView):
 
     def sort_widget_string(self, start, end, sequence_length):
@@ -86,9 +86,37 @@ class SearchView(BaseView):
         and plural, i think. also consider interactions with the
         <option> strings -- i think the boundaries are wrong
         """
-        raise NotImplementedError
+        is_plural = False
+        if end > start: is_plural = True
+        html = self._sortable_fields(start=start,
+                                     end=end,
+                                     sequence_length=sequence_length,
+                                     is_plural=is_plural)
+        html = lxml.html.fromstring(html)
+        div = html.get_element_by_id('sort_string')
+        assert div.tag.lower() == 'div'
+
+        return div.text
+
+    @property
+    def sort_by_options(self):
+        html = self._sortable_fields(start='foo',
+                                     end='bar',
+                                     sequence_length='morx',
+                                     is_plural='fleem')
+
+        html = lxml.html.fromstring(html)
+        ul = html.get_element_by_id('sortable_fields')
+        assert ul.tag.lower() == 'ul'
+
+        _sort_by_options = dict()
+        for li in ul:
+            key = li.get('id')
+            _sort_by_options[key] = li.text
+        return _sort_by_options
 
     def logo_for_proj_brain(self, brain):
+        ## XXX TODO: i'm sure we have a more efficient way of doing this now!
         proj = brain.getObject()
         return proj.getLogo()
 
@@ -184,18 +212,14 @@ class SearchView(BaseView):
                                    project_brain.getId)
 
 
-
+from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
 class ProjectsSearchView(SearchView):
 
     noun = 'projects'
     active_states = ['public', 'private']
 
-    def sort_widget_string(self, start, end, sequence_length):
-        if start == end:
-            return "Project %s of %s sorted" % (start, sequence_length)
-        else:
-            return "Projects %s &ndash; %s of %s sorted" % (start, end, sequence_length)
-
+    _sortable_fields = ZopeTwoPageTemplateFile('projects-sortwidget.pt')
+    
     def __call__(self):
         return self.perform_search()
 
@@ -299,11 +323,7 @@ class PeopleSearchView(SearchView):
 
     noun = 'members'
 
-    def sort_widget_string(self, start, end, sequence_length):
-        if start == end:
-            return "Member %s of %s sorted" % (start, sequence_length)
-        else:
-            return "Members %s &ndash; %s of %s sorted" % (start, end, sequence_length)
+    _sortable_fields = ZopeTwoPageTemplateFile('people-sortwidget.pt')
 
     def __init__(self, context, request):
         SearchView.__init__(self, context, request)
@@ -358,11 +378,7 @@ class SitewideSearchView(SearchView):
 
     noun = 'content'
 
-    def sort_widget_string(self, start, end, sequence_length):
-        if start == end:
-            return "Result %s of %s sorted" % (start, sequence_length)
-        else:
-            return "Results %s &ndash; %s of %s sorted" % (start, end, sequence_length)
+    _sortable_fields = ZopeTwoPageTemplateFile('home-sortwidget.pt')
 
     def __call__(self):
         return self.perform_search()
