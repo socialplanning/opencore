@@ -163,6 +163,12 @@ class RequestMembershipView(TeamRelatedView, formhandler.OctopoLite, LoginView):
 
 
 class ProjectTeamView(TeamRelatedView):
+
+    def sort_widget_string(self, start, end, sequence_length):
+        if start == end:
+            return "Member %s of %s sorted" % (start, sequence_length)
+        else:
+            return "Members %s &ndash; %s of %s sorted" % (start, end, sequence_length)
     
     admin_role = DEFAULT_ROLES[-1]
 

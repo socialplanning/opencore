@@ -116,23 +116,7 @@
 
     <div metal:define-macro="sort_widget">
 
-      Member<tal:plural condition="many">s</tal:plural> 
-      <span tal:replace="start"/>
-      <tal:justone condition="many">&ndash; <span tal:replace="end"/></tal:justone> 
-      of <span tal:replace="sequence_length"/> sorted&nbsp;
-
-      <span tal:replace="python:view.project_noun.title()">Project</span><tal:plural condition="many">s</tal:plural> 
-      <span tal:replace="start"/>
-      <tal:justone condition="many">&ndash; <span tal:replace="end"/></tal:justone> 
-      of <span tal:replace="sequence_length"/> sorted&nbsp; 
-
-      Member<tal:plural condition="many">s</tal:plural> <span tal:replace="start">1</span>
-      <tal:justone condition="many">&ndash; <span tal:replace="end">10</span></tal:justone> 
-      of <span tal:replace="sequence_length">376</span> sorted 
-
-      Result<tal:plural condition="many">s</tal:plural> <span tal:replace="start">1</span>
-      <tal:justone condition="many">&ndash; <span tal:replace="end">10</span></tal:justone> 
-      of <span tal:replace="sequence_length">376</span> sorted 
+      <span tal:replace="structure python: view.sort_widget_string(start, end, sequence_length)" />
 
       <form tal:attributes="name search_prefix" class="enableUnloadProtection">
         <input type="hidden" name="sort:boolean" value="True" />

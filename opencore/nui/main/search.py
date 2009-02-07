@@ -79,6 +79,15 @@ def searchForPerson(mcat, search_for, sort_by=None):
 
 class SearchView(BaseView):
 
+    def sort_widget_string(self, start, end, sequence_length):
+        """
+        return an HTML snippet like "Projects 1-12 of 34 sorted"
+        should be i18nified, with two distinct strings for single
+        and plural, i think. also consider interactions with the
+        <option> strings -- i think the boundaries are wrong
+        """
+        raise NotImplementedError
+
     def logo_for_proj_brain(self, brain):
         proj = brain.getObject()
         return proj.getLogo()
@@ -180,6 +189,12 @@ class ProjectsSearchView(SearchView):
 
     noun = 'projects'
     active_states = ['public', 'private']
+
+    def sort_widget_string(self, start, end, sequence_length):
+        if start == end:
+            return "Project %s of %s sorted" % (start, sequence_length)
+        else:
+            return "Projects %s &ndash; %s of %s sorted" % (start, end, sequence_length)
 
     def __call__(self):
         return self.perform_search()
@@ -283,6 +298,13 @@ class ProjectsSearchView(SearchView):
 class PeopleSearchView(SearchView):
 
     noun = 'members'
+
+    def sort_widget_string(self, start, end, sequence_length):
+        if start == end:
+            return "Member %s of %s sorted" % (start, sequence_length)
+        else:
+            return "Members %s &ndash; %s of %s sorted" % (start, end, sequence_length)
+
     def __init__(self, context, request):
         SearchView.__init__(self, context, request)
 
@@ -335,6 +357,12 @@ class PeopleSearchView(SearchView):
 class SitewideSearchView(SearchView):
 
     noun = 'content'
+
+    def sort_widget_string(self, start, end, sequence_length):
+        if start == end:
+            return "Result %s of %s sorted" % (start, sequence_length)
+        else:
+            return "Results %s &ndash; %s of %s sorted" % (start, end, sequence_length)
 
     def __call__(self):
         return self.perform_search()
