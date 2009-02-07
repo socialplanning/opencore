@@ -27,37 +27,15 @@
                                    ">
 
             <!-- display the number of results that came back -->
-            <div class="oc-feed-sorter" tal:define="many python: start!=end">
+            <div class="oc-feed-sorter"
+		 tal:define="many python: start!=end;
+			     sort_by_options python:(('relevancy', 'by relevancy'), ('sortable_title', 'by project name'), ('modified', 'by date updated'), ('created', 'by date created'), ('Creator', 'by project creator'));
+			     search_prefix string:project">
               <!-- pagination uses the batch macro -->
               <div metal:use-macro="here/@@nui_batch_macros/pagination"/>
+	      
+	      <div metal:use-macro="here/@@nui_batch_macros/sort_widget"/>
 
-              <span tal:replace="python:view.project_noun.title()">Project</span><tal:plural condition="many">s</tal:plural> <span tal:replace="start">1</span>
-              <tal:justone condition="many">&ndash; <span tal:replace="end">10</span></tal:justone> 
-              of <span tal:replace="sequence_length">376</span> sorted 
-
-              <form name="projects_sort" action="." tal:attributes="action string:${context/portal_url}/projects/searchresults">
-		<!-- FIXME This should not require a button to work. -->
-                <select name="sort_by" class="oc-js-autoSelect" tal:define="sorted_by request/sort_by | nothing">
-                  <option tal:condition="not: request/letter_search | nothing" value="relevancy" tal:attributes="selected python: sorted_by == 'relevancy'">by relevancy</option>
-                  <option value="sortable_title" tal:attributes="selected python: sorted_by == 'sortable_title'">by <span tal:replace="view/project_noun">project</span> name</option>
-                  <option value="modified" tal:attributes="selected python: sorted_by == 'modified'">by date updated</option>
-                  <option value="created" tal:attributes="selected python: sorted_by == 'created'">by date created</option>
-                  <option value="Creator" tal:attributes="selected python: sorted_by == 'Creator'">by <span tal:replace="view/project_noun">project</span> creator</option>
-                </select>
-
-		<!-- resend the current data when sorting -->
-                <input tal:condition="request/search_for | nothing" type="hidden" name="search_for"
-                       tal:attributes="value request/search_for" />
-
-                <input tal:condition="request/letter_search | nothing" type="hidden" name="letter_search"
-                       tal:attributes="value request/letter_search" />
-		
-		<input tal:condition="request/batch_size | nothing" type="hidden" name="batch_size"
-		       tal:attributes="value request/batch_size" />
-
-                <input type="submit" name="action_sort_projects" value="sort" />
-
-              </form>
             </div>
 
             <!-- the results are displayed here -->

@@ -25,34 +25,16 @@
 				   ">
 
             <!-- display the number of results that came back -->
-            <div class="oc-lineup-sorter" tal:define="many python: start!=end">
+            <div class="oc-lineup-sorter"
+		 tal:define="many python: start!=end;
+			     sort_by_options python:(('relevancy', 'by relevancy'), ('getId', 'A to Z'), ('modified', 'by date updated'), ('portal_type', 'by content type'));
+			     search_prefix string:people;">
               
               <!-- pagination uses the batch macro -->
               <div metal:use-macro="here/@@nui_batch_macros/pagination"/>
               
-              Result<tal:plural condition="many">s</tal:plural> <span tal:replace="start">1</span>
-              <tal:justone condition="many">&ndash; <span tal:replace="end">10</span></tal:justone> 
-              of <span tal:replace="sequence_length">376</span> sorted 
+	      <div metal:use-macro="here/@@nui_batch_macros/sort_widget"/>
 
-              <form name="people_sort" tal:attributes="action string:${context/absolute_url}/sitesearch">
-
-                <select name="sort_by" class="oc-js-autoSelect" tal:define="sorted_by python: request.get('sort_by')">
-                  <option tal:condition="not: request/letter_search | nothing" value="relevancy" tal:attributes="selected python: sorted_by == 'relevancy'">by relevancy</option>
-                  <option value="getId" tal:attributes="selected python: sorted_by == 'getId'">A to Z</option>
-                  <option value="modified" tal:attributes="selected python: sorted_by == 'modified'">by date updated</option>
-                  <option value="portal_type" tal:attributes="selected python: sorted_by == 'portal_type'">by content type</option>
-                  
-                </select>
-
-		<!-- resend the current data when sorting -->
-                <input tal:condition="request/search_for | nothing" type="hidden" name="search_for"
-                       tal:attributes="value request/search_for" />
-                <input tal:condition="request/letter_search | nothing" type="hidden" name="letter_search"
-                       tal:attributes="value request/letter_search" />
-		<input tal:condition="request/batch_size | nothing" type="hidden" name="batch_size"
-		       tal:attributes="value request/batch_size" />
-                <input type="submit" name="action_sort" value="sort" />
-              </form>
             </div>
 
 

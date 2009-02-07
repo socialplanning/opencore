@@ -203,8 +203,7 @@ class ProjectTeamView(TeamRelatedView):
         lookup_dict = dict((b.getId, b) for b in member_brains if b.getId)
         batch_dict = [lookup_dict.get(b.getId) for b in membership_brains if lookup_dict.has_key(b.getId)]
         
-        page = int(self.request.form.get('page'), 1)
-        start = self.from_page(page, self.batch_size)
+        start = self.from_page(self.page, self.batch_size)
 
         return self._get_batch(batch_dict, start, size=self.batch_size)
 
