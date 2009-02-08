@@ -43,6 +43,17 @@
 	    </li>
 	  </ol>
 	  </div>
+
+
+          <div class="oc-lineup-sorter" tal:define="many python: start!=end">
+            
+            <!-- we put pagination on the bottom of the page too -->
+            <div metal:use-macro="here/@@nui_batch_macros/pagination"/>
+            
+            <div tal:replace="structure python: view.sort_widget_string(start, end, sequence_length)" />
+
+	  </div>
+
 	</tal:got_results>
       </div>
     </div>
