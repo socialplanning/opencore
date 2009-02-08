@@ -1,0 +1,15 @@
+<div id="sort_string">
+  <tal:if condition="options/is_plural">
+    Project contents <span tal:replace="options/start" /> &ndash; <span tal:replace="options/end" />
+    of <span tal:replace="options/sequence_length" />
+  </tal:if>
+  <tal:if condition="not:options/is_plural">
+    Project <span tal:replace="options/start" /> of <span tal:replace="options/sequence_length" />
+  </tal:if>
+</div>
+
+<ul id="sortable_fields">
+  <li id="getId">sorted A-Z</li>
+  <li id="portal_type">sorted by content type</li>
+  <li id="Creator">sorted by creator</li>
+</ul>
