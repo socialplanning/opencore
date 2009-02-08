@@ -228,8 +228,6 @@ class ProjectsSearchView(SearchView):
             sort_by = 'sortable_title'
         query['sort_on'] = sort_by
 
-        self.apply_context_restrictions(query)
-
         project_brains = self.catalog(**query)
 
         if letter == 'all':
@@ -260,8 +258,6 @@ class ProjectsSearchView(SearchView):
 
         query = Eq('portal_type', 'OpenProject') & Eq('SearchableText', proj_query)
 
-        query = self.adv_context_restrictions_applied(query)
-        
         project_brains = self.catalog.evalAdvancedQuery(query, rs)
         return project_brains
     
@@ -271,8 +267,6 @@ class ProjectsSearchView(SearchView):
             
         query = Eq('portal_type', 'OpenProject') & (Eq('project_policy', 'open_policy') | Eq('project_policy', 'medium_policy'))
 
-        query = self.adv_context_restrictions_applied(query)
-        
         project_brains = self.catalog.evalAdvancedQuery(query, rs)
         return project_brains[:sort_limit]
 
@@ -287,25 +281,6 @@ class ProjectsSearchView(SearchView):
                               review_state=self.active_states,
                               )
         return len(brains)
-
-    def apply_context_restrictions(self, query):
-        """
-        inserts additional query constraints into the
-        query dict given based on context
-
-        whaaa?
-        """
-        pass
-
-    def adv_context_restrictions_applied(self, adv_query):
-        """
-        returns a new advanced query based on the
-        query given with additional constraints based
-        on context
-
-        whaa?
-        """
-        return adv_query
 
 
 class PeopleSearchView(SearchView):
