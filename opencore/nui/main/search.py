@@ -211,10 +211,6 @@ class ProjectsSearchView(SearchView):
     noun = 'projects'
     active_states = ['public', 'private']
 
-    _result_listing = ZopeTwoPageTemplateFile('projects-resultlist.pt')
-    _sortable_fields = ZopeTwoPageTemplateFile('projects-sortablefields.pt')
-    _sort_string = ZopeTwoPageTemplateFile('projects-sortstring.pt')
-
     def handle_request(self):
         self.search_results = None
         self.search_query = None
@@ -309,10 +305,6 @@ class PeopleSearchView(SearchView):
 
     noun = 'members'
 
-    _result_listing = ZopeTwoPageTemplateFile('people-resultlist.pt')
-    _sortable_fields = ZopeTwoPageTemplateFile('people-sortablefields.pt')
-    _sort_string = ZopeTwoPageTemplateFile('people-sortstring.pt')
-
     def handle_request(self):
         self.search_results = None
         self.search_query = None
@@ -372,10 +364,6 @@ class PeopleSearchView(SearchView):
 class SitewideSearchView(SearchView):
 
     noun = 'content'
-
-    _result_listing = ZopeTwoPageTemplateFile('home-resultlist.pt')
-    _sortable_fields = ZopeTwoPageTemplateFile('home-sortablefields.pt')
-    _sort_string = ZopeTwoPageTemplateFile('home-sortstring.pt')
 
     def handle_request(self):
         self.search_results = None
