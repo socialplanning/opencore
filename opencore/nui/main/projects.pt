@@ -14,9 +14,10 @@
         <tal:viewlet replace="structure provider:opencore.searchresults.top" />
 
         <!-- list of recently updated projects. XXX maybe create a macro out of this? Generic for recent content? -->
-        <div class="oc-widget oc-widget-feed">
+        <div class="oc-blocklist">
           <h2 class="oc-feed-title">Recently updated <span tal:replace="view/project_noun">project</span>s</h2>
-          <ul class="oc-lineup-list oc-clearAfter">
+
+          <ol class="oc-lineup-list oc-clearAfter">
             <li class="oc-feed-item oc-clearAfter" tal:repeat="project view/recently_updated_projects">
                <a tal:define="proj_url python:view.project_url(project.getId)"
                   tal:attributes="href proj_url" >
@@ -39,7 +40,7 @@
                 </p>
               </div>
             </li>
-          </ul>
+          </ol>
         </div>
         
       </div><!-- content-main -->

@@ -19,14 +19,14 @@
 
 	<tal:viewlet replace="structure provider:opencore.searchresults.top" />
 
-        <div class="oc-widget oc-widget-feed">
+        <div class="oc-blocklist">
           <h2 class="oc-feed-title">New Members</h2>
-          <ul class="oc-lineup-list">
-            <li class="oc-feed-item oc-clearAfter"
-              tal:repeat="member_brain view/recently_created_members">
 
-              <tal:member_info define="member python:view.member_info_for_member(member_brain.getObject());
-				       item member_brain;
+          <ol class="oc-lineup-list">
+            <li class="oc-feed-item oc-clearAfter"
+		tal:repeat="item view/recently_created_members">
+
+              <tal:member_info define="member python:view.member_info_for_member(item.getObject());
 				       home_url python:context.portal_membership.getHomeUrl(item.getId)">
 		<div class="oc-avatar">
                   <a tal:attributes="href home_url">
@@ -54,7 +54,7 @@
 
               </tal:member_info>
             </li>
-          </ul>
+	  </ol>
         </div>
         
       </div>
