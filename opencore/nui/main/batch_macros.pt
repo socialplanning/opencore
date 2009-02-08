@@ -35,17 +35,6 @@
           </span>
         </li>
 
-        <!-- Pagelist with quantum leap links to previous pages for quick navigation -->
-        <li tal:repeat="linklist python:batch.navurls(request.form, batch.leapback)"
-	    tal:condition="batch/leapback">
-          <a tal:define="page python:linklist[0];
-			 query python:mq(request.form, {'page':page});"
-            tal:content="page"
-            tal:attributes="href python: '%s?%s' % (url,query)" >
-          </a>
-          ...
-        </li>
-
         <!-- Pagelist with links to previous pages for quick navigation -->
         <li tal:repeat="linklist python:batch.prevurls(request.form)"
           tal:condition="batch/prevlist">
@@ -62,17 +51,6 @@
         <!-- Pagelist with links to next pages for quick navigation -->
         <li tal:repeat="linklist python:batch.nexturls(request.form)"
           tal:condition="batch/nextlist">
-          <a tal:define="page python:linklist[0];
-			 query python:mq(request.form, {'page':page});"
-            tal:content="page"
-            tal:attributes="href python: '%s?%s' % (url,query)" >
-          </a>
-        </li>
-
-        <!-- Pagelist with quantum leap links to next pages for quick navigation -->
-        <li tal:repeat="linklist python:batch.navurls(request.form, batch.leapforward)"
-          tal:condition="batch/leapforward" >
-          ...
           <a tal:define="page python:linklist[0];
 			 query python:mq(request.form, {'page':page});"
             tal:content="page"
