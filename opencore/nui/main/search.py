@@ -183,8 +183,6 @@ class ProjectsSearchView(SearchView):
         self.search_results = None
         self.search_query = None
 
-        start = self.from_page(self.page, self.batch_size)
-
         if self.letter_search:
             search_results = self.search_by_letter(self.letter_search, self.sort_by)
         elif self.search_for:
@@ -192,6 +190,7 @@ class ProjectsSearchView(SearchView):
         else:
             search_results = self.search_by_letter('all', self.sort_by)
 
+        start = self.from_page(self.page, self.batch_size)
         search_results = self._get_batch(search_results, start,
                                          size=self.batch_size)
         return search_results
@@ -283,8 +282,6 @@ class PeopleSearchView(SearchView):
         self.search_results = None
         self.search_query = None
 
-        start = self.from_page(self.page, self.batch_size)
-
         if self.letter_search:
             search_results = self.search_by_letter(self.letter_search, self.sort_by)
         elif self.search_for:
@@ -292,6 +289,7 @@ class PeopleSearchView(SearchView):
         else:
             search_results = self.search_by_letter('all', self.sort_by)
 
+        start = self.from_page(self.page, self.batch_size)
         search_results = self._get_batch(search_results, start,
                                          size=self.batch_size)
         return search_results
