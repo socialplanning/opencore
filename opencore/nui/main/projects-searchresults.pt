@@ -5,10 +5,11 @@
   </head>  
   <body> 
 
-    <div metal:fill-slot="content">              
+    <div metal:fill-slot="content">
       
-      <div id="oc-content-main">
-        
+      <div id="oc-content-main" tal:define="search_results view/handle_request">
+
+	<!-- XXX TODO shouldn't need to set these vars here -->
         <tal:set_var define="current_search_page string:projects;
 			     form_action_url string:${context/absolute_url}/searchresults">
           <div metal:use-macro="here/main_macros/search_widget" />
@@ -18,8 +19,8 @@
 
           <!-- batch needs to have some variables set up to work properly.
                here is where they are defined -->
-          <tal:got_results condition="view/search_results"
-                           define="batch view/search_results;
+          <tal:got_results condition="search_results"
+                           define="batch search_results;
                                    batch_base_url request/ACTUAL_URL;
                                    start batch/start | nothing;
                                    end batch/end | nothing;
@@ -34,12 +35,12 @@
               <div metal:use-macro="here/@@nui_batch_macros/pagination"/>
 	      
 	      <div metal:use-macro="here/@@nui_batch_macros/sort_widget"/>
-
+	      
             </div>
-
+	    
             <!-- the results are displayed here -->
             <ol class="oc-feed-list">
-              <li class="oc-feed-item oc-clearAfter" tal:repeat="item view/search_results">
+              <li class="oc-feed-item oc-clearAfter" tal:repeat="item batch">
                 <a tal:define="proj_url python:view.project_url(item.getId)"
                    tal:attributes="href proj_url" >
                     <tal:setvar define="logo python:view.logo_for_proj_brain(item);
@@ -89,7 +90,7 @@
           </tal:got_results>
 
           <!-- if we get no results, this is what is displayed -->
-          <div i18n:translate="projects-searchresults_no_results" tal:condition="not: view/search_results">No results found.</div>
+          <div i18n:translate="projects-searchresults_no_results" tal:condition="not:search_results">No results found.</div>
 
         </div> <!-- oc-searchresults -->
       </div> <!-- content-main -->

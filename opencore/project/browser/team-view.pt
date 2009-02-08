@@ -1,10 +1,4 @@
-<tal:handle-request 
-   replace="nothing"
-   define="global fdata view/handle_request;">
-  This could be used to return a variety of template friendly info
-  regarding the processing of the form
-</tal:handle-request>
-<html metal:use-macro="here/@@standard_macros/master">
+<html i18n:domain="opencore" metal:use-macro="here/@@standard_macros/master">
   <head>
     <title metal:fill-slot="title" tal:content="string:Team - ${view/area/Title}" />
   </head>
@@ -12,7 +6,7 @@
 
     <div metal:fill-slot="content">
 
-      <div id="oc-content-main" tal:define="memberships fdata;" >
+      <div id="oc-content-main" tal:define="memberships view/handle_request;" >
 
           <!-- batch needs to have some variables set up to work properly.
           here is where they are defined -->

@@ -7,7 +7,7 @@
 
     <div metal:fill-slot="content">              
 
-      <div id="oc-content-main">
+      <div id="oc-content-main" tal:define="search_results view/handle_request">
         
         <tal:set_var define="current_search_page string:people;
                              form_action_url string:${context/absolute_url}/searchresults">
@@ -18,8 +18,8 @@
 
           <!-- batch needs to have some variables set up to work properly.
                here is where they are defined -->
-          <tal:got_results condition="view/search_results"
-                           define="batch view/search_results;
+          <tal:got_results condition="search_results"
+                           define="batch search_results;
                                    batch_base_url request/ACTUAL_URL;
                                    start batch/start | nothing;
                                    end batch/end | nothing;
@@ -40,7 +40,7 @@
             <!-- the results are displayed here -->
             <ol class="oc-directory-list oc-clearAfter"
                 tal:define="ms_tool nocall:context/portal_membership">
-              <li class="oc-clearAfter vcard" tal:repeat="item view/search_results">
+              <li class="oc-clearAfter vcard" tal:repeat="item batch">
                <span tal:omit-tag=""
                      tal:define="mem item/getObject;
 	                         memdata python:view.member_info_for_member(mem);
@@ -76,7 +76,7 @@
           </tal:got_results>
 
           <!-- if we get no results, this is what is displayed -->
-          <div i18n:translate="people-searchresults_no_results" tal:condition="not: view/search_results">No results found.</div>
+          <div i18n:translate="people-searchresults_no_results" tal:condition="not:search_results">No results found.</div>
 
         </div> <!-- oc-searchresults -->
       </div> <!-- content-main -->

@@ -176,9 +176,9 @@ class SearchView(BaseView):
         else:
             search_results = self.search_by_letter('all', self.sort_by)
 
-        self.search_results = self._get_batch(search_results, start,
-                                              size=self.batch_size)
-        return self.index()
+        search_results = self._get_batch(search_results, start,
+                                         size=self.batch_size)
+        return search_results
     
     noun = 'please define a plural noun in your subclass'
 
@@ -204,7 +204,7 @@ class ProjectsSearchView(SearchView):
 
     _sortable_fields = ZopeTwoPageTemplateFile('projects-sortwidget.pt')
     
-    def __call__(self):
+    def handle_request(self):
         return self.perform_search()
 
     def logo_for_proj_brain(self, brain):
@@ -317,7 +317,7 @@ class PeopleSearchView(SearchView):
     def __init__(self, context, request):
         SearchView.__init__(self, context, request)
 
-    def __call__(self):
+    def handle_request(self):
         return self.perform_search()
 
     def search_by_letter(self, letter, sort_by=None):
@@ -369,7 +369,7 @@ class SitewideSearchView(SearchView):
 
     _sortable_fields = ZopeTwoPageTemplateFile('home-sortwidget.pt')
 
-    def __call__(self):
+    def handle_request(self):
         return self.perform_search()
 
     def search_by_letter(self, letter, sort_by=None):
