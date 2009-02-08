@@ -1,23 +1,30 @@
-<tal:set define="membership options/item;
-		 member_record python:view._membership_record(membership);
+<tal:set define="item options/item;
+		 member_record python:view._membership_record(item);
 		 mem_title nocall:context/@@oc-utils/member_title;
-		 "
-	 >
+                 home_url python:context.portal_membership.getHomeUrl(item.getId);
+		 ">
+
   <div class="oc-avatar">
-    <a tal:attributes="href string:${context/portal_url}/people/${member_record/id}/profile">
-      <img class="photo" tal:attributes="src member_record/portrait_thumb_url" />
+    <a tal:attributes="href home_url">
+      <img class="photo"
+	   tal:condition="not:item/has_portrait"
+           tal:attributes="src view/defaultPortraitThumbURL" />
+      <img class="photo"
+	   tal:condition="item/has_portrait"
+           tal:attributes="src string:${item/getURL}/portrait_thumb" />
     </a>
-  </div> <!-- end .oc-avatar -->
+  </div>
   
   <div class="oc-roster-content">
     <div class="oc-headingBlock">
-      
+
       <h3>
-	<a tal:attributes="href string:${context/portal_url}/people/${member_record/id}/profile"
+	<a tal:attributes="href home_url"
 	   class="fn nickname"
-	   tal:content="python:mem_title(member_record)"
+	   tal:content="item/Title"
 	   />
-	<span class="oc-discreetText" tal:condition="python: view.is_admin(path('member_record/id'))">
+	<span class="oc-discreetText"
+	      tal:condition="python: view.is_admin(path('member_record/id'))">
 	  (Administrator)
 	</span>
       </h3>
@@ -28,21 +35,25 @@
       </p>
       
     </div>
+
     <dl class="oc-plainList">
+
       <tal:fullname 
-	 tal:define="fullname member_record/fullname|nothing"
-	 tal:condition="fullname">
+	 tal:condition="item/getFullname">
 	<dt>Name:</dt>
-	<dd class="n" tal:content="fullname" />
+	<dd class="n" tal:content="item/getFullname"/>
       </tal:fullname>
+
       <tal:email tal:condition="view/can_view_email">
 	<dt>Email:</dt>
-	<dd class="email" tal:content="member_record/email" />
+	<dd class="email" tal:content="item/getEmail"/>
       </tal:email>
-      <tal:location tal:define="location member_record/location|nothing" tal:condition="location">
+
+      <tal:location
+	 tal:condition="item/getLocation">
 	<dt>Location:</dt>
 	<dd class="adr">
-	  <span class="locality" tal:content="location" />
+	  <span class="locality" tal:content="item/getLocation" />
 	</dd>
       </tal:location>
       
