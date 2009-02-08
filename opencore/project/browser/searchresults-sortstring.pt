@@ -1,4 +1,3 @@
-<div id="sort_string">
   <tal:if condition="options/is_plural">
     Project contents <span tal:replace="options/start" /> &ndash; <span tal:replace="options/end" />
     of <span tal:replace="options/sequence_length" />
@@ -6,4 +5,3 @@
   <tal:if condition="not:options/is_plural">
     Project <span tal:replace="options/start" /> of <span tal:replace="options/sequence_length" />
   </tal:if>
-</div>

@@ -81,18 +81,13 @@ from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
 
 class SearchView(BaseView):
 
-    #def __init__(self):
-    #    self.sort_string = None
-    #    self.sort_widget = None
-    #    self.result_listing = None
-
     default_template = ZopeTwoPageTemplateFile('searchresults.pt')
 
     def __call__(self):
-        if not hasattr(self, 'template'):
-            return self.default_template()
+        if hasattr(self, 'index'):
+            return self.index()
 
-        return self.index()
+        return self.default_template()
 
     def batched_results(self):
         results = self.handle_request()
@@ -127,22 +122,20 @@ class SearchView(BaseView):
         """
         is_plural = False
         if batch.end > batch.start: is_plural = True
-        html = self._sort_string(start=batch.start,
+        return self._sort_string(start=batch.start,
                                  end=batch.end,
                                  sequence_length=batch.sequence_length,
                                  is_plural=is_plural)
-
-        html = lxml.html.fromstring(html)
-        div = html.get_element_by_id('sort_string')
-        assert div.tag.lower() == 'div'
-
-        return div.text
 
     def result_listing(self, item):
         return self._result_listing(item=item)
 
     @property
     def sort_by_options(self):
+        """
+        Validates an HTML <ul> snippet
+        and transforms it into a dict
+        """
         html = self._sortable_fields()
 
         html = lxml.html.fromstring(html)
