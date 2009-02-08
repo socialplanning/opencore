@@ -3,18 +3,14 @@
   i18n:domain="opencore">
   <body>
     <!-- Navigation -->
-    <div
-      metal:define-macro="pagination"
-      tal:define="request request|here/request|container/request|nothing;
-      batch batch|nothing;
-      template_id template_id|template/getId;
-      mq python:modules['ZTUtils'].make_query;
-      url batch_base_url | string:${here/absolute_url}/${template_id};
-      currentpage batch/pagenumber;"
-      tal:condition="python: batch.next or batch.previous">
 
-      <ul class="oc-paginator" tal:define="cur_page python:int(request.form.get('page', 1))">
-
+    <div metal:define-macro="pagination"
+	 tal:define="mq python:modules['ZTUtils'].make_query;
+		     url request/ACTUAL_URL;"
+	 tal:condition="python: batch.next or batch.previous">
+      
+      <ul class="oc-paginator" tal:define="cur_page view/page">
+	
 	<!-- Link to previous -->
         <li tal:define="p batch/previous | nothing"
           tal:condition="p">
@@ -94,12 +90,12 @@
 
     <div metal:define-macro="sort_widget">
 
-      <span tal:replace="structure python: view.sort_widget_string(start, end, sequence_length)" />
+      <span tal:replace="structure python: view.sort_widget_string(batch.start, batch.end, batch.sequence_length)" />
 
-      <form tal:attributes="name search_prefix" class="enableUnloadProtection">
+      <form class="enableUnloadProtection">
 
         <!-- FIXME This should not require a button to work. -->
-        <select name="sort_by" class="oc-js-autoSelect" tal:define="sorted_by request/sort_by | nothing">
+        <select name="sort_by" class="oc-js-autoSelect" tal:define="sorted_by view/sort_by">
 
 	  <tal:for repeat="sort_by_option view/sort_by_options">
 	    <option tal:define="sort_string python:view.sort_by_options[sort_by_option];"

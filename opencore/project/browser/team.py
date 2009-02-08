@@ -191,9 +191,6 @@ class ProjectTeamView(TeamRelatedView):
         elif sort_by == 'username':
             search_results = self.handle_sort_default()
 
-        start = self.from_page(self.page, self.batch_size)
-        search_results = self._get_batch(search_results, start,
-                                         size=self.batch_size)
         return search_results
 
     def handle_sort_membership_date(self):

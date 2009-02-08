@@ -79,6 +79,31 @@ def searchForPerson(mcat, search_for, sort_by=None):
 import lxml.html
 class SearchView(BaseView):
 
+    def batched_results(self):
+        results = self.handle_request()
+        
+        batch_size = self.batch_size
+        start = self.from_page(self.page, batch_size)
+        return self._get_batch(results, start, batch_size)
+
+    def handle_request(self):
+        """
+        A default search handler that finds all content
+        published underneath the current context while
+        respecting security.  The `sort_by` key from the
+        request is passed through to the catalog tool,
+        so unexpected sort keys may throw an error.
+
+        Override this method in a subclass to customize 
+        searching or sorting behavior.
+        """
+
+        cat = self.get_tool('portal_catalog')
+        path = '/'.join(self.context.getPhysicalPath())
+        results = cat(path=path, sort_on=self.sort_by)
+
+        return results        
+
     def sort_widget_string(self, start, end, sequence_length):
         """
         return an HTML snippet like "Projects 1-12 of 34"
@@ -190,9 +215,6 @@ class ProjectsSearchView(SearchView):
         else:
             search_results = self.search_by_letter('all', self.sort_by)
 
-        start = self.from_page(self.page, self.batch_size)
-        search_results = self._get_batch(search_results, start,
-                                         size=self.batch_size)
         return search_results
 
 
@@ -289,9 +311,6 @@ class PeopleSearchView(SearchView):
         else:
             search_results = self.search_by_letter('all', self.sort_by)
 
-        start = self.from_page(self.page, self.batch_size)
-        search_results = self._get_batch(search_results, start,
-                                         size=self.batch_size)
         return search_results
 
     def search_by_letter(self, letter, sort_by=None):
@@ -354,9 +373,6 @@ class SitewideSearchView(SearchView):
         else:
             search_results = self.search_by_letter('all', self.sort_by)
 
-        start = self.from_page(self.page, self.batch_size)
-        search_results = self._get_batch(search_results, start,
-                                         size=self.batch_size)
         return search_results
 
     def search_by_letter(self, letter, sort_by=None):

@@ -7,7 +7,7 @@
 
     <div metal:fill-slot="content">              
 
-      <div id="oc-content-main" tal:define="search_results view/handle_request">
+      <div id="oc-content-main" tal:define="batch view/batched_results">
         
         <tal:set_var define="current_search_page string:people;
                              form_action_url string:${context/absolute_url}/searchresults">
@@ -18,18 +18,12 @@
 
           <!-- batch needs to have some variables set up to work properly.
                here is where they are defined -->
-          <tal:got_results condition="search_results"
-                           define="batch search_results;
-                                   batch_base_url request/ACTUAL_URL;
-                                   start batch/start | nothing;
-                                   end batch/end | nothing;
-                                   sequence_length batch/sequence_length | nothing;
-                                   ">
+          <tal:got_results condition="batch">
 
             <!-- display the number of results that came back -->
             <div class="oc-directory-sorter"
-		 tal:define="many python: start!=end;
-			     search_prefix string:people;">
+		 tal:define="many python: batch.start!=batch.end;">
+
               <!-- pagination uses the batch macro -->
               <div metal:use-macro="here/@@nui_batch_macros/pagination"/>
               
@@ -64,18 +58,18 @@
                </span>
               </li>
             </ol>
-            <div class="oc-directory-sorter" tal:define="many python: start!=end">
+            <div class="oc-directory-sorter" tal:define="many python: batch.start!=batch.end">
               
               <!-- we put pagination on the bottom of the page too -->
               <div metal:use-macro="here/@@nui_batch_macros/pagination"/>
               
-              <div tal:replace="structure python: view.sort_widget_string(start, end, sequence_length)" />
+              <div tal:replace="structure python: view.sort_widget_string(batch.start, batch.end, batch.sequence_length)" />
 
             </div>
           </tal:got_results>
 
           <!-- if we get no results, this is what is displayed -->
-          <div i18n:translate="people-searchresults_no_results" tal:condition="not:search_results">No results found.</div>
+          <div i18n:translate="people-searchresults_no_results" tal:condition="not:batch">No results found.</div>
 
         </div> <!-- oc-searchresults -->
       </div> <!-- content-main -->
