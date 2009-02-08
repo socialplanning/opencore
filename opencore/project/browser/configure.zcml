@@ -16,7 +16,6 @@
      name="search"
      result_listing="searchresults-resultlist.pt"
      sortable_fields="searchresults-sortablefields.pt"
-     sort_string="searchresults-sortstring.pt"
      />
 
   <opencore:searchView
@@ -27,7 +26,6 @@
      template="team-view.pt"
      result_listing="team-resultlist.pt"
      sortable_fields="team-sortablefields.pt"
-     sort_string="team-sortstring.pt"
      />
 
   <browser:page

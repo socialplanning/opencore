@@ -40,7 +40,6 @@
      name="searchresults"
      result_listing="projects-resultlist.pt"
      sortable_fields="projects-sortablefields.pt"
-     sort_string="projects-sortstring.pt"
      />
 
 
@@ -61,7 +60,6 @@
      name="searchresults"
      result_listing="people-resultlist.pt"
      sortable_fields="people-sortablefields.pt"
-     sort_string="people-sortstring.pt"
      />
 
   <!-- home -->
@@ -81,7 +79,6 @@
      name="sitesearch"
      result_listing="home-resultlist.pt"
      sortable_fields="home-sortablefields.pt"
-     sort_string="home-sortstring.pt"
      />
 
   <!-- footer links -->
