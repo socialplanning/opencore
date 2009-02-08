@@ -45,14 +45,14 @@
             <h2 i18n:translate="home_newest_projects" class="oc-feed-title">Newest <span i18n:name="project_noun" tal:replace="view/project_noun">project</span>s</h2>
             <ul class="oc-feed-list">
               <li class="oc-feed-item oc-clearAfter" tal:repeat="project view/recently_created_projects">
-                <a tal:attributes="href python:view.project_url(project)">
+                <a tal:attributes="href python:view.project_url(project.getId)">
                   <img class="oc-project-logo"
                        tal:attributes="alt project/Title;
                                        title project/Title;
                                        src string:${project/getURL}/logo_thumb" />
                 </a>
                 <h3 class="oc-feed-item-title">
-                  <a tal:attributes="href python:view.project_url(project)" tal:content="project/Title">Project title</a>
+                  <a tal:attributes="href python:view.project_url(project.getId)" tal:content="project/Title">Project title</a>
                 </h3>
                 <p i18n:translate="home_project_created" class="oc-feed-item-data oc-discreetText">
                   created
@@ -73,7 +73,7 @@
             <ul class="oc-feed-list">
               <li class="oc-feed-item oc-clearAfter" tal:repeat="project view/recently_updated_projects">
               <!-- FIXME optimization potential -->
-                <a tal:attributes="href python:view.project_url(project)">
+                <a tal:attributes="href python:view.project_url(project.getId)">
                   <!-- FIXME weird seek error without the | nothing -->
                   <tal:setvar define="logo project/getObject/getLogo | nothing;
                                     thumb_url python:logo and ('%s/logo_thumb' % project.getURL()) or view.defaultProjLogoURL">
@@ -81,7 +81,7 @@
                   </tal:setvar>
                 </a>
                 <h3 class="oc-feed-item-title">
-                  <a href="" tal:attributes="href python:view.project_url(project)" tal:content="project/Title">Project title</a>
+                  <a href="" tal:attributes="href python:view.project_url(project.getId)" tal:content="project/Title">Project title</a>
                 </h3>
                 <p class="oc-feed-item-data oc-discreetText" tal:define="nmembers python: view.n_project_members(project)">
                   <span tal:replace="nmembers">YY</span> member<span tal:condition="python: nmembers != 1" tal:replace="string:s" />

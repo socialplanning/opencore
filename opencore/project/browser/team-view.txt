@@ -71,22 +71,6 @@ member brains::
     >>> pprint(sorted(mem_brain['project_ids']))
     ['p1', 'p2', 'p4']
 
-When a query for members is made (see view.membership above), the
-results are saved on the view::
-
-    >>> pprint(sorted([x.getId for x in view.results]))
-    ['m1', 'm3', 'm4']
-
-Using the current set of members, for every project whose data needs
-to be displayed, the view provides a mapping of project id to project
-brain:
-
-    >>> pprint(view.all_projects_to_display)
-    {'p1': <Products.ZCatalog.Catalog.mybrains object at ...>,
-     'p2': <Products.ZCatalog.Catalog.mybrains object at ...>,
-     'p3': <Products.ZCatalog.Catalog.mybrains object at ...>,
-     'p4': <Products.ZCatalog.Catalog.mybrains object at ...>}
-
 Note, project order is done on id. This matters because projects are
 limited to the first 10.
 
