@@ -1,10 +1,19 @@
-<tal:set define="item options/item">
-  <a tal:define="proj_url python:view.project_url(item.getId)"
-     tal:attributes="href proj_url" >
-    <tal:setvar define="logo python:view.logo_for_proj_brain(item);
-                        logo_url python:logo and ('%s/logo_thumb' % proj_url) or view.defaultProjLogoURL">
-      <img class="oc-project-logo" tal:attributes="src logo_url; alt item/Title; title item/Title" />
-    </tal:setvar>
+<tal:set define="item options/item;
+		 home_url python:view.project_url(item.getId);">
+
+  <a tal:attributes="href home_url"
+     tal:define="logo python:view.logo_for_proj_brain(item)">
+
+    <img class="oc-project-logo"
+	 tal:condition="logo"
+	 tal:attributes="src string:${home_url}/logo_thumb;
+			 alt item/Title;
+			 title item/Title" />
+    <img class="oc-project-logo"
+	 tal:condition="not:logo"
+	 tal:attributes="src view/defaultProjLogoThumbURL;
+			 alt item/Title;
+			 title item/Title" />
   </a>
 
   <div class="oc-feed-item-content">
