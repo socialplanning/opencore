@@ -4,7 +4,7 @@
   <body>
     <!-- Navigation -->
 
-    <div metal:define-macro="pagination"
+    <metal:macro define-macro="pagination"
 	 tal:define="mq python:modules['ZTUtils'].make_query;
 		     url request/ACTUAL_URL;"
 	 tal:condition="python: batch.next or batch.previous">
@@ -86,11 +86,14 @@
 	</li>
 	
       </ul>
-    </div>
+    </metal:macro>
 
-    <div metal:define-macro="sort_widget">
 
-      <span tal:replace="structure python: view.sort_widget_string(batch.start, batch.end, batch.sequence_length)" />
+    <metal:macro define-macro="sort_string">
+      <span tal:replace="structure python: view.sort_widget_string(batch)" />
+    </metal:macro>
+
+    <metal:macro define-macro="sort_widget">
 
       <form class="enableUnloadProtection">
 
@@ -117,14 +120,7 @@
 
       </form>
       
-    </div>
-
-
-
-
-
-
-
+    </metal:macro>
 
   </body>
 </html>

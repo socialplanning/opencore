@@ -10,11 +10,6 @@
 
 	<tal:got_results condition="batch">
 
-<!-- things we can remove from macro caller:
- * batch_base_url
- * start, end, sequence_length
- * search_prefix
--->
 <!-- the minimum necessary structure here is
 
 <div class="oc-lineup">
@@ -27,14 +22,16 @@
   </ol>
 </div>
 
-Is this all really necessary?  Also, can it be merged with the similar
+XXX TODO: Is this all really necessary?  Also, can it be merged with the similar
 people/projects searchresults templates somehow?
 -->
 
 	  <div class="oc-lineup">
             <div class="oc-lineup-sorter">
-              <div metal:use-macro="here/@@nui_batch_macros/pagination"/>	    
-              <div metal:use-macro="here/@@nui_batch_macros/sort_widget"/>
+              <metal:macro use-macro="context/@@nui_batch_macros/pagination"/>
+              <metal:macro use-macro="context/@@nui_batch_macros/sort_string"/>
+
+              <metal:macro use-macro="context/@@nui_batch_macros/sort_widget"/>
             </div>
 
 	    <ol class="oc-lineup-list">
@@ -60,9 +57,8 @@ people/projects searchresults templates somehow?
             <div class="oc-lineup-sorter" tal:define="many python: batch.start!=batch.end">
             
               <!-- we put pagination on the bottom of the page too -->
-              <div metal:use-macro="here/@@nui_batch_macros/pagination"/>
-              
-              <div tal:replace="structure python: view.sort_widget_string(batch.start, batch.end, batch.sequence_length)" />
+              <metal:macro use-macro="context/@@nui_batch_macros/pagination"/>
+              <metal:macro use-macro="context/@@nui_batch_macros/sort_string"/>
 
 	    </div>
 	  </div>	  

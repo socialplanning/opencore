@@ -22,7 +22,11 @@
             <div class="oc-directory-sorter">
               
               <!-- pagination uses the batch macro -->
-              <div metal:use-macro="context/@@nui_batch_macros/pagination" />
+
+	      <!-- XXX TODO: the CSS is very brittle here
+		   -->
+              <metal:macro use-macro="context/@@nui_batch_macros/pagination" />
+              <metal:macro use-macro="context/@@nui_batch_macros/sort_string"/>
 
 	      <metal:macro use-macro="context/@@nui_batch_macros/sort_widget" />
 		 
@@ -37,7 +41,7 @@
 		  >
 
 		<div class="oc-avatar">
-                  <a href="" tal:attributes="href string:${context/portal_url}/people/${member_record/id}/profile">
+                  <a tal:attributes="href string:${context/portal_url}/people/${member_record/id}/profile">
                     <img class="photo" tal:attributes="src member_record/portrait_thumb_url" />
                   </a>
 		</div> <!-- end .oc-avatar -->
@@ -45,8 +49,7 @@
 		<div class="oc-roster-content">
                   <div class="oc-headingBlock">
                     <h3>
-                      <a href=""
-			 tal:attributes="href string:${context/portal_url}/people/${member_record/id}/profile"
+                      <a tal:attributes="href string:${context/portal_url}/people/${member_record/id}/profile"
 			 class="fn nickname"
 			 tal:content="python:mem_title(member_record)"
 			 />
@@ -55,7 +58,8 @@
                       </span>
                     </h3>
                     <p class="oc-headingContext oc-discreetText">
-                      team member since <span tal:replace="member_record/activation">January 1, 2000</span>
+                      team member since
+		      <span tal:replace="member_record/activation" />
                     </p>
                   </div>
                   <dl class="oc-plainList">
@@ -104,9 +108,9 @@
           <div class="oc-directory-sorter" tal:define="many python: batch.start!=batch.end">
           
             <!-- we put pagination on the bottom of the page too -->
-            <div metal:use-macro="context/@@nui_batch_macros/pagination"/>
+            <metal:macro use-macro="context/@@nui_batch_macros/pagination"/>
           
-            <div tal:replace="structure python: view.sort_widget_string(batch.start, batch.end, batch.sequence_length)" />
+            <metal:macro use-macro="context/@@nui_batch_macros/sort_string"/>
 
 	  </div>
           </tal:got_results>

@@ -104,17 +104,17 @@ class SearchView(BaseView):
 
         return results        
 
-    def sort_widget_string(self, start, end, sequence_length):
+    def sort_widget_string(self, batch):
         """
         return an HTML snippet like "Projects 1-12 of 34"
         should be i18nified, with two distinct strings for single
         and plural, i think.
         """
         is_plural = False
-        if end > start: is_plural = True
-        html = self._sortable_fields(start=start,
-                                     end=end,
-                                     sequence_length=sequence_length,
+        if batch.end > batch.start: is_plural = True
+        html = self._sortable_fields(start=batch.start,
+                                     end=batch.end,
+                                     sequence_length=batch.sequence_length,
                                      is_plural=is_plural)
         html = lxml.html.fromstring(html)
         div = html.get_element_by_id('sort_string')
