@@ -81,10 +81,9 @@ class SearchView(BaseView):
 
     def sort_widget_string(self, start, end, sequence_length):
         """
-        return an HTML snippet like "Projects 1-12 of 34 sorted"
+        return an HTML snippet like "Projects 1-12 of 34"
         should be i18nified, with two distinct strings for single
-        and plural, i think. also consider interactions with the
-        <option> strings -- i think the boundaries are wrong
+        and plural, i think.
         """
         is_plural = False
         if end > start: is_plural = True
@@ -142,10 +141,6 @@ class SearchView(BaseView):
             return 1
         
 
-    def clear_search_query(self):        
-        self.search_results = None
-        self.search_query = None
-        
     def _get_batch(self, brains, start=0, size=10):
         return Batch(brains,
                      size=size,
@@ -159,26 +154,6 @@ class SearchView(BaseView):
 
     def from_page(self, page, batch_size):
         return batch_size * (page - 1)
-
-    def perform_search(self):
-        """
-        delegates to a particular search method based on request query
-        and then wraps results in a standard batch object
-        """
-        self.clear_search_query()
-
-        start = self.from_page(self.page, self.batch_size)
-
-        if self.letter_search:
-            search_results = self.search_by_letter(self.letter_search, self.sort_by)
-        elif self.search_for:
-            search_results = self.search_by_text(self.search_for, self.sort_by)
-        else:
-            search_results = self.search_by_letter('all', self.sort_by)
-
-        search_results = self._get_batch(search_results, start,
-                                         size=self.batch_size)
-        return search_results
     
     noun = 'please define a plural noun in your subclass'
 
@@ -205,7 +180,22 @@ class ProjectsSearchView(SearchView):
     _sortable_fields = ZopeTwoPageTemplateFile('projects-sortwidget.pt')
     
     def handle_request(self):
-        return self.perform_search()
+        self.search_results = None
+        self.search_query = None
+
+        start = self.from_page(self.page, self.batch_size)
+
+        if self.letter_search:
+            search_results = self.search_by_letter(self.letter_search, self.sort_by)
+        elif self.search_for:
+            search_results = self.search_by_text(self.search_for, self.sort_by)
+        else:
+            search_results = self.search_by_letter('all', self.sort_by)
+
+        search_results = self._get_batch(search_results, start,
+                                         size=self.batch_size)
+        return search_results
+
 
     def logo_for_proj_brain(self, brain):
         ## XXX TODO: i'm sure we have a more efficient way of doing this now!
@@ -289,11 +279,22 @@ class PeopleSearchView(SearchView):
 
     _sortable_fields = ZopeTwoPageTemplateFile('people-sortwidget.pt')
 
-    def __init__(self, context, request):
-        SearchView.__init__(self, context, request)
-
     def handle_request(self):
-        return self.perform_search()
+        self.search_results = None
+        self.search_query = None
+
+        start = self.from_page(self.page, self.batch_size)
+
+        if self.letter_search:
+            search_results = self.search_by_letter(self.letter_search, self.sort_by)
+        elif self.search_for:
+            search_results = self.search_by_text(self.search_for, self.sort_by)
+        else:
+            search_results = self.search_by_letter('all', self.sort_by)
+
+        search_results = self._get_batch(search_results, start,
+                                         size=self.batch_size)
+        return search_results
 
     def search_by_letter(self, letter, sort_by=None):
         letter = letter.lower()
@@ -345,7 +346,20 @@ class SitewideSearchView(SearchView):
     _sortable_fields = ZopeTwoPageTemplateFile('home-sortwidget.pt')
 
     def handle_request(self):
-        return self.perform_search()
+        self.search_results = None
+        self.search_query = None
+
+        if self.letter_search:
+            search_results = self.search_by_letter(self.letter_search, self.sort_by)
+        elif self.search_for:
+            search_results = self.search_by_text(self.search_for, self.sort_by)
+        else:
+            search_results = self.search_by_letter('all', self.sort_by)
+
+        start = self.from_page(self.page, self.batch_size)
+        search_results = self._get_batch(search_results, start,
+                                         size=self.batch_size)
+        return search_results
 
     def search_by_letter(self, letter, sort_by=None):
         letter = letter.lower()
