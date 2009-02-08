@@ -12,7 +12,7 @@
     </a>
   </div>
 
-  <div class="oc-directory-content">
+  <div class="oc-lineup-content">
     <h3 class="fn nickname">
       <a tal:attributes="href home_url"
          tal:content="item/Title" />

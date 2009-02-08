@@ -126,6 +126,11 @@ class SearchView(BaseView):
                                  is_plural=is_plural)
 
     @property
+    def lineup_class(self):
+        lineup_class = self.request.form.get('lineup_class', 'oc-lineup')
+        return lineup_class
+
+    @property
     def sort_by_options(self):
         """
         Validates an HTML <ul> snippet

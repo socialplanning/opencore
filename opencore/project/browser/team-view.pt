@@ -27,7 +27,7 @@
 	    </p>
           </div>
 	  
-          <div class="oc-directory-sorter">              
+          <div class="oc-lineup-sorter">              
 	    <!-- XXX TODO: the CSS is very brittle here
 		 div.oc-directory-sorter, but no .oc-directory
 		 and what is oc-roster? oc-boxy? oc-avatar?
@@ -44,7 +44,7 @@
 	    </li>
           </ol>
 	  
-          <div class="oc-directory-sorter" tal:define="many python: batch.start!=batch.end">
+          <div class="oc-lineup-sorter" tal:define="many python: batch.start!=batch.end">
             <metal:macro use-macro="context/@@nui_batch_macros/pagination"/>              
             <metal:macro use-macro="context/@@nui_batch_macros/sort_string"/>	      
 	  </div>

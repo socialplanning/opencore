@@ -14,20 +14,20 @@
         <tal:got_results condition="batch">
         
           <div class="oc-widget oc-widget-feed">
-            <div class="oc-feed-sorter">
+            <div class="oc-lineup-sorter">
 	      <metal:macro use-macro="context/@@nui_batch_macros/pagination"/>
               <metal:macro use-macro="context/@@nui_batch_macros/sort_string"/>
 	      <metal:macro use-macro="context/@@nui_batch_macros/sort_widget"/>
             </div>
 	    
             <!-- the results are displayed here -->
-            <ol class="oc-feed-list">
+            <ol class="oc-lineup-list">
               <li class="oc-feed-item oc-clearAfter" tal:repeat="item batch">
 		<tal:result replace="structure python:view.result_listing(item)"/>
               </li>
             </ol>
 
-            <div class="oc-feed-sorter">
+            <div class="oc-lineup-sorter">
               <metal:macro use-macro="context/@@nui_batch_macros/pagination"/>
               <metal:macro use-macro="context/@@nui_batch_macros/sort_string"/>
 	    </div>

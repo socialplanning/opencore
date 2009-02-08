@@ -18,7 +18,7 @@
 	  <!-- SOME PEOPLE PUT SOME RANDOM HTML HERE (team-view) -->
 
 	  <!-- projects searchresults structure is
-	       div.oc-lineup => div.oc-widget.oc-widget.feed
+	       div.oc-lineup => div.oc-widget.oc-widget-feed
 	       div.oc-lineup-sorter => div.oc-feed-sorter
 	       ol.oc-lineup-list => ol.oc-feed-list
 	       li.oc-lineup-item => li.oc-feed-item.oc-clearAfter
@@ -38,7 +38,7 @@
 	       li.oc-lineup-item => li.oc-feed-item.oc-clearAfter
 
 	       -->
-          <div class="oc-lineup"> 
+          <div tal:attributes="class view/lineup_class"> 
             <div class="oc-lineup-sorter">
               <metal:macro use-macro="context/@@nui_batch_macros/pagination"/>
               <metal:macro use-macro="context/@@nui_batch_macros/sort_string"/>

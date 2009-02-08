@@ -17,7 +17,7 @@
         <tal:got_results condition="batch">
           <div class="oc-directory">
 	    
-            <div class="oc-directory-sorter">
+            <div class="oc-lineup-sorter">
               <metal:macro use-macro="context/@@nui_batch_macros/pagination"/>
               <metal:macro use-macro="context/@@nui_batch_macros/sort_string"/>
 	      <metal:macro use-macro="context/@@nui_batch_macros/sort_widget"/>
@@ -30,7 +30,7 @@
               </li>
             </ol>
 
-            <div class="oc-directory-sorter" tal:define="many python: batch.start!=batch.end">
+            <div class="oc-lineup-sorter" tal:define="many python: batch.start!=batch.end">
               <metal:macro use-macro="context/@@nui_batch_macros/pagination"/>
               <metal:macro use-macro="context/@@nui_batch_macros/sort_string"/>
             </div>

@@ -19,9 +19,9 @@
 
 	<tal:viewlet replace="structure provider:opencore.searchresults.top" />
 
-        <div class="oc-widget oc-widget-feed oc-widget-feed-home">
+        <div class="oc-widget oc-widget-feed">
           <h2 class="oc-feed-title">New Members</h2>
-          <ul class="oc-feed-list">
+          <ul class="oc-lineup-list">
             <li class="oc-feed-item oc-clearAfter"
               tal:repeat="member_brain view/recently_created_members">
 

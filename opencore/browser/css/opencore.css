@@ -318,21 +318,23 @@ dl.oc-plainList dd {
 
 /* GENERIC search results & lineups */
 
-.oc-lineup,
-.oc-directory {
-}
 .oc-lineup-list {
   list-style-type: none;
   margin:  0;
   padding: 0;
   clear: both;
-  border-top: 2px solid #eee;
+  border-top: 2px solid #332F2A;
+  border-bottom: 2px solid #332F2A;
+}
 
+.oc-lineup-list li.oc-lineup-item:last-child,
+.oc-lineup-list li.oc-feed-item:last-child {
+  border: none;
 }
 .oc-lineup-item {
   margin: 0.25em 0;
   padding: 0.25em 0;
-  border-bottom: 1px dotted #eee;
+  border-bottom: 1px dotted #EEE;
 }
 .oc-lineup-item h3 {
   display: inline;
@@ -343,44 +345,33 @@ dl.oc-plainList dd {
 .oc-lineup-item p {
   margin: 0;
 }
-.oc-lineup-sorter,
-.oc-directory-sorter,
-.oc-feed-sorter {
-  /* float: left; */
+.oc-lineup-sorter {
   font-size: 10px;
   margin-bottom: 1em;
 }
 .oc-lineup-sorter form,
-.oc-lineup-sorter select,
-.oc-directory-sorter form,
-.oc-directory-sorter select,
-.oc-feed-sorter form,
-.oc-feed-sorter select {
+.oc-lineup-sorter select {
   display: inline;
   font-size: 100%;
 }
-.oc-lineup-sorter input,
-.oc-directory-sorter input {
-  /* display: none; */
-}
-.oc-lineup .oc-paginator,
-.oc-directory-sorter .oc-paginator,
-.oc-feed-sorter .oc-paginator {
+.oc-lineup-sorter .oc-paginator {
   float: right;
   clear: none;
   font-size: 10px;
 }
 
+
 /* Directory view of search results */
 
-.oc-directory-list {
+div.oc-directory ol.oc-lineup-list:after {
+  content: "";
+  display: block; 
+  height: 0; 
   clear: both;
-  list-style-type: none;
-  padding: 0;
-  margin: 0;
-  width: 101%;
+  visibility: hidden;
 }
-.oc-directory-list li {
+
+div.oc-directory ol.oc-lineup-list li.oc-lineup-item {
   margin: 0 0.5% 0.25em 0;
   width: 49%;
   float: left;
@@ -390,26 +381,86 @@ dl.oc-plainList dd {
   border: 1px solid #ccc;
   height: 80px;
   overflow: hidden;
+  background-color: #F6F6F6;
 }
-.oc-directory-list .oc-project-logo,
-.oc-directory-list .oc-avatar {
+
+div.oc-directory ol.oc-lineup-list .oc-project-logo,
+div.oc-directory ol.oc-lineup-list .oc-avatar {
   width: 80px;
   height: 80px;
   overflow: hidden;
   float: left;
   margin-right: 1em;
 }
-.oc-directory-content {
+
+
+div.oc-directory div.oc-lineup-content {
   white-space: normal;
   padding: 0.5em;
 }
-.oc-directory-content .fn, /* OpenPlans username */
+div.oc-directory div.oc-lineup-content .fn, /* OpenPlans username */
 .oc-directory-content .n /* full name */ {
   margin: 0;
 }
-.oc-directory-content .adr /* location */ {
+div.oc-directory div.oc-lineup-content .adr /* location */ {
   font-style: normal;
 }
+
+/* END directory view of search results */
+
+
+/* blocklist view of search results */
+div.oc-blocklist ol.oc-lineup-list {
+  border-bottom:2px solid #332F2A;
+  border-top:2px solid #332F2A;
+  list-style-image:none;
+  list-style-position:outside;
+  list-style-type:none;
+  margin:0;
+  padding:0;
+}
+div.oc-blocklist li.oc-lineup-item {
+  margin: 0.5em 0 0;
+  padding: 0 0 0.5em;
+  border-bottom: 1px dotted #332F2A;
+}
+div.oc-blocklist li.oc-lineup-item:after {
+  content: "";
+  display: block; 
+  height: 0; 
+  clear: both;
+  visibility: hidden;
+}
+div.oc-blocklist li.oc-lineup-item .oc-avatar,
+div.oc-blocklist li.oc-lineup-item .oc-project-logo {
+  width: 64px;
+  float: left;
+  clear: none;
+  margin-right: 1em;
+  padding: 8px;
+}
+div.oc-blocklist li.oc-lineup-item .oc-feed-item-content {
+  float: left;
+  clear: none;
+  padding: 0.75em 0;
+  width: 67%;
+}
+div.oc-blocklist li.oc-lineup-item .oc-feed-item-title,
+div.oc-blocklist li.oc-lineup-item .oc-feed-item-data,
+div.oc-blocklist li.oc-lineup-item .oc-feed-item-description {
+  margin: 0;
+  line-height: normal;
+}
+div.oc-blocklist li.oc-lineup-item .oc-feed-item-data.oc-actions {
+  text-align: right;
+}
+
+/* END blocklist view of search results */
+
+
+
+
+
 
 /* Team View */
 .oc-roster {
@@ -444,38 +495,10 @@ dl.oc-plainList dd {
 .oc-roster dl.oc-plainList dd {
   margin-bottom: 0;
 }
-/* Team View (Feed) */
-#oc-feed-team ul.oc-feed-list {
-}
-
-#oc-feed-team ul.oc-feed-list li.oc-feed-item {
-float:left;
-width:82px;
-height:90px;
-margin:0.5em 6px 20px;
-padding:0;
-border:0 none transparent;
-}
-
-#oc-feed-team ul.oc-feed-list li.oc-feed-item a.oc-avatar {
-display:block;
-height:82px;
-padding:0;
-margin:0 0 0.75em;
-}
-
-#oc-feed-team ul.oc-feed-list li.oc-feed-item img {
-border:1px solid #e6e6e6;
-}
 
 /* Portal Home */
-#oc-home-content {
-}
 #oc-home-content .oc-headingBlock h1{
   font-size: 36px;
-}
-#oc-home-getstarted {
-
 }
 .oc-columnGroup,
 .oc-home-columnGroup {
@@ -505,8 +528,6 @@ border:1px solid #e6e6e6;
 
 /* Member profile */
 
-#oc-member-badge {
-}
 #oc-member-badge .oc-avatar {
   overflow: hidden;
   float: left; 
@@ -557,8 +578,6 @@ dl.oc-member-info dd {
 
 /* Wiki pages */
 
-.oc-wiki {
-}
 .oc-wiki-headingBlock {
   margin: 0;
   margin-right: 1em;
@@ -616,8 +635,6 @@ ul.oc-tabs li.oc-notallowed a {
 }
 .oc-wiki-edit {
   clear: both;
-}
-.oc-wiki-edit-content {
 }
 .oc-actions.oc-wiki-actions {
   border-top: 2px solid #ccc;
@@ -742,9 +759,6 @@ a.wickedadd {
 }
 
 /* About and 1 Page tours */
-
-.oc-about-toolkit {
-}
 .oc-about-tool {
   clear: left;
   margin: 0 2em 1em 0;
@@ -763,14 +777,6 @@ a.wickedadd {
 
 /* Listen */
 
-.oc-listen-details-subscribe {
-}
-.oc-listen-details-subscribe h2 {
-}
-.oc-listen-details-subscribe p {
-}
-.oc-listen-details-subscribe .oc-actions {
-}
 .oc-listen-archive-dateview {
 	padding: 0;
 	margin: 0;
@@ -846,7 +852,7 @@ The IE hacks take advantage of several IE non-compliance issues to clearAfter th
 #oc-topnav-global:after,
 #oc-page-container:after
 { 
-  content: ""; 
+  content: "";
   display: block; 
   height: 0; 
   clear: both;
@@ -1234,9 +1240,6 @@ height: 1em; */
   margin:0;
   font-size: 10px;
 }
-.oc-dataTable-actions li {
-   
-}
 .oc-dataTable-paginator {
   float: right;
   padding: .5em 0;
@@ -1273,31 +1276,10 @@ height: 1em; */
 .oc-feed-title a:hover {
 	color: #eb852b;
 }
-.oc-feed-list, .oc-feed-cluster {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  border-top: 2px solid #332F2A;
-  border-bottom: 2px solid #332F2A;
-}
-.oc-feed-cluster li.oc-feed-item {
-  display: inline;
-  line-height: 0;
-  border: none;
-}
-.oc-feed-cluster li.oc-feed-item a {
-  text-decoration: none;
-}
-.oc-feed-cluster li.oc-feed-item a img {
-  margin: 0;
-}
 li.oc-feed-item {
   margin: 0.5em 0 0;
   padding: 0 0 0.5em;
   border-bottom: 1px dotted #332F2A;
-}
-.oc-feed-list li.oc-feed-item:last-child {
-  border: none;
 }
 li.oc-feed-item .oc-avatar,
 li.oc-feed-item .oc-project-logo,
