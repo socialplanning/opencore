@@ -1,4 +1,7 @@
 <html i18n:domain="opencore" metal:use-macro="here/@@standard_macros/master">
+
+  <!-- EVERYBODY WILL WANT A TITLE HERE -->
+
   <body> 
 
     <div metal:fill-slot="content">
@@ -6,9 +9,11 @@
       <div id="oc-content-main"
 	   tal:define="batch view/batched_results">
 
-	<!-- SOME PEOPLE PUT A SEARCH WIDGET HERE -->
+	<!-- SOME PEOPLE PUT A SEARCH WIDGET HERE (people, projects, sitesearch) -->
         
         <tal:got_results condition="batch">
+
+	  <!-- SOME PEOPLE PUT SOME RANDOM HTML HERE (team-view) -->
 
           <div class="oc-lineup">
             <div class="oc-lineup-sorter">

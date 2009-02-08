@@ -36,27 +36,7 @@
             <ol class="oc-directory-list oc-clearAfter"
                 tal:define="ms_tool nocall:context/portal_membership">
               <li class="oc-clearAfter vcard" tal:repeat="item batch">
-               <span tal:omit-tag=""
-                     tal:define="mem item/getObject;
-	                         memdata python:view.member_info_for_member(mem);
-                                 mt nocall:context/@@oc-utils/member_title;
-                                 mem_title  python:mt(memdata);
-                                 home_url python:ms_tool.getHomeUrl(memdata['id'])">
-                <div class="oc-avatar">
-                  <a tal:attributes="href home_url">
-                    <img class="photo" 
-                      tal:define="portraittxt string:${mem_title} portrait"
-                      tal:attributes="src memdata/portrait_thumb_url" />
-                  </a>
-                </div>
-                <div class="oc-directory-content">
-                  <h3 class="fn nickname">
-                    <a href="" tal:attributes="href home_url"
-                       tal:content="mem_title">Username</a>
-                  </h3>
-                  <div class="oc-discreetText adr" tal:define="loc item/getLocation" tal:condition="loc"><span class="locality" tal:content="loc" /></div>
-                </div>
-               </span>
+		<tal:result replace="structure python:view.result_listing(item)" />
               </li>
             </ol>
             <div class="oc-directory-sorter" tal:define="many python: batch.start!=batch.end">

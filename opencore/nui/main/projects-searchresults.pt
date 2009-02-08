@@ -3,32 +3,34 @@
     <title metal:fill-slot="title"
            tal:content="string:Search ${view/project_noun/title}s - ${view/portal_title}" />
   </head>  
+
   <body> 
 
     <div metal:fill-slot="content">
       
-      <div id="oc-content-main" tal:define="batch view/batched_results">
+      <div id="oc-content-main"
+	   tal:define="batch view/batched_results">
 
 	<!-- XXX TODO shouldn't need to set these vars here -->
         <tal:set_var define="current_search_page string:projects;
 			     form_action_url string:${context/absolute_url}/searchresults">
           <div metal:use-macro="here/main_macros/search_widget" />
         </tal:set_var>
+
+        <tal:got_results condition="batch">
         
-        <div class="oc-widget oc-widget-feed">
+          <div class="oc-widget oc-widget-feed">
 
-          <!-- batch needs to have some variables set up to work properly.
-               here is where they are defined -->
-          <tal:got_results condition="batch">
-
+            <!-- batch needs to have some variables set up to work properly.
+		 here is where they are defined -->
+	    
             <!-- display the number of results that came back -->
             <div class="oc-feed-sorter"
 		 tal:define="many python: batch.start!=batch.end;">
-
+	      
               <!-- pagination uses the batch macro -->
               <metal:macro use-macro="context/@@nui_batch_macros/pagination"/>
               <metal:macro use-macro="context/@@nui_batch_macros/sort_string"/>
-	      
 	      <metal:macro use-macro="context/@@nui_batch_macros/sort_widget"/>
 	      
             </div>
@@ -36,22 +38,23 @@
             <!-- the results are displayed here -->
             <ol class="oc-feed-list">
               <li class="oc-feed-item oc-clearAfter" tal:repeat="item batch">
-
+		<tal:result replace="structure python:view.result_listing(item)"/>
               </li>
             </ol>
             <div class="oc-feed-sorter" tal:define="many python: batch.start!=batch.end">
-
+	      
               <!-- we put pagination on the bottom of the page too -->
               <metal:macro use-macro="context/@@nui_batch_macros/pagination"/>
               <metal:macro use-macro="context/@@nui_batch_macros/sort_string"/>
 	      
 	    </div>
-          </tal:got_results>
-
-          <!-- if we get no results, this is what is displayed -->
-          <div i18n:translate="projects-searchresults_no_results" tal:condition="not:batch">No results found.</div>
-
-        </div> <!-- oc-searchresults -->
+	    
+	  </div>
+        </tal:got_results>
+	
+        <!-- if we get no results, this is what is displayed -->
+        <div i18n:translate="projects-searchresults_no_results" tal:condition="not:batch">No results found.</div>
+	
       </div> <!-- content-main -->
       
     </div><!-- content-fill-slot -->
