@@ -1,0 +1,7 @@
+<ul id="sortable_fields">
+  <li id="relevancy">sorted by relevancy</li>
+  <li id="sortable_title">sorted by project name</li>
+  <li id="modified">sorted by date updated</li>
+  <li id="created">sorted by date created</li>
+  <li id="Creator">sorted by project creator</li>
+</ul>

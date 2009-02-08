@@ -77,7 +77,22 @@ def searchForPerson(mcat, search_for, sort_by=None):
     return people_brains
     
 import lxml.html
+from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
+
 class SearchView(BaseView):
+
+    #def __init__(self):
+    #    self.sort_string = None
+    #    self.sort_widget = None
+    #    self.result_listing = None
+
+    default_template = ZopeTwoPageTemplateFile('searchresults.pt')
+
+    def __call__(self):
+        if not hasattr(self, 'template'):
+            return self.default_template()
+
+        return self.index()
 
     def batched_results(self):
         results = self.handle_request()
@@ -112,22 +127,23 @@ class SearchView(BaseView):
         """
         is_plural = False
         if batch.end > batch.start: is_plural = True
-        html = self._sortable_fields(start=batch.start,
-                                     end=batch.end,
-                                     sequence_length=batch.sequence_length,
-                                     is_plural=is_plural)
+        html = self._sort_string(start=batch.start,
+                                 end=batch.end,
+                                 sequence_length=batch.sequence_length,
+                                 is_plural=is_plural)
+
         html = lxml.html.fromstring(html)
         div = html.get_element_by_id('sort_string')
         assert div.tag.lower() == 'div'
 
         return div.text
 
+    def result_listing(self, item):
+        return self._result_listing(item=item)
+
     @property
     def sort_by_options(self):
-        html = self._sortable_fields(start='foo',
-                                     end='bar',
-                                     sequence_length='morx',
-                                     is_plural='fleem')
+        html = self._sortable_fields()
 
         html = lxml.html.fromstring(html)
         ul = html.get_element_by_id('sortable_fields')
@@ -196,14 +212,15 @@ class SearchView(BaseView):
         """
 
 
-from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
 class ProjectsSearchView(SearchView):
 
     noun = 'projects'
     active_states = ['public', 'private']
 
-    _sortable_fields = ZopeTwoPageTemplateFile('projects-sortwidget.pt')
-    
+    _result_listing = ZopeTwoPageTemplateFile('projects-resultlist.pt')
+    _sortable_fields = ZopeTwoPageTemplateFile('projects-sortablefields.pt')
+    _sort_string = ZopeTwoPageTemplateFile('projects-sortstring.pt')
+
     def handle_request(self):
         self.search_results = None
         self.search_query = None
@@ -298,7 +315,9 @@ class PeopleSearchView(SearchView):
 
     noun = 'members'
 
-    _sortable_fields = ZopeTwoPageTemplateFile('people-sortwidget.pt')
+    _result_listing = ZopeTwoPageTemplateFile('people-resultlist.pt')
+    _sortable_fields = ZopeTwoPageTemplateFile('people-sortablefields.pt')
+    _sort_string = ZopeTwoPageTemplateFile('people-sortstring.pt')
 
     def handle_request(self):
         self.search_results = None
@@ -360,7 +379,9 @@ class SitewideSearchView(SearchView):
 
     noun = 'content'
 
-    _sortable_fields = ZopeTwoPageTemplateFile('home-sortwidget.pt')
+    _result_listing = ZopeTwoPageTemplateFile('home-resultlist.pt')
+    _sortable_fields = ZopeTwoPageTemplateFile('home-sortablefields.pt')
+    _sort_string = ZopeTwoPageTemplateFile('home-sortstring.pt')
 
     def handle_request(self):
         self.search_results = None

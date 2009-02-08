@@ -7,9 +7,3 @@
     Member <span tal:replace="options/start" /> of <span tal:replace="options/sequence_length" />
   </tal:if>
 </div>
-
-<ul id="sortable_fields">
-  <li id="username">sorted by user name</li>
-  <li id="membership_date">sorted by membership start date</li>
-  <li id="location">sorted by location</li>
-</ul>

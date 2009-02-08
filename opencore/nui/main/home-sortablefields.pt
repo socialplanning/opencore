@@ -1,0 +1,6 @@
+<ul id="sortable_fields">
+  <li id="relevancy">sorted by relevancy</li>
+  <li id="getId">sorted A to Z</li>
+  <li id="modified">sorted by date updated</li>
+  <li id="portal_type">sorted by content type</li>
+</ul>

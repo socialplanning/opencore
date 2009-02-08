@@ -15,111 +15,125 @@
                                    many python: batch.start != batch.end">
             <div class="oc-headingBlock">
               <h1>Team members</h1>
-              <p class="oc-headingContext"><span tal:replace="batch/sequence_length">N</span> member<tal:plural condition="many">s</tal:plural>. <span tal:condition="python: view.membertool.checkPermission('TeamSpace: Manage team memberships', context)"><a href="manage-team">Add or remove members</a>.</span></p>
+              <p class="oc-headingContext">
+		<span tal:replace="batch/sequence_length"/>
+		member<tal:plural condition="many">s</tal:plural>.
+		<span tal:condition="python: view.membertool.checkPermission('TeamSpace: Manage team memberships', context)">
+		  <a href="manage-team">
+		    Add or remove members.
+		  </a>
+		</span>
+	      </p>
             </div>
 
             <!-- display the number of results that came back -->
             <div class="oc-directory-sorter">
               
               <!-- pagination uses the batch macro -->
-
+	      
 	      <!-- XXX TODO: the CSS is very brittle here
-		   -->
+		-->
               <metal:macro use-macro="context/@@nui_batch_macros/pagination" />
               <metal:macro use-macro="context/@@nui_batch_macros/sort_string"/>
-
+	      
 	      <metal:macro use-macro="context/@@nui_batch_macros/sort_widget" />
-		 
+	      
+	    </div>
+	    
+            <!-- the results are displayed here -->
+            <ol class="oc-roster oc-clearAfter">
+
+              <tal:for repeat="membership memberships">
+		<li class="oc-clearAfter oc-boxy vcard">
+		  
+		  <div class="oc-avatar"
+		       tal:define="member_record python:view._membership_record(membership)"
+		       >
+                    <a tal:attributes="href string:${context/portal_url}/people/${member_record/id}/profile">
+                      <img class="photo" tal:attributes="src member_record/portrait_thumb_url" />
+                    </a>
+		  </div> <!-- end .oc-avatar -->
+
+		  <div class="oc-roster-content">
+                    <div class="oc-headingBlock">
+
+                      <h3>
+			<a tal:attributes="href string:${context/portal_url}/people/${member_record/id}/profile"
+			   class="fn nickname"
+			   tal:content="python:mem_title(member_record)"
+			   />
+			<span class="oc-discreetText" tal:condition="python: view.is_admin(path('member_record/id'))">
+			  (Administrator)
+			</span>
+                      </h3>
+
+                      <p class="oc-headingContext oc-discreetText">
+			team member since
+			<span tal:replace="member_record/activation" />
+                      </p>
+
+                    </div>
+                    <dl class="oc-plainList">
+                      <tal:fullname 
+			 tal:define="fullname member_record/fullname|nothing"
+			 tal:condition="fullname">
+			<dt>Name:</dt>
+			<dd class="n" tal:content="fullname" />
+                      </tal:fullname>
+                      <tal:email tal:condition="view/can_view_email">
+			<dt>Email:</dt>
+			<dd class="email" tal:content="member_record/email" />
+                      </tal:email>
+                      <tal:location tal:define="location member_record/location|nothing" tal:condition="location">
+			<dt>Location:</dt>
+			<dd class="adr">
+			  <span class="locality" tal:content="location" />
+			</dd>
+                      </tal:location>
+
+                      <tal:projects tal:define="pbrains member_record/project_brains;
+						num_projects member_record/num_projects">
+			<dt class="oc-roster-projects">
+			  <span tal:replace="view/project_noun/title">Project</span>s (<span tal:replace="num_projects">N</span>):
+			</dt>
+			<dd>
+			  <ul class="oc-inlineList">
+                            <li tal:repeat="project pbrains">
+                              <a tal:attributes="href project/getPath">
+				<span tal:content="project/Title" />
+                              </a>
+                            </li>
+                            <li tal:condition="python: num_projects > 10">
+                              <a tal:attributes="href string:${context/portal_url}/people/${member_record/id}/profile">
+				(view all&hellip;)</a>
+                            </li>
+			  </ul>
+			</dd>
+                      </tal:projects>
+
+                    </dl>
+
+		  </div> <!-- end .oc-roster-content -->
+
+		</li>
+	      </tal:for>
+            </ol>
+
+            <div class="oc-directory-sorter" tal:define="many python: batch.start!=batch.end">
+
+              <!-- we put pagination on the bottom of the page too -->
+              <metal:macro use-macro="context/@@nui_batch_macros/pagination"/>              
+              <metal:macro use-macro="context/@@nui_batch_macros/sort_string"/>
+	      
 	    </div>
 
-          <!-- the results are displayed here -->
-          <ol class="oc-roster oc-clearAfter"
-              tal:define="mem_title nocall:context/@@oc-utils/member_title">
-            <tal:for repeat="membership memberships">
-	      <li class="oc-clearAfter oc-boxy vcard"
-		  tal:define="member_record python:view._membership_record(membership)"
-		  >
-
-		<div class="oc-avatar">
-                  <a tal:attributes="href string:${context/portal_url}/people/${member_record/id}/profile">
-                    <img class="photo" tal:attributes="src member_record/portrait_thumb_url" />
-                  </a>
-		</div> <!-- end .oc-avatar -->
-
-		<div class="oc-roster-content">
-                  <div class="oc-headingBlock">
-                    <h3>
-                      <a tal:attributes="href string:${context/portal_url}/people/${member_record/id}/profile"
-			 class="fn nickname"
-			 tal:content="python:mem_title(member_record)"
-			 />
-                      <span class="oc-discreetText" tal:condition="python: view.is_admin(path('member_record/id'))">
-			(Administrator)
-                      </span>
-                    </h3>
-                    <p class="oc-headingContext oc-discreetText">
-                      team member since
-		      <span tal:replace="member_record/activation" />
-                    </p>
-                  </div>
-                  <dl class="oc-plainList">
-                    <tal:fullname 
-                       tal:define="fullname member_record/fullname|nothing"
-                       tal:condition="fullname">
-                      <dt>Name:</dt>
-                      <dd class="n" tal:content="fullname" />
-                    </tal:fullname>
-                    <tal:email tal:condition="view/can_view_email">
-                      <dt>Email:</dt>
-                      <dd class="email" tal:content="member_record/email" />
-                    </tal:email>
-                    <tal:location tal:define="location member_record/location|nothing" tal:condition="location">
-                      <dt>Location:</dt>
-                      <dd class="adr">
-			<span class="locality" tal:content="location" />
-                      </dd>
-                    </tal:location>
-                    <tal:projects tal:define="pbrains member_record/project_brains;
-                                              num_projects member_record/num_projects">
-                      <dt class="oc-roster-projects">
-			<span tal:replace="view/project_noun/title">Project</span>s (<span tal:replace="num_projects">N</span>):
-                      </dt>
-                      <dd>
-			<ul class="oc-inlineList">
-                          <li tal:repeat="project pbrains">
-                            <a tal:attributes="href project/getPath">
-                              <span tal:content="project/Title" />
-                            </a>
-                          </li>
-                          <li tal:condition="python: num_projects > 10">
-                            <a tal:attributes="href string:${context/portal_url}/people/${member_record/id}/profile">
-                              (view all&hellip;)</a>
-                          </li>
-			</ul>
-                      </dd>
-                    </tal:projects>
-                  </dl>
-		</div> <!-- end .oc-roster-content -->
-
-              </li>
-	    </tal:for>
-          </ol>
-
-          <div class="oc-directory-sorter" tal:define="many python: batch.start!=batch.end">
-          
-            <!-- we put pagination on the bottom of the page too -->
-            <metal:macro use-macro="context/@@nui_batch_macros/pagination"/>
-          
-            <metal:macro use-macro="context/@@nui_batch_macros/sort_string"/>
-
-	  </div>
           </tal:got_results>
 	  
           <!-- if we get no results, this is what is displayed -->
           <div tal:condition="not:memberships">No team members found.</div>
-
+	  
       </div> <!-- content-main -->
-
+      
       
       <div id="oc-content-sidebar">
       </div><!-- content-sidebar -->

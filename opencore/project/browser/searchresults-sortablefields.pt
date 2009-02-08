@@ -1,0 +1,5 @@
+<ul id="sortable_fields">
+  <li id="getId">sorted A-Z</li>
+  <li id="portal_type">sorted by content type</li>
+  <li id="Creator">sorted by creator</li>
+</ul>

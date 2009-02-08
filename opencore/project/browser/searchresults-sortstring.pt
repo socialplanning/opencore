@@ -7,9 +7,3 @@
     Project <span tal:replace="options/start" /> of <span tal:replace="options/sequence_length" />
   </tal:if>
 </div>
-
-<ul id="sortable_fields">
-  <li id="getId">sorted A-Z</li>
-  <li id="portal_type">sorted by content type</li>
-  <li id="Creator">sorted by creator</li>
-</ul>

@@ -61,7 +61,7 @@ people/projects searchresults templates somehow?
               <metal:macro use-macro="context/@@nui_batch_macros/sort_string"/>
 
 	    </div>
-	  </div>	  
+	  </div>
 
 	</tal:got_results>
       </div>
