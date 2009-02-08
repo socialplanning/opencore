@@ -1,6 +1,7 @@
 <configure xmlns="http://namespaces.zope.org/zope"
     xmlns:browser="http://namespaces.zope.org/browser"
-    xmlns:five="http://namespaces.zope.org/five">
+    xmlns:five="http://namespaces.zope.org/five"
+    xmlns:opencore="http://namespaces.openplans.org/opencore">
 
   <!-- macro to control pagination -->
   <browser:page
@@ -30,13 +31,16 @@
      template="projects.pt"
      />
 
+  <include package="opencore.nui.main" file="meta.zcml" />
   <!-- projects-searchresults -->
-  <browser:page
+  <opencore:searchView
      for="opencore.interfaces.adding.IAddProject"
      class=".search.ProjectsSearchView"
      permission="zope2.View"
      name="searchresults"
-     template="projects-searchresults.pt"
+     result_listing="projects-resultlist.pt"
+     sortable_fields="projects-sortablefields.pt"
+     sort_string="projects-sortstring.pt"
      />
 
 
@@ -50,12 +54,14 @@
      />
 
   <!-- people-searchresults -->
-  <browser:page
+  <opencore:searchView
      for="opencore.interfaces.adding.IAmAPeopleFolder"
      class=".search.PeopleSearchView"
      permission="zope2.View"
      name="searchresults"
-     template="people-searchresults.pt"
+     result_listing="people-resultlist.pt"
+     sortable_fields="people-sortablefields.pt"
+     sort_string="people-sortstring.pt"
      />
 
   <!-- home -->
@@ -68,12 +74,14 @@
      />
 
   <!-- home-searchresults -->
-  <browser:page
+  <opencore:searchView
      for="*"
      class=".search.SitewideSearchView"
      permission="zope2.View"
      name="sitesearch"
-     template="home-searchresults.pt"
+     result_listing="home-resultlist.pt"
+     sortable_fields="home-sortablefields.pt"
+     sort_string="home-sortstring.pt"
      />
 
   <!-- footer links -->
@@ -140,6 +148,21 @@
      manager="opencore.project.browser.interfaces.IProjectSidebar"
      permission="zope2.View"
      view=".search.HomeView"
+     />
+
+  <browser:viewletManager
+     name="opencore.searchresults.top"
+     provides=".interfaces.ISearchResultsTop"
+     permission="zope2.View"
+     />
+
+  <browser:viewlet
+     for="*"
+     name="opencore.search"
+     manager="opencore.nui.main.interfaces.ISearchResultsTop"
+     permission="zope2.View"
+     template="search-widget.pt"
+     class=".view.WithProjectNoun"
      />
 
 </configure>

@@ -9,13 +9,36 @@
       <div id="oc-content-main"
 	   tal:define="batch view/batched_results">
 
+	<tal:viewlet replace="structure provider:opencore.searchresults.top" />
+
 	<!-- SOME PEOPLE PUT A SEARCH WIDGET HERE (people, projects, sitesearch) -->
         
         <tal:got_results condition="batch">
 
 	  <!-- SOME PEOPLE PUT SOME RANDOM HTML HERE (team-view) -->
 
-          <div class="oc-lineup">
+	  <!-- projects searchresults structure is
+	       div.oc-lineup => div.oc-widget.oc-widget.feed
+	       div.oc-lineup-sorter => div.oc-feed-sorter
+	       ol.oc-lineup-list => ol.oc-feed-list
+	       li.oc-lineup-item => li.oc-feed-item.oc-clearAfter
+
+	       people searchresults structure is
+	       div.oc-lineup => div.oc-directory
+	       div.oc-lineup-sorter => div.oc-directory.sorter
+	       ol.oc-lineup-list => ol.oc-directory-list.oc-clearAfter
+	       li.oc-lineup-item => li.oc-clearAfter.vcard
+
+	       home searchresults structure is identical to this one
+
+	       people "new members" structure is
+	       div.oc-lineup => div.oc-widget.oc-widget-feed.oc-widget-feed-home
+	       div.oc-lineup-sorter => [NA]
+	       ol.oc-lineup-list => ul.oc-feed-list
+	       li.oc-lineup-item => li.oc-feed-item.oc-clearAfter
+
+	       -->
+          <div class="oc-lineup"> 
             <div class="oc-lineup-sorter">
               <metal:macro use-macro="context/@@nui_batch_macros/pagination"/>
               <metal:macro use-macro="context/@@nui_batch_macros/sort_string"/>

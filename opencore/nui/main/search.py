@@ -81,13 +81,7 @@ from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
 
 class SearchView(BaseView):
 
-    default_template = ZopeTwoPageTemplateFile('searchresults.pt')
-
-    def __call__(self):
-        if hasattr(self, 'index'):
-            return self.index()
-
-        return self.default_template()
+    default_template = '/home/egj/opencore/egj.openplans.org/builds/20081204/opencore/src/opencore/opencore/nui/main/searchresults.pt'
 
     def batched_results(self):
         results = self.handle_request()
@@ -114,6 +108,9 @@ class SearchView(BaseView):
 
         return results        
 
+    def result_listing(self, item):
+        return self._result_listing(item=item)
+
     def sort_widget_string(self, batch):
         """
         return an HTML snippet like "Projects 1-12 of 34"
@@ -122,13 +119,11 @@ class SearchView(BaseView):
         """
         is_plural = False
         if batch.end > batch.start: is_plural = True
+        
         return self._sort_string(start=batch.start,
                                  end=batch.end,
                                  sequence_length=batch.sequence_length,
                                  is_plural=is_plural)
-
-    def result_listing(self, item):
-        return self._result_listing(item=item)
 
     @property
     def sort_by_options(self):

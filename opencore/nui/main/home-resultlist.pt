@@ -22,7 +22,7 @@
     <span class="oc-discreetText">
       
       <tal:is_page condition="python: portal_type == 'Document'">
-        <tal:project_define define="proj python: obj.aq_parent">
+        <tal:project_define define="proj python:item.getObject().aq_parent">
           in
           <a tal:attributes="href proj/absolute_url" tal:content="proj/Title" />,
         </tal:project_define>

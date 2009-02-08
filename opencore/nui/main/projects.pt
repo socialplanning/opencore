@@ -11,10 +11,7 @@
       </div>
       <div id="oc-content-main">
         
-        <tal:set_var define="current_search_page string:projects;
-           form_action_url string:${context/absolute_url}/searchresults">
-          <div metal:use-macro="here/main_macros/search_widget" />
-        </tal:set_var>
+        <tal:viewlet replace="structure provider:opencore.searchresults.top" />
 
         <!-- list of recently updated projects. XXX maybe create a macro out of this? Generic for recent content? -->
         <div class="oc-widget oc-widget-feed">
@@ -48,8 +45,6 @@
       </div><!-- content-main -->
       
       
-      <!-- XXX we need to think about how we are going to implement this with dynamic data
-           wiki page snippet pulled from a particular location? -->
       <!-- content-sidebar -->
       <div id="oc-content-sidebar">
         <div class="oc-getstarted" tal:condition="view/loggedin">

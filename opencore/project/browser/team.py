@@ -165,10 +165,6 @@ class RequestMembershipView(TeamRelatedView, formhandler.OctopoLite, LoginView):
 from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
 class ProjectTeamView(TeamRelatedView):
 
-    _result_listing = ZopeTwoPageTemplateFile('team-resultlist.pt')
-    _sortable_fields = ZopeTwoPageTemplateFile('team-sortablefields.pt')
-    _sort_string = ZopeTwoPageTemplateFile('team-sortstring.pt')
-
     admin_role = DEFAULT_ROLES[-1]
     
     def __call__(self):
