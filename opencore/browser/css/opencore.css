@@ -363,6 +363,11 @@ dl.oc-plainList dd {
 
 /* Directory view of search results */
 
+div.oc-directory ol.oc-lineup-list {
+  border-bottom: none;
+  border-top: none;
+}
+
 div.oc-directory ol.oc-lineup-list:after {
   content: "";
   display: block; 
