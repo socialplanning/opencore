@@ -13,12 +13,12 @@
 	
 	<tal:got_results condition="batch">
 	  
-          <div class="oc-headingBlock"
-	       tal:define="many python: batch.start != batch.end">
+          <div class="oc-headingBlock">
             <h1>Team members</h1>
             <p class="oc-headingContext">
 	      <span tal:replace="batch/sequence_length"/>
-	      member<tal:plural condition="many">s</tal:plural>.
+	      member(s).
+
 	      <span tal:condition="python: view.membertool.checkPermission('TeamSpace: Manage team memberships', context)">
 		<a href="manage-team">
 		  Add or remove members.
@@ -27,7 +27,6 @@
 	    </p>
           </div>
 	  
-          <!-- display the number of results that came back -->
           <div class="oc-directory-sorter">              
 	    <!-- XXX TODO: the CSS is very brittle here
 		 div.oc-directory-sorter, but no .oc-directory
@@ -40,9 +39,8 @@
 	  
           <!-- the results are displayed here -->
           <ol class="oc-roster oc-clearAfter">
-            <li class="oc-clearAfter oc-boxy vcard"
-		tal:repeat="membership batch">
-	      <tal:result replace="structure python:view.result_listing(membership)" />
+            <li class="oc-clearAfter oc-boxy vcard" tal:repeat="item batch">
+	      <tal:result replace="structure python:view.result_listing(item)"/>
 	    </li>
           </ol>
 	  
@@ -54,12 +52,13 @@
         </tal:got_results>
 	
         <!-- if we get no results, this is what is displayed -->
-        <div tal:condition="not:batch">No team members found.</div>
+        <tal:no_results condition="not:batch">
+	  <div>No team members found.</div>
+	</tal:no_results>
 	
       </div> <!-- content-main -->
-      
-      
-      <div id="oc-content-sidebar">
+
+     <div id="oc-content-sidebar">
       </div><!-- content-sidebar -->
       
     </div><!-- content-fill-slot -->

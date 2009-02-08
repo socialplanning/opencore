@@ -43,7 +43,6 @@
 	    No results found.
 	  </div>
 	</tal:no_results>
-
 	
       </div> <!-- oc-content-main -->
     </div> <!-- content slot -->
