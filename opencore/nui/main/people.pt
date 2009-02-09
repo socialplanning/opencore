@@ -21,7 +21,7 @@
 
         <div class="oc-blocklist">
           <h2 class="oc-feed-title">New Members</h2>
-
+	  
           <ol class="oc-lineup-list">
             <li class="oc-lineup-item oc-clearAfter"
 		tal:repeat="item view/recently_created_members">
