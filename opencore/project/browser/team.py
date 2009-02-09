@@ -166,7 +166,7 @@ from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
 class ProjectTeamView(TeamRelatedView):
 
     admin_role = DEFAULT_ROLES[-1]
-    
+
     def __call__(self):
         # @@ why is this redirect here? DWM
         # these view represent different functions
@@ -174,7 +174,11 @@ class ProjectTeamView(TeamRelatedView):
             self.redirect(self.context.absolute_url() + '/manage-team')
         else:
             return super(ProjectTeamView, self).__call__()
-   
+
+    _heading_block  = ZopeTwoPageTemplateFile('team-heading.pt')
+    def heading_block(self, batch):
+        return self._heading_block(batch=batch)
+
     def handle_request(self):
         # this is what controls which sort method gets dispatched to
         # in the memberships property

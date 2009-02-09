@@ -15,7 +15,7 @@
         
         <tal:got_results condition="batch">
 
-	  <!-- SOME PEOPLE PUT SOME RANDOM HTML HERE (team-view) -->
+	  <tal:structure replace="structure python:view.heading_block(batch)" />
 
 	  <!-- projects searchresults structure is
 	       div.oc-lineup => div.oc-widget.oc-widget-feed

@@ -91,6 +91,9 @@ class SearchView(BaseView):
         start = self.from_page(self.page, batch_size)
         return self._get_batch(results, start, batch_size)
 
+    def heading_block(self, batch):
+        pass
+
     def handle_request(self):
         """
         A default search handler that finds all content

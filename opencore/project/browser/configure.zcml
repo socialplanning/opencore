@@ -23,7 +23,6 @@
      class=".team.ProjectTeamView"
      permission="zope2.View"
      name="team"
-     template="team-view.pt"
      result_listing="team-resultlist.pt"
      sortable_fields="team-sortablefields.pt"
      />

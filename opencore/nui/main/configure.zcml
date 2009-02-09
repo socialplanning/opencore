@@ -30,7 +30,6 @@
      name="view"
      template="projects.pt"
      />
-
   <include package="opencore.nui.main" file="meta.zcml" />
   <!-- projects-searchresults -->
   <opencore:searchView
@@ -41,7 +40,15 @@
      result_listing="projects-resultlist.pt"
      sortable_fields="projects-sortablefields.pt"
      />
-
+  <browser:viewlet
+     for="*"
+     view=".search.ProjectsSearchView"
+     name="opencore.search"
+     manager="opencore.nui.main.interfaces.ISearchResultsTop"
+     permission="zope2.View"
+     template="search-widget.pt"
+     class=".view.WithProjectNoun"
+     />
 
   <!-- people portal -->
   <browser:page
@@ -51,7 +58,6 @@
      name="view"
      template="people.pt"
      />
-
   <!-- people-searchresults -->
   <opencore:searchView
      for="opencore.interfaces.adding.IAmAPeopleFolder"
@@ -60,6 +66,15 @@
      name="searchresults"
      result_listing="people-resultlist.pt"
      sortable_fields="people-sortablefields.pt"
+     />
+  <browser:viewlet
+     for="*"
+     view=".search.PeopleSearchView"
+     name="opencore.search"
+     manager="opencore.nui.main.interfaces.ISearchResultsTop"
+     permission="zope2.View"
+     template="search-widget.pt"
+     class=".view.WithProjectNoun"
      />
 
   <!-- home -->
@@ -79,6 +94,15 @@
      name="sitesearch"
      result_listing="home-resultlist.pt"
      sortable_fields="home-sortablefields.pt"
+     />
+  <browser:viewlet
+     for="*"
+     view=".search.SitewideSearchView"
+     name="opencore.search"
+     manager="opencore.nui.main.interfaces.ISearchResultsTop"
+     permission="zope2.View"
+     template="search-widget.pt"
+     class=".view.WithProjectNoun"
      />
 
   <!-- footer links -->
@@ -151,15 +175,6 @@
      name="opencore.searchresults.top"
      provides=".interfaces.ISearchResultsTop"
      permission="zope2.View"
-     />
-
-  <browser:viewlet
-     for="*"
-     name="opencore.search"
-     manager="opencore.nui.main.interfaces.ISearchResultsTop"
-     permission="zope2.View"
-     template="search-widget.pt"
-     class=".view.WithProjectNoun"
      />
 
 </configure>
