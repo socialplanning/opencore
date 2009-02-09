@@ -425,13 +425,23 @@ div.oc-blocklist li.oc-lineup-item .oc-project-logo {
   margin-right: 1em;
   padding: 8px;
 }
+div.oc-blocklist ol.oc-lineup-list li.oc-lineup-item .oc-lineup-content {
+  float: left;
+  clear: none;
+  padding: 0.75em 0;
+  width: 67%;
+}
 div.oc-blocklist li.oc-lineup-item .oc-feed-item-content {
   float: left;
   clear: none;
   padding: 0.75em 0;
   width: 67%;
 }
-div.oc-blocklist li.oc-lineup-item .oc-feed-item-title,
+div.oc-blocklist li.oc-lineup-item .oc-discreetText {
+  line-height: normal;
+}
+
+div.oc-blocklist li.oc-lineup-item .oc-lineup-item-title,
 div.oc-blocklist li.oc-lineup-item .oc-feed-item-data,
 div.oc-blocklist li.oc-lineup-item .oc-feed-item-description {
   margin: 0;
@@ -1265,12 +1275,6 @@ li.oc-invite .oc-project-logo {
   clear: none;
   margin-right: 1em;
   padding: 8px;
-}
-li.oc-feed-item .oc-feed-item-content {
-  float: left;
-  clear: none;
-  padding: 0.75em 0;
-  width: 67%;
 }
 li.oc-feed-item .oc-feed-item-title,
 li.oc-feed-item .oc-feed-item-data,

@@ -13,15 +13,17 @@
   </div>
 
   <div class="oc-lineup-content">
-    <h3 class="fn nickname">
+    <h3 class="oc-lineup-item-title n fn nickname">
       <a tal:attributes="href home_url"
          tal:content="item/Title" />
     </h3>
+
     <div class="oc-discreetText adr"
 	 tal:define="loc item/getLocation"
 	 tal:condition="loc">
       <span class="locality" tal:content="loc" />
     </div>
+
   </div>
   
 </tal:set>

@@ -23,36 +23,11 @@
           <h2 class="oc-feed-title">New Members</h2>
 
           <ol class="oc-lineup-list">
-            <li class="oc-feed-item oc-clearAfter"
+            <li class="oc-lineup-item oc-clearAfter"
 		tal:repeat="item view/recently_created_members">
 
-              <tal:member_info define="member python:view.member_info_for_member(item.getObject());
-				       home_url python:context.portal_membership.getHomeUrl(item.getId)">
-		<div class="oc-avatar">
-                  <a tal:attributes="href home_url">
-		    <img class="photo"
-			 tal:condition="not:item/has_portrait"
-			 tal:attributes="src view/defaultPortraitThumbURL" />
-		    <img class="photo"
-			 tal:condition="item/has_portrait"
-			 tal:attributes="src string:${item/getURL}/portrait_thumb" />
-                  </a>
-		</div>
+	      <tal:result replace="structure python:view.result_listing(item)" />
 
-                <div class="oc-feed-item-content">
-                  <h3 class="oc-feed-item-title n">
-                    <a tal:attributes="href home_url" tal:content="item/Title" />
-                  </h3>
-
-                <p class="oc-feed-item-data oc-discreetText"
-                  tal:define="loc member/location"
-                  tal:condition="loc"
-                  tal:content="member/location"
-                  />
-
-                </div>
-
-              </tal:member_info>
             </li>
 	  </ol>
         </div>
