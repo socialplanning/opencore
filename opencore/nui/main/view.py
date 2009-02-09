@@ -15,6 +15,14 @@ class WithProjectNoun(object):
             url = url.split('/')[-1]
         return url
 
+    def form_action_url(self):
+        from opencore.interfaces import IOpenSiteRoot
+        url = self.request.ACTUAL_URL
+        if IOpenSiteRoot.providedBy(self.context):
+            return url
+        else:
+            return self.context.absolute_url() + '/searchresults'
+
 class GetStarted(ViewletBase):
     render = ViewPageTemplateFile('get-started.pt')
     def project_noun(self):
