@@ -68,8 +68,9 @@ class ISearchViewDirective(Interface):
         )
 
 from Products.Five.browser.metaconfigure import page
-from opencore.nui.main.search import SearchView
+from opencore.nui.main import search
 from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
+import os
 
 def factory(_context, name, permission, for_,
             layer=IDefaultBrowserLayer,
@@ -80,26 +81,26 @@ def factory(_context, name, permission, for_,
             ):
 
     if class_ is None:
-        class_ = SearchView
-    if template is None:
-        template = SearchView.default_template
+        class_ = search.SearchView
 
+    default_path = search.__file__.split(os.path.sep)[:-1]
+
+    if template is None:
+        template = search.SearchView.default_template
+        template = os.sep + os.path.join(*default_path + [template])
     if result_listing is None:
-        result_listing = SearchView.default_result_listing
+        result_listing = os.sep + os.path.join(*default_path + [search.SearchView.default_result_listing])
     if sortable_fields is None:
-        sortable_fields = SearchView.default_sortable_fields
+        sortable_fields = os.sep + os.path.join(*default_path + [search.SearchView.default_sortable_fields])
     if sort_string is None:
-        sort_string = SearchView.default_sort_string
-    
-    result_listing = os.path.abspath(str(_context.path(result_listing)))
+        sort_string = os.sep + os.path.join(*default_path + [search.SearchView.default_sort_string])
+
     if not os.path.isfile(result_listing):
         raise ConfigurationError("No such file", result_listing)
 
-    sortable_fields = os.path.abspath(str(_context.path(sortable_fields)))
     if not os.path.isfile(sortable_fields):
         raise ConfigurationError("No such file", sortable_fields)
 
-    sort_string = os.path.abspath(str(_context.path(sort_string)))
     if not os.path.isfile(sort_string):
         raise ConfigurationError("No such file", sort_string)
 

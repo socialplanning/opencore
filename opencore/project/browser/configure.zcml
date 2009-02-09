@@ -11,11 +11,9 @@
   <include package="opencore.nui.main" file="meta.zcml" />
 
   <opencore:searchView
-     for="opencore.interfaces.IProject"
+     for="*"
      permission="zope2.View"
-     name="search"
-     result_listing="searchresults-resultlist.pt"
-     sortable_fields="searchresults-sortablefields.pt"
+     name="searching"
      />
 
   <opencore:searchView

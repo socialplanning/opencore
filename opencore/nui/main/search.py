@@ -81,8 +81,13 @@ from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
 
 class SearchView(BaseView):
 
-    default_template = '/home/egj/opencore/egj.openplans.org/builds/20081204/opencore/src/opencore/opencore/nui/main/searchresults.pt'
-    default_sort_string = '/home/egj/opencore/egj.openplans.org/builds/20081204/opencore/src/opencore/opencore/nui/main/searchresults-sortstring.pt'
+    from pkg_resources import resource_filename
+    from opencore.configuration import OC_REQ
+
+    default_template = 'searchresults.pt'
+    default_sort_string = 'searchresults-sortstring.pt'
+    default_sortable_fields = 'searchresults-sortablefields.pt'
+    default_result_listing = 'searchresults-resultlist.pt'
 
     def batched_results(self):
         results = self.handle_request()
