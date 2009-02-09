@@ -317,8 +317,9 @@ ol.oc-lineup-list {
   list-style-type: none;
 }
 
-.oc-lineup-list li.oc-lineup-item:last-child,
-.oc-lineup-list li.oc-feed-item:last-child {
+div.oc-lineup ol.oc-lineup-list li.oc-lineup-item:last-child,
+div.oc-blocklist ol.oc-lineup-list li.oc-lineup-item:last-child,
+ol.oc-lineup-list li.oc-feed-item:last-child {
   border: none;
 }
 .oc-lineup-item {
@@ -459,12 +460,11 @@ div.oc-blocklist li.oc-lineup-item .oc-feed-item-data.oc-actions {
 
 
 /* Team View */
-.oc-roster {
-  clear: both;
-  list-style-type: none;
-  padding: 0;
+div.oc-roster ol.oc-lineup-list {
+  border-bottom: none;
+  border-top: none;
 }
-.oc-roster .oc-avatar {
+div.oc-roster .oc-avatar {
   width: 80px;
   height: 80px;
   overflow: hidden;
@@ -472,13 +472,13 @@ div.oc-blocklist li.oc-lineup-item .oc-feed-item-data.oc-actions {
   clear: none;
   margin-right: 1em;
 }
-.oc-roster-content {
+div.oc-roster .oc-lineup-content {
   float: left;
   clear: none;
   width: 60%;
   white-space: normal;
 }
-.oc-roster-content h3 /* OpenPlans username */{
+div.oc-roster .oc-lineup-content h3 /* OpenPlans username */{
   display: inline;
   margin: 0;
   font-weight: bold;
@@ -491,6 +491,27 @@ div.oc-blocklist li.oc-lineup-item .oc-feed-item-data.oc-actions {
 .oc-roster dl.oc-plainList dd {
   margin-bottom: 0;
 }
+div.oc-roster li.oc-lineup-item {
+  background-color: #F6F6F6;
+  border-top: 2px solid #E6D3C0;
+  margin-bottom: 1em;
+  padding: 1em;
+}
+div.oc-roster li.oc-lineup-item:after {
+  content: "";
+  display: block; 
+  height: 0; 
+  clear: both;
+  visibility: hidden;
+}
+div.oc-roster li.oc-lineup-item h1,
+div.oc-roster li.oc-lineup-item h2,
+div.oc-roster li.oc-lineup-item h3,
+div.oc-roster li.oc-lineup-item h4,
+div.oc-roster li.oc-lineup-item h5 {
+  margin: 0 0 0 0.5em;
+}
+
 
 /* Portal Home */
 #oc-home-content .oc-headingBlock h1{

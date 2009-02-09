@@ -1,7 +1,6 @@
 <tal:set define="item options/item;
-		 member_record python:view._membership_record(item);
-		 mem_title nocall:context/@@oc-utils/member_title;
                  home_url python:context.portal_membership.getHomeUrl(item.getId);
+		 member_record python:view._membership_record(item);
 		 ">
 
   <div class="oc-avatar">
@@ -15,7 +14,8 @@
     </a>
   </div>
   
-  <div class="oc-roster-content">
+  <div class="oc-lineup-content">
+
     <div class="oc-headingBlock">
 
       <h3>

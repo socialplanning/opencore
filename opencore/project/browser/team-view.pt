@@ -27,28 +27,27 @@
 	    </p>
           </div>
 	  
-          <div class="oc-lineup-sorter">              
-	    <!-- XXX TODO: the CSS is very brittle here
-		 div.oc-directory-sorter, but no .oc-directory
-		 and what is oc-roster? oc-boxy? oc-avatar?
-	      -->
-            <metal:macro use-macro="context/@@nui_batch_macros/pagination" />
-            <metal:macro use-macro="context/@@nui_batch_macros/sort_string"/>	      
-	    <metal:macro use-macro="context/@@nui_batch_macros/sort_widget" />
+	  <div class="oc-roster">
+            <div class="oc-lineup-sorter">              
+              <metal:macro use-macro="context/@@nui_batch_macros/pagination" />
+              <metal:macro use-macro="context/@@nui_batch_macros/sort_string"/>	      
+	      <metal:macro use-macro="context/@@nui_batch_macros/sort_widget" />
+	    </div>
+	  
+            <!-- the results are displayed here -->
+            <ol class="oc-lineup-list">
+              <li class="oc-lineup-item"
+		  tal:repeat="item batch">
+		<tal:result replace="structure python:view.result_listing(item)"/>
+	      </li>
+            </ol>
+
+            <div class="oc-lineup-sorter">
+              <metal:macro use-macro="context/@@nui_batch_macros/pagination"/>              
+              <metal:macro use-macro="context/@@nui_batch_macros/sort_string"/>	      
+	    </div>
+
 	  </div>
-	  
-          <!-- the results are displayed here -->
-          <ol class="oc-roster oc-clearAfter">
-            <li class="oc-clearAfter oc-boxy vcard" tal:repeat="item batch">
-	      <tal:result replace="structure python:view.result_listing(item)"/>
-	    </li>
-          </ol>
-	  
-          <div class="oc-lineup-sorter" tal:define="many python: batch.start!=batch.end">
-            <metal:macro use-macro="context/@@nui_batch_macros/pagination"/>              
-            <metal:macro use-macro="context/@@nui_batch_macros/sort_string"/>	      
-	  </div>
-	  
         </tal:got_results>
 	
         <!-- if we get no results, this is what is displayed -->
