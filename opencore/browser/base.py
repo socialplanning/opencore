@@ -190,7 +190,6 @@ class BaseView(BrowserView):
     # this should be put in a viewlet in an oc-twirlip plugin -egj
     def twirlip_uri(self):
         site_url = getToolByName(self.context, 'portal_url')()
-        site_url = site_url.replace("https://", "http://")
         if site_url[-1] == "/":
             site_url = site_url[:-1]
         path = getUtility(IProvideSiteConfig).get("twirlip path", '')
