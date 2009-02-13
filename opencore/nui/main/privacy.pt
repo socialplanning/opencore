@@ -12,14 +12,14 @@
         <p>OpenPlans aims to transform social activism by providing tools that connect people and enable them to share ideas, stay organized, and act collectively to effect change.</p>
         
         <h1>About <acronym title="The Open Planning Project">TOPP</acronym></h1>
-        <p>OpenPlans is the work of <a href="http://topp.openplans.org/">The Open Planning Project</a>, a New York City-based non-profit organization dedicated to using technology to enhance community participation. In addition to OpenPlans, we also sponsor <a href="http://www.geoserver.org/">GeoServer</a>, an open source platform for sharing geographic information, and the <a href="http://www.nycsr.org/">New York City Streets Renaissance Campaign</a>, which advocates for lively public space in New York City.</p>
+        <p>OpenPlans is the work of <a tal:attributes="href context/@@oc-utils/topp_url">The Open Planning Project</a>, a New York City-based non-profit organization dedicated to using technology to enhance community participation. In addition to OpenPlans, we also sponsor <a href="http://www.geoserver.org/">GeoServer</a>, an open source platform for sharing geographic information, and the <a href="http://www.nycsr.org/">New York City Streets Renaissance Campaign</a>, which advocates for lively public space in New York City.</p>
       </div><!-- content-main -->
       <div id="oc-content-sidebar">
         <div id="oc-contact" class="oc-boxy">
           <h2>Contact Us</h2>
             <address class="vcard">
               <p style="font-weight: bold;" class="fn org">
-                <a class="url" href="http://topp.openplans.org">The Open Planning Project</a>
+                <a class="url" tal:attributes="href context/@@oc-utils/topp_url">The Open Planning Project</a>
               </p>
               <dl class="oc-plainList">
                 <dt>Address</dt>

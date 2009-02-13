@@ -5,6 +5,7 @@ from Acquisition import aq_base
 from Acquisition import aq_chain
 from Acquisition import aq_inner
 from Products.CMFCore.utils import getToolByName
+from opencore.utility.interfaces import IProvideSiteConfig
 from zope.app.component.hooks import getSite
 from zope.app.component.hooks import setSite
 from zope.app.component.interfaces import ISite
@@ -132,3 +133,6 @@ from Products.Five.browser import BrowserView
 class OpencoreUtils(BrowserView):
     def member_title(self, arg):
         return member_title(arg)
+    def topp_url(self):
+        cfg = getUtility(IProvideSiteConfig)
+        return cfg.get('topp_url', 'http://topp.openplans.org')
