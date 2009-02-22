@@ -5,7 +5,7 @@
   </h2>	
   <div class="oc-blankSlate">
     <img class="right" src="/++resource++img/summaryicons/wiki.gif" />
-    <p>Collaborate on ideas using Wikis</p>
+    <p>Collaborate on ideas using the Wiki</p>
     <p><a tal:attributes="href feedlink">Home Page</a></p>
     <p><a tal:condition="context/isProjectAdmin"
           tal:attributes="href string:${feedlink}/edit">Edit the Wiki</a></p>
