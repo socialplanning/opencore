@@ -13,23 +13,23 @@ topnav_verify_exists(url=${news_url}, menuitem=${start_projtxt_url})
 
 #people page (profile)
 topnav_verify_exists(url=${people_url}, menuitem="Profile")
-topnav_verify_exists(url=${people_url}, menuitem="Pages")
+topnav_verify_exists(url=${people_url}, menuitem="Wiki")
 topnav_verify_exists(url=${people_url}, menuitem="account")
 
 #account page
 topnav_verify_exists(url=${account_url}, menuitem="Profile")
-topnav_verify_exists(url=${account_url}, menuitem="Pages")
+topnav_verify_exists(url=${account_url}, menuitem="Wiki")
 topnav_verify_exists(url=${account_url}, menuitem="account")
 
 #people wiki pages
 topnav_verify_exists(url=${pages_url}, menuitem="Profile")
-topnav_verify_exists(url=${pages_url}, menuitem="Pages")
+topnav_verify_exists(url=${pages_url}, menuitem="Wiki")
 topnav_verify_exists(url=${pages_url}, menuitem="account")
 
 #project tabs
 create_project
 topnav_verify_exists(url=${project_url}, menuitem="Summary")
-topnav_verify_exists(url=${project_url}, menuitem="Pages")
+topnav_verify_exists(url=${project_url}, menuitem="Wiki")
 topnav_verify_exists(url=${project_url}, menuitem="Mailing Lists")
 topnav_verify_exists(url=${project_url}, menuitem="Team")
 topnav_verify_exists(url=${project_url}, menuitem="Preferences")
@@ -38,7 +38,7 @@ topnav_verify_notexists(url=${project_url}, menuitem="Join")
 
 logout
 topnav_verify_exists(url=${project_url}, menuitem="Summary")
-topnav_verify_exists(url=${project_url}, menuitem="Pages")
+topnav_verify_exists(url=${project_url}, menuitem="Wiki")
 topnav_verify_exists(url=${project_url}, menuitem="Mailing Lists")
 topnav_verify_exists(url=${project_url}, menuitem="Team")
 topnav_verify_exists(url=${project_url}, menuitem="Contents")
