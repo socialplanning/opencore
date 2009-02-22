@@ -6,7 +6,7 @@
   </li>
 
   <li>
-    <a tal:attributes="href view/memhome_url">Pages</a>
+    <a tal:attributes="href view/memhome_url">Wiki</a>
   </li>
 
   <li>
