@@ -32,7 +32,6 @@ def test_suite():
     from opencore.testing.utils import clear_status_messages
     from opencore.testing.utils import get_status_messages
     from pprint import pprint
-    from topp.clockqueue.interfaces import IClockQueue
     from opencore.listen.featurelet import ListenFeaturelet
 
     # for delete-project
