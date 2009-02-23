@@ -48,14 +48,14 @@ setup(
                         'http://feedparser.googlecode.com/files/feedparser-4.1.zip',
                         'https://svn.openplans.org/svn/topp.utils/trunk#egg=topp.utils-dev',
                         'https://svn.openplans.org/svn/ZCMLLoader/trunk#egg=ZCMLLoader',
-                        'https://svn.openplans.org/svn/opencore/plugins/oc-feed/trunk/#egg=oc-feed',
+                        'https://svn.openplans.org/svn/opencore/plugins/oc-feed/trunk/#egg=oc_feed-dev',
                         'https://svn.plone.org/svn/collective/borg/components/borg.localrole/trunk#egg=borg.localrole-dev',
                         ],
 
       install_requires=[
           # -*- Extra requirements: -*-
           "oc-js==dev,>=0.5",
-          'oc-feed>=0.2',
+          'oc-feed>=0.2,==dev',
           'simplejson',
           'decorator',
           'feedparser',
