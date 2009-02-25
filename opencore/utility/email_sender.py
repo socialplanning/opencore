@@ -86,24 +86,41 @@ class EmailSender(object):
 
     def _translate(self, msgid, domain=i18n_domain, mapping=None,
                    target_language=None, default=None):
-        # Ensure that, whichever mapping gets used, it does not contain
-        # binary encoded strings.
+        # Ensure that our mapping gets used...
         if isinstance(msgid, Message):
-            mapping = msgid.mapping or mapping
-        if mapping:
-            mapping.update(self._unicode_values(mapping))
+            if msgid.mapping:
+                tmp = msgid.mapping.copy()
+                tmp.update(mapping or {})
+                mapping = tmp
+            # Messages have a read-only mapping; we can make a copy to stuff
+            # our mapping in there.
+            msgid = Message(msgid, mapping=mapping)
+        # ... and does not contain binary encoded strings.
+        mapping.update(self._unicode_values(mapping))
+
         kw = dict(domain=domain, mapping=mapping,
                   context=self.context,
                   target_language=target_language, default=default)
         return translate(msgid, **kw)
 
     def constructMailMessage(self, msg, **kwargs):
+        """Construct a translated message out of a message id."""
         kwargs.setdefault('portal_title', self.context.Title())
-        return self._translate(msg, mapping=kwargs)
+        return self._translate(msgid=msg, mapping=kwargs)
 
     def sendMail(self, mto, msg=None, subject=None,
                  mfrom=None, **kwargs):
-        to_info = None
+        """
+        Send a message.
+         mto - an email address or list of email addresses.
+         msg - a message string or Message instance.
+               (If you have a msgid, use constructMailMessage() first.
+         subject - a subject string or Message instance.
+         mfrom - the sender's email address.
+
+         Any remaining keyword args are used for interpolation when
+         translating the message.
+        """
         # insert the portal title, used by nearly every message,
         # including those that don't come from constructMailMessage().
         # fixes bug #1711.
