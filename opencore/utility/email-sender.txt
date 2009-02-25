@@ -38,6 +38,9 @@ Check translation machinery::
     >>> msg = Message("I am a ${adj} message", mapping=dict(adj="lovely"))
     >>> es._translate(msg)
     u'I am a lovely message'
+    >>> es._translate(u'demote_to_member', mapping={'name': 'Blark'})
+    u'...Blark...'
+
 
 Test the mail message construction, which really just translates a
 previously constructed Message::
@@ -59,6 +62,14 @@ may come from raw user input:
     >>> mapping['member_id'] = 'I like pi\xc3\xb1atas'
     >>> es.constructMailMessage(msg)
     u'...p1...I like pi\xf1atas...bloop...'
+
+Values passed as keyword args should override those in the message's mapping:
+
+    >>> es.constructMailMessage(msg, team_manage_url='nowhere')
+    u'...p1...I like pi\xf1atas...nowhere...'
+    >>> u'bloop'in es.constructMailMessage(msg, team_manage_url='nowhere') 
+    False
+  
 
 Send some emails, and check that they went out
     >>> es.sendMail(

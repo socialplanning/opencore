@@ -16,6 +16,12 @@ Features Added:
 
 Bugs Fixed:
 
+ * Fixed a bug in utility.email_sender that prevented keyword args
+   from being used in translation interpolation as expected (slinkp)
+
+ * Fixed invite reminder email so the message gets correctly
+   translated including the passed variables (slinkp)
+
  * Fixed unicode decode error in member contact form (and hopefully avoid
    related errors on other pages). (#2768) (slinkp)
 
