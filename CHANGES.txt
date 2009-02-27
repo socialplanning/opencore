@@ -1,9 +1,16 @@
 0.17.0 (UNRELEASED)
 ===================
 
-No changes.  (Actually this is not true; egj, novalis, and rmarianski
-have all made changes since r22524 without updating the
-changelog. Please do so.)
+novalis and rmarianski have made changes since r22524 without updating
+the changelog. Please do so.
+
+Features Added:
+
+ * Rename 'pages' back to 'wiki' (#2749) (egj)
+ 
+Refactoring:
+
+ * Extracted opencore.wordpress into its own egg as a plugin (#2715) (egj)
 
 
 0.16.0 (2009-02-27)
