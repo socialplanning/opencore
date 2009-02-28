@@ -7,7 +7,13 @@ the changelog. Please do so.
 Features Added:
 
  * Rename 'pages' back to 'wiki' (#2749) (egj)
- 
+
+Bugs Fixed:
+
+ * The topnav within a member space was always displaying the member's original
+   Title (i.e. fullname?fullname:id) as it was set at account creation time.  It
+   now properly displays the member's current Title at all times (#2779)
+
 Refactoring:
 
  * Extracted opencore.wordpress into its own egg as a plugin (#2715) (egj)
