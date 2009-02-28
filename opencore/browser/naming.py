@@ -26,7 +26,7 @@ class ProjectDummy(BaseView):
         super(ProjectDummy, self).__init__(context, request)
         
     def __call__(self, *args, **kw):
-        raise Redirect, "%s/%s" %(self.area.absolute_url(), "preferences")
+        raise Redirect, "%s/%s" %(self.context.absolute_url(), "preferences")
 
 class IgnorableProjectDummy(ProjectDummy):
     """same as `ProjectDummy` but the `ignorable` flag will filter these from
