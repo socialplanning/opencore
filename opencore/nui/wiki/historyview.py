@@ -295,14 +295,3 @@ class WikiPageVersionMigrate(BrowserView):
             return "%s entries migrated" %result
         else:
             return "Nothing migrated: result is %s" %result
-
-class RedirectView(WikiVersionView):
-    def __call__(self):
-        current = self.current_id()
-        previous = self.previous_id(current)
-        if previous < 0:
-            # if there have been no edits, just redirect to the page itself
-            # XXX TODO: a PSM would be nice
-            return self.redirect(self.context.absolute_url())
-        url = "%s/version_compare?version_id=%d&version_id=%d" % (self.context.absolute_url(), current, previous)    
-        return self.redirect(url)

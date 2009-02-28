@@ -12,8 +12,7 @@
   define="author view/lastModifiedAuthor;
           time view/lastModifiedTime">
   <p class="oc-discreetText oc-wiki-lastModified">
-     &nbsp; last <a tal:attributes="href string:${context/absolute_url}/latest-change">modified</a>
-     <abbr tal:attributes="title context/ModificationDate" tal:content="time" />
+     &nbsp; last modified <abbr tal:attributes="title context/ModificationDate" tal:content="time" />
      by <a tal:attributes="href string:${context/portal_url}/people/${author}/profile"
        tal:content="author"/>
   </p>
@@ -32,7 +31,6 @@
   <li tal:attributes="class python:view.get_tab_class([u'history', u'version', u'version_compare'])">
     <a tal:attributes="href string:${context/absolute_url}/history">history</a>
   </li>
-
   <!--
   <li>
    <form class="" >
@@ -44,6 +42,5 @@
    </form>
   </li>
   -->
-
 </ul>
 <!-- END WIKI TABS -->
