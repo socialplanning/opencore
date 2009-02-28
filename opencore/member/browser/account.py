@@ -13,6 +13,8 @@ from opencore.interfaces.event import LeftProjectEvent
 from opencore.interfaces.event import MemberModifiedEvent
 from opencore.interfaces.message import ITransientMessage
 from plone.memoize.view import memoize as req_memoize
+import transaction
+from zExceptions import Redirect
 from zope.event import notify
 
 
@@ -537,5 +539,6 @@ class DeleteAccountView(BaseView):
         self.addPortalStatusMessage(
             _(u'psm_account_deleted',
               u'Account %r has been permanently deleted.' % user_to_delete))
-        return self.redirect(portal_url)
+        transaction.commit()
+        raise Redirect(portal_url)
     
