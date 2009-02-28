@@ -1,7 +1,7 @@
 <div id="oc-topnav">
 
   <h1>
-    <a tal:attributes="href string:${view/areaURL}"
+    <a tal:attributes="href view/area/absolute_url"
        tal:content="view/area/Title" />
   </h1>
 
