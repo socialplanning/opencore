@@ -206,6 +206,13 @@
      />
 
   <browser:page
+     class=".historyview.RedirectView"
+     for="opencore.interfaces.IOpenPage"
+     name="latest-change"
+     permission="zope2.View"
+     />
+
+  <browser:page
      attribute="thumb"
      class=".view.ImageManager"
      for="Products.RichDocument.FileAttachment.FileAttachment"
