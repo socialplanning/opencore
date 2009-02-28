@@ -6,7 +6,7 @@
 </tal:handle-request>
 <html metal:use-macro="here/@@standard_macros/master">
   <head>
-    <title metal:fill-slot="title" tal:content="string:Team - ${view/area/Title}" />
+    <title metal:fill-slot="title" tal:content="string:Team - ${context/Title}" />
   </head>
   <body>
 

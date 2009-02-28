@@ -10,15 +10,15 @@
         <!-- project metadata -->
         <div class="oc-headingBlock oc-clearAfter">
           <img style="float: left; width: 80px; margin: 0 1em 0.5em 0; border: 1px solid #EEE;" tal:attributes="src view/logo_url" />
-          <h1 tal:content="view/area/Title">Title</h1>
+          <h1 tal:content="context/Title">Title</h1>
           <p class="oc-headingContext oc-discreetText">
             created 
-            <span tal:define="date view/area/CreationDate"
+            <span tal:define="date context/CreationDate"
 		  tal:content="python:view.pretty_date(date)">
               September 26
             </span>,
             last updated
-            <span tal:define="date view/area/ModificationDate"
+            <span tal:define="date context/ModificationDate"
 		  tal:content="python:view.pretty_date(date)">
               yesterday
             </span>
