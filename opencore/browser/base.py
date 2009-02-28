@@ -198,7 +198,7 @@ class BaseView(BrowserView):
     @view.memoizedproperty
     def area(self):
         if self.miv.inMemberArea or self.miv.inMemberObject:
-            return self.miv.member_folder or self.miv.member_object
+            return self.member_info_for_member(self.miv.member)
         elif self.piv.inProject:
             return self.piv.project
         elif self.wiki_container is not None:
@@ -306,8 +306,15 @@ class BaseView(BrowserView):
         result = {'id': id}
         folder = self.membertool.getHomeFolder(id)
         if folder:
+            # we only add a URL to the result dict if the member folder exists.
+            # if the folder does not exist, that means that the member has never
+            # logged in (since member folders are created on first login, after
+            # account confirmation)
+            # if the folder does not exist, we have no good link to the member
+            # so we just don't provide one
             result['url'] = folder.absolute_url()
-        
+            result['absolute_url'] = folder.absolute_url()
+
         if IReMember.providedBy(member):
             logintime = member.getLogin_time()
             if logintime == DateTime.DateTime('2000/01/01'): # XXX hack around zope
@@ -317,6 +324,7 @@ class BaseView(BrowserView):
             
             result.update(
                 id          = id,
+                Title       = member.Title(),
                 fullname    = member.getFullname(),
                 email       = member.getEmail(),
                 membersince = prettyDate(member.creation_date),
