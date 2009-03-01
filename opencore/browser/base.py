@@ -198,6 +198,11 @@ class BaseView(BrowserView):
     @view.memoizedproperty
     def area(self):
         if self.miv.inMemberArea or self.miv.inMemberObject:
+            member = self.miv.member
+            if member is None:
+                # this is an edge case that i believe only exists in the delete view
+                # when the member object has been deleted but the member area hasn't yet
+                return self.portal
             return self.member_info_for_member(self.miv.member)
         elif self.piv.inProject:
             return self.piv.project

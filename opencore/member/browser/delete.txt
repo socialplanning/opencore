@@ -49,7 +49,6 @@ In fact you can't even restrictedTraverse to the form::
     ...
     Unauthorized...
 
-
 But you can delete yourself::
 
     >>> self.login('deadmeat2')

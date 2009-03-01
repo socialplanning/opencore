@@ -539,6 +539,4 @@ class DeleteAccountView(BaseView):
         self.addPortalStatusMessage(
             _(u'psm_account_deleted',
               u'Account %r has been permanently deleted.' % user_to_delete))
-        transaction.commit()
-        raise Redirect(portal_url)
-    
+        return self.redirect(portal_url)
