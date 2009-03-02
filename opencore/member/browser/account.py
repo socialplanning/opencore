@@ -13,8 +13,6 @@ from opencore.interfaces.event import LeftProjectEvent
 from opencore.interfaces.event import MemberModifiedEvent
 from opencore.interfaces.message import ITransientMessage
 from plone.memoize.view import memoize as req_memoize
-import transaction
-from zExceptions import Redirect
 from zope.event import notify
 
 
