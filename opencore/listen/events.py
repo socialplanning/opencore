@@ -1,4 +1,3 @@
-from Acquisition import aq_base
 from decorator import decorator
 
 from zope.component import getUtility
@@ -9,6 +8,7 @@ from Products.CMFCore.utils import getToolByName
 from Products.listen.interfaces import IWriteMembershipList
 from Products.listen.interfaces import IListLookup
 from opencore.i18n import _
+from opencore.listen.interfaces import ISyncWithProjectMembership
 from opencore.listen.mailinglist import OpenMailingList
 from opencore.project.utils import get_featurelets
 from utils import getSuffix
@@ -52,7 +52,7 @@ def perform_listen_action(mship, action):
     default_list_name = '%s-discussion' % proj_id
     for mlist in listencontainer.objectValues(spec='OpenMailingList'):
         if (mlist.getId() == default_list_name or
-            getattr(aq_base(mlist), '_oc_project_autosync', False)):
+            ISyncWithProjectMembership.providedBy(mlist)):
             mlists.append(mlist)
     if not mlists:
         # no autosync mailing lists; silently fail
