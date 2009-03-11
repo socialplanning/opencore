@@ -7,7 +7,35 @@ from zope.publisher.interfaces.browser import IDefaultBrowserLayer
 from zope.security.zcml import Permission
 
 class ISearchViewDirective(Interface):
-    """ whee """
+    """ 
+    Register an OpenCore SearchView browser view for contexts of the given interface.
+    
+    The directive accepts most of the standard browser:page arguments: `for`,
+    `permission`, `class`, `name` and `template`. If no class factory is set,
+    the view will be implemented with `opencore.nui.search.SearchView` which
+    provides basic searching functionality by returning all viewable contents
+    published within the current context.
+
+    Though you can render a custom template with the `template` argument, the
+    default opencore/nui/main/searchresults.pt template should suffice for most
+    simple cases. That template calls out to several others which can be
+    individually customized with this directive:
+
+     * The `result_listing` template defines how an individual search result
+       is rendered.  If you do not set a template here, the default template,
+       opencore/nui/main/searchresults-resultlist.pt, will be used.
+
+     * The `sort_string` template defines the search result summary text. Its
+       default implementation is opencore/nui/main/searchresults-sortstring.pt
+
+     * The `sortable_fields` template defines the fields which users can use to
+       sort their search results, which are rendered in the "sort by" dropdown
+       in the standard template. By default, results can be sorted by id, creator
+       or content type (opencore/nui/main/searchresults-sortablefields.pt).
+       This template should be structured as an HTML <UL>, with each sorting
+       option in its own <LI>. The `id` of the <LI> should be the attribute name
+       that you want to sort by, and its content should be a human-readable string.
+    """
 
     for_ = GlobalInterface(
         title=u"The interface this view is for.",
