@@ -2,6 +2,7 @@
 some base class for opencore ui work!
 """
 from Acquisition import aq_inner, aq_chain
+from Products.Archetypes.interfaces import IBaseObject
 from Products.CMFCore.utils import getToolByName
 from Products.CMFPlone.interfaces import IPloneSiteRoot
 from Products.Five import BrowserView
@@ -203,29 +204,38 @@ class BaseView(BrowserView):
             mode = '(%s) ' % mode
 
         context = self.context
-        title = context.Title().decode("utf-8")
+        if IBaseObject.providedBy(context):
+            # AT stores raw unicode value, save a decode step
+            title = context.getField('title').storage.get('title', context)
+        else:
+            title = context.Title().decode('utf-8')
+        portal_title = self.portal.Title().decode('utf-8')
 
         if self.miv.inMemberArea or self.miv.inMemberObject:
             vmi = self.viewed_member_info
             mem_title = vmi['fullname'] or vmi['id']
+            mem_title = mem_title.decode('utf-8')
             if not mode and vmi['home_url'] == context.absolute_url():
                 # viewing member homepage
-                return '%s on %s' % (mem_title, self.portal.Title())
+                return '%s on %s' % (mem_title, portal_title)
             else:
                 return '%s %s- %s on %s' % (title, mode, mem_title,
-                                            self.portal.Title())
+                                            portal_title)
         elif self.piv.inProject:
             project = self.piv.project
+            # this long ugly spelling saves us a need to decode
+            proj_title = project.getField('title').storage.get('title', project)
             if not mode and self.context.getId() == IHomePage(project).home_page:
                 # viewing project home page
-                return '%s - %s' % (project.Title().decode('utf-8'), self.portal.Title())
+                return '%s - %s' % (proj_title, portal_title)
             elif self.context != project:
-                return '%s %s- %s - %s' % (title, mode, project.Title().decode('utf-8'),
-                                           self.portal.Title())
+                return '%s %s- %s - %s' % (title, mode, proj_title,
+                                           portal_title)
         elif self.wiki_container is not None \
                  and context != self.wiki_container:
-            return '%s %s- %s - %s' % (title, mode, self.area.Title(),
-                                       self.portal.Title())
+            return '%s %s- %s - %s' % (title, mode,
+                                       self.area.Title().decode('utf-8'),
+                                       portal_title)
 
         # safe catch-all for any case not specifically covered above
         if title == self.portal.Title():

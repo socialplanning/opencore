@@ -58,9 +58,11 @@ class EmailSender(object):
 
             member_info = view.member_info_for_member(member)
             email_string = member_info.get('email')
-            if member_info.get('fullname'):
-                email_string = '%s <%s>' % (member_info.get('fullname'),
-                                            email_string)
+            fullname = member_info.get('fullname')
+            if fullname:
+                # XXX: work around aggressive SecureMailHost validation
+                fullname = fullname.split(',')[0]
+                email_string = '%s <%s>' % (fullname, email_string)
             return email_string
         else:
             # it's already an email address
