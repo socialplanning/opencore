@@ -509,7 +509,8 @@ class ImageManager(WikiEdit, OctopoLite):
             im.save(thumb, "JPEG")
             image.thumbnails[size] = thumb.getvalue()
 
-        #fixme: content-type
+        response = self.request.RESPONSE
+        response.setHeader('Content-Type', 'image/jpeg')
         return image.thumbnails[size]
     
     def prettySize(self, size):
