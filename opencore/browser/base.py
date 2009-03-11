@@ -200,12 +200,14 @@ class BaseView(BrowserView):
         """
         Adapt the current view to an `area` of the site, with a dict-like
         interface to the following metadata about the current site area:
-         * Title: The utf-8 decoded human-readable display title for the area.
-         * absolute_url: The URL path to the area.
-         * home_url: The URL that the area considers to be its "home page"/default view.
-                     If the area prefers to have no "home page", it can return None here.
-         * window_title: A base string that can be used to construct a window title (html>head>title)
-
+         * Title: The unicode representation of a human-readable display title for the area.
+         * absolute_url:  The URL path to the area.
+         * homepage_url:  The URL that the area considers to be its "home page"/default view.
+                          If the area prefers to have no "home page", it can return None here.
+         * verbose_title: A base string that can be used to construct a window title (ie html <TITLE>).
+                          This verbose_title is sort of like an overridable breadcrumb trail.
+                          It's used in the `window_title` method of this same class; the docstring
+                          there is probably the best way to understand what this is supposed to be.
         A site area may represent any of the following:
          * a member area, if the current view is under the member folder or member object
          * a project area, if the current view is under the project container
@@ -215,7 +217,8 @@ class BaseView(BrowserView):
 
         We may want to consider making this list extensible by third parties; for instance, 
         Dimo's http://indy.gr has sitewide containers for user-contributed discussions, media,
-        wiki pages, etc, which might conceivably benefit from this interface.
+        wiki pages, etc, which might conceivably benefit from this interface. It also sounds
+        like NYCStreets might have benefited from making individual cases easily overridable
         """
         if self.miv.inMemberArea or self.miv.inMemberObject:
             member = self.miv.member
@@ -224,9 +227,9 @@ class BaseView(BrowserView):
                 title = info['Title'].decode('utf-8')
                 return {
                     'Title': title,
-                    'home_url': info['absolute_url'] + '/%s-home' % info['id'],
+                    'homepage_url': info['absolute_url'] + '/%s-home' % info['id'],
                     'absolute_url': info['absolute_url'],
-                    'window_title': "%s on %s" % (title, self.portal_title()),
+                    'verbose_title': "%s on %s" % (title, self.portal_title()),
                     }
 
         elif self.piv.inProject:
@@ -234,9 +237,9 @@ class BaseView(BrowserView):
             title = info.Title().decode('utf-8')
             return {
                 'Title': title,
-                'home_url': info.absolute_url() + '/' + IHomePage(info).home_page,
+                'homepage_url': info.absolute_url() + '/' + IHomePage(info).home_page,
                 'absolute_url': info.absolute_url(),
-                'window_title': "%s - %s" % (title, self.portal_title()),
+                'verbose_title': "%s - %s" % (title, self.portal_title()),
                 }
 
         elif self.wiki_container is not None:
@@ -244,9 +247,9 @@ class BaseView(BrowserView):
             title = info.Title().decode('utf-8')
             return {
                 'Title': title,
-                'home_url': None, # wiki containers do not have a home_url
+                'homepage_url': None, # wiki containers do not have a homepage_url
                 'absolute_url': info.absolute_url(),
-                'window_title': "%s - %s" % (title, self.portal_title())
+                'verbose_title': "%s - %s" % (title, self.portal_title())
                 }
 
         # default case is the portal itself
@@ -256,9 +259,9 @@ class BaseView(BrowserView):
         title = info.Title().decode('utf-8')
         return {
             'Title': title,
-            'home_url': info.absolute_url(),
+            'homepage_url': info.absolute_url(),
             'absolute_url': info.absolute_url(),
-            'window_title': title,
+            'verbose_title': title,
             }
 
     def window_title(self, mode=None):
@@ -287,7 +290,7 @@ class BaseView(BrowserView):
         the breadcrumbs displayed aren't required to implement a strict traversal
         hierarchy -- see http://trac.openplans.org/openplans/ticket/588#comment:5
         Instead, the `area` object is trusted to provide its own "breadcrumb
-        trail" (provided as `area['window_title']`) which is then combined with
+        trail" (provided as `area['verbose_title']`) which is then combined with
         the "current breadcrumb" component of the view itself. So:
 
         * Our New Project
@@ -319,8 +322,8 @@ class BaseView(BrowserView):
 
         # if we're rendering the default (view) mode of the area's homepage,
         # we should just display the area title itself
-        if mode == 'view' and area['home_url'] == self.context.absolute_url():
-            return area['window_title']
+        if mode == 'view' and area['homepage_url'] == self.context.absolute_url():
+            return area['verbose_title']
 
         mode_string = u' '
         if mode != 'view':
@@ -334,7 +337,7 @@ class BaseView(BrowserView):
         else:
             #If our context is not its own area, we should print the context,
             #and then print the area.
-            return u'%s- %s' % (context_string, area['window_title'])
+            return u'%s- %s' % (context_string, area['verbose_title'])
 
 
     @timestamp_memoize(600)
