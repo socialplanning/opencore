@@ -308,6 +308,7 @@ dl.oc-plainList dd {
 
 /* GENERIC search results & lineups */
 
+ul.oc-lineup-list,
 ol.oc-lineup-list {
   margin: 0;
   padding: 0;
@@ -320,6 +321,11 @@ ol.oc-lineup-list {
 div.oc-lineup ol.oc-lineup-list li.oc-lineup-item:last-child,
 div.oc-blocklist ol.oc-lineup-list li.oc-lineup-item:last-child,
 ol.oc-lineup-list li.oc-feed-item:last-child {
+  border: none;
+}
+div.oc-lineup ul.oc-lineup-list li.oc-lineup-item:last-child,
+div.oc-blocklist ul.oc-lineup-list li.oc-lineup-item:last-child,
+ul.oc-lineup-list li.oc-feed-item:last-child {
   border: none;
 }
 .oc-lineup-item {
