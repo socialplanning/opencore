@@ -8,6 +8,7 @@ from Products.CMFCore.utils import getToolByName
 from Products.listen.interfaces import IWriteMembershipList
 from Products.listen.interfaces import IListLookup
 from opencore.i18n import _
+from opencore.listen.interfaces import ISyncWithProjectMembership
 from opencore.listen.mailinglist import OpenMailingList
 from opencore.project.utils import get_featurelets
 from utils import getSuffix
@@ -46,15 +47,19 @@ def perform_listen_action(mship, action):
     team = mship.aq_inner.aq_parent
     proj_id = team.getId()
     portal = getToolByName(mship, 'portal_url').getPortalObject()
+    listencontainer = portal.projects._getOb(proj_id).lists
+    mlists = []
     default_list_name = '%s-discussion' % proj_id
-    try:
-        ml = portal.projects._getOb(proj_id).lists._getOb(default_list_name)
-    except AttributeError:
-        # somebody could have removed the default mailing list
-        # silently fail
+    for mlist in listencontainer.objectValues(spec='OpenMailingList'):
+        if (mlist.getId() == default_list_name or
+            ISyncWithProjectMembership.providedBy(mlist)):
+            mlists.append(mlist)
+    if not mlists:
+        # no autosync mailing lists; silently fail
         return
-    memlist = IWriteMembershipList(ml)
-    getattr(memlist, action)(mem_id)
+    for ml in mlists:
+        memlist = IWriteMembershipList(ml)
+        getattr(memlist, action)(mem_id)
 
 def member_joined_project(mship, event):
     perform_listen_action(mship, 'subscribe')
