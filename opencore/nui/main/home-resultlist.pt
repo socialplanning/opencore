@@ -1,12 +1,13 @@
 <tal:set define="item options/item;
 		 portal_type item/portal_type;
-		 is_user python: portal_type == 'OpenMember'">
+		 is_user python: portal_type == 'OpenMember';
+		 mem_title nocall:context/@@oc-utils/member_title;">
 
   <tal:is_user condition="is_user">
     <h3>
       <img tal:attributes="src item/getIcon" />
       <a tal:attributes="href string:${context/portal_url}/people/${item/getId}/profile"
-	 tal:content="item/Title" />
+	 tal:content="python:mem_title(item)" />
     </h3>
     <span class="oc-discreetText">
       member since

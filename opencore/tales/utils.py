@@ -48,15 +48,26 @@ class OpencoreTales(object):
 def member_title(id_or_dict):
     """
     Get member fullname, falling back to ID if no fullname is set.
+
+    You can pass in a member_info dictionary, a catalog brain, or
+    a string; if you pass a string, it will be treated as a member
+    ID and the corresponding member's Title will be retrieved
     """
-    # Backported from sputnik.utils.
+
     if isinstance(id_or_dict, dict):
-        # No need to do all those lookups.
+        # No need to do all those lookups; it's a member_info dictionary
         return id_or_dict['fullname'].strip() or id_or_dict['id']
+    
+    if id_or_dict.__class__.__name__ == 'mybrains':
+        # We got a brain; we can get the Title metadata from it directly
+        return id_or_dict.Title
+        
     if not isinstance(id_or_dict, basestring):
-        raise TypeError('member_title expected a string id or '
-                        'memberdata dict as context, got %s'
+        raise TypeError('member_title expected a string id, catalog brain '
+                        'or memberdata dict as context, got %s'
                         % str(id_or_dict))
+
+    # OK, it's not one of the easy cases; now we have to do a bit of work
     id = id_or_dict
     context = getSite()
     pid = getToolByName(context, 'portal_url').getPortalObject().id
