@@ -68,10 +68,10 @@
             </ul>
           </div>
           
-          <div class="oc-widget oc-widget-feed oc-home-column">
+          <div class="oc-blocklist oc-home-column">
             <h2 i18n:translate="home_updated_projects" class="oc-feed-title">Updated <span i18n:name="project_noun" tal:replace="view/project_noun">project</span>s</h2>
             <ul class="oc-lineup-list">
-              <li class="oc-feed-item oc-clearAfter" tal:repeat="project view/recently_updated_projects">
+              <li class="oc-lineup-item oc-clearAfter" tal:repeat="project view/recently_updated_projects">
               <!-- FIXME optimization potential -->
                 <a tal:attributes="href python:view.project_url(project.getId)">
                   <!-- FIXME weird seek error without the | nothing -->
