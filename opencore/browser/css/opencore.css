@@ -336,6 +336,22 @@ ol.oc-lineup-list li.oc-feed-item:last-child {
 .oc-lineup-item p {
   margin: 0;
 }
+
+.oc-widget-feed .oc-lineup-item:after {
+  content: "";
+  display: block; 
+  height: 0; 
+  clear: both;
+  visibility: hidden;
+}
+.oc-widget-feed .oc-lineup-item .oc-project-logo {
+  clear:none;
+  float:left;
+  margin-right:1em;
+  padding:8px;
+  width:64px;
+}
+
 .oc-lineup-sorter {
   font-size: 10px;
   margin-bottom: 1em;
@@ -380,6 +396,15 @@ div.oc-directory ol.oc-lineup-list li.oc-lineup-item {
   background-color: #F6F6F6;
 }
 
+
+/* override openplans.css: .oc-lineup-item h3 { font-weight: bold } 
+ * because vcard items in the directory list look better when the
+ * user's name is not screaming at you in bold 
+ * * */
+div.oc-directory ol.oc-lineup-list li.oc-lineup-item h3 {
+  font-weight: normal;
+}
+
 div.oc-directory ol.oc-lineup-list .oc-project-logo,
 div.oc-directory ol.oc-lineup-list .oc-avatar {
   width: 80px;
@@ -411,6 +436,14 @@ div.oc-blocklist li.oc-lineup-item {
   padding: 0 0 0.5em;
   border-bottom: 1px dotted #332F2A;
 }
+
+/* individual items in a blocklist must have the "clearAfter" property
+ * so that each item in the set of results is rendered "on a new line"
+ * and pushed all the way back to the left, rather than all being staggered
+ * increasingly to the right.
+ * heeey, in other words, clearAfter a block element gives you LF+CR 
+ * rather than only LF
+ * * * * * */
 div.oc-blocklist li.oc-lineup-item:after {
   content: "";
   display: block; 
@@ -437,6 +470,18 @@ div.oc-blocklist li.oc-lineup-item .oc-feed-item-content {
   clear: none;
   padding: 0.75em 0;
   width: 67%;
+}
+
+/* the h3 in a blocklist's individual item listing (which will be the
+ * item's title) must have margin:0 to prevent it from pushing itself
+ * down too far horizontally -- left to its own devices here it will
+ * position itself below the adjacent logo to its left but with 
+ * margin:0 it behaves nicely and lines up on the same horizontal row
+ * * * * */
+div.oc-blocklist li.oc-lineup-item h3 {
+  display: block;
+  margin: 0;
+  line-height: normal;
 }
 div.oc-blocklist li.oc-lineup-item .oc-discreetText {
   line-height: normal;
@@ -512,6 +557,41 @@ div.oc-roster li.oc-lineup-item h5 {
   margin: 0 0 0 0.5em;
 }
 
+/* the above line seems quite wrong to me; it results in a ugly
+ * rightward indentation of the team member's name in the project's
+ * team view, so that it then does not line up vertically with the
+ * "member since" phrase below. i'm afraid of deleting it though,
+ * so i will override it instead!
+ * * * * */
+div.oc-roster li.oc-lineup-item h3 {
+ margin: 0;
+}
+
+div.oc-buttons ul.oc-lineup-list {
+  /* add a horizontal black line above the list */
+  border-bottom:2px solid #332F2A;
+  border-top:2px solid #332F2A;
+
+  /* push the list's contents all the way to the top */
+  /* and all the way to the sides of the container */
+  /* to create a sort of gridlike rectangle effect */
+  margin:0;
+  padding:0;
+}
+
+div.oc-buttons li.oc-feed-item {
+  /* hide the standard UL bullets */
+  list-style-image: none;
+  list-style-type: none;
+  list-style-position: outside;
+
+  border: 0 none transparent; /* nix the dotted gray border */
+  float: left; /* &nbsp; sort of? no LF or CR, line them up in a row */
+  height: 90px; /* fix the height so the rows are evenly sized */
+  width: 82px; /* fix the width too; they'll now all snap to a box-grid */
+  margin: 0.5em 6px 20px; /* put some breathing room between the items */
+  padding: 0; /* compress the rows to minimize whitespace */
+}
 
 /* Portal Home */
 #oc-home-content .oc-headingBlock h1{
