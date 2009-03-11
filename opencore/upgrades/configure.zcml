@@ -89,5 +89,18 @@
 
   </genericsetup:upgradeSteps>
 
+  <genericsetup:upgradeSteps
+     profile="opencore.configuration:default"
+     source="0.16.0"
+     destination="0.17.0"
+     sortkey="10">
+
+    <genericsetup:upgradeStep
+       title="Retitle member areas"
+       description="Set member area Titles back to member ids, not member Titles (see #2779 for rationale)"
+       handler=".to_0_17_0.retitle_member_areas"
+       />
+
+  </genericsetup:upgradeSteps>
 
 </configure>
