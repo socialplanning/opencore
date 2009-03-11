@@ -197,60 +197,145 @@ class BaseView(BrowserView):
 
     @view.memoizedproperty
     def area(self):
+        """
+        Adapt the current view to an `area` of the site, with a dict-like
+        interface to the following metadata about the current site area:
+         * Title: The utf-8 decoded human-readable display title for the area.
+         * absolute_url: The URL path to the area.
+         * home_url: The URL that the area considers to be its "home page"/default view.
+                     If the area prefers to have no "home page", it can return None here.
+         * window_title: A base string that can be used to construct a window title (html>head>title)
+
+        A site area may represent any of the following:
+         * a member area, if the current view is under the member folder or member object
+         * a project area, if the current view is under the project container
+         * a wiki area, if the current view is under a wiki container (no such implementations
+           in opencore itself, but see StreetsWiki for an example)
+         * the site portal / site root itself, otherwise
+
+        We may want to consider making this list extensible by third parties; for instance, 
+        Dimo's http://indy.gr has sitewide containers for user-contributed discussions, media,
+        wiki pages, etc, which might conceivably benefit from this interface.
+        """
         if self.miv.inMemberArea or self.miv.inMemberObject:
             member = self.miv.member
-            if member is None:
-                # this is an edge case that i believe only exists in the delete view
-                # when the member object has been deleted but the member area hasn't yet
-                return self.portal
-            return self.member_info_for_member(self.miv.member)
+            if member is not None:
+                info = self.member_info_for_member(self.miv.member)
+                title = info['Title'].decode('utf-8')
+                return {
+                    'Title': title,
+                    'home_url': info['absolute_url'] + '/%s-home' % info['id'],
+                    'absolute_url': info['absolute_url'],
+                    'window_title': "%s on %s" % (title, self.portal_title()),
+                    }
+
         elif self.piv.inProject:
-            return self.piv.project
+            info = self.piv.project
+            title = info.Title().decode('utf-8')
+            return {
+                'Title': title,
+                'home_url': info.absolute_url() + '/' + IHomePage(info).home_page,
+                'absolute_url': info.absolute_url(),
+                'window_title': "%s - %s" % (title, self.portal_title()),
+                }
+
         elif self.wiki_container is not None:
-            return self.wiki_container
+            info = self.wiki_container
+            title = info.Title().decode('utf-8')
+            return {
+                'Title': title,
+                'home_url': None, # wiki containers do not have a home_url
+                'absolute_url': info.absolute_url(),
+                'window_title': "%s - %s" % (title, self.portal_title())
+                }
+
+        # default case is the portal itself
+        # this includes an edge case that i believe only exists in the member-delete
+        # view when the member object has been deleted but the member area hasn't yet
+        info = self.portal
+        title = info.Title().decode('utf-8')
+        return {
+            'Title': title,
+            'home_url': info.absolute_url(),
+            'absolute_url': info.absolute_url(),
+            'window_title': title,
+            }
+
+    def window_title(self, mode=None):
+        """
+        mode should be one of: 'view', 'edit', or 'history'.
+
+        Basically this generates a window title that is a breadcrumb list
+        of the hierarchy of major "site areas" that contain the current
+        view's context object.  For example:
+
+         * OpenPlans
+           # /openplans
+         * Our New Project - OpenPlans
+           # /openplans/projects/ourproject
+         * My Wiki Home - Eddie McPherson - OpenPlans
+           # /openplans/people/eddie/eddie-home
+
+        If the current view is an "interesting" view on the context, the
+        name of the view (passed in as the `mode` string) will be displayed
+        as well, like:
+
+         * My Wiki Home (history) - Eddie McPherson on OpenPlans
+           # /openplans/people/eddie/eddie-home/history
+
+        The first set of examples above is actually incorrect, though, because
+        the breadcrumbs displayed aren't required to implement a strict traversal
+        hierarchy -- see http://trac.openplans.org/openplans/ticket/588#comment:5
+        Instead, the `area` object is trusted to provide its own "breadcrumb
+        trail" (provided as `area['window_title']`) which is then combined with
+        the "current breadcrumb" component of the view itself. So:
+
+        * Our New Project
+          # /openplans/projects/ourproject
+          # ...project areas are "all about the project itself" so they do not
+          #    display the portal-level breadcrumb
+
+        * Project Home (edit) - Our New Project
+          # /openplans/project/ourproject/project-home/edit
+
+        * My Wiki Home - Eddit McPherson on OpenPlans
+          # /openplans/people/eddie/eddie-home
+          # ...member areas choose to display the portal-level breadcrumb, but
+          #    they use the friendlier-sounding preposition  "on" rather than
+          #    the otherwise uniform separator "-"
+
+        Phew!
+
+        It also includes logic to deal with "area home pages".  For example, visiting
+        the URL /openplans/projects/myproject/lists will normally produce a window
+        title of "Lists - Our New Project", but if the project's
+        homepage is set to "Mailing Lists" it will instead be displayed as
+        "Our New Project".
+        """
+        area = self.area
+
+        if mode is None:
+            mode = 'view'
+
+        # if we're rendering the default (view) mode of the area's homepage,
+        # we should just display the area title itself
+        if mode == 'view' and area['home_url'] == self.context.absolute_url():
+            return area['window_title']
+
+        mode_string = u' '
+        if mode != 'view':
+            mode_string = u' (%s) '  % mode
+        context_string = u'%s%s' % (self.context.Title().decode('utf-8'),
+                                    mode_string)
+        
+        if area['absolute_url'] == self.context.absolute_url():
+            #If our context is its own area, we shouldn't print its title twice.
+            return context_string
         else:
-            return self.portal
+            #If our context is not its own area, we should print the context,
+            #and then print the area.
+            return u'%s- %s' % (context_string, area['window_title'])
 
-    def window_title(self, mode='view'):
-        """see http://trac.openplans.org/openplans/ticket/588.
-        mode should be one of: 'view', 'edit', or 'history'."""
-        if mode == 'view':
-            mode = ''
-        else:
-            mode = '(%s) ' % mode
-
-        context = self.context
-        title = context.Title().decode("utf-8")
-        portal_title = self.portal.Title().decode('utf-8')
-
-        if self.miv.inMemberArea or self.miv.inMemberObject:
-            vmi = self.viewed_member_info
-            mem_title = vmi['fullname'] or vmi['id']
-            if not mode and vmi['home_url'] == context.absolute_url():
-                # viewing member homepage
-                return u'%s on %s' % (mem_title, portal_title)
-            else:
-                return u'%s %s- %s on %s' % (title, mode, mem_title, portal_title)
-        elif self.piv.inProject:
-            project = self.piv.project
-            proj_title = project.Title().decode('utf-8')
-            if not mode and self.context.getId() == IHomePage(project).home_page:
-                # viewing project home page
-                return u'%s - %s' % (proj_title, portal_title)
-            elif self.context != project:
-                return u'%s %s- %s - %s' % (title, mode, proj_title,
-                                            portal_title)
-        elif self.wiki_container is not None \
-                 and context != self.wiki_container:
-            return u'%s %s- %s - %s' % (title, mode,
-                                       self.area.Title().decode('utf-8'),
-                                       portal_title)
-
-        # safe catch-all for any case not specifically covered above
-        if title == portal_title:
-            return u'%s %s' % (title, mode)
-        else:
-            return u'%s %s- %s' % (title, mode, portal_title)
 
     @timestamp_memoize(600)
     def nusers(self): 
