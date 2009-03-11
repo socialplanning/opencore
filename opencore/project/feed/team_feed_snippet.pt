@@ -1,4 +1,4 @@
-<div class="oc-lineup oc-column oc-clearAfter"
+<div class="oc-buttons oc-column oc-clearAfter"
      tal:define="feed view/feed;
                  lowertitle feed/title/lower"
      tal:attributes="id string:oc-feed-${lowertitle}">

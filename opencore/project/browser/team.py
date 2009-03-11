@@ -167,6 +167,9 @@ class ProjectTeamView(TeamRelatedView):
 
     admin_role = DEFAULT_ROLES[-1]
 
+    def lineup_class(self):
+        return "oc-roster"
+
     def __call__(self):
         # @@ why is this redirect here? DWM
         # these view represent different functions

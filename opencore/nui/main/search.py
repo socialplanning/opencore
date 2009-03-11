@@ -136,6 +136,39 @@ class SearchView(BaseView):
 
     @property
     def lineup_class(self):
+        """
+        `lineup_class` determines the HTML class attribute to give to the
+        outer wrapping DIV of the entire result set. This can be overriden
+        by subclasses to provide a custom CSS theme or Javascript behavior
+        to the result set. This default implementation allows the end user
+        to change the class name via a query string argument; available
+        CSS themes provided in opencore/browser/css are:
+
+         * oc-lineup:    CMSy default; each item is rendered on a thin row
+                         and prefixed by a Plone-ish content type icon.
+                         Used in site search results.
+
+         * oc-directory: Business cards; a two-column list of gray boxes,
+                         with each item rendered in an individual box.
+                         Used in people search results.
+
+         * oc-blocklist: Feed entries; items are rendered one per row
+                         with dotted lines separating them, feels very
+                         horizontal-left-to-right. Used in project search
+                         results.
+
+         * oc-roster:    Not really sure how to describe this one; it's
+                         sort of a strange (but effective) combination
+                         of directory and blocklist. At any rate, it's
+                         used in the project team view.
+
+         * oc-buttons:   Photo quilt; items are shrunk to a small fixed
+                         rectangular size, and are snapped onto a grid
+                         of boxes, so a set of images ends up looking
+                         like a quilt, or graph paper. Used in project
+                         summary page "list of members" (which only
+                         renders profile photos)
+        """
         lineup_class = self.request.form.get('lineup_class', 'oc-lineup')
         return lineup_class
 
@@ -218,6 +251,9 @@ class ProjectsSearchView(SearchView):
 
     noun = 'projects'
     active_states = ['public', 'private']
+
+    def lineup_class(self):
+        return "oc-blocklist"
 
     def handle_request(self):
         self.search_results = None
@@ -313,6 +349,9 @@ class PeopleSearchView(SearchView):
 
     noun = 'members'
 
+    def lineup_class(self):
+        return "oc-directory"
+
     def handle_request(self):
         self.search_results = None
         self.search_query = None
@@ -372,6 +411,9 @@ class PeopleSearchView(SearchView):
 class SitewideSearchView(SearchView):
 
     noun = 'content'
+
+    def lineup_class(self):
+        return "oc-lineup"
 
     def handle_request(self):
         self.search_results = None
