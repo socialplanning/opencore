@@ -70,7 +70,9 @@ class WikiBase(BaseView):
         return ILastModifiedAuthorId(self.context)
 
     def in_project(self):
-        return IProject.providedBy(self.area)
+        from opencore.utils import interface_in_aq_chain
+        from opencore.interfaces import IProject
+        return interface_in_aq_chain(self.context, IProject)
 
     def twirlip_watch_uri(self):
         twirlip_uri = self.twirlip_uri()

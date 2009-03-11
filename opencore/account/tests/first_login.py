@@ -26,11 +26,6 @@ Now we have a folder for 'm1'::
 
     >>> folder = site.people.m1
 
-This folder is set to do default redirection::
-
-    >>> getattr(folder, '__before_traverse__', None)
-    {(1, '__redirection_hook__'): <...AccessRule instance at ...>}
-
 It provides the proper interface::
 
     >>> IMemberFolder.providedBy(folder)

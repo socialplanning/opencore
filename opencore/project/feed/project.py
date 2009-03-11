@@ -11,7 +11,7 @@ class WikiFeedAdapter(BaseFeedAdapter):
     implements(IFeedData)
     adapts(IProject)
 
-    title = 'Pages'
+    title = 'Wiki'
  
     @property
     def link(self):

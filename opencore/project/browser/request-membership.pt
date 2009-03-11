@@ -1,13 +1,13 @@
 <html metal:use-macro="here/@@standard_macros/master">
   <head>
-    <title metal:fill-slot="title" tal:content="string:Join - ${view/area/Title}" />
+    <title metal:fill-slot="title" tal:content="string:Join - ${context/Title}" />
   </head>
   <body>
     <div metal:fill-slot="content">
       <div id="oc-content-main" class="oc-content-main-fullWidth">
         <div class="oc-headingBlock">
           <h1>Join</h1>
-          <p class="oc-headingContext">Request membership to &ldquo;<span tal:replace="view/area/Title" />&rdquo;.</p>
+          <p class="oc-headingContext">Request membership to &ldquo;<span tal:replace="context/Title" />&rdquo;.</p>
         </div>
         <form method="POST" id="request-membership" name="request-membership"
               tal:attributes="action view/request/ACTUAL_URL">
@@ -143,7 +143,7 @@
           </div>
   
           <fieldset>
-              <label for="request-message">Message for &ldquo;<span tal:replace="view/area/Title" />&rdquo;</label>
+              <label for="request-message">Message for &ldquo;<span tal:replace="context/Title" />&rdquo;</label>
               <span class="oc-discreetText">(optional)</span>
               <textarea rows="4" cols="80" 
                         class="oc-autoFocus"
@@ -163,7 +163,7 @@
         <!-- <div class="oc-boxy"
                tal:define="mission context/Description"
                tal:condition="mission">
-          <h2>About &ldquo;<span tal:replace="view/area/Title" />&rdquo;</h2>
+          <h2>About &ldquo;<span tal:replace="context/Title" />&rdquo;</h2>
           <dl class="oc-plainList">
             <dt>Description</dt>
             <dd tal:content="mission">Project mission statement</dd>

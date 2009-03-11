@@ -13,14 +13,7 @@ from opencore.content.page import OpenPage
 from operator import itemgetter
 from zope.component import getMultiAdapter
 
-class BaseMenuView(BaseView):
-
-    @property
-    def areaURL(self):
-        return self.area.absolute_url()
-
-
-class TopNavView(HeaderHijackable, BaseMenuView):
+class TopNavView(HeaderHijackable):
     """
     Provides req'd information for rendering top nav in any context.
     """

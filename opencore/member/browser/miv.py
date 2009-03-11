@@ -168,12 +168,11 @@ def initializeMemberArea(mtool, request, member_id=None):
 
     member_title = member.Title() or member_id
     folder = mtool.getHomeFolder(member_id)
-    folder.setTitle(member_title)
+    folder.setTitle(member_id)
     alsoProvides(folder, IMemberFolder)
-    apply_member_folder_redirection(folder, request)
 
     page_id = "%s-home" % member_id
-    title = "%s Home" % member_title
+    title = "%s Home"  % member_title
     folder.invokeFactory('Document', page_id, title=title)
     folder.setLayout('profile')
 
@@ -187,49 +186,3 @@ def initializeMemberArea(mtool, request, member_id=None):
 
     # make profile the default view on the homepage
     page.setLayout('profile.html')
-
-
-
-@adapter(IFirstLoginEvent)
-def auto_approve_member(event):
-    # if there is a parent project in the
-    # request which implements IConsumeNewMembers,
-    # automatically register the user as a member
-    # of the project.
-    request = event.request
-    parent = get_parent_project(request)
-
-    if parent is not None:
-        team = parent.getTeams()[0]
-        if team is not None: 
-            team.joinAndApprove()
-
-def get_parent_project(request):
-    parents = request.get('PARENTS', tuple())
-
-    for parent in parents:
-        # check the request for a greedy project project,
-        # ie one that is redirected and marked with IConsumeMembers
-        if (redirect.IRedirected.providedBy(parent) and
-            IConsumeNewMembers.providedBy(parent) and 
-            IProject.providedBy(parent)):
-            return parent
-
-def apply_member_folder_redirection(folder, request):
-    parent = get_parent_project(request) 
-    if parent:
-        parent_info = redirect.get_info(parent)
-        folder_id = folder.getId()
-        folder_path = parent_info.url
-        if not folder_path.endswith('/'):
-            folder_path += '/'
-        #XXX not crazy about this assuming the folder is 'people'
-        folder_path += "people/%s" % folder_id
-        return redirect.activate(folder, url=folder_path)
-    else:
-        return redirect.activate(folder)
-
-
-
-    
-

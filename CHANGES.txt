@@ -1,5 +1,28 @@
-0.16.0dev (UNRELEASED)
-=====================
+0.17.0 (UNRELEASED)
+===================
+
+novalis and rmarianski have made changes since r22524 without updating
+the changelog. Please do so.
+
+Features Added:
+
+ * Rename 'pages' back to 'wiki' (#2749) (egj)
+
+Bugs Fixed:
+
+ * The topnav within a member space was always displaying the member's original
+   Title (i.e. fullname?fullname:id) as it was set at account creation time. It
+   now properly displays the member's current Title at all times (#2779) (egj)
+
+Refactoring:
+
+ * Extracted opencore.wordpress into its own egg as a plugin (#2715) (egj)
+
+ * Heavily refactored `BaseView.area` and `BaseView.window_title` functions
+   in `opencore.browser.base` (#588#comment:7 and following)
+
+0.16.0 (2009-02-27)
+===================
 
 Features Added:
 
@@ -15,6 +38,12 @@ Features Added:
  * More templates marked up for translation.
 
 Bugs Fixed:
+
+ * Fixed a bug in utility.email_sender that prevented keyword args
+   from being used in translation interpolation as expected (slinkp)
+
+ * Fixed invite reminder email so the message gets correctly
+   translated including the passed variables (slinkp)
 
  * Fixed unicode decode error in member contact form (and hopefully avoid
    related errors on other pages). (#2768) (slinkp)

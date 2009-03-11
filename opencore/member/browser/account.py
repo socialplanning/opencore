@@ -538,4 +538,3 @@ class DeleteAccountView(BaseView):
             _(u'psm_account_deleted',
               u'Account %r has been permanently deleted.' % user_to_delete))
         return self.redirect(portal_url)
-    

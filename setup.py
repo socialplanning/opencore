@@ -3,7 +3,7 @@ import pkg_resources as pkr
 
 import sys, os
 
-version = '0.16.0dev'
+version = '0.17.0dev'
 
 f = open('README.txt')
 readme = f.read()
@@ -41,7 +41,6 @@ setup(
       zip_safe=False,
       dependency_links=['https://svn.openplans.org/svn/topp.featurelets/trunk#egg=topp.featurelets-0.3.0',
                         'https://svn.openplans.org/svn/OpencoreRedirect/trunk#egg=OpencoreRedirect-dev',
-                        "https://svn.openplans.org/svn/ClockQueue/trunk#egg=ClockQueue-dev",
                         'http://svn.red-bean.com/bob/simplejson/trunk/#egg=simplejson-dev',
                         'http://www.openplans.org/projects/opencore/dependencies',
                         'http://download.savannah.nongnu.org/releases/pyprof/hprof-0.1.1.tar.gz#egg=hprof',
@@ -49,15 +48,14 @@ setup(
                         'http://feedparser.googlecode.com/files/feedparser-4.1.zip',
                         'https://svn.openplans.org/svn/topp.utils/trunk#egg=topp.utils-dev',
                         'https://svn.openplans.org/svn/ZCMLLoader/trunk#egg=ZCMLLoader',
-                        'https://svn.openplans.org/svn/opencore/plugins/oc-feed/trunk/#egg=oc-feed',
+                        'https://svn.openplans.org/svn/opencore/plugins/oc-feed/trunk/#egg=oc_feed-dev',
                         'https://svn.plone.org/svn/collective/borg/components/borg.localrole/trunk#egg=borg.localrole-dev',
                         ],
 
       install_requires=[
           # -*- Extra requirements: -*-
           "oc-js==dev,>=0.5",
-          'oc-feed>=0.2',
-          "ClockQueue==dev,>=0.0",
+          'oc-feed>=0.2,==dev',
           'simplejson',
           'decorator',
           'feedparser',

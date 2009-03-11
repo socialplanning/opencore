@@ -170,16 +170,7 @@ class OpenProject(BrowserDefaultMixin, TeamSpaceMixin, BaseBTreeFolder):
 
     _at_rename_after_creation = True
 
-    ## @@@ these following four `security.declareProtected` lines produce 
-    ##     WARNING SecurityInfo Conflicting security declarations for "manage_renameObjects"
-    ##     WARNING SecurityInfo Conflicting security declarations for "manage_renameObject"
-    ##     on zope startup ... why are they conflicting?
-
-    # put reasonable guards on the renaming methods
-    security.declareProtected(DeleteObjects, 'manage_renameObjects')
-    security.declareProtected(DeleteObjects, 'manage_renameObject')
-
-    # put reasonable guards on the CopySupport methods
+    # put reasonable guards on copy and rename methods
     security.declareProtected(CopyOrMove, 'manage_renameObjects')
     security.declareProtected(CopyOrMove, 'manage_renameObject')
     security.declareProtected(CopyOrMove, 'manage_copyObjects')

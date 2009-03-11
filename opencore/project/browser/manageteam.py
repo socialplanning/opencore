@@ -801,14 +801,13 @@ class InviteView(ManageTeamView):
                             project_noun=self.project_noun,
                             site_contact_url=self.portal.absolute_url() + "/contact-site-admin",
                             )
-        
+
+            msg = sender.constructMailMessage(
+                mship_messages.email_invite_static_body,
+                mfrom=self.loggedinmember.id, **msg_subs)
             if email_confirmation():
-                sender.sendMail(address, msg_id='email_invite_static_body', mfrom=self.loggedinmember.id,
-                                        **msg_subs)
+                sender.sendMail(address, msg=msg)
             else:
-                msg = sender.constructMailMessage(
-                    mship_messages.email_invite_static_body,
-                    mfrom=self.loggedinmember.id, **msg_subs)
                 log.info(msg)
 
         plural = len(addresses) != 1

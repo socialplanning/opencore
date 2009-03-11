@@ -30,7 +30,9 @@ Member info - authenticated
     >>> view.loggedinmember
     <OpenMember at /plone/portal_memberdata/test_user_1_>
     >>> pprint(view.member_info)
-    {'affiliations': '',
+    {'Title': 'test_user_1_',
+     'absolute_url': 'http://nohost/plone/people/test_user_1_',
+     'affiliations': '',
      'anon_email': True,
      'background': '',
      'email': '',

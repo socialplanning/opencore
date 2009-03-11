@@ -34,3 +34,10 @@ class IListenContainer(Interface):
     Marks an object as a mailing list container for the listen
     featurelet.
     """
+
+class ISyncWithProjectMembership(Interface):
+    """
+    When a mailing list is marked w/ this interface it will respond to
+    member joined / removed events to stay in sync w/ the project
+    membership.
+    """

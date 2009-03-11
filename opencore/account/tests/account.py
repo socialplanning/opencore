@@ -17,18 +17,16 @@ the forgotten password view::
     <...SimpleViewClass ...forgot.pt...>
 
     >>> view.request.form['send'] =  True
-    >>> view.userid
 
-With '__ac_name' set, it should find and confirm a userid::
+Getting a userid for an existing user::
 
     >>> view.request.form['__ac_name'] = 'test_user_1_'
-    >>> view.userid
+    >>> view.brain_for_userid_or_email('test_user_1_').getId
     'test_user_1_'
 
 This should be the case even if the user forgets correct capitalization::
 
-    >>> view.request.form['__ac_name'] = 'Test_User_1_'
-    >>> view.userid
+    >>> view.brain_for_userid_or_email('Test_User_1_').getId
     'test_user_1_'
 
 The member needs to have a 'legitimate' email address::
@@ -37,10 +35,11 @@ The member needs to have a 'legitimate' email address::
     >>> member
     <OpenMember at /plone/portal_memberdata/test_user_1_>
     >>> member.setEmail('test_emailer_1_@example.com')
+    >>> member.reindexObject(idxs=['getEmail'])
 
 We can lookup the member by email too, now that he has one::
     >>> view.request.form['__ac_name'] = 'test_emailer_1_@example.com'
-    >>> view.userid
+    >>> view.brain_for_userid_or_email('test_emailer_1_@example.com').getId
     'test_user_1_'
 
 Running handle request does all this, and sends the email::
@@ -54,7 +53,7 @@ Running handle request does all this, and sends the email::
 Now we should be able to get a string for later matching::
 
 
-    >>> randomstring = view.randomstring
+    >>> randomstring = view.randomstring('test_user_1_')
     >>> randomstring
     '...'
 

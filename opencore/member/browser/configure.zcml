@@ -114,8 +114,6 @@
      class=".badge.BadgeView"
      />
 
-  <subscriber handler=".miv.auto_approve_member"/>
-
   <subscriber
      for="opencore.interfaces.membership.IOpenMembership
           opencore.interfaces.event.IChangedTeamRolesEvent"

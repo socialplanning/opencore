@@ -1,6 +1,6 @@
 <html i18n:domain="opencore" metal:use-macro="here/@@standard_macros/master">
   <head>
-    <title metal:fill-slot="title" tal:content="string:Invite - ${view/area/Title}" />
+    <title metal:fill-slot="title" tal:content="string:Invite - ${context/Title}" />
   </head>
   <body>
     <div metal:fill-slot="content">
@@ -39,7 +39,7 @@
                   <label for="subject">Subject:</label>
                 </th>
                 <td class="oc-form-value">
-                  <input style="width: 30em;" type="text" name="subject" tal:attributes="value string:You've been invited to join `${view/area/Title}'" />
+                  <input style="width: 30em;" type="text" name="subject" tal:attributes="value string:You've been invited to join `${context/Title}'" />
                 </td>
               </tr>
               <tr class="oc-form-row">
@@ -53,7 +53,7 @@
 <textarea rows="9" cols="70"  name="message">
 Hi <span tal:replace="request/form/id  | nothing" />,
 
-You have been invited to join <span tal:replace="view/area/Title" /> by  <span tal:replace="python: view.loggedinmember.getFullname() or view.loggedinmember.id" />. Please visit your account page to accept or decline the invitation.
+You have been invited to join <span tal:replace="context/Title" /> by  <span tal:replace="python: view.loggedinmember.getFullname() or view.loggedinmember.id" />. Please visit your account page to accept or decline the invitation.
 
 Cheers,  
 The OpenPlans team

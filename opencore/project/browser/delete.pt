@@ -9,7 +9,7 @@
    condition="not: deleting">
   <html metal:use-macro="here/@@standard_macros/master">
     <head>
-      <title metal:fill-slot="title" tal:content="string:Preferences - ${view/area/Title}" />
+      <title metal:fill-slot="title" tal:content="string:Preferences - ${context/Title}" />
     </head>
     <body>
       <div metal:fill-slot="content">

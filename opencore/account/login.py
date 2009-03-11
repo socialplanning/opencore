@@ -239,21 +239,27 @@ class ForgotLoginView(AccountView):
     @button('send')
     @post_only(raise_=False)
     def handle_request(self):
-        site_url = getToolByName(self.context, 'portal_url')()
-        userid = self.userid
-        if userid:
+        userid_or_email = self.request.get("__ac_name")
+        if not userid_or_email:
+            self.addPortalStatusMessage(_(u'psm_enter_username_email', u"Please enter your username or email address."))
+            return False
 
+        site_url = getToolByName(self.context, 'portal_url')()
+        brain = self.brain_for_userid_or_email(userid_or_email)
+        if brain is not None:
+            userid = brain.getId
             if self.is_pending(getUserName=userid):
                 self.redirect('%s/resend-confirmation?member=%s' % (site_url, userid))
-                return
+                return False
             
+            reset_url = site_url + self.reset_url(userid)
             if email_confirmation():
-                self._mailPassword(userid)
+                self._mailPassword(brain.getEmail, reset_url)
                 self.addPortalStatusMessage(_(u'psm_forgot_login',
                                               u'Your username is ${user_id}.  If you would like to reset your password, please check your email account for further instructions.',
                                               mapping={u'user_id': userid}))
             else:
-                self.redirect(self.reset_url)
+                self.redirect(reset_url)
             return True
 
         # else the user isn't found
@@ -261,33 +267,23 @@ class ForgotLoginView(AccountView):
 
         return False
     
-    @instance.memoizedproperty
-    def randomstring(self):
+    def randomstring(self, userid):
         pwt = self.get_tool("portal_password_reset")
-        obj = pwt.requestReset(self.userid)
+        obj = pwt.requestReset(userid)
         return obj['randomstring']
 
-    @property
-    def reset_url(self):
-        site_url = getToolByName(self.context, 'portal_url')()
-        return '%s/reset-password?key=%s' % (site_url, self.randomstring)
+    def reset_url(self, userid):
+        randomstring = self.randomstring(userid)
+        return '/reset-password?key=%s' % randomstring
     
-    def _mailPassword(self, forgotten_userid):
+    def _mailPassword(self, email, reset_url):
         if not self.membertool.checkPermission('Mail forgotten password', self):
             raise Unauthorized, "Mailing forgotten passwords has been disabled."
-
-        member = self.membranetool(getId=forgotten_userid)
-
-        if member is None:
-            raise ValueError, 'The username you entered could not be found.'
-        
-        member = member[0].getObject()        
-        email = member.getEmail()
 
         try:
             pwt = self.get_tool("portal_password_reset")
             mail_text = _(u'email_forgot_password', u'You requested a password reset for your ${portal_title} account. If you did not request this information, please ignore this message.\n\nTo change your password, please visit the following URL: ${url}',
-                          mapping={u'url':self.reset_url})
+                          mapping={u'url':reset_url})
             sender = EmailSender(self, secureSend=True)
             sender.sendEmail(mto=email, 
                         msg=mail_text,
@@ -297,19 +293,13 @@ class ForgotLoginView(AccountView):
             # XXX is this needed?
             raise SMTPRecipientsRefused('Recipient address rejected by server')
 
-    @property
-    def userid(self):
-        user_lookup = self.request.get("__ac_name")
-        if not user_lookup:
-            self.addPortalStatusMessage(_(u'psm_enter_username_email', u"Please enter your username or email address."))
-            return None
-
+    def brain_for_userid_or_email(self, userid_or_email):
         query = dict()
-        if '@' in user_lookup:
-            query['getEmail'] = user_lookup
+        if '@' in userid_or_email:
+            query['getEmail'] = userid_or_email
         else:
-            query['getUserName'] = user_lookup
+            query['getUserName'] = userid_or_email
 
         brains = self.membranetool.unrestrictedSearchResults(query)
         if brains:
-            return brains[0].getId
+            return brains[0]
