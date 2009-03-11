@@ -11,13 +11,15 @@ Features Added:
 Bugs Fixed:
 
  * The topnav within a member space was always displaying the member's original
-   Title (i.e. fullname?fullname:id) as it was set at account creation time.  It
-   now properly displays the member's current Title at all times (#2779)
+   Title (i.e. fullname?fullname:id) as it was set at account creation time. It
+   now properly displays the member's current Title at all times (#2779) (egj)
 
 Refactoring:
 
  * Extracted opencore.wordpress into its own egg as a plugin (#2715) (egj)
 
+ * Heavily refactored `BaseView.area` and `BaseView.window_title` functions
+   in `opencore.browser.base` (#588#comment:7 and following)
 
 0.16.0 (2009-02-27)
 ===================
