@@ -120,6 +120,7 @@ class HTTPMock(Mock):
 
     def __repr__(self):
         return '<HTTPMock %s %s>' % (hex(id(self)), self.mock_name)
+    
 
 if __name__ == '__main__':
     import doctest

@@ -25,7 +25,7 @@ from zope.component import getUtility
 try:
     from opencore.cabochon.testing.utility import setup_cabochon_mock
 except ImportError:
-    setup_cabochon_mock = lambda *args: None
+    setup_cabochon_mock = None
 
 class MailHostMock(object):
     """
@@ -77,6 +77,8 @@ class SiteSetupLayer(PloneSite):
         enableLocalSiteHook(portal)
         setSite(portal)
         setHooks()
+        if setup_cabochon_mock is not None:
+            setup_cabochon_mock()
 
         monkey_stringio()
 
@@ -103,7 +105,6 @@ class OpenPlansLayer(SiteSetupLayer):
         portal.MailHost = MailHostMock()
 
         portal.browser_id_manager = BrowserIdManagerMock()
-        setup_cabochon_mock(portal)
         setup_mock_config()
         txn.commit()
 
