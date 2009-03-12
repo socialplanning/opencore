@@ -162,14 +162,14 @@ class RequestMembershipView(TeamRelatedView, formhandler.OctopoLite, LoginView):
         self.redirect(self.context.absolute_url())
 
 
+from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
 class ProjectTeamView(TeamRelatedView):
-    
+
     admin_role = DEFAULT_ROLES[-1]
 
-    def __init__(self, context, request):
-        super(ProjectTeamView, self).__init__(context, request)
-        results = None
-    
+    def lineup_class(self):
+        return "oc-roster"
+
     def __call__(self):
         # @@ why is this redirect here? DWM
         # these view represent different functions
@@ -177,12 +177,26 @@ class ProjectTeamView(TeamRelatedView):
             self.redirect(self.context.absolute_url() + '/manage-team')
         else:
             return super(ProjectTeamView, self).__call__()
-   
-    @formhandler.button('sort')
+
+    _heading_block  = ZopeTwoPageTemplateFile('team-heading.pt')
+    def heading_block(self, batch):
+        return self._heading_block(batch=batch)
+
     def handle_request(self):
         # this is what controls which sort method gets dispatched to
         # in the memberships property
-        return 
+        sort_by = self.request.form.get('sort_by')
+        if sort_by is None:
+            search_results = self.handle_sort_default()
+
+        if sort_by == 'location':
+            search_results = self.handle_sort_location()
+        elif sort_by == 'membership_date':
+            search_results = self.handle_sort_membership_date()
+        elif sort_by == 'username':
+            search_results = self.handle_sort_default()
+
+        return search_results
 
     def handle_sort_membership_date(self):
         # XXX for some reason, the descending sort is not working properly
@@ -199,10 +213,13 @@ class ProjectTeamView(TeamRelatedView):
                      getId=mem_ids,
                      )
 
-        member_brains = self.results = self.membranetool(**query)
+        member_brains = self.membranetool(**query)
+
+        # @@ what do these two lines do?
         lookup_dict = dict((b.getId, b) for b in member_brains if b.getId)
         batch_dict = [lookup_dict.get(b.getId) for b in membership_brains if lookup_dict.has_key(b.getId)]
-        return self._get_batch(batch_dict, self.request.get('b_start', 0), size=self.batch_size)
+        
+        return batch_dict
 
     @staticmethod
     def sort_location_then_name(x, y):
@@ -222,6 +239,7 @@ class ProjectTeamView(TeamRelatedView):
                  )
         return self.catalog(**query)
 
+    
     def handle_sort_location(self):
         #mem_ids = [mem_brain.getId for mem_brain in self.membership_brains]
         query = dict(sort_on='sortableLocation',
@@ -231,11 +249,13 @@ class ProjectTeamView(TeamRelatedView):
         results = self.membranetool(**query)
 
         # @@ DRY
-        self.results = sorted(results, cmp=self.sort_location_then_name)
-        return self._get_batch(self.results, self.request.get('b_start', 0), size=self.batch_size)
+        results = sorted(results, cmp=self.sort_location_then_name)
+
+        return results
 
     def handle_sort_contributions(self):
-        return self._get_batch([], self.request.get('b_start', 0), size=self.batch_size)
+
+        return []
 
     def handle_sort_default(self):
         #mem_ids = [mem_brain.getId for mem_brain in self.membership_brains]
@@ -246,8 +266,9 @@ class ProjectTeamView(TeamRelatedView):
                      )
         
         # @@ DRY
-        self.results = self.membranetool(**query)
-        return self._get_batch(self.results, self.request.get('b_start', 0), size=self.batch_size)
+        results = self.membranetool(**query)
+
+        return results
 
     @memoize
     def memberships(self, sort_by=None):
@@ -270,10 +291,13 @@ class ProjectTeamView(TeamRelatedView):
 
         # Filter against search returns to ensure private projects are not
         # included unless the view user is also a member.
-        viewable_projects = self.all_projects_to_display
 
-        member_projects = [viewable_projects[id_] for id_ in brain.project_ids
-                           if viewable_projects.has_key(id_)]
+        # We can quickly filter by passing the unrestricted list of project ids
+        # into the catalog tool's restricted search for projects
+        # XXX TODO: this might be nice to provide as a function in opencore.project?
+        cat = self.get_tool('portal_catalog')
+        member_projects = cat(getId=list(brain.project_ids),
+                              portal_type='OpenProject')
 
         # sort then truncate
         ten_projects = sorted(member_projects, key=lambda x: x.Title)[:10]
@@ -295,24 +319,6 @@ class ProjectTeamView(TeamRelatedView):
                     project_brains=ten_projects,
                     num_projects=len(member_projects)
                     )
-
-    @memoizedproperty
-    def all_projects_to_display(self):
-        """
-        Aggregates a list of all project ids for the currently viewed
-        set of members, and looks up the project brains.
-        """
-        proj_ids = set(itertools.chain(
-            *[sorted(brain.project_ids) for brain in self.results]))
-
-        # @@ DWM: matching on id not as good as matching on UID
-        cat = self.get_tool('portal_catalog')
-        pbrains = cat(getId=list(proj_ids), portal_type='OpenProject')
-        return dict((b.getId, b) for b in pbrains)
-
-    def membership_records(self):
-        for membrain in self.memberships():
-            yield self._membership_record(membrain)
 
     def can_view_email(self):
         return self.get_tool('portal_membership').checkPermission('OpenPlans: View emails', self.context)

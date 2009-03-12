@@ -76,12 +76,119 @@ def searchForPerson(mcat, search_for, sort_by=None):
         people_brains = _sort_by_id(people_brains)
     return people_brains
     
+import lxml.html
+from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
 
 class SearchView(BaseView):
 
-    def logo_for_proj_brain(self, brain):
-        proj = brain.getObject()
-        return proj.getLogo()
+    from pkg_resources import resource_filename
+    from opencore.configuration import OC_REQ
+
+    default_template = 'searchresults.pt'
+    default_sort_string = 'searchresults-sortstring.pt'
+    default_sortable_fields = 'searchresults-sortablefields.pt'
+    default_result_listing = 'searchresults-resultlist.pt'
+
+    def batched_results(self):
+        results = self.handle_request()
+        
+        batch_size = self.batch_size
+        start = self.from_page(self.page, batch_size)
+        return self._get_batch(results, start, batch_size)
+
+    def heading_block(self, batch):
+        pass
+
+    def handle_request(self):
+        """
+        A default search handler that finds all content
+        published underneath the current context while
+        respecting security.  The `sort_by` key from the
+        request is passed through to the catalog tool,
+        so unexpected sort keys may throw an error.
+
+        Override this method in a subclass to customize 
+        searching or sorting behavior.
+        """
+
+        cat = self.get_tool('portal_catalog')
+        path = '/'.join(self.context.getPhysicalPath())
+        results = cat(path=path, sort_on=self.sort_by)
+
+        return results        
+
+    def result_listing(self, item):
+        return self._result_listing(item=item)
+
+    def sort_widget_string(self, batch):
+        """
+        return an HTML snippet like "Projects 1-12 of 34"
+        should be i18nified, with two distinct strings for single
+        and plural, i think.
+        """
+        is_plural = False
+        if batch.end > batch.start: is_plural = True
+        
+        return self._sort_string(start=batch.start,
+                                 end=batch.end,
+                                 sequence_length=batch.sequence_length,
+                                 is_plural=is_plural)
+
+    @property
+    def lineup_class(self):
+        """
+        `lineup_class` determines the HTML class attribute to give to the
+        outer wrapping DIV of the entire result set. This can be overriden
+        by subclasses to provide a custom CSS theme or Javascript behavior
+        to the result set. This default implementation allows the end user
+        to change the class name via a query string argument; available
+        CSS themes provided in opencore/browser/css are:
+
+         * oc-lineup:    CMSy default; each item is rendered on a thin row
+                         and prefixed by a Plone-ish content type icon.
+                         Used in site search results.
+
+         * oc-directory: Business cards; a two-column list of gray boxes,
+                         with each item rendered in an individual box.
+                         Used in people search results.
+
+         * oc-blocklist: Feed entries; items are rendered one per row
+                         with dotted lines separating them, feels very
+                         horizontal-left-to-right. Used in project search
+                         results.
+
+         * oc-roster:    Not really sure how to describe this one; it's
+                         sort of a strange (but effective) combination
+                         of directory and blocklist. At any rate, it's
+                         used in the project team view.
+
+         * oc-buttons:   Photo quilt; items are shrunk to a small fixed
+                         rectangular size, and are snapped onto a grid
+                         of boxes, so a set of images ends up looking
+                         like a quilt, or graph paper. Used in project
+                         summary page "list of members" (which only
+                         renders profile photos)
+        """
+        lineup_class = self.request.form.get('lineup_class', 'oc-lineup')
+        return lineup_class
+
+    @property
+    def sort_by_options(self):
+        """
+        Validates an HTML <ul> snippet
+        and transforms it into a dict
+        """
+        html = self._sortable_fields()
+
+        html = lxml.html.fromstring(html)
+        ul = html.get_element_by_id('sortable_fields')
+        assert ul.tag.lower() == 'ul'
+
+        _sort_by_options = dict()
+        for li in ul:
+            key = li.get('id')
+            _sort_by_options[key] = li.text
+        return _sort_by_options
 
     @property
     def search_for(self):
@@ -90,10 +197,6 @@ class SearchView(BaseView):
     @property
     def letter_search(self):
         return self.request.get('letter_search', None)
-
-    @property
-    def start(self):
-        return self.request.get('b_start', 0)
 
     @property
     def sort_by(self):
@@ -106,10 +209,14 @@ class SearchView(BaseView):
         except ValueError:
             return 10
 
-    def clear_search_query(self):        
-        self.search_results = None
-        self.search_query = None
+    @property
+    def page(self):
+        try:
+            return int(self.request.form.get('page', 1))
+        except ValueError:
+            return 1
         
+
     def _get_batch(self, brains, start=0, size=10):
         return Batch(brains,
                      size=size,
@@ -121,26 +228,8 @@ class SearchView(BaseView):
                      quantumleap=0,
                      b_start_str='b_start')
 
-    def perform_search(self):
-        self.clear_search_query()
-
-        if self.letter_search:
-            self.search_results = self._get_batch(
-                self.search_by_letter(self.letter_search, self.sort_by),
-                self.start, size=self.batch_size)
-            self.search_query = 'for %s starting with &ldquo;%s&rdquo;' % (self.noun, self.letter_search)
-        elif self.search_for:
-            self.search_results = self._get_batch(
-                self.search_by_text(self.search_for, self.sort_by),
-                self.start, size=self.batch_size)
-            self.search_query = 'for &ldquo;%s&rdquo;' % self.search_for
-        else:
-            self.search_results = self._get_batch(
-                self.search_by_letter('all', self.sort_by),
-                self.start, size=self.batch_size)
-            self.search_query = 'for all %s' % self.noun
-            
-        return self.index()
+    def from_page(self, page, batch_size):
+        return batch_size * (page - 1)
     
     noun = 'please define a plural noun in your subclass'
 
@@ -157,23 +246,33 @@ class SearchView(BaseView):
         a subclass needs to define this method
         """
 
-    # is this used anywhere?
-    def project_url(self, project_brain):
-        if isinstance(project_brain, basestring):
-            return BaseView.project_url(self, project_brain)
-        
-        return '%s/projects/%s' % (self.context.absolute_url(),
-                                   project_brain.getId)
-
-
 
 class ProjectsSearchView(SearchView):
 
     noun = 'projects'
     active_states = ['public', 'private']
 
-    def __call__(self):
-        return self.perform_search()
+    def lineup_class(self):
+        return "oc-blocklist"
+
+    def handle_request(self):
+        self.search_results = None
+        self.search_query = None
+
+        if self.letter_search:
+            search_results = self.search_by_letter(self.letter_search, self.sort_by)
+        elif self.search_for:
+            search_results = self.search_by_text(self.search_for, self.sort_by)
+        else:
+            search_results = self.search_by_letter('all', self.sort_by)
+
+        return search_results
+
+
+    def logo_for_proj_brain(self, brain):
+        ## XXX TODO: i'm sure we have a more efficient way of doing this now!
+        proj = brain.getObject()
+        return proj.getLogo()
 
     def search_by_letter(self, letter, sort_by=None):
         letter = letter.lower()
@@ -190,8 +289,6 @@ class ProjectsSearchView(SearchView):
         if sort_by is None:
             sort_by = 'sortable_title'
         query['sort_on'] = sort_by
-
-        self.apply_context_restrictions(query)
 
         project_brains = self.catalog(**query)
 
@@ -223,8 +320,6 @@ class ProjectsSearchView(SearchView):
 
         query = Eq('portal_type', 'OpenProject') & Eq('SearchableText', proj_query)
 
-        query = self.adv_context_restrictions_applied(query)
-        
         project_brains = self.catalog.evalAdvancedQuery(query, rs)
         return project_brains
     
@@ -234,8 +329,6 @@ class ProjectsSearchView(SearchView):
             
         query = Eq('portal_type', 'OpenProject') & (Eq('project_policy', 'open_policy') | Eq('project_policy', 'medium_policy'))
 
-        query = self.adv_context_restrictions_applied(query)
-        
         project_brains = self.catalog.evalAdvancedQuery(query, rs)
         return project_brains[:sort_limit]
 
@@ -251,34 +344,26 @@ class ProjectsSearchView(SearchView):
                               )
         return len(brains)
 
-    def apply_context_restrictions(self, query):
-        """
-        inserts additional query constraints into the
-        query dict given based on context
-
-        whaaa?
-        """
-        pass
-
-    def adv_context_restrictions_applied(self, adv_query):
-        """
-        returns a new advanced query based on the
-        query given with additional constraints based
-        on context
-
-        whaa?
-        """
-        return adv_query
-
 
 class PeopleSearchView(SearchView):
 
     noun = 'members'
-    def __init__(self, context, request):
-        SearchView.__init__(self, context, request)
 
-    def __call__(self):
-        return self.perform_search()
+    def lineup_class(self):
+        return "oc-directory"
+
+    def handle_request(self):
+        self.search_results = None
+        self.search_query = None
+
+        if self.letter_search:
+            search_results = self.search_by_letter(self.letter_search, self.sort_by)
+        elif self.search_for:
+            search_results = self.search_by_text(self.search_for, self.sort_by)
+        else:
+            search_results = self.search_by_letter('all', self.sort_by)
+
+        return search_results
 
     def search_by_letter(self, letter, sort_by=None):
         letter = letter.lower()
@@ -327,8 +412,21 @@ class SitewideSearchView(SearchView):
 
     noun = 'content'
 
-    def __call__(self):
-        return self.perform_search()
+    def lineup_class(self):
+        return "oc-lineup"
+
+    def handle_request(self):
+        self.search_results = None
+        self.search_query = None
+
+        if self.letter_search:
+            search_results = self.search_by_letter(self.letter_search, self.sort_by)
+        elif self.search_for:
+            search_results = self.search_by_text(self.search_for, self.sort_by)
+        else:
+            search_results = self.search_by_letter('all', self.sort_by)
+
+        return search_results
 
     def search_by_letter(self, letter, sort_by=None):
         letter = letter.lower()

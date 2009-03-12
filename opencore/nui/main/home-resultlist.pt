@@ -1,0 +1,43 @@
+<tal:set define="item options/item;
+		 portal_type item/portal_type;
+		 is_user python: portal_type == 'OpenMember';
+		 mem_title nocall:context/@@oc-utils/member_title;">
+
+  <tal:is_user condition="is_user">
+    <h3>
+      <img tal:attributes="src item/getIcon" />
+      <a tal:attributes="href string:${context/portal_url}/people/${item/getId}/profile"
+	 tal:content="python:mem_title(item)" />
+    </h3>
+    <span class="oc-discreetText">
+      member since
+      <span tal:replace="python: view.pretty_date(item.CreationDate)" />
+    </span>
+  </tal:is_user>
+  
+  <tal:not_user condition="not:is_user">
+    <h3>
+      <img tal:attributes="src item/getIcon" /> 
+      <a tal:attributes="href item/getURL" tal:content="item/Title" />
+    </h3>
+    <span class="oc-discreetText">
+      
+      <tal:is_page condition="python: portal_type == 'Document'">
+        <tal:project_define define="proj python:item.getObject().aq_parent">
+          in
+          <a tal:attributes="href proj/absolute_url" tal:content="proj/Title" />,
+        </tal:project_define>
+      </tal:is_page>
+
+      <tal:has_updated_author define="userid item/lastModifiedAuthor" condition="userid">
+        modified by
+        <a tal:attributes="href string:${context/portal_url}/people/${userid}/profile" 
+           tal:define="mem_title nocall:context/@@oc-utils/member_title"
+           tal:content="python:mem_title(userid)" />,
+      </tal:has_updated_author>
+      last updated		      
+      <span tal:replace="python: view.pretty_date(item.ModificationDate)" />
+    </span>
+  </tal:not_user>
+  
+</tal:set>

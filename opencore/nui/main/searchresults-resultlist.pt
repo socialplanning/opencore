@@ -1,0 +1,16 @@
+<tal:foo define="item options/item">
+  <h3>
+    <img tal:attributes="src item/getIcon" />
+    <a tal:attributes="href item/getURL" tal:content="item/Title" />
+  </h3>
+  <span class="oc-discreetText">
+    <tal:has_updated_author define="userid item/lastModifiedAuthor" condition="userid">
+      modified by
+      <a tal:attributes="href string:${context/portal_url}/people/${userid}/profile" 
+	 tal:define="mem_title nocall:context/@@oc-utils/member_title"
+	 tal:content="python:mem_title(userid)" />,
+    </tal:has_updated_author>
+    last updated		      
+    <span tal:replace="python: view.pretty_date(item.ModificationDate)" />
+  </span>
+</tal:foo>

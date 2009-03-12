@@ -1,10 +1,28 @@
 <configure xmlns="http://namespaces.zope.org/zope"
            xmlns:browser="http://namespaces.zope.org/browser"
-	   xmlns:five="http://namespaces.zope.org/five">
+	   xmlns:five="http://namespaces.zope.org/five"
+	   xmlns:opencore="http://namespaces.openplans.org/opencore">
 
   <browser:resource
      file="projpage.js"
      name="projpage.js"
+     />
+
+  <include package="opencore.nui.main" file="meta.zcml" />
+
+  <opencore:searchView
+     for="*"
+     permission="zope2.View"
+     name="searching"
+     />
+
+  <opencore:searchView
+     for="opencore.interfaces.IProject"
+     class=".team.ProjectTeamView"
+     permission="zope2.View"
+     name="team"
+     result_listing="team-resultlist.pt"
+     sortable_fields="team-sortablefields.pt"
      />
 
   <browser:page
@@ -118,14 +136,6 @@
      permission="cmf.ModifyPortalContent"
      name="delete-form"
      template="delete-form.pt"
-     />
-
-  <browser:page
-     for="opencore.interfaces.IProject"
-     class=".team.ProjectTeamView"
-     permission="zope2.View"
-     name="team"
-     template="team-view.pt"
      />
 
   <browser:page

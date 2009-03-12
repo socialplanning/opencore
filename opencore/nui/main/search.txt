@@ -410,7 +410,7 @@ And ensure that the closed project does not come up::
 
 Check that the project url method works
    >>> brain = brains[-1]
-   >>> view.project_url(brain)
+   >>> view.project_url(brain.getId)
    'http://nohost/plone/projects/p2'
    >>> view.n_project_members(brain)
    4

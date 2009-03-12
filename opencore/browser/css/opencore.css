@@ -33,9 +33,6 @@ body {
  min-width: 52em;
  margin: 0 auto;
 }
-#oc-page-container {
-
-}
 #oc-topnav {
   padding: 0;
   padding: 0.5em 1em;
@@ -61,10 +58,6 @@ body {
   padding: 0;
   overflow: hidden;
   line-height: 1.35em;
-}
-#oc-project-tabs {
-}
-#oc-project-content {
 }
 #oc-footer {
   clear: both;
@@ -97,8 +90,7 @@ ul#oc-topnav-context li {
 ul#oc-topnav-context li a {
   padding: .25em .5em;
 }
-#oc-topnav a:hover {
-}
+
 ul#oc-topnav-context {
   font-weight: bold;
   font-size: 10px;
@@ -108,8 +100,6 @@ ul#oc-topnav-context li {
   margin: 0 0.25em;
   padding: 0;
   background: #665D55;
-}
-ul#oc-topnav-context li.oc-topnav-selected {
 }
 #oc-topnav-tab {
   position: absolute;
@@ -318,21 +308,30 @@ dl.oc-plainList dd {
 
 /* GENERIC search results & lineups */
 
-.oc-lineup,
-.oc-directory {
-}
-.oc-lineup-list {
-  list-style-type: none;
-  margin:  0;
+ul.oc-lineup-list,
+ol.oc-lineup-list {
+  margin: 0;
   padding: 0;
   clear: both;
-  border-top: 2px solid #eee;
+  border-bottom: 2px solid #332F2A;
+  border-top: 2px solid #332F2A;
+  list-style-type: none;
+}
 
+div.oc-lineup ol.oc-lineup-list li.oc-lineup-item:last-child,
+div.oc-blocklist ol.oc-lineup-list li.oc-lineup-item:last-child,
+ol.oc-lineup-list li.oc-feed-item:last-child {
+  border: none;
+}
+div.oc-lineup ul.oc-lineup-list li.oc-lineup-item:last-child,
+div.oc-blocklist ul.oc-lineup-list li.oc-lineup-item:last-child,
+ul.oc-lineup-list li.oc-feed-item:last-child {
+  border: none;
 }
 .oc-lineup-item {
   margin: 0.25em 0;
   padding: 0.25em 0;
-  border-bottom: 1px dotted #eee;
+  border-bottom: 1px dotted #EEE;
 }
 .oc-lineup-item h3 {
   display: inline;
@@ -343,44 +342,54 @@ dl.oc-plainList dd {
 .oc-lineup-item p {
   margin: 0;
 }
-.oc-lineup-sorter,
-.oc-directory-sorter,
-.oc-feed-sorter {
-  /* float: left; */
+
+.oc-widget-feed .oc-lineup-item:after {
+  content: "";
+  display: block; 
+  height: 0; 
+  clear: both;
+  visibility: hidden;
+}
+.oc-widget-feed .oc-lineup-item .oc-project-logo {
+  clear:none;
+  float:left;
+  margin-right:1em;
+  padding:8px;
+  width:64px;
+}
+
+.oc-lineup-sorter {
   font-size: 10px;
   margin-bottom: 1em;
 }
 .oc-lineup-sorter form,
-.oc-lineup-sorter select,
-.oc-directory-sorter form,
-.oc-directory-sorter select,
-.oc-feed-sorter form,
-.oc-feed-sorter select {
+.oc-lineup-sorter select {
   display: inline;
   font-size: 100%;
 }
-.oc-lineup-sorter input,
-.oc-directory-sorter input {
-  /* display: none; */
-}
-.oc-lineup .oc-paginator,
-.oc-directory-sorter .oc-paginator,
-.oc-feed-sorter .oc-paginator {
+.oc-lineup-sorter .oc-paginator {
   float: right;
   clear: none;
   font-size: 10px;
 }
 
+
 /* Directory view of search results */
 
-.oc-directory-list {
-  clear: both;
-  list-style-type: none;
-  padding: 0;
-  margin: 0;
-  width: 101%;
+div.oc-directory ol.oc-lineup-list {
+  border-bottom: none;
+  border-top: none;
 }
-.oc-directory-list li {
+
+div.oc-directory ol.oc-lineup-list:after {
+  content: "";
+  display: block; 
+  height: 0; 
+  clear: both;
+  visibility: hidden;
+}
+
+div.oc-directory ol.oc-lineup-list li.oc-lineup-item {
   margin: 0 0.5% 0.25em 0;
   width: 49%;
   float: left;
@@ -390,34 +399,123 @@ dl.oc-plainList dd {
   border: 1px solid #ccc;
   height: 80px;
   overflow: hidden;
+  background-color: #F6F6F6;
 }
-.oc-directory-list .oc-project-logo,
-.oc-directory-list .oc-avatar {
+
+
+/* override openplans.css: .oc-lineup-item h3 { font-weight: bold } 
+ * because vcard items in the directory list look better when the
+ * user's name is not screaming at you in bold 
+ * * */
+div.oc-directory ol.oc-lineup-list li.oc-lineup-item h3 {
+  font-weight: normal;
+}
+
+div.oc-directory ol.oc-lineup-list .oc-project-logo,
+div.oc-directory ol.oc-lineup-list .oc-avatar {
   width: 80px;
   height: 80px;
   overflow: hidden;
   float: left;
   margin-right: 1em;
 }
-.oc-directory-content {
+
+
+div.oc-directory div.oc-lineup-content {
   white-space: normal;
   padding: 0.5em;
 }
-.oc-directory-content .fn, /* OpenPlans username */
+div.oc-directory div.oc-lineup-content .fn, /* OpenPlans username */
 .oc-directory-content .n /* full name */ {
   margin: 0;
 }
-.oc-directory-content .adr /* location */ {
+div.oc-directory div.oc-lineup-content .adr /* location */ {
   font-style: normal;
 }
 
-/* Team View */
-.oc-roster {
-  clear: both;
-  list-style-type: none;
-  padding: 0;
+/* END directory view of search results */
+
+
+/* blocklist view of search results */
+div.oc-blocklist li.oc-lineup-item {
+  margin: 0.5em 0 0;
+  padding: 0 0 0.5em;
+  border-bottom: 1px dotted #332F2A;
 }
-.oc-roster .oc-avatar {
+
+/* individual items in a blocklist must have the "clearAfter" property
+ * so that each item in the set of results is rendered "on a new line"
+ * and pushed all the way back to the left, rather than all being staggered
+ * increasingly to the right.
+ * heeey, in other words, clearAfter a block element gives you LF+CR 
+ * rather than only LF
+ * * * * * */
+div.oc-blocklist li.oc-lineup-item:after {
+  content: "";
+  display: block; 
+  height: 0; 
+  clear: both;
+  visibility: hidden;
+}
+div.oc-blocklist li.oc-lineup-item .oc-avatar,
+div.oc-blocklist li.oc-lineup-item .oc-project-logo {
+  width: 64px;
+  float: left;
+  clear: none;
+  margin-right: 1em;
+  padding: 8px;
+}
+div.oc-blocklist ol.oc-lineup-list li.oc-lineup-item .oc-lineup-content {
+  float: left;
+  clear: none;
+  padding: 0.75em 0;
+  width: 67%;
+}
+div.oc-blocklist li.oc-lineup-item .oc-feed-item-content {
+  float: left;
+  clear: none;
+  padding: 0.75em 0;
+  width: 67%;
+}
+
+/* the h3 in a blocklist's individual item listing (which will be the
+ * item's title) must have margin:0 to prevent it from pushing itself
+ * down too far horizontally -- left to its own devices here it will
+ * position itself below the adjacent logo to its left but with 
+ * margin:0 it behaves nicely and lines up on the same horizontal row
+ * * * * */
+div.oc-blocklist li.oc-lineup-item h3 {
+  display: block;
+  margin: 0;
+  line-height: normal;
+}
+div.oc-blocklist li.oc-lineup-item .oc-discreetText {
+  line-height: normal;
+}
+
+div.oc-blocklist li.oc-lineup-item .oc-lineup-item-title,
+div.oc-blocklist li.oc-lineup-item .oc-feed-item-data,
+div.oc-blocklist li.oc-lineup-item .oc-feed-item-description {
+  margin: 0;
+  line-height: normal;
+}
+div.oc-blocklist li.oc-lineup-item .oc-feed-item-data.oc-actions {
+  text-align: right;
+}
+
+/* END blocklist view of search results */
+
+
+
+
+
+
+/* Team View */
+div.oc-roster ol.oc-lineup-list {
+  border-bottom: none;
+  border-top: none;
+}
+div.oc-roster .oc-avatar {
   width: 80px;
   height: 80px;
   overflow: hidden;
@@ -425,13 +523,13 @@ dl.oc-plainList dd {
   clear: none;
   margin-right: 1em;
 }
-.oc-roster-content {
+div.oc-roster .oc-lineup-content {
   float: left;
   clear: none;
   width: 60%;
   white-space: normal;
 }
-.oc-roster-content h3 /* OpenPlans username */{
+div.oc-roster .oc-lineup-content h3 /* OpenPlans username */{
   display: inline;
   margin: 0;
   font-weight: bold;
@@ -444,38 +542,66 @@ dl.oc-plainList dd {
 .oc-roster dl.oc-plainList dd {
   margin-bottom: 0;
 }
-/* Team View (Feed) */
-#oc-feed-team ul.oc-feed-list {
+div.oc-roster li.oc-lineup-item {
+  background-color: #F6F6F6;
+  border-top: 2px solid #E6D3C0;
+  margin-bottom: 1em;
+  padding: 1em;
+}
+div.oc-roster li.oc-lineup-item:after {
+  content: "";
+  display: block; 
+  height: 0; 
+  clear: both;
+  visibility: hidden;
+}
+div.oc-roster li.oc-lineup-item h1,
+div.oc-roster li.oc-lineup-item h2,
+div.oc-roster li.oc-lineup-item h3,
+div.oc-roster li.oc-lineup-item h4,
+div.oc-roster li.oc-lineup-item h5 {
+  margin: 0 0 0 0.5em;
 }
 
-#oc-feed-team ul.oc-feed-list li.oc-feed-item {
-float:left;
-width:82px;
-height:90px;
-margin:0.5em 6px 20px;
-padding:0;
-border:0 none transparent;
+/* the above line seems quite wrong to me; it results in a ugly
+ * rightward indentation of the team member's name in the project's
+ * team view, so that it then does not line up vertically with the
+ * "member since" phrase below. i'm afraid of deleting it though,
+ * so i will override it instead!
+ * * * * */
+div.oc-roster li.oc-lineup-item h3 {
+ margin: 0;
 }
 
-#oc-feed-team ul.oc-feed-list li.oc-feed-item a.oc-avatar {
-display:block;
-height:82px;
-padding:0;
-margin:0 0 0.75em;
+div.oc-buttons ul.oc-lineup-list {
+  /* add a horizontal black line above the list */
+  border-bottom:2px solid #332F2A;
+  border-top:2px solid #332F2A;
+
+  /* push the list's contents all the way to the top */
+  /* and all the way to the sides of the container */
+  /* to create a sort of gridlike rectangle effect */
+  margin:0;
+  padding:0;
 }
 
-#oc-feed-team ul.oc-feed-list li.oc-feed-item img {
-border:1px solid #e6e6e6;
+div.oc-buttons li.oc-feed-item {
+  /* hide the standard UL bullets */
+  list-style-image: none;
+  list-style-type: none;
+  list-style-position: outside;
+
+  border: 0 none transparent; /* nix the dotted gray border */
+  float: left; /* &nbsp; sort of? no LF or CR, line them up in a row */
+  height: 90px; /* fix the height so the rows are evenly sized */
+  width: 82px; /* fix the width too; they'll now all snap to a box-grid */
+  margin: 0.5em 6px 20px; /* put some breathing room between the items */
+  padding: 0; /* compress the rows to minimize whitespace */
 }
 
 /* Portal Home */
-#oc-home-content {
-}
 #oc-home-content .oc-headingBlock h1{
   font-size: 36px;
-}
-#oc-home-getstarted {
-
 }
 .oc-columnGroup,
 .oc-home-columnGroup {
@@ -505,8 +631,6 @@ border:1px solid #e6e6e6;
 
 /* Member profile */
 
-#oc-member-badge {
-}
 #oc-member-badge .oc-avatar {
   overflow: hidden;
   float: left; 
@@ -557,8 +681,6 @@ dl.oc-member-info dd {
 
 /* Wiki pages */
 
-.oc-wiki {
-}
 .oc-wiki-headingBlock {
   margin: 0;
   margin-right: 1em;
@@ -616,8 +738,6 @@ ul.oc-tabs li.oc-notallowed a {
 }
 .oc-wiki-edit {
   clear: both;
-}
-.oc-wiki-edit-content {
 }
 .oc-actions.oc-wiki-actions {
   border-top: 2px solid #ccc;
@@ -742,9 +862,6 @@ a.wickedadd {
 }
 
 /* About and 1 Page tours */
-
-.oc-about-toolkit {
-}
 .oc-about-tool {
   clear: left;
   margin: 0 2em 1em 0;
@@ -763,14 +880,6 @@ a.wickedadd {
 
 /* Listen */
 
-.oc-listen-details-subscribe {
-}
-.oc-listen-details-subscribe h2 {
-}
-.oc-listen-details-subscribe p {
-}
-.oc-listen-details-subscribe .oc-actions {
-}
 .oc-listen-archive-dateview {
 	padding: 0;
 	margin: 0;
@@ -846,7 +955,7 @@ The IE hacks take advantage of several IE non-compliance issues to clearAfter th
 #oc-topnav-global:after,
 #oc-page-container:after
 { 
-  content: ""; 
+  content: "";
   display: block; 
   height: 0; 
   clear: both;
@@ -1035,8 +1144,6 @@ fieldset .oc-heading-context {
   font-size: 10px;
 }
 
-.oc-form {
-}
 .oc-form * {
   vertical-align: top;
   border-collapse: collapse;
@@ -1071,8 +1178,6 @@ fieldset .oc-heading-context {
   font-style: italic;
   display: block; /* in case an error message comes up under it */
 }
-.oc-form-validator {
-}
 .oc-form-error {
   color: #F00;
   font-weight: bold;
@@ -1090,8 +1195,7 @@ textarea.oc-fieldBlock-focused,
 input.oc-fieldBlock-focused {
   border-color: #EB852B;
   background: #fffff9;
-}
-.oc-fieldBlock-error textarea, 
+}.oc-fieldBlock-error textarea, 
 textarea.oc-fieldBlock-error,
 input.oc-fieldBlock-error {
   border-color: red;
@@ -1161,9 +1265,6 @@ height: 1em; */
 }
 
 /* @WIDGETS */
-.oc-widget {
- /* clear: both; */
-}
 
 /* Widget heading blocks */
 .oc-widget .oc-headingBlock {
@@ -1172,8 +1273,6 @@ height: 1em; */
 }
 .oc-widget .oc-headingBlock h2 {
   font-size: 14px;
-}
-.oc-widget .oc-headingContext {
 }
 
 /* List table */
@@ -1234,9 +1333,6 @@ height: 1em; */
   margin:0;
   font-size: 10px;
 }
-.oc-dataTable-actions li {
-   
-}
 .oc-dataTable-paginator {
   float: right;
   padding: .5em 0;
@@ -1273,46 +1369,20 @@ height: 1em; */
 .oc-feed-title a:hover {
 	color: #eb852b;
 }
-.oc-feed-list, .oc-feed-cluster {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  border-top: 2px solid #332F2A;
-  border-bottom: 2px solid #332F2A;
-}
-.oc-feed-cluster li.oc-feed-item {
-  display: inline;
-  line-height: 0;
-  border: none;
-}
-.oc-feed-cluster li.oc-feed-item a {
-  text-decoration: none;
-}
-.oc-feed-cluster li.oc-feed-item a img {
-  margin: 0;
-}
 li.oc-feed-item {
   margin: 0.5em 0 0;
   padding: 0 0 0.5em;
   border-bottom: 1px dotted #332F2A;
 }
-.oc-feed-list li.oc-feed-item:last-child {
-  border: none;
-}
 li.oc-feed-item .oc-avatar,
 li.oc-feed-item .oc-project-logo,
-li.oc-invite .oc-project-logo {
+li.oc-invite .oc-project-logo,
+li.oc-listing-item .oc-project-logo {
   width: 64px;
   float: left;
   clear: none;
   margin-right: 1em;
   padding: 8px;
-}
-li.oc-feed-item .oc-feed-item-content {
-  float: left;
-  clear: none;
-  padding: 0.75em 0;
-  width: 67%;
 }
 li.oc-feed-item .oc-feed-item-title,
 li.oc-feed-item .oc-feed-item-data,
@@ -1359,18 +1429,12 @@ li.oc-invite .oc-avatar img {
 li.oc-invite .oc-invite-content {
    margin: 0 12em 0 0;
 }
-.oc-invite-actions {
-}
 .oc-invite-actions li {
    display: inline;
 }
 
 /* Search box */
 
-.oc-widget-search {
-}
-#oc-content-sidebar .oc-widget-search {
-}
 .oc-widget-search form input,
 .oc-widget-search form button {
   font-size: 10px;
@@ -1384,8 +1448,6 @@ li.oc-invite .oc-invite-content {
 .oc-widget-search h2,
 .oc-widget-search .oc-label-heading {
   margin: 0 0 0.5em;
-}
-.oc-widget-multiSearch {
 }
 .oc-widget-multiSearch ul.oc-inlineList {
 	margin: 0.5em 0;

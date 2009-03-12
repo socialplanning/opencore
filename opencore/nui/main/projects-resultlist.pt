@@ -1,0 +1,51 @@
+<tal:set define="item options/item;
+		 home_url python:view.project_url(item.getId);">
+
+  <a tal:attributes="href home_url"
+     tal:define="logo python:view.logo_for_proj_brain(item)">
+
+    <img class="oc-project-logo"
+	 tal:condition="logo"
+	 tal:attributes="src string:${home_url}/logo_thumb;
+			 alt item/Title;
+			 title item/Title" />
+    <img class="oc-project-logo"
+	 tal:condition="not:logo"
+	 tal:attributes="src view/defaultProjLogoThumbURL;
+			 alt item/Title;
+			 title item/Title" />
+  </a>
+
+  <div class="oc-feed-item-content">
+    <h3 class="oc-feed-item-title">
+      <a tal:attributes="href item/getURL" tal:content="item/Title" />
+    </h3>
+    
+    <span class="oc-feed-item-data oc-discreetText"
+	  tal:define="sorting_by view/sort_by">
+      
+      <tal:not-modified-block condition="python: sorting_by != 'modified'">
+        created by
+        <a tal:define="userid item/Creator"
+	   tal:attributes="href string:${context/portal_url}/people/${userid}/profile"
+	   tal:content="userid" />,
+        <span tal:content="python: view.pretty_date(item.CreationDate)" />
+      </tal:not-modified-block>
+      
+      <tal:modified-block tal:condition="python: sorting_by == 'modified'">
+        last updated
+        <tal:has_updated_author define="userid item/lastModifiedAuthor" condition="userid">
+          by
+          <a tal:attributes="href string:${context/portal_url}/people/${userid}/profile" tal:content="userid" />,
+        </tal:has_updated_author>
+                      <span tal:content="python: view.pretty_date(item.ModificationDate)" />
+      </tal:modified-block>
+      
+    </span>
+    
+    <p class="oc-feed-item-description" tal:define="desc item/Description">
+      <span tal:condition="desc" tal:replace="desc" />
+    </p>
+    
+  </div>
+</tal:set>

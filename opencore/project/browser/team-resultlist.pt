@@ -1,0 +1,85 @@
+<tal:set define="item options/item;
+                 home_url python:context.portal_membership.getHomeUrl(item.getId);
+		 member_record python:view._membership_record(item);
+		 mem_title nocall:context/@@oc-utils/member_title;
+		 ">
+
+  <div class="oc-avatar">
+    <a tal:attributes="href home_url">
+      <img class="photo"
+	   tal:condition="not:item/has_portrait"
+           tal:attributes="src view/defaultPortraitThumbURL" />
+      <img class="photo"
+	   tal:condition="item/has_portrait"
+           tal:attributes="src string:${item/getURL}/portrait_thumb" />
+    </a>
+  </div>
+  
+  <div class="oc-lineup-content">
+
+    <div class="oc-headingBlock">
+
+      <h3>
+	<a tal:attributes="href home_url"
+	   class="fn nickname"
+	   tal:content="python:mem_title(member_record)"
+	   />
+	<span class="oc-discreetText"
+	      tal:condition="python: view.is_admin(path('member_record/id'))">
+	  (Administrator)
+	</span>
+      </h3>
+      
+      <p class="oc-headingContext oc-discreetText">
+	team member since
+	<span tal:replace="member_record/activation" />
+      </p>
+      
+    </div>
+
+    <dl class="oc-plainList">
+
+      <tal:fullname 
+	 tal:condition="item/getFullname">
+	<dt>Name:</dt>
+	<dd class="n" tal:content="item/getFullname"/>
+      </tal:fullname>
+
+      <tal:email tal:condition="view/can_view_email">
+	<dt>Email:</dt>
+	<dd class="email" tal:content="item/getEmail"/>
+      </tal:email>
+
+      <tal:location
+	 tal:condition="item/getLocation">
+	<dt>Location:</dt>
+	<dd class="adr">
+	  <span class="locality" tal:content="item/getLocation" />
+	</dd>
+      </tal:location>
+      
+      <tal:projects tal:define="pbrains member_record/project_brains;
+				num_projects member_record/num_projects">
+	<dt class="oc-roster-projects">
+	  <span tal:replace="view/project_noun/title">Project</span>s (<span tal:replace="num_projects">N</span>):
+	</dt>
+	<dd>
+	  <ul class="oc-inlineList">
+            <li tal:repeat="project pbrains">
+              <a tal:attributes="href project/getPath">
+		<span tal:content="project/Title" />
+              </a>
+            </li>
+            <li tal:condition="python: num_projects > 10">
+              <a tal:attributes="href string:${context/portal_url}/people/${member_record/id}/profile">
+		(view all&hellip;)</a>
+            </li>
+	  </ul>
+	</dd>
+      </tal:projects>
+      
+    </dl>
+    
+  </div> <!-- end .oc-roster-content -->
+  
+</tal:set>

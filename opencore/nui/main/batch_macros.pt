@@ -3,83 +3,52 @@
   i18n:domain="opencore">
   <body>
     <!-- Navigation -->
-    <div
-      metal:define-macro="pagination"
-      tal:define="request request|here/request|container/request|nothing;
-      batch batch|nothing;
-      template_id template_id|template/getId;
-      mq python:modules['ZTUtils'].make_query;
-      url batch_base_url | string:${here/absolute_url}/${template_id};
-      currentpage batch/pagenumber;"
-      tal:condition="python: batch.next or  batch.previous">
 
-      <ul class="oc-paginator">
+    <metal:macro define-macro="pagination"
+	 tal:define="mq python:modules['ZTUtils'].make_query;
+		     url request/ACTUAL_URL;"
+	 tal:condition="python: batch.next or batch.previous">
+      
+      <ul class="oc-paginator" tal:define="cur_page view/page">
+	
+	<!-- Link to previous -->
         <li tal:define="p batch/previous | nothing"
           tal:condition="p">
-          <a href="" tal:attributes="href python: '%s?%s' % (url , mq( request.form, {batch.b_start_str:p.first} ));">
+          <a tal:attributes="href python: '%s?%s' % (url , mq( request.form, {'page':cur_page-1} ));">
             &larr;
             <span i18n:translate="batch_macros_previous_x_items" tal:omit-tag="">Prev</span>
           </a>
         </li>
 
-
         <li>Page</li>
+
         <!-- Link to first -->
         <li tal:condition="python: 1 not in batch.navlist">
-          <a href=""
-            tal:attributes="href python: '%s?%s' % (url, batch.pageurl(request.form,1));">1</a>
+          <a tal:attributes="href python: '%s?%s' % (url, mq(request.form, {'page':1} ));" >1</a>
           <span tal:condition="python: 2 not in (batch.prevlist or batch.leapback)"
             tal:omit-tag="">
             ...
           </span>
         </li>
 
-        <!-- Pagelist with quantum leap links to previous pages for quick navigation -->
-        <li tal:repeat="linklist python:batch.navurls(request.form, batch.leapback)"
-          tal:condition="batch/leapback">
-          <a href=""
-            tal:define="page python:linklist[0];
-            query python:linklist[1];"
-            tal:content="page"
-            tal:attributes="href python: '%s?%s' % (url,query)" >
-          </a>
-          ...
-        </li>
-
         <!-- Pagelist with links to previous pages for quick navigation -->
         <li tal:repeat="linklist python:batch.prevurls(request.form)"
           tal:condition="batch/prevlist">
-          <a href=""
-            tal:define="page python:linklist[0];
-            query python:linklist[1];"
+          <a tal:define="page python:linklist[0];
+			 query python:mq(request.form, {'page':page});"
             tal:content="page"
             tal:attributes="href python: '%s?%s' % (url,query)" >
           </a>
         </li>
 
         <!-- Current page -->
-        <li tal:condition="batch/navlist">
-          <span tal:replace="batch/pagenumber">Current page number</span>
-        </li>
+        <li tal:condition="batch/navlist" tal:content="batch/pagenumber" />
 
         <!-- Pagelist with links to next pages for quick navigation -->
         <li tal:repeat="linklist python:batch.nexturls(request.form)"
           tal:condition="batch/nextlist">
-          <a href=""
-            tal:define="page python:linklist[0];
-            query python:linklist[1];"
-            tal:content="page"
-            tal:attributes="href python: '%s?%s' % (url,query)" >
-          </a>
-        </li>
-
-        <!-- Pagelist with quantum leap links to next pages for quick navigation -->
-        <li tal:repeat="linklist python:batch.navurls(request.form, batch.leapforward)"
-          tal:condition="batch/leapforward" >
-          ...
-          <a href=""
-            tal:define="page python:linklist[0];
-            query python:linklist[1];"
+          <a tal:define="page python:linklist[0];
+			 query python:mq(request.form, {'page':page});"
             tal:content="page"
             tal:attributes="href python: '%s?%s' % (url,query)" >
           </a>
@@ -88,22 +57,70 @@
         <!-- Link to last -->
         <li tal:condition="python:batch.numpages not in batch.navlist">
           <span tal:condition="python: batch.numpages - 1 not in (batch.nextlist or batch.leapforward)"
-            >
+		>
             ...
           </span>
-          <a href=""
-            tal:attributes="href python: '%s?%s' % (url,batch.pageurl(request.form,batch.numpages));"
-            tal:content="batch/numpages">3457</a>
+          <a tal:attributes="href python: '%s?%s' % (url,mq(request.form, {'page':batch.numpages}));"
+             tal:content="batch/numpages" />
         </li>
 
         <li tal:define="n batch/next | nothing"
           tal:condition="n">
-          <a href="" tal:attributes="href python: '%s?%s' % (url , mq( request.form, {batch.b_start_str:n.first} ))">
+          <a tal:attributes="href python: '%s?%s' % (url , mq( request.form, {'page':cur_page+1} ))">
             <span i18n:translate="batch_macros_next_x_items" tal:omit-tag="">Next</span>
             &rarr;
           </a>
         </li>
+
+	<li>
+	  or jump to
+	  <form method="GET">
+	    <tal:for repeat="key request/form">
+	      <input type="hidden"
+		     tal:condition="python:key!='page'"
+		     tal:attributes="name key; value python:request.form[key]">
+	    </tal:for>
+            <input size="3" type="text" name="page" />
+	  </form>
+	  
+	</li>
+	
       </ul>
-    </div>
+    </metal:macro>
+
+
+    <metal:macro define-macro="sort_string">
+      <span tal:replace="structure python: view.sort_widget_string(batch)" />
+    </metal:macro>
+
+    <metal:macro define-macro="sort_widget">
+
+      <form class="enableUnloadProtection">
+
+        <!-- FIXME This should not require a button to work. -->
+        <select name="sort_by" class="oc-js-autoSelect" tal:define="sorted_by view/sort_by">
+
+	  <tal:for repeat="sort_by_option view/sort_by_options">
+	    <option tal:define="sort_string python:view.sort_by_options[sort_by_option];"
+		    tal:attributes="value sort_by_option;
+				    selected python:sorted_by == sort_by_option"
+		    tal:content="sort_string" />
+	  </tal:for>
+        </select>
+
+      <!-- resend the current data when sorting -->
+      <tal:for repeat="key request/form">
+	<input type="hidden"
+	       tal:condition="python:key!='sort_by'"
+	       tal:attributes="name key; value python:request.form[key]">
+      </tal:for>
+
+
+        <button type="submit" class="oc-button oc-chooseThis">sort</button> 
+
+      </form>
+      
+    </metal:macro>
+
   </body>
 </html>

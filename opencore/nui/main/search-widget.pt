@@ -1,0 +1,5 @@
+<tal:set_var define="current_search_page view/current_search_page;
+		     form_action_url view/form_action_url;
+		     project_noun view/project_noun;">
+  <div metal:use-macro="here/main_macros/search_widget" />
+</tal:set_var>

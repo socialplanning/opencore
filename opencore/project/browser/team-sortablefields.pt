@@ -1,0 +1,5 @@
+<ul id="sortable_fields">
+  <li id="username">sorted by user name</li>
+  <li id="membership_date">sorted by membership start date</li>
+  <li id="location">sorted by location</li>
+</ul>

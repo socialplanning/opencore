@@ -1,0 +1,8 @@
+<ul id="sortable_fields">
+  <li id="relevancy"
+      tal:condition="request/form/search_for | nothing">
+    sorted by relevancy
+  </li>
+  <li id="getId">sorted by username</li>
+  <li id="exact_getFullname">sorted by name</li>
+</ul>
