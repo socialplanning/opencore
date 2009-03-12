@@ -112,17 +112,21 @@ def factory(_context, name, permission, for_,
     if class_ is None:
         class_ = search.SearchView
 
-    default_path = search.__file__.split(os.path.sep)[:-1]
+    from pkg_resources import resource_filename
+    default_path = 'opencore.nui.main.search'
 
     if template is None:
-        template = search.SearchView.default_template
-        template = os.sep + os.path.join(*default_path + [template])
+        template = resource_filename(default_path,
+                                     search.SearchView.default_template)
     if result_listing is None:
-        result_listing = os.sep + os.path.join(*default_path + [search.SearchView.default_result_listing])
+        result_listing = resource_filename(default_path, 
+                                           search.SearchView.default_result_listing)
     if sortable_fields is None:
-        sortable_fields = os.sep + os.path.join(*default_path + [search.SearchView.default_sortable_fields])
+        sortable_fields = resource_filename(default_path,
+                                            search.SearchView.default_sortable_fields)
     if sort_string is None:
-        sort_string = os.sep + os.path.join(*default_path + [search.SearchView.default_sort_string])
+        sort_string = resource_filename(default_path,
+                                        search.SearchView.default_sort_string)
 
     if not os.path.isfile(result_listing):
         raise ConfigurationError("No such file", result_listing)
