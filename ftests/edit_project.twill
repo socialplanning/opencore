@@ -38,4 +38,4 @@ go ${base_url}
 notfind 'home_updated_projects.*${projtitle}' s
 find 'home_newest_projects.*${projtitle}' s
 go ${base_url}/projects
-find 'updated ${projtxt}s.*${projtitle}.*(1|2)\s*member(s),\s*last updated today' s
+find 'updated ${projtxt}s.*${projtitle}.*(1|2)\s*member\(s\),\s*last updated\s*today' s
