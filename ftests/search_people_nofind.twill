@@ -10,4 +10,4 @@
 go ${base_url}/people
 fv search_form search_for $query
 submit 
-find 'people-searchresults_no_results'
+find 'No results'

@@ -10,11 +10,11 @@ follow 'all'
 find '<li>\s*1\s*</li>'
 notfind '<li>\s*2\s*</li>'
 notfind '<li>\s*3\s*</li>'
-fv people_sort sort_by 'getId'
+fv searchresults_sorting sort_by 'getId'
 submit
-find 'selected="selected">A to Z<'
+find_in_css "A to Z" "option[selected]"
 follow '^2$'
 notfind '<li>\s*1\s*</li>'
 find '<li>\s*2\s*</li>'
 notfind '<li>\s*3\s*</li>'
-find 'selected="selected">A to Z<'
+find_in_css "A to Z" "option[selected]"

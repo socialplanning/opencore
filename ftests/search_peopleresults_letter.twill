@@ -9,7 +9,7 @@
 #    on a page with people letter search
 
 follow $letter
-find 'Member'
+find 'Result'
 find 'of\s+\d+'
 find 'sorted'
 notfind 'No results found.'

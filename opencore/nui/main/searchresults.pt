@@ -38,11 +38,16 @@
 	       li.oc-lineup-item => li.oc-feed-item.oc-clearAfter
 
 	       -->
-          <div tal:attributes="class view/lineup_class"> 
+          <div tal:attributes="class view/lineup_class">
             <div class="oc-lineup-sorter">
               <metal:macro use-macro="context/@@nui_batch_macros/pagination"/>
               <metal:macro use-macro="context/@@nui_batch_macros/sort_string"/>
-	      <metal:macro use-macro="context/@@nui_batch_macros/sort_widget"/>	      
+	      <tal:vars condition="python:not request.ACTUAL_URL.endswith('searchresults')" define="form_action_url string:sitesearch" >
+		<metal:macro use-macro="context/@@nui_batch_macros/sort_widget"/>	      
+	      </tal:vars>
+	      <tal:vars condition="python:request.ACTUAL_URL.endswith('searchresults')">
+		<metal:macro use-macro="context/@@nui_batch_macros/sort_widget"/>	      
+	      </tal:vars>
             </div>
 	    
             <!-- the results are displayed here -->
