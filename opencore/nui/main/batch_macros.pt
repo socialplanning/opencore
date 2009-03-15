@@ -95,7 +95,7 @@
 
     <metal:macro define-macro="sort_widget">
 
-      <form name="searchresults_sorting" tal:attributes="action form_action_url | string:searchresults" >
+      <form name="searchresults_sorting" tal:attributes="action view/name">
 
         <!-- FIXME This should not require a button to work. -->
         <select name="sort_by" class="oc-js-autoSelect" tal:define="sorted_by view/sort_by">
