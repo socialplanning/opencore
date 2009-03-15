@@ -50,6 +50,7 @@ setup(
                         'https://svn.openplans.org/svn/ZCMLLoader/trunk#egg=ZCMLLoader',
                         'https://svn.openplans.org/svn/opencore/plugins/oc-feed/trunk/#egg=oc_feed-dev',
                         'https://svn.plone.org/svn/collective/borg/components/borg.localrole/trunk#egg=borg.localrole-dev',
+                        'https://svn.openplans.org/svn/flunc/trunk#egg=flunc-0.5dev',
                         ],
 
       install_requires=[
@@ -67,7 +68,7 @@ setup(
           'plone.mail',
           'borg.localrole==2.0.1',
           'uuid',
-          'flunc>=0.4',
+          'flunc>=0.5dev',
           'zcmlloader',
           'Products.CacheSetup==1.2',
           'Products.GenericSetup==1.4.1',

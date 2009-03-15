@@ -8,18 +8,18 @@ follow 'all'
 
 # get the users sorted correctly no matter what way you search
 follow 'F'
-fv people_sort sort_by 'getId'
+fv searchresults_sorting sort_by 'getId'
 submit
-find 'selected="selected">by username<'
+find_in_css "by username" "option[selected]"
 find 'fa.*fb.*Fc.*fz' s
 fv search_form search_for 'f'
 submit 
-fv people_sort sort_by 'getId'
+fv searchresults_sorting sort_by 'getId'
 submit
 find 'fa.*fb.*Fc.*fz' s
 
 
-fv people_sort sort_by 'exact_getFullname'
+fv searchresults_sorting sort_by 'exact_getFullname'
 submit
-find 'selected="selected">by name<'
+find_in_css "by name" "option[selected]"
 find 'baaz master.*bar bie.*flux capacitor.*foo fighter' s

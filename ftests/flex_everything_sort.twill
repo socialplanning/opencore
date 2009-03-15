@@ -5,12 +5,12 @@
 
 go ${base_url}/sitesearch
 follow 'sitesearch.*all'
-fv people_sort sort_by 'getId'
+fv searchresults_sorting sort_by 'getId'
 submit
-find 'selected="selected">A to Z<'
-fv people_sort sort_by 'modified'
+find_in_css 'A to Z' "option[selected]"
+fv searchresults_sorting sort_by 'modified'
 submit
-find 'selected="selected">by date updated<'
-fv people_sort sort_by 'portal_type'
+find_in_css 'by date updated' "option[selected]"
+fv searchresults_sorting sort_by 'portal_type'
 submit
-find 'selected="selected">by content type<'
+find_in_css "by content type" "option[selected]"

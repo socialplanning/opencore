@@ -12,7 +12,7 @@ go ${base_url}/people
 find 'New Members'
 fv search_form search_for $query
 submit 
-find 'Member'
+find 'Result'
 find 'of\s+\d+'
 find 'sorted'
 notfind 'No results found.'
