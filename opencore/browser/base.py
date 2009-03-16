@@ -8,6 +8,7 @@ from Products.Five import BrowserView
 from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
 from Products.remember.interfaces import IReMember
 from lxml.html.clean import Cleaner
+from opencore.browser.window_title import window_title
 from opencore.i18n import i18n_domain, _
 from opencore.i18n import translate
 from opencore.utility.interfaces import IProvideSiteConfig
@@ -317,27 +318,10 @@ class BaseView(BrowserView):
         """
         area = self.area
 
-        if mode is None:
-            mode = 'view'
+        return window_title(area, self.context.absolute_url(),
+                            self.context.Title().decode('utf-8'),
+                            mode)
 
-        # if we're rendering the default (view) mode of the area's homepage,
-        # we should just display the area title itself
-        if mode == 'view' and area['homepage_url'] == self.context.absolute_url():
-            return area['verbose_title']
-
-        mode_string = u' '
-        if mode != 'view':
-            mode_string = u' (%s) '  % mode
-        context_string = u'%s%s' % (self.context.Title().decode('utf-8'),
-                                    mode_string)
-        
-        if area['absolute_url'] == self.context.absolute_url():
-            #If our context is its own area, we shouldn't print its title twice.
-            return context_string
-        else:
-            #If our context is not its own area, we should print the context,
-            #and then print the area.
-            return u'%s- %s' % (context_string, area['verbose_title'])
 
 
     @timestamp_memoize(600)
@@ -665,5 +649,5 @@ class BaseView(BrowserView):
             return exit_function()
         return exit_function() # XXX redundant, leaving for now
 
-
 aq_iface = zutils.aq_iface
+

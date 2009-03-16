@@ -5,6 +5,8 @@ from zope.app.component.hooks import setSite
 from zope.testing import doctest
 from opencore.browser import formhandler
 from opencore.browser import tal
+from opencore.browser import window_title
+
 import unittest
 
 #optionflags = doctest.REPORT_ONLY_FIRST_FAILURE | doctest.ELLIPSIS
@@ -67,6 +69,7 @@ def test_suite():
     return unittest.TestSuite((readme,
                                formhandler.test_suite(),
                                tal.test_suite(),
+                               window_title.test_suite(),
                                errors,
                                ))
 
