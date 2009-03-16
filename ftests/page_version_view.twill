@@ -3,12 +3,16 @@
 #
 # projname - the id of the project to edit 
 # projtitle - the title to set for the project
-# 
+# current_version - the most recent version of the home page
+# previous_version - int(current_version)-1
 # expects: 
 #   project exists, home page has at least 1 historical version
 #
 
 go ${base_url}/projects/${projname}/project-home
+follow "modified"
+url ${base_url}/projects/${projname}/project-home/version_compare\?version_id=${current_version}&version_id=${previous_version}
+find "foo"
 follow history
 code 200
 follow version_initial_title

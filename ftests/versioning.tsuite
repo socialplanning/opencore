@@ -4,10 +4,14 @@ create_user(user=${u2_name}, fullname=${u2_fullname}, email=${u2_email})
 
 login(user=${u1_name})
 create_project
+page_version_only_one_edit
 edit_project(projbody=${projbody1})
+page_version_only_one_edit
 edit_project(projbody=${projbody2})
+page_version_view(current_version=1, previous_version=0)
 edit_project(projbody=${projbody3})
-page_version_view
+page_version_view(current_version=2, previous_version=1)
+
 rollback(version_id="1", version_name="Version 2", expected=${projbody2})
 rollback(version_id="0", version_name="Initial Version", expected=${projbody1})
 logout

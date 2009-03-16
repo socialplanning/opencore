@@ -1,0 +1,11 @@
+# projname - the id of the project to edit 
+# projtitle - the title to set for the project
+# expects: 
+#   project exists, home page has no more than one historical version
+
+extend_with flunc.xpath
+
+go ${base_url}/projects/${projname}/project-home
+follow "modified"
+url ${base_url}/projects/${projname}/project-home$
+find_in_css "There have been no edits to this page since it was created" div.oc-statusMessage

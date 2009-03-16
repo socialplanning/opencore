@@ -1,10 +1,15 @@
 0.17.0 (UNRELEASED)
 ===================
 
-novalis and rmarianski have made changes since r22524 without updating
+novalis, rob and rmarianski have made changes since r22524 without updating
 the changelog. Please do so.
 
 Features Added:
+
+ * Wiki pages now have a view at `latest-change` which redirects to the
+   `version_compare` page displaying the most recent edit on the page. It
+   is linked from the "last modified" text in the tabs on the page's standard
+   view. (#2781) (egj)
 
  * Rename 'pages' back to 'wiki' (#2749) (egj)
 
@@ -18,8 +23,8 @@ Refactoring:
 
  * Extracted opencore.wordpress into its own egg as a plugin (#2715) (egj)
 
- * Heavily refactored `BaseView.area` and `BaseView.window_title` functions
-   in `opencore.browser.base` (#588#comment:7 and following)
+ * Heavily refactored `BaseView.area` and `BaseView.window_title` functions 
+   in `opencore.browser.base` (#588#comment:7 and following) (egj)
 
 0.16.0 (2009-02-27)
 ===================
