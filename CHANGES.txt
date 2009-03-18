@@ -13,11 +13,20 @@ Features Added:
 
  * Rename 'pages' back to 'wiki' (#2749) (egj)
 
+ * Mailing lists now support an ISyncWithProjectMembership marker interface;
+   any list marked with this interface will automatically subscribe and
+   unsubscribe members as they are added to or removed from a project.
+   (This used to only work for mailing lists with a specific id based on
+   the project name.) (rafrombrc)
+
 Bugs Fixed:
 
  * The topnav within a member space was always displaying the member's original
    Title (i.e. fullname?fullname:id) as it was set at account creation time. It
    now properly displays the member's current Title at all times (#2779) (egj)
+
+ * Thumbnail view on the attachment images now explicitly sets content type
+   header as image/jpeg (rafrombrc)
 
 Refactoring:
 
