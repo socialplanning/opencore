@@ -1,7 +1,7 @@
 0.17.0 (UNRELEASED)
 ===================
 
-novalis, rob and rmarianski have made changes since r22524 without updating
+novalis, rmarianski have made changes since r22524 without updating
 the changelog. Please do so.
 
 Features Added:
