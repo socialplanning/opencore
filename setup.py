@@ -43,7 +43,7 @@ setup(
           'decorator==2.2.0',
           'feedparser==4.1',
           'topp.featurelets==0.2.2',
-          'topp.utils==0.5',
+          'topp.utils>=0.5.1',
           'OpencoreRedirect==0.4.1',
           'httplib2==0.4.0',
           'plone.memoize==1.0.4',
