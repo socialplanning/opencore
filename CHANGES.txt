@@ -532,16 +532,31 @@ Bug fixes and non-featureful changes:
 
  * Add setup widget to delete old non-text versions of wiki pages (novalis)
 
-
 We didn't keep a changelog before this release.
+
+This release probably also gave us --
+ * New invite by email workflow (from http://openplans.org/projects/opencore/openplans-release-notes)
 
 
 0.9.7.7 branched 2007-11-30
 ===========================
 
-We didn't keep a changelog, and we failed to make tags for any 0.9.7.7
-deployments, so it would be a big project to retroactively reconstruct
-this.
+From http://openplans.org/projects/opencore/openplans-release-notes --
+ * GenericSetup configuration management
+ * TaskTracker/Wordpress configuration through portal properties
+ * BTree based project objects
+ * Project home page urls now relative
+ * Email address blacklist
+ * Xinha fixes
+ * Version numbers through openplans-versions
+ * Project deletion view
+ * Stats package
+For associated migration steps, see docs/0.9.7.7-migrations.txt in
+this repository.
+
+This list is incomplete; we didn't keep a changelog, and we failed to
+make tags for any 0.9.7.7 deployments, so it would be a big project to
+retroactively reconstruct this.
 
 If anybody cares, a good place to start might be:
 svn log https://svn.openplans.org/svn/opencore/trunk -r11482:10870
@@ -575,3 +590,12 @@ retroactively fill the below releases in from svn history...
 0.9.7.6 branched 2007-11-09
 ===========================
 
+From http://openplans.org/projects/opencore/openplans-release-notes --
+ * Project Logos
+ * Tour page icons
+ * Everything search issue (#1689)
+
+From http://openplans.org/projects/opencore/openplans-deployment-notes --
+Required migrations:
+ * The fix for #1689 needs a catalog reindex after zope restarts: go into the ZMI, go to /openplans/portal_catalog/manage_catalogAdvanced, and click the "Update Catalog" button. This might take a while.
+ * If you are integrating OpenCore with TaskTracker in your stack, the TaskTracker source should be updated to the head of trunk [ed note: would be nice to find out what revision we're talking about here and why]

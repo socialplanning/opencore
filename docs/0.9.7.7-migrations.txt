@@ -1,0 +1,119 @@
+Required migrations from the 0.9.7.7 version; list taken from
+http://www.openplans.org/projects/opencore/openplans-deployment-notes
+
+GenericSetup for configuration management
+-----------------------------------------
+
+   We're now using
+   GenericSetup to create our site and apply configuration, instead of
+   the purely procedural approach that we've been using in our
+   Install.py.  This doesn't change too much, yet; most of the setup
+   widgets are still available in the portal_migrations tool, and will
+   work as before.  A few of the widgets, however, are now gone.
+   Anything related to portal properties, workflow, portal types,
+   portal actions, or the indexes in the catalogs (both portal_catalog
+   and membrane_tool) are now handled entirely by the GenericSetup
+   profile (in the opencore/configuration/profiles/default directory).
+   Instead of running a setup widget, you would reimport the settings
+   from the profile using the portal_setup tool. Background info on the
+   functioning of GenericSetup can be found in this tutorial, especially
+   chapter 3: http://plone.org/documentation/tutorial/genericsetup,
+   http://plone.org/documentation/tutorial/genericsetup/the-setup-tool
+
+   1. ZMI > openplans > portal_setup
+   2. properties tab > set active site configuration to
+      'OpenCore <domain> site' > click update
+   3. import tab > check #7 'Plone Properties' > click Import Selected Steps
+
+
+TaskTracker and WordPress configuration changes
+-----------------------------------------------
+
+ TaskTracker and
+ WordPress used to have their URIs defined by values coming out of
+ both zope.conf and ZCML.  Both of these are now gone; the
+ configuration for these now lives in the opencore_properties property
+ sheet.  For this to function on the site, these new properties need
+ to be installed and populated.  You can load the properties from the
+ profile by running the properties tool import step.  You can either
+ put the correct values into the profile before you do the import, or
+ you can import them as empty and then put the correct values in using
+ the ZMI.
+
+
+WordPress role changes
+----------------------
+
+ Opencore team members will now be mapped to
+ Author's.  The wordpress database needs to be updated with the
+ following script:
+
+https://svn.openplans.org/svn/build/topp.build.wordpress/trunk/topp/build/wordpress/skel/change-role-migration.py
+
+To run the script do: %python change-role-migration.py contributor
+author 
+
+mysql-python has to be installed in the working environment. 
+
+
+Switch to BTree based Project objects
+-------------------------------------
+The OpenProject class now uses BTreeFolder2 as its base folder implementation, instead of regular OFS.Folder.  This means the internal data structures for managing the contents of a folder have changed.  THIS MUST BE RUN BEFORE THE OTHER ZOPE UPGRADE WIDGETS FOR THIS VERSION.
+
+Setup widget: Initialize Project BTrees 
+
+
+Fixup project homepages widget
+------------------------------
+
+Our use of Plone's getDefaultPage and setDefaultPage mechanism was intefering with our custom project home page stuff.   New projects should be fine, but there are existing projects that still have the default page set, the "Fix up project home pages" NUI setup widget should fix this.
+
+
+Project homepage urls
+---------------------
+Home page urls are relative now. A setup widget needs to run to migrate the old absolute home page urls to the relative ones (relative to project url).
+
+Setup widget: Make project home pages relative 
+
+
+Email address blacklist
+-----------------------
+There is now a property on the opencore_properties property sheet that contains the email addresses that users are not allowed to choose.  The "Properties Tool" import step needs to be re-run using the portal_setup tool to apply this setting to a live site.
+
+
+Javascript
+----------
+Need to update javascript for some xinha fixes
+
+ 
+Opencore and Sputnik versions in setup.py
+-----------------------------------------
+python setup.py develop needs to run on opencore and sputnik. There are entry points that represent version numbers that hook in when this is run.
+
+ 
+topp.featurelets and topp.utils updated
+---------------------------------------
+New deploys and running setup.py develop should bring in these new versions.
+
+topp.featurelets should be 0.2.2
+
+topp.utils should be 0.2.10
+
+ 
+Cabochon client utility
+-----------------------
+Run setup widget "install cabochon client utility"
+
+(This installs a local utility at the portal level) 
+
+ 
+Ticket #1942 "the geomatique bug"
+---------------------------------
+on opencore trunk as of 12327, the following external packages need to be updated:
+
+ * wicked 1.0 branch should be at least r56640
+
+ 
+Annotate last modified author 
+-----------------------------
+You need to run the annotate last modified author setup thingy.  This should probably have been done ages ago. 
