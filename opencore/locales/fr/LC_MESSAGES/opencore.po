@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: opencore\n"
-"POT-Creation-Date: 2009-01-23 05:32+0000\n"
+"POT-Creation-Date: 2009-03-26 18:32+0000\n"
 "PO-Revision-Date: 2008-06-02 22:41+0200\n"
 "Last-Translator: Pierre George <pierregrg@gmail.com>\n"
 "Language-Team: OpenFSM Team <openfsm@lists.openfsm.net>\n"
@@ -20,9 +20,6 @@ msgstr ""
 msgid "(show up to ${batch_size} results per page)"
 msgstr ""
 
-msgid "Account"
-msgstr ""
-
 #. Default: "Contact"
 #: ./opencore/listen/browser/manage_membership.pt:49
 msgid "Contact"
@@ -33,10 +30,7 @@ msgstr ""
 msgid "Contact_email"
 msgstr ""
 
-msgid "Contents"
-msgstr ""
-
-#: ./opencore/browser/topnav/topnav.py:72
+#: ./opencore/browser/topnav/topnav.py:65
 msgid "Create account"
 msgstr ""
 
@@ -45,47 +39,17 @@ msgstr ""
 msgid "Edit"
 msgstr ""
 
-msgid "Join Project"
-msgstr ""
-
 #. Default: "No"
 #: ./opencore/listen/browser/membership.pt:33
 msgid "No"
 msgstr ""
 
-msgid "Pages"
-msgstr ""
-
-msgid "People"
-msgstr ""
-
-msgid "Preferences"
-msgstr ""
-
-msgid "Profile"
-msgstr ""
-
-msgid "Project Wiki"
-msgstr ""
-
-msgid "Projects"
-msgstr ""
-
-#: ./opencore/browser/topnav/topnav.py:68
+#: ./opencore/browser/topnav/topnav.py:61
 msgid "Sign in"
 msgstr ""
 
-#: ./opencore/browser/topnav/topnav.py:110
+#: ./opencore/browser/topnav/topnav.py:103
 msgid "Sign out"
-msgstr ""
-
-msgid "Start A Project"
-msgstr ""
-
-msgid "Summary"
-msgstr ""
-
-msgid "Team"
 msgstr ""
 
 #. Default: "Update"
@@ -98,8 +62,8 @@ msgstr ""
 msgid "Yes"
 msgstr ""
 
-#. Default: "<h2>Get in touch</h2> <div class=\"vcard\"> <p style=\"font-weight: bold;\" class=\"fn org\"> <a class=\"url\" href=\"http://topp.openplans.org\">The Open Planning Project</a> </p> <dl class=\"oc-plainList\"> <dt>General Inquiries</dt> <dd> info<span style=\"display: none;\">NOSPAM</span>@openplans.org </dd> <dt>Help</dt> <dd> help<span style=\"display: none;\">NOSPAM</span>@openplans.org </dd> <dt>Employment</dt> <dd> <a href=\"http://topp.openplans.org/careers\">We're hiring!</a> </dd> <dt>Address</dt> <dd class=\"adr\"> <div class=\"street-address\">349 West 12<sup>th</sup> Street, #3</div> <span class=\"locality\">New York</span>, <span class=\"region\">NY</span> <span class=\"postal-code\">10014</span> <a href=\"http://maps.google.com/maps?f=q&hl=en&geocode=&q=349+W+12th+St,+New+York,+NY+10014&sll=40.737566,-74.007217&sspn=0.006568,0.01796&ie=UTF8&ll=40.738657,-74.007211&spn=0.006568,0.01796&t=k&z=16&iwloc=addr&om=1\">map</a> </dd> <dt>Phone</dt> <dd class=\"tel\">212.796.4220</dd> <dt>Fax</dt> <dd class=\"tel\">646.390.2624</dd> </dl> </div>"
-#: ./opencore/nui/main/about.pt:43
+#. Default: "<h2>Get in touch</h2> <div class=\"vcard\"> <p style=\"font-weight: bold;\" class=\"fn org\"> <a class=\"url\" href=\"${DYNAMIC_CONTENT}\">The Open Planning Project</a> </p> <dl class=\"oc-plainList\"> <dt>General Inquiries</dt> <dd> info<span style=\"display: none;\">NOSPAM</span>@openplans.org </dd> <dt>Help</dt> <dd> help<span style=\"display: none;\">NOSPAM</span>@openplans.org </dd> <dt>Employment</dt> <dd> <a href=\"http://topp.openplans.org/careers\">We're hiring!</a> </dd> <dt>Address</dt> <dd class=\"adr\"> <div class=\"street-address\">349 West 12<sup>th</sup> Street, #3</div> <span class=\"locality\">New York</span>, <span class=\"region\">NY</span> <span class=\"postal-code\">10014</span> <a href=\"http://maps.google.com/maps?f=q&hl=en&geocode=&q=349+W+12th+St,+New+York,+NY+10014&sll=40.737566,-74.007217&sspn=0.006568,0.01796&ie=UTF8&ll=40.738657,-74.007211&spn=0.006568,0.01796&t=k&z=16&iwloc=addr&om=1\">map</a> </dd> <dt>Phone</dt> <dd class=\"tel\">212.796.4220</dd> <dt>Fax</dt> <dd class=\"tel\">646.390.2624</dd> </dl> </div>"
+#: ./opencore/nui/main/about.pt:47
 msgid "about_get_in_touch"
 msgstr ""
 
@@ -108,8 +72,8 @@ msgstr ""
 msgid "about_let_us_know"
 msgstr ""
 
-#. Default: "<p>OpenPlans is a platform for social activism.</p> <p>Whether your group is mobilizing voters, planning a protest, or growing a garden, OpenPlans can help you become more effective. OpenPlans is about greasing the wheels of democracy.</p> <p>With our collaborative wiki pages and other tools, you and your group can:</p> <ul class=\"oc-smallText\"> <li>Make ${DYNAMIC_CONTENT}s</li> <li>Share to-do lists</li> <li>Upload photos</li> <li>Publicize your cause</li> <li>Create and use mailing lists</li> <li>Store and share files</li> <li>and more…</li> </ul> <p>If you don't see something you need, please <a href=\"${DYNAMIC_CONTENT}\">let us know</a>. Chances are, it's just around the bend.</p> <p>If you are a developer who wants to get involved, visit the <a href=\"${DYNAMIC_CONTENT}\">OpenCore Software</a> project.</p> <h1>About The Open Planning Project</h1> <p>OpenPlans is developed by <a href=\"http://topp.openplans.org\"><acronym title=\"The Open Planning Project\">TOPP</acronym></a>. We are a dot-org: a non-profit building technology to enhance civic participation. We care about what we build, and we're open source through and through.</p> <p>We created OpenPlans for social change groups, to help them save time and become more effective. These groups often have a lot of passion and smarts, but not a lot of extra people power or time.</p> <p>OpenPlans is our third initiative. We also founded <a href=\"http://geoserver.org/\">GeoServer</a>, a platform for sharing geographic information, and we are collaborators in the <a href=\"http://nycsr.org/\">New York City Streets Renaissance</a>, a campaign for lively public space in NYC.</p> <p>TOPP was born in 2000.</p>"
-#: ./opencore/nui/main/about.pt:29
+#. Default: "<p>OpenPlans is a platform for social activism.</p> <p>Whether your group is mobilizing voters, planning a protest, or growing a garden, OpenPlans can help you become more effective. OpenPlans is about greasing the wheels of democracy.</p> <p>With our collaborative wiki pages and other tools, you and your group can:</p> <ul class=\"oc-smallText\"> <li>Make ${DYNAMIC_CONTENT}s</li> <li>Share to-do lists</li> <li>Upload photos</li> <li>Publicize your cause</li> <li>Create and use mailing lists</li> <li>Store and share files</li> <li>and more…</li> </ul> <p>If you don't see something you need, please <a href=\"${DYNAMIC_CONTENT}\">let us know</a>. Chances are, it's just around the bend.</p> <p>If you are a developer who wants to get involved, visit the <a href=\"${DYNAMIC_CONTENT}\">OpenCore Software</a> project.</p> <h1>About The Open Planning Project</h1> <p>OpenPlans is developed by <a href=\"${DYNAMIC_CONTENT}\"><acronym title=\"The Open Planning Project\">TOPP</acronym></a>. We are a dot-org: a non-profit building technology to enhance civic participation. We care about what we build, and we're open source through and through.</p> <p>We created OpenPlans for social change groups, to help them save time and become more effective. These groups often have a lot of passion and smarts, but not a lot of extra people power or time.</p> <p>OpenPlans is our third initiative. We also founded <a href=\"http://geoserver.org/\">GeoServer</a>, a platform for sharing geographic information, and we are collaborators in the <a href=\"http://nycsr.org/\">New York City Streets Renaissance</a>, a campaign for lively public space in NYC.</p> <p>TOPP was born in 2000.</p>"
+#: ./opencore/nui/main/about.pt:32
 msgid "about_openplans"
 msgstr ""
 
@@ -309,7 +273,7 @@ msgid "archive_forum_view_by"
 msgstr "Voir par <strong>conversation</strong> ou <a href=\"date_view\">dates</a>"
 
 #. Default: "There are currently no posts in this archive."
-#: ./opencore/listen/browser/archive_date_messages.pt:30
+#: ./opencore/listen/browser/archive_forum_view.pt:51
 msgid "archive_no_posts"
 msgstr "Pour l'instant, pas d'éléments dans l'archive"
 
@@ -326,12 +290,12 @@ msgid "archive_view_by"
 msgstr "Voir par<a href=\"../forum_view\">conversation</a> ou <strong>fecha</strong> (<strong>plat</strong> ou <a id=\"switch_view\" href=\"by_thread\">par fils</a>)"
 
 #. Default: "Next"
-#: ./opencore/nui/main/batch_macros.pt:102
+#: ./opencore/nui/main/batch_macros.pt:70
 msgid "batch_macros_next_x_items"
 msgstr "Suivant"
 
 #. Default: "Prev"
-#: ./opencore/nui/main/batch_macros.pt:21
+#: ./opencore/nui/main/batch_macros.pt:19
 #, fuzzy
 msgid "batch_macros_previous_x_items"
 msgstr "Previ"
@@ -466,17 +430,17 @@ msgid "demote_to_member"
 msgstr "${name} n'est plus un administrateur"
 
 #. Default: "Discussion list for this ${project_noun}, consisting of all ${project_noun} members."
-#: ./opencore/listen/events.py:93
+#: ./opencore/listen/events.py:98
 msgid "discussion_list_desc"
 msgstr ""
 
 #. Default: "You requested a password reset for your ${portal_title} account. If you did not request this information, please ignore this message.\n\nTo change your password, please visit the following URL: ${url}"
-#: ./opencore/account/login.py:289
+#: ./opencore/account/login.py:285
 msgid "email_forgot_password"
 msgstr ""
 
 #. Default: "${portal_title} - Password reset"
-#: ./opencore/account/login.py:294
+#: ./opencore/account/login.py:290
 msgid "email_forgot_password_subject"
 msgstr ""
 
@@ -634,7 +598,7 @@ msgstr "à propos de"
 msgid "footer_contact_link"
 msgstr "contact"
 
-#. Default: "&copy; 2007 <a href=\"http://topp.openplans.org/\">The Open Planning Project</a>"
+#. Default: "&copy; 2007 <a href=\"${DYNAMIC_CONTENT}\">The Open Planning Project</a>"
 #: ./opencore/browser/footer.pt:16
 #, fuzzy
 msgid "footer_copyright"
@@ -736,11 +700,6 @@ msgstr ""
 msgid "from-label"
 msgstr ""
 
-#. Default: "No results found."
-#: ./opencore/nui/main/home-searchresults.pt:112
-msgid "home-searchresults_no_results"
-msgstr "pas de résultats trouvés"
-
 #. Default: "Find ${project_noun}s"
 #: ./opencore/nui/main/home.pt:30
 #, fuzzy
@@ -839,39 +798,39 @@ msgid "invite-w-m_remind_title"
 msgstr "Rappeler aux participants"
 
 #. Default: "Already a member?"
-#: ./opencore/account/invite-join.pt:209
+#: ./opencore/account/join.pt:174
 #, fuzzy
 msgid "join_already_member_heading"
 msgstr "Déjà membre de l'équipe?"
 
 #. Default: "Join"
-#: ./opencore/account/invite-join.pt:185
+#: ./opencore/account/join.pt:142
 msgid "join_button"
 msgstr ""
 
 #. Default: "Check your email to confirm registration"
-#: ./opencore/account/invite-join.pt:68
+#: ./opencore/account/join.pt:20
 msgid "join_check_email"
 msgstr "Vérifiez votre adresse éléectronique pour confirmer votre inscription"
 
 #. Default: "Confirm password"
-#: ./opencore/account/invite-join.pt:164
+#: ./opencore/account/join.pt:119
 msgid "join_conf_password_label"
 msgstr "Confirmer votre mot de passe"
 
-#. Default: "Registration is free and your email will not be shared with anyone, however, you will need to confirm your email address in order to avoid spam bots abusing this system."
-#: ./opencore/account/invite-join.pt:61
+#. Default: "We will not share your email with anyone. Ever."
+#: ./opencore/account/join.pt:159
 #, fuzzy
 msgid "join_description"
 msgstr "L'inscription est libre et votre adresse électronique ne sera communiquée à personne, toutefois vous devez la confirmer afin d'éviter que des robots de spam ne trompent le système."
 
 #. Default: "Email"
-#: ./opencore/account/invite-join.pt:119
+#: ./opencore/account/join.pt:75
 msgid "join_email_label"
 msgstr "Adresse e-mail"
 
 #. Default: "Full Name"
-#: ./opencore/account/invite-join.pt:99
+#: ./opencore/account/join.pt:53
 msgid "join_full_name_label"
 msgstr "Nom complet"
 
@@ -881,8 +840,8 @@ msgstr "Nom complet"
 msgid "join_get_started"
 msgstr "Devenir membre d'une équipe signifie…"
 
-#. Default: "<li>You can join and participate in existing ${project_noun}s</li> <li>You can create your own ${project_noun} and invite people to participate</li> <li>You can share information about yourself</li>"
-#: ./opencore/account/invite-join.pt:219
+#. Default: "<li>You can join and participate in existing ${project_noun}s</li> <li>You can create your own ${project_noun} and invite others to join</li> <li>You can share information about yourself</li>"
+#: ./opencore/account/join.pt:169
 #, fuzzy
 msgid "join_get_started_list"
 msgstr "<li>Vous pouvez vous inclure et participer dans l' ${project_noun}s existant</li> <li>Vous pouvez créer votre propre ${project_noun} et inviter d'autres a s'y inclure </li> <li>Vous pouvez partager des informations sur vous même</li>"
@@ -893,17 +852,17 @@ msgid "join_page_title"
 msgstr "Créer un compte sur  ${page_title}"
 
 #. Default: "Password"
-#: ./opencore/account/invite-join.pt:144
+#: ./opencore/account/join.pt:97
 msgid "join_password_label"
 msgstr "Mot de passe"
 
 #. Default: "Sign in"
-#: ./opencore/account/invite-join.pt:210
+#: ./opencore/account/join.pt:175
 msgid "join_sign_in"
 msgstr "Entrer"
 
 #. Default: "Username"
-#: ./opencore/account/invite-join.pt:79
+#: ./opencore/account/join.pt:31
 msgid "join_username_label"
 msgstr "Nom d'utilisateur"
 
@@ -1508,22 +1467,22 @@ msgid "or ${url}"
 msgstr ""
 
 #. Default: "There is no member named \"${user_id}\"."
-#: ./opencore/browser/base.py:547
+#: ./opencore/browser/base.py:635
 msgid "password_no_member_error"
 msgstr ""
 
 #. Default: "You must enter a password."
-#: ./opencore/browser/base.py:553
+#: ./opencore/browser/base.py:641
 msgid "password_no_password_error"
 msgstr "Vous devez entrer un mot de passe."
 
 #. Default: "You need to enter your username."
-#: ./opencore/browser/base.py:542
+#: ./opencore/browser/base.py:630
 msgid "password_no_username_error"
 msgstr "Vous devez entrer votre nom d'utilisateur."
 
 #. Default: "Please make sure that both password fields are the same."
-#: ./opencore/browser/base.py:556
+#: ./opencore/browser/base.py:644
 msgid "password_not_same_error"
 msgstr "Merci de vérifier que dans les deux champs les mots de passe sont identiques."
 
@@ -1555,11 +1514,6 @@ msgstr "<a class=\"oc-js-expander_open oc-expanderLink\"> Si vous pensez qu'il s
 #: ./opencore/account/pending.pt:13
 msgid "pending_send_another_activation"
 msgstr ""
-
-#. Default: "No results found."
-#: ./opencore/nui/main/people-searchresults.pt:105
-msgid "people-searchresults_no_results"
-msgstr "Pas de résultats"
 
 #. Default: "${num_members} members, <span>and growing</span> <span>and <a href=\"${DYNAMIC_CONTENT}\">you</a></span>"
 #: ./opencore/nui/main/people.pt:14
@@ -1658,31 +1612,26 @@ msgstr ""
 msgid "projects-manage"
 msgstr ""
 
-#. Default: "No results found."
-#: ./opencore/nui/main/projects-searchresults.pt:118
-msgid "projects-searchresults_no_results"
-msgstr "Pas de résultats"
-
-#. Default: "Currently serving ${num_projects} ${project_noun}s"
-#: ./opencore/nui/main/projects.pt:10
+#. Default: "Currently serving ${num_projects} ${project_noun}"
+#: ./opencore/nui/main/projects.pt:12
 #, fuzzy
 msgid "projects_currently_serving"
 msgstr "Accueillant our l'instant ${num_projects} ${project_noun}s "
 
 #. Default: "Can&rsquo;t find a ${project_noun} you are interested in? See a need that is not being met?"
-#: ./opencore/nui/main/projects.pt:57
+#: ./opencore/nui/main/projects.pt:70
 #, fuzzy
 msgid "projects_get_started"
 msgstr "Il n'y a pas d' ${project_noun} qui vous interesse? Vous voyez un sujet/ besoin non couvert?"
 
 #. Default: "Get started…"
-#: ./opencore/nui/main/projects.pt:56
+#: ./opencore/nui/main/projects.pt:69
 #, fuzzy
 msgid "projects_get_started_heading"
 msgstr "Commencer…"
 
 #. Default: "Start a new ${project_noun}"
-#: ./opencore/nui/main/projects.pt:59
+#: ./opencore/nui/main/projects.pt:72
 msgid "projects_start_project_button"
 msgstr "Initier un nouvel ${project_noun}"
 
@@ -1746,7 +1695,7 @@ msgid "psm_enter_new_email"
 msgstr "Veuillez entrer votre nouvelle adresse électronique."
 
 #. Default: "Please enter your username or email address."
-#: ./opencore/account/login.py:304
+#: ./opencore/account/login.py:244
 msgid "psm_enter_username_email"
 msgstr " Veuillez entrer votre nom d'utilisateur et votre nouvelle adresse électronique."
 
@@ -1766,7 +1715,7 @@ msgid "psm_featurelet_removed"
 msgstr ""
 
 #. Default: "Your username is ${user_id}.  If you would like to reset your password, please check your email account for further instructions."
-#: ./opencore/account/login.py:252
+#: ./opencore/account/login.py:258
 msgid "psm_forgot_login"
 msgstr ""
 
@@ -1911,7 +1860,7 @@ msgstr "Vous êtes sorti(e) du site"
 msgid "psm_signin_welcome"
 msgstr "Bienvenue! vous êtes entré(e) dans le site."
 
-#. Default: "Thanks for joining ${portal_title}, ${mem_id}!<br/>\nA confirmation email has been sent to you with instructions on activating your account."
+#. Default: "Thanks for joining ${portal_title}, ${mem_id}!\nA confirmation email has been sent to you with instructions on activating your account. After you have activated your account, your request to join the ${project_noun} will be sent to the ${project_noun} administrators."
 #: ./opencore/account/join.py:61
 msgid "psm_thankyou_for_joining"
 msgstr ""
@@ -1944,6 +1893,11 @@ msgstr "Nouveau mot de passe"
 #: ./opencore/account/reset-password.pt:28
 msgid "reset-password_username_label"
 msgstr "Nom d'utilisateur"
+
+#. Default: "No results found."
+#: ./opencore/nui/main/searchresults.pt:65
+msgid "searchresults_no_results"
+msgstr ""
 
 #. Default: "Send"
 #: ./opencore/member/browser/contact.pt:63
