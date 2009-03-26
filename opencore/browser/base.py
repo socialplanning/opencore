@@ -226,31 +226,49 @@ class BaseView(BrowserView):
             if member is not None:
                 info = self.member_info_for_member(self.miv.member)
                 title = info['Title'].decode('utf-8')
+                verbose_title = _(u'member_area_verbose_title',
+                                  u'${title} on ${portal_title}'
+                                  mapping={u'title': title,
+                                           u'portal_title': self.portal_title(),
+                                           }
+                                  )
                 return {
                     'Title': title,
                     'homepage_url': info['absolute_url'] + '/%s-home' % info['id'],
                     'absolute_url': info['absolute_url'],
-                    'verbose_title': "%s on %s" % (title, self.portal_title()),
+                    'verbose_title': self.translate(verbose_title)
                     }
 
         elif self.piv.inProject:
             info = self.piv.project
             title = info.Title().decode('utf-8')
+            verbose_title = _(u'project_area_verbose_title',
+                              u'${title} - ${portal_title}'
+                              mapping={u'title': title,
+                                       u'portal_title': self.portal_title(),
+                                       }
+                              )
             return {
                 'Title': title,
                 'homepage_url': info.absolute_url() + '/' + IHomePage(info).home_page,
                 'absolute_url': info.absolute_url(),
-                'verbose_title': "%s - %s" % (title, self.portal_title()),
+                'verbose_title': self.translate(verbose_title)
                 }
 
         elif self.wiki_container is not None:
             info = self.wiki_container
             title = info.Title().decode('utf-8')
+            verbose_title = _(u'wiki_area_verbose_title',
+                              u'${title} - ${portal_title}'
+                              mapping={u'title': title,
+                                       u'portal_title': self.portal_title(),
+                                       }
+                              )
             return {
                 'Title': title,
                 'homepage_url': None, # wiki containers do not have a homepage_url
                 'absolute_url': info.absolute_url(),
-                'verbose_title': "%s - %s" % (title, self.portal_title())
+                'verbose_title': self.translate(verbose_title)
                 }
 
         # default case is the portal itself
@@ -258,11 +276,17 @@ class BaseView(BrowserView):
         # view when the member object has been deleted but the member area hasn't yet
         info = self.portal
         title = info.Title().decode('utf-8')
+        verbose_title = _(u'portal_area_verbose_title',
+                          u'${title}'
+                          mapping={u'title': title,
+                                   u'portal_title': self.portal_title(),
+                                   }
+                          )
         return {
             'Title': title,
             'homepage_url': info.absolute_url(),
             'absolute_url': info.absolute_url(),
-            'verbose_title': title,
+            'verbose_title': self.translate(verbose_title)
             }
 
     def window_title(self, mode=None):

@@ -18,6 +18,8 @@ msgstr ""
 #: ./opencore/nui/main/main_macros.pt:37
 msgid "(show up to ${batch_size} results per page)"
 msgstr "(show up to ${batch_size} results per page)"
+msgid "Account"
+msgstr "Account"
 #. Default: "Contact"
 #: ./opencore/listen/browser/manage_membership.pt:49
 msgid "Contact"
@@ -26,6 +28,8 @@ msgstr "Contact"
 #: ./opencore/listen/browser/manage_membership.pt:53
 msgid "Contact_email"
 msgstr "Contact_email"
+msgid "Contents"
+msgstr "Contents"
 #: ./opencore/browser/topnav/topnav.py:65
 msgid "Create account"
 msgstr "Create account"
@@ -33,16 +37,36 @@ msgstr "Create account"
 #: ./opencore/member/browser/field_snippet.pt:5
 msgid "Edit"
 msgstr "Edit"
+msgid "Join Project"
+msgstr "Join Project"
 #. Default: "No"
 #: ./opencore/listen/browser/membership.pt:33
 msgid "No"
 msgstr "No"
+msgid "Pages"
+msgstr "Pages"
+msgid "People"
+msgstr "People"
+msgid "Preferences"
+msgstr "Preferences"
+msgid "Profile"
+msgstr "Profile"
+msgid "Project Wiki"
+msgstr "Project Wiki"
+msgid "Projects"
+msgstr "Projects"
 #: ./opencore/browser/topnav/topnav.py:61
 msgid "Sign in"
 msgstr "Sign in"
 #: ./opencore/browser/topnav/topnav.py:103
 msgid "Sign out"
 msgstr "Sign out"
+msgid "Start A Project"
+msgstr "Start A Project"
+msgid "Summary"
+msgstr "Summary"
+msgid "Team"
+msgstr "Team"
 #. Default: "Update"
 #: ./opencore/member/browser/profile-edit.pt:101
 msgid "Update"
@@ -1042,6 +1066,10 @@ msgstr "manage_membership_subscribed"
 #: ./opencore/listen/browser/manage_membership.pt:21
 msgid "manage_membership_user"
 msgstr "manage_membership_user"
+#. Default: "${title} on ${portal_title}"
+#: ./opencore/browser/base.py:229
+msgid "member_area_verbose_title"
+msgstr "member_area_verbose_title"
 #. Default: "Date"
 #: ./opencore/member/browser/member_macros.pt:28
 msgid "member_macros_date_header"
@@ -1207,19 +1235,19 @@ msgstr "or"
 msgid "or ${url}"
 msgstr "or ${url}"
 #. Default: "There is no member named \"${user_id}\"."
-#: ./opencore/browser/base.py:635
+#: ./opencore/browser/base.py:659
 msgid "password_no_member_error"
 msgstr "password_no_member_error"
 #. Default: "You must enter a password."
-#: ./opencore/browser/base.py:641
+#: ./opencore/browser/base.py:665
 msgid "password_no_password_error"
 msgstr "password_no_password_error"
 #. Default: "You need to enter your username."
-#: ./opencore/browser/base.py:630
+#: ./opencore/browser/base.py:654
 msgid "password_no_username_error"
 msgstr "password_no_username_error"
 #. Default: "Please make sure that both password fields are the same."
-#: ./opencore/browser/base.py:644
+#: ./opencore/browser/base.py:668
 msgid "password_not_same_error"
 msgstr "password_not_same_error"
 #: ./opencore/nui/main/contact-site-admin.pt:106
@@ -1249,6 +1277,10 @@ msgstr "pending_send_another_activation"
 #: ./opencore/nui/main/people.pt:14
 msgid "people_members"
 msgstr "people_members"
+#. Default: "${title}"
+#: ./opencore/browser/base.py:279
+msgid "portal_area_verbose_title"
+msgstr "portal_area_verbose_title"
 #. Default: "Cancel"
 #: ./opencore/member/browser/portrait-snippet.pt:33
 msgid "portrait-snippet_cancel"
@@ -1309,6 +1341,10 @@ msgstr "profile_visible_team"
 #: ./opencore/member/browser/profile.pt:73
 msgid "profile_website"
 msgstr "profile_website"
+#. Default: "${title} - ${portal_title}"
+#: ./opencore/browser/base.py:245
+msgid "project_area_verbose_title"
+msgstr "project_area_verbose_title"
 #. Default: "\"${title}\" has been created. Create a team by searching for other members to invite to your ${project_noun}, then <a href=\"${proj_edit_url}\">edit your ${project_noun} home page</a>."
 #: ./opencore/project/browser/add.py:156
 msgid "project_created"
@@ -1754,3 +1790,7 @@ msgstr "version_requested_title"
 #: ./opencore/nui/wiki/wiki-previous-version.pt:16
 msgid "version_unspecified"
 msgstr "version_unspecified"
+#. Default: "${title} - ${portal_title}"
+#: ./opencore/browser/base.py:261
+msgid "wiki_area_verbose_title"
+msgstr "wiki_area_verbose_title"
