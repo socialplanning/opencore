@@ -227,7 +227,7 @@ class BaseView(BrowserView):
                 info = self.member_info_for_member(self.miv.member)
                 title = info['Title'].decode('utf-8')
                 verbose_title = _(u'member_area_verbose_title',
-                                  u'${title} on ${portal_title}'
+                                  u'${title} on ${portal_title}',
                                   mapping={u'title': title,
                                            u'portal_title': self.portal_title(),
                                            }
@@ -243,7 +243,7 @@ class BaseView(BrowserView):
             info = self.piv.project
             title = info.Title().decode('utf-8')
             verbose_title = _(u'project_area_verbose_title',
-                              u'${title} - ${portal_title}'
+                              u'${title} - ${portal_title}',
                               mapping={u'title': title,
                                        u'portal_title': self.portal_title(),
                                        }
@@ -259,7 +259,7 @@ class BaseView(BrowserView):
             info = self.wiki_container
             title = info.Title().decode('utf-8')
             verbose_title = _(u'wiki_area_verbose_title',
-                              u'${title} - ${portal_title}'
+                              u'${title} - ${portal_title}',
                               mapping={u'title': title,
                                        u'portal_title': self.portal_title(),
                                        }
@@ -277,7 +277,7 @@ class BaseView(BrowserView):
         info = self.portal
         title = info.Title().decode('utf-8')
         verbose_title = _(u'portal_area_verbose_title',
-                          u'${title}'
+                          u'${title}',
                           mapping={u'title': title,
                                    u'portal_title': self.portal_title(),
                                    }
