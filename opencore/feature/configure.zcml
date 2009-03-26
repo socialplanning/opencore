@@ -1,0 +1,14 @@
+<configure xmlns="http://namespaces.zope.org/browser">
+  <view
+    for="opencore.interfaces.IOpenSiteRoot"
+    class=".browser.LatestFeaturedProjectView"
+    name="latest-featured-project"
+    permission="zope2.View"
+    />
+  <page
+    for="opencore.interfaces.IOpenSiteRoot"
+    class=".browser.FeatureProjectView"
+    name="feature-project"
+    permission="cmf.ModifyPortalContent"
+    />
+</configure>
