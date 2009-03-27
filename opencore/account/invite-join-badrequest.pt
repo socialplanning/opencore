@@ -1,18 +1,28 @@
 <html i18n:domain="opencore" metal:use-macro="context/@@standard_macros/master">
   <head>
-    <title metal:fill-slot="title">Sign up for <span tal:replace="view/portal/Title" /></title>
+    <title i18n:translate="account_invitejoin_badrequest_window_title"
+	   metal:fill-slot="title">Sign up for <span i18n:name="portal_title" tal:replace="view/portal_title" /></title>
   </head>
   <body>
     <div metal:fill-slot="content">
       <div id="oc-content-main">
-        <div id="oc-invite-join-bad-request">
+        <div id="oc-invite-join-bad-request"
+	     tal:define="contact_url string:${context/portal_url}/contact-site-admin"
+	     i18n:translate="account_invitejoin_badrequest_content">
+
+	  <!-- this is a hacky way to get the 'contact_url' key into the i18n mapping,
+	       so that it can be used in the anchor href below. i don't know of a cleaner
+	       way to do this, unfortunately -->
+	  <tal:comment i18n:name="contact_url" replace="nothing"><tal:dummy replace="contact_url" /></tal:comment>
+
           <h1>This doesn't seem like a valid request.</h1>
           <h2>Please double check the link in your email and try pasting it again.</h2>
-          <h3>If you are having trouble, please don't hesitate to
-             <a title="Contact Site Admin"
-               tal:attributes="href string:${context/portal_url}/contact-site-admin">contact</a>
-             us.
+          <h3>
+	    If you are having trouble, please don't hesitate to	    
+            <a tal:attributes="href contact_url">contact</a>
+            us.
           </h3>
+
         </div>
       </div>
     </div>

@@ -1,42 +1,43 @@
 <metal:forgot i18n:domain="opencore" define-macro="forgot_snippet"
-     tal:define="klass_ expander_hack_from_parent_template | string:oc-js-expander oc-expander">
+	      tal:define="klass_ expander_hack_from_parent_template | string:oc-js-expander oc-expander">
   <div tal:attributes="class klass_">
-  <h2 i18n:translate="forgot_snippet_title" class="oc-bigText"><a class="oc-js-expander_open oc-expanderLink-open oc-expanderLink" href="forgot">Forgot your username or password?</a></h2>
-        <form class="oc-js-expander-content oc-expander-content"
-           tal:attributes="action string:forgot" 
-           method="post" id="oc-login-form" name="forgot_form">
-          <p i18n:translate="forgot_snippet_enter_username" class="oc-headingContext">Enter your username or email address to retrieve your login information.</p>
-          <table class="oc-form" cellpadding="0" cellspacing="0">
-            <thead></thead>
-            <tbody>
-              <tr>
-                <th class="oc-form-label" scope="row">
-                  <label i18n:translate="forgot_snippet_username_label" for="__ac_name">Username or email address</label>
-                </th>
-                <td class="oc-form-value" tal:define="url request/ACTUAL_URL">
-                  <tal:focused_username condition="python: url.endswith('/forgot')">
-                    <input type="text" size="15" tabindex="0" name="__ac_name" value="" id="__ac_name" class="oc-autoFocus" />
-                  </tal:focused_username>
-                  <tal:unfocused_username condition="python: not url.endswith('/forgot')">
-                    <input type="text" size="15" tabindex="0" name="__ac_name" value="" id="__ac_name" />
-                  </tal:unfocused_username>
-                </td>
-                <td class="oc-form-help">
-                  <span class="oc-form-context"></span>
-                  <span id="oc-validator-username" class="oc-form-validator"></span>
-                </td>
-              </tr>
-              <tr class="oc-actions">
-               <th></th>
-                <td>
-                  <button class="oc-button" type="submit" 
-                          name="send:boolean" 
-			  value="True">Send</button>
-		</td>
-                <td class="oc-form-help"></td>
-              </tr>                    
-            </tbody>
-          </table>
-        </form>
+    <h2 i18n:translate="forgot_snippet_title" class="oc-bigText"><a class="oc-js-expander_open oc-expanderLink-open oc-expanderLink" href="forgot">Forgot your username or password?</a></h2>
+    <form class="oc-js-expander-content oc-expander-content"
+          tal:attributes="action string:forgot" 
+          method="post" id="oc-login-form" name="forgot_form">
+      <p i18n:translate="forgot_snippet_enter_username" class="oc-headingContext">Enter your username or email address to retrieve your login information.</p>
+      <table class="oc-form" cellpadding="0" cellspacing="0">
+        <thead></thead>
+        <tbody>
+          <tr>
+            <th class="oc-form-label" scope="row">
+              <label i18n:translate="forgot_snippet_username_label" for="__ac_name">Username or email address</label>
+            </th>
+            <td class="oc-form-value" tal:define="url request/ACTUAL_URL">
+              <tal:focused_username condition="python: url.endswith('/forgot')">
+                <input type="text" size="15" tabindex="0" name="__ac_name" value="" id="__ac_name" class="oc-autoFocus" />
+              </tal:focused_username>
+              <tal:unfocused_username condition="python: not url.endswith('/forgot')">
+                <input type="text" size="15" tabindex="0" name="__ac_name" value="" id="__ac_name" />
+              </tal:unfocused_username>
+            </td>
+            <td class="oc-form-help">
+              <span class="oc-form-context"></span>
+              <span id="oc-validator-username" class="oc-form-validator"></span>
+            </td>
+          </tr>
+          <tr class="oc-actions">
+            <th></th>
+            <td>
+              <button class="oc-button" type="submit" 
+                      name="send:boolean" 
+		      value="True"
+		      i18n:translate="forgot_snippet_form_submit">Send</button>
+	    </td>
+            <td class="oc-form-help"></td>
+          </tr>                    
+        </tbody>
+      </table>
+    </form>
   </div>
 </metal:forgot>

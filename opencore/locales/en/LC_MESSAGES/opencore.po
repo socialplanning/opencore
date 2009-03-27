@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: opencore\n"
-"POT-Creation-Date: 2009-03-27 16:04+0000\n"
+"POT-Creation-Date: 2009-03-27 16:25+0000\n"
 "PO-Revision-Date: 2008-10-08 15:57-0400\n"
 "Last-Translator: \n"
 "Language-Team: The Open Planning Project <opencore-dev@lists.openplans.org>\n"
@@ -213,6 +213,16 @@ msgstr ""
 #. Default: "${project} ${project} has invited you to become a member"
 #: ./opencore/member/browser/account.pt:56
 msgid "account_invite"
+msgstr ""
+
+#. Default: "<!-- this is a hacky way to get the 'contact_url' key into the i18n mapping, so that it can be used in the anchor href below. i don't know of a cleaner way to do this, unfortunately --> ${contact_url} <h1>This doesn't seem like a valid request.</h1> <h2>Please double check the link in your email and try pasting it again.</h2> <h3> If you are having trouble, please don't hesitate to <a href=\"${DYNAMIC_CONTENT}\">contact</a> us. </h3>"
+#: ./opencore/account/invite-join-badrequest.pt:22
+msgid "account_invitejoin_badrequest_content"
+msgstr ""
+
+#. Default: "Sign up for ${portal_title}"
+#: ./opencore/account/invite-join-badrequest.pt:4
+msgid "account_invitejoin_badrequest_window_title"
 msgstr ""
 
 #. Default: "What joining will do"
@@ -840,6 +850,11 @@ msgstr ""
 msgid "forgot_snippet_enter_username"
 msgstr ""
 
+#. Default: "Send"
+#: ./opencore/account/forgot_snippet.pt:32
+msgid "forgot_snippet_form_submit"
+msgstr ""
+
 #. Default: "<a class=\"oc-js-expander_open oc-expanderLink-open oc-expanderLink\" href=\"forgot\">Forgot your username or password?</a>"
 #: ./opencore/account/forgot_snippet.pt:4
 msgid "forgot_snippet_title"
@@ -1058,6 +1073,11 @@ msgstr ""
 #. Default: "Username"
 #: ./opencore/account/join.pt:31
 msgid "join_username_label"
+msgstr ""
+
+#. Default: "Create an account"
+#: ./opencore/account/join.pt:5
+msgid "join_window_title"
 msgstr ""
 
 #. Default: "by"
@@ -1694,8 +1714,13 @@ msgstr ""
 msgid "pending_enter_new_email"
 msgstr ""
 
+#. Default: "Send"
+#: ./opencore/account/pending.pt:50
+msgid "pending_form_submit"
+msgstr ""
+
 #. Default: "<a class=\"oc-js-expander_open oc-expanderLink\"> If you think this is a mistake, you can try to login again </a>"
-#: ./opencore/account/pending.pt:69
+#: ./opencore/account/pending.pt:70
 msgid "pending_mistake"
 msgstr ""
 

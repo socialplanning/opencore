@@ -2,7 +2,7 @@
 
 <html i18n:domain="opencore" metal:use-macro="here/@@standard_macros/master">
   <head>
-    <title metal:fill-slot="title">Create an account</title>
+    <title i18n:translate="join_window_title" metal:fill-slot="title">Create an account</title>
   </head>
   <body>
     <div metal:fill-slot="content">
