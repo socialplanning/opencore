@@ -1,5 +1,7 @@
-<ul id="sortable_fields">
-  <li id="getId">sorted A-Z</li>
-  <li id="portal_type">sorted by content type</li>
-  <li id="Creator">sorted by creator</li>
+<ul id="sortable_fields" i18n:domain="opencore">
+  <li i18n:translate="sortable_fields_getId" id="getId">sorted A-Z</li>
+  <li i18n:translate="sortable_fields_portal_type"
+      id="portal_type">sorted by content type</li>
+  <li i18n:translate="sortable_fields_Creator"
+      id="Creator">sorted by creator</li>
 </ul>

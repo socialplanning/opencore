@@ -1,8 +1,10 @@
-<ul id="sortable_fields">
-  <li id="relevancy"
+<ul id="sortable_fields" i18n:domain="opencore">
+  <li id="relevancy" i18n:translate="people_sortable_fields_relevancy"
       tal:condition="request/form/search_for | nothing">
     sorted by relevancy
   </li>
-  <li id="getId">sorted by username</li>
-  <li id="exact_getFullname">sorted by name</li>
+  <li i18n:translate="people_sortable_fields_username"
+      id="getId">sorted by username</li>
+  <li i18n:translate="people_sortable_fields_exact_getFullname"
+      id="exact_getFullname">sorted by name</li>
 </ul>

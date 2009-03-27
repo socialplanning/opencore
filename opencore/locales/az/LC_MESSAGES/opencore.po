@@ -1409,6 +1409,18 @@ msgstr "pending_send_another_activation"
 #: ./opencore/nui/main/people.pt:14
 msgid "people_members"
 msgstr "people_members"
+#. Default: "sorted by name"
+#: ./opencore/nui/main/people-sortablefields.pt:8
+msgid "people_sortable_fields_exact_getFullname"
+msgstr "people_sortable_fields_exact_getFullname"
+#. Default: "sorted by relevancy"
+#: ./opencore/nui/main/people-sortablefields.pt:2
+msgid "people_sortable_fields_relevancy"
+msgstr "people_sortable_fields_relevancy"
+#. Default: "sorted by username"
+#: ./opencore/nui/main/people-sortablefields.pt:6
+msgid "people_sortable_fields_username"
+msgstr "people_sortable_fields_username"
 #. Default: "${title}"
 #: ./opencore/browser/base.py:279
 msgid "portal_area_verbose_title"
@@ -1501,6 +1513,34 @@ msgstr "projects_get_started"
 #: ./opencore/nui/main/projects.pt:69
 msgid "projects_get_started_heading"
 msgstr "projects_get_started_heading"
+#. Default: "created by"
+#: ./opencore/nui/main/projects-resultlist.pt:29
+msgid "projects_searchresults_created_by"
+msgstr "projects_searchresults_created_by"
+#. Default: "last updated"
+#: ./opencore/nui/main/projects-resultlist.pt:37
+msgid "projects_searchresults_last_updated"
+msgstr "projects_searchresults_last_updated"
+#. Default: "sorted by project creator"
+#: ./opencore/nui/main/projects-sortablefields.pt:12
+msgid "projects_sortable_fields_Creator"
+msgstr "projects_sortable_fields_Creator"
+#. Default: "sorted by date created"
+#: ./opencore/nui/main/projects-sortablefields.pt:10
+msgid "projects_sortable_fields_created"
+msgstr "projects_sortable_fields_created"
+#. Default: "sorted by date updated"
+#: ./opencore/nui/main/projects-sortablefields.pt:8
+msgid "projects_sortable_fields_modified"
+msgstr "projects_sortable_fields_modified"
+#. Default: "sorted by relevancy"
+#: ./opencore/nui/main/projects-sortablefields.pt:2
+msgid "projects_sortable_fields_relevancy"
+msgstr "projects_sortable_fields_relevancy"
+#. Default: "sorted by project name"
+#: ./opencore/nui/main/projects-sortablefields.pt:6
+msgid "projects_sortable_fields_sortable_title"
+msgstr "projects_sortable_fields_sortable_title"
 #. Default: "Start a new ${project_noun}"
 #: ./opencore/nui/main/projects.pt:72
 msgid "projects_start_project_button"
@@ -1710,6 +1750,22 @@ msgstr "reset-password_new_password_label"
 #: ./opencore/account/reset-password.pt:28
 msgid "reset-password_username_label"
 msgstr "reset-password_username_label"
+#. Default: "in ${document_context_title},"
+#: ./opencore/nui/main/home-resultlist.pt:30
+msgid "searchresults_document_context"
+msgstr "searchresults_document_context"
+#. Default: "modified by ${member_title},"
+#: ./opencore/nui/main/home-resultlist.pt:38
+msgid "searchresults_last_modified_author"
+msgstr "searchresults_last_modified_author"
+#. Default: "last updated ${modification_date}"
+#: ./opencore/nui/main/home-resultlist.pt:46
+msgid "searchresults_last_modified_date"
+msgstr "searchresults_last_modified_date"
+#. Default: "member since ${membership_start_date}"
+#: ./opencore/nui/main/home-resultlist.pt:15
+msgid "searchresults_member_since"
+msgstr "searchresults_member_since"
 #. Default: "No results found."
 #: ./opencore/nui/main/searchresults.pt:65
 msgid "searchresults_no_results"
@@ -1722,6 +1778,18 @@ msgstr "send"
 #: ./opencore/member/browser/profile.pt:137
 msgid "send-message"
 msgstr "send-message"
+#. Default: "sorted by creator"
+#: ./opencore/nui/main/searchresults-sortablefields.pt:5
+msgid "sortable_fields_Creator"
+msgstr "sortable_fields_Creator"
+#. Default: "sorted A-Z"
+#: ./opencore/nui/main/searchresults-sortablefields.pt:2
+msgid "sortable_fields_getId"
+msgstr "sortable_fields_getId"
+#. Default: "sorted by content type"
+#: ./opencore/nui/main/searchresults-sortablefields.pt:3
+msgid "sortable_fields_portal_type"
+msgstr "sortable_fields_portal_type"
 #. Default: "${active_lists_count} active, after ${stats_expiry_date}"
 #: ./opencore/stats/stats.pt:92
 msgid "stats_active_lists"
@@ -1806,6 +1874,18 @@ msgstr "team_already_project_member"
 #: ./opencore/account/login.py:220
 msgid "team_proj_join_request_sent"
 msgstr "team_proj_join_request_sent"
+#. Default: "sorted by location"
+#: ./opencore/project/browser/team-sortablefields.pt:6
+msgid "team_sortable_fields_location"
+msgstr "team_sortable_fields_location"
+#. Default: "sorted by membership start date"
+#: ./opencore/project/browser/team-sortablefields.pt:4
+msgid "team_sortable_fields_membership_date"
+msgstr "team_sortable_fields_membership_date"
+#. Default: "sorted by user name"
+#: ./opencore/project/browser/team-sortablefields.pt:2
+msgid "team_sortable_fields_username"
+msgstr "team_sortable_fields_username"
 #. Default: "flat"
 #: ./opencore/listen/browser/threaded_message.pt:18
 msgid "threaded_message_flat"

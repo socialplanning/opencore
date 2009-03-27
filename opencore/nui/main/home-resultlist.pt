@@ -1,7 +1,8 @@
 <tal:set define="item options/item;
 		 portal_type item/portal_type;
 		 is_user python: portal_type == 'OpenMember';
-		 mem_title nocall:context/@@oc-utils/member_title;">
+		 mem_title nocall:context/@@oc-utils/member_title;"
+	 i18n:domain="opencore" >
 
   <tal:is_user condition="is_user">
     <h3>
@@ -9,9 +10,9 @@
       <a tal:attributes="href string:${context/portal_url}/people/${item/getId}/profile"
 	 tal:content="python:mem_title(item)" />
     </h3>
-    <span class="oc-discreetText">
+    <span class="oc-discreetText" i18n:translate="searchresults_member_since">
       member since
-      <span tal:replace="python: view.pretty_date(item.CreationDate)" />
+      <span i18n:name="membership_start_date" tal:replace="python: view.pretty_date(item.CreationDate)" />
     </span>
   </tal:is_user>
   
@@ -23,20 +24,27 @@
     <span class="oc-discreetText">
       
       <tal:is_page condition="python: portal_type == 'Document'">
-        <tal:project_define define="proj python:item.getObject().aq_parent">
+        <tal:project_define define="item_context python:item.getObject().aq_parent"
+			    i18n:translate="searchresults_document_context">
           in
-          <a tal:attributes="href proj/absolute_url" tal:content="proj/Title" />,
+          <a tal:attributes="href item_context/absolute_url" tal:content="item_context/Title"
+	     i18n:name="document_context_title" />,
         </tal:project_define>
       </tal:is_page>
 
-      <tal:has_updated_author define="userid item/lastModifiedAuthor" condition="userid">
+      <tal:has_updated_author define="userid item/lastModifiedAuthor" condition="userid"
+			      i18n:translate="searchresults_last_modified_author">
         modified by
         <a tal:attributes="href string:${context/portal_url}/people/${userid}/profile" 
            tal:define="mem_title nocall:context/@@oc-utils/member_title"
-           tal:content="python:mem_title(userid)" />,
+           tal:content="python:mem_title(userid)"
+	   i18n:name="member_title" />,
       </tal:has_updated_author>
-      last updated		      
-      <span tal:replace="python: view.pretty_date(item.ModificationDate)" />
+
+      <tal:i18n i18n:translate="searchresults_last_modified_date">
+	last updated
+	<span i18n:name="modification_date" tal:replace="python: view.pretty_date(item.ModificationDate)" />
+      </tal:i18n>
     </span>
   </tal:not_user>
   

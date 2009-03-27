@@ -1,10 +1,14 @@
-<ul id="sortable_fields">
-  <li id="relevancy"
+<ul id="sortable_fields" i18n:domain="opencore">
+  <li id="relevancy" i18n:translate="projects_sortable_fields_relevancy"
       tal:condition="request/form/search_for | nothing">
     sorted by relevancy
   </li>
-  <li id="sortable_title">sorted by project name</li>
-  <li id="modified">sorted by date updated</li>
-  <li id="created">sorted by date created</li>
-  <li id="Creator">sorted by project creator</li>
+  <li i18n:translate="projects_sortable_fields_sortable_title"
+      id="sortable_title">sorted by project name</li>
+  <li i18n:translate="projects_sortable_fields_modified"
+      id="modified">sorted by date updated</li>
+  <li i18n:translate="projects_sortable_fields_created"
+      id="created">sorted by date created</li>
+  <li i18n:translate="projects_sortable_fields_Creator"
+      id="Creator">sorted by project creator</li>
 </ul>

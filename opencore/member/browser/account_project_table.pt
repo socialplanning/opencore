@@ -7,11 +7,11 @@
       <h2 i18n:translate="account_project_belong_to" class="oc-toggleFold oc-dataTable-heading">
         <span i18n:name="project_noun" tal:replace="python:view.project_noun.title()">Project</span>s you belong to (<span i18n:name="num_projects" id="num_projs" tal:content="python: len(projinfos)" />)
       </h2>      
-      <form class="" action="account">
-        <table id="" class="oc-dataTable" cellpadding="0" cellspacing="0">
+      <form action="account">
+        <table class="oc-dataTable" cellpadding="0" cellspacing="0">
           <thead>
             <tr>
-              <th class="" style="width: 10px;" scope="col"><input class="oc-checkAll" type="checkbox" /></th>
+              <th style="width: 10px;" scope="col"><input class="oc-checkAll" type="checkbox" /></th>
               <th i18n:translate="account_project_project_header" class="oc-columnSortable" style="width: 200px;" scope="col"><span i18n:name="project_noun" tal:replace="python:view.project_noun.title()">Project</span> </th>
               <th i18n:translate="account_project_role_header" class="oc-columnSortable" scope="col">Role</th>
               <th i18n:translate="account_project_since_header" class="oc-columnSortable" scope="col">Since</th>

@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: opencore\n"
-"POT-Creation-Date: 2009-03-27 22:22+0000\n"
+"POT-Creation-Date: 2009-03-27 22:48+0000\n"
 "PO-Revision-Date: 2008-10-08 15:57-0400\n"
 "Last-Translator: \n"
 "Language-Team: The Open Planning Project <opencore-dev@lists.openplans.org>\n"
@@ -1741,6 +1741,21 @@ msgstr ""
 msgid "people_members"
 msgstr ""
 
+#. Default: "sorted by name"
+#: ./opencore/nui/main/people-sortablefields.pt:8
+msgid "people_sortable_fields_exact_getFullname"
+msgstr ""
+
+#. Default: "sorted by relevancy"
+#: ./opencore/nui/main/people-sortablefields.pt:2
+msgid "people_sortable_fields_relevancy"
+msgstr ""
+
+#. Default: "sorted by username"
+#: ./opencore/nui/main/people-sortablefields.pt:6
+msgid "people_sortable_fields_username"
+msgstr ""
+
 #. Default: "${title}"
 #: ./opencore/browser/base.py:279
 msgid "portal_area_verbose_title"
@@ -1854,6 +1869,41 @@ msgstr ""
 #. Default: "Get started…"
 #: ./opencore/nui/main/projects.pt:69
 msgid "projects_get_started_heading"
+msgstr ""
+
+#. Default: "created by"
+#: ./opencore/nui/main/projects-resultlist.pt:29
+msgid "projects_searchresults_created_by"
+msgstr ""
+
+#. Default: "last updated"
+#: ./opencore/nui/main/projects-resultlist.pt:37
+msgid "projects_searchresults_last_updated"
+msgstr ""
+
+#. Default: "sorted by project creator"
+#: ./opencore/nui/main/projects-sortablefields.pt:12
+msgid "projects_sortable_fields_Creator"
+msgstr ""
+
+#. Default: "sorted by date created"
+#: ./opencore/nui/main/projects-sortablefields.pt:10
+msgid "projects_sortable_fields_created"
+msgstr ""
+
+#. Default: "sorted by date updated"
+#: ./opencore/nui/main/projects-sortablefields.pt:8
+msgid "projects_sortable_fields_modified"
+msgstr ""
+
+#. Default: "sorted by relevancy"
+#: ./opencore/nui/main/projects-sortablefields.pt:2
+msgid "projects_sortable_fields_relevancy"
+msgstr ""
+
+#. Default: "sorted by project name"
+#: ./opencore/nui/main/projects-sortablefields.pt:6
+msgid "projects_sortable_fields_sortable_title"
 msgstr ""
 
 #. Default: "Start a new ${project_noun}"
@@ -2119,6 +2169,26 @@ msgstr ""
 msgid "reset-password_username_label"
 msgstr ""
 
+#. Default: "in ${document_context_title},"
+#: ./opencore/nui/main/home-resultlist.pt:30
+msgid "searchresults_document_context"
+msgstr ""
+
+#. Default: "modified by ${member_title},"
+#: ./opencore/nui/main/home-resultlist.pt:38
+msgid "searchresults_last_modified_author"
+msgstr ""
+
+#. Default: "last updated ${modification_date}"
+#: ./opencore/nui/main/home-resultlist.pt:46
+msgid "searchresults_last_modified_date"
+msgstr ""
+
+#. Default: "member since ${membership_start_date}"
+#: ./opencore/nui/main/home-resultlist.pt:15
+msgid "searchresults_member_since"
+msgstr ""
+
 #. Default: "No results found."
 #: ./opencore/nui/main/searchresults.pt:65
 msgid "searchresults_no_results"
@@ -2132,6 +2202,21 @@ msgstr ""
 #. Default: "Send message"
 #: ./opencore/member/browser/profile.pt:137
 msgid "send-message"
+msgstr ""
+
+#. Default: "sorted by creator"
+#: ./opencore/nui/main/searchresults-sortablefields.pt:5
+msgid "sortable_fields_Creator"
+msgstr ""
+
+#. Default: "sorted A-Z"
+#: ./opencore/nui/main/searchresults-sortablefields.pt:2
+msgid "sortable_fields_getId"
+msgstr ""
+
+#. Default: "sorted by content type"
+#: ./opencore/nui/main/searchresults-sortablefields.pt:3
+msgid "sortable_fields_portal_type"
 msgstr ""
 
 #. Default: "${active_lists_count} active, after ${stats_expiry_date}"
@@ -2237,6 +2322,21 @@ msgstr ""
 #. Default: "Your request to join \"${project_title}\" has been sent to the ${project_noun} administrator(s)."
 #: ./opencore/account/login.py:220
 msgid "team_proj_join_request_sent"
+msgstr ""
+
+#. Default: "sorted by location"
+#: ./opencore/project/browser/team-sortablefields.pt:6
+msgid "team_sortable_fields_location"
+msgstr ""
+
+#. Default: "sorted by membership start date"
+#: ./opencore/project/browser/team-sortablefields.pt:4
+msgid "team_sortable_fields_membership_date"
+msgstr ""
+
+#. Default: "sorted by user name"
+#: ./opencore/project/browser/team-sortablefields.pt:2
+msgid "team_sortable_fields_username"
 msgstr ""
 
 #. Default: "flat"

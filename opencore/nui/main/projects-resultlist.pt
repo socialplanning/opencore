@@ -1,5 +1,6 @@
 <tal:set define="item options/item;
-		 home_url python:view.project_url(item.getId);">
+		 home_url python:view.project_url(item.getId);"
+	 i18n:domain="opencore">
 
   <a tal:attributes="href home_url"
      tal:define="logo python:view.logo_for_proj_brain(item)">
@@ -25,7 +26,7 @@
 	  tal:define="sorting_by view/sort_by">
       
       <tal:not-modified-block condition="python: sorting_by != 'modified'">
-        created by
+        <tal:i18n i18n:translate="projects_searchresults_created_by">created by</tal:i18n>
         <a tal:define="userid item/Creator"
 	   tal:attributes="href string:${context/portal_url}/people/${userid}/profile"
 	   tal:content="userid" />,
@@ -33,12 +34,12 @@
       </tal:not-modified-block>
       
       <tal:modified-block tal:condition="python: sorting_by == 'modified'">
-        last updated
+        <tal:i18n i18n:translate="projects_searchresults_last_updated">last updated</tal:i18n>
         <tal:has_updated_author define="userid item/lastModifiedAuthor" condition="userid">
           by
           <a tal:attributes="href string:${context/portal_url}/people/${userid}/profile" tal:content="userid" />,
         </tal:has_updated_author>
-                      <span tal:content="python: view.pretty_date(item.ModificationDate)" />
+        <span tal:content="python: view.pretty_date(item.ModificationDate)" />
       </tal:modified-block>
       
     </span>

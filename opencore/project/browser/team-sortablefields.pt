@@ -1,5 +1,8 @@
-<ul id="sortable_fields">
-  <li id="username">sorted by user name</li>
-  <li id="membership_date">sorted by membership start date</li>
-  <li id="location">sorted by location</li>
+<ul id="sortable_fields" i18n:domain="opencore">
+  <li i18n:translate="team_sortable_fields_username"
+      id="username">sorted by user name</li>
+  <li i18n:translate="team_sortable_fields_membership_date"
+      id="membership_date">sorted by membership start date</li>
+  <li i18n:translate="team_sortable_fields_location"
+      id="location">sorted by location</li>
 </ul>
