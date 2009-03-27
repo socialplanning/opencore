@@ -20,6 +20,10 @@ msgid "(show up to ${batch_size} results per page)"
 msgstr "(show up to ${batch_size} results per page)"
 msgid "Account"
 msgstr "Account"
+#. Default: "Blogs"
+#: ./opencore/account/invite-join.pt:276
+msgid "Blogs"
+msgstr "Blogs"
 #. Default: "Contact"
 #: ./opencore/listen/browser/manage_membership.pt:49
 msgid "Contact"
@@ -33,6 +37,10 @@ msgstr "Contents"
 #: ./opencore/browser/topnav/topnav.py:65
 msgid "Create account"
 msgstr "Create account"
+#. Default: "Discussions"
+#: ./opencore/account/invite-join.pt:272
+msgid "Discussions"
+msgstr "Discussions"
 #. Default: "Edit"
 #: ./opencore/member/browser/field_snippet.pt:5
 msgid "Edit"
@@ -43,12 +51,16 @@ msgstr "Join Project"
 #: ./opencore/listen/browser/membership.pt:33
 msgid "No"
 msgstr "No"
+#. Default: "Pages"
+#: ./opencore/account/invite-join.pt:268
 msgid "Pages"
 msgstr "Pages"
 msgid "People"
 msgstr "People"
 msgid "Preferences"
 msgstr "Preferences"
+#. Default: "Profile"
+#: ./opencore/account/invite-join.pt:264
 msgid "Profile"
 msgstr "Profile"
 msgid "Project Wiki"
@@ -65,6 +77,8 @@ msgid "Start A Project"
 msgstr "Start A Project"
 msgid "Summary"
 msgstr "Summary"
+#. Default: "Team"
+#: ./opencore/account/invite-join.pt:260
 msgid "Team"
 msgstr "Team"
 #. Default: "Update"

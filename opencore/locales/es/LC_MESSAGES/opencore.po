@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: opencore\n"
-"POT-Creation-Date: 2009-03-27 15:52+0000\n"
+"POT-Creation-Date: 2009-03-27 16:04+0000\n"
 "PO-Revision-Date: 2008-06-02 22:20+0200\n"
 "Last-Translator: Pierre George <pierregrg@gmail.com>\n"
 "Language-Team: OpenFSM Team <openfsm@lists.openfsm.net>\n"
@@ -23,6 +23,11 @@ msgstr ""
 msgid "Account"
 msgstr ""
 
+#. Default: "Blogs"
+#: ./opencore/account/invite-join.pt:276
+msgid "Blogs"
+msgstr ""
+
 #. Default: "Contact"
 #: ./opencore/listen/browser/manage_membership.pt:49
 msgid "Contact"
@@ -40,6 +45,11 @@ msgstr ""
 msgid "Create account"
 msgstr ""
 
+#. Default: "Discussions"
+#: ./opencore/account/invite-join.pt:272
+msgid "Discussions"
+msgstr ""
+
 #. Default: "Edit"
 #: ./opencore/member/browser/field_snippet.pt:5
 msgid "Edit"
@@ -53,6 +63,8 @@ msgstr ""
 msgid "No"
 msgstr ""
 
+#. Default: "Pages"
+#: ./opencore/account/invite-join.pt:268
 msgid "Pages"
 msgstr ""
 
@@ -62,6 +74,8 @@ msgstr ""
 msgid "Preferences"
 msgstr ""
 
+#. Default: "Profile"
+#: ./opencore/account/invite-join.pt:264
 msgid "Profile"
 msgstr ""
 
@@ -85,6 +99,8 @@ msgstr ""
 msgid "Summary"
 msgstr ""
 
+#. Default: "Team"
+#: ./opencore/account/invite-join.pt:260
 msgid "Team"
 msgstr ""
 

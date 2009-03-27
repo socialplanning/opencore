@@ -254,26 +254,26 @@
             <li>You can share information about yourself</li>
 	  </ul>
 
-	  <ul class="oc-join-icons clearAfter">
+	  <ul class="oc-join-icons oc-clearAfter">
 	    <li>
-	      <img src="/++resource++img/touricons/team.gif" alt="Team icon" />
-	      <p>Team</p>
+	      <img src="/++resource++img/touricons/team.gif" />
+	      <p i18n:translate="Team">Team</p>
 	    </li>
 	    <li>
-	      <img src="/++resource++img/touricons/portrait.gif" alt="Profile icon" />
-	      <p>Profile</p>
+	      <img src="/++resource++img/touricons/portrait.gif" />
+	      <p i18n:translate="Profile">Profile</p>
 	    </li>
 	    <li>
-	      <img src="/++resource++img/touricons/wiki.gif" alt="Pages icon" />
-	      <p>Pages</p>
+	      <img src="/++resource++img/touricons/wiki.gif" />
+	      <p i18n:translate="Pages">Pages</p>
 	    </li>
 	    <li>
-	      <img src="/++resource++img/touricons/mailinglist.gif" alt="Mailing Lists icon" />
-	      <p>Discussions</p>
+	      <img src="/++resource++img/touricons/mailinglist.gif" />
+	      <p i18n:translate="Discussions">Discussions</p>
 	    </li>
 	    <li>
-	      <img src="/++resource++img/touricons/blog.gif" alt="Blogs icon" />
-	      <p>Blogs</p>
+	      <img src="/++resource++img/touricons/blog.gif" />
+	      <p i18n:translate="Blogs">Blogs</p>
 	    </li>
 	  </ul>
         </div>
