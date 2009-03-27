@@ -1,4 +1,4 @@
-<div id="oc-topnav">
+<div id="oc-topnav" i18n:domain="opencore">
 
   <h1>
     <a tal:attributes="href view/area/absolute_url"
@@ -34,7 +34,9 @@
           onsubmit="return liveSearchSubmit()">
       <input id="searchGadget" name="search_for"
              type="text" size="10" title="Search site"
-             accesskey="4" class="oc-input-typeText" />
+             accesskey="4" class="oc-input-typeText"
+	     i18n:attributes="title topnav_site_search_label"
+	     />
     </form>
     </div>
     

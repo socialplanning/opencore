@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: opencore\n"
-"POT-Creation-Date: 2009-03-27 17:09+0000\n"
+"POT-Creation-Date: 2009-03-27 22:01+0000\n"
 "PO-Revision-Date: 2008-06-02 22:20+0200\n"
 "Last-Translator: Pierre George <pierregrg@gmail.com>\n"
 "Language-Team: OpenFSM Team <openfsm@lists.openfsm.net>\n"
@@ -20,6 +20,8 @@ msgstr ""
 msgid "(show up to ${batch_size} results per page)"
 msgstr ""
 
+#. Default: "Account"
+#: ./opencore/browser/topnav/mystuff-menu.pt:22
 msgid "Account"
 msgstr ""
 
@@ -107,6 +109,11 @@ msgstr ""
 #. Default: "Update"
 #: ./opencore/member/browser/profile-edit.pt:101
 msgid "Update"
+msgstr ""
+
+#. Default: "Wiki"
+#: ./opencore/browser/topnav/mystuff-menu.pt:10
+msgid "Wiki"
 msgstr ""
 
 #. Default: "Yes"
@@ -2257,6 +2264,11 @@ msgstr ""
 #. Default: "To:"
 #: ./opencore/member/browser/contact.pt:25
 msgid "to-label"
+msgstr ""
+
+#. Default: "Search site"
+#: ./opencore/browser/topnav/topnav.pt:35
+msgid "topnav_site_search_label"
 msgstr ""
 
 #. Default: "Let other ${portal_title} members know who you are and what you're interested in. The more information you provide, the more contacts you'll make."

@@ -18,6 +18,8 @@ msgstr ""
 #: ./opencore/nui/main/main_macros.pt:37
 msgid "(show up to ${batch_size} results per page)"
 msgstr "(show up to ${batch_size} results per page)"
+#. Default: "Account"
+#: ./opencore/browser/topnav/mystuff-menu.pt:22
 msgid "Account"
 msgstr "Account"
 #. Default: "Blogs"
@@ -85,6 +87,10 @@ msgstr "Team"
 #: ./opencore/member/browser/profile-edit.pt:101
 msgid "Update"
 msgstr "Update"
+#. Default: "Wiki"
+#: ./opencore/browser/topnav/mystuff-menu.pt:10
+msgid "Wiki"
+msgstr "Wiki"
 #. Default: "Yes"
 #: ./opencore/listen/browser/membership.pt:32
 msgid "Yes"
@@ -1832,6 +1838,10 @@ msgstr "tmsg_joined_project"
 #: ./opencore/member/browser/contact.pt:25
 msgid "to-label"
 msgstr "to-label"
+#. Default: "Search site"
+#: ./opencore/browser/topnav/topnav.pt:35
+msgid "topnav_site_search_label"
+msgstr "topnav_site_search_label"
 #. Default: "Let other ${portal_title} members know who you are and what you're interested in. The more information you provide, the more contacts you'll make."
 #: ./opencore/member/browser/tour.pt:17
 msgid "tour_complete_profile_desc"

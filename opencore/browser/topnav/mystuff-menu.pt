@@ -1,22 +1,25 @@
-
-<ul id="oc-usermenu-mystuff" style="display:none;"
+<ul i18n:domain="opencore"
+    id="oc-usermenu-mystuff" style="display:none;"
     tal:define="memfolder_url view/memfolder_url">
   <li>
-    <a tal:attributes="href string:${memfolder_url}/profile">Profile</a>
+    <a i18n:translate="Profile"
+       tal:attributes="href string:${memfolder_url}/profile">Profile</a>
   </li>
 
   <li>
-    <a tal:attributes="href view/memhome_url">Wiki</a>
+    <a i18n:translate="Wiki"
+       tal:attributes="href view/memhome_url">Wiki</a>
   </li>
 
   <li>
+    <!-- XXX TODO: bad i18n here! (msgs_str) -->
     <a tal:define="msgs view/user_message_count;
                    has_msgs python:msgs > 0;
                    msgs_str python:msgs != 1 and 'messages' or 'message';
                    "
        tal:attributes="href string:${memfolder_url}/account"
        >
-       Account
+       <tal:i18n i18n:translate="Account">Account</tal:i18n>
        <span class="oc-mystuff-messagecount"
              tal:condition="has_msgs">
            (<span id="num_updates_menu" tal:content="string:${msgs}" />
