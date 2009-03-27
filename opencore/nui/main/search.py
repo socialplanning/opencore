@@ -231,8 +231,6 @@ class SearchView(BaseView):
     def from_page(self, page, batch_size):
         return batch_size * (page - 1)
     
-    noun = 'please define a plural noun in your subclass'
-
     def search_by_letter(self, letter, sort_by):
         """
         search for content by its initial letter.
@@ -249,7 +247,6 @@ class SearchView(BaseView):
 
 class ProjectsSearchView(SearchView):
 
-    noun = 'projects'
     active_states = ['public', 'private']
 
     def lineup_class(self):
@@ -347,8 +344,6 @@ class ProjectsSearchView(SearchView):
 
 class PeopleSearchView(SearchView):
 
-    noun = 'members'
-
     def lineup_class(self):
         return "oc-directory"
 
@@ -409,8 +404,6 @@ class PeopleSearchView(SearchView):
 
 
 class SitewideSearchView(SearchView):
-
-    noun = 'content'
 
     def lineup_class(self):
         return "oc-lineup"
