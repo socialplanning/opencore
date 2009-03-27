@@ -1,12 +1,12 @@
 <tal:comment tal:replace="nothing">
-need to combine with regular join form
+<!-- need to combine with regular join form -->
 </tal:comment>
 <tal:vars define="global fdata view/handle_request;
                   global pending view/if_pending_user;" />
 
 <html i18n:domain="opencore" metal:use-macro="here/@@standard_macros/master">
   <head>
-    <title metal:fill-slot="title">Sign up for <span tal:replace="view/portal_title" /></title>
+    <title i18n:translate="account_invitejoin_window_title" metal:fill-slot="title">Sign up for <span i18n:name="portal_title" tal:replace="view/portal_title" /></title>
   </head>
   <body>
     <div metal:fill-slot="content">
@@ -18,30 +18,46 @@ need to combine with regular join form
               >
           <input type="hidden" name="project" tal:attributes="value request/project" />
           <div class="oc-headingBlock">
-            <h1>Welcome to <span tal:replace="view/portal/title" /></h1>
-            <p class="oc-headingContext">You've been invited to participate in the following <span tal:replace="view/project_noun">project</span></p>
+            <h1 i18n:translate="account_invitejoin_heading">
+	      Welcome to
+	      <span i18n:name="portal_title" tal:replace="view/portal_title" />
+	    </h1>
+            <p class="oc-headingContext" i18n:translate="account_invitejoin_invitations">
+	      You've been invited to participate in the following
+	      <span i18n:name="project_noun" tal:replace="view/project_noun" />
+	    </p>
           </div>
           <div class="oc-widget oc-widget-feed">
             <ul class="oc-feed-list oc-clearAfter">
               <li class="oc-feed-item oc-clearAfter" tal:repeat="project python:sorted(view.invite_map)">
-                 <tal:setvar define="  proj_url project/url;
-                                       logo project/logo;
-                                       logo_url python:logo and ('%s/logo_thumb' % proj_url) or view.defaultProjLogoURL">
+                 <tal:setvar define="proj_url project/url;
+                                     logo project/logo;
+                                     logo_url python:logo and ('%s/logo_thumb' % proj_url) or view.defaultProjLogoURL">
                    <a tal:attributes="href proj_url"
                       tal:condition="not: project/closed" >
                        <img class="oc-project-logo" tal:attributes="src logo_url; alt project/title; title project/title" />
                    </a>
                        <img class="oc-project-logo" tal:condition="project/closed" tal:attributes="src view/defaultProjLogoURL; alt project/title; title project/title" />
                  </tal:setvar>
+
                 <div class="oc-feed-item-content">
                   <h3 class="oc-feed-item-title">
-                    <a tal:condition="not: project/closed" tal:attributes="href project/url" tal:content="project/title">Project Title</a>
-                    <span tal:condition="project/closed" tal:content="string: ${project/title} (closed project)" />
+                    <a tal:condition="not: project/closed"
+		       tal:attributes="href project/url"
+		       tal:content="project/title" />
+                    <span
+		       tal:condition="project/closed"
+		       tal:content="string: ${project/title} (closed project)" />
                   </h3>
+
                   <p class="oc-feed-item-description" tal:define="desc project/description">
                     <span tal:condition="desc" tal:replace="python:view.truncate(desc, 255)" />
                   </p>
-                  <p tal:condition="not: project/closed"><a tal:attributes="href project/url">learn more</a></p>
+
+                  <p tal:condition="not: project/closed">
+		    <a i18n:translate="account_invitejoin_project_visit" tal:attributes="href project/url">learn more</a>
+		  </p>
+
                   <p class="oc-hidden">
                      <input type="checkbox"
                             class="oc-input-typeCheck"
@@ -49,9 +65,12 @@ need to combine with regular join form
                             checked="true"
                             tal:attributes="value project/id; id project/id"
                                />
-                      <label tal:attributes="for project/id">Join <span tal:replace="project/title" /></label>.
+                      <label tal:attributes="for project/id" i18n:translate="account_invitejoin_project_join">
+			Join <span i18n:name="project_title" tal:replace="project/title" />.
+		      </label>
                   </p>
                 </div>
+
               </li>
             </ul>
           </div>
@@ -103,7 +122,7 @@ need to combine with regular join form
                              tal:attributes="value request/fullname | nothing" />
                     </td>
                     <td class="oc-form-help">
-                      <span class="oc-form-context">
+                      <span i18n:translate="form_optional_value" class="oc-form-context">
                         (optional)
                       </span>
                       <span id="oc-fullname-validator" class="oc-form-validator">
@@ -209,23 +228,54 @@ need to combine with regular join form
           <h2 i18n:translate="join_already_member_heading">Already a member?</h2>
           <a i18n:translate="join_sign_in" href="login">Sign in</a>
         </div>
-<tal:comment tal:replace="nothing">
-[TODO] This is probably something we should consider extracting so that other templates can include it (the similar version from join.pt seems like a great candidate for using identical copy)
-</tal:comment>
+
+	<tal:comment tal:replace="nothing">
+	  <!-- [TODO] This is probably something we should consider extracting so that
+	       other templates can include it (the similar version from join.pt seems
+	       like a great candidate for using identical copy) -->
+	</tal:comment>
+
         <div id="oc-joining-explanation" class="oc-boxy">
-          <h2>What joining will do</h2>
+          <h2 i18n:translate="account_invitejoin_get_started">What joining will do</h2>
+
+	  <tal:comment tal:replace="nothing">
+	    <!-- XXX TODO: bad i18n practices here! (project_noun pluralization) -->
+	  </tal:comment>
+
           <ul i18n:translate="join_get_started_list">
-	          <li>You can join and participate in existing <span i18n:name="project_noun" tal:replace="view/project_noun">project</span>s</li>
-            <li>You can create your own <span i18n:name="project_noun" tal:replace="view/project_noun">project</span> and invite people to participate</li>
+	    <li>You can join and participate in existing
+	      <span i18n:name="project_noun" tal:replace="view/project_noun" />s
+	    </li>
+            <li>
+	      You can create your own
+	      <span i18n:name="project_noun" tal:replace="view/project_noun" />
+	      and invite people to participate
+	    </li>
             <li>You can share information about yourself</li>
-	        </ul>
-	        <ul class="oc-join-icons clearAfter">
-		        <li><img src="/++resource++img/touricons/team.gif" alt="Team icon" /><p>Team</p></li>
-		        <li><img src="/++resource++img/touricons/portrait.gif" alt="Profile icon" /><p>Profile</p></li>
-		        <li><img src="/++resource++img/touricons/wiki.gif" alt="Pages icon" /><p>Pages</p></li>
-		        <li><img src="/++resource++img/touricons/mailinglist.gif" alt="Mailing Lists icon" /><p>Discussions</p></li>
-		        <li><img src="/++resource++img/touricons/blog.gif" alt="Blogs icon" /><p>Blogs</p></li>
-		      </ul>
+	  </ul>
+
+	  <ul class="oc-join-icons clearAfter">
+	    <li>
+	      <img src="/++resource++img/touricons/team.gif" alt="Team icon" />
+	      <p>Team</p>
+	    </li>
+	    <li>
+	      <img src="/++resource++img/touricons/portrait.gif" alt="Profile icon" />
+	      <p>Profile</p>
+	    </li>
+	    <li>
+	      <img src="/++resource++img/touricons/wiki.gif" alt="Pages icon" />
+	      <p>Pages</p>
+	    </li>
+	    <li>
+	      <img src="/++resource++img/touricons/mailinglist.gif" alt="Mailing Lists icon" />
+	      <p>Discussions</p>
+	    </li>
+	    <li>
+	      <img src="/++resource++img/touricons/blog.gif" alt="Blogs icon" />
+	      <p>Blogs</p>
+	    </li>
+	  </ul>
         </div>
 
       </div><!-- end #oc-content-sidebar -->

@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: opencore\n"
-"POT-Creation-Date: 2009-03-27 03:50+0000\n"
+"POT-Creation-Date: 2009-03-27 15:52+0000\n"
 "PO-Revision-Date: 2008-06-02 22:40+0200\n"
 "Last-Translator: Thiago Benicchio <thiago.wsf@gmail.com>\n"
 "Language-Team: OpenFSM Team <openfsm@lists.openfsm.net>\n"
@@ -197,6 +197,36 @@ msgstr "Sua conta"
 #, fuzzy
 msgid "account_invite"
 msgstr "${project} ${project} invitou voce  a ser membro em seu time"
+
+#. Default: "What joining will do"
+#: ./opencore/account/invite-join.pt:239
+msgid "account_invitejoin_get_started"
+msgstr ""
+
+#. Default: "Welcome to ${portal_title}"
+#: ./opencore/account/invite-join.pt:23
+msgid "account_invitejoin_heading"
+msgstr ""
+
+#. Default: "You've been invited to participate in the following ${project_noun}"
+#: ./opencore/account/invite-join.pt:27
+msgid "account_invitejoin_invitations"
+msgstr ""
+
+#. Default: "Join ${project_title}."
+#: ./opencore/account/invite-join.pt:69
+msgid "account_invitejoin_project_join"
+msgstr ""
+
+#. Default: "learn more"
+#: ./opencore/account/invite-join.pt:58
+msgid "account_invitejoin_project_visit"
+msgstr ""
+
+#. Default: "Sign up for ${portal_title}"
+#: ./opencore/account/invite-join.pt:9
+msgid "account_invitejoin_window_title"
+msgstr ""
 
 #. Default: "Latest updates (${num_updates})"
 #: ./opencore/member/browser/account.pt:25
@@ -764,6 +794,11 @@ msgstr "<a class=\"oc-js-expander_open oc-expanderLink-open oc-expanderLink\" hr
 msgid "forgot_snippet_username_label"
 msgstr "Nome de usuario o endereço electronico"
 
+#. Default: "(optional)"
+#: ./opencore/account/join.pt:60
+msgid "form_optional_value"
+msgstr ""
+
 #. Default: "Flat"
 #: ./opencore/listen/browser/forum_message_view.pt:39
 msgid "forum_flat_option"
@@ -912,7 +947,7 @@ msgid "invite-w-m_remind_title"
 msgstr "Fazer recordar aos  participantes"
 
 #. Default: "Already a member?"
-#: ./opencore/account/join.pt:174
+#: ./opencore/account/join.pt:187
 #, fuzzy
 msgid "join_already_member_heading"
 msgstr "Ja e membro do time?"
@@ -954,8 +989,8 @@ msgstr "Nome completo"
 msgid "join_get_started"
 msgstr "Virar un membro significa…"
 
-#. Default: "<li>You can join and participate in existing ${project_noun}s</li> <li>You can create your own ${project_noun} and invite others to join</li> <li>You can share information about yourself</li>"
-#: ./opencore/account/join.pt:169
+#. Default: "<li> You can join and participate in existing ${project_noun}s </li> <li> You can create your own ${project_noun} and invite others to join </li> <li>You can share information about yourself</li>"
+#: ./opencore/account/join.pt:179
 #, fuzzy
 msgid "join_get_started_list"
 msgstr "<li>Voce pode se incluir e participar no  ${project_noun}s existente</li> <li>Voce pode criar seu propio ${project_noun} e invitar outros a  se incluir nele </li> <li>Voce pode compartihar informaçoes sobre voce</li>"
@@ -971,7 +1006,7 @@ msgid "join_password_label"
 msgstr "Contrasenha"
 
 #. Default: "Sign in"
-#: ./opencore/account/join.pt:175
+#: ./opencore/account/join.pt:188
 msgid "join_sign_in"
 msgstr "Entrar"
 

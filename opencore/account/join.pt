@@ -57,7 +57,7 @@
                            tal:attributes="value request/fullname | nothing" />
                   </td>
                   <td class="oc-form-help">
-                    <span class="oc-form-context">
+                    <span i18n:translate="form_optional_value" class="oc-form-context">
                       (optional)
                     </span>
                     <span id="oc-fullname-validator" class="oc-form-validator">
@@ -164,11 +164,24 @@
       <div id="oc-content-sidebar">
         <div class="oc-boxy">
           <h2 i18n:translate="join_get_started">Becoming a member means&hellip;</h2>
+	  
+	  <tal:comment tal:replace="nothing">
+	    <!-- XXX TODO: bad i18n practices here! (project_noun pluralization) -->
+	  </tal:comment>
+
           <ul i18n:translate="join_get_started_list" style="padding-left: 1em;">
-            <li>You can join and participate in existing <span i18n:name="project_noun" tal:replace="view/project_noun">project</span>s</li>
-            <li>You can create your own <span i18n:name="project_noun" tal:replace="view/project_noun">project</span> and invite others to join</li>
+            <li>
+	      You can join and participate in existing
+	      <span i18n:name="project_noun" tal:replace="view/project_noun" />s
+	    </li>
+            <li>
+	      You can create your own
+	      <span i18n:name="project_noun" tal:replace="view/project_noun" />
+	      and invite others to join
+	    </li>
             <li>You can share information about yourself</li>
           </ul>
+
         </div>
         <div class="oc-boxy">
           <h2 i18n:translate="join_already_member_heading">Already a member?</h2>
