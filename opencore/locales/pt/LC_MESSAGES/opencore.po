@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: opencore\n"
-"POT-Creation-Date: 2009-03-27 22:48+0000\n"
+"POT-Creation-Date: 2009-03-27 22:59+0000\n"
 "PO-Revision-Date: 2008-06-02 22:40+0200\n"
 "Last-Translator: Thiago Benicchio <thiago.wsf@gmail.com>\n"
 "Language-Team: OpenFSM Team <openfsm@lists.openfsm.net>\n"
@@ -884,6 +884,31 @@ msgstr ""
 msgid "from-label"
 msgstr ""
 
+#. Default: "Get started!"
+#: ./opencore/nui/main/get-started.pt:3
+msgid "get_started_heading"
+msgstr ""
+
+#. Default: "Become a member"
+#: ./opencore/nui/main/get-started.pt:8
+msgid "get_started_join"
+msgstr ""
+
+#. Default: "log in"
+#: ./opencore/nui/main/get-started.pt:10
+msgid "get_started_login"
+msgstr ""
+
+#. Default: "Find people"
+#: ./opencore/nui/main/get-started.pt:20
+msgid "get_started_people_search"
+msgstr ""
+
+#. Default: "Find ${project_noun}s"
+#: ./opencore/nui/main/get-started.pt:16
+msgid "get_started_project_search"
+msgstr ""
+
 #. Default: "Find ${project_noun}s"
 #: ./opencore/nui/main/home.pt:30
 #, fuzzy
@@ -1621,13 +1646,13 @@ msgid "new_topic_view_subject"
 msgstr "Asunto:"
 
 #. Default: "We would love to hear from you. Learn more <a href=\"${DYNAMIC_CONTENT}\">about us and our software</a> or <a href=\"${DYNAMIC_CONTENT}\">contact us</a> for more information."
-#: ./opencore/nui/main/news.pt:41
+#: ./opencore/nui/main/news.pt:39
 #, fuzzy
 msgid "news_about_us_description"
 msgstr "Quisieramos saber algo de voce. Aprenda mais<a href=\"${DYNAMIC_CONTENT}\">acerca desse sitio internet</a> o <a href=\"${DYNAMIC_CONTENT}\">nos contactar</a> para mais informaçao "
 
 #. Default: "About us"
-#: ./opencore/nui/main/news.pt:40
+#: ./opencore/nui/main/news.pt:38
 msgid "news_about_us_heading"
 msgstr "Acerca de nos"
 
@@ -1637,7 +1662,7 @@ msgid "news_add_item"
 msgstr "Agregar item de noticias"
 
 #. Default: "Read more…"
-#: ./opencore/nui/main/news.pt:33
+#: ./opencore/nui/main/news.pt:31
 #, fuzzy
 msgid "news_read_more"
 msgstr "Ler mais…"

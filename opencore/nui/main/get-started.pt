@@ -1,20 +1,23 @@
-<div id="oc-home-getstarted" class="oc-getstarted">
-  <h2>Get started!</h2>
+<div i18n:domain="opencore"
+     id="oc-home-getstarted" class="oc-getstarted">
+  <h2 i18n:translate="get_started_heading">Get started!</h2>
   <ul class="oc-getstarted-list"
       tal:define="ms context/portal_membership">
     <li tal:condition="ms/isAnonymousUser">
       <h3>
-        <a tal:attributes="href string:${context/portal_url}/join">Become a member</a>
+        <a tal:attributes="href string:${context/portal_url}/join" i18n:translate="get_started_join">Become a member</a>
         <span class="oc-discreetText">or
-          <a tal:attributes="href string:${context/portal_url}/login">log in</a>.
+          <a tal:attributes="href string:${context/portal_url}/login" i18n:translate="get_started_login">log in</a>.
         </span>
       </h3>
     </li>
     <li>
-      <h3><a tal:attributes="href string:${context/portal_url}/projects">Find <span tal:replace="view/project_noun">project</span>s</a></h3>  
+      <h3><a tal:attributes="href string:${context/portal_url}/projects" i18n:translate="get_started_project_search">
+	  Find <span i18n:name="project_noun" tal:replace="view/project_noun">project</span>s</a>
+      </h3>  
     </li>
     <li>
-      <h3><a tal:attributes="href string:${context/portal_url}/people">Find people</a></h3>
+      <h3><a tal:attributes="href string:${context/portal_url}/people" i18n:translate="get_started_people_search">Find people</a></h3>
     </li>
   </ul>
 </div>

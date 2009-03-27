@@ -12,7 +12,7 @@
       <a tal:attributes="href string:${context/absolute_url}/profile"
          tal:content="mem/getId" />
     </h3>
-    <div class="n" tal:content="mem/getFullname">name</div>
+    <div class="n" tal:content="mem/getFullname" />
     <div class="oc-discreetText adr"
 	 tal:define="loc mem/getLocation"
 	 tal:condition="loc">

@@ -758,6 +758,26 @@ msgstr "forum_update_button"
 #: ./opencore/member/browser/contact.pt:33
 msgid "from-label"
 msgstr "from-label"
+#. Default: "Get started!"
+#: ./opencore/nui/main/get-started.pt:3
+msgid "get_started_heading"
+msgstr "get_started_heading"
+#. Default: "Become a member"
+#: ./opencore/nui/main/get-started.pt:8
+msgid "get_started_join"
+msgstr "get_started_join"
+#. Default: "log in"
+#: ./opencore/nui/main/get-started.pt:10
+msgid "get_started_login"
+msgstr "get_started_login"
+#. Default: "Find people"
+#: ./opencore/nui/main/get-started.pt:20
+msgid "get_started_people_search"
+msgstr "get_started_people_search"
+#. Default: "Find ${project_noun}s"
+#: ./opencore/nui/main/get-started.pt:16
+msgid "get_started_project_search"
+msgstr "get_started_project_search"
 #. Default: "Find ${project_noun}s"
 #: ./opencore/nui/main/home.pt:30
 msgid "home_find_projects"
@@ -1335,11 +1355,11 @@ msgstr "new_topic_view_required"
 msgid "new_topic_view_subject"
 msgstr "new_topic_view_subject"
 #. Default: "We would love to hear from you. Learn more <a href=\"${DYNAMIC_CONTENT}\">about us and our software</a> or <a href=\"${DYNAMIC_CONTENT}\">contact us</a> for more information."
-#: ./opencore/nui/main/news.pt:41
+#: ./opencore/nui/main/news.pt:39
 msgid "news_about_us_description"
 msgstr "news_about_us_description"
 #. Default: "About us"
-#: ./opencore/nui/main/news.pt:40
+#: ./opencore/nui/main/news.pt:38
 msgid "news_about_us_heading"
 msgstr "news_about_us_heading"
 #. Default: "Add news item..."
@@ -1347,7 +1367,7 @@ msgstr "news_about_us_heading"
 msgid "news_add_item"
 msgstr "news_add_item"
 #. Default: "Read more…"
-#: ./opencore/nui/main/news.pt:33
+#: ./opencore/nui/main/news.pt:31
 msgid "news_read_more"
 msgstr "news_read_more"
 #. Default: "Please enter a password"

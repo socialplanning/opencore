@@ -31,7 +31,7 @@
           Name
         </label>
 
-        <div tal:content="error" class="oc-form-error">Validation error output</div>
+        <div tal:content="error" class="oc-form-error" />
 
         <input type="text" 
                id="sender_fullname" 
@@ -52,7 +52,7 @@
               i18n:attributes="title title_required;"
               i18n:translate="contact-site-admin_label_required">(Required)</span>
         
-        <div tal:content="error" class="oc-form-error">Validation error output</div>            
+        <div tal:content="error" class="oc-form-error" />
 
         <input type="text" 
                id="sender_from_address" 
@@ -82,7 +82,7 @@
             i18n:attributes="title title_required;"
             i18n:translate="contact-site-admin_label_required">(Required)</span>
       
-      <div tal:content="error" class="oc-form-error">Validation error output</div>            
+      <div tal:content="error" class="oc-form-error" />
 
       <input type="text" 
              id="subject" 
@@ -105,7 +105,7 @@
 
       <span class="oc-discreetText" i18n:translate="password_send_warning" />
       
-      <div tal:content="error" class="oc-form-error">Validation error output</div>            
+      <div tal:content="error" class="oc-form-error" />
       
       <textarea name="message"
                 id="message"

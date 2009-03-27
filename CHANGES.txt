@@ -23,7 +23,7 @@ Features Added:
    This should be in a separate theme package because it's topp specific.
    (rmarianski)
 
- * Added i18n for account creation and site error templates (egj)
+ * More templates marked up for translation. (egj)
 
 Bugs Fixed:
 

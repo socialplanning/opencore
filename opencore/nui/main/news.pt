@@ -8,7 +8,7 @@
       <div class="oc-headingBlock">
         <h1 tal:content="string:${view/portal_title} News" />
         <p class="oc-headingContext" tal:define="days_free view/subpoena_free; plural python: days_free != 1">
-          Subpeona free for <span tal:replace="view/subpoena_free">456</span> day<span tal:condition="plural" tal:content="string:s"/>
+          Subpeona free for <span tal:replace="view/subpoena_free" /> day<span tal:condition="plural" tal:content="string:s"/>
         </p>
       </div>
 
@@ -21,16 +21,14 @@
                  tal:content="item/Title" 
                  tal:attributes="href string:${context/portal_url}/news/${item/getId};
                                  name item/getId"
-                 >
-                 News Item Title
-              </a>
+                 />
             </h2>
             <p class="oc-feed-item-data oc-discreetText">by 
-              <a tal:define="userid item/Creator" tal:attributes="href string:${context/portal_url}/people/${userid}" tal:content="userid">rpenate</a>,
+              <a tal:define="userid item/Creator" tal:attributes="href string:${context/portal_url}/people/${userid}" tal:content="userid" />,
               <span tal:content="python: view.pretty_date(item.CreationDate)">today</span>
             </p>
-            <p class="oc-feed-item-description" tal:content="item/Description">The description is the comment for the news item, however long it is</p>
-            <p class="oc-feed-item-data oc-actions oc-smallText"><a href="" tal:attributes="href string:${context/portal_url}/news/${item/getId}" i18n:translate="news_read_more">Read more&hellip;</a></p>
+            <p class="oc-feed-item-description" tal:content="item/Description" />
+            <p class="oc-feed-item-data oc-actions oc-smallText"><a tal:attributes="href string:${context/portal_url}/news/${item/getId}" i18n:translate="news_read_more">Read more&hellip;</a></p>
           </li>
         </ul>
       </div><!-- content-main -->
