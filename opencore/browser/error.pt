@@ -4,7 +4,7 @@
       i18n:domain="opencore">
 
 <head>
-<title metal:fill-slot="title">Error</title>
+<title metal:fill-slot="title" i18n:translate="error_form_window_title">Error</title>
 </head>
 
 <body>
@@ -16,7 +16,7 @@
                  err_traceback options/error_traceback|nothing;">
 
     <h1 i18n:translate="error_site_heading">Oops!</h1>
-    <h2>Something unexpected happened.</h2>
+    <h2 i18n:translate="error_form_header">Something unexpected happened.</h2>
  
     <p i18n:translate="error_site_description">
       Chances are, we're already on it. But, if you would please tell us what you were trying to do, it will help us fix the problem faster.  Thank you.
@@ -31,31 +31,31 @@
              tal:attributes="value request/ACTUAL_URL" />
       <table class="oc-form">
 	<tr>
-	  <th class="oc-form-label" style="width: 200px;"><label for="oc-did">What were you doing?</label></th>
+	  <th class="oc-form-label" style="width: 200px;"><label for="oc-did" i18n:translate="error_form_did">What were you doing?</label></th>
 	 <td class="oc-form-value"><textarea id="oc-did" name="oc-did" style="width:350px; height: 70px;"></textarea></td>
    <td class="oc-form-help" i18n:translate="password_send_warning" />
 	</tr>
 	<tr>
-	  <th class="oc-form-label"><label for="oc-expected">What did you expect?</label></th>
+	  <th class="oc-form-label"><label for="oc-expected" i18n:translate="error_form_expected">What did you expect?</label></th>
 	    <td class="oc-form-value"><textarea id="oc-expected" name="oc-expected" style="width:350px; height: 70px;"></textarea></td>
 	  <td class="oc-form-help"></td>
 	</tr>
         <tr>
 	  <th class="oc-form-label">
-      <label for="oc-user-email">
+      <label for="oc-user-email" i18n:translate="error_form_email">
 	Your email:</label>
           </th>
 	  <td class="oc-form-value">
       <input type="text" id="oc-user-email" name="oc-user-email" size="30" tal:attributes="value view/user_email | nothing" />
           </td>
-	  <td class="oc-form-help">
+	  <td class="oc-form-help" i18n:translate="error_form_help">
 If you give us your email address, <br />we will let you know when this problem is fixed.
 	    </td>
         </tr>
         <tr>
 	  <th class="oc-form-label"></th>
 	  <td class="oc-form-value">
-      <input type="submit" name="error_submitted" value="Send" class="oc-button oc-chooseThis" />
+      <input type="submit" name="error_submitted" value="Send" i18n:attributes="value error_form_submitbutton" class="oc-button oc-chooseThis" />
          </td>
         <td class="oc-form-help"></td>
 	</tr>
@@ -63,7 +63,7 @@ If you give us your email address, <br />we will let you know when this problem 
     </form>
 
 <div class="oc-js-expander oc-expander">
-  <h3 class="oc-js-expander_open oc-expanderLink">Error details</h3>
+  <h3 class="oc-js-expander_open oc-expanderLink" i18n:translate="error_form_details">Error details</h3>
   <div class="oc-js-expander-content oc-expander-content">
     <div tal:content="structure view/traceback"></div>
     <div tal:content="view/request_time"></div>

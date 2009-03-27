@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: opencore\n"
-"POT-Creation-Date: 2009-03-26 19:03+0000\n"
+"POT-Creation-Date: 2009-03-27 02:24+0000\n"
 "PO-Revision-Date: 2008-06-02 22:41+0200\n"
 "Last-Translator: Pierre George <pierregrg@gmail.com>\n"
 "Language-Team: OpenFSM Team <openfsm@lists.openfsm.net>\n"
@@ -611,6 +611,46 @@ msgstr "Le nom doit avoir aux moins deux caractères avec au moins 1 lettre ou n
 #. Default: "Whoops!"
 #: ./opencore/browser/notfound.pt:21
 msgid "error_404_title"
+msgstr ""
+
+#. Default: "Error details"
+#: ./opencore/browser/error.pt:66
+msgid "error_form_details"
+msgstr ""
+
+#. Default: "What were you doing?"
+#: ./opencore/browser/error.pt:34
+msgid "error_form_did"
+msgstr ""
+
+#. Default: "Your email:"
+#: ./opencore/browser/error.pt:45
+msgid "error_form_email"
+msgstr ""
+
+#. Default: "What did you expect?"
+#: ./opencore/browser/error.pt:39
+msgid "error_form_expected"
+msgstr ""
+
+#. Default: "Something unexpected happened."
+#: ./opencore/browser/error.pt:19
+msgid "error_form_header"
+msgstr ""
+
+#. Default: "If you give us your email address, <br />we will let you know when this problem is fixed."
+#: ./opencore/browser/error.pt:51
+msgid "error_form_help"
+msgstr ""
+
+#. Default: "Send"
+#: ./opencore/browser/error.pt:58
+msgid "error_form_submitbutton"
+msgstr ""
+
+#. Default: "Error"
+#: ./opencore/browser/error.pt:7
+msgid "error_form_window_title"
 msgstr ""
 
 #. Default: "Chances are, we're already on it. But, if you would please tell us what you were trying to do, it will help us fix the problem faster.  Thank you."
