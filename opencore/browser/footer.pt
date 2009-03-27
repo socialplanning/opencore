@@ -8,10 +8,10 @@
     <!-- <li><a tal:attributes="href string:${here/portal_url}/privacy">privacy</a></li> -->
   </ul>
 
-  <div i18n:translate="footer_stats_summary" id="oc-footer-about" class="oc-smallText">
-    <tal:comment define="people_url string:${here/portal_url}/people;
-			 projects_url string:${here/portal_url}/projects"
-		 replace="nothing">
+  <div i18n:translate="footer_stats_summary" id="oc-footer-about" class="oc-smallText"
+       define="people_url string:${here/portal_url}/people;
+	       projects_url string:${here/portal_url}/projects">
+    <tal:comment replace="nothing">
       <!-- a hack to get these values into the i18n mapping -->
       <tal:dummy i18n:name="people_url" replace="people_url" />
       <tal:dummy i18n:name="projects_url" replace="projects_url" />
@@ -30,4 +30,5 @@
     <span i18n:name="site_birthdate" tal:replace="string:${view/dob}" />.<br />
     &copy; 2007 <a tal:attributes="href context/@@oc-utils/topp_url">The Open Planning Project</a>
   </div>
+
 </div>
