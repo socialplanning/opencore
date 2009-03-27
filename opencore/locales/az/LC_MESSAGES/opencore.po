@@ -534,10 +534,42 @@ msgstr "err_could_not_moderate"
 #: ./opencore/project/browser/preferences.py:105
 msgid "err_project_name"
 msgstr "err_project_name"
+#. Default: "If you know you have the correct web address, please contact the <a href=\"${DYNAMIC_CONTENT}\">Site Administration</a>."
+#: ./opencore/browser/notfound.pt:59
+msgid "error_404_contact_site_admin"
+msgstr "error_404_contact_site_admin"
+#. Default: "You've tried to find something that's not here.  Sorry about that!"
+#: ./opencore/browser/notfound.pt:23
+msgid "error_404_header"
+msgstr "error_404_header"
+#. Default: "I'm trying to figure out what page you're looking for, but I'm stumped. You're on your own, kid."
+#: ./opencore/browser/notfound.pt:38
+msgid "error_404_no_suggestions"
+msgstr "error_404_no_suggestions"
+#. Default: "Search site"
+#: ./opencore/browser/notfound.pt:49
+msgid "error_404_search_form_label"
+msgstr "error_404_search_form_label"
+#. Default: "Search"
+#: ./opencore/browser/notfound.pt:53
+msgid "error_404_search_form_submit"
+msgstr "error_404_search_form_submit"
+#. Default: "If you don't see what you're looking for:"
+#: ./opencore/browser/notfound.pt:36
+msgid "error_404_search_prompt"
+msgstr "error_404_search_prompt"
+#. Default: "Were you trying to find one of these pages?"
+#: ./opencore/browser/notfound.pt:28
+msgid "error_404_suggested_results"
+msgstr "error_404_suggested_results"
 #. Default: "Whoops!"
 #: ./opencore/browser/notfound.pt:21
 msgid "error_404_title"
 msgstr "error_404_title"
+#. Default: "Not Found"
+#: ./opencore/browser/notfound.pt:8
+msgid "error_404_window_title"
+msgstr "error_404_window_title"
 #. Default: "Error details"
 #: ./opencore/browser/error.pt:66
 msgid "error_form_details"
@@ -587,7 +619,7 @@ msgstr "footer_about_link"
 msgid "footer_contact_link"
 msgstr "footer_contact_link"
 #. Default: "&copy; 2007 <a href=\"${DYNAMIC_CONTENT}\">The Open Planning Project</a>"
-#: ./opencore/browser/footer.pt:16
+#: ./opencore/browser/footer.pt:24
 msgid "footer_copyright"
 msgstr "footer_copyright"
 #. Default: "help"
@@ -599,11 +631,11 @@ msgstr "footer_help_link"
 msgid "footer_news_link"
 msgstr "footer_news_link"
 #. Default: "${num_people} people"
-#: ./opencore/browser/footer.pt:13
+#: ./opencore/browser/footer.pt:14
 msgid "footer_num_people"
 msgstr "footer_num_people"
 #. Default: "${num_projects} ${project_noun}s"
-#: ./opencore/browser/footer.pt:14
+#: ./opencore/browser/footer.pt:20
 msgid "footer_num_projects"
 msgstr "footer_num_projects"
 #. Default: "New users"

@@ -5,7 +5,7 @@
       >
 
 <head>
-<title metal:fill-slot="title">Not Found</title>
+<title metal:fill-slot="title" i18n:translate="error_404_window_title">Not Found</title>
 </head>
 
 <body>
@@ -20,13 +20,12 @@
 
     <h1 i18n:translate="error_404_title">Whoops!</h1>
 
-    <p>
-      You've tried to find something that's not here.  Sorry about that!
+    <p i18n:translate="error_404_header">You've tried to find something that's not here.  Sorry about that!
     </p>
 
     <div tal:define="results view/suggestions">
        <div tal:condition="results">
-     	 Were you trying to find one of these pages?
+     	 <tal:i18n i18n:translate="error_404_suggested_results">Were you trying to find one of these pages?</tal:i18n>
          <ul>
           <li tal:repeat="result results">
 	    <a tal:attributes="href result/getURL"
@@ -34,9 +33,9 @@
 	    </a>
 	  </li>
          </ul>
-         If you don't see what you're looking for:
+         <tal:i18n i18n:translate="error_404_search_prompt">If you don't see what you're looking for:</tal:i18n>
        </div>
-       <div tal:condition="not:results">
+       <div tal:condition="not:results" i18n:translate="error_404_no_suggestions">
          I'm trying to figure out what page you're looking for, but I'm stumped. You're on your own, kid.
        </div>
     </div>
@@ -49,15 +48,15 @@
                  onsubmit="return liveSearchSubmit()">
              <input id="searchGadget" name="search_for"
                     type="text" size="20" title="Search site"
+		    i18n:attributes="title error_404_search_form_label"
                     accesskey="4" class="oc-input-typeText" />
-             <input type="submit" value="Search" />
+             <input type="submit" value="Search" i18n:attributes="value error_404_search_form_submit"/>
            </form>
          </ul>
 
-    <p>
+    <p i18n:translate="error_404_contact_site_admin">
       If you know you have the correct web address, please contact the
-        <a href="#" 
-           tal:attributes="href string:${context/portal_url}/contact-site-admin">Site Administration</a>.
+        <a tal:attributes="href string:${context/portal_url}/contact-site-admin">Site Administration</a>.
     </p>
 
   </div>
