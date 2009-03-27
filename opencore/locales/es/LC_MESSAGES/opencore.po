@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: opencore\n"
-"POT-Creation-Date: 2009-03-27 16:25+0000\n"
+"POT-Creation-Date: 2009-03-27 16:46+0000\n"
 "PO-Revision-Date: 2008-06-02 22:20+0200\n"
 "Last-Translator: Pierre George <pierregrg@gmail.com>\n"
 "Language-Team: OpenFSM Team <openfsm@lists.openfsm.net>\n"
@@ -770,12 +770,6 @@ msgstr "acerca de"
 msgid "footer_contact_link"
 msgstr "contacto"
 
-#. Default: "&copy; 2007 <a href=\"${DYNAMIC_CONTENT}\">The Open Planning Project</a>"
-#: ./opencore/browser/footer.pt:24
-#, fuzzy
-msgid "footer_copyright"
-msgstr "&copy; 2007 <a href=\"http://topp.openplans.org/\">The Open Planning Project</a>"
-
 #. Default: "help"
 #: ./opencore/browser/footer.pt:6
 msgid "footer_help_link"
@@ -786,16 +780,10 @@ msgstr "ayuda"
 msgid "footer_news_link"
 msgstr "noticias"
 
-#. Default: "${num_people} people"
-#: ./opencore/browser/footer.pt:14
-msgid "footer_num_people"
-msgstr "${num_people} gente"
-
-#. Default: "${num_projects} ${project_noun}s"
-#: ./opencore/browser/footer.pt:20
-#, fuzzy
-msgid "footer_num_projects"
-msgstr "${num_projects} ${project_noun}s"
+#. Default: "${portal_title} is <a href=\"${DYNAMIC_CONTENT}\"> ${num_people} people </a> and <a href=\"${DYNAMIC_CONTENT}\"> ${num_projects} ${project_noun}s </a> since ${DYNAMIC_CONTENT}.<br /> &copy; 2007 <a href=\"${DYNAMIC_CONTENT}\">The Open Planning Project</a>"
+#: ./opencore/browser/footer.pt:24
+msgid "footer_stats_summary"
+msgstr "${portal_title} is <a href=\"${people_url"}\"> ${num_people} gente </a> and <a href=\"${projects_url}\"> ${num_projects} ${project_noun}s </a> since ${site_birthdate}.<br /> &copy; 2007 <a href=\"${DYNAMIC_CONTENT}\">The Open Planning Project</a>"
 
 #. Default: "New users"
 #: ./opencore/account/forgot.pt:13

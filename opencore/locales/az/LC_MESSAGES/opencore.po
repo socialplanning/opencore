@@ -664,10 +664,6 @@ msgstr "footer_about_link"
 #: ./opencore/browser/footer.pt:4
 msgid "footer_contact_link"
 msgstr "footer_contact_link"
-#. Default: "&copy; 2007 <a href=\"${DYNAMIC_CONTENT}\">The Open Planning Project</a>"
-#: ./opencore/browser/footer.pt:24
-msgid "footer_copyright"
-msgstr "footer_copyright"
 #. Default: "help"
 #: ./opencore/browser/footer.pt:6
 msgid "footer_help_link"
@@ -676,14 +672,10 @@ msgstr "footer_help_link"
 #: ./opencore/browser/footer.pt:5
 msgid "footer_news_link"
 msgstr "footer_news_link"
-#. Default: "${num_people} people"
-#: ./opencore/browser/footer.pt:14
-msgid "footer_num_people"
-msgstr "footer_num_people"
-#. Default: "${num_projects} ${project_noun}s"
-#: ./opencore/browser/footer.pt:20
-msgid "footer_num_projects"
-msgstr "footer_num_projects"
+#. Default: "${portal_title} is <a href=\"${DYNAMIC_CONTENT}\"> ${num_people} people </a> and <a href=\"${DYNAMIC_CONTENT}\"> ${num_projects} ${project_noun}s </a> since ${DYNAMIC_CONTENT}.<br /> &copy; 2007 <a href=\"${DYNAMIC_CONTENT}\">The Open Planning Project</a>"
+#: ./opencore/browser/footer.pt:24
+msgid "footer_stats_summary"
+msgstr "footer_stats_summary"
 #. Default: "New users"
 #: ./opencore/account/forgot.pt:13
 msgid "forgot_new_users"

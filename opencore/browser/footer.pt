@@ -8,19 +8,26 @@
     <!-- <li><a tal:attributes="href string:${here/portal_url}/privacy">privacy</a></li> -->
   </ul>
 
-  <div id="oc-footer-about" class="oc-smallText">
-    <span tal:replace="string:${view/portal_title}" /> is
-    <a i18n:translate="footer_num_people" tal:attributes="href string:${here/portal_url}/people">
+  <div i18n:translate="footer_stats_summary" id="oc-footer-about" class="oc-smallText">
+    <tal:comment define="people_url string:${here/portal_url}/people;
+			 projects_url string:${here/portal_url}/projects"
+		 replace="nothing">
+      <!-- a hack to get these values into the i18n mapping -->
+      <tal:dummy i18n:name="people_url" replace="people_url" />
+      <tal:dummy i18n:name="projects_url" replace="projects_url" />
+    </tal:comment>
+    <span i18n:name="portal_title" tal:replace="string:${view/portal_title}" /> is
+    <a tal:attributes="href people_url">
       <span i18n:name="num_people" tal:replace="string:${view/nusers}"/>
       people
     </a>
     and
-    <a i18n:translate="footer_num_projects" tal:attributes="href string:${here/portal_url}/projects">
+    <a tal:attributes="href projects_url">
       <span i18n:name="num_projects" tal:replace="string:${view/projects_served_count}"/>
       <span i18n:name="project_noun" tal:replace="view/project_noun">project</span>s
     </a>
     since
-    <span tal:replace="string:${view/dob}" />.<br />
-    <span i18n:translate="footer_copyright" tal:omit-tag="">&copy; 2007 <a tal:attributes="href context/@@oc-utils/topp_url">The Open Planning Project</a></span>
+    <span i18n:name="site_birthdate" tal:replace="string:${view/dob}" />.<br />
+    &copy; 2007 <a tal:attributes="href context/@@oc-utils/topp_url">The Open Planning Project</a>
   </div>
 </div>
