@@ -58,7 +58,7 @@ Features Added:
    anything other than 'zope', and X-Openplans-Project to the ID of
    the project. (slinkp, rmarianski)
 
- * More templates marked up for translation.
+ * More templates marked up for translation. (slinkp, dimo)
 
 Bugs Fixed:
 
@@ -116,7 +116,7 @@ Data Migrations:
 Features:
 
  * Partial translations of the UI into Spanish, French & Portuguese
-   (dimo)
+   (dimo, thiago, pierre & the OpenFSM team)
 
  * Member objects now have a _change_member_id() method. This is not
    exposed by UI yet, but admins can use it in eg. zopectl debug.
