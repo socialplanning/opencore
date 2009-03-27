@@ -53,14 +53,6 @@
      template="mystuff-menu.pt"
      />
 
-  <browser:page
-     for="*"
-     class=".topnav.TopNavView"
-     permission="zope2.View"
-     name="oc-topnav-accessibility"
-     template="historical/topnav-accessibility.pt"
-     />
-
   <!-- topnav context menu is handled through viewlets -->
   <browser:viewletManager
      name="opencore.topnavmenu"
