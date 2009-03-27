@@ -672,8 +672,8 @@ msgstr "footer_help_link"
 #: ./opencore/browser/footer.pt:5
 msgid "footer_news_link"
 msgstr "footer_news_link"
-#. Default: "${portal_title} is <a href=\"${DYNAMIC_CONTENT}\"> ${num_people} people </a> and <a href=\"${DYNAMIC_CONTENT}\"> ${num_projects} ${project_noun}s </a> since ${DYNAMIC_CONTENT}.<br /> &copy; 2007 <a href=\"${DYNAMIC_CONTENT}\">The Open Planning Project</a>"
-#: ./opencore/browser/footer.pt:24
+#. Default: "${DYNAMIC_CONTENT} ${portal_title} is <a href=\"${DYNAMIC_CONTENT}\"> ${num_people} people </a> and <a href=\"${DYNAMIC_CONTENT}\"> ${num_projects} ${project_noun}s </a> since ${site_birthdate}.<br /> &copy; 2007 <a href=\"${DYNAMIC_CONTENT}\">The Open Planning Project</a>"
+#: ./opencore/browser/footer.pt:31
 msgid "footer_stats_summary"
 msgstr "footer_stats_summary"
 #. Default: "New users"

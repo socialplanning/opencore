@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: opencore\n"
-"POT-Creation-Date: 2009-03-27 16:46+0000\n"
+"POT-Creation-Date: 2009-03-27 17:09+0000\n"
 "PO-Revision-Date: 2008-10-08 15:57-0400\n"
 "Last-Translator: \n"
 "Language-Team: The Open Planning Project <opencore-dev@lists.openplans.org>\n"
@@ -820,8 +820,8 @@ msgstr ""
 msgid "footer_news_link"
 msgstr ""
 
-#. Default: "${portal_title} is <a href=\"${DYNAMIC_CONTENT}\"> ${num_people} people </a> and <a href=\"${DYNAMIC_CONTENT}\"> ${num_projects} ${project_noun}s </a> since ${DYNAMIC_CONTENT}.<br /> &copy; 2007 <a href=\"${DYNAMIC_CONTENT}\">The Open Planning Project</a>"
-#: ./opencore/browser/footer.pt:24
+#. Default: "${DYNAMIC_CONTENT} ${portal_title} is <a href=\"${DYNAMIC_CONTENT}\"> ${num_people} people </a> and <a href=\"${DYNAMIC_CONTENT}\"> ${num_projects} ${project_noun}s </a> since ${site_birthdate}.<br /> &copy; 2007 <a href=\"${DYNAMIC_CONTENT}\">The Open Planning Project</a>"
+#: ./opencore/browser/footer.pt:31
 msgid "footer_stats_summary"
 msgstr ""
 
