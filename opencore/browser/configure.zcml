@@ -59,15 +59,6 @@
      template="footer.pt"
      />
 
-  <!-- blank (for testing) -->
-  <browser:page
-     for="*"
-     class=".base.BaseView"
-     permission="zope.Public"
-     name="oc-blank"
-     template="blank.pt"
-     />
-
   <browser:page
      for="OFS.Folder.Folder"
      name="add-openplans.html"
