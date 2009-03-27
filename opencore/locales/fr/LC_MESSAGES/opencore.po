@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: opencore\n"
-"POT-Creation-Date: 2009-03-27 22:01+0000\n"
+"POT-Creation-Date: 2009-03-27 22:22+0000\n"
 "PO-Revision-Date: 2008-06-02 22:41+0200\n"
 "Last-Translator: Pierre George <pierregrg@gmail.com>\n"
 "Language-Team: OpenFSM Team <openfsm@lists.openfsm.net>\n"
@@ -282,39 +282,42 @@ msgstr "Nouveau mot de passe"
 #. Default: "Actions"
 #: ./opencore/member/browser/account_project_table.pt:19
 msgid "account_project_actions_header"
-msgstr "Actions"
+msgstr ""
 
 #. Default: "${project_noun}s you belong to (${num_projects})"
 #: ./opencore/member/browser/account_project_table.pt:8
-#, fuzzy
 msgid "account_project_belong_to"
-msgstr "(${num_projects}) ${project_noun}s où vous êtes présent"
+msgstr ""
+
+#. Default: "Change listing"
+#: ./opencore/member/browser/account_project_table.pt:38
+msgid "account_project_change_listing"
+msgstr ""
 
 #. Default: "Listed"
 #: ./opencore/member/browser/account_project_table.pt:18
 msgid "account_project_listed_header"
-msgstr "Listé"
+msgstr ""
 
 #. Default: "<h2>You don't belong to any ${project_noun}s.</h2> <p>Why not <a href=\"${DYNAMIC_CONTENT}\">look for one to join</a> or <a href=\"${DYNAMIC_CONTENT}\">start your own</a>?</p>"
-#: ./opencore/member/browser/account_project_table.pt:50
-#, fuzzy
+#: ./opencore/member/browser/account_project_table.pt:52
 msgid "account_project_no_projects"
-msgstr "<h2>Vous n'êtes inclus(e) dans aucun ${project_noun}s.</h2> <p>Pourquoi ne pas <a href=\"${DYNAMIC_CONTENT}\">en chercher un où vous inclure</a> ou <a href=\"${DYNAMIC_CONTENT}\">initier le vôtre </a>?</p>"
+msgstr ""
 
 #. Default: "${project_noun}"
 #: ./opencore/member/browser/account_project_table.pt:15
 msgid "account_project_project_header"
-msgstr "${project_noun}"
+msgstr ""
 
 #. Default: "Role"
 #: ./opencore/member/browser/account_project_table.pt:16
 msgid "account_project_role_header"
-msgstr "Rôle"
+msgstr ""
 
 #. Default: "Since"
 #: ./opencore/member/browser/account_project_table.pt:17
 msgid "account_project_since_header"
-msgstr "Depuis"
+msgstr ""
 
 #. Default: "Account settings"
 #: ./opencore/member/browser/account.pt:120
@@ -672,7 +675,7 @@ msgid "err_project_name"
 msgstr "Le nom doit avoir aux moins deux caractères avec au moins 1 lettre ou numéro"
 
 #. Default: "If you know you have the correct web address, please contact the <a href=\"${DYNAMIC_CONTENT}\">Site Administration</a>."
-#: ./opencore/browser/notfound.pt:59
+#: ./opencore/browser/notfound.pt:61
 msgid "error_404_contact_site_admin"
 msgstr ""
 
@@ -686,13 +689,18 @@ msgstr ""
 msgid "error_404_no_suggestions"
 msgstr ""
 
+#. Default: "<li>Please check to make sure you typed the url correctly</li> <li>Or, search:</li>"
+#: ./opencore/browser/notfound.pt:44
+msgid "error_404_search"
+msgstr ""
+
 #. Default: "Search site"
-#: ./opencore/browser/notfound.pt:49
+#: ./opencore/browser/notfound.pt:51
 msgid "error_404_search_form_label"
 msgstr ""
 
 #. Default: "Search"
-#: ./opencore/browser/notfound.pt:53
+#: ./opencore/browser/notfound.pt:55
 msgid "error_404_search_form_submit"
 msgstr ""
 

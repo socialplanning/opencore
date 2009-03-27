@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: opencore\n"
-"POT-Creation-Date: 2009-03-27 22:01+0000\n"
+"POT-Creation-Date: 2009-03-27 22:22+0000\n"
 "PO-Revision-Date: 2008-10-08 15:57-0400\n"
 "Last-Translator: \n"
 "Language-Team: The Open Planning Project <opencore-dev@lists.openplans.org>\n"
@@ -287,13 +287,18 @@ msgstr ""
 msgid "account_project_belong_to"
 msgstr ""
 
+#. Default: "Change listing"
+#: ./opencore/member/browser/account_project_table.pt:38
+msgid "account_project_change_listing"
+msgstr ""
+
 #. Default: "Listed"
 #: ./opencore/member/browser/account_project_table.pt:18
 msgid "account_project_listed_header"
 msgstr ""
 
 #. Default: "<h2>You don't belong to any ${project_noun}s.</h2> <p>Why not <a href=\"${DYNAMIC_CONTENT}\">look for one to join</a> or <a href=\"${DYNAMIC_CONTENT}\">start your own</a>?</p>"
-#: ./opencore/member/browser/account_project_table.pt:50
+#: ./opencore/member/browser/account_project_table.pt:52
 msgid "account_project_no_projects"
 msgstr ""
 
@@ -713,7 +718,7 @@ msgid "err_project_name"
 msgstr ""
 
 #. Default: "If you know you have the correct web address, please contact the <a href=\"${DYNAMIC_CONTENT}\">Site Administration</a>."
-#: ./opencore/browser/notfound.pt:59
+#: ./opencore/browser/notfound.pt:61
 msgid "error_404_contact_site_admin"
 msgstr ""
 
@@ -727,13 +732,18 @@ msgstr ""
 msgid "error_404_no_suggestions"
 msgstr ""
 
+#. Default: "<li>Please check to make sure you typed the url correctly</li> <li>Or, search:</li>"
+#: ./opencore/browser/notfound.pt:44
+msgid "error_404_search"
+msgstr ""
+
 #. Default: "Search site"
-#: ./opencore/browser/notfound.pt:49
+#: ./opencore/browser/notfound.pt:51
 msgid "error_404_search_form_label"
 msgstr ""
 
 #. Default: "Search"
-#: ./opencore/browser/notfound.pt:53
+#: ./opencore/browser/notfound.pt:55
 msgid "error_404_search_form_submit"
 msgstr ""
 

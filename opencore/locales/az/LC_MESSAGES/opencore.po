@@ -227,12 +227,16 @@ msgstr "account_project_actions_header"
 #: ./opencore/member/browser/account_project_table.pt:8
 msgid "account_project_belong_to"
 msgstr "account_project_belong_to"
+#. Default: "Change listing"
+#: ./opencore/member/browser/account_project_table.pt:38
+msgid "account_project_change_listing"
+msgstr "account_project_change_listing"
 #. Default: "Listed"
 #: ./opencore/member/browser/account_project_table.pt:18
 msgid "account_project_listed_header"
 msgstr "account_project_listed_header"
 #. Default: "<h2>You don't belong to any ${project_noun}s.</h2> <p>Why not <a href=\"${DYNAMIC_CONTENT}\">look for one to join</a> or <a href=\"${DYNAMIC_CONTENT}\">start your own</a>?</p>"
-#: ./opencore/member/browser/account_project_table.pt:50
+#: ./opencore/member/browser/account_project_table.pt:52
 msgid "account_project_no_projects"
 msgstr "account_project_no_projects"
 #. Default: "${project_noun}"
@@ -587,7 +591,7 @@ msgstr "err_could_not_moderate"
 msgid "err_project_name"
 msgstr "err_project_name"
 #. Default: "If you know you have the correct web address, please contact the <a href=\"${DYNAMIC_CONTENT}\">Site Administration</a>."
-#: ./opencore/browser/notfound.pt:59
+#: ./opencore/browser/notfound.pt:61
 msgid "error_404_contact_site_admin"
 msgstr "error_404_contact_site_admin"
 #. Default: "You've tried to find something that's not here.  Sorry about that!"
@@ -598,12 +602,16 @@ msgstr "error_404_header"
 #: ./opencore/browser/notfound.pt:38
 msgid "error_404_no_suggestions"
 msgstr "error_404_no_suggestions"
+#. Default: "<li>Please check to make sure you typed the url correctly</li> <li>Or, search:</li>"
+#: ./opencore/browser/notfound.pt:44
+msgid "error_404_search"
+msgstr "error_404_search"
 #. Default: "Search site"
-#: ./opencore/browser/notfound.pt:49
+#: ./opencore/browser/notfound.pt:51
 msgid "error_404_search_form_label"
 msgstr "error_404_search_form_label"
 #. Default: "Search"
-#: ./opencore/browser/notfound.pt:53
+#: ./opencore/browser/notfound.pt:55
 msgid "error_404_search_form_submit"
 msgstr "error_404_search_form_submit"
 #. Default: "If you don't see what you're looking for:"

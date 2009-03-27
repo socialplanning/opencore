@@ -40,16 +40,18 @@
        </div>
     </div>
     
-         <ul>
-           <li>Please check to make sure you typed the url correctly</li>
-           <li>Or, search:</li>
-           <form name="searchform" id="oc-sitesearch"
-                 tal:attributes="action string:${view/portal/absolute_url}/sitesearch"
-                 onsubmit="return liveSearchSubmit()">
-             <input id="searchGadget" name="search_for"
-                    type="text" size="20" title="Search site"
-		    i18n:attributes="title error_404_search_form_label"
-                    accesskey="4" class="oc-input-typeText" />
+    <ul>
+      <tal:i18n i18n:translate="error_404_search">
+	<li>Please check to make sure you typed the url correctly</li>
+	<li>Or, search:</li>
+      </tal:i18n>
+      <form name="searchform" id="oc-sitesearch"
+	    tal:attributes="action string:${view/portal/absolute_url}/sitesearch"
+            onsubmit="return liveSearchSubmit()">
+        <input id="searchGadget" name="search_for"
+               type="text" size="20" title="Search site"
+	       i18n:attributes="title error_404_search_form_label"
+               accesskey="4" class="oc-input-typeText" />
              <input type="submit" value="Search" i18n:attributes="value error_404_search_form_submit"/>
            </form>
          </ul>
