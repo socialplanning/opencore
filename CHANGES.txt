@@ -19,11 +19,11 @@ Features Added:
    (This used to only work for mailing lists with a specific id based on
    the project name.) (rafrombrc)
 
- * Cut down on number of catalog queries in forgot view (rmarianski)
-
  * Temporarily abstract out the link to topp into configuration.
    This should be in a separate theme package because it's topp specific.
    (rmarianski)
+
+ * Added i18n for account creation and site error templates (egj)
 
 Bugs Fixed:
 
@@ -40,6 +40,9 @@ Refactoring:
 
  * Heavily refactored `BaseView.area` and `BaseView.window_title` functions 
    in `opencore.browser.base` (#588#comment:7 and following) (egj)
+
+ * Cut down on number of catalog queries in forgot view (rmarianski)
+
 
 0.16.0 (2009-02-27)
 ===================
