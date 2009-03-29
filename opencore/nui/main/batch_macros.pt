@@ -16,11 +16,11 @@
           tal:condition="p">
           <a tal:attributes="href python: '%s?%s' % (url , mq( request.form, {'page':cur_page-1} ));">
             &larr;
-            <span i18n:translate="batch_macros_previous_x_items" tal:omit-tag="">Prev</span>
+            <tal:i18n i18n:translate="batch_macros_previous_x_items">Prev</tal:i18n>
           </a>
         </li>
 
-        <li>Page</li>
+        <li i18n:translate="batch_macros_page">Page</li>
 
         <!-- Link to first -->
         <li tal:condition="python: 1 not in batch.navlist">
@@ -73,12 +73,12 @@
         </li>
 
 	<li>
-	  or jump to
+	  <tal:i18n i18n:translate="batch_macros_jump_to_page">or jump to</tal:i18n>
 	  <form method="GET">
 	    <tal:for repeat="key request/form">
 	      <input type="hidden"
 		     tal:condition="python:key!='page'"
-		     tal:attributes="name key; value python:request.form[key]">
+		     tal:attributes="name key; value python:request.form[key]" />
 	    </tal:for>
             <input size="3" type="text" name="page" />
 	  </form>
@@ -112,11 +112,11 @@
       <tal:for repeat="key request/form">
 	<input type="hidden"
 	       tal:condition="python:key!='sort_by'"
-	       tal:attributes="name key; value python:request.form[key]">
+	       tal:attributes="name key; value python:request.form[key]" />
       </tal:for>
 
 
-        <button type="submit" class="oc-button oc-chooseThis">sort</button> 
+        <button i18n:translate="batch_macros_sort" type="submit" class="oc-button oc-chooseThis">sort</button> 
 
       </form>
       

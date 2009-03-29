@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: opencore\n"
-"POT-Creation-Date: 2009-03-29 20:11+0000\n"
+"POT-Creation-Date: 2009-03-29 21:01+0000\n"
 "PO-Revision-Date: 2008-10-08 15:57-0400\n"
 "Last-Translator: \n"
 "Language-Team: The Open Planning Project <opencore-dev@lists.openplans.org>\n"
@@ -59,6 +59,11 @@ msgid "Edit"
 msgstr ""
 
 msgid "Join Project"
+msgstr ""
+
+#. Default: "News"
+#: ./opencore/nui/main/home.pt:103
+msgid "News"
 msgstr ""
 
 #. Default: "No"
@@ -387,14 +392,29 @@ msgstr ""
 msgid "archive_view_by"
 msgstr ""
 
+#. Default: "or jump to"
+#: ./opencore/nui/main/batch_macros.pt:76
+msgid "batch_macros_jump_to_page"
+msgstr ""
+
 #. Default: "Next"
 #: ./opencore/nui/main/batch_macros.pt:70
 msgid "batch_macros_next_x_items"
 msgstr ""
 
+#. Default: "Page"
+#: ./opencore/nui/main/batch_macros.pt:23
+msgid "batch_macros_page"
+msgstr ""
+
 #. Default: "Prev"
 #: ./opencore/nui/main/batch_macros.pt:19
 msgid "batch_macros_previous_x_items"
+msgstr ""
+
+#. Default: "sort"
+#: ./opencore/nui/main/batch_macros.pt:119
+msgid "batch_macros_sort"
 msgstr ""
 
 #. Default: "Fill in the form below to contact the site administrators."
@@ -977,6 +997,16 @@ msgstr ""
 msgid "home_newest_projects"
 msgstr ""
 
+#. Default: "by"
+#: ./opencore/nui/main/home.pt:114
+msgid "home_news_item_by"
+msgstr ""
+
+#. Default: "more news…"
+#: ./opencore/nui/main/home.pt:123
+msgid "home_news_more_link"
+msgstr ""
+
 #. Default: "You want to <strong>make a difference</strong>, we want to <strong>make it easy</strong>. OpenPlans is the simple way to bring groups together, promote your cause, make plans, manage projects, and get things done."
 #: ./opencore/nui/main/home.pt:38
 msgid "home_opening_blurb"
@@ -985,6 +1015,11 @@ msgstr ""
 #. Default: "created ${creation_date}"
 #: ./opencore/nui/main/home.pt:59
 msgid "home_project_created"
+msgstr ""
+
+#. Default: "${num_project_members} member${DYNAMIC_CONTENT}"
+#: ./opencore/nui/main/home.pt:87
+msgid "home_project_num_members"
 msgstr ""
 
 #. Default: "last updated ${project_updated}"
@@ -998,8 +1033,13 @@ msgid "home_start_project"
 msgstr ""
 
 #. Default: "Updated ${project_noun}s"
-#: ./opencore/nui/main/home.pt:72
+#: ./opencore/nui/main/home.pt:71
 msgid "home_updated_projects"
+msgstr ""
+
+#. Default: "Openplans: free project management tools, wikis, blogs, mailing lists and task tracking for neighborhood and global communities."
+#: ./opencore/nui/main/home.pt:3
+msgid "home_window_title"
 msgstr ""
 
 #. Default: "You do not have sufficient privileges to view this page."
@@ -1907,13 +1947,23 @@ msgid "projects_currently_serving"
 msgstr ""
 
 #. Default: "Can&rsquo;t find a ${project_noun} you are interested in? See a need that is not being met?"
-#: ./opencore/nui/main/projects.pt:70
+#: ./opencore/nui/main/projects.pt:71
 msgid "projects_get_started"
 msgstr ""
 
 #. Default: "Get started…"
-#: ./opencore/nui/main/projects.pt:69
+#: ./opencore/nui/main/projects.pt:70
 msgid "projects_get_started_heading"
+msgstr ""
+
+#. Default: "${num_project_members} member(s), last updated ${modification_date}"
+#: ./opencore/nui/main/projects.pt:53
+msgid "projects_project_stats_summary"
+msgstr ""
+
+#. Default: "Recently updated ${project_noun}(s)"
+#: ./opencore/nui/main/projects.pt:20
+msgid "projects_recently_updated"
 msgstr ""
 
 #. Default: "created by"
@@ -1952,7 +2002,7 @@ msgid "projects_sortable_fields_sortable_title"
 msgstr ""
 
 #. Default: "Start a new ${project_noun}"
-#: ./opencore/nui/main/projects.pt:72
+#: ./opencore/nui/main/projects.pt:73
 msgid "projects_start_project_button"
 msgstr ""
 

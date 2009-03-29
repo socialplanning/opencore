@@ -49,6 +49,10 @@ msgid "Edit"
 msgstr "Edit"
 msgid "Join Project"
 msgstr "Join Project"
+#. Default: "News"
+#: ./opencore/nui/main/home.pt:103
+msgid "News"
+msgstr "News"
 #. Default: "No"
 #: ./opencore/listen/browser/membership.pt:33
 msgid "No"
@@ -307,14 +311,26 @@ msgstr "archive_thread_view_by"
 #: ./opencore/listen/browser/archive_date_messages.pt:12
 msgid "archive_view_by"
 msgstr "archive_view_by"
+#. Default: "or jump to"
+#: ./opencore/nui/main/batch_macros.pt:76
+msgid "batch_macros_jump_to_page"
+msgstr "batch_macros_jump_to_page"
 #. Default: "Next"
 #: ./opencore/nui/main/batch_macros.pt:70
 msgid "batch_macros_next_x_items"
 msgstr "batch_macros_next_x_items"
+#. Default: "Page"
+#: ./opencore/nui/main/batch_macros.pt:23
+msgid "batch_macros_page"
+msgstr "batch_macros_page"
 #. Default: "Prev"
 #: ./opencore/nui/main/batch_macros.pt:19
 msgid "batch_macros_previous_x_items"
 msgstr "batch_macros_previous_x_items"
+#. Default: "sort"
+#: ./opencore/nui/main/batch_macros.pt:119
+msgid "batch_macros_sort"
+msgstr "batch_macros_sort"
 #. Default: "Fill in the form below to contact the site administrators."
 #: ./opencore/nui/main/contact-site-admin.pt:12
 msgid "contact-site-admin_description"
@@ -798,6 +814,14 @@ msgstr "home_learn_more"
 #: ./opencore/nui/main/home.pt:45
 msgid "home_newest_projects"
 msgstr "home_newest_projects"
+#. Default: "by"
+#: ./opencore/nui/main/home.pt:114
+msgid "home_news_item_by"
+msgstr "home_news_item_by"
+#. Default: "more news…"
+#: ./opencore/nui/main/home.pt:123
+msgid "home_news_more_link"
+msgstr "home_news_more_link"
 #. Default: "You want to <strong>make a difference</strong>, we want to <strong>make it easy</strong>. OpenPlans is the simple way to bring groups together, promote your cause, make plans, manage projects, and get things done."
 #: ./opencore/nui/main/home.pt:38
 msgid "home_opening_blurb"
@@ -806,6 +830,10 @@ msgstr "home_opening_blurb"
 #: ./opencore/nui/main/home.pt:59
 msgid "home_project_created"
 msgstr "home_project_created"
+#. Default: "${num_project_members} member${DYNAMIC_CONTENT}"
+#: ./opencore/nui/main/home.pt:87
+msgid "home_project_num_members"
+msgstr "home_project_num_members"
 #. Default: "last updated ${project_updated}"
 #: ./opencore/nui/main/home.pt:90
 msgid "home_project_updated"
@@ -815,9 +843,13 @@ msgstr "home_project_updated"
 msgid "home_start_project"
 msgstr "home_start_project"
 #. Default: "Updated ${project_noun}s"
-#: ./opencore/nui/main/home.pt:72
+#: ./opencore/nui/main/home.pt:71
 msgid "home_updated_projects"
 msgstr "home_updated_projects"
+#. Default: "Openplans: free project management tools, wikis, blogs, mailing lists and task tracking for neighborhood and global communities."
+#: ./opencore/nui/main/home.pt:3
+msgid "home_window_title"
+msgstr "home_window_title"
 #. Default: "You do not have sufficient privileges to view this page."
 #: ./opencore/account/insufficient_privileges.pt:10
 msgid "insufficient_privileges_description"
@@ -1542,13 +1574,21 @@ msgstr "projects-manage"
 msgid "projects_currently_serving"
 msgstr "projects_currently_serving"
 #. Default: "Can&rsquo;t find a ${project_noun} you are interested in? See a need that is not being met?"
-#: ./opencore/nui/main/projects.pt:70
+#: ./opencore/nui/main/projects.pt:71
 msgid "projects_get_started"
 msgstr "projects_get_started"
 #. Default: "Get started…"
-#: ./opencore/nui/main/projects.pt:69
+#: ./opencore/nui/main/projects.pt:70
 msgid "projects_get_started_heading"
 msgstr "projects_get_started_heading"
+#. Default: "${num_project_members} member(s), last updated ${modification_date}"
+#: ./opencore/nui/main/projects.pt:53
+msgid "projects_project_stats_summary"
+msgstr "projects_project_stats_summary"
+#. Default: "Recently updated ${project_noun}(s)"
+#: ./opencore/nui/main/projects.pt:20
+msgid "projects_recently_updated"
+msgstr "projects_recently_updated"
 #. Default: "created by"
 #: ./opencore/nui/main/projects-resultlist.pt:29
 msgid "projects_searchresults_created_by"
@@ -1578,7 +1618,7 @@ msgstr "projects_sortable_fields_relevancy"
 msgid "projects_sortable_fields_sortable_title"
 msgstr "projects_sortable_fields_sortable_title"
 #. Default: "Start a new ${project_noun}"
-#: ./opencore/nui/main/projects.pt:72
+#: ./opencore/nui/main/projects.pt:73
 msgid "projects_start_project_button"
 msgstr "projects_start_project_button"
 #: ./opencore/project/browser/manageteam.py:591

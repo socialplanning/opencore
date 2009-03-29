@@ -1,6 +1,6 @@
 <html i18n:domain="opencore" metal:use-macro="here/@@standard_macros/master">
   <head>
-    <title metal:fill-slot="title">Openplans:
+    <title metal:fill-slot="title" i18n:translate="home_window_title">Openplans:
     free project management tools, wikis, blogs, mailing lists and task
     tracking for neighborhood and global communities.
    </title>
@@ -52,17 +52,16 @@
                                        src string:${project/getURL}/logo_thumb" />
                 </a>
                 <h3 class="oc-feed-item-title">
-                  <a tal:attributes="href python:view.project_url(project.getId)" tal:content="project/Title">Project title</a>
+                  <a tal:attributes="href python:view.project_url(project.getId)" tal:content="project/Title" />
                 </h3>
                 <p i18n:translate="home_project_created" class="oc-feed-item-data oc-discreetText">
                   created
-                  <span i18n:name="creation_date" tal:replace="python: view.pretty_date(project.CreationDate)">Jan 1937</span>
+                  <span i18n:name="creation_date" tal:replace="python: view.pretty_date(project.CreationDate)" />
                 </p>
                 <p class="oc-feed-item-description"
                    tal:define="desc project/Description | string:'';
                                shortdesc python:len(desc) > 200 and desc[:197] + '...' or desc"
                    tal:content="shortdesc">
-                  Project Mission
                 </p>
               </li>
             </ul>
@@ -81,10 +80,11 @@
                   </tal:setvar>
                 </a>
                 <h3 class="oc-feed-item-title">
-                  <a href="" tal:attributes="href python:view.project_url(project.getId)" tal:content="project/Title">Project title</a>
+                  <a href="" tal:attributes="href python:view.project_url(project.getId)" tal:content="project/Title" />
                 </h3>
-                <p class="oc-feed-item-data oc-discreetText" tal:define="nmembers python: view.n_project_members(project)">
-                  <span tal:replace="nmembers">YY</span> member<span tal:condition="python: nmembers != 1" tal:replace="string:s" />
+                <p class="oc-feed-item-data oc-discreetText" tal:define="nmembers python: view.n_project_members(project)"
+		   i18n:translate="home_project_num_members">
+                  <span i18n:name="num_project_members" tal:replace="nmembers" /> member<span tal:condition="python: nmembers != 1" tal:replace="string:s" />
                 </p>
                 <p class="oc-feed-item-data oc-discreetText" i18n:translate="home_project_updated">
                   last updated <span i18n:name="project_updated" tal:replace="python: view.pretty_date(project.ModificationDate)">Jan 1937</span>
@@ -100,7 +100,7 @@
         <tal:provider replace="structure provider:opencore.sidebar" />
           <div id="oc-home-news" class="oc-widget oc-widget-feed">
             <h2 class="oc-feed-title">
-              <a title="News"
+              <a i18n:attributes="title News" title="News"
                  tal:attributes="href string:${context/portal_url}/news"
                  tal:content="string:${view/portal_title} News" />
             </h2>
@@ -108,17 +108,23 @@
               <li tal:repeat="item view/news" class="oc-feed-item oc-clearAfter">
                 <h3 class="oc-feed-item-title">
                   <a tal:content="item/Title" 
-                     tal:attributes="href string:${context/portal_url}/news/${item/getId}">News item</a>
+                     tal:attributes="href string:${context/portal_url}/news/${item/getId}" />
                 </h3>
                 <div class="oc-feed-item-data oc-discreetText">
-                  by 
-                  <a tal:define="userid item/Creator" tal:attributes="href string:${context/portal_url}/people/${userid}" tal:content="userid" />,
-                  <span tal:replace="python: view.pretty_date(item.CreationDate)">Jan 1937</span>
+                  <tal:i18n i18n:translate="home_news_item_by">by</tal:i18n>
+                  <a tal:define="userid item/Creator"
+		     tal:attributes="href string:${context/portal_url}/people/${userid}"
+		     tal:content="userid" />,
+                  <span tal:replace="python: view.pretty_date(item.CreationDate)" />
                 </div>
-                <p class="oc-feed-item-description" tal:content="item/Description">The description is the comment for the news item, however long it is</p>
+                <p class="oc-feed-item-description" tal:content="item/Description" />
               </li>
               <li>
-                <a class="oc-paginator" tal:attributes="href string:${context/portal_url}/news">more news&hellip;</a>
+                <a i18n:translate="home_news_more_link"
+		   class="oc-paginator"
+		   tal:attributes="href string:${context/portal_url}/news">
+		  more news&hellip;
+		</a>
               </li>
             </ul>
           </div><!-- OpenPlans News -->

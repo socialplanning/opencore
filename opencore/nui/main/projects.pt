@@ -17,7 +17,7 @@
         <tal:viewlet replace="structure provider:opencore.searchresults.top" />
 
         <div class="oc-blocklist">
-          <h2 class="oc-feed-title">Recently updated <span tal:replace="view/project_noun">project</span>s</h2>
+          <h2 i18n:translate="projects_recently_updated" class="oc-feed-title">Recently updated <span i18n:name="project_noun" tal:replace="view/project_noun" />(s)</h2>
 
           <ol class="oc-lineup-list">
             <li class="oc-lineup-item oc-clearAfter"
@@ -46,10 +46,11 @@
                 </h3>
 		
                 <p class="oc-feed-item-data oc-discreetText"
-		   tal:define="nmembers python:view.n_project_members(item)">
-                  <span tal:replace="nmembers" />
+		   tal:define="nmembers python:view.n_project_members(item)"
+		   i18n:translate="projects_project_stats_summary" >
+                  <span i18n:name="num_project_members" tal:replace="nmembers" />
                   member(s), last updated
-		  <span tal:replace="python: view.pretty_date(item.ModificationDate)" />
+		  <span i18n:name="modification_date" tal:replace="python: view.pretty_date(item.ModificationDate)" />
                 </p>
                 <p class="oc-feed-item-description"
 		   tal:condition="item/Description"
