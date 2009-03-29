@@ -1,4 +1,4 @@
-<html metal:use-macro="here/@@standard_macros/master">
+<html metal:use-macro="here/@@standard_macros/master" i18n:domain="opencore">
   <head>
     <title metal:fill-slot="title" tal:content="string:Tour - ${context/Title} on ${view/portal_title}" />
   </head>
@@ -8,19 +8,19 @@
 
       <div id="oc-content-main">
         <div class="oc-headingBlock">
-          <h1>Congratulations on starting your <span tal:replace="view/project_noun">project</span>.</h1>
+          <h1 i18n:translate="project_tour_header">Congratulations on starting your <span i18n:name="project_noun" tal:replace="view/project_noun">project</span>.</h1>
           <p class="oc-headingContext"> Now you can&hellip;</p>
         </div>
 
         <div class="oc-boxy">
           <div class="oc-headingBlock">
-            <h2>Communicate</h2>
-            <p class="oc-headingContext">Announce your <span tal:replace="view/project_noun">project</span>.</p>
+            <h2 i18n:translate="project_tour_communicate">Communicate</h2>
+            <p class="oc-headingContext" i18n:translate="project_tour_announce">Announce your <span i18n:name="project_noun" tal:replace="view/project_noun">project</span>.</p>
           </div>
 
           <div>
             <a tal:attributes="href string:${context/absolute_url}/project-home">
-              <img src="++resource++img/touricons/wiki.gif" alt="Wiki pages" class="oc-tour-icon" />
+              <img src="++resource++img/touricons/wiki.gif" class="oc-tour-icon" />
               <h3>Wiki pages</h3>
             </a>
             <ul class="oc-discreetText oc-plainList">
@@ -33,7 +33,7 @@
 
           <div tal:condition="view/has_blog">
             <a tal:attributes="href string:${context/absolute_url}/blog">
-              <img src="++resource++img/touricons/blog.gif" alt="Blog" class="oc-tour-icon" />
+              <img src="++resource++img/touricons/blog.gif" class="oc-tour-icon" />
               <h3>Blog</h3>
             </a>
             <ul class="oc-discreetText oc-plainList">
@@ -89,17 +89,17 @@
 
         </div>
 
-  <p class="oc-smallText">
-    Want to add or remove tools from your <span tal:replace="view/project_noun">project</span>? Change your <a tal:attributes="href
-           string:${context/absolute_url}/preferences">preferences</a>.
-  </p>
+	<p class="oc-smallText">
+	  Want to add or remove tools from your <span tal:replace="view/project_noun">project</span>?
+	  Change your <a tal:attributes="href string:${context/absolute_url}/preferences">preferences</a>.
+	</p>
 
       </div><!-- end #oc-content-main -->
-
+      
       <div id="oc-content-sidebar">
       </div><!-- end #oc-content-sidebar -->
 
-  </div><!-- content-fill-slot -->
+    </div><!-- content-fill-slot -->
   </body>
 </html>
 

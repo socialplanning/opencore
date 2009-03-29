@@ -1,12 +1,17 @@
 <html i18n:domain="opencore" metal:use-macro="here/@@standard_macros/master">
   <head>
-    <title metal:fill-slot="title" tal:content="string:Start a ${view/project_noun/title} - ${view/portal_title}" />
+    <title metal:fill-slot="title" i18n:translate="project_create_window_title">
+      Start a <tal:dummy i18n:name="project_noun" tal:replace="view/project_noun/title" /> - <tal:dummy i18n:name="portal_title" tal:replace="view/portal_title" />
+    </title>
   </head>
   <body>
     <div metal:fill-slot="content">
       <div class="oc-headingBlock">
-        <h1 i18n:translate="create_project_heading">Start a <span i18n:name="project_noun" tal:replace="view/project_noun">project</span></h1>
-        <p i18n:translate="create_project_desc" class="oc-headingContext">Each <span i18n:name="project_noun" tal:replace="view/project_noun">project</span> is a toolbox to help you get things done. Using your <span i18n:name="project_noun" tal:replace="view/project_noun">project</span> you can team up with others, sketch out your plans, and keep track of your progress.</p>
+        <h1 i18n:translate="create_project_heading">Start a <span i18n:name="project_noun" tal:replace="view/project_noun" /></h1>
+        <p i18n:translate="create_project_desc" class="oc-headingContext">
+	  Each <span i18n:name="project_noun" tal:replace="view/project_noun" /> is a toolbox to help you get things done.
+	  Using your <span i18n:name="project_noun" tal:replace="view/project_noun" /> you can team up with others, sketch out your plans, and keep track of your progress.
+	</p>
       </div>
       <div id="oc-content-main" class="oc-content-main-fullWidth">
         <form name="create_form" id="oc-project-create" method="post" enctype="multipart/form-data"

@@ -1,6 +1,6 @@
 '''
 Custom namespace to be used in TALES expressions, like eg.
- tal:content="somedate/opencore:pretty_data"
+ tal:content="somedate/opencore:pretty_date"
 
 See http://wiki.zope.org/zope3/talesns.html
 and http://www.openplans.org/projects/opencore/how-to-create-a-tales-namespace

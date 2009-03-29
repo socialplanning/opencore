@@ -352,63 +352,63 @@ msgstr "contents_heading"
 msgid "contents_view_tasks"
 msgstr "contents_view_tasks"
 #. Default: "Create"
-#: ./opencore/project/browser/create.pt:108
+#: ./opencore/project/browser/create.pt:113
 msgid "create_create_button"
 msgstr "create_create_button"
 #. Default: "Cancel"
-#: ./opencore/project/browser/create.pt:114
+#: ./opencore/project/browser/create.pt:119
 msgid "create_project_cancel"
 msgstr "create_project_cancel"
 #. Default: "Clear"
-#: ./opencore/project/browser/create.pt:69
+#: ./opencore/project/browser/create.pt:74
 msgid "create_project_clear_logo"
 msgstr "create_project_clear_logo"
 #. Default: "Only team members can view, contribute, or search for this ${project_noun}"
-#: ./opencore/project/browser/create.pt:95
+#: ./opencore/project/browser/create.pt:100
 msgid "create_project_closed_policy"
 msgstr "create_project_closed_policy"
 #. Default: "Each ${project_noun} is a toolbox to help you get things done. Using your ${project_noun} you can team up with others, sketch out your plans, and keep track of your progress."
-#: ./opencore/project/browser/create.pt:9
+#: ./opencore/project/browser/create.pt:13
 msgid "create_project_desc"
 msgstr "create_project_desc"
 #. Default: "Description"
-#: ./opencore/project/browser/create.pt:51
+#: ./opencore/project/browser/create.pt:56
 msgid "create_project_goals"
 msgstr "create_project_goals"
 #. Default: "Start a ${project_noun}"
-#: ./opencore/project/browser/create.pt:8
+#: ./opencore/project/browser/create.pt:10
 msgid "create_project_heading"
 msgstr "create_project_heading"
 #. Default: "Image or logo"
-#: ./opencore/project/browser/create.pt:65
+#: ./opencore/project/browser/create.pt:70
 msgid "create_project_image"
 msgstr "create_project_image"
 #. Default: "Anyone can view this ${project_noun} but only team members can contribute to it"
-#: ./opencore/project/browser/create.pt:90
+#: ./opencore/project/browser/create.pt:95
 msgid "create_project_medium_policy"
 msgstr "create_project_medium_policy"
 #. Default: "Name"
-#: ./opencore/project/browser/create.pt:21
+#: ./opencore/project/browser/create.pt:26
 msgid "create_project_name"
 msgstr "create_project_name"
 #. Default: "Anyone can view this ${project_noun} and any ${portal_title} member can contribute to it"
-#: ./opencore/project/browser/create.pt:85
+#: ./opencore/project/browser/create.pt:90
 msgid "create_project_open_policy"
 msgstr "create_project_open_policy"
 #. Default: "Step 1: Basics"
-#: ./opencore/project/browser/create.pt:16
+#: ./opencore/project/browser/create.pt:21
 msgid "create_project_step_basics"
 msgstr "create_project_step_basics"
 #. Default: "Step 2: Security"
-#: ./opencore/project/browser/create.pt:77
+#: ./opencore/project/browser/create.pt:82
 msgid "create_project_step_security"
 msgstr "create_project_step_security"
 #. Default: "Decide who can see and contribute to this ${project_noun}.  You will create your team on the next page."
-#: ./opencore/project/browser/create.pt:78
+#: ./opencore/project/browser/create.pt:83
 msgid "create_project_step_security_desc"
 msgstr "create_project_step_security_desc"
 #. Default: "URL"
-#: ./opencore/project/browser/create.pt:35
+#: ./opencore/project/browser/create.pt:40
 msgid "create_project_url"
 msgstr "create_project_url"
 #. Default: "date"
@@ -1509,10 +1509,26 @@ msgstr "profile_website"
 #: ./opencore/browser/base.py:245
 msgid "project_area_verbose_title"
 msgstr "project_area_verbose_title"
+#. Default: "Start a ${project_noun} - ${portal_title}"
+#: ./opencore/project/browser/create.pt:4
+msgid "project_create_window_title"
+msgstr "project_create_window_title"
 #. Default: "\"${title}\" has been created. Create a team by searching for other members to invite to your ${project_noun}, then <a href=\"${proj_edit_url}\">edit your ${project_noun} home page</a>."
 #: ./opencore/project/browser/add.py:156
 msgid "project_created"
 msgstr "project_created"
+#. Default: "Announce your ${project_noun}."
+#: ./opencore/project/browser/tour.pt:18
+msgid "project_tour_announce"
+msgstr "project_tour_announce"
+#. Default: "Communicate"
+#: ./opencore/project/browser/tour.pt:17
+msgid "project_tour_communicate"
+msgstr "project_tour_communicate"
+#. Default: "Congratulations on starting your ${project_noun}."
+#: ./opencore/project/browser/tour.pt:11
+msgid "project_tour_header"
+msgstr "project_tour_header"
 #. Default: "projects"
 #: ./opencore/stats/active.pt:15
 msgid "projects"
@@ -1782,10 +1798,18 @@ msgstr "searchresults_last_modified_author"
 #: ./opencore/nui/main/home-resultlist.pt:46
 msgid "searchresults_last_modified_date"
 msgstr "searchresults_last_modified_date"
+#. Default: "last updated"
+#: ./opencore/nui/main/searchresults-resultlist.pt:14
+msgid "searchresults_last_updated"
+msgstr "searchresults_last_updated"
 #. Default: "member since ${membership_start_date}"
 #: ./opencore/nui/main/home-resultlist.pt:15
 msgid "searchresults_member_since"
 msgstr "searchresults_member_since"
+#. Default: "modified by"
+#: ./opencore/nui/main/searchresults-resultlist.pt:9
+msgid "searchresults_modified_by"
+msgstr "searchresults_modified_by"
 #. Default: "No results found."
 #: ./opencore/nui/main/searchresults.pt:65
 msgid "searchresults_no_results"

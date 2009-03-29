@@ -1,16 +1,17 @@
-<tal:foo define="item options/item">
+<tal:foo define="item options/item"
+	 i18n:domain="opencore">
   <h3>
     <img tal:attributes="src item/getIcon" />
     <a tal:attributes="href item/getURL" tal:content="item/Title" />
   </h3>
   <span class="oc-discreetText">
     <tal:has_updated_author define="userid item/lastModifiedAuthor" condition="userid">
-      modified by
+      <tal:i18n i18n:translate="searchresults_modified_by">modified by</tal:i18n>
       <a tal:attributes="href string:${context/portal_url}/people/${userid}/profile" 
 	 tal:define="mem_title nocall:context/@@oc-utils/member_title"
 	 tal:content="python:mem_title(userid)" />,
     </tal:has_updated_author>
-    last updated		      
+    <tal:i18n i18n:translate="searchresults_last_updated">last updated</tal:i18n>
     <span tal:replace="python: view.pretty_date(item.ModificationDate)" />
   </span>
 </tal:foo>
