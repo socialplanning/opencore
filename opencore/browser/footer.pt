@@ -9,8 +9,8 @@
   </ul>
 
   <div i18n:translate="footer_stats_summary" id="oc-footer-about" class="oc-smallText"
-       define="people_url string:${here/portal_url}/people;
-	       projects_url string:${here/portal_url}/projects">
+       tal:define="people_url string:${here/portal_url}/people;
+	           projects_url string:${here/portal_url}/projects">
     <tal:comment replace="nothing">
       <!-- a hack to get these values into the i18n mapping -->
       <tal:dummy i18n:name="people_url" replace="people_url" />
