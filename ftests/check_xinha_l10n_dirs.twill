@@ -1,0 +1,6 @@
+
+go ${base_url}/++resource++xinha/lang/fr.js
+code 200
+
+go ${base_url}/++resource++xinha/modules/FullScreen/lang/fr.js
+code 200

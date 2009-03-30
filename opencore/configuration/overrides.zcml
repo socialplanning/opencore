@@ -7,5 +7,6 @@
       zcml:condition="installed opencore.geotagging" />
   <include package="opencore.nui.wiki" file="overrides.zcml" />
   <include package="opencore.configuration.exportimport" file="overrides.zcml" />
+  <include package="opencore.xinha" file="overrides.zcml" />
 
 </configure>

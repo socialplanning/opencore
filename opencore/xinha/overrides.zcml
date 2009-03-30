@@ -1,0 +1,20 @@
+<configure xmlns="http://namespaces.zope.org/zope"
+	   xmlns:meta="http://namespaces.zope.org/meta"
+	   xmlns:opencore="http://namespaces.openplans.org/opencore"
+	   >
+
+  <meta:directives namespace="http://namespaces.openplans.org/opencore">
+     <meta:directive
+	name="resourceDirectory"
+	schema="opencore.xinha.monkey.IResourceDirectoryDirective"
+	handler="opencore.xinha.monkey.resourceDirectory"
+	/>
+  </meta:directives>
+
+  <opencore:resourceDirectory
+    name="xinha"
+    package="opencore.js"
+    directory="thirdparty/xinha"
+    />
+
+</configure>
