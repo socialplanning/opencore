@@ -1,3 +1,4 @@
+# see http://trac.openplans.org/openplans/ticket/2792#comment:4
 
 go ${base_url}/++resource++xinha/lang/fr.js
 code 200
