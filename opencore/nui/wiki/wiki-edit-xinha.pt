@@ -31,21 +31,16 @@
     </metal:link-slot>
     <metal:script-slot metal:fill-slot="script">
 <!-- xinha code below  -->
-<script type="text/javascript">
+
+<script type="text/javascript" tal:content="string:
 /************************************************************************
- * Please refer to http://xinha.python-hosting.com/wiki/NewbieGuide
- ************************************************************************
- * You must set _editor_url to the URL (including trailing slash) where
- * where xinha is installed, it's highly recommended to use an absolute URL
- *  eg: _editor_url = "/path/to/xinha/";
- * You may try a relative URL if you wish]
- *  eg: _editor_url = "../";  
- * in this example we do a little regular expression to find the absolute path.
+ * Please refer to http://trac.xinha.org/wiki/NewbieGuide
  ************************************************************************/
-var _editor_url = '/++resource++xinha/'; //document.location.href.replace(/examples\/simple_example\.html.*/, '')
-// And the language we need to use in the editor.
-var _editor_lang = "en";
-</script>
+
+var _editor_url = '/++resource++xinha/';
+var _editor_lang = '${view/xinha_lang_code}';
+"
+/>
 <!-- Load up the actual editor core -->
 <script type="text/javascript" src="/++resource++xinha/XinhaCore.js"></script>
 <script type="text/javascript" src="/++resource++xinha/xinhaconfig.js"></script>
@@ -54,9 +49,7 @@ var _editor_lang = "en";
   </head>
   <body>
     <div metal:fill-slot="content">
-
       <div id="oc-content-main" class="oc-content-main-fullWidth">
-
         <div class="oc-wiki">
 
           <form name="edit_form"

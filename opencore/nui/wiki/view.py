@@ -99,11 +99,93 @@ def tounicode(doc, pretty_print=False, include_meta_content_type=False, encoding
         html = __replace_meta_content_type('', html)
     return html
 
+
+from opencore.xinha.i18n import available_languages as available_xinha_languages
 class WikiEdit(WikiBase, OctopoLite):
 
     template = ZopeTwoPageTemplateFile("wiki-edit-xinha.pt")
 
     attachment_snippet = ZopeTwoPageTemplateFile('attachment.pt')
+
+    def xinha_lang_code(self):
+        """
+        Returns the best available language code for clientside
+        localization of the Xinha UI, based on the available
+        localizations and the user's language preferences
+        """
+
+        # opencore.xinha.i18n gives us the available languages
+        # (like a zope.i18n.interfaces.ILanguageAvailability)
+        #
+        # and to figure out the user's language preferences, we might
+        # use a zope.i18n.interfaces.IUserPreferredLanguages.
+        #
+        # this function itself serves the same purpose as an INegotiator;
+        # if we used the interface it would look like
+        #  getUtility(INegotiator).getLanguage(opencore.xinha.i18n.available_languages(), REQUEST)
+        #
+        # but the registered request:->IUserPreferredLanguages implementation
+        # (which ends up, via Products.Five.i18n:PTSLanguages, being
+        # Products.PlacelessTranslationService.Negotiator:getLangPrefs)
+        # is somewhat convoluted and involves its own ad hoc registry of
+        # IUserPreferredLanguages utilities, which it consults according
+        # to its (seemingly not publically mutable) precedence order (as
+        # determined at registration time)
+        #
+        #  * Products.PlacelessTranslationService.Negotiator:BrowserAccept
+        #    component, which properly interprets HTTP_ACCEPT_LANGUAGE, is
+        #    registered as the fallback implementation, and as of r23476 there
+        #    are these higher-precedence components:
+        #
+        #  * Products.PlacelessTranslationService.Negotiator:CookieAccept
+        #    (nonstandard, cookie based) -- I think that in practice we
+        #    are not using this at all any more, though the PTS product
+        #    is apparently providing us with PO->MO autocompilation on
+        #    zope startup:
+        #    http://www.openplans.org/projects/opencore/lists/opencore-dev/archive/2008/10/1223483422707
+        #
+        #  * Products.PloneLanguageTool.LanguageTool:PrefsForPTS (no idea
+        #    what this does or how it works from glancing at the code, but
+        #    this is probably documented somewhere)
+        #
+        # The latter wins precedence and calculates the user's preferred
+        # language list, but it doesn't seem to respond to the only thing
+        # I understand, HTTP's Accept-language.
+        #
+        # That's just in an OpenCore installation; in customized installations,
+        # other translation facilities may be present, and for all I know they
+        # might not even use the same core zope.i18n system. IndyCore and
+        # OpenFSM already have some "language preference" functionality, so
+        # we might want to figure out how that works, to be compatible; start at
+        #  1) http://svn.openesf.net/openfsm/trunk/openfsm/browser/topnav/selector.py
+        #  2) https://svn.plone.org/svn/plone/plone.app.i18n/trunk/plone/app/i18n/locales/browser/selector.py
+
+        # ...all of which is to say that we should figure out what exactly we
+        # want to do about user language preferences, because OpenCore's policy
+        # is currently very unclear, and no specific behavior has been defined.
+        # For the sake of caution/expedience, I think we want to assume that
+        # HTTP Accept-language knows best right now when it comes to Xinha,
+        # so we'll grab a BrowserAccept doodad directly. But ultimately we ought
+        # to either firmly support only one behavior and use it directly, or
+        # commit to a common interface like IUserPreferredLanguages or Accept-language
+        # and use *that*.
+        from Products.PlacelessTranslationService.Negotiator import BrowserAccept
+        lang_prefs = BrowserAccept(self.request).getAccepted(self.request, 'language')
+
+        # Since we aren't going through a negotiator, we'll just rewrite
+        # PTS.Negotiator:Negotiator._negotiate (but simplified, since that
+        # implementation generalizes language and content-type negotiations)
+        # using our lang_prefs data rather than the getLangPrefs call.
+        from Products.PlacelessTranslationService.Negotiator import lang_accepted
+        available_langs = available_xinha_languages()
+        for lang in lang_prefs:
+            if lang in available_langs:
+                return lang
+            for available_lang in available_langs:
+                # if the client requested pt-br, pt is better than nothing
+                if lang_accepted(available_lang, lang):
+                    return available_lang
+        return "en" # xinha seems to treat en as the default language
 
     def _clean_html(self, html):
         """ delegate cleaning of html to lxml .. sort of """
