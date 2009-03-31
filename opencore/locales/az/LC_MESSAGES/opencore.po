@@ -300,7 +300,7 @@ msgstr "archive_forum_thread_subject"
 msgid "archive_forum_view_by"
 msgstr "archive_forum_view_by"
 #. Default: "There are currently no posts in this archive."
-#: ./opencore/listen/browser/archive_forum_view.pt:51
+#: ./opencore/listen/browser/archive_date_messages.pt:30
 msgid "archive_no_posts"
 msgstr "archive_no_posts"
 #. Default: "View by <a href=\"../forum_view\">conversation</a> or <strong>date</strong> (<strong>threaded</strong> or <a id=\"switch_view\" href=\"by_date\">flat</a>)"
@@ -731,7 +731,7 @@ msgstr "forgot_snippet_title"
 msgid "forgot_snippet_username_label"
 msgstr "forgot_snippet_username_label"
 #. Default: "(optional)"
-#: ./opencore/account/join.pt:60
+#: ./opencore/account/invite-join.pt:125
 msgid "form_optional_value"
 msgstr "form_optional_value"
 #. Default: "Flat"
@@ -883,39 +883,39 @@ msgstr "invite-w-m_remind_desc"
 msgid "invite-w-m_remind_title"
 msgstr "invite-w-m_remind_title"
 #. Default: "Already a member?"
-#: ./opencore/account/join.pt:187
+#: ./opencore/account/invite-join.pt:228
 msgid "join_already_member_heading"
 msgstr "join_already_member_heading"
 #. Default: "Join"
-#: ./opencore/account/join.pt:142
+#: ./opencore/account/invite-join.pt:204
 msgid "join_button"
 msgstr "join_button"
 #. Default: "Check your email to confirm registration"
-#: ./opencore/account/join.pt:20
+#: ./opencore/account/invite-join.pt:87
 msgid "join_check_email"
 msgstr "join_check_email"
 #. Default: "Confirm password"
-#: ./opencore/account/join.pt:119
+#: ./opencore/account/invite-join.pt:183
 msgid "join_conf_password_label"
 msgstr "join_conf_password_label"
-#. Default: "We will not share your email with anyone. Ever."
-#: ./opencore/account/join.pt:159
+#. Default: "Registration is free and your email will not be shared with anyone, however, you will need to confirm your email address in order to avoid spam bots abusing this system."
+#: ./opencore/account/invite-join.pt:80
 msgid "join_description"
 msgstr "join_description"
 #. Default: "Email"
-#: ./opencore/account/join.pt:75
+#: ./opencore/account/invite-join.pt:138
 msgid "join_email_label"
 msgstr "join_email_label"
 #. Default: "Full Name"
-#: ./opencore/account/join.pt:53
+#: ./opencore/account/invite-join.pt:118
 msgid "join_full_name_label"
 msgstr "join_full_name_label"
 #. Default: "Becoming a member means…"
 #: ./opencore/account/join.pt:166
 msgid "join_get_started"
 msgstr "join_get_started"
-#. Default: "<li> You can join and participate in existing ${project_noun}s </li> <li> You can create your own ${project_noun} and invite others to join </li> <li>You can share information about yourself</li>"
-#: ./opencore/account/join.pt:179
+#. Default: "<li>You can join and participate in existing ${project_noun}s </li> <li> You can create your own ${project_noun} and invite people to participate </li> <li>You can share information about yourself</li>"
+#: ./opencore/account/invite-join.pt:251
 msgid "join_get_started_list"
 msgstr "join_get_started_list"
 #. Default: "Create an account on ${page_title}"
@@ -923,15 +923,15 @@ msgstr "join_get_started_list"
 msgid "join_page_title"
 msgstr "join_page_title"
 #. Default: "Password"
-#: ./opencore/account/join.pt:97
+#: ./opencore/account/invite-join.pt:163
 msgid "join_password_label"
 msgstr "join_password_label"
 #. Default: "Sign in"
-#: ./opencore/account/join.pt:188
+#: ./opencore/account/invite-join.pt:229
 msgid "join_sign_in"
 msgstr "join_sign_in"
 #. Default: "Username"
-#: ./opencore/account/join.pt:31
+#: ./opencore/account/invite-join.pt:98
 msgid "join_username_label"
 msgstr "join_username_label"
 #. Default: "Create an account"
@@ -1799,7 +1799,7 @@ msgstr "psm_signed_out"
 #: ./opencore/account/login.py:68
 msgid "psm_signin_welcome"
 msgstr "psm_signin_welcome"
-#. Default: "Thanks for joining ${portal_title}, ${mem_id}!\nA confirmation email has been sent to you with instructions on activating your account. After you have activated your account, your request to join the ${project_noun} will be sent to the ${project_noun} administrators."
+#. Default: "Thanks for joining ${portal_title}, ${mem_id}!<br/>\nA confirmation email has been sent to you with instructions on activating your account."
 #: ./opencore/account/join.py:61
 msgid "psm_thankyou_for_joining"
 msgstr "psm_thankyou_for_joining"

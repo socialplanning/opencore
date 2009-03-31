@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: opencore\n"
-"POT-Creation-Date: 2009-03-29 21:01+0000\n"
+"POT-Creation-Date: 2009-03-31 18:29+0000\n"
 "PO-Revision-Date: 2008-06-02 22:20+0200\n"
 "Last-Translator: Pierre George <pierregrg@gmail.com>\n"
 "Language-Team: OpenFSM Team <openfsm@lists.openfsm.net>\n"
@@ -380,7 +380,7 @@ msgid "archive_forum_view_by"
 msgstr "Ver por <strong>conversacion</strong> o <a href=\"date_view\">fecha</a>"
 
 #. Default: "There are currently no posts in this archive."
-#: ./opencore/listen/browser/archive_forum_view.pt:51
+#: ./opencore/listen/browser/archive_date_messages.pt:30
 msgid "archive_no_posts"
 msgstr "De momento, no hay elementos en este archivo"
 
@@ -852,7 +852,7 @@ msgid "forgot_snippet_username_label"
 msgstr "Nombre de usuario o direccion de correo electronico"
 
 #. Default: "(optional)"
-#: ./opencore/account/join.pt:60
+#: ./opencore/account/invite-join.pt:125
 msgid "form_optional_value"
 msgstr ""
 
@@ -1050,39 +1050,39 @@ msgid "invite-w-m_remind_title"
 msgstr "Hacer recordar a los  participantes"
 
 #. Default: "Already a member?"
-#: ./opencore/account/join.pt:187
+#: ./opencore/account/invite-join.pt:228
 #, fuzzy
 msgid "join_already_member_heading"
 msgstr "Ya eres miembro  del equipo?"
 
 #. Default: "Join"
-#: ./opencore/account/join.pt:142
+#: ./opencore/account/invite-join.pt:204
 msgid "join_button"
 msgstr ""
 
 #. Default: "Check your email to confirm registration"
-#: ./opencore/account/join.pt:20
+#: ./opencore/account/invite-join.pt:87
 msgid "join_check_email"
 msgstr "Verifique sur direccion electronica para confirmar su inscripcion"
 
 #. Default: "Confirm password"
-#: ./opencore/account/join.pt:119
+#: ./opencore/account/invite-join.pt:183
 msgid "join_conf_password_label"
 msgstr "Confirmar contraseña"
 
-#. Default: "We will not share your email with anyone. Ever."
-#: ./opencore/account/join.pt:159
+#. Default: "Registration is free and your email will not be shared with anyone, however, you will need to confirm your email address in order to avoid spam bots abusing this system."
+#: ./opencore/account/invite-join.pt:80
 #, fuzzy
 msgid "join_description"
 msgstr "La inscripcion es libre y su direccion electronica no sera dada a nadie, sin embargo, Ud debera confirmar su  direccion electronica, esto para evitar que robotes de spam engañen a este sistema"
 
 #. Default: "Email"
-#: ./opencore/account/join.pt:75
+#: ./opencore/account/invite-join.pt:138
 msgid "join_email_label"
 msgstr "Correo electronico"
 
 #. Default: "Full Name"
-#: ./opencore/account/join.pt:53
+#: ./opencore/account/invite-join.pt:118
 msgid "join_full_name_label"
 msgstr "Nombre completo"
 
@@ -1092,8 +1092,8 @@ msgstr "Nombre completo"
 msgid "join_get_started"
 msgstr "Volverse un miembro significa…"
 
-#. Default: "<li> You can join and participate in existing ${project_noun}s </li> <li> You can create your own ${project_noun} and invite others to join </li> <li>You can share information about yourself</li>"
-#: ./opencore/account/join.pt:179
+#. Default: "<li>You can join and participate in existing ${project_noun}s </li> <li> You can create your own ${project_noun} and invite people to participate </li> <li>You can share information about yourself</li>"
+#: ./opencore/account/invite-join.pt:251
 #, fuzzy
 msgid "join_get_started_list"
 msgstr "<li>Ud puede incluirse y participar en el  ${project_noun}s existente</li> <li>Ud puede crear su propio ${project_noun} e invitar otros a que se incluyan </li> <li>Ud puede compartir informacion sobre Ud</li>"
@@ -1104,17 +1104,17 @@ msgid "join_page_title"
 msgstr " Registrarse en ${page_title}"
 
 #. Default: "Password"
-#: ./opencore/account/join.pt:97
+#: ./opencore/account/invite-join.pt:163
 msgid "join_password_label"
 msgstr "Contraseña"
 
 #. Default: "Sign in"
-#: ./opencore/account/join.pt:188
+#: ./opencore/account/invite-join.pt:229
 msgid "join_sign_in"
 msgstr "Entrar"
 
 #. Default: "Username"
-#: ./opencore/account/join.pt:31
+#: ./opencore/account/invite-join.pt:98
 msgid "join_username_label"
 msgstr "Nombre de usuario"
 
@@ -2214,7 +2214,7 @@ msgstr "Ud salio del sitio"
 msgid "psm_signin_welcome"
 msgstr "Bienvenida! Ud entro en el sitio"
 
-#. Default: "Thanks for joining ${portal_title}, ${mem_id}!\nA confirmation email has been sent to you with instructions on activating your account. After you have activated your account, your request to join the ${project_noun} will be sent to the ${project_noun} administrators."
+#. Default: "Thanks for joining ${portal_title}, ${mem_id}!<br/>\nA confirmation email has been sent to you with instructions on activating your account."
 #: ./opencore/account/join.py:61
 msgid "psm_thankyou_for_joining"
 msgstr ""
