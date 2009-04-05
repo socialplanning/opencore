@@ -85,7 +85,7 @@ class LoginView(AccountView):
                 # we're not a remember-based user
                 pass
 
-            destination = self.destination
+            destination = self.destination()
             return self.redirect(destination)
 
         self.addPortalStatusMessage(_(u'psm_check_username_password', u'Please check your username and password. If you still have trouble, you can <a href="forgot">retrieve your sign in information</a>.'))
@@ -98,7 +98,6 @@ class LoginView(AccountView):
     def came_from(self):
         return self.request.get('came_from', '')
 
-    @property
     def destination(self):
         """where you go after you're logged in"""
         if self.came_from: # (if insufficient privileges)
