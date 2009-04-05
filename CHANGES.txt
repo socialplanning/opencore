@@ -25,6 +25,14 @@ Features Added:
 
  * More templates marked up for translation. (egj)
 
+ * Xinha UI is now localizable (#2730) Currently it respects the HTTP
+   Accept-Language header, but this can be put behind an interface
+   and/or changed. (egj)
+
+ * A portal status message now notifies users when their wiki content
+   is stripped out because of the allowed_hosts whitelist, a frequent
+   point of confusion for end users. (#2793)
+
 Bugs Fixed:
 
  * The topnav within a member space was always displaying the member's original
@@ -41,7 +49,7 @@ Refactoring:
  * Heavily refactored `BaseView.area` and `BaseView.window_title` functions 
    in `opencore.browser.base` (#588#comment:7 and following) (egj)
 
- * Cut down on number of catalog queries in forgot view (rmarianski)
+ * Optimization: cut down on number of catalog queries in forgot view (rmarianski)
 
 
 0.16.0 (2009-02-27)

@@ -1803,6 +1803,10 @@ msgstr "psm_signin_welcome"
 #: ./opencore/account/join.py:61
 msgid "psm_thankyou_for_joining"
 msgstr "psm_thankyou_for_joining"
+#. Default: "Your markup '${stripped_tag}' was removed because ${unallowed_host} is not an allowed host for embedded content on this site. "
+#: ./opencore/nui/wiki/view.py:213
+msgid "psm_wiki_content_stripped"
+msgstr "psm_wiki_content_stripped"
 #: ./opencore/project/browser/manageteam.py:412
 msgid "remind_invite_none_selected"
 msgstr "remind_invite_none_selected"

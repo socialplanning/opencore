@@ -1,6 +1,7 @@
 from Acquisition import aq_inner
 from opencore.browser.base import BaseView
 from opencore.browser.formhandler import OctopoLite, action
+from opencore.i18n import _
 from opencore.interfaces import IProject
 from opencore.nui.wiki.utils import unescape
 from opencore.utility.interfaces import IProvideSiteConfig
@@ -24,7 +25,9 @@ __replace_meta_content_type = re.compile(
     r'<meta http-equiv="Content-Type".*?>').sub  # no longer necessary after lxml.html trunk gets release
 
 
-from lxml.html.clean import Cleaner
+#from lxml.html.clean import Cleaner
+from opencore.nui.wiki.lxmlhtmlmonkey import MonkeyCleaner # see #2793
+
 from lxml.html.clean import _find_external_links
 from lxml.html import tostring
 from opencore.interfaces.catalog import ILastModifiedAuthorId
@@ -194,8 +197,8 @@ class WikiEdit(WikiBase, OctopoLite):
         whitelist = config.get('embed_whitelist', default='').split(',')
         whitelist = [ x.strip() for x in whitelist if x.strip() ]
 
-        cleaner = Cleaner(host_whitelist=whitelist, safe_attrs_only=False)
-        
+        cleaner = MonkeyCleaner(host_whitelist=whitelist, safe_attrs_only=False)
+
         # stolen from lxml.html.clean
         if isinstance(html, basestring):
             return_string = True
@@ -203,7 +206,17 @@ class WikiEdit(WikiBase, OctopoLite):
         else:
             return_string = False
             doc = copy.deepcopy(html)
+
+        # see #2793
         cleaner(doc)
+        for el, url in cleaner.tags_removed:
+            self.add_status_message(_("psm_wiki_content_stripped",
+                                      u"Your markup '${stripped_tag}' was removed "
+                                      "because ${unallowed_host} is not an allowed host "
+                                      "for embedded content on this site. ",
+                                      mapping={u'stripped_tag':el.tag.upper(),
+                                               u'unallowed_host':url}))
+
         if return_string:
             return tounicode(doc)
         else:

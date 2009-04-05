@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: opencore\n"
-"POT-Creation-Date: 2009-03-31 18:29+0000\n"
+"POT-Creation-Date: 2009-04-05 22:51+0000\n"
 "PO-Revision-Date: 2008-06-02 22:20+0200\n"
 "Last-Translator: Pierre George <pierregrg@gmail.com>\n"
 "Language-Team: OpenFSM Team <openfsm@lists.openfsm.net>\n"
@@ -2217,6 +2217,11 @@ msgstr "Bienvenida! Ud entro en el sitio"
 #. Default: "Thanks for joining ${portal_title}, ${mem_id}!<br/>\nA confirmation email has been sent to you with instructions on activating your account."
 #: ./opencore/account/join.py:61
 msgid "psm_thankyou_for_joining"
+msgstr ""
+
+#. Default: "Your markup '${stripped_tag}' was removed because ${unallowed_host} is not an allowed host for embedded content on this site. "
+#: ./opencore/nui/wiki/view.py:213
+msgid "psm_wiki_content_stripped"
 msgstr ""
 
 #: ./opencore/project/browser/manageteam.py:412
