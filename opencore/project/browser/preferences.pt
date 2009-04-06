@@ -6,15 +6,18 @@
 </tal:handle-request>
 <tal:vars 
    define="proj view/project_info">
-<html metal:use-macro="here/@@standard_macros/master">
+<html metal:use-macro="here/@@standard_macros/master"
+      i18n:domain="opencore">
   <head>
-    <title metal:fill-slot="title"
-           tal:content="string:Preferences - ${view/window_title}" />
+    <title metal:fill-slot="title">
+      <tal:i18n i18n:translate="project_prefs_window_title">Preferences</tal:i18n> - 
+      <tal:dummy replace="view/window_title" />
+    </title>
   </head>
   <body>
     <div metal:fill-slot="content">
       <div class="oc-headingBlock">
-        <h1><span tal:replace="view/project_noun/title">Project</span> preferences</h1>
+        <h1 i18n:translate="project_prefs_heading"><span i18n:name="project_noun" tal:replace="view/project_noun/title" /> preferences</h1>
       </div>
       <div id="oc-content-main" class="oc-content-main-fullWidth">
         <form 
@@ -25,12 +28,12 @@
            enctype="multipart/form-data">
           <input type="hidden" name="set_flets" value="1"/>
           <fieldset class="oc-boxy">
-            <legend class="oc-legend-heading oc-biggerText">Basics</legend>
+            <legend class="oc-legend-heading oc-biggerText" i18n:translate="project_prefs_section_basics">Basics</legend>
             <table class="oc-form">
               <tbody>
                 <tr class="oc-form-row">
                   <th class="oc-form-label" scope="row">
-                    <label for="project_title">Name</label>
+                    <label for="project_title" i18n:translate="project_prefs_project_name">Name</label>
                   </th>
                   <td class="oc-form-value">
                     <input type="text" id="project_title" name="project_title"
@@ -44,7 +47,7 @@
                 </tr>
                 <tr class="oc-form-row">
                   <th class="oc-form-label" scope="row">
-                    <label>URL</label>
+                    <label i18n:translate="project_prefs_project_url">URL</label>
                   </th>
                   <td class="oc-form-value">
                     <span tal:content="proj/url"/>
@@ -55,7 +58,7 @@
                 </tr>
                 <tr class="oc-form-row">
                   <th class="oc-form-label" scope="row">
-                    <label for="description">Description</label>
+                    <label for="description" i18n:translate="project_prefs_project_description">Description</label>
                   </th>
                   <td class="oc-form-value">
                     <textarea name="description" id="description" tal:content="request/description | proj/description" rows="3" cols="40" />
@@ -67,7 +70,7 @@
                 </tr>
                 <tr class="oc-form-row">
                   <th class="oc-form-label" scope="row">
-                    <label for="logo">Image or logo</label> 
+                    <label for="logo" i18n:translate="project_prefs_project_logo">Image or logo</label> 
                   </th>
                   <td class="oc-form-value">
                     <div class="oc-project-editimage">
@@ -84,7 +87,9 @@
                               <a href="#"
                                  tal:define="a_classes_closed python:'oc-js-expander_open oc-expanderLink';
                                              a_classes_opened python:a_classes_closed + ' oc-expanderLink-open'"
-                                 tal:attributes="class python:expand and a_classes_opened or a_classes_closed">Change image</a>
+                                 tal:attributes="class python:expand and a_classes_opened or a_classes_closed" i18n:translate="project_prefs_project_logo_change">
+				Change image
+			      </a>
                             </legend>
                             <div class="oc-js-expander-content oc-expander-content" style="border: 1px solid orange; background: #fffff9;">
                               <input type="file" 
@@ -94,12 +99,12 @@
                                      tal:attributes="class python:focus and input_class or default_class"
                                      name="logo" size="14" /><br />
                               <input type="submit" name="task|oc-project-logo|uploadAndUpdate"
-                                     class="oc-js-actionButton" value="Update" />
+                                     class="oc-js-actionButton" value="Update" i18n:attributes="value Update"/>
                               <tal:haslogo condition="context/getLogo">
                                 <input type="submit" name="task|oc-project-logo|remove"
-                                       class="oc-js-actionButton" value="Remove" />
+                                       class="oc-js-actionButton" value="Remove" i18n:attributes="value Remove" />
                               </tal:haslogo>
-                              <a href="#" class="oc-js-expander_close">Cancel</a>
+                              <a href="#" class="oc-js-expander_close" i18n:translate="Cancel">Cancel</a>
                             </div>
                           </fieldset>
                         </div>
@@ -115,33 +120,39 @@
                project prefs viewlet stuff goes here!
 	  </tal:stuff>
           <fieldset class="oc-boxy">
-            <legend class="oc-legend-heading oc-biggerText">Security</legend>
+            <legend class="oc-legend-heading oc-biggerText" i18n:translate="project_prefs_section_security">Security</legend>
             <fieldset>
               <ul class="oc-form-radiolist oc-form-fieldBlock">
                 <li>
                   <input type="radio" class="oc-input-typeRadio" id="workflow_policy_open" name="workflow_policy"
                          value="open_policy" tal:attributes="checked python:proj['security']=='open_policy' and 'checked' or ''"/>
-                  <label for="workflow_policy_open"
-                         tal:content="string:Anyone can view this ${view/project_noun} and any ${view/portal_title} member can contribute to it" />
+                  <label for="workflow_policy_open" i18n:translate="project_prefs_security_open">
+                    Anyone can view this <span tal:replace="view/project_noun" i18n:name="project_noun" />
+		    and any <span tal:replace="view/portal_title" i18n:name="portal_title" /> member can contribute to it
+		  </label>
                 </li>
                 <li>
                   <input type="radio" class="oc-input-typeRadio" id="workflow_policy_medium" name="workflow_policy"
                          value="medium_policy" tal:attributes="checked python:proj['security']=='medium_policy' and 'checked' or ''"/>
-                  <label for="workflow_policy_medium">Anyone can view this <span tal:replace="view/project_noun">project</span> but only team members can contribute to it</label>
+                  <label for="workflow_policy_medium" i18n:translate="project_prefs_security_medium">
+		    Anyone can view this <span tal:replace="view/project_noun" i18n:name="project_noun" /> but only team members can contribute to it
+		  </label>
                 </li>
                 <li>
                   <input type="radio" class="oc-input-typeRadio" id="workflow_policy_closed" name="workflow_policy"
                          value="closed_policy" tal:attributes="checked python:proj['security']=='closed_policy' and 'checked' or ''"/>
-                  <label for="workflow_policy_closed">Only team members can view, contribute, or search for this <span tal:replace="view/project_noun">project</span></label>
+                  <label for="workflow_policy_closed" i18n:translate="project_prefs_security_closed">
+		    Only team members can view, contribute, or search for this <span tal:replace="view/project_noun" i18n:name="project_noun" />
+		  </label>
                 </li>
               </ul>
             </fieldset>
           </fieldset>
 
           <fieldset class="oc-boxy">
-            <legend class="oc-legend-heading oc-biggerText">Tools</legend>
+            <legend class="oc-legend-heading oc-biggerText" i18n:translate="project_prefs_section_tools">Tools</legend>
             <fieldset>
-              <legend><strong>Which additional tools would you like to install?</strong></legend>
+              <legend><strong i18n:translate="project_prefs_section_tools_subheading">Which additional tools would you like to install?</strong></legend>
               <ul class="oc-form-radiolist oc-form-fieldBlock"
                   tal:define="warning string:Warning: Removing this feature may result in data loss.">
                 <li class="oc-js-featurelet-undelete-warner"
@@ -165,7 +176,9 @@
             </fieldset>
             
             <fieldset>
-              <legend  class="oc-legend-label">Select the home page for your <span tal:replace="view/project_noun">project</span>:</legend>
+              <legend class="oc-legend-label" i18n:translate="project_prefs_section_homepage">
+		Select the home page for your <span tal:replace="view/project_noun" i18n:name="project_noun" />:
+	      </legend>
 
               <ul class="oc-form-radiolist oc-form-fieldBlock">
                 <li tal:repeat="flet view/homepages">
@@ -197,21 +210,23 @@
           </fieldset>
                 <!-- Delete Project -->
           <fieldset class="oc-boxy">
-            <legend class="oc-legend-heading oc-biggerText">Delete <span tal:replace="view/project_noun/title">Project</span></legend>
-            <a tal:attributes="href string:${context/absolute_url}/delete">
-              Remove this <span tal:replace="view/project_noun">project</span> from <span tal:replace="view/portal_title" />?
+            <legend class="oc-legend-heading oc-biggerText" i18n:translate="project_prefs_section_delete">
+	      Delete <span i18n:name="project_noun" tal:replace="view/project_noun/title" />
+	    </legend>
+            <a tal:attributes="href string:${context/absolute_url}/delete" i18n:translate="project_prefs_delete_prompt">
+              Remove this <span tal:replace="view/project_noun" i18n:name="project_noun" /> from <span tal:replace="view/portal_title" i18n:name="portal_title" />?
             </a>
-          </fieldset>    
+          </fieldset>
           <ul class="oc-actions">
             <li>
               <button type="submit" 
                       name="update:boolean" 
                       value="True" 
-                      class="oc-button oc-chooseThis">
+                      class="oc-button oc-chooseThis" i18n:translate="Update">
                 Update
               </button>
             </li>
-            <li>or <a href="">Cancel</a></li>
+            <li i18n:translate="Or">or <a href="" i18n:translate="Cancel">Cancel</a></li>
           </ul>
         </form>
       </div><!-- end .oc-content-main -->

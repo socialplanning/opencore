@@ -26,6 +26,10 @@ msgstr "Account"
 #: ./opencore/account/invite-join.pt:276
 msgid "Blogs"
 msgstr "Blogs"
+#. Default: "Cancel"
+#: ./opencore/project/browser/preferences.pt:107
+msgid "Cancel"
+msgstr "Cancel"
 #. Default: "Contact"
 #: ./opencore/listen/browser/manage_membership.pt:49
 msgid "Contact"
@@ -57,6 +61,10 @@ msgstr "News"
 #: ./opencore/listen/browser/membership.pt:33
 msgid "No"
 msgstr "No"
+#. Default: "or <a href=\"\">x</a>"
+#: ./opencore/project/browser/preferences.pt:229
+msgid "Or"
+msgstr "Or"
 #. Default: "Pages"
 #: ./opencore/account/invite-join.pt:268
 msgid "Pages"
@@ -73,6 +81,10 @@ msgid "Project Wiki"
 msgstr "Project Wiki"
 msgid "Projects"
 msgstr "Projects"
+#. Default: "Remove"
+#: ./opencore/project/browser/preferences.pt:104
+msgid "Remove"
+msgstr "Remove"
 #: ./opencore/browser/topnav/topnav.py:61
 msgid "Sign in"
 msgstr "Sign in"
@@ -88,7 +100,7 @@ msgstr "Summary"
 msgid "Team"
 msgstr "Team"
 #. Default: "Update"
-#: ./opencore/member/browser/profile-edit.pt:101
+#: ./opencore/project/browser/preferences.pt:101
 msgid "Update"
 msgstr "Update"
 #. Default: "Wiki"
@@ -300,7 +312,7 @@ msgstr "archive_forum_thread_subject"
 msgid "archive_forum_view_by"
 msgstr "archive_forum_view_by"
 #. Default: "There are currently no posts in this archive."
-#: ./opencore/listen/browser/archive_date_messages.pt:30
+#: ./opencore/listen/browser/archive_forum_view.pt:51
 msgid "archive_no_posts"
 msgstr "archive_no_posts"
 #. Default: "View by <a href=\"../forum_view\">conversation</a> or <strong>date</strong> (<strong>threaded</strong> or <a id=\"switch_view\" href=\"by_date\">flat</a>)"
@@ -439,7 +451,7 @@ msgstr "demote_to_member"
 msgid "discussion_list_desc"
 msgstr "discussion_list_desc"
 #. Default: "You requested a password reset for your ${portal_title} account. If you did not request this information, please ignore this message.\n\nTo change your password, please visit the following URL: ${url}"
-#: ./opencore/account/login.py:285
+#: ./opencore/account/login.py:284
 msgid "email_forgot_password"
 msgstr "email_forgot_password""Forgot your ${portal_title} password?  No problem.\n"
 "\n"
@@ -449,7 +461,7 @@ msgstr "email_forgot_password""Forgot your ${portal_title} password?  No problem
 "The ${portal_title} Team"
 
 #. Default: "${portal_title} - Password reset"
-#: ./opencore/account/login.py:290
+#: ./opencore/account/login.py:289
 #, fuzzy
 msgid "email_forgot_password_subject"
 msgstr "email_forgot_password_subject"
@@ -731,7 +743,7 @@ msgstr "forgot_snippet_title"
 msgid "forgot_snippet_username_label"
 msgstr "forgot_snippet_username_label"
 #. Default: "(optional)"
-#: ./opencore/account/invite-join.pt:125
+#: ./opencore/account/join.pt:60
 msgid "form_optional_value"
 msgstr "form_optional_value"
 #. Default: "Flat"
@@ -883,39 +895,39 @@ msgstr "invite-w-m_remind_desc"
 msgid "invite-w-m_remind_title"
 msgstr "invite-w-m_remind_title"
 #. Default: "Already a member?"
-#: ./opencore/account/invite-join.pt:228
+#: ./opencore/account/join.pt:187
 msgid "join_already_member_heading"
 msgstr "join_already_member_heading"
 #. Default: "Join"
-#: ./opencore/account/invite-join.pt:204
+#: ./opencore/account/join.pt:142
 msgid "join_button"
 msgstr "join_button"
 #. Default: "Check your email to confirm registration"
-#: ./opencore/account/invite-join.pt:87
+#: ./opencore/account/join.pt:20
 msgid "join_check_email"
 msgstr "join_check_email"
 #. Default: "Confirm password"
-#: ./opencore/account/invite-join.pt:183
+#: ./opencore/account/join.pt:119
 msgid "join_conf_password_label"
 msgstr "join_conf_password_label"
-#. Default: "Registration is free and your email will not be shared with anyone, however, you will need to confirm your email address in order to avoid spam bots abusing this system."
-#: ./opencore/account/invite-join.pt:80
+#. Default: "We will not share your email with anyone. Ever."
+#: ./opencore/account/join.pt:159
 msgid "join_description"
 msgstr "join_description"
 #. Default: "Email"
-#: ./opencore/account/invite-join.pt:138
+#: ./opencore/account/join.pt:75
 msgid "join_email_label"
 msgstr "join_email_label"
 #. Default: "Full Name"
-#: ./opencore/account/invite-join.pt:118
+#: ./opencore/account/join.pt:53
 msgid "join_full_name_label"
 msgstr "join_full_name_label"
 #. Default: "Becoming a member means…"
 #: ./opencore/account/join.pt:166
 msgid "join_get_started"
 msgstr "join_get_started"
-#. Default: "<li>You can join and participate in existing ${project_noun}s </li> <li> You can create your own ${project_noun} and invite people to participate </li> <li>You can share information about yourself</li>"
-#: ./opencore/account/invite-join.pt:251
+#. Default: "<li> You can join and participate in existing ${project_noun}s </li> <li> You can create your own ${project_noun} and invite others to join </li> <li>You can share information about yourself</li>"
+#: ./opencore/account/join.pt:179
 msgid "join_get_started_list"
 msgstr "join_get_started_list"
 #. Default: "Create an account on ${page_title}"
@@ -923,15 +935,15 @@ msgstr "join_get_started_list"
 msgid "join_page_title"
 msgstr "join_page_title"
 #. Default: "Password"
-#: ./opencore/account/invite-join.pt:163
+#: ./opencore/account/join.pt:97
 msgid "join_password_label"
 msgstr "join_password_label"
 #. Default: "Sign in"
-#: ./opencore/account/invite-join.pt:229
+#: ./opencore/account/join.pt:188
 msgid "join_sign_in"
 msgstr "join_sign_in"
 #. Default: "Username"
-#: ./opencore/account/invite-join.pt:98
+#: ./opencore/account/join.pt:31
 msgid "join_username_label"
 msgstr "join_username_label"
 #. Default: "Create an account"
@@ -1541,6 +1553,10 @@ msgstr "profile_website"
 #: ./opencore/browser/base.py:245
 msgid "project_area_verbose_title"
 msgstr "project_area_verbose_title"
+#. Default: "${num_members} members"
+#: ./opencore/project/browser/badge.pt:21
+msgid "project_badge_num_members"
+msgstr "project_badge_num_members"
 #. Default: "Start a ${project_noun} - ${portal_title}"
 #: ./opencore/project/browser/create.pt:4
 msgid "project_create_window_title"
@@ -1549,18 +1565,190 @@ msgstr "project_create_window_title"
 #: ./opencore/project/browser/add.py:156
 msgid "project_created"
 msgstr "project_created"
+#. Default: "Remove this ${project_noun} from ${portal_title}?"
+#: ./opencore/project/browser/preferences.pt:217
+msgid "project_prefs_delete_prompt"
+msgstr "project_prefs_delete_prompt"
+#. Default: "${project_noun} preferences"
+#: ./opencore/project/browser/preferences.pt:20
+msgid "project_prefs_heading"
+msgstr "project_prefs_heading"
+#. Default: "Description"
+#: ./opencore/project/browser/preferences.pt:61
+msgid "project_prefs_project_description"
+msgstr "project_prefs_project_description"
+#. Default: "Image or logo"
+#: ./opencore/project/browser/preferences.pt:73
+msgid "project_prefs_project_logo"
+msgstr "project_prefs_project_logo"
+#. Default: "Change image"
+#: ./opencore/project/browser/preferences.pt:87
+msgid "project_prefs_project_logo_change"
+msgstr "project_prefs_project_logo_change"
+#. Default: "Name"
+#: ./opencore/project/browser/preferences.pt:36
+msgid "project_prefs_project_name"
+msgstr "project_prefs_project_name"
+#. Default: "URL"
+#: ./opencore/project/browser/preferences.pt:50
+msgid "project_prefs_project_url"
+msgstr "project_prefs_project_url"
+#. Default: "Basics"
+#: ./opencore/project/browser/preferences.pt:31
+msgid "project_prefs_section_basics"
+msgstr "project_prefs_section_basics"
+#. Default: "Delete ${project_noun}"
+#: ./opencore/project/browser/preferences.pt:214
+msgid "project_prefs_section_delete"
+msgstr "project_prefs_section_delete"
+#. Default: "Select the home page for your ${project_noun}:"
+#: ./opencore/project/browser/preferences.pt:180
+msgid "project_prefs_section_homepage"
+msgstr "project_prefs_section_homepage"
+#. Default: "Security"
+#: ./opencore/project/browser/preferences.pt:123
+msgid "project_prefs_section_security"
+msgstr "project_prefs_section_security"
+#. Default: "Tools"
+#: ./opencore/project/browser/preferences.pt:153
+msgid "project_prefs_section_tools"
+msgstr "project_prefs_section_tools"
+#. Default: "Which additional tools would you like to install?"
+#: ./opencore/project/browser/preferences.pt:155
+msgid "project_prefs_section_tools_subheading"
+msgstr "project_prefs_section_tools_subheading"
+#. Default: "Only team members can view, contribute, or search for this ${project_noun}"
+#: ./opencore/project/browser/preferences.pt:145
+msgid "project_prefs_security_closed"
+msgstr "project_prefs_security_closed"
+#. Default: "Anyone can view this ${project_noun} but only team members can contribute to it"
+#: ./opencore/project/browser/preferences.pt:138
+msgid "project_prefs_security_medium"
+msgstr "project_prefs_security_medium"
+#. Default: "Anyone can view this ${project_noun} and any ${portal_title} member can contribute to it"
+#: ./opencore/project/browser/preferences.pt:131
+msgid "project_prefs_security_open"
+msgstr "project_prefs_security_open"
+#. Default: "Preferences"
+#: ./opencore/project/browser/preferences.pt:13
+msgid "project_prefs_window_title"
+msgstr "project_prefs_window_title"
 #. Default: "Announce your ${project_noun}."
-#: ./opencore/project/browser/tour.pt:18
+#: ./opencore/project/browser/tour.pt:20
 msgid "project_tour_announce"
 msgstr "project_tour_announce"
+#. Default: "Blog"
+#: ./opencore/project/browser/tour.pt:39
+msgid "project_tour_blog"
+msgstr "project_tour_blog"
+#. Default: "Speak out"
+#: ./opencore/project/browser/tour.pt:44
+msgid "project_tour_blog_advocate"
+msgstr "project_tour_blog_advocate"
+#. Default: "Attract attention"
+#: ./opencore/project/browser/tour.pt:43
+msgid "project_tour_blog_buzz"
+msgstr "project_tour_blog_buzz"
+#. Default: "Publish updates"
+#: ./opencore/project/browser/tour.pt:42
+msgid "project_tour_blog_publish"
+msgstr "project_tour_blog_publish"
 #. Default: "Communicate"
-#: ./opencore/project/browser/tour.pt:17
+#: ./opencore/project/browser/tour.pt:19
 msgid "project_tour_communicate"
 msgstr "project_tour_communicate"
 #. Default: "Congratulations on starting your ${project_noun}."
-#: ./opencore/project/browser/tour.pt:11
+#: ./opencore/project/browser/tour.pt:13
 msgid "project_tour_header"
 msgstr "project_tour_header"
+#. Default: "Now you can…"
+#: ./opencore/project/browser/tour.pt:14
+msgid "project_tour_header_2"
+msgstr "project_tour_header_2"
+#. Default: "Mailing lists"
+#: ./opencore/project/browser/tour.pt:71
+msgid "project_tour_mailinglists"
+msgstr "project_tour_mailinglists"
+#. Default: "Promote discussions"
+#: ./opencore/project/browser/tour.pt:75
+msgid "project_tour_mailinglists_discuss"
+msgstr "project_tour_mailinglists_discuss"
+#. Default: "Call supporters to action"
+#: ./opencore/project/browser/tour.pt:76
+msgid "project_tour_mailinglists_engage"
+msgstr "project_tour_mailinglists_engage"
+#. Default: "Keep everyone up-to-date"
+#: ./opencore/project/browser/tour.pt:74
+msgid "project_tour_mailinglists_update"
+msgstr "project_tour_mailinglists_update"
+#. Default: "Organize"
+#: ./opencore/project/browser/tour.pt:52
+msgid "project_tour_organize"
+msgstr "project_tour_organize"
+#. Default: "Keep your team organized and on-track."
+#: ./opencore/project/browser/tour.pt:53
+msgid "project_tour_organize_team"
+msgstr "project_tour_organize_team"
+#. Default: "<!-- this is a hacky way to get the 'project_prefs_url' key into the i18n mapping, so that it can be used in the anchor href below. i don't know of a cleaner way to do this, unfortunately --> ${project_prefs_url} Want to add or remove tools from your ${project_noun}? Change your <a href=\"${DYNAMIC_CONTENT}\">preferences</a>."
+#: ./opencore/project/browser/tour.pt:105
+msgid "project_tour_preferences"
+msgstr "project_tour_preferences"
+#. Default: "Task Tracker"
+#: ./opencore/project/browser/tour.pt:83
+msgid "project_tour_tasktracker"
+msgstr "project_tour_tasktracker"
+#. Default: "Assign tasks to others"
+#: ./opencore/project/browser/tour.pt:87
+msgid "project_tour_tasktracker_delegate"
+msgstr "project_tour_tasktracker_delegate"
+#. Default: "Share to-do lists"
+#: ./opencore/project/browser/tour.pt:86
+msgid "project_tour_tasktracker_share"
+msgstr "project_tour_tasktracker_share"
+#. Default: "Keep track of progress"
+#: ./opencore/project/browser/tour.pt:88
+msgid "project_tour_tasktracker_track"
+msgstr "project_tour_tasktracker_track"
+#. Default: "Manage your team"
+#: ./opencore/project/browser/tour.pt:59
+msgid "project_tour_team"
+msgstr "project_tour_team"
+#. Default: "Invite people to join this ${project_noun}"
+#: ./opencore/project/browser/tour.pt:62
+msgid "project_tour_team_invite"
+msgstr "project_tour_team_invite"
+#. Default: "Build momentum"
+#: ./opencore/project/browser/tour.pt:63
+msgid "project_tour_team_invite_again"
+msgstr "project_tour_team_invite_again"
+#. Default: "Find collaborators"
+#: ./opencore/project/browser/tour.pt:64
+msgid "project_tour_team_invite_again_kinda"
+msgstr "project_tour_team_invite_again_kinda"
+#. Default: "Wiki pages"
+#: ./opencore/project/browser/tour.pt:26
+msgid "project_tour_wiki"
+msgstr "project_tour_wiki"
+#. Default: "Sketch out your goals"
+#: ./opencore/project/browser/tour.pt:31
+msgid "project_tour_wiki_brainstorm"
+msgstr "project_tour_wiki_brainstorm"
+#. Default: "Write collaboratively"
+#: ./opencore/project/browser/tour.pt:30
+msgid "project_tour_wiki_collaborate"
+msgstr "project_tour_wiki_collaborate"
+#. Default: "A blank canvas for key information"
+#: ./opencore/project/browser/tour.pt:29
+msgid "project_tour_wiki_infodump"
+msgstr "project_tour_wiki_infodump"
+#. Default: "Share photos"
+#: ./opencore/project/browser/tour.pt:32
+msgid "project_tour_wiki_media"
+msgstr "project_tour_wiki_media"
+#. Default: "Tour - ${project_title} on ${portal_title}"
+#: ./opencore/project/browser/tour.pt:4
+msgid "project_tour_window_title"
+msgstr "project_tour_window_title"
 #. Default: "projects"
 #: ./opencore/stats/active.pt:15
 msgid "projects"
@@ -1669,7 +1857,7 @@ msgstr "psm_email_changed"
 msgid "psm_enter_new_email"
 msgstr "psm_enter_new_email"
 #. Default: "Please enter your username or email address."
-#: ./opencore/account/login.py:244
+#: ./opencore/account/login.py:243
 msgid "psm_enter_username_email"
 msgstr "psm_enter_username_email"
 #. Default: "Error sending mail to: ${mem_id}"
@@ -1685,7 +1873,7 @@ msgstr "psm_featurelet_added"
 msgid "psm_featurelet_removed"
 msgstr "psm_featurelet_removed"
 #. Default: "Your username is ${user_id}.  If you would like to reset your password, please check your email account for further instructions."
-#: ./opencore/account/login.py:258
+#: ./opencore/account/login.py:257
 msgid "psm_forgot_login"
 msgstr "psm_forgot_login"
 #. Default: "You are the only administrator of \"${proj_title}\". You can't leave this ${project_noun} without appointing another."
@@ -1792,14 +1980,14 @@ msgstr "psm_security_changed"
 msgid "psm_select_members_discard"
 msgstr "psm_select_members_discard"
 #. Default: "You have signed out."
-#: ./opencore/account/login.py:149
+#: ./opencore/account/login.py:148
 msgid "psm_signed_out"
 msgstr "psm_signed_out"
 #. Default: "Welcome! You have signed in."
 #: ./opencore/account/login.py:68
 msgid "psm_signin_welcome"
 msgstr "psm_signin_welcome"
-#. Default: "Thanks for joining ${portal_title}, ${mem_id}!<br/>\nA confirmation email has been sent to you with instructions on activating your account."
+#. Default: "Thanks for joining ${portal_title}, ${mem_id}!\nA confirmation email has been sent to you with instructions on activating your account. After you have activated your account, your request to join the ${project_noun} will be sent to the ${project_noun} administrators."
 #: ./opencore/account/join.py:61
 msgid "psm_thankyou_for_joining"
 msgstr "psm_thankyou_for_joining"
@@ -1959,7 +2147,7 @@ msgstr "team_already_proj_member"
 msgid "team_already_project_member"
 msgstr "team_already_project_member"
 #. Default: "Your request to join \"${project_title}\" has been sent to the ${project_noun} administrator(s)."
-#: ./opencore/account/login.py:220
+#: ./opencore/account/login.py:219
 msgid "team_proj_join_request_sent"
 msgstr "team_proj_join_request_sent"
 #. Default: "sorted by location"

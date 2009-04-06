@@ -1,4 +1,5 @@
 <div class="oc-directory-list"
+     i18n:domain="opencore"
      tal:define="default_logo string:++resource++img/default-projlogo-thumb.gif">
   <div class="vcard" id="oc-member-badge">
     <div class="oc-avatar">
@@ -16,8 +17,11 @@
       <p class="oc-feed-item-description" tal:define="desc context/Description" tal:condition="desc">
         <span tal:replace="desc" />
       </p>
-      <p><span tal:replace="python: len(context.getTeams()[0].getActiveMemberships())" /> members</p>
-      <p><span class="oc-feed-item-data oc-discreetText">
+      <p i18n:translate="project_badge_num_members">
+	<span i18n:name="num_members" tal:replace="python: len(context.getTeams()[0].getActiveMemberships())" /> members
+      </p>
+      <p>
+	<span class="oc-feed-item-data oc-discreetText">
           last updated
           <tal:has_updated_author
 	     define="userid python:context.portal_catalog(getId=context.getId())[0].lastModifiedAuthor"
@@ -26,7 +30,7 @@
             <a tal:attributes="href string:${context/portal_url}/people/${userid}/profile" tal:content="userid" />,
           </tal:has_updated_author>
           <span tal:content="python: view.pretty_date(context.ModificationDate())" />
-      </span>
+	</span>
       </p>
     </div>
   </div>
