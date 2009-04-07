@@ -12,15 +12,6 @@
      template="batch_macros.pt"
      />
   
-  <!-- macros -->
-  <browser:page
-     class="opencore.browser.base.BaseView"
-     for="*"
-     name="main_macros"
-     permission="zope2.View"
-     template="main_macros.pt"
-     />
-    
   <!-- projects portal -->
   <!-- opencore.interfaces.IProjectsFolder -->
   <browser:page
