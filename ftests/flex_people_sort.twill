@@ -10,16 +10,17 @@ follow 'all'
 follow 'F'
 fv searchresults_sorting sort_by 'getId'
 submit
-find_in_css "by username" "option[selected]"
+find_in_css "people_sortable_fields_username" "option[selected]"
+
 find 'fa.*fb.*Fc.*fz' s
+
 fv search_form search_for 'f'
 submit 
 fv searchresults_sorting sort_by 'getId'
 submit
 find 'fa.*fb.*Fc.*fz' s
 
-
 fv searchresults_sorting sort_by 'exact_getFullname'
 submit
-find_in_css "by name" "option[selected]"
+find_in_css "people_sortable_fields_exact_getFullname" "option[selected]"
 find 'baaz master.*bar bie.*flux capacitor.*foo fighter' s
