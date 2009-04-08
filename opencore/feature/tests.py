@@ -15,7 +15,7 @@ def test_suite():
                                   package='opencore.feature',
                                   test_class=OpenPlansTestCase,
                                   globs=locals(),
-                                  layer=test_layer
+                                  layer=test_layer,
                                   setUp=setup,
                                   )
     return unittest.TestSuite((readme,))
