@@ -7,12 +7,12 @@ go ${base_url}/sitesearch
 follow 'sitesearch.*all'
 fv searchresults_sorting sort_by 'getId'
 submit
-find_in_css "sortable_fields_getId" "option[selected]"
+find_in_css "sitesearch_sortable_fields_getId" "option[selected]"
 
 fv searchresults_sorting sort_by 'modified'
 submit
-find_in_css "sortable_fields_modified" "option[selected]"
+find_in_css "sitesearch_sortable_fields_modified" "option[selected]"
 
 fv searchresults_sorting sort_by 'portal_type'
 submit
-find_in_css "sortable_fields_portal_type" "option[selected]"
+find_in_css "sitesearch_sortable_fields_portal_type" "option[selected]"
