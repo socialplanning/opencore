@@ -18,7 +18,7 @@ find 'psm_not_sufficient_perms|Login.*Username.*Password' is
 
 # check follow links
 go ${base_url}
-follow "more news"
+follow "home_news_more_link"
 follow "${title}"
 follow "edit"
 notfind error_404_title
