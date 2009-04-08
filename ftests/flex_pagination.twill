@@ -7,14 +7,16 @@
 
 go ${base_url}/sitesearch
 follow 'all'
+
 find '<li>\s*1\s*</li>'
 notfind '<li>\s*2\s*</li>'
 notfind '<li>\s*3\s*</li>'
 fv searchresults_sorting sort_by 'getId'
 submit
-find_in_css "A to Z" "option[selected]"
+find_in_css "sitesearch_sortable_fields_getId" "option[selected]"
+
 follow '^2$'
 notfind '<li>\s*1\s*</li>'
 find '<li>\s*2\s*</li>'
 notfind '<li>\s*3\s*</li>'
-find_in_css "A to Z" "option[selected]"
+find_in_css "sitesearch_sortable_fields_getId" "option[selected]"
