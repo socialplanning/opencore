@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: opencore\n"
-"POT-Creation-Date: 2009-04-06 01:34+0000\n"
+"POT-Creation-Date: 2009-04-08 19:59+0000\n"
 "PO-Revision-Date: 2008-10-08 15:57-0400\n"
 "Last-Translator: \n"
 "Language-Team: The Open Planning Project <opencore-dev@lists.openplans.org>\n"
@@ -17,7 +17,7 @@ msgstr ""
 "X-Poedit-Country: UNITED STATES\n"
 
 #. Default: "(show up to ${batch_size} results per page)"
-#: ./opencore/nui/main/main_macros.pt:37
+#: ./opencore/nui/main/search-widget.pt:42
 msgid "(show up to ${batch_size} results per page)"
 msgstr ""
 
@@ -1498,27 +1498,27 @@ msgid "mailinglist_view_unsub_button"
 msgstr ""
 
 #. Default: "all"
-#: ./opencore/nui/main/main_macros.pt:65
+#: ./opencore/nui/main/search-widget.pt:70
 msgid "main_macros_all"
 msgstr ""
 
 #. Default: "Everything"
-#: ./opencore/nui/main/main_macros.pt:27
+#: ./opencore/nui/main/search-widget.pt:32
 msgid "main_macros_everything_label"
 msgstr ""
 
 #. Default: "People"
-#: ./opencore/nui/main/main_macros.pt:9
+#: ./opencore/nui/main/search-widget.pt:14
 msgid "main_macros_people_label"
 msgstr ""
 
 #. Default: "Search"
-#: ./opencore/nui/main/main_macros.pt:36
+#: ./opencore/nui/main/search-widget.pt:41
 msgid "main_macros_search_button"
 msgstr "Search"
 
 #. Default: "Search"
-#: ./opencore/nui/main/main_macros.pt:8
+#: ./opencore/nui/main/search-widget.pt:13
 msgid "main_macros_search_label"
 msgstr ""
 
@@ -2547,6 +2547,26 @@ msgstr ""
 #. Default: "Send message"
 #: ./opencore/member/browser/profile.pt:137
 msgid "send-message"
+msgstr ""
+
+#. Default: "sorted A to Z"
+#: ./opencore/nui/main/home-sortablefields.pt:7
+msgid "sitesearch_sortable_fields_getId"
+msgstr ""
+
+#. Default: "sorted by date updated"
+#: ./opencore/nui/main/home-sortablefields.pt:9
+msgid "sitesearch_sortable_fields_modified"
+msgstr ""
+
+#. Default: "sorted by content type"
+#: ./opencore/nui/main/home-sortablefields.pt:11
+msgid "sitesearch_sortable_fields_portal_type"
+msgstr ""
+
+#. Default: "sorted by relevancy"
+#: ./opencore/nui/main/home-sortablefields.pt:2
+msgid "sitesearch_sortable_fields_relevancy"
 msgstr ""
 
 #. Default: "sorted by creator"

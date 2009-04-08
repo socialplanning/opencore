@@ -1,9 +1,13 @@
-<ul id="sortable_fields">
+<ul id="sortable_fields" i18n:domain="opencore">
   <li id="relevancy"
-      tal:condition="request/form/search_for | nothing">
+      tal:condition="request/form/search_for | nothing"
+      i18n:translate="sitesearch_sortable_fields_relevancy">
     sorted by relevancy
   </li>
-  <li id="getId">sorted A to Z</li>
-  <li id="modified">sorted by date updated</li>
-  <li id="portal_type">sorted by content type</li>
+  <li id="getId" 
+      i18n:translate="sitesearch_sortable_fields_getId">sorted A to Z</li>
+  <li id="modified" 
+      i18n:translate="sitesearch_sortable_fields_modified">sorted by date updated</li>
+  <li id="portal_type"
+      i18n:translate="sitesearch_sortable_fields_portal_type">sorted by content type</li>
 </ul>

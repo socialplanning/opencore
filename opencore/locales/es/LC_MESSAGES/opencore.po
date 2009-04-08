@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: opencore\n"
-"POT-Creation-Date: 2009-04-06 01:34+0000\n"
+"POT-Creation-Date: 2009-04-08 19:59+0000\n"
 "PO-Revision-Date: 2008-06-02 22:20+0200\n"
 "Last-Translator: Pierre George <pierregrg@gmail.com>\n"
 "Language-Team: OpenFSM Team <openfsm@lists.openfsm.net>\n"
@@ -16,7 +16,7 @@ msgstr ""
 "X-Is-Fallback-For: es-ar es-bo es-cl es-co es-cr es-do es-ec es-es es-sv es-gt es-hn es-mx es-ni es-pa es-py es-pe es-pr es-us es-uy es-ve\n"
 
 #. Default: "(show up to ${batch_size} results per page)"
-#: ./opencore/nui/main/main_macros.pt:37
+#: ./opencore/nui/main/search-widget.pt:42
 msgid "(show up to ${batch_size} results per page)"
 msgstr ""
 
@@ -1472,27 +1472,27 @@ msgid "mailinglist_view_unsub_button"
 msgstr ""
 
 #. Default: "all"
-#: ./opencore/nui/main/main_macros.pt:65
+#: ./opencore/nui/main/search-widget.pt:70
 msgid "main_macros_all"
 msgstr ""
 
 #. Default: "Everything"
-#: ./opencore/nui/main/main_macros.pt:27
+#: ./opencore/nui/main/search-widget.pt:32
 msgid "main_macros_everything_label"
 msgstr ""
 
 #. Default: "People"
-#: ./opencore/nui/main/main_macros.pt:9
+#: ./opencore/nui/main/search-widget.pt:14
 msgid "main_macros_people_label"
 msgstr ""
 
 #. Default: "Search"
-#: ./opencore/nui/main/main_macros.pt:36
+#: ./opencore/nui/main/search-widget.pt:41
 msgid "main_macros_search_button"
 msgstr ""
 
 #. Default: "Search"
-#: ./opencore/nui/main/main_macros.pt:8
+#: ./opencore/nui/main/search-widget.pt:13
 msgid "main_macros_search_label"
 msgstr ""
 
@@ -2532,6 +2532,26 @@ msgstr ""
 #. Default: "Send message"
 #: ./opencore/member/browser/profile.pt:137
 msgid "send-message"
+msgstr ""
+
+#. Default: "sorted A to Z"
+#: ./opencore/nui/main/home-sortablefields.pt:7
+msgid "sitesearch_sortable_fields_getId"
+msgstr ""
+
+#. Default: "sorted by date updated"
+#: ./opencore/nui/main/home-sortablefields.pt:9
+msgid "sitesearch_sortable_fields_modified"
+msgstr ""
+
+#. Default: "sorted by content type"
+#: ./opencore/nui/main/home-sortablefields.pt:11
+msgid "sitesearch_sortable_fields_portal_type"
+msgstr ""
+
+#. Default: "sorted by relevancy"
+#: ./opencore/nui/main/home-sortablefields.pt:2
+msgid "sitesearch_sortable_fields_relevancy"
 msgstr ""
 
 #. Default: "sorted by creator"

@@ -14,6 +14,7 @@ from opencore.browser.base import BaseView
 
 num_regex = re.compile('((the|a|an)\s+)?[0-9]+')
 
+# XXX TODO: bad i18n here
 def first_letter_match(title, letter):
     if letter == 'num':
         return num_regex.match(title)
