@@ -7,16 +7,16 @@ go ${base_url}/projects/
 follow 'all'
 fv searchresults_sorting sort_by 'modified'
 submit
-find_in_css  "by date updated" "option[selected]"
+find_in_css "projects_sortable_fields_modified" "option[selected]"
 
 fv searchresults_sorting sort_by 'created'
 submit
-find_in_css "by date created" "option[selected]"
+find_in_css "projects_sortable_fields_created" "option[selected]"
 
 fv searchresults_sorting sort_by 'sortable_title'
 submit
-find_in_css "by ${projtxt} name" "option[selected]"
+find_in_css "projects_sortable_fields_sortable_title" "option[selected]"
 
 fv searchresults_sorting sort_by 'Creator'
 submit
-find_in_css "by ${projtxt} creator" "option[selected]"
+find_in_css "projects_sortable_fields_Creator" "option[selected]"

@@ -14,6 +14,6 @@ fv search_form search_for $query
 submit 
 find 'Result'
 find 'of\s+\d+'
-find 'sorted'
-notfind 'No results found.'
+find 'people_sortable_fields'
+notfind 'searchresults_no_results'
 find $expect

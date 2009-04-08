@@ -14,5 +14,7 @@ fv search_form batch_size $batch_size
 submit 
 find $query
 find '${projtxt}'
-notfind 'No results found.'
+find 'of\s+\d+'
+find 'projects_sortable_fields'
+notfind 'searchresults_no_results'
 find_in_xpath '${expect}' "//h3[@class='oc-feed-item-title']"

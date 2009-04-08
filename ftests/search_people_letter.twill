@@ -12,6 +12,6 @@ go ${base_url}/people
 follow $letter
 find 'Result'
 find 'of\s+\d+'
-find 'sorted'
-notfind 'No results found.'
+find 'people_sortable_fields'
+notfind 'searchresults_no_results'
 find $expect

@@ -15,6 +15,6 @@ submit
 find $query
 find '${projtxt}'
 find 'of\s+\d+'
-find 'sorted'
-notfind 'No results found.'
+find 'projects_sortable_fields'
+notfind 'searchresults_no_results'
 notfind_in_xpath '${expect}' "//h3[@class='oc-feed-item-title']"

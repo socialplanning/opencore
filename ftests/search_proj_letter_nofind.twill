@@ -9,5 +9,5 @@
 
 go ${base_url}/projects
 follow $letter
-find 'No results found'
+find 'searchresults_no_results'
 notfind '<a href="http://[\w\.:]+/openplans/projects/.*${expect}.*</a>'

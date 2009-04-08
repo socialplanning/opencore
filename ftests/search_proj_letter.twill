@@ -12,6 +12,6 @@ go ${base_url}/projects
 follow $letter
 find '${projtxt}'
 find 'of\s+\d+'
-find 'sorted'
-notfind 'No results found.'
+find 'projects_sortable_fields'
+notfind 'searchresults_no_results'
 find '<a href="${base_url}/projects/.*${expect}.*</a>'
