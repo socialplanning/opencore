@@ -10,9 +10,17 @@
 #
 
 go ${base_url}/projects/${projname}/project-home
-find "last modified <abbr[^>]*>today</abbr>\s+by" s
+
+find "last <a[^>]*>modified</a>" s
+find "<abbr[^>]*>today</abbr>\s+by" s
+
 follow "edit"
-notfind "last modified <abbr[^>]*>today</abbr>\s+by" s
+
+notfind "last <a[^>]*>modified</a>" s
+notfind "<abbr[^>]*>today</abbr>\s+by" s
+
 follow "history"
-notfind "last modified <abbr[^>]*>today</abbr>\s+by" s
+
+notfind "last <a[^>]*>modified</a>" s
+notfind "<abbr[^>]*>today</abbr>\s+by" s
 find "Last edit performed by\s* <a [^>]*>\s*${user}\s*</a>"
