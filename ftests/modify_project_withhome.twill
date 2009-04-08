@@ -6,6 +6,7 @@
 # expects: 
 #   project exists
 
+extend_with flunc.xpath
 
 go ${base_url}/projects/${projname}/edit
 fv prefs_form title $projfullname
@@ -24,7 +25,7 @@ notfind 'site error' i
 
 go ${base_url}
 find 'home_newest_projects.*${projtitle}' s
-notfind 'Updated ${projtxt}s.*${projtitle}' s
+notfind 'home_updated_projects.*${projtitle}' s
 go ${base_url}/projects
-find 'updated ${projtxt}s.*${projtitle}.*(1|2)\s*member\(s\),\s*last updated\s*today' s
+find_in_css "${projtitle}" div.oc-blocklist
 
