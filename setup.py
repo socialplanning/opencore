@@ -42,7 +42,6 @@ setup(
       dependency_links=['https://svn.openplans.org/svn/topp.featurelets/trunk#egg=topp.featurelets-0.3.0',
                         'https://svn.openplans.org/svn/OpencoreRedirect/trunk#egg=OpencoreRedirect-dev',
                         'http://svn.red-bean.com/bob/simplejson/trunk/#egg=simplejson-dev',
-                        'http://www.openplans.org/projects/opencore/dependencies',
                         'http://download.savannah.nongnu.org/releases/pyprof/hprof-0.1.1.tar.gz#egg=hprof',
                         'https://svn.openplans.org/svn/oc-js/trunk/#egg=oc-js-dev',
                         'http://feedparser.googlecode.com/files/feedparser-4.1.zip',
