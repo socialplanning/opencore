@@ -4,11 +4,11 @@ views pertaining to accounts -- creation, login, password reset
 from Products.CMFCore.utils import getToolByName
 import logging
 from opencore.account.browser import AccountView
-from opencore.browser.base import BaseView, _
-from opencore.browser.formhandler import * # start import are for pansies
+from opencore.browser.base import _
+from opencore.browser.formhandler import anon_only
+from opencore.browser.formhandler import post_only
 from opencore.member.interfaces import IHandleMemberWorkflow
 from plone.memoize import instance
-import urllib
 
 logger = logging.getLogger("opencore.account.confirmation")
     
@@ -126,16 +126,3 @@ class ResendConfirmationView(AccountView):
                                         self._confirmation_url(member))
         self.addPortalStatusMessage(_(u'psm_new_activation', mapping={u'email':email, u'mfrom':mfrom}))
         self.redirect("%s/login" % site_url)
-
-
-
-
-
-
-
-
-
-
-
-
-
