@@ -7,9 +7,12 @@ from AccessControl import ClassSecurityInfo
 
 from zope.component import getAdapter
 from zope.component import getUtility
+from zope.event import notify
 
 from Products.CMFCore.utils import getToolByName
-from Products.CMFCore.CMFCorePermissions import *
+from Products.CMFCore.CMFCorePermissions import ManagePortal
+from Products.CMFCore.CMFCorePermissions import ModifyPortalContent
+from Products.CMFCore.CMFCorePermissions import View
 import Products.Archetypes.public as atapi
 from Products.Archetypes.ExtensibleMetadata import ExtensibleMetadata
 from Products.Archetypes.ArchetypeTool import base_factory_type_information as bfti
@@ -29,7 +32,7 @@ from Products.remember.permissions import EDIT_PROPERTIES_PERMISSION
 
 from opencore.configuration import PROJECTNAME
 from opencore.configuration import PROHIBITED_MEMBER_PREFIXES
-
+from opencore.interfaces.event import MemberRegisteredEvent
 from fields import SquareScaledImageField
 
 from opencore.utility.interfaces import IHTTPClient
@@ -518,6 +521,10 @@ class OpenMember(FolderishMember):
                         self.translate('id_pass_password',
                                        default='"password" is not a valid password.',
                                        domain='remember-plone')
+
+    def register(self):
+        FolderishMember.register(self)
+        notify(MemberRegisteredEvent(self))
 
     def _change_member_id(self, newid):
         """Changes the id of this member object and all of the related
