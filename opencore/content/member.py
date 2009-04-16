@@ -285,6 +285,15 @@ class OpenMember(FolderishMember):
                     projects.add(space)
         return list(projects)
     
+    security.declareProtected(View, 'interests')
+    def interests(self):
+        """Represents a list of the user skills. It used to be called "skills".
+           This is indexed as a keywordindex"""
+        skills = self.getSkills()
+        if skills is None or not skills.strip():
+            return []
+        return [x.strip().lower() for x in skills.split(',')]
+
     security.declareProtected(View, 'project_ids')
     def project_ids(self):
         """ids of active teams. this attr is indexed"""
@@ -530,6 +539,9 @@ class OpenMember(FolderishMember):
                         self.translate('id_pass_password',
                                        default='"password" is not a valid password.',
                                        domain='remember-plone')
+    def register(self):
+        FolderishMember.register(self)
+        notify(MemberRegisteredEvent(self))
 
     def _change_member_id(self, newid):
         """Changes the id of this member object and all of the related

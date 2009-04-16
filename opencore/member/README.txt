@@ -71,10 +71,9 @@ Let's make sure the dude really exists and his fields were set::
 
 Let's see if he shows up in the recently created members list::
     >>> people = self.portal.people
+    >>> from opencore.nui.main.search import PeopleSearchView
     >>> from zope.component import getMultiAdapter
-    >>> view = getMultiAdapter((people, people.REQUEST), name='view')
-    >>> view
-    <Products.Five.metaclass.SimpleViewClass from...>
+    >>> view = PeopleSearchView(people, people.REQUEST)
     >>> view.recently_created_members()[0].getObject()
     <OpenMember at /plone/portal_memberdata/test_user_1_>
 
