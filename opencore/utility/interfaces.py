@@ -77,3 +77,9 @@ class IProvideSiteConfig(Interface):
         """
         return the value of a particular configuration option
         """
+class IFeedbackerClient(Interface):
+    """A global utility for making feedbacker requests"""
+    def get_atom(query_string):
+        """Fetch an Atom feed from feedbacker using a GET request with
+        the provided query string; parses the results w/ feedparser
+        and returns the parsed feed object."""

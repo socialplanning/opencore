@@ -1,4 +1,5 @@
 from Products.CMFPlone.utils import _createObjectByType
+from Products.MailHost.interfaces import IMailHost
 from Products.OpenPlans.tests.openplanstestcase import OpenPlansTestCase
 from Products.listen.interfaces import IListLookup
 from zope.component import getMultiAdapter
@@ -21,9 +22,6 @@ class TestMailingListManageEvent(OpenPlansTestCase):
         return getMultiAdapter((self.portal, self.portal.REQUEST),
                                name='manage_event')
 
-    def _getMailHost(self):
-        return self.portal.MailHost
-
     def test_200_error(self):
         view = self._getView()
         headers = {'from': 'johnnywalker@example.com',
@@ -31,13 +29,13 @@ class TestMailingListManageEvent(OpenPlansTestCase):
                    }
         status_codes = [200]
         view(status_codes, headers)
-        mailhost = self._getMailHost()
+        mailhost = getUtility(IMailHost)
         msgs = mailhost.messages
         self.assertEqual(1, len(msgs), 'No error message sent')
         msg = msgs[0]
         self.assertEqual('mylist-manager@lists.openplans.org', msg['mfrom'])
         self.assertEqual(['johnnywalker@example.com'], msg['mto'])
-        self.failUnless('Subject: Mailing list error: message too big' in msg['msg'])
+        self.assertEqual('Mailing list error: message too big',  msg['subject'])
         self.failUnless("message that you're trying to send is too big" in msg['msg'])
 
     def test_default_error(self):
@@ -47,8 +45,9 @@ class TestMailingListManageEvent(OpenPlansTestCase):
                    }
         # any unknown status code
         status_codes = [777]
+        import pdb; pdb.set_trace()
         view(status_codes, headers)
-        mailhost = self._getMailHost()
+        mailhost = getUtility(IMailHost)
         msgs = mailhost.messages
         self.assertEqual(1, len(msgs), 'No error message sent')
         msg = msgs[0]

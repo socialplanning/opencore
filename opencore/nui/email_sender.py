@@ -53,10 +53,11 @@ class EmailSender(object):
         """
         Returns the appropriate email address for a given token.
 
-        o token: must be either an email address or a member id; if
-        an address is provided, it will be returned unchanged.  if
-        not, then it will be assumed to be a member id and the member's
-        address will be returned.
+        o token: must be either an email address or a member id; if an
+        address is provided, it will be returned unchanged.  if not,
+        then it will be assumed to be a member id and the member's
+        address will be returned (including member fullname, if it
+        exists).
         """
         addr_token = addr_token.strip().lstrip('<').rstrip('>')
         if not addr_token:
@@ -69,7 +70,13 @@ class EmailSender(object):
 
             # member.getEmail()
             member_info = view.member_info_for_member(member)
-            return member_info.get('email')
+            email_string = member_info.get('email')
+            fullname = member_info.get('fullname')
+            if fullname:
+                # XXX: work around aggressive SecureMailHost validation
+                fullname = fullname.split(',')[0]
+                email_string = '%s <%s>' % (fullname, email_string)
+            return email_string
         else:
             # it's already an email address
             return addr_token
@@ -161,7 +168,13 @@ class EmailSender(object):
         else:
             mfrom = self.toEmailAddress(mfrom)
 
+        charset = 'utf-8'
         if isinstance(msg, unicode):
-            msg = msg.encode('utf-8')
+            msg = msg.encode(charset)
 
-        self.send(msg, recips, mfrom, subject)
+        try:
+            self.send(msg, recips, mfrom, subject, charset=charset)
+        except TypeError:
+            # damn those inconsistent MailHost APIs
+            self.send(msg, recips, mfrom, subject, encode='8bit')
+            
