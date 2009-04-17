@@ -23,11 +23,13 @@ from fields import SquareScaledImageField
 
 from opencore.configuration import PROJECTNAME
 from opencore.configuration import PROHIBITED_MEMBER_PREFIXES
+from opencore.interfaces.event import MemberRegisteredEvent
 from opencore.utility.interfaces import IHTTPClient
 from opencore.utils import get_opencore_property
 from types import TupleType, ListType, UnicodeType
 from zope.component import getAdapter
 from zope.component import getUtility
+from zope.event import notify
 import Products.Archetypes.public as atapi
 import logging
 import random
