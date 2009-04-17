@@ -17,6 +17,10 @@ class TestMailingListManageEvent(OpenPlansTestCase):
         ml.mailto = 'mylist'
         ll = getUtility(IListLookup)
         ll.registerList(ml)
+        self.mailhost = getUtility(IMailHost)
+
+    def beforeTearDown(self):
+        self.mailhost.messages = []
 
     def _getView(self):
         return getMultiAdapter((self.portal, self.portal.REQUEST),
@@ -29,8 +33,7 @@ class TestMailingListManageEvent(OpenPlansTestCase):
                    }
         status_codes = [200]
         view(status_codes, headers)
-        mailhost = getUtility(IMailHost)
-        msgs = mailhost.messages
+        msgs = self.mailhost.messages
         self.assertEqual(1, len(msgs), 'No error message sent')
         msg = msgs[0]
         self.assertEqual('mylist-manager@lists.openplans.org', msg['mfrom'])
@@ -45,13 +48,11 @@ class TestMailingListManageEvent(OpenPlansTestCase):
                    }
         # any unknown status code
         status_codes = [777]
-        import pdb; pdb.set_trace()
         view(status_codes, headers)
-        mailhost = getUtility(IMailHost)
-        msgs = mailhost.messages
+        msgs = self.mailhost.messages
         self.assertEqual(1, len(msgs), 'No error message sent')
         msg = msgs[0]
         self.assertEqual('mylist-manager@lists.openplans.org', msg['mfrom'])
         self.assertEqual(['mister.dewars@example.com'], msg['mto'])
-        self.failUnless('Subject: Mailing list error' in msg['msg'])
+        self.assertEqual('Mailing list error', msg['subject'])
         self.failUnless('unknown error' in msg['msg'])
