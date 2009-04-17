@@ -177,4 +177,3 @@ class EmailSender(object):
         except TypeError:
             # damn those inconsistent MailHost APIs
             self.send(msg, recips, mfrom, subject, encode='8bit')
-            

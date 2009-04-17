@@ -1,3 +1,4 @@
+from Acquisition import aq_base
 from Products.CMFCore.utils import getToolByName
 from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
 from opencore.account.login import LoginView
@@ -10,7 +11,6 @@ from opencore.utility.interfaces import IEmailSender
 from operator import attrgetter
 from plone.memoize.instance import memoizedproperty
 from plone.memoize.instance import memoize
-import itertools
 
 
 class TeamRelatedView(SearchView):

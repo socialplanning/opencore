@@ -108,7 +108,7 @@ explosions::
     >>> view.window_title()
     u'Test G\xe9omatique - Project One - OpenCore Site'
     >>> view()
-    '...geomatique...'
+    u'...geomatique...'
 
     >>> title = u'\u3322'.encode("utf-8")
     >>> self.folder.REQUEST.set('Title', title)
