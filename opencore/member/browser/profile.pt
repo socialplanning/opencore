@@ -142,7 +142,7 @@
           </a>
         </div>
 
-        <span tal:define="viewlets provider:opencore.profile_edit_sidebar"
+        <span tal:define="viewlets provider:opencore.profile_sidebar"
               tal:condition="python:viewlets.strip()"
               tal:replace="structure viewlets">
         </span>
