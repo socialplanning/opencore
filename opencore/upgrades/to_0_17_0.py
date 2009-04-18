@@ -2,6 +2,32 @@ from Products.CMFCore.utils import getToolByName
 from opencore.upgrades.utils import logger
 import transaction
 
+from zope.interface import alsoProvides
+from opencore.listen.interfaces import ISyncWithProjectMembership
+def mark_memsynced_mailing_lists(context):
+    """
+     http://www.openplans.org/projects/opencore/lists/opencore-dev/archive/2009/04/1239543233615/forum_view
+    """
+    cat = getToolByName(context, 'portal_catalog')
+    lists = cat.unrestrictedSearchResults(portal_type='Open Mailing List')
+    i = 0; changed = False
+    for list in lists:
+        print list.getId
+        i += 1
+        if list.getId.endswith('-discussion'):
+            list = list.getObject()
+            alsoProvides(list, ISyncWithProjectMembership)
+            logger.info("marked list %s with ISyncWithProjectMembership" % list.getId)
+            changed = True
+
+        if changed and i % 400 == 0:
+            transaction.commit()
+            logger.info('===== COMMITTING (%d of %d) ====' %(i, len(lists)))
+            changed = False
+
+    transaction.commit()
+    logger.info('==== COMMITTING (%d of %d) ====' %(i, len(lists)))
+            
 def retitle_member_areas(context):
     """
     change the title of the member areas on the site to use
@@ -51,3 +77,7 @@ def retitle_member_areas(context):
 
     transaction.commit()
     logger.info('==== COMMITTING (%d of %d) ====' %(i, len(mem_ids)))
+
+
+
+#
