@@ -141,11 +141,12 @@
             Send message
           </a>
         </div>
-
-        <span tal:define="viewlets provider:opencore.profile_sidebar"
-              tal:condition="python:viewlets.strip()"
-              tal:replace="structure viewlets">
-        </span>
+        <div tal:define="viewlets provider:opencore.profile_sidebar">
+          <span tal:condition="python:viewlets.strip()"
+                tal:replace="structure viewlets">
+            geo viewlet stuff goes here
+          </span>
+        </div>
       </div><!-- end .oc-content-sidebar -->
     </div><!-- content-fill-slot -->
   </body>
