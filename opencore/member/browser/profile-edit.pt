@@ -108,15 +108,15 @@
             </li>
           </ul> 
       </div><!-- end #oc-content-main -->
-
-      <div id="oc-content-sidebar"
-           tal:define="viewlets provider:opencore.profile_sidebar">
-         <span tal:condition="python:viewlets.strip()"
-               tal:replace="structure viewlets">
-                     geo viewlet stuff goes here!
-	 </span>
-      </div>
     </form>
+
+     <div id="oc-content-sidebar"
+          tal:define="viewlets provider:opencore.profile_sidebar">
+       <span tal:condition="python:viewlets.strip()"
+             tal:replace="structure viewlets">
+         geo viewlet stuff goes here!
+       </span>
+     </div>
 
     </div><!-- content-fill-slot -->
   </body>
