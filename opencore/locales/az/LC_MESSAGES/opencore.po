@@ -1565,6 +1565,9 @@ msgstr "project_create_window_title"
 #: ./opencore/project/browser/add.py:156
 msgid "project_created"
 msgstr "project_created"
+#: ./opencore/project/utils.py:53
+msgid "project_noun"
+msgstr "project_noun"
 #. Default: "Remove this ${project_noun} from ${portal_title}?"
 #: ./opencore/project/browser/preferences.pt:217
 msgid "project_prefs_delete_prompt"
@@ -1992,7 +1995,7 @@ msgstr "psm_signin_welcome"
 msgid "psm_thankyou_for_joining"
 msgstr "psm_thankyou_for_joining"
 #. Default: "Your markup '${stripped_tag}' was removed because ${unallowed_host} is not an allowed host for embedded content on this site. "
-#: ./opencore/nui/wiki/view.py:213
+#: ./opencore/nui/wiki/view.py:204
 msgid "psm_wiki_content_stripped"
 msgstr "psm_wiki_content_stripped"
 #: ./opencore/project/browser/manageteam.py:412
