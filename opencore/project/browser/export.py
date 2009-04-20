@@ -11,7 +11,56 @@ class PagesExportView(BaseView):
 
     """
     Export a project's wiki pages as a zipfile of html.
+
+    This needs to happen asynchronously.
+    the export page can report status; when done,
+    show a download link.
+    - if js available, do this nice and ajaxy
+    - if noscript, maybe do a meta refresh? (is noscript legal in <head>?)
+
+    infrastructure: use zc.async, see
+    http://packages.python.org/zc.async/1.5.0/README_1.html?
+
+    ... OR ... whit suggested put a (persistent or file-based) queue
+    somewhere and drop jobs into it; then have a ClockServer method
+    that polls that queue.  Another persistent data structure could be
+    used for communicating progress & results. (annotation on the proj?)
+    
+    the async job should:
+
+    * create a directory structure in var/ as needed; we can trust the
+      project id to be unique
+
+    * acquire a lock of some sort (so other threads can't try to
+      export the same project)
+
+    * if there was a completed (or sufficiently old leftovers from a
+      botched run) previous export, remove the zip file
+
+    * zip to a temp file
+
+    * on any failure, delete the temp file
+
+    * when done, rename the temp file
+
+    * if there's an export of this proj already in progress,
+      eg. launched from another thread, say so (could get fancy and
+      check the username and time of request to see if it was an
+      accidental double-submit)
+
+    * when done, notify (eg. set a PSM for the user w/ download URL)
+      and release lock(s).
+    
+    Another async job could periodically check for old completed
+    exports and delete them, if we care. (eg. greater than 30 days)
+
     """
+
+
+    def _list_available_exports(self):
+        """any zip files avail to download?
+        """
+        
     
     def _get_exportable_data(self):
         catalog = getToolByName(self.context, "portal_catalog")

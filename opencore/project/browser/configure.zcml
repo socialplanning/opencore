@@ -281,4 +281,13 @@
      name="lists"
      />
 
+  <!-- intended to be hit by clockserver periodically -->
+  <browser:page
+     class=".export_utils.ProjectExportQueueView"
+     for="Products.CMFPlone.Portal.PloneSite"
+     permission="five.ManageSite"
+     name="manage_project_export_queue"
+     />
+
+
 </configure>

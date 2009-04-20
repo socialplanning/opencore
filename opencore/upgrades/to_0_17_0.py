@@ -16,6 +16,10 @@ def mark_memsynced_mailing_lists(context):
         i += 1
         if list.getId.endswith('-discussion'):
             list = list.getObject()
+            proj = list.aq_inner.aq_parent.aq_parent
+            if not list.getId().startswith(proj.getId()):
+                # apparently not 'fooproject-discussion'
+                continue
             alsoProvides(list, ISyncWithProjectMembership)
             logger.info("marked list %s with ISyncWithProjectMembership" % list.getId)
             changed = True
