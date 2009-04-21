@@ -39,7 +39,7 @@ def log_exception(msg='', level=logging.ERROR):
 class ProjectExportQueueView(object):
 
     """Handle a queue of project export jobs which may take a long
-    time.  So this is intended to be run periodically, eg. by
+    time.  So this is intended to be run often, eg. by
     clockserver. (An event-triggered async job would be nicer for the
     user, but this is probably good enough)
     """
@@ -62,7 +62,16 @@ class ProjectExportQueueView(object):
                 del(self.queue[project_id])
             else:
                 try:
+                    self.context._p_jar.sync()
                     status.start()
+                    # XXX need a better persistent locking strategy.
+                    # XXX unless we commit here, other threads won't
+                    # know it's in progress; and if we do commit, that
+                    # means we'd need to somehow detect started but
+                    # abandoned jobs, eg. if the server shuts down
+                    # mid-job.  Maybe locking should not be
+                    # persistent?  If the server restarts, we'll need
+                    # to restart the job anyway.
                     self.export(project_id)
                     status.finish()
                     transaction.commit()
