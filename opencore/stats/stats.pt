@@ -23,10 +23,14 @@
     </style>
   </head>  
   <body>
+    <a href="./stats">stats overview</a> **
+    <a href="./stats_history">stats history</a> **
+    <a href="./stats_activity">active project stats</a>
+
     <h1 i18n:translate="stats_title">Portal Stats</h1>
     <h2 i18n:translate="stats_on_date">
        on date
-       <span tal:replace="view/get_report_date" i18n:name="date" />
+       <span tal:replace="view/report_date" i18n:name="date" />
     </h2>
     <h2 i18n:translate="">members</h2>
     <ul>
@@ -56,6 +60,8 @@
     </ul>
 
     <h2 i18n:translate="">projects</h2>
+    <p>(note, "active" does not check activity in lists, blogs, or
+    tasks... just pages and preferences)</p>
     <ul>
     <li i18n:translate="stats_active_projects">
       <span tal:replace="python: len(view.get_active_projects())"

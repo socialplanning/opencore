@@ -1,0 +1,41 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+   i18n:domain="opencore">
+  <head profile="http://gmpg.org/xfn/11">
+    <link rel="stylesheet" href="/++resource++css/themes/openplans.css" type="text/css" media="all" />
+    <link rel="stylesheet" href="/++resource++css/opencore.css" type="text/css" media="all" />
+    <title i18n:translate="active_projects">Active Projects</title>
+  </head>  
+  <body>
+    
+    <a href="./stats">stats overview</a> **
+    <a href="./stats_history">stats history</a> **
+    <a href="./stats_activity">active project stats</a>
+
+    <h1 i18n:translate="active_projects">Active Projects</h1>
+    <p>(note, "active" does not check activity in lists, blogs, or
+    tasks... just pages and preferences)</p>
+  
+    <table border="1" cellspacing="0">
+    <tr>
+      <th i18n:translate="">id</th>
+      <th i18n:translate="">last activity (any kind)</th>
+      <th i18n:translate="">members</th>      
+      <th i18n:translate="">last activity (wiki)</th>
+      <th i18n:translate="">wiki pages</th>
+      <th i18n:translate="">last activity (mail)</th>
+      <th i18n:translate="">email threads</th>
+    </tr>
+    <tr tal:repeat="project view/get_active_projects_info">
+      <td><a tal:attributes="href project/path" tal:content="project/id" /></td>
+      <td tal:content="project/last_activity" />
+      <td tal:content="project/num_members" />
+      <td tal:content="project/last_wiki_edit" />
+      <td tal:content="project/num_wiki_pages" />
+      <td tal:content="project/date_of_last_thread" />
+      <td tal:content="project/num_threads" />
+    </tr>
+    </table>    
+
+  </body>
+</html>
