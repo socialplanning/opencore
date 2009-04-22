@@ -40,6 +40,8 @@ class IFirstLoginEvent(Interface):
 class IMemberRegisteredEvent(Interface):
     """ Interface for member registered event """
 
+class IPortraitModifiedEvent(Interface):
+    """ Interface for portrait edit events """
 
 class JoinedProjectEvent(ObjectModifiedEvent):
     implements(IJoinedProjectEvent)
@@ -85,5 +87,11 @@ class FirstLoginEvent(object):
 
 class MemberRegisteredEvent(object):
     implements(IMemberRegisteredEvent)
+    def __init__(self, member):
+        self.member = member
+
+
+class PortraitModifiedEvent(object):
+    implements(IPortraitModifiedEvent)
     def __init__(self, member):
         self.member = member
