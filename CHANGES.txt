@@ -41,6 +41,9 @@ Features Added:
    implementation of zope.i18n.interfaces.IUserPreferredLanguages
    to determine language preferences. (egj)
 
+ * More info at the /stats view (try the link to active project stats)
+   (pw)
+ 
 Bugs Fixed:
 
  * The topnav within a member space was always displaying the member's original
