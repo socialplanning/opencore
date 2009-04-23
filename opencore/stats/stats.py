@@ -130,6 +130,7 @@ class StatsView(BrowserView):
 
     def get_info_for_project(self, brain):
         """ Info for one project."""
+        never = DateTime.DateTime(0)
         proj = brain.getObject()
         proj_last_updated = brain.modified
         num_members = len(proj.projectMemberIds())
@@ -151,13 +152,15 @@ class StatsView(BrowserView):
         num_threads = 0
         lists = self.get_mailing_lists(path=brain.getPath() + '/lists/')
         if lists:
-            date_of_last_thread = DateTime.DateTime(0)
+            date_of_last_thread = never
         for listinfo in lists:
-            date_of_last_thread = max(date_of_last_thread, listinfo['latest_date'])
+            date_of_last_thread = max(date_of_last_thread,
+                                      listinfo['latest_date'] or never)
             num_threads += listinfo['num_threads']
 
-        proj_last_updated = max(proj_last_updated, last_wiki_edit,
-                                date_of_last_thread)
+        proj_last_updated = max(proj_last_updated or never,
+                                last_wiki_edit or never,
+                                date_of_last_thread or never)
 
         return {'num_threads': num_threads, 
                 'date_of_last_thread': date_of_last_thread,
