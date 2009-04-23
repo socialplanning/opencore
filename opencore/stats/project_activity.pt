@@ -30,6 +30,8 @@
       <th i18n:translate="">wiki pages</th>
       <th i18n:translate="">last activity (mail)</th>
       <th i18n:translate="">email threads</th>
+      <th i18n:translate="">last activity (blog)</th>
+      <th i18n:translate="">blog posts</th>
       <th i18n:translate="">link</th>
      </tr>
     </thead>
@@ -42,6 +44,8 @@
       <td tal:content="project/num_wiki_pages" />
       <td tal:content="project/date_of_last_thread" />
       <td tal:content="project/num_threads" />
+      <td tal:content="project/last_blog_date" />
+      <td tal:content="project/num_blog_posts" />
       <td><a tal:define="url string:${context/absolute_url}/projects/${project/id}" tal:attributes="href url" tal:content="url"></a></td>
     </tr>
     </tbody>

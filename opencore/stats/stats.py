@@ -128,10 +128,26 @@ class StatsView(BrowserView):
         info = [self.get_info_for_project(brain) for brain in brains]
         return info
 
+    @view.memoize_contextless
+    def get_blog_activity_for_proj(self, project):
+        """returns (post count, date of last post) """
+        count = 0
+        date = ''
+        from opencore.wordpress.interfaces import IWordPressFeatureletInstalled
+        if not IWordPressFeatureletInstalled.providedBy(project):
+            return count, date
+        from opencore.wordpress.feed.wordpress import WordpressFeedAdapter
+        feed = WordpressFeedAdapter(project)
+        # XXX can we assume the feed is already sorted latest-first?
+        if feed.items:
+            count = len(feed.items)
+            date = DateTime.DateTime(feed.items[0].pubDate)
+        return count, date
+
     def get_info_for_project(self, brain):
-        """ Info for one project."""
+        """All stats for one project."""
         never = DateTime.DateTime(0)
-        proj = brain.getObject()
+        proj = brain.getObject()  # Kind of wonder if there's any point to ZCatalog at all...
         proj_last_updated = brain.modified
         num_members = len(proj.projectMemberIds())
         #num_admins = len(proj.projectMemberIds(admin_only=True))
@@ -158,9 +174,11 @@ class StatsView(BrowserView):
                                       listinfo['latest_date'] or never)
             num_threads += listinfo['num_threads']
 
+        blog_posts, blog_date = self.get_blog_activity_for_proj(proj)
         proj_last_updated = max(proj_last_updated or never,
                                 last_wiki_edit or never,
-                                date_of_last_thread or never)
+                                date_of_last_thread or never,
+                                blog_date or never)
 
         return {'num_threads': num_threads, 
                 'date_of_last_thread': date_of_last_thread,
@@ -172,11 +190,10 @@ class StatsView(BrowserView):
                 'id': brain.getId,
                 'title': brain.Title,
                 'path': brain.getPath(),
+                'last_blog_date': blog_date,
+                'num_blog_posts': blog_posts
                 }
-        # XXX This stuff will take more work:
-        featurelets = opencore.project.utils.get_featurelets(proj)
-        # num blog posts (optional)
-        # date of last blog post (optional)
+        # TO DO:
         # num tasks (optional)
         # date of last task edit (optional)
 
@@ -245,7 +262,7 @@ class StatsView(BrowserView):
             avg_active_length = 0
 
         return i, avg_active_length
-        
+
     def get_active_data(self):
         # this is only useful for approximations of general trends in the past
         # it is not a very accurate way to get historical stats
