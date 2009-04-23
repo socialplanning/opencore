@@ -140,9 +140,9 @@ class StatsView(BrowserView):
                                     portal_type='Document',
                                     sort_on='ModificationDate',
                                     sort_order='descending',
-                                    sort_limit=1))
+                                    ))
         if _page_brains:
-            last_wiki_edit = _page_brains[-1].modified
+            last_wiki_edit = _page_brains[0].modified
         else:
             last_wiki_edit = ''
         num_wiki_pages = len(_page_brains)
