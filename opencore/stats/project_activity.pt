@@ -20,25 +20,31 @@
     <h1 i18n:translate="all_projects">All Projects</h1>
     </span>
 
-    <table border="1" cellspacing="0">
-    <tr>
-      <th i18n:translate="">id</th>
+    <table border="1" cellspacing="0" class="sortable">
+    <thead>
+     <tr>
+      <th i18n:translate="">title</th>
       <th i18n:translate="">last activity (any kind)</th>
       <th i18n:translate="">members</th>      
       <th i18n:translate="">last activity (wiki)</th>
       <th i18n:translate="">wiki pages</th>
       <th i18n:translate="">last activity (mail)</th>
       <th i18n:translate="">email threads</th>
-    </tr>
+      <th i18n:translate="">link</th>
+     </tr>
+    </thead>
+    <tbody>
     <tr tal:repeat="project python:view.get_active_projects_info(select=request.get('select', 'all'))">
-      <td><a tal:attributes="href project/path" tal:content="project/id" /></td>
+      <td><a tal:attributes="href project/path" tal:content="project/title" /></td>
       <td tal:content="project/last_activity" />
       <td tal:content="project/num_members" />
       <td tal:content="project/last_wiki_edit" />
       <td tal:content="project/num_wiki_pages" />
       <td tal:content="project/date_of_last_thread" />
       <td tal:content="project/num_threads" />
+      <td><a tal:define="url string:${context/absolute_url}/projects/${project/id}" tal:attributes="href url" tal:content="url"></a></td>
     </tr>
+    </tbody>
     </table>    
 
   </body>

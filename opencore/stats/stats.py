@@ -167,6 +167,7 @@ class StatsView(BrowserView):
                 'num_members': num_members,
                 'last_activity': proj_last_updated,
                 'id': brain.getId,
+                'title': brain.Title,
                 'path': brain.getPath(),
                 }
         # XXX This stuff will take more work:

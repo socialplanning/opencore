@@ -1,5 +1,10 @@
 <span i18n:domain="opencore">
 
+<script type="text/javascript" src="/++resource++standardista/common.js"></script>
+<script type="text/javascript" src="/++resource++standardista/css.js"></script>
+<script type="text/javascript" src="/++resource++standardista/standardista-table-sorting.js"></script>
+
+
     <a href="./stats" i18n:translate="">stats overview</a>
     &bull;
     <a href="./stats_history" i18n:translate="">stats history</a>

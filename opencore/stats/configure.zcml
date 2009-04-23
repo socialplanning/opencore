@@ -25,5 +25,10 @@
     template="project_activity.pt"
     />
 
+  <browser:resourceDirectory
+    name="standardista"
+    directory="resources"
+    />
+
 
 </configure>
