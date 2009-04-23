@@ -23,9 +23,8 @@
     </style>
   </head>  
   <body>
-    <a href="./stats">stats overview</a> **
-    <a href="./stats_history">stats history</a> **
-    <a href="./stats_activity">active project stats</a>
+
+    <span tal:replace="structure view/menu" />
 
     <h1 i18n:translate="stats_title">Portal Stats</h1>
     <h2 i18n:translate="stats_on_date">

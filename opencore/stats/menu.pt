@@ -1,0 +1,10 @@
+<span i18n:domain="opencore">
+
+    <a href="./stats" i18n:translate="">stats overview</a>
+    &bull;
+    <a href="./stats_history" i18n:translate="">stats history</a>
+    &bull;
+    <a href="./stats_activity?select=active" i18n:translate="">active project stats</a>
+    &bull;
+    <a href="./stats_activity?select=all" i18n:translate="">all project stats</a>
+</span>

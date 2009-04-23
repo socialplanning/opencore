@@ -1,11 +1,12 @@
 from Products.CMFCore.utils import getToolByName
 from Products.Five import BrowserView
+from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
 from Products.listen.interfaces import ISearchableArchive
+from opencore.testing.utils import clear_all_memos
 from opencore.utils import get_utility_for_context
 from plone.memoize import view
 import DateTime
 import opencore.project.utils
-from opencore.testing.utils import clear_all_memos
 
 class StatsView(BrowserView):
     # Note: by passing in report_date you can get stats for the portal as of
@@ -16,6 +17,9 @@ class StatsView(BrowserView):
     # If you had run the stats during that dormant period they would show
     # up as dormant.  The same goes for mailing lists and projects that go through
     # a dormant period and then become active again.
+
+
+    menu = ZopeTwoPageTemplateFile('menu.pt')
 
     def __init__(self, context, request):
         self.context = context
@@ -116,8 +120,11 @@ class StatsView(BrowserView):
 
 
     @view.memoize_contextless
-    def get_active_projects_info(self):
-        brains = self.get_active_projects()
+    def get_active_projects_info(self, select='active'):
+        if select == 'active':
+            brains = self.get_active_projects()
+        else:
+            brains = self.get_projects()
         info = [self.get_info_for_project(brain) for brain in brains]
         return info
 

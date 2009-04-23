@@ -8,14 +8,18 @@
   </head>  
   <body>
     
-    <a href="./stats">stats overview</a> **
-    <a href="./stats_history">stats history</a> **
-    <a href="./stats_activity">active project stats</a>
+    <span tal:replace="structure view/menu" />
 
+    <span tal:condition="python:request.get('select') == 'active'">
     <h1 i18n:translate="active_projects">Active Projects</h1>
     <p>(note, "active" does not check activity in lists, blogs, or
     tasks... just pages and preferences)</p>
-  
+    </span>
+
+    <span tal:condition="python:request.get('select') != 'active'">
+    <h1 i18n:translate="all_projects">All Projects</h1>
+    </span>
+
     <table border="1" cellspacing="0">
     <tr>
       <th i18n:translate="">id</th>
@@ -26,7 +30,7 @@
       <th i18n:translate="">last activity (mail)</th>
       <th i18n:translate="">email threads</th>
     </tr>
-    <tr tal:repeat="project view/get_active_projects_info">
+    <tr tal:repeat="project python:view.get_active_projects_info(select=request.get('select', 'all'))">
       <td><a tal:attributes="href project/path" tal:content="project/id" /></td>
       <td tal:content="project/last_activity" />
       <td tal:content="project/num_members" />

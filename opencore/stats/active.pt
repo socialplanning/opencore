@@ -8,11 +8,9 @@
   </head>  
   <body>
 
-    <a href="./stats">stats overview</a> **
-    <a href="./stats_history">stats history</a> **
-    <a href="./stats_activity">active project stats</a>
+    <span tal:replace="structure view/menu" />
 
-    <h1 i18n:translate="active_objects">Active Objects</h1>
+    <h1 i18n:translate="active_objects">Stats History</h1>
     <p i18n:translate="stats_approximate_disclaimer">This page is only good for approximating historical trends.</p>
     <table tal:define="data view/get_active_data" border="1" cellspacing="0">
     <tr><td i18n:translate="">date</td>
