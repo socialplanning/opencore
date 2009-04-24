@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: opencore\n"
-"POT-Creation-Date: 2009-04-08 19:59+0000\n"
+"POT-Creation-Date: 2009-04-22 17:29+0000\n"
 "PO-Revision-Date: 2008-06-02 22:20+0200\n"
 "Last-Translator: Pierre George <pierregrg@gmail.com>\n"
 "Language-Team: OpenFSM Team <openfsm@lists.openfsm.net>\n"
@@ -127,7 +127,7 @@ msgid "Team"
 msgstr ""
 
 #. Default: "Update"
-#: ./opencore/project/browser/preferences.pt:101
+#: ./opencore/member/browser/profile-edit.pt:101
 msgid "Update"
 msgstr ""
 
@@ -345,13 +345,18 @@ msgid "account_settings"
 msgstr "Parametros de la cuenta"
 
 #. Default: "active"
-#: ./opencore/stats/active.pt:19
+#: ./opencore/stats/active.pt:24
 msgid "active"
 msgstr ""
 
 #. Default: "Active Objects"
 #: ./opencore/stats/active.pt:7
 msgid "active_objects"
+msgstr ""
+
+#. Default: "Active Projects"
+#: ./opencore/stats/project_activity.pt:7
+msgid "active_projects"
 msgstr ""
 
 #. Default: "Allowed Senders"
@@ -395,7 +400,7 @@ msgid "archive_forum_view_by"
 msgstr "Ver por <strong>conversacion</strong> o <a href=\"date_view\">fecha</a>"
 
 #. Default: "There are currently no posts in this archive."
-#: ./opencore/listen/browser/archive_forum_view.pt:51
+#: ./opencore/listen/browser/archive_date_messages.pt:30
 msgid "archive_no_posts"
 msgstr "De momento, no hay elementos en este archivo"
 
@@ -557,7 +562,7 @@ msgid "create_project_url"
 msgstr ""
 
 #. Default: "date"
-#: ./opencore/stats/active.pt:13
+#: ./opencore/stats/active.pt:18
 msgid "date"
 msgstr ""
 
@@ -568,6 +573,11 @@ msgstr "${name} ya no es mas un administrador"
 #. Default: "Discussion list for this ${project_noun}, consisting of all ${project_noun} members."
 #: ./opencore/listen/events.py:98
 msgid "discussion_list_desc"
+msgstr ""
+
+#. Default: "email threads"
+#: ./opencore/stats/project_activity.pt:27
+msgid "email threads"
 msgstr ""
 
 #. Default: "You requested a password reset for your ${portal_title} account. If you did not request this information, please ignore this message.\n\nTo change your password, please visit the following URL: ${url}"
@@ -867,7 +877,7 @@ msgid "forgot_snippet_username_label"
 msgstr "Nombre de usuario o direccion de correo electronico"
 
 #. Default: "(optional)"
-#: ./opencore/account/join.pt:60
+#: ./opencore/account/invite-join.pt:125
 msgid "form_optional_value"
 msgstr ""
 
@@ -1021,6 +1031,11 @@ msgstr "${project_noun}s actualizado"
 msgid "home_window_title"
 msgstr ""
 
+#. Default: "id"
+#: ./opencore/stats/project_activity.pt:21
+msgid "id"
+msgstr ""
+
 #. Default: "You do not have sufficient privileges to view this page."
 #: ./opencore/account/insufficient_privileges.pt:10
 msgid "insufficient_privileges_description"
@@ -1065,39 +1080,39 @@ msgid "invite-w-m_remind_title"
 msgstr "Hacer recordar a los  participantes"
 
 #. Default: "Already a member?"
-#: ./opencore/account/join.pt:187
+#: ./opencore/account/invite-join.pt:228
 #, fuzzy
 msgid "join_already_member_heading"
 msgstr "Ya eres miembro  del equipo?"
 
 #. Default: "Join"
-#: ./opencore/account/join.pt:142
+#: ./opencore/account/invite-join.pt:204
 msgid "join_button"
 msgstr ""
 
 #. Default: "Check your email to confirm registration"
-#: ./opencore/account/join.pt:20
+#: ./opencore/account/invite-join.pt:87
 msgid "join_check_email"
 msgstr "Verifique sur direccion electronica para confirmar su inscripcion"
 
 #. Default: "Confirm password"
-#: ./opencore/account/join.pt:119
+#: ./opencore/account/invite-join.pt:183
 msgid "join_conf_password_label"
 msgstr "Confirmar contraseña"
 
-#. Default: "We will not share your email with anyone. Ever."
-#: ./opencore/account/join.pt:159
+#. Default: "Registration is free and your email will not be shared with anyone, however, you will need to confirm your email address in order to avoid spam bots abusing this system."
+#: ./opencore/account/invite-join.pt:80
 #, fuzzy
 msgid "join_description"
 msgstr "La inscripcion es libre y su direccion electronica no sera dada a nadie, sin embargo, Ud debera confirmar su  direccion electronica, esto para evitar que robotes de spam engañen a este sistema"
 
 #. Default: "Email"
-#: ./opencore/account/join.pt:75
+#: ./opencore/account/invite-join.pt:138
 msgid "join_email_label"
 msgstr "Correo electronico"
 
 #. Default: "Full Name"
-#: ./opencore/account/join.pt:53
+#: ./opencore/account/invite-join.pt:118
 msgid "join_full_name_label"
 msgstr "Nombre completo"
 
@@ -1107,8 +1122,8 @@ msgstr "Nombre completo"
 msgid "join_get_started"
 msgstr "Volverse un miembro significa…"
 
-#. Default: "<li> You can join and participate in existing ${project_noun}s </li> <li> You can create your own ${project_noun} and invite others to join </li> <li>You can share information about yourself</li>"
-#: ./opencore/account/join.pt:179
+#. Default: "<li>You can join and participate in existing ${project_noun}s </li> <li> You can create your own ${project_noun} and invite people to participate </li> <li>You can share information about yourself</li>"
+#: ./opencore/account/invite-join.pt:251
 #, fuzzy
 msgid "join_get_started_list"
 msgstr "<li>Ud puede incluirse y participar en el  ${project_noun}s existente</li> <li>Ud puede crear su propio ${project_noun} e invitar otros a que se incluyan </li> <li>Ud puede compartir informacion sobre Ud</li>"
@@ -1119,17 +1134,17 @@ msgid "join_page_title"
 msgstr " Registrarse en ${page_title}"
 
 #. Default: "Password"
-#: ./opencore/account/join.pt:97
+#: ./opencore/account/invite-join.pt:163
 msgid "join_password_label"
 msgstr "Contraseña"
 
 #. Default: "Sign in"
-#: ./opencore/account/join.pt:188
+#: ./opencore/account/invite-join.pt:229
 msgid "join_sign_in"
 msgstr "Entrar"
 
 #. Default: "Username"
-#: ./opencore/account/join.pt:31
+#: ./opencore/account/invite-join.pt:98
 msgid "join_username_label"
 msgstr "Nombre de usuario"
 
@@ -1153,8 +1168,23 @@ msgstr "(Requirido)"
 msgid "label_send"
 msgstr "Enviar"
 
+#. Default: "last activity (any kind)"
+#: ./opencore/stats/project_activity.pt:22
+msgid "last activity (any kind)"
+msgstr ""
+
+#. Default: "last activity (mail)"
+#: ./opencore/stats/project_activity.pt:26
+msgid "last activity (mail)"
+msgstr ""
+
+#. Default: "last activity (wiki)"
+#: ./opencore/stats/project_activity.pt:24
+msgid "last activity (wiki)"
+msgstr ""
+
 #. Default: "avg life before dormancy"
-#: ./opencore/stats/active.pt:20
+#: ./opencore/stats/active.pt:25
 msgid "life_before_dormancy"
 msgstr ""
 
@@ -1340,7 +1370,7 @@ msgid "lookup_view_purge_button"
 msgstr ""
 
 #. Default: "mailing lists"
-#: ./opencore/stats/active.pt:16
+#: ./opencore/stats/active.pt:21
 msgid "mailing lists"
 msgstr ""
 
@@ -1557,7 +1587,7 @@ msgid "member_macros_recent_activity"
 msgstr "Actividad reciente"
 
 #. Default: "members"
-#: ./opencore/stats/active.pt:14
+#: ./opencore/stats/project_activity.pt:23
 msgid "members"
 msgstr ""
 
@@ -1916,6 +1946,10 @@ msgstr ""
 msgid "project_created"
 msgstr ""
 
+#: ./opencore/project/utils.py:68
+msgid "project_noun"
+msgstr ""
+
 #. Default: "Remove this ${project_noun} from ${portal_title}?"
 #: ./opencore/project/browser/preferences.pt:217
 msgid "project_prefs_delete_prompt"
@@ -2147,7 +2181,7 @@ msgid "project_tour_window_title"
 msgstr ""
 
 #. Default: "projects"
-#: ./opencore/stats/active.pt:15
+#: ./opencore/stats/active.pt:20
 msgid "projects"
 msgstr ""
 
@@ -2449,13 +2483,13 @@ msgstr "Ud salio del sitio"
 msgid "psm_signin_welcome"
 msgstr "Bienvenida! Ud entro en el sitio"
 
-#. Default: "Thanks for joining ${portal_title}, ${mem_id}!\nA confirmation email has been sent to you with instructions on activating your account. After you have activated your account, your request to join the ${project_noun} will be sent to the ${project_noun} administrators."
+#. Default: "Thanks for joining ${portal_title}, ${mem_id}!<br/>\nA confirmation email has been sent to you with instructions on activating your account."
 #: ./opencore/account/join.py:61
 msgid "psm_thankyou_for_joining"
 msgstr ""
 
 #. Default: "Your markup '${stripped_tag}' was removed because ${unallowed_host} is not an allowed host for embedded content on this site. "
-#: ./opencore/nui/wiki/view.py:213
+#: ./opencore/nui/wiki/view.py:204
 msgid "psm_wiki_content_stripped"
 msgstr ""
 
@@ -2570,52 +2604,52 @@ msgid "sortable_fields_portal_type"
 msgstr ""
 
 #. Default: "${active_lists_count} active, after ${stats_expiry_date}"
-#: ./opencore/stats/stats.pt:92
+#: ./opencore/stats/stats.pt:98
 msgid "stats_active_lists"
 msgstr ""
 
 #. Default: "${active_projects} active, edited after ${expiry_date}"
-#: ./opencore/stats/stats.pt:64
+#: ./opencore/stats/stats.pt:70
 msgid "stats_active_projects"
 msgstr ""
 
 #. Default: "${num_users} active, logged in after ${expiry_date}"
-#: ./opencore/stats/stats.pt:37
+#: ./opencore/stats/stats.pt:41
 msgid "stats_active_users"
 msgstr ""
 
 #. Default: "This page is only good for approximating historical trends."
-#: ./opencore/stats/active.pt:11
+#: ./opencore/stats/active.pt:16
 msgid "stats_approximate_disclaimer"
 msgstr ""
 
 #. Default: "${dormant_lists} dormant, after being active for an average of ${stickiness_days} days"
-#: ./opencore/stats/stats.pt:98
+#: ./opencore/stats/stats.pt:104
 msgid "stats_dormant_lists"
 msgstr ""
 
 #. Default: "${dormant_projects} dormant, after being active for an average of ${stickiness_days} days"
-#: ./opencore/stats/stats.pt:70
+#: ./opencore/stats/stats.pt:76
 msgid "stats_dormant_projects"
 msgstr ""
 
 #. Default: "${dormant_users} dormant, after being active for an average of ${stickiness_days} days"
-#: ./opencore/stats/stats.pt:42
+#: ./opencore/stats/stats.pt:46
 msgid "stats_dormant_users"
 msgstr ""
 
 #. Default: "${members_count} total"
-#: ./opencore/stats/stats.pt:52
+#: ./opencore/stats/stats.pt:56
 msgid "stats_members_total"
 msgstr ""
 
 #. Default: "on date ${date}"
-#: ./opencore/stats/stats.pt:29
+#: ./opencore/stats/stats.pt:33
 msgid "stats_on_date"
 msgstr ""
 
 #. Default: "${projects_count} total"
-#: ./opencore/stats/stats.pt:80
+#: ./opencore/stats/stats.pt:86
 msgid "stats_projects_total"
 msgstr ""
 
@@ -2625,22 +2659,22 @@ msgid "stats_title"
 msgstr ""
 
 #. Default: "${total_lists} total"
-#: ./opencore/stats/stats.pt:108
+#: ./opencore/stats/stats.pt:114
 msgid "stats_total_lists"
 msgstr ""
 
 #. Default: "${unused_lists} unused, after first 24 hours"
-#: ./opencore/stats/stats.pt:103
+#: ./opencore/stats/stats.pt:109
 msgid "stats_unused_lists"
 msgstr ""
 
 #. Default: "${unused_member_count} unused, after first 24 hours"
-#: ./opencore/stats/stats.pt:47
+#: ./opencore/stats/stats.pt:51
 msgid "stats_unused_members"
 msgstr ""
 
 #. Default: "${unused_projects} unused, after first 24 hours"
-#: ./opencore/stats/stats.pt:75
+#: ./opencore/stats/stats.pt:81
 msgid "stats_unused_projects"
 msgstr ""
 
@@ -2844,6 +2878,11 @@ msgstr ""
 #. Default: "No version specified."
 #: ./opencore/nui/wiki/wiki-previous-version.pt:16
 msgid "version_unspecified"
+msgstr ""
+
+#. Default: "wiki pages"
+#: ./opencore/stats/project_activity.pt:25
+msgid "wiki pages"
 msgstr ""
 
 #. Default: "${title} - ${portal_title}"

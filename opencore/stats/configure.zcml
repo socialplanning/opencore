@@ -17,5 +17,18 @@
     template="active.pt"
     />
 
+  <browser:page
+    for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+    class=".stats.StatsView"
+    permission="cmf.ManagePortal"
+    name="stats_activity"
+    template="project_activity.pt"
+    />
+
+  <browser:resourceDirectory
+    name="standardista"
+    directory="resources"
+    />
+
 
 </configure>

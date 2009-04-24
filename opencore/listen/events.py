@@ -49,11 +49,11 @@ def perform_listen_action(mship, action):
     portal = getToolByName(mship, 'portal_url').getPortalObject()
     listencontainer = portal.projects._getOb(proj_id).lists
     mlists = []
-    default_list_name = '%s-discussion' % proj_id
+
     for mlist in listencontainer.objectValues(spec='OpenMailingList'):
-        if (mlist.getId() == default_list_name or
-            ISyncWithProjectMembership.providedBy(mlist)):
+        if ISyncWithProjectMembership.providedBy(mlist):
             mlists.append(mlist)
+           
     if not mlists:
         # no autosync mailing lists; silently fail
         return
@@ -98,6 +98,12 @@ def listen_featurelet_installed(proj, event):
     ml.setDescription(translate(_(u'discussion_list_desc', u'Discussion list for this ${project_noun}, consisting of all ${project_noun} members.',
                                   mapping={'project_noun':project_noun()}),
                                             context=request))
+
+
+    # http://www.openplans.org/projects/opencore/lists/opencore-dev/archive/2009/04/1239543233615/forum_view
+    from zope.interface import alsoProvides
+    alsoProvides(ml, ISyncWithProjectMembership)
+
     notify(ObjectCreatedEvent(ml))
 
     memlist = IWriteMembershipList(ml)

@@ -1,0 +1,55 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+   i18n:domain="opencore">
+  <head profile="http://gmpg.org/xfn/11">
+    <link rel="stylesheet" href="/++resource++css/themes/openplans.css" type="text/css" media="all" />
+    <link rel="stylesheet" href="/++resource++css/opencore.css" type="text/css" media="all" />
+    <title i18n:translate="active_projects">Active Projects</title>
+  </head>  
+  <body>
+    
+    <span tal:replace="structure view/menu" />
+
+    <span tal:condition="python:request.get('select') == 'active'">
+    <h1 i18n:translate="active_projects">Active Projects</h1>
+    <p>(note, "active" does not check activity in lists, blogs, or
+    tasks... just pages and preferences)</p>
+    </span>
+
+    <span tal:condition="python:request.get('select') != 'active'">
+    <h1 i18n:translate="all_projects">All Projects</h1>
+    </span>
+
+    <table border="1" cellspacing="0" class="sortable">
+    <thead>
+     <tr>
+      <th i18n:translate="">title</th>
+      <th i18n:translate="">last activity (any kind)</th>
+      <th i18n:translate="">members</th>      
+      <th i18n:translate="">last activity (wiki)</th>
+      <th i18n:translate="">wiki pages</th>
+      <th i18n:translate="">last activity (mail)</th>
+      <th i18n:translate="">email threads</th>
+      <th i18n:translate="">last activity (blog)</th>
+      <th i18n:translate="">blog posts</th>
+      <th i18n:translate="">link</th>
+     </tr>
+    </thead>
+    <tbody>
+    <tr tal:repeat="project python:view.get_active_projects_info(select=request.get('select', 'all'))">
+      <td><a tal:attributes="href project/path" tal:content="project/title" /></td>
+      <td tal:content="project/last_activity" />
+      <td tal:content="project/num_members" />
+      <td tal:content="project/last_wiki_edit" />
+      <td tal:content="project/num_wiki_pages" />
+      <td tal:content="project/date_of_last_thread" />
+      <td tal:content="project/num_threads" />
+      <td tal:content="project/last_blog_date" />
+      <td tal:content="project/num_blog_posts" />
+      <td><a tal:define="url string:${context/absolute_url}/projects/${project/id}" tal:attributes="href url" tal:content="url"></a></td>
+    </tr>
+    </tbody>
+    </table>    
+
+  </body>
+</html>

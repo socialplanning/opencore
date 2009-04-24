@@ -26,7 +26,7 @@ def get_featurelets(project):
     return result
 
 _project_noun = None
-def project_noun():
+def _base_project_noun():
     """Returns our global config's projtxt setting, which should be
     used everywhere we refer to 'projects'.
     """
@@ -46,6 +46,27 @@ def project_noun():
         return default
     _project_noun = config.get('projtxt', default=default)
     return _project_noun
+
+from opencore.i18n import _, translate
+from zope.app.component.hooks import getSite
+from zope.i18n.interfaces import IUserPreferredLanguages
+def project_noun():
+    default = _base_project_noun()   # i'm too scared to touch that function! -egj
+
+    # see http://www.openplans.org/projects/opencore/lists/opencore-dev/archive/2009/02/1235074968070/forum_view#1240025304798
+    # ..we need the site as a context to pass in to `translate` so that 
+    # we can get the user's preferred languages
+    site = getSite()
+    if site is None:
+        # Ugh. This happens during import time, it's used by a couple
+        # of archetypes schema labels.  Lookup fails because we
+        # haven't yet loaded the zcml that creates an implementation
+        # of IProvideSiteConfig.  We have no choice but to return the
+        # default; I'm hoping this is OK because we don't actually
+        # care about archetypes labels.  - PMW
+        return default
+    i18nified = _(u'project_noun', default)
+    return translate(i18nified, context=site)
 
 def project_path(proj_id=None):
     """

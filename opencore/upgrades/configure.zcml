@@ -100,6 +100,11 @@
        description="Set member area Titles back to member ids, not member Titles (see #2779 for rationale)"
        handler=".to_0_17_0.retitle_member_areas"
        />
+    <genericsetup:upgradeStep
+       title="Mark ISyncWithProjectMembership lists"
+       description="Mark ISyncWithProjectMembership on -discussion lists"
+       handler=".to_0_17_0.mark_memsynced_mailing_lists"
+       />
 
   </genericsetup:upgradeSteps>
 

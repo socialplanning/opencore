@@ -11,6 +11,16 @@ Features Added:
    is linked from the "last modified" text in the tabs on the page's standard
    view. (#2781) (egj)
 
+ * A portal status message now notifies users when their wiki content
+   is stripped out because of the allowed_hosts whitelist, a frequent
+   point of confusion for end users. (#2793) (egj)
+
+ * Paginated search results now include a "jump to page" option (#1488) (egj)
+
+ * All contexts now have a view at `searching` which returns a paginated
+   list of all contents published underneath the given context. It is not
+   yet linked to anywhere in the UI. (egj)
+
  * Rename 'pages' back to 'wiki' (#2749) (egj)
 
  * Mailing lists now support an ISyncWithProjectMembership marker interface;
@@ -25,14 +35,15 @@ Features Added:
 
  * More templates marked up for translation. (egj)
 
- * Xinha UI is now localizable (#2730) Currently it respects the HTTP
-   Accept-Language header, but this can be put behind an interface
-   and/or changed. (egj)
+ * The infamous `project_noun` is now marked up for translation. (#2739) (egj)
 
- * A portal status message now notifies users when their wiki content
-   is stripped out because of the allowed_hosts whitelist, a frequent
-   point of confusion for end users. (#2793)
+ * Xinha UI is now localizable (#2730) It respects the registered
+   implementation of zope.i18n.interfaces.IUserPreferredLanguages
+   to determine language preferences. (egj)
 
+ * More info at the /stats view (try the link to active project stats)
+   (pw)
+ 
 Bugs Fixed:
 
  * The topnav within a member space was always displaying the member's original
@@ -48,6 +59,8 @@ Refactoring:
 
  * Heavily refactored `BaseView.area` and `BaseView.window_title` functions 
    in `opencore.browser.base` (#588#comment:7 and following) (egj)
+
+ * Heavily refactored `opencore.nui.main.search` module and related views (egj)
 
  * Optimization: cut down on number of catalog queries in forgot view (rmarianski)
 

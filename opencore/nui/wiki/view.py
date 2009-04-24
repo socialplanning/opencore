@@ -104,6 +104,8 @@ def tounicode(doc, pretty_print=False, include_meta_content_type=False, encoding
 
 
 from opencore.xinha.i18n import available_languages as available_xinha_languages
+from zope.i18n.interfaces import IUserPreferredLanguages
+from Products.PlacelessTranslationService.Negotiator import lang_accepted
 class WikiEdit(WikiBase, OctopoLite):
 
     template = ZopeTwoPageTemplateFile("wiki-edit-xinha.pt")
@@ -163,23 +165,12 @@ class WikiEdit(WikiBase, OctopoLite):
         #  1) http://svn.openesf.net/openfsm/trunk/openfsm/browser/topnav/selector.py
         #  2) https://svn.plone.org/svn/plone/plone.app.i18n/trunk/plone/app/i18n/locales/browser/selector.py
 
-        # ...all of which is to say that we should figure out what exactly we
-        # want to do about user language preferences, because OpenCore's policy
-        # is currently very unclear, and no specific behavior has been defined.
-        # For the sake of caution/expedience, I think we want to assume that
-        # HTTP Accept-language knows best right now when it comes to Xinha,
-        # so we'll grab a BrowserAccept doodad directly. But ultimately we ought
-        # to either firmly support only one behavior and use it directly, or
-        # commit to a common interface like IUserPreferredLanguages or Accept-language
-        # and use *that*.
-        from Products.PlacelessTranslationService.Negotiator import BrowserAccept
-        lang_prefs = BrowserAccept(self.request).getAccepted(self.request, 'language')
+        lang_prefs = IUserPreferredLanguages(self.request).getPreferredLanguages()
 
         # Since we aren't going through a negotiator, we'll just rewrite
         # PTS.Negotiator:Negotiator._negotiate (but simplified, since that
         # implementation generalizes language and content-type negotiations)
         # using our lang_prefs data rather than the getLangPrefs call.
-        from Products.PlacelessTranslationService.Negotiator import lang_accepted
         available_langs = available_xinha_languages()
         for lang in lang_prefs:
             if lang in available_langs:

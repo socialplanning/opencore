@@ -7,7 +7,10 @@
     <title i18n:translate="active_objects">Active Objects</title>
   </head>  
   <body>
-    <h1 i18n:translate="active_objects">Active Objects</h1>
+
+    <span tal:replace="structure view/menu" />
+
+    <h1 i18n:translate="active_objects">Stats History</h1>
     <p i18n:translate="stats_approximate_disclaimer">This page is only good for approximating historical trends.</p>
     <table tal:define="data view/get_active_data" border="1" cellspacing="0">
     <tr><td i18n:translate="">date</td>
