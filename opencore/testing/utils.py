@@ -171,15 +171,24 @@ def unmonkey_proj_noun():
         del( utils._old_project_noun)
         
 from Products.CMFPlone.patches.unicodehacks import FasterStringIO
-orig_write = FasterStringIO.write
+from StringIO import StringIO
+orig_fsio_write = FasterStringIO.write
+orig_sio_write = StringIO.write
 
 def monkey_stringio():
     """monkeypatch StringIO so it never fails w/ unicode errors"""
-    def new_write(self, s):
+    def new_fsio_write(self, s):
         if isinstance(s, UnicodeType):
             s = s.encode('utf8', 'repr')
-        return orig_write(self, s)
-    FasterStringIO.write = new_write
+        return orig_fsio_write(self, s)
+    FasterStringIO.write = new_fsio_write
+
+    def new_sio_write(self, s):
+        if isinstance(s, UnicodeType):
+            s = s.encode('utf8', 'repr')
+        return orig_sio_write(self, s)
+    StringIO.write = new_sio_write
 
 def unmonkey_stringio():
-    FasterStringIO.write = orig_write
+    FasterStringIO.write = orig_fsio_write
+    StringIO.write = orig_sio_write

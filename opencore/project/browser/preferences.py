@@ -126,6 +126,12 @@ class ProjectPreferencesView(ProjectBaseView, OctopoLite):
             return
 
         # Validation passed, so we save the data and set status PSMs.
+
+        # start w/ the viewlets, so they can munge the form if need be
+        for viewlet in viewlet_mgr.viewlets:
+            if hasattr(viewlet, 'save'):
+                viewlet.save()
+
         allowed_params = set(['__initialize_project__', 'update', 'set_flets',
                               'project_title', 'description', 'logo', 'workflow_policy',
                               'featurelets', 'home-page',
@@ -184,13 +190,6 @@ class ProjectPreferencesView(ProjectBaseView, OctopoLite):
         
         featurelets = set([(f.id, f.title) for f in flets if f.installed])
 
-        # We're inventing a convention by which viewlets can extend
-        # forms with more form data to save: just provide a save
-        # method.
-        for viewlet in viewlet_mgr.viewlets:
-            if hasattr(viewlet, 'save'):
-                viewlet.save()
-        
         for flet in featurelets:
             if flet not in old_featurelets:
                 changed[_(u'psm_featurelet_added', u'${flet} feature has been added.',
@@ -200,7 +199,6 @@ class ProjectPreferencesView(ProjectBaseView, OctopoLite):
             if flet not in featurelets:
                 changed[_(u'psm_featurelet_removed', u'${flet} feature has been removed.',
                           mapping={u'flet':flet[1].capitalize()})] = 1
-
         
         for field, changed in changed.items():
             if changed:
