@@ -25,7 +25,7 @@ class WordpressFeedAdapter(BaseFeedAdapter):
 
     @property
     def items(self):
-        if not hasattr(self,'_items'):
+        if not hasattr(self, '_items'):
             # Simple ad-hoc memoization.
             self.populate_items()
         return self._items
@@ -33,6 +33,7 @@ class WordpressFeedAdapter(BaseFeedAdapter):
     def populate_items(self, n_items=5):
         # without the trailing slash, one gets different results!
         # see http://trac.openplans.org/openplans/ticket/2197#comment:3
+        self._items = []
         uri = '%s/blog/feed/' % self.context.absolute_url()
 
         # pull down the feed with the proper cookie
@@ -55,7 +56,7 @@ class WordpressFeedAdapter(BaseFeedAdapter):
             title = feed.feed.title
         except AttributeError:
             # this means the uri is not a feed (or something?)
-            return []
+            return
 
         # maybe this should be done after comments?
         # feed.entries.sort(key=date_key) # they appeared sorted already?
