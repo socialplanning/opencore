@@ -41,10 +41,6 @@ def initialize(context):
     from opencore.content import *
     from opencore.listen import mailinglist
 
-    # Register customization policy
-    #import policy
-    #policy.register(context, config.GLOBALS)
-
     from AccessControl import ModuleSecurityInfo
 
     msi = ModuleSecurityInfo('Products.OpenPlans.interfaces')

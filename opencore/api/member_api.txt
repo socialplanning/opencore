@@ -1,3 +1,5 @@
+-*- mode: doctest ;-*-
+
 ==============
  opencore.api
 ==============
@@ -18,9 +20,8 @@ can access it, but it's not publicly accessible::
 
 info.xml shows personal information about the member::
     >>> self.loginAsPortalOwner()
-
-    >>> print self.portal.people.m1.restrictedTraverse('info.xml')()
-    <info>...<name>Member One</name>...<email>notreal1@example.com</email>...</info>...
+    >>> self.portal.people.m1.restrictedTraverse('info.xml')().encode('utf8')
+    '<info>...<name>M\xc3\xabmber O\xc3\xb1e</name>...<email>notreal1@example.com</email>...</info>...'
 
 get-hash returns the user's opencore auth cookie so clients can set
 the cookie remotely::

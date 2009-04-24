@@ -24,9 +24,9 @@ remove member 'm3' to re-add::
     >>> team.manage_delObjects(ids=['m3']) 
     >>> team.addMember('m3')
     <OpenMembership at ...m3>
-    >>> view = proj.restrictedTraverse('manage-team')
-    >>> view
-    <Products.Five.metaclass.ManageTeamView object at ...>
+    >>> from opencore.project.browser.manageteam import ManageTeamView
+    >>> view = ManageTeamView(proj, proj.REQUEST)
+    >>> view = view.__of__(proj)
 
 The view has properties to get info for the team members and all
 pending membership invitations and requests::
@@ -305,7 +305,7 @@ membership, and m4 is rejected_by_admin.  All should be returned:
 
     >>> team.removeMember('m3')
     >>> view.request.form.clear()
-    >>> view.request.form['search_for'] = 'mem'
+    >>> view.request.form['search_for'] = 'm\xc3\xabm'
     >>> view.search_members()
     >>> len(view.results)
     4

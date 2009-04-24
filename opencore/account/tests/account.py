@@ -251,7 +251,7 @@ the response we send out for AJAX requests::
     >>> request.form['task|validate'] = 'Foo'
     >>> request.form['mode'] = 'async'
     >>> view()
-    '<html><head><meta http-equiv="x-deliverance-no-theme" content="1"/></head><body> {} </body></html>'
+    '<html><head><meta http-equiv="x-deliverance-no-theme" content="1"/></head><body> {...} </body></html>'
     >>> del request.form['mode'], request.form['task|validate']
 
 Submit the form for real now; we need to add 'task|join' to the request::

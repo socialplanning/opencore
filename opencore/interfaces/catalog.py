@@ -60,6 +60,9 @@ class IImageSize(Interface):
     def getValue():
         """retrieve the image's size (data size)"""
 
+class ISortableTitle(Interface):
+        """returns the lowercased title"""
+
 class ILastModifiedAuthorId(Interface):
     """string id for last author to modify a piece of content"""
 

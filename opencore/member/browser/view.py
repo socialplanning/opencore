@@ -6,17 +6,18 @@ from opencore.browser.base import BaseView
 from opencore.browser.formhandler import OctopoLite, action
 from opencore.i18n import _
 from opencore.interfaces.event import MemberModifiedEvent
+from opencore.interfaces.event import PortraitModifiedEvent
 from topp.utils.pretty_date import prettyDate
 from zope.app.event.objectevent import ObjectModifiedEvent
 from zope.component import getMultiAdapter
 from zope.event import notify
 import urllib
 
+
 class ProfileView(BaseView):
 
     field_snippet = ZopeTwoPageTemplateFile('field_snippet.pt')
     member_macros = ZopeTwoPageTemplateFile('member_macros.pt') 
-
 
     # XXX this seems to be called twice when i hit /user/profile 
     #     or /user/profile/edit ... why is that?
@@ -167,7 +168,11 @@ class ProfileEditView(ProfileView, OctopoLite):
         if not self.check_portrait(member, portrait):
             return
 
-        member.reindexObject('portrait')
+        # only trigger event if an image was actually uploaded
+        if portrait.filename:
+            member.reindexObject('portrait')
+            notify(PortraitModifiedEvent(member))
+
         return {
             'oc-profile-avatar' : {
                 'html': self.portrait_snippet(),
@@ -244,4 +249,3 @@ class ProfileEditView(ProfileView, OctopoLite):
         """callback to tell taggerstore a user updated (possibly) taggifiable
         fields. something like a POST to /taggerstore/."""
         pass
-

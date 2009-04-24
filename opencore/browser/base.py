@@ -607,8 +607,8 @@ class BaseView(BrowserView):
     def _clear_instance_memos(self):
         pass
 
-    def pretty_date(self, date):
-        return prettyDate(date)
+    def pretty_date(self, date, include_time=False):
+        return prettyDate(date, include_time)
 
     def get_tab_class(self, link):
         css_class = ''
