@@ -545,6 +545,10 @@ class OpenMember(FolderishMember):
         FolderishMember.register(self)
         notify(MemberRegisteredEvent(self))
 
+    def register(self):
+        FolderishMember.register(self)
+        notify(MemberRegisteredEvent(self))
+
     def _change_member_id(self, newid):
         """Changes the id of this member object and all of the related
         objects (home folder, memberships)"""

@@ -2,6 +2,7 @@ from zope.interface import Interface, implements
 from zope.app.event.interfaces import IObjectModifiedEvent, IObjectCreatedEvent
 from zope.app.event.objectevent import ObjectModifiedEvent, ObjectCreatedEvent
 
+
 class IAfterProjectAddedEvent(Interface):
     """What happens after a project is added"""
 
@@ -39,6 +40,10 @@ class IFirstLoginEvent(Interface):
 
 class IMemberRegisteredEvent(Interface):
     """ Interface for member registered event """
+
+
+class IPortraitModifiedEvent(Interface):
+    """ Interface for portrait edit events """
 
 
 class JoinedProjectEvent(ObjectModifiedEvent):
@@ -82,7 +87,14 @@ class FirstLoginEvent(object):
         self.member = member
         self.request = request
 
+
 class MemberRegisteredEvent(object):
     implements(IMemberRegisteredEvent)
+    def __init__(self, member):
+        self.member = member
+
+
+class PortraitModifiedEvent(object):
+    implements(IPortraitModifiedEvent)
     def __init__(self, member):
         self.member = member
