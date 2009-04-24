@@ -31,9 +31,9 @@ class WordpressFeedAdapter(BaseFeedAdapter):
         return self._items
 
     def populate_items(self, n_items=5):
+        self._items = []
         # without the trailing slash, one gets different results!
         # see http://trac.openplans.org/openplans/ticket/2197#comment:3
-        self._items = []
         uri = '%s/blog/feed/' % self.context.absolute_url()
 
         # pull down the feed with the proper cookie
