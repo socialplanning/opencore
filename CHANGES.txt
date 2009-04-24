@@ -1,3 +1,102 @@
+0.18.0 (UNRELEASED)
+===================
+
+Features Added:
+
+  * Test member data now contains non-ASCII characters to provide better
+    coverage re: i18n and l10n issues. (rafrombrc)
+
+  * Added 'sortable_title' index (w/ associated ISortableTitle indexing
+    adapter) to portal_catalog. (rafrombrc)
+
+  * Added IMemberRegisteredEvent and IPortraitModifiedEvent events, firing
+    them at the appropriate places. (rafrombrc)
+
+  * Added 'opencore.analytics' viewlet to allow easy inclusion of an
+    analytics snippet in the IExtraBody viewlet manager. (rafrombrc)
+
+  * Added support for optional 'include_time' argument to the pretty_date
+    functions. (rafrombrc)
+
+  * Wrapped status message div in a span tag with an id of
+    'oc-statusMessage-container' to allow easy JS access to the entire
+    status message portion of the DOM. (rafrombrc)
+
+  * Email sender now includes the full name of the sender in the 'From:'
+    header if we pass in a member id as the sender token. (rafrombrc)
+
+  * Added IListenContainer interface to mark mailing list containers.
+    (rafrombrc)
+
+  * Added 'num_lists' method to the listen view to easily figure out how
+    many mailing lists exist in a given project. (rafrombrc)
+
+  * Added 'mail event' support to listen mailing lists, which allows
+    customized reply messages to be generated and sent to users based
+    on the specific error code a sent message generates.
+    (rafrombrc, rmarianski)
+
+  * Moved the viewlet 'save' processing to _before_ the main form save
+    processing during the project edit handling so the viewlet save can
+    scribble on the request form to impact the primary save. (rafrombrc)
+
+  * Switched from 'profile_edit_sidebar' to 'profile_sidebar' for the
+    profile sidebar viewlet manager since the same one is used for
+    both the profile view and edit. (rafrombrc)
+
+  * Added 'projects.json' API view against a member folder to allow
+    external apps to get a JSON representation of a given member's
+    active projects. (rafrombrc)
+
+  * Added 'getSkills', 'sortable_title', and 'getWebsite' indexes to
+    the member catalog (i.e. membrane_tool). (rafrombrc, rmarianski)
+
+  * Added 'getLocation' index to portal_catalog. (rafrombrc)
+
+  * Added 'interests' (formerly 'skills') method to member object.
+    (rmarianski)
+
+  * Added 'more_test_content' external method for easy generation of a
+    bunch of extra test accounts. (rafrombrc)
+
+  * Added support for featured projects to be selected by a site admin.
+    (rmarianski)
+
+  * Added FeedbackerClient utility to support fetching of data from
+    feedbacker app if it is installed with the stack. (rafrombrc)
+
+Bugs Fixed:
+
+  * Converted 'body' argument from MIMEText object to string if necessary
+    in MaildropHost monkey-patch. (rafrombrc)
+
+  * Removed 'admin' member from team memberships in the test data setup
+    code. (rafrombrc)
+
+  * Added exception handling code to email_sender's delivery code to
+    account for the different APIs of different MailHost implementations.
+    (rafrombrc)
+
+  * Changed "if 'mode' in self.request.keys()" to "if 'mode' in self.request"
+    in listen view b/c it's much more efficient to do an 'in' against a
+    mapping than against a sequence. (rafrombrc)
+
+  * Switched from using view lookups by traversal to direct instantiation
+    of the view classes in several tests so the tests don't fail when a
+    different package is installed that has registered an override of the
+    view in question. (rafrombrc)
+
+  * Add support for returning 'never' as the 'made_active_date' on a team
+    membership in the team view so we don't blow up when we hit a membership
+    that isn't yet active. (rafrombrc)
+
+  * Monkey (and un-Monkey) patch the StringIO classes in the test layers
+    so they don't blow up when we pass unicode strings around. (rafrombrc)
+
+  * Add some tweaks to the MailHost mock that the tests use so it will act
+    nicely in places where the code expects a MaildropHost. (rafrombrc)
+
+
 0.17.0 (UNRELEASED)
 ===================
 
