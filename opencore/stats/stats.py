@@ -138,9 +138,13 @@ class StatsView(BrowserView):
             return count, date
         from opencore.wordpress.feed.wordpress import WordpressFeedAdapter
         feed = WordpressFeedAdapter(project)
-        # XXX can we assume the feed is already sorted latest-first?
+        if hasattr(feed, 'populate_items'):
+            # If we have recent-enough oc.wordpress installed, try to
+            # get all the posts.
+            feed.populate_items(99999)
         if feed.items:
             count = len(feed.items)
+            # Assume the feed is already sorted latest-first. That's the norm.
             date = DateTime.DateTime(feed.items[0].pubDate)
         return count, date
 
