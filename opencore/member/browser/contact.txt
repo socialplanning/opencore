@@ -13,7 +13,10 @@ The contact view requires you to be logged in as a member:
     Unauthorized...
 
     >>> self.login('m2')
-    >>> contact = self.portal.restrictedTraverse('people/m1/contact')
+    >>> from opencore.member.browser.contact import MemberContactView
+    >>> request = self.portal.REQUEST
+    >>> contact = MemberContactView(self.portal.people.m1, request)
+    >>> contact = contact.__of__(self.portal.people.m1)
 
 Once logged in, you can send messages to the viewed member:
 

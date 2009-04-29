@@ -134,18 +134,3 @@ And check that getting membership roles works::
     
     >>> view.is_admin('m3')
     True
-
-Clear the memoize from the request::
-    >>> utils.clear_all_memos(view)
-
-Verify that traversing to the url gives us the expected class::
-
-    >>> view = projects.p1.restrictedTraverse('team')
-    >>> view
-    <Products.Five.metaclass.SimpleViewClass from ...searchresults.pt object at ...>
-
-
-
-Call the view to make sure there are no exceptions::
-
-    >>> out = view()

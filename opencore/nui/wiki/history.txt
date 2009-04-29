@@ -12,30 +12,31 @@ VERSION COMPARE
 
 Now let's exercise some version compare stuff
 
-    >>> self.loginAsPortalOwner()
-    >>> page = getattr(self.portal.projects.p1, page_id)
+     >>> self.loginAsPortalOwner()
+     >>> page = getattr(self.portal.projects.p1, page_id)
 
 Verify that a redirect is raised on invalid input
 
-Set up the right view::
-     >>> view = self.portal.unrestrictedTraverse('projects/p1/project-home/version_compare')
-     >>> view
-     <Products.Five.metaclass.SimpleViewClass from ...wiki-version-compare.pt object at ...>
+Set up the version compare view and call it with no arguments::
 
-Call it with no arguments::
-     >>> response = view()
+     >>> from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
+     >>> import os.path
+     >>> prefix = os.path.dirname(__file__)
+     >>> from opencore.nui.wiki import historyview
+     >>> request = self.portal.REQUEST
+     >>> view = historyview.WikiVersionCompare(page, request)
+     >>> view = view.__of__(page)
+     >>> view.handle_diff()
      Traceback (most recent call last):
      ...
      Redirect: http://nohost/plone/projects/p1/project-home/history
      >>> view.portal_status_message
      [u'Please choose the two versions you would like to compare.']
 
-Reset the request
-     >>> request = view.request.form = {}
-
 Try it with just one argument::
-     >>> request['version_id'] = '0'
-     >>> response = view()
+
+     >>> request.form['version_id'] = '0'
+     >>> view.handle_diff()
      Traceback (most recent call last):
      ...
      Redirect: http://nohost/plone/projects/p1/project-home/history
@@ -43,8 +44,8 @@ Try it with just one argument::
      [u'Please choose the two versions you would like to compare.']
 
 Try with 2 arguments, but the versions don't exist::
-     >>> request['version_id'] = ['0', '1']
-     >>> response = view()
+     >>> request.form['version_id'] = ['0', '1']
+     >>> view.handle_diff()
      Traceback (most recent call last):
      ...
      Redirect: http://nohost/plone/projects/p1/project-home/history
@@ -52,8 +53,9 @@ Try with 2 arguments, but the versions don't exist::
      [u'Please choose a valid version.']
 
 Try with more than 2 versions
-     >>> request['version_id'] = ['0', '1', '2']
-     >>> response = view()
+
+     >>> request.form['version_id'] = ['0', '1', '2']
+     >>> view.handle_diff()
      Traceback (most recent call last):
      ...
      Redirect: http://nohost/plone/projects/p1/project-home/history
@@ -61,7 +63,8 @@ Try with more than 2 versions
      [u'Please choose only two versions to compare.']
 
 Now edit the page twice, so we can try a valid compare later::
-     >>> request['version_id'] = ['0', '1']
+
+     >>> request.form['version_id'] = ['0', '1']
      >>> repo = view.get_tool('portal_repository')
      >>> page.processForm(values=dict(text='some new text'))
      >>> repo.save(page, comment='new comment')
@@ -86,29 +89,24 @@ Let's make sure the ui bits are updated also::
 
 Now we should get a valid response
 
-     >>> response = view()
+     >>> view.handle_diff()
 
 Test that we can create a page via wicked #@@ (put somewhere else??)
-     >>> view = page.restrictedTraverse('@@add-page')
-     >>> view
-     <Products.Five.metaclass.NuiPageAdd object at ...>
-
-     >>> request = self.portal.REQUEST 
+     >>> from opencore.nui.wiki import add
      >>> request.form = {'Title' : 'newpage', 'section' : 'text'}
-     >>> view()
+     >>> view = add.NuiPageAdd(page, request)
+     >>> view = view.__of__(page)
+     >>> view.add_content()
      'http://...projects/p1/newpage/edit...'
 
 Login as different users, each time checking the last modified author::
      >>> self.logout()
      >>> self.login('m1')
-     >>> view = page.restrictedTraverse('@@edit')
-     >>> view
-     <Products.Five.metaclass.WikiEdit object at ...>
-
-Now start changing the page::
-     >>> request = view.request.form
-     >>> request['text'] = u'<p>foo<br>\n\u2255baz</p>'.encode('utf-8')
-     >>> request['title'] = 'bar'
+     >>> from opencore.nui.wiki.view import WikiEdit
+     >>> request.form['text'] = u'<p>foo<br>\n\u2255baz</p>'.encode('utf-8')
+     >>> request.form['title'] = 'bar'
+     >>> view = WikiEdit(page, request)
+     >>> view = view.__of__(page)
      >>> view.handle_save()
 
 Verify that version caching for ui has registered the changes::
@@ -145,10 +143,10 @@ Verify the last modified author and text changes took place::
 
      >>> self.logout()
      >>> self.login('m3')
-     >>> view = page.restrictedTraverse('@@edit')
-     >>> request = view.request.form
-     >>> request['text'] = 'bar'
-     >>> request['comment'] = 'this is a bar version'
+     >>> request.form['text'] = 'bar'
+     >>> request.form['comment'] = 'this is a bar version'
+     >>> view = WikiEdit(page, request)
+     >>> view = view.__of__(page)
      >>> view.handle_save()
      >>> ILastModifiedAuthorId(page)
      'm3'
