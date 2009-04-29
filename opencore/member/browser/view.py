@@ -133,6 +133,7 @@ class ProfileView(BaseView):
             tags = getattr(member, 'get%s' % field.title())()
             tags = tags.split(',')
             tags = [tag.strip() for tag in tags if tag.strip()]
+            # XXX HARDCODED DOMAIN
             tagsearchurl = 'http://www.openplans.org/tagsearch/' # TODO
             urls = [tagsearchurl + urllib.quote(tag) for tag in tags]
             return [{'tag': tag, 'url': url} for tag, url in zip(tags, urls)]
