@@ -1,3 +1,11 @@
+"""
+``zopectl run update_mailing_lists_fqdn.py mynew.fq.dn ``
+ -> set mailing_list_fqdn and migrate lists
+
+``zopectl run update_mailing_lists_fqdn.py``
+ -> migrate lists (use existing mailing_list_fqdn setting)
+"""
+
 from Products.CMFCore.utils import getToolByName
 from Products.listen.interfaces import IListLookup
 import transaction
@@ -29,3 +37,25 @@ def update_list_mailtos(context, new_fqdn):
 
     transaction.commit()
 
+username = 'admin'
+from AccessControl.SecurityManagement import newSecurityManager
+user = app.acl_users.getUser(username)
+user = user.__of__(app.acl_users)
+newSecurityManager(app, user)
+from Testing.makerequest import makerequest
+app=makerequest(app)
+
+portal = app.openplans
+from zope.app.component.hooks import setSite
+setSite(portal)
+
+propsheet = getToolByName(portal, 'portal_properties').opencore_properties
+
+import sys
+try:
+    new_fqdn = sys.argv[1]
+    propsheet.mailing_list_fqdn = new_fqdn
+except IndexError:
+    new_fqdn = propsheet.mailing_list_fqdn
+
+update_list_mailtos(portal, new_fqdn)
