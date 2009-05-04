@@ -126,16 +126,3 @@ class ResendConfirmationView(AccountView):
                                         self._confirmation_url(member))
         self.addPortalStatusMessage(_(u'psm_new_activation', mapping={u'email':email, u'mfrom':mfrom}))
         self.redirect("%s/login" % site_url)
-
-
-
-
-
-
-
-
-
-
-
-
-

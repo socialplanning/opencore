@@ -15,6 +15,8 @@ from sys import stdout
 from utils import get_portal_as_owner
 from utils import zinstall_products
 from utils import monkey_proj_noun
+from utils import monkey_stringio
+from utils import unmonkey_stringio
 from zope.app.component.hooks import setSite
 import random
 import transaction as txn
@@ -28,7 +30,7 @@ from zope.component import getUtility
 try:
     from opencore.cabochon.testing.utility import setup_cabochon_mock
 except ImportError:
-    setup_cabochon_mock = lambda *args: None
+    setup_cabochon_mock = None
 
 def makerequest_decorator(orig_fn, obj):
     def new_fn(app, stdout=stdout, environ=None):
@@ -78,12 +80,12 @@ class Install(ZCML):
         ZopeTestCase.installPackage('borg.localrole')
         make_objectmanager_site(ZopeTestCase.app())
         ZopeTestCase.installProduct('PleiadesGeocoder')
-
+        monkey_stringio()
         txn.commit()
         
     @classmethod
     def tearDown(cls):
-        raise NotImplementedError
+        unmonkey_stringio()
 
 SiteSetupLayer = Install
 
@@ -91,17 +93,15 @@ class OpenPlansLayer(Install, PloneSite):
     @classmethod
     def setUp(cls):
         portal = get_portal_as_owner()
-
         portal.clearCurrentSkin()
         portal.setupCurrentSkin(portal.REQUEST)
-
         setup_mock_mailhost(portal)
-
         portal.browser_id_manager = BrowserIdManagerMock()
-        setup_cabochon_mock(portal)
+        portal = get_portal_as_owner()
+        if setup_cabochon_mock is not None:
+            setup_cabochon_mock(portal)
         setup_mock_config()
         monkeypatch_makerequest(portal)
-
         txn.commit()
 
     @classmethod

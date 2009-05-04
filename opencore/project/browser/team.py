@@ -1,3 +1,4 @@
+from Acquisition import aq_base
 from Products.CMFCore.utils import getToolByName
 from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
 from opencore.account.login import LoginView
@@ -10,7 +11,6 @@ from opencore.utility.interfaces import IEmailSender
 from operator import attrgetter
 from plone.memoize.instance import memoizedproperty
 from plone.memoize.instance import memoize
-import itertools
 
 
 class TeamRelatedView(SearchView):
@@ -286,7 +286,12 @@ class ProjectTeamView(TeamRelatedView):
         membership = team._getOb(mem_id)
 
         contributions = 'XXX'
-        activation = self.pretty_date(membership.made_active_date)
+        made_active_date = getattr(aq_base(membership), 'made_active_date',
+                                           None)
+        if made_active_date is not None:
+            activation = self.pretty_date(made_active_date)
+        else:
+            activation = 'never'
         modification = self.pretty_date(membership.ModificationDate())
 
         # Filter against search returns to ensure private projects are not

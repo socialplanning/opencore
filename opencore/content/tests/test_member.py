@@ -36,6 +36,7 @@ class TestOpenMember(OpenPlansTestCase, LogInterceptor):
         self.failIf(result is None)
 
         # blacklist is enforced
+        # XXX HARDCODED DOMAIN
         result = mem.validate_email('greetings@openplans.org')
         self.failIf(result is None)
 

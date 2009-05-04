@@ -1,254 +1,254 @@
 <tal:vars define="proj view/project_info">
-<html i18n:domain="opencore" metal:use-macro="here/@@standard_macros/master">
-  <head>
-    <title metal:fill-slot="title"
-           tal:content="string:Contents - ${view/window_title}" />
-  </head>
-	<body>
-	<div metal:fill-slot="content">
-		<div class="oc-headingBlock">
-		<h1 i18n:translate="contents_heading"><span i18n:name="project_noun" tal:replace="python:view.project_noun.title()">Project</span> contents</h1>
-		<p i18n:translate="contents_desc" 
-			 class="oc-headingContext">At-a-glance view of all documents within this
-		<span i18n:name="project_noun" tal:replace="view/project_noun">project</span>.</p>
-		</div>
-		
-		<div id="oc-content-main" class="oc-content-main-fullWidth">
-		<tal:setvar define="item_header string:Wiki pages;
-							item_type string:pages;
-							item_collection view/pages;
-							item_date_author_header string:Last Modified;
-							show_deletes view/show_deletes
-							">
-			<tal:macro metal:define-macro="contents_table_wrapper">
-			<tal:setvar define="item_collection item_collection | options/item_collection;
-					item_header item_header | item_collection/info/header;
-					item_type item_type | item_collection/item_type;
-					item_date_author_header item_date_author_header | options/item_date_author_header;
-					">
-				<tal:if condition="item_collection/editable">
-				<metal:contents_table define-macro="contents_table">
-					<div class="oc-widget oc-widget-dataTable" 
-						 tal:define="form_name string:${item_type}_contents">
+  <html i18n:domain="opencore" metal:use-macro="here/@@standard_macros/master">
+    <head>
+      <title metal:fill-slot="title"
+             tal:content="string:Contents - ${view/window_title}" />
+    </head>
+    <body>
+      <div metal:fill-slot="content">
+        <div class="oc-headingBlock">
+          <h1 i18n:translate="contents_heading"><span i18n:name="project_noun" tal:replace="python:view.project_noun.title()">Project</span> contents</h1>
+          <p i18n:translate="contents_desc" 
+             class="oc-headingContext">At-a-glance view of all documents within this
+            <span i18n:name="project_noun" tal:replace="view/project_noun">project</span>.</p>
+        </div>
+        
+        <div id="oc-content-main" class="oc-content-main-fullWidth">
+          <tal:setvar define="item_header string:Wiki pages;
+                              item_type string:pages;
+                              item_collection view/pages;
+                              item_date_author_header string:Last Modified;
+                              show_deletes view/show_deletes
+                              ">
+            <tal:macro metal:define-macro="contents_table_wrapper">
+              <tal:setvar define="item_collection item_collection | options/item_collection;
+                                  item_header item_header | item_collection/info/header;
+                                  item_type item_type | item_collection/item_type;
+                                  item_date_author_header item_date_author_header | options/item_date_author_header;
+                                  ">
+                <tal:if condition="item_collection/editable">
+                  <metal:contents_table define-macro="contents_table">
+                    <div class="oc-widget oc-widget-dataTable" 
+                         tal:define="form_name string:${item_type}_contents">
 
-					<h2 class="oc-dataTable-heading">
-						<tal:dummy replace="item_header" />
-					</h2>
+                      <h2 class="oc-dataTable-heading">
+                        <tal:dummy replace="item_header" />
+                      </h2>
 
-					<form action="contents" method="POST"
-						tal:attributes="name form_name" class="oc-js-formConfirm">
-						<span class="oc-hidden oc-warning oc-confirm">This deletion is permanent. Are you sure you want to delete?</span>
-						<input tal:replace="structure view/authenticator_input"/>
-						<input type="hidden" name="item_type"
-							 tal:attributes="value item_type" /> 
-						<table class="oc-dataTable" cellpadding="0" cellspacing="0">
-						<metal:thead define-macro="item_thead_snippet">
-							<tal:setvar define="item_type item_type | options/item_type;
-												item_date_author_header item_date_author_header | options/item_date_author_header;
-												sort_on sort_on | options/sort_on | string:title;
-												sort_order sort_order | options/sort_order | string:descending;
-												item_collection item_collection | options/item_collection;
-												">
-							<tal:if condition="item_collection/editable">
-								<thead tal:attributes="id string:oc-${item_type}-thead" >
-								<tr>
-									<th class="oc-dataTable-checkBoxColumn">
-									<input type="checkbox" class="oc-checkAll" />
-									</th>
-									<th scope="col"
-										tal:define="myname string:Title;
-													myvalue string:title">
-									<metal:macro define-macro="sortable_header">
-										<a tal:condition="python: sort_on == myvalue"
-										 tal:attributes="href string:contents?task|resort=Resort&amp;item_type=${item_type}&amp;sort_by=${myvalue}&amp;sort_order=${sort_order};
-														 class string:oc-columnSortable oc-selected oc-js-actionLink">
-										<tal:dummy replace="myname" />
-										<tal:nada condition="python: sort_order == 'ascending'">
-											&darr;
-										</tal:nada>
-										<tal:nada condition="python: sort_order != 'ascending'">
-											&uarr;
-										</tal:nada>
-										</a>
-										<a tal:condition="python: sort_on != myvalue"
-										 tal:attributes="href string:contents?task|resort=Resort&amp;item_type=${item_type}&amp;sort_by=${myvalue};
-														 class string:oc-columnSortable oc-js-actionLink">
-										<tal:dummy replace="myname" />
-										</a>
-									</metal:macro>
-									</th>
-									<th scope="col"
-										tal:condition="python:item_type!='pages'"
-										tal:define="myname string:Size;
-													myvalue string:obj_size">
-									<metal:do use-macro="view/template/macros/sortable_header" />
-									</th>
-									<th scope="col" 
-										tal:define="myname item_date_author_header;
-													myvalue string:obj_date">
-									<metal:do use-macro="view/template/macros/sortable_header" />
-									</th>
-									<th>Actions</th>
-								</tr>
-								</thead>
-							</tal:if>
+                      <form action="contents" method="POST"
+                            tal:attributes="name form_name" class="oc-js-formConfirm">
+                        <span class="oc-hidden oc-warning oc-confirm">This deletion is permanent. Are you sure you want to delete?</span>
+                        <input tal:replace="structure view/authenticator_input"/>
+                        <input type="hidden" name="item_type"
+                               tal:attributes="value item_type" /> 
+                        <table class="oc-dataTable" cellpadding="0" cellspacing="0">
+                          <metal:thead define-macro="item_thead_snippet">
+                            <tal:setvar define="item_type item_type | options/item_type;
+                                                item_date_author_header item_date_author_header | options/item_date_author_header;
+                                                sort_on sort_on | options/sort_on | string:title;
+                                                sort_order sort_order | options/sort_order | string:descending;
+                                                item_collection item_collection | options/item_collection;
+                                                ">
+                              <tal:if condition="item_collection/editable">
+                                <thead tal:attributes="id string:oc-${item_type}-thead" >
+                                  <tr>
+                                    <th class="oc-dataTable-checkBoxColumn">
+                                      <input type="checkbox" class="oc-checkAll" />
+                                    </th>
+                                    <th scope="col"
+                                        tal:define="myname string:Title;
+                                                    myvalue string:title">
+                                      <metal:macro define-macro="sortable_header">
+                                        <a tal:condition="python: sort_on == myvalue"
+                                           tal:attributes="href string:contents?task|resort=Resort&amp;item_type=${item_type}&amp;sort_by=${myvalue}&amp;sort_order=${sort_order};
+                                                           class string:oc-columnSortable oc-selected oc-js-actionLink">
+                                          <tal:dummy replace="myname" />
+                                          <tal:nada condition="python: sort_order == 'ascending'">
+                                            &darr;
+                                          </tal:nada>
+                                          <tal:nada condition="python: sort_order != 'ascending'">
+                                            &uarr;
+                                          </tal:nada>
+                                        </a>
+                                        <a tal:condition="python: sort_on != myvalue"
+                                           tal:attributes="href string:contents?task|resort=Resort&amp;item_type=${item_type}&amp;sort_by=${myvalue};
+                                                           class string:oc-columnSortable oc-js-actionLink">
+                                          <tal:dummy replace="myname" />
+                                        </a>
+                                      </metal:macro>
+                                    </th>
+                                    <th scope="col"
+                                        tal:condition="python:item_type!='pages'"
+                                        tal:define="myname string:Size;
+                                                    myvalue string:obj_size">
+                                      <metal:do use-macro="view/template/macros/sortable_header" />
+                                    </th>
+                                    <th scope="col" 
+                                        tal:define="myname item_date_author_header;
+                                                    myvalue string:obj_date">
+                                      <metal:do use-macro="view/template/macros/sortable_header" />
+                                    </th>
+                                    <th>Actions</th>
+                                  </tr>
+                                </thead>
+                              </tal:if>
 
-							<tal:if condition="not:item_collection/editable">
-								<thead tal:attributes="id string:oc-${item_type}-thead" >
-								<tr>
-									<th scope="col"
-										tal:define="myname string:Title;
-													myvalue string:title">
-									<metal:do use-macro="view/template/macros/sortable_header" />
-									</th>
-									<th scope="col"
-										tal:condition="python:item_type!='pages' and item_type!='lists'"
-										tal:define="myname string:Size;
-													myvalue string:obj_size">
-									<metal:do use-macro="view/template/macros/sortable_header" />
-									</th>
-									<th scope="col"
-										tal:condition="python:item_type=='lists'"
-										tal:define="myname string:Conversations;
-													myvalue string:obj_size">
-									<metal:do use-macro="view/template/macros/sortable_header" />
-									</th>
-									<th scope="col" 
-										tal:define="myname item_date_author_header;
-													myvalue string:obj_date">
-									<metal:do use-macro="view/template/macros/sortable_header" />
-									</th>
-								</tr>
-								</thead>
-							</tal:if>
-							</tal:setvar>
-						</metal:thead>
-						<metal:tbody define-macro="item_tbody_snippet">
-							<tal:setvar define="item_collection item_collection | options/item_collection;
-												item_header item_header | item_collection/info/header;
-												item_type item_type | item_collection/item_type;
-												">
-							<tal:if condition="item_collection/editable">
-								<tbody tal:attributes="id string:oc-${item_type}-tbody" >
-								<tal:for repeat="item item_collection">
-									<metal:row define-macro="item_row">
-									<tr class="oc-js-liveEdit" 
-										tal:attributes="id python:item['path']"
-										tal:define="item item | options/item;
-													item_type item_type | options/item_type;
-													item_editable  editable | options/editable | not:item/readonly | not:default;
-													deletable not:item/nodelete | nothing">
-										<td tal:condition="item_collection/editable">
-											<input tal:condition="not:deletable" type="checkbox" class="oc-js-checkAll-never" name="deletes:list"
-												 tal:attributes="value item/path" 
-												 disabled="True" />
-											<input tal:condition="deletable" type="checkbox" name="deletes:list"
-												 tal:attributes="value item/path" />
-										</td>
-										<td>
-										<div class="oc-js-liveEdit-value">
-											<a tal:attributes="href item/url" tal:content="item/title" />
-										</div>
-										<div tal:condition="item_editable"
-											 class="oc-js-liveEdit-editForm oc-liveEdit-editForm">
-											<input type="text" 
-													 tal:attributes="name string:${item/path}_title; value item/title" />
-											<input type="submit" class="oc-js-actionButton" value="Save"
-													 tal:attributes="name string:task|${item/path}|update" /> or
-											<a href="" class="oc-js-liveEdit_hideForm" tal:content="string:Cancel" />
-										</div>
-										</td>
-										<td tal:condition="python:item_type!='pages'" tal:content="item/obj_size" />
-										<td>
-										<span tal:replace="item/obj_date" />
-										<tal:setvar define="author item/obj_author" condition="author">
-											by
-											<a tal:attributes="href string:${context/portal_url}/people/${author}/profile" tal:content="author" />
-										</tal:setvar>
-										</td>
+                              <tal:if condition="not:item_collection/editable">
+                                <thead tal:attributes="id string:oc-${item_type}-thead" >
+                                  <tr>
+                                    <th scope="col"
+                                        tal:define="myname string:Title;
+                                                    myvalue string:title">
+                                      <metal:do use-macro="view/template/macros/sortable_header" />
+                                    </th>
+                                    <th scope="col"
+                                        tal:condition="python:item_type!='pages' and item_type!='lists'"
+                                        tal:define="myname string:Size;
+                                                    myvalue string:obj_size">
+                                      <metal:do use-macro="view/template/macros/sortable_header" />
+                                    </th>
+                                    <th scope="col"
+                                        tal:condition="python:item_type=='lists'"
+                                        tal:define="myname string:Conversations;
+                                                    myvalue string:obj_size">
+                                      <metal:do use-macro="view/template/macros/sortable_header" />
+                                    </th>
+                                    <th scope="col" 
+                                        tal:define="myname item_date_author_header;
+                                                    myvalue string:obj_date">
+                                      <metal:do use-macro="view/template/macros/sortable_header" />
+                                    </th>
+                                  </tr>
+                                </thead>
+                              </tal:if>
+                            </tal:setvar>
+                          </metal:thead>
+                          <metal:tbody define-macro="item_tbody_snippet">
+                            <tal:setvar define="item_collection item_collection | options/item_collection;
+                                                item_header item_header | item_collection/info/header;
+                                                item_type item_type | item_collection/item_type;
+                                                ">
+                              <tal:if condition="item_collection/editable">
+                                <tbody tal:attributes="id string:oc-${item_type}-tbody" >
+                                  <tal:for repeat="item item_collection">
+                                    <metal:row define-macro="item_row">
+                                      <tr class="oc-js-liveEdit" 
+                                          tal:attributes="id python:item['path']"
+                                          tal:define="item item | options/item;
+                                                      item_type item_type | options/item_type;
+                                                      item_editable  editable | options/editable | not:item/readonly | not:default;
+                                                      deletable not:item/nodelete | nothing">
+                                        <td tal:condition="item_collection/editable">
+                                          <input tal:condition="not:deletable" type="checkbox" class="oc-js-checkAll-never" name="deletes:list"
+                                                 tal:attributes="value item/path" 
+                                                 disabled="True" />
+                                          <input tal:condition="deletable" type="checkbox" name="deletes:list"
+                                                 tal:attributes="value item/path" />
+                                        </td>
+                                        <td>
+                                          <div class="oc-js-liveEdit-value">
+                                            <a tal:attributes="href item/url" tal:content="item/title" />
+                                          </div>
+                                          <div tal:condition="item_editable"
+                                               class="oc-js-liveEdit-editForm oc-liveEdit-editForm">
+                                            <input type="text" 
+                                                   tal:attributes="name string:${item/path}_title; value item/title" />
+                                            <input type="submit" class="oc-js-actionButton" value="Save"
+                                                   tal:attributes="name string:task|${item/path}|update" /> or
+                                            <a href="" class="oc-js-liveEdit_hideForm" tal:content="string:Cancel" />
+                                          </div>
+                                        </td>
+                                        <td tal:condition="python:item_type!='pages'" tal:content="item/obj_size" />
+                                        <td>
+                                          <span tal:replace="item/obj_date" />
+                                          <tal:setvar define="author item/obj_author" condition="author">
+                                            by
+                                            <a tal:attributes="href string:${context/portal_url}/people/${author}/profile" tal:content="author" />
+                                          </tal:setvar>
+                                        </td>
 
-										<td tal:condition="item_collection/editable">
-										<ul class="oc-actions oc-dataTable-row-actions" tal:condition="item_editable">
-											<li>
+                                        <td tal:condition="item_collection/editable">
+                                          <ul class="oc-actions oc-dataTable-row-actions" tal:condition="item_editable">
+                                            <li>
 
-											<a href="#" class="oc-js-liveEdit_showForm oc-actionLink">Rename</a></li>
-											<li tal:condition="deletable">
-											<a class="oc-js-actionPost oc-actionLink oc-js-confirm"
-												 tal:attributes="href string:contents?task|${item/path}|delete=Delete&amp;item_type=${item_type}&amp;authenticator=${view/authenticator}">
-												Delete <span class="oc-hidden oc-warning oc-confirm">This deletion is permanent. Are you sure you want to delete?</span>
-											</a>
-											</li>
-										</ul>
-										</td>
-									</tr>
-									</metal:row>
-								</tal:for>
-								</tbody>
-							</tal:if>
+                                              <a href="#" class="oc-js-liveEdit_showForm oc-actionLink">Rename</a></li>
+                                            <li tal:condition="deletable">
+                                              <a class="oc-js-actionPost oc-actionLink oc-js-confirm"
+                                                 tal:attributes="href string:contents?task|${item/path}|delete=Delete&amp;item_type=${item_type}&amp;authenticator=${view/authenticator}">
+                                                Delete <span class="oc-hidden oc-warning oc-confirm">This deletion is permanent. Are you sure you want to delete?</span>
+                                              </a>
+                                            </li>
+                                          </ul>
+                                        </td>
+                                      </tr>
+                                    </metal:row>
+                                  </tal:for>
+                                </tbody>
+                              </tal:if>
 
-							<tal:if condition="not:item_collection/editable">
-								<tbody tal:attributes="id string:oc-${item_type}-tbody" >
-                                <!-- The view/template default below is necessary for rendering the template
-                                      directly from code. -->
-								<tal:for repeat="item item_collection">
-									<tal:macro metal:use-macro="template/macros/item_row | view/template/macros/item_row" />
-								</tal:for>
-								</tbody>	
-							</tal:if>
-							</tal:setvar>
-						</metal:tbody>
-						</table>
+                              <tal:if condition="not:item_collection/editable">
+                                <tbody tal:attributes="id string:oc-${item_type}-tbody" >
+                                  <!-- The view/template default below is necessary for rendering the template
+                                       directly from code. -->
+                                  <tal:for repeat="item item_collection">
+                                    <tal:macro metal:use-macro="template/macros/item_row | view/template/macros/item_row" />
+                                  </tal:for>
+                                </tbody>    
+                              </tal:if>
+                            </tal:setvar>
+                          </metal:tbody>
+                        </table>
 
-						<ul class="oc-actions oc-dataTable-actions" tal:condition="python: item_type != 'pages' or len(item_collection) > 1">
-						<tal:if condition="show_deletes">
-							<li>
-							<input type="submit" name="task|batch_deletes|delete" value="Delete" class="oc-button" />
-							</li>
-						</tal:if>
-						</ul>
-					</form>
-					</div> <!-- end .oc-widget-dataTable -->
-				</metal:contents_table>
-				</tal:if>
+                        <ul class="oc-actions oc-dataTable-actions" tal:condition="python: item_type != 'pages' or len(item_collection) > 1">
+                          <tal:if condition="show_deletes">
+                            <li>
+                              <input type="submit" name="task|batch_deletes|delete" value="Delete" class="oc-button" />
+                            </li>
+                          </tal:if>
+                        </ul>
+                      </form>
+                    </div> <!-- end .oc-widget-dataTable -->
+                  </metal:contents_table>
+                </tal:if>
 
-				<tal:if condition="not:item_collection/editable">
-				<metal:contents_table_uneditable define-macro="contents_table_uneditable">
-					<div class="oc-widget oc-widget-dataTable">
-					<h2 class="oc-dataTable-heading"><tal:dummy replace="item_header" /></h2>
-					<table class="oc-dataTable" cellpadding="0" cellspacing="0">
-						<tal:macro metal:use-macro="template/macros/item_thead_snippet" />
-						<tal:macro metal:use-macro="template/macros/item_tbody_snippet" />
-					</table>
-					</div> <!-- end .oc-widget-dataTable -->
-				</metal:contents_table_uneditable>
-				</tal:if> 
-			</tal:setvar>
-			</tal:macro>
-		</tal:setvar>
+                <tal:if condition="not:item_collection/editable">
+                  <metal:contents_table_uneditable define-macro="contents_table_uneditable">
+                    <div class="oc-widget oc-widget-dataTable">
+                      <h2 class="oc-dataTable-heading"><tal:dummy replace="item_header" /></h2>
+                      <table class="oc-dataTable" cellpadding="0" cellspacing="0">
+                        <tal:macro metal:use-macro="template/macros/item_thead_snippet" />
+                        <tal:macro metal:use-macro="template/macros/item_tbody_snippet" />
+                      </table>
+                    </div> <!-- end .oc-widget-dataTable -->
+                  </metal:contents_table_uneditable>
+                </tal:if> 
+              </tal:setvar>
+            </tal:macro>
+          </tal:setvar>
 
-		<tal:setvar define="item_header string:Images &amp; Attachments;
-				    item_type string:files;
-				    item_collection view/files;
-				    item_date_author_header string:Created;
-				    show_deletes view/show_deletes
-				    ">
-			 <tal:macro metal:use-macro="template/macros/contents_table_wrapper" />
-		</tal:setvar> 
+          <tal:setvar define="item_header string:Images &amp; Attachments;
+                              item_type string:files;
+                              item_collection view/files;
+                              item_date_author_header string:Created;
+                              show_deletes view/show_deletes
+                              ">
+            <tal:macro metal:use-macro="template/macros/contents_table_wrapper" />
+          </tal:setvar> 
 
-		<tal:setvar condition="view/has_mailing_lists" 
-			define="item_header string:Mailing lists;
-				item_type string:lists;
-				item_collection view/lists;
-				item_date_author_header string:Created;
-				show_deletes view/show_deletes
-				">
-			<metal:table use-macro="template/macros/contents_table_wrapper" />
-		</tal:setvar> 
+          <tal:setvar condition="view/has_mailing_lists" 
+                      define="item_header string:Mailing lists;
+                              item_type string:lists;
+                              item_collection view/lists;
+                              item_date_author_header string:Created;
+                              show_deletes view/show_deletes
+                              ">
+            <metal:table use-macro="template/macros/contents_table_wrapper" />
+          </tal:setvar> 
 
-		<a rel="include" i18n:translate="contents_view_tasks" tal:condition="view/has_task_tracker"
-			tal:attributes="href string:${view/tasktracker_url}">View tasklists</a> 
-		</div><!-- end .oc-content-main -->
-	</div><!-- end content-fill-slot -->
-	</body>
-</html>
+          <a rel="include" i18n:translate="contents_view_tasks" tal:condition="view/has_task_tracker"
+             tal:attributes="href string:${view/tasktracker_url}">View tasklists</a> 
+        </div><!-- end .oc-content-main -->
+      </div><!-- end content-fill-slot -->
+    </body>
+  </html>
 </tal:vars>

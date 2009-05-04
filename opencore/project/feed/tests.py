@@ -6,6 +6,7 @@ import unittest
 
 # XXX Monkeypatching should be scoped to just the test it's needed for,
 # and restored on teardown; but for some reason I can't make that work.
+# XXX HARDCODED DOMAIN
 BaseFeedAdapter.memberURL = lambda x, y: 'http://www.openplans.org'
 BaseFeedAdapter.member_portraitURL = lambda x, y: 'http://www.openplans.org/++resource++img/topp_logo.jpg'
 

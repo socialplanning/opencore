@@ -135,4 +135,5 @@ class OpencoreUtils(BrowserView):
         return member_title(arg)
     def topp_url(self):
         cfg = getUtility(IProvideSiteConfig)
+        # XXX HARDCODED DOMAIN
         return cfg.get('topp_url', 'http://topp.openplans.org')

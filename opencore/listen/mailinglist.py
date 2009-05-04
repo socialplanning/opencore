@@ -1,12 +1,11 @@
-from Products.CMFCore import permissions as CMFPermissions
 from Products.CMFDefault.DublinCore import DefaultDublinCoreImpl
-from Products.listen import permissions
 from Products.listen.content.mailinglist import MailingList
-from Products.listen.permissions import InviteSubscribers
 from fieldproperty import ListNameFieldProperty
 from interfaces import IOpenMailingList
 from opencore.configuration import PROJECTNAME
 from zope.interface import implements
+from zope.component import getMultiAdapter
+from zope.component import queryMultiAdapter
 
 PKG_NAME = 'listen'
 
@@ -58,3 +57,22 @@ class OpenMailingList(MailingList, DefaultDublinCoreImpl):
     # so now, up to 100 emails are allowed in 10 minutes before the
     # sender is disabled
     senderlimit = 100
+
+    def manage_event(self, event_codes, headers):
+        """ Handle event conditions passed up from smtp2zope.
+        
+            Primarily this method will be called by XMLRPC from smtp2zope.
+            Copied from mailboxer to avoid having to acquire the mail template
+            but instead try to get templates for them
+        
+        """
+        for code in event_codes:
+            from_ = headers.get('from')
+            if from_ is None:
+                continue
+            view = queryMultiAdapter((self, self.REQUEST), name='event_template_sender_%d' % code)
+            if view is None:
+                view = getMultiAdapter((self, self.REQUEST), name='event_template_sender_default')
+            msg = view(code, headers)
+            returnpath = self.getValueFor('returnpath') or self.manager_email
+            self._send_msgs([from_], msg, returnpath)

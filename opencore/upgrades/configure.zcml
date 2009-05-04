@@ -108,4 +108,18 @@
 
   </genericsetup:upgradeSteps>
 
+  <genericsetup:upgradeSteps
+     profile="opencore.configuration:default"
+     source="0.17.0"
+     destination="0.18.0"
+     sortkey="10">
+
+    <genericsetup:upgradeStep
+       title="Mark listen folders w/ IListenContainer"
+       description="Mark listen folders w/ IListenContainer"
+       handler=".to_0_18_0.mark_listen_folders"
+       />
+
+  </genericsetup:upgradeSteps>
+
 </configure>

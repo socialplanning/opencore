@@ -47,7 +47,7 @@
 	    
             <!-- the results are displayed here -->
             <ol class="oc-lineup-list">
-              <li class="oc-lineup-item" tal:repeat="item batch">
+              <li class="oc-lineup-item oc-clearAfter" tal:repeat="item batch">
 		<tal:result replace="structure python:view.result_listing(item)" />
               </li>
             </ol>

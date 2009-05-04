@@ -61,7 +61,10 @@ def test_suite():
 
     listen_discussion.layer = listen_featurelet.layer = test_layer
 
-    return unittest.TestSuite((listen_discussion, listen_featurelet))
+    suite = unittest.TestSuite((listen_discussion, listen_featurelet))
+    from test_manage_event import TestMailingListManageEvent
+    suite.addTest(unittest.makeSuite(TestMailingListManageEvent))
+    return suite
 
 
 if __name__ == '__main__':

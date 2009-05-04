@@ -9,4 +9,12 @@
      attribute="email_exists"
      />
 
+  <browser:page
+     for="opencore.interfaces.IMemberFolder"
+     class=".projects.ProjectsView"
+     permission="zope2.View"
+     name="projects.json"
+     attribute="projects_json"
+     />
+
 </configure>

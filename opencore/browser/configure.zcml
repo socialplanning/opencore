@@ -136,4 +136,13 @@
     class="opencore.utils.OpencoreUtils"
   />
 
+  <!-- viewlet to pull in analytics snippet -->
+  <browser:viewlet
+     for="*"
+     manager=".interfaces.IExtraBody"
+     class=".analytics.AnalyticsSnippet"
+     name="opencore.analytics"
+     permission="zope2.View"
+     />
+
 </configure>

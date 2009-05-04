@@ -165,6 +165,9 @@
  <index name="start" meta_type="DateIndex">
   <property name="index_naive_time_as_local">True</property>
  </index>
+ <index name="location" meta_type="FieldIndex">
+  <indexed_attr value="getLocation"/>
+ </index>
  <column value="CreationDate"/>
  <column value="Creator"/>
  <column value="Date"/>

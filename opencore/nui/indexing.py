@@ -3,6 +3,7 @@ from StringIO import StringIO
 from Missing import Value as MissingValue
 from Acquisition import aq_parent
 from zope.app.annotation.interfaces import IAnnotations
+from Products.Archetypes.interfaces import IBaseObject
 from Products.CMFCore.interfaces._content import IDynamicType
 from Products.CMFCore.interfaces._tools import ICatalogTool
 from Products.CMFCore.utils import getToolByName
@@ -12,10 +13,11 @@ from Products.ZCatalog.CatalogBrains import AbstractCatalogBrain
 from Products.listen.interfaces import ISearchableArchive
 from Products.listen.interfaces.mailinglist import IMailingList
 from Products.listen.lib.common import get_utility_for_context
-from opencore.interfaces.catalog import ILastWorkflowActor, ILastModifiedAuthorId, \
-     IMetadataDictionary, ILastWorkflowTransitionDate, IMailingListThreadCount, \
-     IHighestTeamRole, ILastModifiedComment, \
-     IImageWidthHeight, IImageSize, IIsImage
+from opencore.interfaces.catalog import (
+    ILastWorkflowActor, ILastModifiedAuthorId, IMetadataDictionary,
+    ILastWorkflowTransitionDate, IMailingListThreadCount,
+     IHighestTeamRole, ILastModifiedComment, IImageWidthHeight,
+    IImageSize, IIsImage, ISortableTitle)
 from opencore.interfaces import IOpenMembership, IOpenPage
 from opencore.nui.wiki.interfaces import IWikiHistory
 
@@ -211,6 +213,11 @@ def metadata_for_portal_content(context, catalog):
         metadata['Title'] = context.title_or_id()
     return metadata
 
+@adapter(IBaseObject)
+@implementer(ISortableTitle)
+def sortable_title(context):
+    return context.Title().lower()
+
 class MailingListThreadCount(object):
     adapts(IMailingList)
     implements(IMailingListThreadCount)
@@ -275,7 +282,7 @@ def register_indexable_attrs():
     registerInterfaceIndexer('lastModifiedAuthor', ILastModifiedAuthorId)
     registerInterfaceIndexer('mailing_list_threads', IMailingListThreadCount,
                              'getValue')
-
+    registerInterfaceIndexer('sortable_title', ISortableTitle)
 
 
 class _extra:

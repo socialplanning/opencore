@@ -23,11 +23,13 @@ from fields import SquareScaledImageField
 
 from opencore.configuration import PROJECTNAME
 from opencore.configuration import PROHIBITED_MEMBER_PREFIXES
+from opencore.interfaces.event import MemberRegisteredEvent
 from opencore.utility.interfaces import IHTTPClient
 from opencore.utils import get_opencore_property
 from types import TupleType, ListType, UnicodeType
 from zope.component import getAdapter
 from zope.component import getUtility
+from zope.event import notify
 import Products.Archetypes.public as atapi
 import logging
 import random
@@ -285,6 +287,15 @@ class OpenMember(FolderishMember):
                     projects.add(space)
         return list(projects)
     
+    security.declareProtected(View, 'interests')
+    def interests(self):
+        """Represents a list of the user skills. It used to be called "skills".
+           This is indexed as a keywordindex"""
+        skills = self.getSkills()
+        if skills is None or not skills.strip():
+            return []
+        return [x.strip().lower() for x in skills.split(',')]
+
     security.declareProtected(View, 'project_ids')
     def project_ids(self):
         """ids of active teams. this attr is indexed"""
@@ -530,6 +541,13 @@ class OpenMember(FolderishMember):
                         self.translate('id_pass_password',
                                        default='"password" is not a valid password.',
                                        domain='remember-plone')
+    def register(self):
+        FolderishMember.register(self)
+        notify(MemberRegisteredEvent(self))
+
+    def register(self):
+        FolderishMember.register(self)
+        notify(MemberRegisteredEvent(self))
 
     def _change_member_id(self, newid):
         """Changes the id of this member object and all of the related

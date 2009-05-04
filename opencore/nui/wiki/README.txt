@@ -5,115 +5,30 @@
 =========
 
 
-Registrations
-=============
+Edit tab
+========
 
-Test wiki page registrations::
+Make sure notallowed css class is applied to edit tab since we don't
+have permissions to edit::
 
     >>> page = getattr(self.portal.projects.p1, page_id)
-    >>> page.restrictedTraverse('@@view')
-    <...SimpleViewClass from ...wiki/wiki-view.pt object at ...>
-    
-    >>> page.restrictedTraverse('@@wiki_macros')
-    <...SimpleViewClass ...wiki/wiki_macros.pt object at ...>
-    
-    >>> page.restrictedTraverse('@@edit')
-    Traceback (most recent call last):
-    ...
-    Unauthorized: ...
-
-Make sure notallowed css class is applied to edit tab
-since we don't have permissions to edit::
-    >>> html = page.restrictedTraverse('@@view')()
-    >>> 'oc-notallowed' in html
+    >>> request = self.portal.REQUEST
+    >>> from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
+    >>> from opencore.nui.wiki import view as viewpkg
+    >>> import os.path
+    >>> prefix = os.path.dirname(__file__)
+    >>> pageview = viewpkg.WikiView(page, request)
+    >>> pageview = pageview.__of__(page)
+    >>> pageview.__call__ = ViewPageTemplateFile('wiki-view.pt', _prefix=prefix)
+    >>> 'oc-notallowed' in pageview()
     True
 
-Test wiki history registrations::
-
-    >>> page.restrictedTraverse('history')
-    <...SimpleViewClass ...wiki-history.pt object at ...>
-
-    >>> page.restrictedTraverse('version')
-    <...SimpleViewClass ...wiki/wiki-previous-version.pt object at ...>
-
-    >>> page.restrictedTraverse('version_compare')
-    <...SimpleViewClass ...wiki/wiki-version-compare.pt object at ...>
-
-and permissions::
-
-    >>> from AccessControl.SecurityManagement import newSecurityManager
-    >>> from AccessControl.User import nobody
-    >>> newSecurityManager(None, nobody)
-    >>> history = page.restrictedTraverse('history')
-
-This seems to be tesing ui not security
-
-#    >>> print unicode(history())
-#    u'... There are no previous versions...
-
-Test wiki attachment registrations which are not used any more::
-
-    >>> page.restrictedTraverse('@@updateAtt')
-    Traceback (most recent call last):
-    ...
-    Unauthorized: ...
-
-    >>> page.restrictedTraverse('@@createAtt')    
-    Traceback (most recent call last):
-    ...
-    Unauthorized: ...
-
-    >>> page.restrictedTraverse('@@deleteAtt')    
-    Traceback (most recent call last):
-    ...
-    Unauthorized: ...
-
-Test logged in user::
+Log in, then make sure notallowed css class is _not_ applied to edit
+tab since we do have permissions to edit::
 
     >>> self.loginAsPortalOwner()
-    >>> from opencore.browser.base import BaseView
-    >>> view = BaseView(self.portal, self.portal.REQUEST)
-
-Test wiki page registrations (logged in)::
-
-    >>> page.restrictedTraverse('@@view')
-    <...SimpleViewClass from ...wiki/wiki-view.pt object at ...>
-    
-    >>> page.restrictedTraverse('@@wiki_macros')
-    <...SimpleViewClass ...wiki/wiki_macros.pt object at ...>
-    
-    >>> page.restrictedTraverse('@@edit')
-    <Products.Five.metaclass.WikiEdit object at ...>
-
-Make sure notallowed css class is not applied to edit tab
-since we do have permissions to edit::
-
-    >>> html = page.restrictedTraverse('@@view')()
-    >>> 'oc-notallowed' in html
+    >>> 'oc-notallowed' in pageview()
     False
-
-Test wiki history registrations (logged in)::
-
-    >>> page.restrictedTraverse('history')
-    <Products.Five.metaclass.SimpleViewClass from ...wiki-history.pt object at ...>
-
-    >>> page.restrictedTraverse('version')
-    <Products.Five.metaclass.SimpleViewClass ...wiki/wiki-previous-version.pt object at ...>
-
-    >>> page.restrictedTraverse('version_compare')
-    <Products.Five.metaclass.SimpleViewClass from ...wiki-version-compare.pt object at ...>
-
-   
-Test wiki attachment registrations (logged in)::
-
-    >>> page.restrictedTraverse('@@updateAtt')
-    <Products.Five.metaclass.AttachmentView object at ...>
-
-    >>> page.restrictedTraverse('@@createAtt')    
-    <Products.Five.metaclass.AttachmentView object at ...>
-
-    >>> page.restrictedTraverse('@@deleteAtt')    
-    <Products.Five.metaclass.AttachmentView object at ...>
 
 
 Linking
@@ -163,8 +78,8 @@ Test actually creating, editing, deleting an attachment::
 
 Error case for creating an attachment with no attachment there::
 
-     >>> request = self.portal.REQUEST
-     >>> view = page.restrictedTraverse('@@edit')
+     >>> view = viewpkg.WikiEdit(page, request)
+     >>> view = view.__of__(page)
      >>> view.create_attachment()
      {'An error': ''}
 
@@ -251,13 +166,8 @@ Try listing the attachments
 IMAGE MANAGER BACKEND
 =====================
 
-     >>> view = page.restrictedTraverse('@@backend')
-     >>> view
-     <...SimpleViewClass from ...wiki/backend.pt object at ...>
-
-     >>> view = page.restrictedTraverse('@@backend-images')
-     >>> view
-     <...SimpleViewClass from ...wiki/backend-images.pt object at ...>
+     >>> view = viewpkg.ImageManager(page, request)
+     >>> view = view.__of__(page)
 
 Upload an attachment
 

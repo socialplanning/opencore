@@ -14,11 +14,16 @@ class MailHostMock(Implicit):
     mock up the send method so that emails do not actually get sent
     during automated tests
     """
+    meta_type = 'Maildrop Host'
     def __init__(self, name):
         self.messages = []
         self.name = name
 
-    def send(self, msg, mto=None, mfrom=None, subject=None):
+    def _send(self, returnpath, maillist, msg):
+        self.send(msg.encode('utf8'), mto=maillist, mfrom=returnpath)
+
+    def send(self, msg, mto=None, mfrom=None, subject=None,
+             encode=None):
         if (mto is None) or (mfrom is None) or (subject is None):
             # support headers embedded in message text
             msgob = email.message_from_string(msg)

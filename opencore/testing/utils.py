@@ -3,6 +3,7 @@ from Products.PloneTestCase.setup import portal_owner
 from Products.PloneTestCase.setup import portal_name
 from Testing import ZopeTestCase
 from plone.memoize import view, instance
+from types import UnicodeType
 from zope.app.annotation.interfaces import IAnnotations
 from zope.publisher.browser import TestRequest
 from zope.testing.cleanup import cleanUp
@@ -169,3 +170,25 @@ def unmonkey_proj_noun():
             module.project_noun = utils._old_project_noun
         del( utils._old_project_noun)
         
+from Products.CMFPlone.patches.unicodehacks import FasterStringIO
+from StringIO import StringIO
+orig_fsio_write = FasterStringIO.write
+orig_sio_write = StringIO.write
+
+def monkey_stringio():
+    """monkeypatch StringIO so it never fails w/ unicode errors"""
+    def new_fsio_write(self, s):
+        if isinstance(s, UnicodeType):
+            s = s.encode('utf8', 'replace')
+        return orig_fsio_write(self, s)
+    FasterStringIO.write = new_fsio_write
+
+    def new_sio_write(self, s):
+        if isinstance(s, UnicodeType):
+            s = s.encode('utf8', 'replace')
+        return orig_sio_write(self, s)
+    StringIO.write = new_sio_write
+
+def unmonkey_stringio():
+    FasterStringIO.write = orig_fsio_write
+    StringIO.write = orig_sio_write

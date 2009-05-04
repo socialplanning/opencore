@@ -94,7 +94,9 @@ Create a project that starts with a number::
     ...                  project_title='5test',
     ...                  workflow_policy='medium_policy',
     ...                  add=True, featurelets = [], set_flets=1)
-    >>> proj_view = self.portal.projects.restrictedTraverse("create")
+    >>> from opencore.project.browser.add import ProjectAddView
+    >>> proj_view = ProjectAddView(self.portal.projects, request)
+    >>> proj_view = proj_view.__of__(self.portal.projects)
     >>> proj_view.request.form.update(form_vars)
     >>> out = proj_view.handle_request()
     >>> setSite(cached_site)
@@ -139,14 +141,13 @@ And now sort them by creation time::
 
    old: ['Proj2', 'Proj3', 'Proj1', 'Proj4']
 
-Traversing to the url should yield the same class::
+Render the view to see if there are any errors.  First, though, we've
+got to attach the template like the browser:page tag would::
 
-   >>> view = self.portal.projects.unrestrictedTraverse('@@view')
-   >>> view
-   <Products.Five.metaclass.SimpleViewClass from ...projects.pt object at...>
-
-Render the view to see if there are any errors::
-
+   >>> from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
+   >>> import os.path
+   >>> prefix = os.path.dirname(__file__)
+   >>> view.__call__ = ViewPageTemplateFile('projects.pt', _prefix=prefix)
    >>> response = view()
 
 People Page
@@ -214,46 +215,45 @@ Search for members, explicitly specifying full name sort::
    >>> people = view.search_by_letter('M', sort_by='exact_getFullname')
    >>> names = [p.getFullname for p in people]
    >>> names
-   ['Member Four', 'Member One', 'Member Three', 'Member Two']
-
-Traversing to the correct people search url should yield the same class
-XXX currently is a name, because we don't have a special interface for
-the people folder::
-
-   >>> view = self.portal.people.unrestrictedTraverse('@@view')
-   >>> view
-   <Products.Five.metaclass.SimpleViewClass from ...people.pt object at...>
+   ['M\xc3\xabmber Four', 'M\xc3\xabmber O\xc3\xb1e', 'M\xc3\xabmber Three', 'M\xc3\xabmber Two']
 
 Render the view to see if there are any errors::
 
+   >>> view = search.PeopleSearchView(self.portal.people, request)
+   >>> view = view.__of__(self.portal.people)
+   >>> view.__call__ = ViewPageTemplateFile('people.pt', _prefix=prefix)
    >>> response = view()
 
-Navigating to the portal home should not produce any errors::
+Render the portal home view to see if there are any errors::
 
-   >>> view = self.portal.unrestrictedTraverse('@@view')
-   >>> view
-   <Products.Five.metaclass.SimpleViewClass from ...home.pt object at...>
-
-Render the view to see if there are any errors::
-
+   >>> view = search.HomeView(self.portal, request)
+   >>> view = view.__of__(self.portal)
+   >>> view.__call__ = ViewPageTemplateFile('home.pt', _prefix=prefix)
    >>> response = view()
 
 Render the projects search results view with no search::
 
-   >>> view = self.portal.projects.unrestrictedTraverse('searchresults')
+   >>> view = search.ProjectsSearchView(self.portal.projects, request)
+   >>> view = view.__of__(self.portal.projects)
+   >>> view._result_listing = ViewPageTemplateFile('projects-resultlist.pt', _prefix=prefix)
+   >>> view._sortable_fields = ViewPageTemplateFile('projects-sortablefields.pt', _prefix=prefix)
+   >>> view.__call__ = ViewPageTemplateFile('searchresults.pt', _prefix=prefix)
    >>> response = view()
 
 Render the people search results view with no search::
 
-   >>> view = self.portal.people.unrestrictedTraverse('searchresults')
+   >>> view = search.PeopleSearchView(self.portal.people, request)
+   >>> view = view.__of__(self.portal.people)
+   >>> view._result_listing = ViewPageTemplateFile('people-resultlist.pt', _prefix=prefix)
+   >>> view._sortable_fields = ViewPageTemplateFile('people-sortablefields.pt', _prefix=prefix)
+   >>> view.__call__ = ViewPageTemplateFile('searchresults.pt', _prefix=prefix)
    >>> response = view()
 
 Test the news view::
 
-   >>> view = self.portal.news.unrestrictedTraverse('@@view')
-   >>> view
-   <Products.Five.metaclass.SimpleViewClass from ...news.pt object at...>
-
+   >>> view = search.NewsView(self.portal.news, request)
+   >>> view = view.__of__(self.portal.news)
+   >>> view.__call__ = ViewPageTemplateFile('news.pt', _prefix=prefix)
    >>> view.news_items()
    []
 
@@ -390,7 +390,8 @@ Create a closed project::
     ...                  title='cl0sed',
     ...                  workflow_policy='closed_policy',
     ...                  add=True, featurelets = [], set_flets=1)
-    >>> proj_view = self.portal.projects.restrictedTraverse("create")
+    >>> import opencore.project.browser
+    >>> proj_view = opencore.project.browser.add.ProjectAddView(self.portal.projects, request)
     >>> proj_view.request.form.update(form_vars)
     >>> out = proj_view.handle_request()
     >>> setSite(cached_site)

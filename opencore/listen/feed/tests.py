@@ -11,6 +11,7 @@ import doctest
 import unittest
 
 if run_tests:
+    # XXX HARDCODED DOMAIN
     BaseFeedAdapter.memberURL = lambda x, y: 'http://www.openplans.org'
 
 class DummyContext(object):
