@@ -9,6 +9,7 @@
    <element value="ImageAttachment"/>
    <element value="OpenMember"/>
   </property>
+  <property name="enable_link_integrity_checks" type="boolean">False</property>
  </object>
 
  <object name="opencore_properties" meta_type="Plone Property Sheet">
