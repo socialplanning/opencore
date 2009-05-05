@@ -1,8 +1,14 @@
 0.17.0 (UNRELEASED)
 ===================
 
-novalis has made changes since r22524 without updating
-the changelog. Please do so.
+Data Migrations:
+
+ * Run the upgrades through 0.17 using the portal_setup tool (see 0.15.0 
+   change notes, below, for instructions) after you upgrade to 0.17. There
+   are two migrations: one to mark "project-discussion" mailing lists with
+   a marker interface (about which see "Mailing lists now support..." below)
+   and another to retitle member areas (#2779 and see below)
+
 
 Features Added:
 
@@ -26,8 +32,10 @@ Features Added:
  * Mailing lists now support an ISyncWithProjectMembership marker interface;
    any list marked with this interface will automatically subscribe and
    unsubscribe members as they are added to or removed from a project.
-   (This used to only work for mailing lists with a specific id based on
-   the project name.) (rafrombrc)
+   This used to only work for mailing lists with a specific id based on
+   the project name; run the "Mark ISyncWithProjectMembership on -discussion
+   lists" migration in opencore.upgrades.to_0_17_0" to retain the functionality.
+   (rafrombrc)
 
  * Temporarily abstract out the link to topp into configuration.
    This should be in a separate theme package because it's topp specific.
@@ -40,6 +48,7 @@ Features Added:
  * Xinha UI is now localizable (#2730) It respects the registered
    implementation of zope.i18n.interfaces.IUserPreferredLanguages
    to determine language preferences. (egj)
+ 
 
 Bugs Fixed:
 
@@ -49,6 +58,7 @@ Bugs Fixed:
 
  * Thumbnail view on the attachment images now explicitly sets content type
    header as image/jpeg (rafrombrc)
+
 
 Refactoring:
 
