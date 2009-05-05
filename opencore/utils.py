@@ -113,7 +113,7 @@ def timestamp_memoize(secs):
             global timestamp_cache
             timestamp, value = timestamp_cache.get(fn_key, (0, None))
             now = time.time()
-            if now - timestamp > secs:
+            if secs == 0 or now - timestamp > secs:
                 value = fn(*arg, **kw)
                 timestamp_cache[fn_key] = (now, value)
             return value
