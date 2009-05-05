@@ -39,16 +39,18 @@ setup(
         '': ['copy/*', 'ftests/*', '*py', '*zcml', '*txt'],
       },
       zip_safe=False,
-      dependency_links=['https://svn.openplans.org/svn/OpencoreRedirect/trunk#egg=OpencoreRedirect-dev',
-                        'http://svn.red-bean.com/bob/simplejson/trunk/#egg=simplejson-dev',
-                        'http://download.savannah.nongnu.org/releases/pyprof/hprof-0.1.1.tar.gz#egg=hprof',
-                        'https://svn.openplans.org/svn/oc-js/trunk/#egg=oc-js-dev',
-                        'http://feedparser.googlecode.com/files/feedparser-4.1.zip',
-                        'https://svn.openplans.org/svn/ZCMLLoader/trunk#egg=ZCMLLoader',
-                        'https://svn.openplans.org/svn/opencore/plugins/oc-feed/tags/0.4#egg=oc_feed-0.4',
-                        'https://svn.plone.org/svn/collective/borg/components/borg.localrole/trunk#egg=borg.localrole-dev',
-                        ],
 
+    dependency_links=[
+        'https://svn.openplans.org/svn/OpencoreRedirect/trunk#egg=OpencoreRedirect-dev',
+        'http://svn.red-bean.com/bob/simplejson/trunk/#egg=simplejson-dev',
+        'http://download.savannah.nongnu.org/releases/pyprof/hprof-0.1.1.tar.gz#egg=hprof',
+        'https://svn.openplans.org/svn/oc-js/trunk/#egg=oc-js-dev',
+        'http://feedparser.googlecode.com/files/feedparser-4.1.zip',
+        'https://svn.openplans.org/svn/ZCMLLoader/trunk#egg=ZCMLLoader',
+        'https://svn.openplans.org/svn/opencore/plugins/oc-feed/tags/0.4#egg=oc_feed-0.4',
+        'https://svn.plone.org/svn/collective/borg/components/borg.localrole/trunk#egg=borg.localrole-dev',
+        ],
+    
       install_requires=[
           # -*- Extra requirements: -*-
           "oc-js==dev,>=0.5",
@@ -70,6 +72,7 @@ setup(
           'Products.CacheSetup==1.2',
           'Products.GenericSetup==1.4.1',
           ],
+
       extras_require=dict(ubuntu=['hprof']),
 
       # the opencore.versions are the names of the packages
