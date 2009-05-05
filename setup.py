@@ -66,6 +66,7 @@ setup(
           'uuid',
           'flunc>=0.5',
           'zcmlloader',
+          'zope.i18n',
           'Products.CacheSetup==1.2',
           'Products.GenericSetup==1.4.1',
           ],
