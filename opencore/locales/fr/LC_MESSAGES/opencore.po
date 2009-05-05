@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: opencore\n"
-"POT-Creation-Date: 2009-04-18 03:03+0000\n"
+"POT-Creation-Date: 2009-05-05 00:03+0000\n"
 "PO-Revision-Date: 2008-06-02 22:41+0200\n"
 "Last-Translator: Pierre George <pierregrg@gmail.com>\n"
 "Language-Team: OpenFSM Team <openfsm@lists.openfsm.net>\n"
@@ -1918,7 +1918,7 @@ msgstr ""
 msgid "project_created"
 msgstr ""
 
-#: ./opencore/project/utils.py:53
+#: ./opencore/project/utils.py:68
 msgid "project_noun"
 msgstr ""
 

@@ -1565,7 +1565,7 @@ msgstr "project_create_window_title"
 #: ./opencore/project/browser/add.py:156
 msgid "project_created"
 msgstr "project_created"
-#: ./opencore/project/utils.py:53
+#: ./opencore/project/utils.py:68
 msgid "project_noun"
 msgstr "project_noun"
 #. Default: "Remove this ${project_noun} from ${portal_title}?"
