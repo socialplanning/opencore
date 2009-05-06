@@ -1,5 +1,13 @@
 """
 Convenience script triggering the P2.5 -> P3.0 migrations
+
+XXX - NOTE - XXX
+This is meant to migrate a P2.5 based Opencore site database to one
+that will work on a P3.0 or better Opencore instance.  THE 'unmake-sites'
+SCRIPT MUST BE RUN BEFORE THIS SCRIPT, OR THIS SCRIPT WILL FAIL.
+Sometimes even the 'unmake-sites' script will fail, in which case you'll
+need to follow the directions in that script's doc string to get things
+going.
 """
 
 from AccessControl.SecurityManagement import newSecurityManager
