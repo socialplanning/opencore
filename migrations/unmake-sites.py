@@ -21,14 +21,23 @@ try:
 except IndexError:
     portal = 'openplans'
 
-app_view = getMultiAdapter((app, app.REQUEST), Interface,
-                           name='manage_site.html')
-app_view.unmakeSite()
+app_view = app.unrestrictedTraverse('manage_site.html')
+
+try:
+    app_view.unmakeSite()
+except ValueError:
+    # already run, or "can only remove directly provided interfaces"
+    if getattr(app, '__local_site_hook__', None) is not None:
+        del app.__local_site_hook__
 
 portal = getattr(app, portal)
-portal_view = getMultiAdapter((portal, portal.REQUEST), Interface,
-                              name='manage_site.html')
-portal_view.unmakeSite()
+portal_view = portal.unrestrictedTraverse('manage_site.html')
+try:
+    portal_view.unmakeSite()
+except ValueError:
+    # already run, or "can only remove directly provided interfaces"
+    if getattr(portal, '__local_site_hook__', None) is not None:
+        del portal.__local_site_hook__
 
 transaction.get().note('Unmade app and portal as local sites')
 transaction.commit()
