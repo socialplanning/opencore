@@ -116,8 +116,8 @@ though this user no longer exists:
 So let's look in the cleanup queue.  Some member ids got put in the
 queue when we deleted them. The last will be the last one we deleted:
 
-    >>> from opencore.member.browser.account import queue_factory
-    >>> queue = queue_factory(self.portal)
+    >>> from opencore.member.utils import get_cleanup_queue
+    >>> queue = get_cleanup_queue(self.portal)
     >>> bool(queue)
     True
     >>> len(queue) > 0

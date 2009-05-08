@@ -182,7 +182,17 @@
   <a rel="include"
      tal:condition="view/twirlip_uri"
      tal:attributes="href string:${view/twirlip_uri}/user/preferences"/>
+
+
+    <div><a i18n:translate="account_delete" href="delete"
+            tal:attributes="href string:${context/absolute_url}/delete">Delete Account</a>
+    </div>
+
   </div>
+
+
+
+  
   
   <div i18n:translate="account_listed_explanation" class="oc-plainList oc-boxy">
     <p><strong>What does it mean to be &ldquo;listed&rdquo; on a

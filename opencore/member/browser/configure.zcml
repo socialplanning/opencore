@@ -163,12 +163,5 @@
      permission="cmf.ManagePortal"
      />
 
-  <!-- Queue of deleted members to clean up after. -->
-  <adapter
-     provides="zc.queue.interfaces.IQueue"
-     for="OFS.interfaces.IItem"
-     factory=".account.queue_factory"
-     name="member_removal_queue"
-     />
 
 </configure>

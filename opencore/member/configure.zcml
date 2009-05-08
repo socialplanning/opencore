@@ -36,4 +36,12 @@
     handler=".subscribers.reindex_membership_project_ids"
     />
 
+  <!-- Queue of deleted members to clean up after. -->
+  <adapter
+     provides="zc.queue.interfaces.IQueue"
+     for="OFS.interfaces.IItem"
+     factory=".utils.get_cleanup_queue"
+     name="member_removal_queue"
+     />
+
 </configure>

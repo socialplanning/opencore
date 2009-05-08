@@ -5,7 +5,6 @@ from Products.CMFCore.WorkflowCore import WorkflowException
 from Products.CMFCore.utils import getToolByName
 from opencore.browser.base import BaseView
 from opencore.browser.formhandler import OctopoLite, action, post_only
-from opencore.member.interfaces import REMOVAL_QUEUE_KEY
 from opencore.member.utils import member_path
 from opencore.i18n import _
 from opencore.interfaces.catalog import ILastWorkflowActor
@@ -549,23 +548,15 @@ class DeleteAccountView(BaseView):
               u'Account %r has been permanently deleted.' % user_to_delete))
         return self.redirect(portal_url)
 
-
-def queue_factory(context):
-    portal = getToolByName(context, 'portal_url').getPortalObject()
-    queue = getattr(portal, REMOVAL_QUEUE_KEY, None)
-    if queue is None:
-        import zc.queue
-        logger.info('Initializing empty queue for member cleanup')
-        setattr(portal, REMOVAL_QUEUE_KEY, zc.queue.Queue())
-        queue = getattr(portal, REMOVAL_QUEUE_KEY)
-    return queue
-
         
 class AccountCleanupQueueView(object):
 
     """Handle a queue of account post-deletion cleanup jobs, each of
     which may take a long time.  So this is intended to be run
     asynchronously, eg. by clockserver.
+
+    (which, incidentally, is why this is a view... clockserver needs
+    something it can visit by URL)
     """
 
     def __init__(self, context, request):
