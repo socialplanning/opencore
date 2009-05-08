@@ -71,6 +71,7 @@ setup(
           'zcmlloader',
           'Products.CacheSetup==1.2',
           'Products.GenericSetup==1.4.1',
+          'zc.queue',
           ],
       extras_require=dict(ubuntu=['hprof']),
 
