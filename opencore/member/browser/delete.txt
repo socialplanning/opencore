@@ -85,13 +85,13 @@ Even the site admin can't delete if the HTTP method is not POST::
     Forbidden...
 
 
-And if you set delete=0 in the request, that cancels the deletion::
-(XXX: why is this valuable?)
+And if you set delete=0 in the request, that cancels the deletion and
+redirects you back to the account page::
 
     >>> self.request.environ['REQUEST_METHOD'] = 'POST'
     >>> self.request.form['delete'] = 0
     >>> delview.handle_request()
-    'http://nohost/plone/people/deadmeat1'
+    'http://nohost/plone/people/deadmeat1/account'
     >>> utils.get_status_messages(delview)
     [u'Account not deleted.']
     
