@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: opencore\n"
-"POT-Creation-Date: 2009-04-22 17:29+0000\n"
+"POT-Creation-Date: 2009-05-08 20:59+0000\n"
 "PO-Revision-Date: 2008-10-08 15:57-0400\n"
 "Last-Translator: \n"
 "Language-Team: The Open Planning Project <opencore-dev@lists.openplans.org>\n"
@@ -197,6 +197,11 @@ msgstr ""
 msgid "account_current_pass"
 msgstr ""
 
+#. Default: "Delete Account"
+#: ./opencore/member/browser/account.pt:187
+msgid "account_delete"
+msgstr ""
+
 #. Default: "No, I want to keep this account."
 #: ./opencore/member/browser/delete.pt:21
 msgid "account_delete_cancel"
@@ -288,7 +293,7 @@ msgid "account_latest_updates"
 msgstr ""
 
 #. Default: "<p><strong>What does it mean to be &ldquo;listed&rdquo; on a ${project_noun}?</strong></p> <p>For your privacy, you can choose whether or not to be publicly listed as a member of a ${project_noun}.</p> <p>If you choose not to be listed then only fellow team members can see your affiliation. Those who are not members of the team will not see you listed in the team roster, nor will they see the ${project_noun} listed anywhere on your profile.</p> <p>However, any updates you make on a publicly viewable ${project_noun} could still display your username and a link to your profile.</p>"
-#: ./opencore/member/browser/account.pt:192
+#: ./opencore/member/browser/account.pt:202
 msgid "account_listed_explanation"
 msgstr ""
 
@@ -343,8 +348,13 @@ msgid "account_settings"
 msgstr ""
 
 #. Default: "active"
-#: ./opencore/stats/active.pt:24
+#: ./opencore/stats/active.pt:22
 msgid "active"
+msgstr ""
+
+#. Default: "active project stats"
+#: ./opencore/stats/menu.pt:12
+msgid "active project stats"
 msgstr ""
 
 #. Default: "Active Objects"
@@ -357,8 +367,18 @@ msgstr ""
 msgid "active_projects"
 msgstr ""
 
+#. Default: "all project stats"
+#: ./opencore/stats/menu.pt:14
+msgid "all project stats"
+msgstr ""
+
+#. Default: "All Projects"
+#: ./opencore/stats/project_activity.pt:20
+msgid "all_projects"
+msgstr ""
+
 #. Default: "Allowed Senders"
-#: ./opencore/listen/browser/view.py:546
+#: ./opencore/listen/browser/view.py:560
 msgid "allowed_senders"
 msgstr ""
 
@@ -435,6 +455,11 @@ msgstr ""
 #. Default: "sort"
 #: ./opencore/nui/main/batch_macros.pt:119
 msgid "batch_macros_sort"
+msgstr ""
+
+#. Default: "blog posts"
+#: ./opencore/stats/project_activity.pt:34
+msgid "blog posts"
 msgstr ""
 
 #. Default: "Fill in the form below to contact the site administrators."
@@ -558,7 +583,7 @@ msgid "create_project_url"
 msgstr ""
 
 #. Default: "date"
-#: ./opencore/stats/active.pt:18
+#: ./opencore/stats/active.pt:16
 msgid "date"
 msgstr ""
 
@@ -572,7 +597,7 @@ msgid "discussion_list_desc"
 msgstr ""
 
 #. Default: "email threads"
-#: ./opencore/stats/project_activity.pt:27
+#: ./opencore/stats/project_activity.pt:32
 msgid "email threads"
 msgstr ""
 
@@ -655,7 +680,7 @@ msgstr ""
 "\n"
 "The ${portal_title} Team"
 
-#: ./opencore/project/browser/team_membership.py:45
+#: ./opencore/project/browser/team_membership.py:51
 msgid "email_membership_requested"
 msgstr ""
 "Subject: ${portal_title} - Request to join ${project_title}\n"
@@ -665,7 +690,7 @@ msgstr ""
 "To approve or deny this request please visit the ${project_noun}'s team management screen: ${team_manage_url}\n"
 " "
 
-#: ./opencore/project/browser/team_membership.py:57
+#: ./opencore/project/browser/team_membership.py:63
 msgid "email_mship_request_message"
 msgstr ""
 " \n"
@@ -753,7 +778,7 @@ msgstr ""
 "${portal_url}"
 
 #. Default: "Could not moderate!"
-#: ./opencore/listen/browser/view.py:410
+#: ./opencore/listen/browser/view.py:424
 msgid "err_could_not_moderate"
 msgstr ""
 
@@ -1067,11 +1092,6 @@ msgstr ""
 msgid "home_window_title"
 msgstr ""
 
-#. Default: "id"
-#: ./opencore/stats/project_activity.pt:21
-msgid "id"
-msgstr ""
-
 #. Default: "You do not have sufficient privileges to view this page."
 #: ./opencore/account/insufficient_privileges.pt:10
 msgid "insufficient_privileges_description"
@@ -1198,72 +1218,82 @@ msgid "label_send"
 msgstr ""
 
 #. Default: "last activity (any kind)"
-#: ./opencore/stats/project_activity.pt:22
+#: ./opencore/stats/project_activity.pt:27
 msgid "last activity (any kind)"
 msgstr ""
 
+#. Default: "last activity (blog)"
+#: ./opencore/stats/project_activity.pt:33
+msgid "last activity (blog)"
+msgstr ""
+
 #. Default: "last activity (mail)"
-#: ./opencore/stats/project_activity.pt:26
+#: ./opencore/stats/project_activity.pt:31
 msgid "last activity (mail)"
 msgstr ""
 
 #. Default: "last activity (wiki)"
-#: ./opencore/stats/project_activity.pt:24
+#: ./opencore/stats/project_activity.pt:29
 msgid "last activity (wiki)"
 msgstr ""
 
 #. Default: "avg life before dormancy"
-#: ./opencore/stats/active.pt:25
+#: ./opencore/stats/active.pt:23
 msgid "life_before_dormancy"
 msgstr ""
 
+#. Default: "link"
+#: ./opencore/stats/project_activity.pt:35
+msgid "link"
+msgstr ""
+
 #. Default: "The requested list prefix is already taken."
-#: ./opencore/listen/browser/view.py:185
+#: ./opencore/listen/browser/view.py:199
 msgid "list_create_duplicate_error"
 msgstr ""
 
 #. Default: "\"${title}\" has been created."
-#: ./opencore/listen/browser/view.py:280
+#: ./opencore/listen/browser/view.py:294
 msgid "list_created"
 msgstr ""
 
 #. Default: "The mailing list archival method must be set to all, text-only, or none."
-#: ./opencore/listen/browser/view.py:173
+#: ./opencore/listen/browser/view.py:187
 msgid "list_invalid_archive_error"
 msgstr ""
 
 #. Default: "The following managers are not members of this site: ${managers}"
-#: ./opencore/listen/browser/view.py:157
+#: ./opencore/listen/browser/view.py:171
 msgid "list_invalid_managers_error"
 msgstr ""
 
 #. Default: "Only the following characters are allowed in list address prefixes: alpha-numerics, underscores, hyphens, and periods (i.e. A-Z, a-z, 0-9, and _-. symbols)"
-#: ./opencore/listen/browser/view.py:181
+#: ./opencore/listen/browser/view.py:195
 msgid "list_invalid_prefix_error"
 msgstr ""
 
 #. Default: "The mailing list must have a title."
-#: ./opencore/listen/browser/view.py:135
+#: ./opencore/listen/browser/view.py:149
 msgid "list_invalid_title"
 msgstr ""
 
 #. Default: "The mailing list security must be set to open, moderated, or closed."
-#: ./opencore/listen/browser/view.py:164
+#: ./opencore/listen/browser/view.py:178
 msgid "list_invalid_workflow_error"
 msgstr ""
 
 #. Default: "The mailing list must have a list prefix."
-#: ./opencore/listen/browser/view.py:179
+#: ./opencore/listen/browser/view.py:193
 msgid "list_missing_prefix_error"
 msgstr ""
 
 #. Default: "The mailing list must have at least one manager."
-#: ./opencore/listen/browser/view.py:146
+#: ./opencore/listen/browser/view.py:160
 msgid "list_no_managers_error"
 msgstr ""
 
 #. Default: "Your changes have been saved."
-#: ./opencore/listen/browser/view.py:341
+#: ./opencore/listen/browser/view.py:355
 msgid "list_preferences_updated"
 msgstr ""
 
@@ -1398,7 +1428,7 @@ msgid "lookup_view_purge_button"
 msgstr ""
 
 #. Default: "mailing lists"
-#: ./opencore/stats/active.pt:21
+#: ./opencore/stats/active.pt:19
 msgid "mailing lists"
 msgstr ""
 
@@ -1553,7 +1583,7 @@ msgid "main_macros_search_label"
 msgstr ""
 
 #. Default: "Manage Allowed Senders"
-#: ./opencore/listen/browser/view.py:526
+#: ./opencore/listen/browser/view.py:540
 msgid "manage_allowed_senders"
 msgstr ""
 
@@ -1613,7 +1643,7 @@ msgid "member_macros_recent_activity"
 msgstr ""
 
 #. Default: "members"
-#: ./opencore/stats/project_activity.pt:23
+#: ./opencore/stats/project_activity.pt:28
 msgid "members"
 msgstr ""
 
@@ -1962,7 +1992,7 @@ msgid "project_create_window_title"
 msgstr ""
 
 #. Default: "\"${title}\" has been created. Create a team by searching for other members to invite to your ${project_noun}, then <a href=\"${proj_edit_url}\">edit your ${project_noun} home page</a>."
-#: ./opencore/project/browser/add.py:156
+#: ./opencore/project/browser/add.py:162
 msgid "project_created"
 msgstr ""
 
@@ -2201,7 +2231,7 @@ msgid "project_tour_window_title"
 msgstr ""
 
 #. Default: "projects"
-#: ./opencore/stats/active.pt:20
+#: ./opencore/stats/active.pt:18
 msgid "projects"
 msgstr ""
 
@@ -2280,7 +2310,7 @@ msgid "promote_to_admin"
 msgstr "${name} is now an administrator"
 
 #. Default: "Account %r has been permanently deleted."
-#: ./opencore/member/browser/account.py:538
+#: ./opencore/member/browser/account.py:547
 msgid "psm_account_deleted"
 msgstr ""
 
@@ -2290,17 +2320,17 @@ msgid "psm_account_not_activated"
 msgstr ""
 
 #. Default: "Account not deleted."
-#: ./opencore/member/browser/account.py:513
+#: ./opencore/member/browser/account.py:518
 msgid "psm_account_not_deleted"
 msgstr ""
 
 #. Default: "You cannot leave this ${project_noun}."
-#: ./opencore/member/browser/account.py:159
+#: ./opencore/member/browser/account.py:164
 msgid "psm_cannot_leave_project"
 msgstr ""
 
 #. Default: "Please check the old password you entered."
-#: ./opencore/member/browser/account.py:402
+#: ./opencore/member/browser/account.py:407
 msgid "psm_check_old_password"
 msgstr ""
 
@@ -2310,12 +2340,12 @@ msgid "psm_check_username_password"
 msgstr "Oops! Your username and password do not match.  Please try again or <a href=\"forgot\">retrieve your sign in information</a>."
 
 #. Default: "Please choose an image in gif, jpeg, png, or bmp format."
-#: ./opencore/member/browser/view.py:158
+#: ./opencore/member/browser/view.py:160
 msgid "psm_choose_image"
 msgstr ""
 
 #. Default: "Please correct the errors indicated below."
-#: ./opencore/listen/browser/view.py:189
+#: ./opencore/listen/browser/view.py:203
 msgid "psm_correct_errors_below"
 msgstr ""
 
@@ -2325,12 +2355,12 @@ msgid "psm_denied"
 msgstr ""
 
 #. Default: "Your email address has been changed."
-#: ./opencore/member/browser/account.py:440
+#: ./opencore/member/browser/account.py:445
 msgid "psm_email_changed"
 msgstr ""
 
 #. Default: "Please enter your new email address."
-#: ./opencore/member/browser/account.py:424
+#: ./opencore/member/browser/account.py:429
 msgid "psm_enter_new_email"
 msgstr ""
 
@@ -2345,12 +2375,12 @@ msgid "psm_error_sending_mail_to_member"
 msgstr ""
 
 #. Default: "${flet} feature has been added."
-#: ./opencore/project/browser/preferences.py:196
+#: ./opencore/project/browser/preferences.py:195
 msgid "psm_featurelet_added"
 msgstr ""
 
 #. Default: "${flet} feature has been removed."
-#: ./opencore/project/browser/preferences.py:201
+#: ./opencore/project/browser/preferences.py:200
 msgid "psm_featurelet_removed"
 msgstr ""
 
@@ -2360,7 +2390,7 @@ msgid "psm_forgot_login"
 msgstr ""
 
 #. Default: "You are the only administrator of \"${proj_title}\". You can't leave this ${project_noun} without appointing another."
-#: ./opencore/member/browser/account.py:147
+#: ./opencore/member/browser/account.py:152
 msgid "psm_leave_project_admin"
 msgstr "You are the only administrator of \"${proj_title}.\"  You cannot leave this ${project_noun} without appointing another administrator."
 
@@ -2434,7 +2464,7 @@ msgid "psm_pass_reset_fail"
 msgstr "Oops!  Your attempt to reset your password failed.  Did you mistype your username or password?"
 
 #. Default: "Your password has been changed."
-#: ./opencore/member/browser/account.py:408
+#: ./opencore/member/browser/account.py:413
 msgid "psm_password_changed"
 msgstr ""
 
@@ -2459,15 +2489,15 @@ msgid "psm_please_sign_in"
 msgstr ""
 
 #. Default: "${project_noun} home page set to: <a href=\"${hp_url}\">${homepage}</a>"
-#: ./opencore/project/browser/preferences.py:215
+#: ./opencore/project/browser/preferences.py:213
 msgid "psm_proj_homepage_change"
 msgstr "${project_noun} homepage set to: <a href=\"${hp_url}\">${homepage}</a>."
 
-#: ./opencore/project/browser/preferences.py:169
+#: ./opencore/project/browser/preferences.py:175
 msgid "psm_project_desc_changed"
 msgstr "The description has been changed."
 
-#: ./opencore/project/browser/preferences.py:170
+#: ./opencore/project/browser/preferences.py:176
 msgid "psm_project_logo_changed"
 msgstr "The project image has been changed."
 
@@ -2476,11 +2506,11 @@ msgstr "The project image has been changed."
 msgid "psm_project_name_reserved"
 msgstr ""
 
-#: ./opencore/project/browser/preferences.py:168
+#: ./opencore/project/browser/preferences.py:174
 msgid "psm_project_title_changed"
 msgstr "The title has been changed."
 
-#: ./opencore/project/browser/preferences.py:171
+#: ./opencore/project/browser/preferences.py:177
 msgid "psm_security_changed"
 msgstr "The security policy has been changed."
 
@@ -2618,53 +2648,63 @@ msgstr ""
 msgid "sortable_fields_portal_type"
 msgstr ""
 
+#. Default: "stats history"
+#: ./opencore/stats/menu.pt:10
+msgid "stats history"
+msgstr ""
+
+#. Default: "stats overview"
+#: ./opencore/stats/menu.pt:8
+msgid "stats overview"
+msgstr ""
+
 #. Default: "${active_lists_count} active, after ${stats_expiry_date}"
-#: ./opencore/stats/stats.pt:98
+#: ./opencore/stats/stats.pt:97
 msgid "stats_active_lists"
 msgstr ""
 
 #. Default: "${active_projects} active, edited after ${expiry_date}"
-#: ./opencore/stats/stats.pt:70
+#: ./opencore/stats/stats.pt:69
 msgid "stats_active_projects"
 msgstr ""
 
 #. Default: "${num_users} active, logged in after ${expiry_date}"
-#: ./opencore/stats/stats.pt:41
+#: ./opencore/stats/stats.pt:40
 msgid "stats_active_users"
 msgstr ""
 
 #. Default: "This page is only good for approximating historical trends."
-#: ./opencore/stats/active.pt:16
+#: ./opencore/stats/active.pt:14
 msgid "stats_approximate_disclaimer"
 msgstr ""
 
 #. Default: "${dormant_lists} dormant, after being active for an average of ${stickiness_days} days"
-#: ./opencore/stats/stats.pt:104
+#: ./opencore/stats/stats.pt:103
 msgid "stats_dormant_lists"
 msgstr ""
 
 #. Default: "${dormant_projects} dormant, after being active for an average of ${stickiness_days} days"
-#: ./opencore/stats/stats.pt:76
+#: ./opencore/stats/stats.pt:75
 msgid "stats_dormant_projects"
 msgstr ""
 
 #. Default: "${dormant_users} dormant, after being active for an average of ${stickiness_days} days"
-#: ./opencore/stats/stats.pt:46
+#: ./opencore/stats/stats.pt:45
 msgid "stats_dormant_users"
 msgstr ""
 
 #. Default: "${members_count} total"
-#: ./opencore/stats/stats.pt:56
+#: ./opencore/stats/stats.pt:55
 msgid "stats_members_total"
 msgstr ""
 
 #. Default: "on date ${date}"
-#: ./opencore/stats/stats.pt:33
+#: ./opencore/stats/stats.pt:32
 msgid "stats_on_date"
 msgstr ""
 
 #. Default: "${projects_count} total"
-#: ./opencore/stats/stats.pt:86
+#: ./opencore/stats/stats.pt:85
 msgid "stats_projects_total"
 msgstr ""
 
@@ -2674,22 +2714,22 @@ msgid "stats_title"
 msgstr ""
 
 #. Default: "${total_lists} total"
-#: ./opencore/stats/stats.pt:114
+#: ./opencore/stats/stats.pt:113
 msgid "stats_total_lists"
 msgstr ""
 
 #. Default: "${unused_lists} unused, after first 24 hours"
-#: ./opencore/stats/stats.pt:109
+#: ./opencore/stats/stats.pt:108
 msgid "stats_unused_lists"
 msgstr ""
 
 #. Default: "${unused_member_count} unused, after first 24 hours"
-#: ./opencore/stats/stats.pt:51
+#: ./opencore/stats/stats.pt:50
 msgid "stats_unused_members"
 msgstr ""
 
 #. Default: "${unused_projects} unused, after first 24 hours"
-#: ./opencore/stats/stats.pt:81
+#: ./opencore/stats/stats.pt:80
 msgid "stats_unused_projects"
 msgstr ""
 
@@ -2768,18 +2808,23 @@ msgstr ""
 msgid "threaded_message_threaded"
 msgstr ""
 
+#. Default: "title"
+#: ./opencore/stats/project_activity.pt:26
+msgid "title"
+msgstr ""
+
 #. Default: "Required"
 #: ./opencore/nui/main/contact-site-admin.pt:51
 msgid "title_required"
 msgstr ""
 
 #. Default: "<a href=\"${member_url}\">${id}</a> has declined your invitation to join <a href=\"${project_url}\">${proj_id}</a>"
-#: ./opencore/member/browser/account.py:337
+#: ./opencore/member/browser/account.py:342
 msgid "tmsg_decline_invite"
 msgstr ""
 
 #. Default: "<a href=\"${member_url}\">${id}</a> has joined <a href=\"${project_url}\">${proj_id}</a>"
-#: ./opencore/member/browser/account.py:285
+#: ./opencore/member/browser/account.py:290
 msgid "tmsg_joined_project"
 msgstr ""
 
@@ -2889,7 +2934,7 @@ msgid "version_unspecified"
 msgstr ""
 
 #. Default: "wiki pages"
-#: ./opencore/stats/project_activity.pt:25
+#: ./opencore/stats/project_activity.pt:30
 msgid "wiki pages"
 msgstr ""
 
