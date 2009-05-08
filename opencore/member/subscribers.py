@@ -3,26 +3,38 @@ from AccessControl.SecurityManagement import newSecurityManager
 from AccessControl.SecurityManagement import setSecurityManager
 from Products.CMFCore.utils import getToolByName
 from opencore.member.interfaces import IOpenMember
+from opencore.member.interfaces import REMOVAL_QUEUE_KEY
 from zExceptions import BadRequest
+from zc.queue.interfaces import IQueue
 from zope.app.container.interfaces import IObjectRemovedEvent
 from zope.component import adapter
+from zope.component import getAdapter
+import datetime
 
 @adapter(IOpenMember, IObjectRemovedEvent)
 def remove_member_folder(member, event):
-    """convenience event subscriber that removes the member's home
-       folder under the people folder as well"""
+    """
+    convenience event subscriber that removes the member's home
+    folder under the people folder as well,
+    and does any other needed cleanup.
+    """
     
-    id = member.getId()
+    mem_id = member.getId()
     portal = getToolByName(member, 'portal_url').getPortalObject()
 
     # XXX wouldn't it be better to explicitly check for the existence
     #     of the member folder rather than catching a BadRequest? -egj
     try:
-        portal.people.manage_delObjects([id])
+        portal.people.manage_delObjects([mem_id])
     except BadRequest:
         # if the people folder was already removed first, we want to
         # fail silently
         pass
+
+    # We also want to clean up local roles, which is too expensive to
+    # do synchronously.
+    queue = getAdapter(member, IQueue, REMOVAL_QUEUE_KEY)
+    queue.put({'id': mem_id, 'deleted': datetime.datetime.now()})
 
 
 
@@ -52,3 +64,5 @@ def reindex_member_project_ids(member, event):
         member.reindexObject(idxs=['project_ids'])
     finally:
         setSecurityManager(orig_security_mgr)
+
+

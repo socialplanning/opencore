@@ -5,6 +5,7 @@ from Products.CMFCore.WorkflowCore import WorkflowException
 from Products.CMFCore.utils import getToolByName
 from opencore.browser.base import BaseView
 from opencore.browser.formhandler import OctopoLite, action, post_only
+from opencore.member.interfaces import REMOVAL_QUEUE_KEY
 from opencore.member.utils import member_path
 from opencore.i18n import _
 from opencore.interfaces.catalog import ILastWorkflowActor
@@ -13,8 +14,14 @@ from opencore.interfaces.event import LeftProjectEvent
 from opencore.interfaces.event import MemberModifiedEvent
 from opencore.interfaces.message import ITransientMessage
 from plone.memoize.view import memoize as req_memoize
+from zc.queue.interfaces import IQueue
+from zope.component import getAdapter
 from zope.event import notify
+import datetime
+import logging
 
+
+logger = logging.getLogger('opencore.member.browser.account')
 
 class MemberAccountView(BaseView, OctopoLite):
 
@@ -520,21 +527,83 @@ class DeleteAccountView(BaseView):
         user_to_delete = self.viewed_member_info['id']
         old_manager = SecurityManagement.getSecurityManager()
         current_user = old_manager.getUser().getId()
+        # To avoid blocking while we traverse the entire contents of the site,
+        # we quickly delete the member and their own content...
         if current_user == user_to_delete:
             # Normally, users don't have permission to delete users.
             # Make an exception for deleting yourself.
             superuser = UnrestrictedUser('superuser', '', [], [])
             SecurityManagement.newSecurityManager(self.request, superuser)
-            mship.deleteMembers([user_to_delete])
+            mship.deleteMembers([user_to_delete], delete_memberareas=True,
+                                delete_localroles=False)
             SecurityManagement.setSecurityManager(old_manager)
             self.context.acl_users.logout(self.request)
         else:
             # Otherwise, rely on normal access controls.  This will
             # allow site admins (and only site admins) to delete
             # anybody.
-            mship.deleteMembers([user_to_delete])
+            mship.deleteMembers([user_to_delete], delete_memberareas=True,
+                                delete_localroles=False)
         portal_url = getToolByName(self.context, 'portal_url')()
         self.addPortalStatusMessage(
             _(u'psm_account_deleted',
               u'Account %r has been permanently deleted.' % user_to_delete))
         return self.redirect(portal_url)
+
+
+def queue_factory(context):
+    portal = getToolByName(context, 'portal_url').getPortalObject()
+    queue = getattr(portal, REMOVAL_QUEUE_KEY, None)
+    if queue is None:
+        import zc.queue
+        logger.info('Initializing empty queue for member cleanup')
+        setattr(portal, REMOVAL_QUEUE_KEY, zc.queue.Queue())
+        queue = getattr(portal, REMOVAL_QUEUE_KEY)
+    return queue
+
+        
+class AccountCleanupQueueView(object):
+
+    """Handle a queue of account post-deletion cleanup jobs, each of
+    which may take a long time.  So this is intended to be run
+    asynchronously, eg. by clockserver.
+    """
+
+    def __init__(self, context, request):
+        self.context = context  # Should be the portal.
+        self.request = request
+        self.queue = getAdapter(self.context, IQueue, 'member_removal_queue')
+        self.mship_tool = getToolByName(self.context, 'portal_membership')
+
+    def __call__(self):
+        members = set()
+        if self.queue:
+            deletion_time = self.queue[0]['deleted'].strftime('%Y-%m-%d %H:%M:%S')
+            while self.queue:
+                info = self.queue.pull()
+                members.add(info['id'])
+        if members:
+            # This does not handle failure at all!!!
+            #
+            # Most likely failure would be a ConflictError eg. if you
+            # double-submit the delete form, which should hopefully
+            # succeed when automatically retried.
+            #
+            # Worse, there's a race condition if you delete a member
+            # and then re-add a member of the same id before this view
+            # runs; in that case the new user will be created but then
+            # be stripped of any local roles they're supposed to have.
+            # You can see such problems if you eg. run the remove_user
+            # flunc suite in a loop. Or you might just get unlucky
+            # during any flunc run.
+            #
+            # That's all a pain, but I judge this to be less dangerous
+            # than the potential security hole of not cleaning up
+            # local roles. - PW
+            members = sorted(members)
+            logger.debug('Cleaning local roles for deleted users: %r' % members)
+            self.mship_tool.deleteLocalRoles(self.context, members,
+                                             reindex=True, recursive=True)
+            logger.info('Cleaned up local roles for members: %r'
+                        ' (first was deleted at %s)' % (members, deletion_time))
+        logger.debug('cleanup done')

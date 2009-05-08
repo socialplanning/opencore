@@ -2,6 +2,8 @@ from zope.interface import Interface
 from zope.app.annotation import IAttributeAnnotatable
 from zope.viewlet.interfaces import IViewletManager
 
+# Name of a named adapter used for asynchronous cleanup.
+REMOVAL_QUEUE_KEY = 'member_removal_queue'
 
 class ICanHasRecentActivity(IViewletManager):
     """Viewlets for the recent activity section of the member profile."""

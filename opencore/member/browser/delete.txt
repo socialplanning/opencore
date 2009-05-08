@@ -4,7 +4,8 @@
 Delete view for members
 =========================
 
-Create a couple test members to delete::
+Create a couple test members to delete. Also give one of them some
+local roles so we can test that those get cleaned up:
 
     >>> from opencore.member.interfaces import ICreateMembers
     >>> factory = ICreateMembers(self.portal)
@@ -14,6 +15,7 @@ Create a couple test members to delete::
     ...                     password='testy',
     ...                     confirm_password='testy'))
 
+    >>> self.portal.manage_addLocalRoles('deadmeat1', ['Owner'])
     >>> deadmeat2 = factory.create(dict(id='deadmeat2',
     ...                     email='dead2@example.com',
     ...                     password='testy',
@@ -101,4 +103,43 @@ But if delete=1 and method is POST, the site admin can delete::
 
     >>> utils.get_status_messages(delview)
     [u"Account 'deadmeat1' has been permanently deleted."]
+
+
+Also, some expensive cleanup gets put in a queue for running
+asynchronously.  Namely, local roles are not cleaned up yet, even
+though this user no longer exists:
+
+    >>> self.portal.get_local_roles_for_userid('deadmeat1')
+    ('Owner',)
+
+
+So let's look in the cleanup queue.  Some member ids got put in the
+queue when we deleted them. The last will be the last one we deleted:
+
+    >>> from opencore.member.browser.account import queue_factory
+    >>> queue = queue_factory(self.portal)
+    >>> bool(queue)
+    True
+    >>> len(queue) > 0
+    True
+    >>> pprint(queue[-1])
+    {'deleted': datetime.datetime(...),
+     'id': 'deadmeat1'}
+     
+
+If we manually call the cleanup view, the queue gets emptied:
+
+    >>> from opencore.member.browser.account import AccountCleanupQueueView
+    >>> cleanup = AccountCleanupQueueView(self.portal, self.request)
+    >>> cleanup()
+    >>> bool(queue)
+    False
+    >>> len(queue)
+    0
+
+
+And the local roles for that user are now gone:
+
+    >>> self.portal.get_local_roles_for_userid('deadmeat1')
+    ()
 
