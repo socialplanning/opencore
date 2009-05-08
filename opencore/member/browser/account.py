@@ -17,7 +17,6 @@ from plone.memoize.view import memoize as req_memoize
 from zc.queue.interfaces import IQueue
 from zope.component import getAdapter
 from zope.event import notify
-import datetime
 import logging
 
 
@@ -580,6 +579,10 @@ class AccountCleanupQueueView(object):
         if self.queue:
             deletion_time = self.queue[0]['deleted'].strftime('%Y-%m-%d %H:%M:%S')
             while self.queue:
+                # A queue is kind of silly here, since we try to
+                # consume the whole thing. But it works, and I figured
+                # I'd use the same infrastructure for other
+                # long-running tasks like project export.
                 info = self.queue.pull()
                 members.add(info['id'])
         if members:
