@@ -517,7 +517,7 @@ class DeleteAccountView(BaseView):
     def handle_cancel(self):
         self.addPortalStatusMessage(_(u'psm_account_not_deleted',
                                       u'Account not deleted.'))
-        return self.redirect(self.context.absolute_url())
+        return self.redirect(self.context.absolute_url() + '/account')
 
     @post_only(raise_=True)
     def handle_delete(self):
