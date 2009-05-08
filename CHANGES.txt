@@ -3,6 +3,9 @@
 
 Features Added:
 
+  * Member deletion now works, and has a link from the account page.
+    (slinkp)
+
   * Test member data now contains non-ASCII characters to provide better
     coverage re: i18n and l10n issues. (rafrombrc)
 

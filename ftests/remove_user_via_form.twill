@@ -6,7 +6,11 @@
 
 extend_with flunc.checkbox
 
-go ${base_url}/people/${user}/delete
+go ${base_url}/people/${user}/account
+follow account_delete
+url ${base_url}/people/${user}/delete
+code 200
+
 is_selected delete delete:int 0
 fv delete delete:int 1
 submit
