@@ -43,7 +43,7 @@ setup(
                         'https://svn.openplans.org/svn/OpencoreRedirect/trunk#egg=OpencoreRedirect-dev',
                         'http://svn.red-bean.com/bob/simplejson/trunk/#egg=simplejson-dev',
                         'http://download.savannah.nongnu.org/releases/pyprof/hprof-0.1.1.tar.gz#egg=hprof',
-                        'https://svn.openplans.org/svn/oc-js/trunk/#egg=oc-js-dev',
+                        'https://svn.openplans.org/svn/oc-js/tags/0.6.4#egg=oc-js-0.6.4',
                         'http://feedparser.googlecode.com/files/feedparser-4.1.zip',
                         'https://svn.openplans.org/svn/topp.utils/trunk#egg=topp.utils-dev',
                         'https://svn.openplans.org/svn/ZCMLLoader/trunk#egg=ZCMLLoader',
@@ -54,7 +54,7 @@ setup(
 
       install_requires=[
           # -*- Extra requirements: -*-
-          "oc-js==dev,>=0.5",
+          "oc-js==0.6.4",
           'oc-feed>=0.2,==dev',
           'simplejson',
           'decorator',
