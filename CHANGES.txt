@@ -68,6 +68,10 @@ Features Added:
   * Added FeedbackerClient utility to support fetching of data from
     feedbacker app if it is installed with the stack. (rafrombrc)
 
+  * More info at the /stats view (try the link to active project stats)
+    (pw)
+ 
+
 Bugs Fixed:
 
   * Converted 'body' argument from MIMEText object to string if necessary
@@ -100,7 +104,7 @@ Bugs Fixed:
     nicely in places where the code expects a MaildropHost. (rafrombrc)
 
 
-0.17.0 (UNRELEASED)
+0.17.0 (2009-05-09)
 ===================
 
 Data Migrations:
@@ -152,9 +156,6 @@ Features Added:
    to determine language preferences. (egj)
  
 
- * More info at the /stats view (try the link to active project stats)
-   (pw)
- 
 Bugs Fixed:
 
  * The topnav within a member space was always displaying the member's original
