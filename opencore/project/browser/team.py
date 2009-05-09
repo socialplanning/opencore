@@ -149,7 +149,7 @@ class RequestMembershipView(TeamRelatedView, formhandler.OctopoLite, LoginView):
         if not joined:
             psmid = 'already_proj_member'
             self.add_status_message(_(u'team_already_proj_member', u'You are already a pending or active member of ${project_title}.',
-                                      mapping={'project_title':self.context.Title()}))
+                                      mapping={'project_title':self.context.Title().decode('utf-8')}))
             self.template = None # don't render the form before the redirect
             self.redirect(self.context.absolute_url())
             return
