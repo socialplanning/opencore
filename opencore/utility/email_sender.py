@@ -193,5 +193,5 @@ To: %(to_addr)s
             mapping['body'] = body_encode(mapping['body'])
 
             msg = str(construct_simple_encoded_message(**mapping))
-        print msg
+
         self._send(msg)
