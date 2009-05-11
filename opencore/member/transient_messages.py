@@ -43,6 +43,8 @@ class TransientMessage(object):
         if isinstance(msg, Message):
             msg = translate(msg, context=self.site_root)
         elif isinstance(msg, basestring):
+            # XXX Um. why do we want to create a Message and not translate it?
+            # that's not what the docstring says
             msg = _(msg)
             
         if isinstance(msg, Message) or isinstance(msg, basestring):
