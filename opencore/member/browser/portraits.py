@@ -24,7 +24,7 @@ class PortraitsView(BaseView):
         try:
             member_portrait_thumb = getattr(self.viewedmember(), thumbnail_property)
             data = member_portrait_thumb.data
-            modified = member_portrait_thumb.bobobase_modificaton_time
+            modified = member_portrait_thumb.bobobase_modification_time()
         except AttributeError:
             default_thumb = getattr(self, default_thumb)
             path = self.context.restrictedTraverse(default_thumb).context.path
