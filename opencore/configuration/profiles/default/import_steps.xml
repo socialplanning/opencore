@@ -255,4 +255,14 @@
     <dependency step="install_dependencies" />
   </import-step>
 
+  <import-step
+     version="20090513-01"
+     id="addMemberCleanupQueue"
+     handler="opencore.configuration.setuphandlers.bootstrap_member_deletion_queue"
+     title="OpenCore add member deletion queue">
+    Creates a queue where we put ids of deleted members for async cleanup.
+    <dependency step="install_dependencies" />
+  </import-step>
+
+
 </import-steps>

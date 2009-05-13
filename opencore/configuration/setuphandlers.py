@@ -8,7 +8,6 @@ from Products.OpenPlans.workflows import MEMBERSHIP_PLACEFUL_POLICIES
 from Products.OpenPlans.workflows import PLACEFUL_POLICIES
 from Products.remember.utils import getAdderUtility
 from StringIO import StringIO
-from plone.app.controlpanel.markup import IMarkupSchema
 from opencore.configuration import OC_REQ as OPENCORE
 from opencore.content.member import OpenMember
 from opencore.content.membership import OpenMembership
@@ -16,13 +15,17 @@ from opencore.interfaces import IAddProject
 from opencore.interfaces import IAmANewsFolder
 from opencore.interfaces import IAmAPeopleFolder
 from opencore.interfaces.membership import IEmailInvites
+from opencore.member.interfaces import REMOVAL_QUEUE_KEY
 from opencore.project.browser.email_invites import EmailInvites
+from plone.app.controlpanel.markup import IMarkupSchema
+from zope.app.annotation import IAnnotations
 from zope.app.component.hooks import setSite
 from zope.component import queryUtility
 from zope.interface import alsoProvides
+import logging
 import pkg_resources
 import socket
-import logging
+import zc.queue
 
 log = logging.getLogger('opencore.configuration.setuphandlers')
 
@@ -478,3 +481,13 @@ def activate_wicked(portal, out):
     if not markup_ctrl.wiki_enabled_types:
         print >> out, "Activating wicked linking"
         markup_ctrl.wiki_enabled_types = ['Page']
+
+@setuphandler
+def bootstrap_member_deletion_queue(portal, out):
+    annot = IAnnotations(portal)
+    if annot.has_key(REMOVAL_QUEUE_KEY):
+        print >> out, 'Already have member deletion queue, skipping'
+        return
+    annot[REMOVAL_QUEUE_KEY] = zc.queue.Queue()
+    print >> out, "Added member deletion queue"
+    return

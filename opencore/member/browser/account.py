@@ -6,6 +6,7 @@ from Products.CMFCore.utils import getToolByName
 from opencore.browser.base import BaseView
 from opencore.browser.formhandler import OctopoLite, action, post_only
 from opencore.member.utils import member_path
+from opencore.member.utils import get_cleanup_queue
 from opencore.i18n import _
 from opencore.interfaces.catalog import ILastWorkflowActor
 from opencore.interfaces.event import JoinedProjectEvent
@@ -13,7 +14,6 @@ from opencore.interfaces.event import LeftProjectEvent
 from opencore.interfaces.event import MemberModifiedEvent
 from opencore.interfaces.message import ITransientMessage
 from plone.memoize.view import memoize as req_memoize
-from zc.queue.interfaces import IQueue
 from zope.component import getAdapter
 from zope.event import notify
 import logging
@@ -562,7 +562,7 @@ class AccountCleanupQueueView(object):
     def __init__(self, context, request):
         self.context = context  # Should be the portal.
         self.request = request
-        self.queue = getAdapter(self.context, IQueue, 'member_removal_queue')
+        self.queue = get_cleanup_queue(self.context)
         self.mship_tool = getToolByName(self.context, 'portal_membership')
 
     def __call__(self):

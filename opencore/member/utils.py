@@ -4,8 +4,8 @@ Small helper methods supporting member-related OpenCore behaviour.
 
 from Products.CMFCore.utils import getToolByName
 from opencore.member.interfaces import REMOVAL_QUEUE_KEY
+from zope.app.annotation import IAnnotations
 import logging
-import zc.queue
 
 logger = logging.getLogger('opencore.member.utils')
 
@@ -29,14 +29,10 @@ def portrait_thumb_path(mem_id, thumbnail_name='thumb'):
 
 def get_cleanup_queue(context):
     """
-    Adapter to find (or create) a queue that contains recently deleted
-    member ids so we can clean up after them.
+    Find a queue that contains recently deleted member ids so we can
+    clean up after them.
     """
     portal = getToolByName(context, 'portal_url').getPortalObject()
-    queue = getattr(portal, REMOVAL_QUEUE_KEY, None)
-    if queue is None:
-        logger.info('Initializing empty queue for member cleanup')
-        setattr(portal, REMOVAL_QUEUE_KEY, zc.queue.Queue())
-        queue = getattr(portal, REMOVAL_QUEUE_KEY)
+    queue = IAnnotations(portal)[REMOVAL_QUEUE_KEY]
     return queue
 
