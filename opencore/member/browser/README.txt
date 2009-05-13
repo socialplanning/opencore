@@ -46,6 +46,19 @@ Check scaling on thumbnail::
     >>> square.width, square.height
     (80, 80)
 
+Check the views on the thumbnails::
+
+    >>> m1_folder = self.portal.people.m1
+    >>> view = m1_folder.restrictedTraverse('portrait_square_fifty_thumb')
+    >>> view
+    <Products.Five.metaclass.PortraitsView object at ...>
+    >>> data = view()
+    >>> view.response.headers.has_key('expires')
+    True
+    >>> view.response.headers.has_key('last-modified')
+    True
+
+
 Exercise the Member Account Class
 =================================
 
