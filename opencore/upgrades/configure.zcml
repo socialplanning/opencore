@@ -120,6 +120,12 @@
        handler=".to_0_18_0.mark_listen_folders"
        />
 
+    <genericsetup:upgradeStep
+       title="Bootstrap member removal queue"
+       description="Bootstrap member removal queue"
+       handler=".to_0_18_0.bootstrap_member_deletion_queue"
+       />
+
   </genericsetup:upgradeSteps>
 
 </configure>

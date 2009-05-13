@@ -1,6 +1,8 @@
 from Products.CMFCore.utils import getToolByName
 from opencore.listen.interfaces import IListenContainer
 from opencore.upgrades.utils import logger
+from opencore.upgrades.utils import run_import_step
+
 from zope.interface import alsoProvides
 
 def mark_listen_folders(context):
@@ -17,3 +19,9 @@ def mark_listen_folders(context):
             alsoProvides(listfolder, IListenContainer)
             logger.info('Marked folder with IListenContainer: %s'
                         % '/'.join(listfolder.getPhysicalPath()))
+
+
+def bootstrap_member_deletion_queue(context):
+    result = run_import_step(context, 'addMemberCleanupQueue')
+    logger.info(result)
+    
