@@ -21,9 +21,10 @@ class PortraitsView(BaseView):
     def _portrait_thumb(self, thumbnail_property, default_thumb='defaultPortraitThumbURL'):
         """Provides a single location to pull the user's portrait from. 
         Same as above, but returns the thumbnail."""
-        member_portrait_thumb = getattr(self.viewedmember(), thumbnail_property, None)
+        member_portrait_thumb = getattr(self.viewedmember().aq_inner,
+                                        thumbnail_property, None)
         if member_portrait_thumb is not None:
-            data = member_portrait_thumb.data
+            data = str(member_portrait_thumb.data)
             modified = member_portrait_thumb.bobobase_modification_time()
             content_type = member_portrait_thumb.content_type
         else:
