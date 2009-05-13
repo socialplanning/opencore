@@ -48,6 +48,7 @@ Check scaling on thumbnail::
 
 Check the views on the thumbnails::
 
+    >>> m1_folder = self.portal.people.m1
     >>> view = m1_folder.restrictedTraverse('portrait_square_fifty_thumb')
     >>> view
     <Products.Five.metaclass.PortraitsView object at ...>
