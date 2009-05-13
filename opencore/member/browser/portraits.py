@@ -20,20 +20,21 @@ class PortraitsView(BaseView):
 
     def _portrait_thumb(self, thumbnail_property, default_thumb='defaultPortraitThumbURL'):
         """Provides a single location to pull the user's portrait from. 
-        Same as above, but returns the thumbnail.""" 
-        try:
-            member_portrait_thumb = getattr(self.viewedmember(), thumbnail_property)
+        Same as above, but returns the thumbnail."""
+        member_portrait_thumb = getattr(self.viewedmember(), thumbnail_property, None)
+        if member_portrait_thumb is not None:
             data = member_portrait_thumb.data
             modified = member_portrait_thumb.bobobase_modification_time()
-        except AttributeError:
+            content_type = member_portrait_thumb.content_type
+        else:
             default_thumb = getattr(self, default_thumb)
             path = self.context.restrictedTraverse(default_thumb).context.path
             file = open(path, 'rb')
             modified = DateTime.DateTime(os.path.getmtime(path))
             data = file.read()
+            content_type = magic.guessMime(data)
             file.close()
 
-        content_type = magic.guessMime(data)
         self.response.setHeader('Content-Type', content_type)
         modified = modified.toZone('GMT')
         self.response.setHeader('Last-Modified', modified.rfc822())
