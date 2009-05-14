@@ -1,37 +1,13 @@
-An authorized user can export a project's wiki pages as a zipfile of
-html. Some caveats:
+Exporting Project Content
+=========================
 
-It doesn't include any project metadata;
+An authorized user can export a project's content.
 
-It doesn't rewrite links or include attachments or referenced
-images, so all links will be broken. ianbicking has probably
-written a clever script to address this;
+The export view is restricted:
 
-It only exports current versions of wiki pages; no other site content is
-exported. (Notably not attachments).
-
-Let's try it::
 
     >>> self.login('m1')
     >>> proj = self.portal.projects.p3
-    >>> export = proj.restrictedTraverse('project-pages-export.zip')
-    >>> data = export._get_exportable_data().read()
-    >>> import zipfile, StringIO
-    >>> z = zipfile.ZipFile(StringIO.StringIO(data))
-    >>> z.printdir()
-    File Name ... Modified ... Size
-    p3/project_home.html ...
-
-The actual view method returns an IStreamIterator::
-
-    >>> iterator = export.export()
-    >>> iterator
-    <...export.FilestreamIterator object at ...>
-    >>> len(iterator) == len(data)
-    True
-
-This view is restricted::
-
     >>> self.logout()
     >>> proj.restrictedTraverse('project-pages-export.zip')
     Traceback (most recent call last):
@@ -42,3 +18,137 @@ This view is restricted::
     Traceback (most recent call last):
     ...
     Unauthorized: ...
+
+
+Let's try the back-end export utils directly:
+
+    >>> from opencore.project.browser.export_utils import ProjectExportQueueView
+    >>> qview = ProjectExportQueueView(proj, {})
+    >>> qview.queue
+    <zc.dict.dict.OrderedDict object at ...>
+
+We hack the output directory to avoid polluting the real export directory:
+
+    >>> import tempfile
+    >>> qview.vardir = tempfile.mkdtemp()
+
+Nothing in the queue yet:
+
+    >>> list(qview.queue.iteritems())
+    []
+    >>> import logging
+    >>> logging.getLogger().level = logging.INFO  # XXX probably bad
+    >>> self._start_log_capture(subsystem='opencore.project.export')
+    >>> qview()  # nothing happens.
+    >>> self.logged.pop().msg
+    'Reached end of project export job queue.'
+
+We can call export() directly:
+
+    >>> path = qview.export(proj.getId())
+    >>> path.startswith(qview.vardir)
+    True
+    >>> path
+    '.../project_exports/p3/p3.zip'
+
+There should be a zipfile there:
+
+    >>> import zipfile
+    >>> zipfile.is_zipfile(path)
+    True
+  
+Status objects
+--------------
+
+Status is reported via these boring little bags of state:
+
+    >>> from opencore.project.browser.export_utils import ExportStatus
+    >>> status = ExportStatus('foo')
+    >>> status.name
+    'foo'
+    >>> status.running
+    False
+    >>> status.succeeded
+    False
+    >>> status.hung
+    False
+    >>> status.failed
+    False
+    >>> status.start()
+    >>> status.starttime
+    datetime.datetime(...)
+    >>> status.running
+    True
+    >>> status.updatetime == status.starttime
+    True
+    >>> status.finish()
+    >>> status.running
+    False
+    >>> status.updatetime > status.starttime
+    True
+    >>> status.succeeded
+    True
+    >>> status.fail()
+    >>> status.succeeded
+    False
+    >>> status.failed
+    True
+    >>> status.updatetime > status.starttime
+    True
+    >>> import datetime
+    >>> status.start(); status.starttime -= datetime.timedelta(days=10)
+    >>> status.hung  # We forced the start time to be ridiculously old.
+    True
+
+
+The Export Queue
+================
+
+Since exports can take a long time, they are expected to run
+asynchronously and are managed in a queue.  We can trigger an export
+by putting a status object in the queue and then calling the view.
+
+Here's an example of export failure due to missing project:
+
+    >>> status = ExportStatus('no-such-project')
+    >>> qview.queue[status.name] = status
+    >>> qview()
+    >>> status.failed
+    True
+    >>> len(self.logged)
+    2
+    >>> self.logged.pop().msg
+    'Reached end of project export job queue.'
+    >>> self.logged.pop().msg
+    'Failure in export of project \'no-such-project\'...'
+
+And here's an example of success:
+
+    >>> status = ExportStatus(proj.getId())
+    >>> qview.queue[status.name] = status
+    >>> qview()
+    >>> status.succeeded
+    True
+    >>> len(self.logged)
+    1
+    >>> self.logged.pop().msg
+    'Reached end of project export job queue.'
+
+
+# Now let's try the view:
+
+#     >>> export = proj.restrictedTraverse('project-pages-export.zip')
+#     >>> data = export._get_exportable_data().read()
+#     >>> import zipfile, StringIO
+#     >>> z = zipfile.ZipFile(StringIO.StringIO(data))
+#     >>> z.printdir()
+#     File Name ... Modified ... Size
+#     p3/project_home.html ...
+
+# The actual view method returns an IStreamIterator::
+
+#     >>> iterator = export.export()
+#     >>> iterator
+#     <...export.FilestreamIterator object at ...>
+#     >>> len(iterator) == len(data)
+#     True

@@ -1,6 +1,8 @@
 from opencore.account import utils
 utils.turn_confirmation_on()
+from Products.CMFCore.tests.base.testcase import LogInterceptor
 from Products.OpenPlans.tests.openplanstestcase import OpenPlansTestCase
+from Products.PloneTestCase.PloneTestCase import FunctionalTestCase
 from opencore.configuration import OC_REQ
 from opencore.featurelets.interfaces import IListenContainer
 from opencore.testing import dtfactory as dtf
@@ -8,6 +10,7 @@ from opencore.testing import setup as oc_setup
 from opencore.testing.layer import OpencoreContent
 from zope.app.component.hooks import setSite, setHooks
 from zope.testing import doctest
+import logging
 import pkg_resources as pkgr
 import unittest
 
@@ -17,10 +20,59 @@ optionflags = doctest.ELLIPSIS
 
 import warnings; warnings.filterwarnings("ignore")
 
+
+class LoggingTestCase(FunctionalTestCase, object):
+    # Based on LogInterceptor from CMFCore, but a bit easier to use, 
+    # and reliably restores the state of the world on teardown.
+
+    logged = None
+    installed = ()
+    level = 0
+
+    def _start_log_capture(self,
+                           min_capture_level=logging.INFO,
+                           max_capture_level=logging.FATAL,
+                           subsystem=''):
+        logger = logging.getLogger(subsystem)
+        # Need to patch the logger level to force it to handle the
+        # messages we want to capture.
+        self._old_logger_level, logger.level = logger.level, min_capture_level
+        if subsystem in self.installed:
+            # we're already handling this logger.
+            return
+        self.installed += (subsystem,)
+        self.min_capture_level = min_capture_level
+        self.max_capture_level = max_capture_level
+        logger.addFilter(self)
+
+    def filter(self, record):
+        # Standard python logging filter API. False = reject this message.
+        if self.logged is None:
+            self.logged = []
+        if record.levelno < self.min_capture_level or \
+                record.levelno > self.max_capture_level:
+            # pass it along but don't capture it.
+            return True
+        self.logged.append(record)
+        return False  # reject it before any other handlers see it.
+
+    def _stop_log_capture(self, subsystem=''):
+        if subsystem not in self.installed:
+            return
+        logger = logging.getLogger(subsystem)
+        logger.removeFilter(self)
+        logger.level = self._old_logger_level
+        self.installed = tuple([s for s in self.installed if s != subsystem])
+
+    def tearDown(self):
+        for subsystem in self.installed:
+            self._stop_log_capture(subsystem)
+        super(LoggingTestCase, self).tearDown()
+
+
 def test_suite():
     from Products.CMFCore.utils import getToolByName
     from Products.PloneTestCase import setup
-    from Products.PloneTestCase.PloneTestCase import FunctionalTestCase
     from Products.listen.interfaces import IListLookup
     from Testing.ZopeTestCase import installProduct
     from opencore.interfaces.workflow import IReadWorkflowPolicySupport
@@ -79,7 +131,7 @@ def test_suite():
     export = dtf.ZopeDocFileSuite("export.txt",
                                   optionflags=optionflags,
                                   package='opencore.project.browser',
-                                  test_class=FunctionalTestCase,
+                                  test_class=LoggingTestCase,
                                   globs = globs,
                                   setUp=readme_setup,
                                   layer = OpencoreContent,
