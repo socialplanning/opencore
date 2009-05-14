@@ -69,6 +69,7 @@ setup(
         'Products.CacheSetup==1.2',
         'Products.GenericSetup==1.4.1',
         'zc.queue',
+        'zc.dict',
         ],
     
     extras_require=dict(ubuntu=['hprof']),
