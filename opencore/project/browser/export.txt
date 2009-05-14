@@ -1,3 +1,4 @@
+=========================
 Exporting Project Content
 =========================
 
@@ -24,24 +25,11 @@ Let's try the back-end export utils directly:
 
     >>> from opencore.project.browser.export_utils import ProjectExportQueueView
     >>> qview = ProjectExportQueueView(proj, {})
-    >>> qview.queue
-    <zc.dict.dict.OrderedDict object at ...>
 
 We hack the output directory to avoid polluting the real export directory:
 
     >>> import tempfile
     >>> qview.vardir = tempfile.mkdtemp()
-
-Nothing in the queue yet:
-
-    >>> list(qview.queue.iteritems())
-    []
-    >>> import logging
-    >>> logging.getLogger().level = logging.INFO  # XXX probably bad
-    >>> self._start_log_capture(subsystem='opencore.project.export')
-    >>> qview()  # nothing happens.
-    >>> self.logged.pop().msg
-    'Reached end of project export job queue.'
 
 We can call export() directly:
 
@@ -102,16 +90,34 @@ Status is reported via these boring little bags of state:
 
 
 The Export Queue
-================
+----------------
 
 Since exports can take a long time, they are expected to run
 asynchronously and are managed in a queue.  We can trigger an export
 by putting a status object in the queue and then calling the view.
 
+The queue starts empty:
+
+    >>> proj = self.portal.projects.p3
+    >>> qview = ProjectExportQueueView(proj, {})
+    >>> queue = qview.queue
+    >>> queue
+    <zc.dict.dict.OrderedDict object at ...>
+    >>> len(queue)
+    0
+    >>> list(queue.iteritems())
+    []
+    >>> import logging
+    >>> logging.getLogger().level = logging.INFO  # XXX probably bad
+    >>> self._start_log_capture(subsystem='opencore.project.export')
+    >>> qview()  # nothing happens.
+    >>> self.logged.pop().msg
+    'Reached end of project export job queue.'
+
 Here's an example of export failure due to missing project:
 
     >>> status = ExportStatus('no-such-project')
-    >>> qview.queue[status.name] = status
+    >>> queue[status.name] = status
     >>> qview()
     >>> status.failed
     True
@@ -125,7 +131,7 @@ Here's an example of export failure due to missing project:
 And here's an example of success:
 
     >>> status = ExportStatus(proj.getId())
-    >>> qview.queue[status.name] = status
+    >>> queue[status.name] = status
     >>> qview()
     >>> status.succeeded
     True
