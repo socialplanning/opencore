@@ -264,14 +264,14 @@
      permission="zope2.View"
      />
 
-  <!-- Wiki page export -->
+  <!-- Project content export -->
   <browser:page
      for="opencore.interfaces.IProject"
-     class=".export.PagesExportView"
-     attribute="export"
+     class=".export.ProjectExportView"
      permission="cmf.ModifyPortalContent"
-     name="project-pages-export.zip"
+     name="export"
      />
+
 
   <!-- placeholder view for lists -->
   <browser:page

@@ -1,13 +1,10 @@
-from Products.CMFCore.utils import getToolByName
-from opencore.browser.base import BaseView
-from zipfile import ZipFile
-import re
 from ZPublisher.Iterators import IStreamIterator
-import tempfile
+from opencore.browser.base import BaseView
+from opencore.project.browser import export_utils
+import os
 
 
-
-class PagesExportView(BaseView):
+class ProjectExportView(BaseView):
 
     """
     Export a project's wiki pages as a zipfile of html.
@@ -24,25 +21,46 @@ class PagesExportView(BaseView):
     """
 
 
-    def _list_available_exports(self):
+    vardir = None  # so we can patch it for testing.
+
+    def available_exports(self):
         """any zip files avail to download?
         """
-        
-    
+        path = export_utils._getpath(self.context.getId(), self.vardir)
+        zips = [f for f in os.listdir(path) if f.endswith('zip')]
+        return sorted(zips)
 
-    def export(self):
+    def __getitem__(self, name):
         """
         Return the zip file.
         """
-        tempzip = self._get_exportable_data()
+        # We use getitem so that we can traverse project/export/zipfilename
+        # to get the download.
+        zips = self.available_exports()
+        try:
+            index = zips.index(name)
+        except ValueError:
+            # want a 404 here.
+            raise KeyError(name)
+        thezip = zips[index]
         self.request.RESPONSE.setHeader('Content-Type', 'application/zip')
         # Tell ZPublisher to serve this file efficiently, freeing up
         # the Zope thread immediately.  The temp file will be
         # automagically deleted when it gets garbage-collected.
-        iterator = FilestreamIterator(tempzip)
+        iterator = FilestreamIterator(thezip)
         self.request.RESPONSE.setHeader('Content-Length', len(iterator))
         return iterator
 
+    def __call__(self):
+        # XXX this would be the UI?
+        return str(self.available_exports())
+
+    def do_export(self):
+        queue = export_utils.get_queue(self.context)
+        status = export_utils.ExportStatus(self.context.getId())
+        queue[status.name] = status
+        return status
+        
 
 class FilestreamIterator(object):
 
@@ -52,6 +70,8 @@ class FilestreamIterator(object):
     We couldn't use the existing implementation at
     ZPublisher.Iterators.filestream_iterator, because it requires a
     filename -- but we want to use unnamed temporary files.
+    XXX actually we don't use temp files anymore.
+    XXX Maybe we can just use the ZPublisher one after all?
 
     I had hoped it would be possible to just do:
 

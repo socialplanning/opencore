@@ -4,32 +4,17 @@ Exporting Project Content
 
 An authorized user can export a project's content.
 
-The export view is restricted:
-
-
-    >>> self.login('m1')
-    >>> proj = self.portal.projects.p3
-    >>> self.logout()
-    >>> proj.restrictedTraverse('project-pages-export.zip')
-    Traceback (most recent call last):
-    ...
-    Unauthorized: ...
-    >>> self.login('m3')
-    >>> proj.restrictedTraverse('project-pages-export.zip')
-    Traceback (most recent call last):
-    ...
-    Unauthorized: ...
-
-
 Let's try the back-end export utils directly:
 
+    >>> proj = self.portal.projects.p3
     >>> from opencore.project.browser.export_utils import ProjectExportQueueView
     >>> qview = ProjectExportQueueView(proj, {})
 
 We hack the output directory to avoid polluting the real export directory:
 
     >>> import tempfile
-    >>> qview.vardir = tempfile.mkdtemp()
+    >>> tempdir = tempfile.mkdtemp()
+    >>> qview.vardir = tempdir
 
 We can call export() directly:
 
@@ -37,7 +22,7 @@ We can call export() directly:
     >>> path.startswith(qview.vardir)
     True
     >>> path
-    '.../project_exports/p3/p3.zip'
+    '.../project_exports/p3/p3-....zip'
 
 There should be a zipfile there:
 
@@ -69,7 +54,9 @@ Status is reported via these boring little bags of state:
     True
     >>> status.updatetime == status.starttime
     True
-    >>> status.finish()
+    >>> status.finish('foo')
+    >>> status.path
+    'foo'
     >>> status.running
     False
     >>> status.updatetime > status.starttime
@@ -83,9 +70,11 @@ Status is reported via these boring little bags of state:
     True
     >>> status.updatetime > status.starttime
     True
+    >>> # Simulate a hung job by forcing a really old start time.
     >>> import datetime
-    >>> status.start(); status.starttime -= datetime.timedelta(days=10)
-    >>> status.hung  # We forced the start time to be ridiculously old.
+    >>> status.start()
+    >>> status.starttime -= datetime.timedelta(days=10)
+    >>> status.hung  
     True
 
 
@@ -98,8 +87,6 @@ by putting a status object in the queue and then calling the view.
 
 The queue starts empty:
 
-    >>> proj = self.portal.projects.p3
-    >>> qview = ProjectExportQueueView(proj, {})
     >>> queue = qview.queue
     >>> queue
     <zc.dict.dict.OrderedDict object at ...>
@@ -140,8 +127,65 @@ And here's an example of success:
     >>> self.logged.pop().msg
     'Reached end of project export job queue.'
 
+Let's clean up the output directory to a known blank slate:
 
-# Now let's try the view:
+    >>> import shutil
+    >>> shutil.rmtree(tempdir)
+    >>> tempdir = tempfile.mkdtemp()
+    >>> qview.vardir = tempdir
+
+
+The export UI view
+------------------
+
+The export view is restricted:
+
+    >>> proj = self.portal.projects.p3
+    >>> self.logout()
+    >>> proj.restrictedTraverse('export')
+    Traceback (most recent call last):
+    ...
+    Unauthorized: ...
+    >>> self.login('m3')
+    >>> proj.restrictedTraverse('export')
+    Traceback (most recent call last):
+    ...
+    Unauthorized: ...
+
+Let's instantiate it directly now:
+
+    >>> self.login('m1')
+    >>> from opencore.project.browser.export import ProjectExportView
+    >>> export = ProjectExportView(proj, proj.REQUEST)
+    >>> export.available_exports()
+    []
+    >>> export.vardir = qview.vardir
+
+And fire one off:
+
+    >>> status = export.do_export()
+    >>> status.state
+    'pending start'
+    >>> status.path is None
+    True
+
+If we call the queue handler, it'll finish:
+
+    >>> qview()
+    >>> status.succeeded
+    True
+    >>> status.path
+    '.../project_exports/p3/p3-....zip'
+    >>> zipfile.is_zipfile(status.path)
+    True
+    >>> len(export.available_exports())
+    1
+    >>> status.path.endswith(export.available_exports()[0])
+    True
+
+
+Now let's try to download by traversing that zipfile:
+# XXX LEFT OFF HERE, these are tests from the old code, rewrite them.
 
 #     >>> export = proj.restrictedTraverse('project-pages-export.zip')
 #     >>> data = export._get_exportable_data().read()
@@ -158,3 +202,11 @@ And here's an example of success:
 #     <...export.FilestreamIterator object at ...>
 #     >>> len(iterator) == len(data)
 #     True
+
+
+Cleanup
+-------
+
+    >>> import shutil
+    >>> shutil.rmtree(tempdir)  #XXX this should be done in teardown
+   

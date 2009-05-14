@@ -37,6 +37,16 @@ def log_exception(msg='', level=logging.ERROR):
     logger.log(level=level, msg=msg)
 
 
+def get_queue(context):
+    # Bootstrap a persistent queue onto the site.
+    # XXX move this into an annotation set up via a migration!
+    portal = getToolByName(context, 'portal_url').getPortalObject()
+    if getattr(aq_base(portal), _queue_name, None) is None:
+        setattr(portal, _queue_name, OrderedDict())
+        transaction.commit()
+    queue = portal[_queue_name]
+    return queue
+
 class ProjectExportQueueView(object):
 
     """Handle a queue of project export jobs which may take a long
@@ -48,13 +58,7 @@ class ProjectExportQueueView(object):
     def __init__(self, context, request):
         self.context = context
         self.request = request
-        # Bootstrap a persistent queue onto the site.
-        # XXX move this into an annotation set up via a migration!
-        portal = getToolByName(self.context, 'portal_url').getPortalObject()
-        if getattr(aq_base(portal), _queue_name, None) is None:
-            setattr(portal, _queue_name, OrderedDict())
-            transaction.commit()
-        self.queue = portal[_queue_name]
+        self.queue = get_queue(self.context)
         self.vardir = config.getConfiguration().clienthome
 
     def __call__(self):
@@ -79,8 +83,8 @@ class ProjectExportQueueView(object):
                     self.context._p_jar.sync()
                     status.start()
                     transaction.commit()
-                    self.export(name)
-                    status.finish()
+                    outfile_path = self.export(name)
+                    status.finish(outfile_path)
                     transaction.get().note('Finished job for %r' % name)
                     transaction.commit()
                 except:
@@ -104,10 +108,11 @@ class ProjectExportQueueView(object):
           and release lock(s).
         """
         proj_dirname = badchars.sub('_', project_id)
-        outdir = self._getpath(proj_dirname)
+        outdir = _getpath(project_id, self.vardir)
         project = self.context.restrictedTraverse('projects/%s' % project_id)
         catalog = getToolByName(self.context, "portal_catalog")
-        zipname = os.path.join(outdir, proj_dirname + '.zip')
+        timestamp = datetime.datetime.utcnow().strftime('%Y-%m-%d_%H:%M:%S')
+        outfile_path = os.path.join(outdir, '%s-%s.zip' % (proj_dirname, timestamp))
         # Using mkstemp instead of other classes in tempfile because I
         # want to rename the file when done w/ it, and only delete on
         # failure.
@@ -137,18 +142,12 @@ class ProjectExportQueueView(object):
             except:
                 pass
             try:
-                os.unlink(zipname)
+                os.unlink(outfile_path)
             except:
                 pass
             raise
-        os.rename(tmpname, zipname)  # Clobber any existing zip.
-        return zipname
-
-    def _getpath(self, project_id):
-        path = os.path.join(self.vardir, 'project_exports', project_id)
-        if not os.path.isdir(path):
-            os.makedirs(path)
-        return path
+        os.rename(tmpname, outfile_path)  # Clobber any existing of same name.
+        return outfile_path
 
 
 class ExportStatus(Persistent):
@@ -157,6 +156,7 @@ class ExportStatus(Persistent):
     __FAILED = 'failed'
     __RUNNING = 'running'
     __DONE = 'done'
+    __PENDING = 'pending start'
 
     # Max time a job can run before we call it hung. XXX will need to
     # try some very large project exports to find a good heuristic.
@@ -164,7 +164,7 @@ class ExportStatus(Persistent):
 
     def __init__(self, name, state=None):
         self.name = name
-        self.state = state
+        self.state = state or self.__PENDING
         self.updatetime = datetime.datetime.utcnow()
         self.starttime = None
         self.path = None
@@ -198,8 +198,9 @@ class ExportStatus(Persistent):
         self.state = self.__RUNNING
         self.updatetime = self.starttime = datetime.datetime.utcnow()
 
-    def finish(self):
+    def finish(self, path):
         # XXX fire an event?
+        self.path = path
         self.state = self.__DONE
         self.updatetime = datetime.datetime.utcnow()
 
@@ -207,3 +208,13 @@ class ExportStatus(Persistent):
         # XXX fire an event?
         self.state = self.__FAILED
         self.updatetime = datetime.datetime.utcnow()
+
+
+def _getpath(project_id, vardir=None):
+    if vardir is None:
+        vardir = config.getConfiguration().clienthome
+    proj_dirname = badchars.sub('_', project_id)
+    path = os.path.join(vardir, 'project_exports', project_id)
+    if not os.path.isdir(path):
+        os.makedirs(path)
+    return path
