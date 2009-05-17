@@ -583,7 +583,7 @@ msgstr ""
 #: ./opencore/project/browser/mship_messages.py:51
 msgid "email_invitation_retracted"
 msgstr ""
-"Asunto: ${portal_title} - Invitaçao a  se incluir em  ${project_title}\n"
+"Subject: ${portal_title} - Invitaçao a  se incluir em  ${project_title}\n"
 "\n"
 "A invitaçao mandada a voce para  se incluir em \"${project_title}\" em ${portal_title} foi cancelada."
 
@@ -597,7 +597,7 @@ msgstr "${inviter_name}  invitou voce a se incluire em \"${project_title}\" em $
 #: ./opencore/project/browser/mship_messages.py:3
 msgid "email_invite_member"
 msgstr ""
-"Asunto: Voce foi invitad@ a se incluir em \"${project_title}\"\n"
+"Subject: Voce foi invitad@ a se incluir em \"${project_title}\"\n"
 "\n"
 "Oi ${user_name},\n"
 "\n"
@@ -612,7 +612,7 @@ msgstr ""
 #: ./opencore/project/browser/mship_messages.py:15
 msgid "email_invite_pending_member"
 msgstr ""
-"Asunto: Voce foi invitad@ a se incluir em \"${project_title}\"\n"
+"Subject: Voce foi invitad@ a se incluir em \"${project_title}\"\n"
 "\n"
 "Oi ${user_name},\n"
 "\n"
@@ -641,7 +641,7 @@ msgstr ""
 #, fuzzy
 msgid "email_membership_deactivated"
 msgstr ""
-"Asunto: ${portal_title} - Membresia desativada para ${project_title}\n"
+"Subject: ${portal_title} - Membresia desativada para ${project_title}\n"
 "\n"
 "Voce ja nao e membro do time de  \"${project_title}\" em ${portal_title}."
 
@@ -663,7 +663,7 @@ msgstr "Isso e para recordar lhe. ${inviter_name} invitou voce a se incluir em \
 #: ./opencore/project/browser/mship_messages.py:28
 msgid "email_remind_invitee"
 msgstr ""
-"Asunto: ${portal_title} – Invitacao a se incluir em ${project_title}\n"
+"Subject: ${portal_title} – Invitacao a se incluir em ${project_title}\n"
 "Isso e  para fazer recordar que voce ha sido invitad@ a se incluir em \"${project_title}\" em ${portal_title}.\n"
 "Por favor visita a  pagina da sua conta para aceitar o rechazar a invitaçao: ${account_url}"
 
@@ -681,7 +681,7 @@ msgstr ""
 #: ./opencore/project/browser/mship_messages.py:41
 msgid "email_request_approved"
 msgstr ""
-"Asunto: ${portal_title} – Bemvinda a ${project_title}\n"
+"Subject: ${portal_title} – Bemvinda a ${project_title}\n"
 "\n"
 "O seu pedido para  se incluir em  \"${project_title}\" em  ${portal_title} foi aprovado.  O  ${project_noun} es accesible em o endereço seguinte : ${project_url}"
 
@@ -689,7 +689,7 @@ msgstr ""
 #: ./opencore/project/browser/mship_messages.py:46
 msgid "email_request_denied"
 msgstr ""
-"Asunto: ${portal_title} – Seu pedido de inclusao em  ${project_title}\n"
+"Subject: ${portal_title} – Seu pedido de inclusao em  ${project_title}\n"
 "\n"
 "Seu pedido de inclusao em  \"${project_title}\" em ${portal_title} foi rechazado."
 
