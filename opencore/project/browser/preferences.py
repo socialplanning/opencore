@@ -247,7 +247,7 @@ class ProjectDeletionView(ProjectBaseView):
     
     def _handle_delete(self):
         proj_folder = zutils.aq_iface(self, IAddProject)
-        title = self.context.Title()
+        title = self.context.Title().decode('utf-8')
         proj_id = self.context.getId()
         proj_folder.manage_delObjects([proj_id])
         self.add_status_message("You have permanently deleted '%s' " %title)
