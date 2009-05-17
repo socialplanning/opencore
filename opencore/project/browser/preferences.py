@@ -246,6 +246,7 @@ class ProjectPreferencesView(ProjectBaseView, OctopoLite):
 class ProjectDeletionView(ProjectBaseView):
     
     def _handle_delete(self):
+        handle_flet_uninstall(self.context)
         proj_folder = zutils.aq_iface(self, IAddProject)
         title = self.context.Title().decode('utf-8')
         proj_id = self.context.getId()
@@ -260,7 +261,6 @@ class ProjectDeletionView(ProjectBaseView):
 
 ## XXX event subscribers do *not* belong in a browser module
 
-@adapter(IProject, IObjectWillBeRemovedEvent)
 def handle_flet_uninstall(project, event=None):
     supporter = IFeatureletSupporter(project)
     for flet_id in supporter.getInstalledFeatureletIds():
