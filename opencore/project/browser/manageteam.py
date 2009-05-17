@@ -114,7 +114,9 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite, AccountView,
         for brain in brains:
             data = self.getMshipInfoFromBrain(brain)
             mships.append(data)
-        return mships
+        import operator
+        
+        return sorted(mships, key=operator.itemgetter('sortkey'))
 
     def getMshipInfoFromBrain(self, brain):
         """
@@ -123,6 +125,7 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite, AccountView,
         """
         data = {'id': brain.id,
                 'getId': brain.getId,
+                'sortkey': brain.getId.lower(),
                 }
 
         data['listed'] = self.listedmap[brain.review_state]
