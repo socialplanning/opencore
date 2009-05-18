@@ -1,0 +1,72 @@
+<html
+ xmlns:tal="http://xml.zope.org/namespaces/tal"
+ xmlns:metal="http://xml.zope.org/namespaces/metal"
+ i18n:domain="opencore"
+ metal:use-macro="context/@@standard_macros/master">
+<head>
+    <title metal:fill-slot="title"
+        i18n:translate="project_export_window_title">Export
+    </title>
+
+    <metal:slot fill-slot="script">
+      <!-- I realize the correct thing to do now is hook up a viewlet, but that takes actual work -->
+      <script type="text/javascript" src="/++resource++jquery/jquery-1.3.2.min.js"></script>
+      <script type="text/javascript" src="/++resource++jquery/jquery.timers-1.1.2.js"></script>
+      <script type="text/javascript" src="/++resource++export.js"></script>
+
+      <style type="text/css" media="screen">
+  /*<![CDATA[*/
+#project-export-status {
+padding: 10px 0 10px 32px;
+margin: 1em 0;  
+}  
+  
+#project-export-status.active {
+background: url(/++resource++spinning_wheel_throbber.gif) 0 50% no-repeat;
+}
+  /*]]>*/
+      </style>
+    </metal:slot>
+
+</head>
+<body>
+<div metal:fill-slot="content">
+
+<div class="oc-headingBlock">
+  <h1 i18n:translate="">Project Export</h1>
+  <p class="oc-headingContext">Text about exporting your project. TO DO: write this up and include a link to the zip contents doc (to be written)</p>
+</div>
+    
+<div id="oc-content-main" class="oc-content-main-fullWidth">
+  <form id="project-export" action="" method="get">
+    <input class="context oc-button oc-chooseThis" type="submit" value="Export this project" name="export"/>
+  </form>
+  <div id="project-export-status"
+       tal:define="current view/current_status">
+    <span tal:condition="python: current.active"
+       i18n:translate="project_export_job_running">
+      There is already a job running. Please be patient.
+    <!-- TO DO: update this status via ajax -->
+    </span>
+  </div>
+
+  <div>
+    <span id="project-export-list-header" tal:attributes="class python: view.available_exports() and ' ' or 'oc-hidden'"
+       i18n:translate="project_export_file_list_heading">Exports available for download (most recent first):</span>
+    <ul id="project-export-list">
+      <li tal:repeat="file view/available_exports">
+        <a href=""
+           tal:attributes="href string:${request/URL}/${file}" tal:content="file">file name here</a></li>
+    </ul>
+  </div>
+
+</div>
+<!-- end .oc-content-main -->
+
+
+
+  
+  
+</div>
+</body>
+</html>

@@ -8,6 +8,16 @@
      name="projpage.js"
      />
 
+  <browser:resource
+     file="export.js"
+     name="export.js"
+     />
+
+  <browser:resource
+      file="spinning_wheel_throbber.gif"
+      name="spinning_wheel_throbber.gif"
+     />
+
   <include package="opencore.nui.main" file="meta.zcml" />
 
   <opencore:searchView
@@ -66,14 +76,6 @@
      allowed_attributes="menu_items"
      />
 
-  <!-- unhooked on purpose - see export.py
-  <browser:page
-     for="opencore.interfaces.IProject"
-     class=".export.ExportView"
-     permission="zope2.View"
-     name="export"
-     attribute="export"
-     /  -->
 
   <adapter for="OFS.interfaces.IItem"
            provides=".interfaces.IProjectInfo"
@@ -264,14 +266,6 @@
      permission="zope2.View"
      />
 
-  <!-- Project content export -->
-  <browser:page
-     for="opencore.interfaces.IProject"
-     class=".export.ProjectExportView"
-     permission="cmf.ModifyPortalContent"
-     name="export"
-     />
-
 
   <!-- placeholder view for lists -->
   <browser:page
@@ -279,6 +273,17 @@
      for="opencore.interfaces.IProject"
      permission="zope2.View"
      name="lists"
+     />
+
+
+  <!-- Project content export -->
+  <browser:page
+     for="opencore.interfaces.IProject"
+     class=".export.ProjectExportView"
+     permission="cmf.ModifyPortalContent"
+     name="export"
+     template="export.pt"
+     allowed_attributes="available_exports_json current_status_json do_export"
      />
 
   <!-- intended to be hit by clockserver periodically -->

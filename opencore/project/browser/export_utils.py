@@ -7,6 +7,7 @@ from zipfile import ZipFile
 import datetime
 import logging
 import re
+import simplejson as json
 import tempfile
 import transaction
 import os
@@ -62,12 +63,17 @@ class ProjectExportQueueView(object):
         self.vardir = config.getConfiguration().clienthome
 
     def __call__(self):
+        count = len(self.queue)
         for name, status in self.queue.iteritems():
             if status.running:
                 logger.info('job already in progress for %r' % name)
                 continue
             elif status.failed:
                 logger.info('purging old failed job for %r' % name)
+                del(self.queue[name])
+                continue
+            elif status.succeeded:
+                logger.info('purging old finished job for %r' % name)
                 del(self.queue[name])
                 continue
             elif status.hung:
@@ -96,7 +102,9 @@ class ProjectExportQueueView(object):
                     transaction.commit() # just to get the failure note.
                     # XXX Is there actually any reason to keep the job around?
                     # Maybe failed jobs should be put elsewhere?
-        logger.info('Reached end of project export job queue.')
+        if count:
+            logger.info('Reached end of project export job queue (%d items)'
+                        % count)
             
     def export(self, project_id):
         """
@@ -108,7 +116,7 @@ class ProjectExportQueueView(object):
           and release lock(s).
         """
         proj_dirname = badchars.sub('_', project_id)
-        outdir = _getpath(project_id, self.vardir)
+        outdir = getpath(project_id, self.vardir)
         project = self.context.restrictedTraverse('projects/%s' % project_id)
         catalog = getToolByName(self.context, "portal_catalog")
         timestamp = datetime.datetime.utcnow().strftime('%Y-%m-%d_%H:%M:%S')
@@ -152,11 +160,13 @@ class ProjectExportQueueView(object):
 
 class ExportStatus(Persistent):
     # Not even a state machine, just a little bag of info for querying state.
+    # I kinda wonder if this should just be a dict with magic values.
 
-    __FAILED = 'failed'
-    __RUNNING = 'running'
-    __DONE = 'done'
-    __PENDING = 'pending start'
+    QUEUED = 'queued, waiting to start'
+    RUNNING = 'running'
+    DONE = 'finished'
+    FAILED = 'failed'
+    NULL = 'no job running'
 
     # Max time a job can run before we call it hung. XXX will need to
     # try some very large project exports to find a good heuristic.
@@ -164,14 +174,15 @@ class ExportStatus(Persistent):
 
     def __init__(self, name, state=None):
         self.name = name
-        self.state = state or self.__PENDING
+        self.state = state or self.NULL
         self.updatetime = datetime.datetime.utcnow()
         self.starttime = None
         self.path = None
+        self.filename = None
 
     @property
     def failed(self):
-        return self.state == self.__FAILED
+        return self.state == self.FAILED
 
     @property
     def failinfo(self):
@@ -179,15 +190,23 @@ class ExportStatus(Persistent):
 
     @property
     def succeeded(self):
-        return self.state == self.__DONE
+        return self.state == self.DONE
 
     @property
     def running(self):
-        return self.state == self.__RUNNING
+        return self.state == self.RUNNING
+
+    @property
+    def queued(self):
+        return self.state == self.QUEUED
+
+    @property
+    def active(self):
+        return self.running or self.queued
 
     @property
     def hung(self):
-        if self.state != self.__RUNNING:
+        if self.state != self.RUNNING:
             return False
         now = datetime.datetime.utcnow()
         return now - self.updatetime < self.maxdelta
@@ -195,22 +214,30 @@ class ExportStatus(Persistent):
         # possible, and see if that's more recent than self.updatetime
 
     def start(self):
-        self.state = self.__RUNNING
+        self.state = self.RUNNING
         self.updatetime = self.starttime = datetime.datetime.utcnow()
 
     def finish(self, path):
         # XXX fire an event?
         self.path = path
-        self.state = self.__DONE
+        self.filename = os.path.basename(path)
+        self.state = self.DONE
         self.updatetime = datetime.datetime.utcnow()
 
     def fail(self):
         # XXX fire an event?
-        self.state = self.__FAILED
+        self.state = self.FAILED
         self.updatetime = datetime.datetime.utcnow()
 
+    def json(self):
+        result = {
+            'state': self.state,
+            'filename': self.filename,
+            }
+        return json.dumps(result)
 
-def _getpath(project_id, vardir=None):
+
+def getpath(project_id, vardir=None):
     if vardir is None:
         vardir = config.getConfiguration().clienthome
     proj_dirname = badchars.sub('_', project_id)

@@ -98,8 +98,9 @@ The queue starts empty:
     >>> logging.getLogger().level = logging.INFO  # XXX probably bad
     >>> self._start_log_capture(subsystem='opencore.project.export')
     >>> qview()  # nothing happens.
-    >>> self.logged.pop().msg
-    'Reached end of project export job queue.'
+    >>> print self.logged
+    None
+
 
 Here's an example of export failure due to missing project:
 
@@ -111,7 +112,7 @@ Here's an example of export failure due to missing project:
     >>> len(self.logged)
     2
     >>> self.logged.pop().msg
-    'Reached end of project export job queue.'
+    'Reached end of project export job queue (1 items)'
     >>> self.logged.pop().msg
     'Failure in export of project \'no-such-project\'...'
 
@@ -125,7 +126,7 @@ And here's an example of success:
     >>> len(self.logged)
     1
     >>> self.logged.pop().msg
-    'Reached end of project export job queue.'
+    'Reached end of project export job queue (1 items)'
 
 Let's clean up the output directory to a known blank slate:
 
@@ -161,15 +162,27 @@ Let's instantiate it directly now:
     []
     >>> export.vardir = qview.vardir
 
-And fire one off:
+And try to fire off an export. It won't work with GET:
 
     >>> status = export.do_export()
-    >>> status.state
-    'pending start'
-    >>> status.path is None
+    Traceback (most recent call last):
+      ...
+    Forbidden: GET is not allowed here
+
+But it works with POST.
+We get a json structure back:
+
+    >>> proj.REQUEST.environ['REQUEST_METHOD'] = 'POST'
+    >>> export.do_export()
+    '{"state": "queued, waiting to start", "filename": null}'
+
+We can check the current state of the export job:
+
+    >>> status = export.current_status()
+    >>> status.state == status.QUEUED
     True
 
-If we call the queue handler, it'll finish:
+If we call the queue handler, the export job will finish:
 
     >>> qview()
     >>> status.succeeded
