@@ -3,6 +3,10 @@
 
 Features Added:
 
+  * Project content export is now linked from the top nav, and is done
+    asynchronously with an ajax UI in case it takes a long
+    time. (slinkp)
+
   * Member deletion now works, and has a link from the account page.
     (slinkp)
 
