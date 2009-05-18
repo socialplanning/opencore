@@ -53,7 +53,7 @@ setup(
         'borg.localrole==2.0.1',
         'decorator',
         'feedparser',
-        'flunc>=0.5',
+        'flunc>=0.6dev',
         'httplib2',
         'lxml>=2.0alpha5',
         "oc-js==0.6.4",
