@@ -68,15 +68,6 @@
      allowed_attributes="getSupportableFeaturelets"
      />
 
-  <browser:page
-     for="opencore.interfaces.IProject"
-     class=".featurelet.FeatureletMenuView"
-     permission="zope2.View"
-     name="featurelet_menu"
-     allowed_attributes="menu_items"
-     />
-
-
   <adapter for="OFS.interfaces.IItem"
            provides=".interfaces.IProjectInfo"
            factory=".projectinfo.ProjectInfo"
