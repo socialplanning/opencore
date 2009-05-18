@@ -48,6 +48,7 @@ setup(
         'https://svn.openplans.org/svn/OpencoreRedirect/trunk#egg=OpencoreRedirect-dev',
         'http://svn.red-bean.com/bob/simplejson/trunk/#egg=simplejson-dev',
         'https://svn.openplans.org/svn/ZCMLLoader/trunk#egg=ZCMLLoader',
+        'https://svn.openplans.org/svn/flunc/trunk#egg=flunc-0.6dev',
         ],
     install_requires=[
         'borg.localrole==2.0.1',
