@@ -34,7 +34,8 @@ background: url(/++resource++spinning_wheel_throbber.gif) 0 50% no-repeat;
 
 <div class="oc-headingBlock">
   <h1 i18n:translate="">Project Export</h1>
-  <p class="oc-headingContext">Text about exporting your project. TO DO: write this up and include a link to the zip contents doc (to be written)</p>
+  <p class="oc-headingContext">Export your project's content.</p>
+
 </div>
     
 <div id="oc-content-main" class="oc-content-main-fullWidth">
@@ -60,6 +61,15 @@ background: url(/++resource++spinning_wheel_throbber.gif) 0 50% no-repeat;
     </ul>
   </div>
 
+  <p i18n:translate="project_export_content_list_header">Currently, exporting will include:
+  </p>
+  <ul>
+     <li i18n:translate="">Wiki pages</li>
+  </ul>
+  <p i18n:translate="project_export_content_description">Support is planned to add other content to the export soon
+   (eg. blogs, mailing list archives, mailing list subscribers, etc).
+  </p>
+  <!-- TO DO: write this up and include a link to the zip contents doc (to be written) -->
 </div>
 <!-- end .oc-content-main -->
 
