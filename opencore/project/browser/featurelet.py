@@ -2,7 +2,6 @@ from Products.Five.browser import BrowserView
 from topp.featurelets.interfaces import IFeatureletRegistry
 from topp.featurelets.interfaces import IFeatureletSupporter
 from topp.featurelets.supporter import FeatureletSupporter
-from topp.featurelets.interfaces import IMenuSupporter
 from topp.featurelets.base import BaseFeaturelet
 from zope.component import getUtility
 from zope.interface import implements
