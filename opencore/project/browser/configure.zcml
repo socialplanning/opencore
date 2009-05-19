@@ -98,14 +98,6 @@
       name="contents"
       />
 
-   <!--  <browser:page
-      for="opencore.interfaces.IProject"
-      class=".contents.RecentUpdatesView"
-      permission="zope2.View"
-      name="recent-updates"
-      />
-    -->
-
   <browser:page
      for="opencore.interfaces.IProject"
      class=".preferences.ProjectPreferencesView"
