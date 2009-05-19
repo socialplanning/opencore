@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: opencore\n"
-"POT-Creation-Date: 2009-05-05 00:03+0000\n"
+"POT-Creation-Date: 2009-05-19 14:50+0000\n"
 "PO-Revision-Date: 2008-10-08 15:57-0400\n"
 "Last-Translator: \n"
 "Language-Team: The Open Planning Project <opencore-dev@lists.openplans.org>\n"
@@ -93,7 +93,7 @@ msgid "Preferences"
 msgstr ""
 
 #. Default: "Profile"
-#: ./opencore/account/invite-join.pt:264
+#: ./opencore/browser/topnav/mystuff-menu.pt:5
 msgid "Profile"
 msgstr ""
 
@@ -393,7 +393,7 @@ msgid "archive_forum_view_by"
 msgstr ""
 
 #. Default: "There are currently no posts in this archive."
-#: ./opencore/listen/browser/archive_forum_view.pt:51
+#: ./opencore/listen/browser/archive_date_view.pt:31
 msgid "archive_no_posts"
 msgstr ""
 
@@ -557,7 +557,7 @@ msgstr ""
 msgid "date"
 msgstr ""
 
-#: ./opencore/project/browser/manageteam.py:595
+#: ./opencore/project/browser/manageteam.py:598
 msgid "demote_to_member"
 msgstr "${name} is no longer an administrator"
 
@@ -624,7 +624,7 @@ msgstr ""
 "Cheers,\n"
 "The ${portal_title} Team"
 
-#: ./opencore/project/browser/manageteam.py:776
+#: ./opencore/project/browser/manageteam.py:779
 msgid "email_invite_static_body"
 msgstr ""
 "${user_message}\n"
@@ -908,7 +908,7 @@ msgid "forgot_snippet_username_label"
 msgstr ""
 
 #. Default: "(optional)"
-#: ./opencore/account/join.pt:60
+#: ./opencore/account/invite-join.pt:125
 msgid "form_optional_value"
 msgstr ""
 
@@ -1098,37 +1098,37 @@ msgid "invite-w-m_remind_title"
 msgstr ""
 
 #. Default: "Already a member?"
-#: ./opencore/account/join.pt:187
+#: ./opencore/account/invite-join.pt:228
 msgid "join_already_member_heading"
 msgstr ""
 
 #. Default: "Join"
-#: ./opencore/account/join.pt:142
+#: ./opencore/account/invite-join.pt:204
 msgid "join_button"
 msgstr ""
 
 #. Default: "Check your email to confirm registration"
-#: ./opencore/account/join.pt:20
+#: ./opencore/account/invite-join.pt:87
 msgid "join_check_email"
 msgstr ""
 
 #. Default: "Confirm password"
-#: ./opencore/account/join.pt:119
+#: ./opencore/account/invite-join.pt:183
 msgid "join_conf_password_label"
 msgstr ""
 
-#. Default: "We will not share your email with anyone. Ever."
-#: ./opencore/account/join.pt:159
+#. Default: "Registration is free and your email will not be shared with anyone, however, you will need to confirm your email address in order to avoid spam bots abusing this system."
+#: ./opencore/account/invite-join.pt:80
 msgid "join_description"
 msgstr ""
 
 #. Default: "Email"
-#: ./opencore/account/join.pt:75
+#: ./opencore/account/invite-join.pt:138
 msgid "join_email_label"
 msgstr ""
 
 #. Default: "Full Name"
-#: ./opencore/account/join.pt:53
+#: ./opencore/account/invite-join.pt:118
 msgid "join_full_name_label"
 msgstr ""
 
@@ -1137,8 +1137,8 @@ msgstr ""
 msgid "join_get_started"
 msgstr ""
 
-#. Default: "<li> You can join and participate in existing ${project_noun}s </li> <li> You can create your own ${project_noun} and invite others to join </li> <li>You can share information about yourself</li>"
-#: ./opencore/account/join.pt:179
+#. Default: "<li>You can join and participate in existing ${project_noun}s </li> <li> You can create your own ${project_noun} and invite people to participate </li> <li>You can share information about yourself</li>"
+#: ./opencore/account/invite-join.pt:251
 msgid "join_get_started_list"
 msgstr ""
 
@@ -1148,17 +1148,17 @@ msgid "join_page_title"
 msgstr ""
 
 #. Default: "Password"
-#: ./opencore/account/join.pt:97
+#: ./opencore/account/invite-join.pt:163
 msgid "join_password_label"
 msgstr ""
 
 #. Default: "Sign in"
-#: ./opencore/account/join.pt:188
+#: ./opencore/account/invite-join.pt:229
 msgid "join_sign_in"
 msgstr ""
 
 #. Default: "Username"
-#: ./opencore/account/join.pt:31
+#: ./opencore/account/invite-join.pt:98
 msgid "join_username_label"
 msgstr ""
 
@@ -1753,7 +1753,7 @@ msgid "no_password"
 msgstr ""
 
 #. Default: "or"
-#: ./opencore/member/browser/profile-edit.pt:106
+#: ./opencore/member/browser/account.pt:147
 msgid "or"
 msgstr ""
 
@@ -2245,7 +2245,7 @@ msgstr ""
 msgid "projects_start_project_button"
 msgstr ""
 
-#: ./opencore/project/browser/manageteam.py:591
+#: ./opencore/project/browser/manageteam.py:594
 msgid "promote_to_admin"
 msgstr "${name} is now an administrator"
 
@@ -2310,7 +2310,7 @@ msgid "psm_enter_username_email"
 msgstr ""
 
 #. Default: "Error sending mail to: ${mem_id}"
-#: ./opencore/project/browser/manageteam.py:538
+#: ./opencore/project/browser/manageteam.py:541
 msgid "psm_error_sending_mail_to_member"
 msgstr ""
 
@@ -2345,7 +2345,7 @@ msgid "psm_mailing_list_deletion_cancelled"
 msgstr ""
 
 #. Default: "You have added ${num_approved} members."
-#: ./opencore/project/browser/manageteam.py:255
+#: ./opencore/project/browser/manageteam.py:258
 msgid "psm_many_requests_approved"
 msgstr ""
 
@@ -2379,7 +2379,7 @@ msgid "psm_not_sufficient_perms"
 msgstr "You do not have sufficient permissions."
 
 #. Default: "You have added ${mem_id}."
-#: ./opencore/project/browser/manageteam.py:252
+#: ./opencore/project/browser/manageteam.py:255
 msgid "psm_one_request_approved"
 msgstr ""
 
@@ -2419,7 +2419,7 @@ msgid "psm_please_correct_errors"
 msgstr ""
 
 #. Default: "Please select members to approve."
-#: ./opencore/project/browser/manageteam.py:194
+#: ./opencore/project/browser/manageteam.py:197
 msgid "psm_please_select_members"
 msgstr ""
 
@@ -2455,7 +2455,7 @@ msgid "psm_security_changed"
 msgstr "The security policy has been changed."
 
 #. Default: "Please select members to discard."
-#: ./opencore/project/browser/manageteam.py:273
+#: ./opencore/project/browser/manageteam.py:276
 msgid "psm_select_members_discard"
 msgstr ""
 
@@ -2479,7 +2479,7 @@ msgstr ""
 msgid "psm_wiki_content_stripped"
 msgstr ""
 
-#: ./opencore/project/browser/manageteam.py:412
+#: ./opencore/project/browser/manageteam.py:415
 msgid "remind_invite_none_selected"
 msgstr "Please select at least one person to send a reminder to."
 
