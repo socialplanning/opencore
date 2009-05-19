@@ -2,8 +2,12 @@ from Acquisition import aq_base
 from persistent import Persistent
 from App import config
 from Products.CMFCore.utils import getToolByName
+from Products.listen.interfaces import IMailingListMessageExport
+from topp.featurelets.interfaces import IFeatureletSupporter
+from topp.featurelets.supporter import IFeaturelet
 from zc.dict import OrderedDict
 from zipfile import ZipFile
+from zope.component import getAdapters, getAdapter
 import datetime
 import logging
 import re
@@ -86,7 +90,6 @@ class ProjectExportQueueView(object):
                 continue
             else:
                 try:
-                    self.context._p_jar.sync()
                     status.start()
                     transaction.commit()
                     outfile_path = self.export(name)
@@ -115,10 +118,13 @@ class ProjectExportQueueView(object):
         * when done, notify (eg. set a PSM for the user w/ download URL)
           and release lock(s).
         """
+        # We want the zip file to contain useful file names; but out
+        # of general paranoia for the end user, let's remove
+        # potentially evil character sequences before doing so.  (Which
+        # hopefully Zope has already done.)
         proj_dirname = badchars.sub('_', project_id)
         outdir = getpath(project_id, self.vardir)
         project = self.context.restrictedTraverse('projects/%s' % project_id)
-        catalog = getToolByName(self.context, "portal_catalog")
         timestamp = datetime.datetime.utcnow().strftime('%Y-%m-%d_%H:%M:%S')
         outfile_path = os.path.join(outdir, '%s-%s.zip' % (proj_dirname, timestamp))
         # Using mkstemp instead of other classes in tempfile because I
@@ -128,20 +134,10 @@ class ProjectExportQueueView(object):
         tmp = os.fdopen(tmpfd, 'w')   # Dunno why mkstemp returns a file descr.
         try:
             z = ZipFile(tmp, 'w')
-            # We want the zip file to contain useful file names; but out
-            # of general paranoia for the end user, let's remove
-            # potentially evil character sequences before doing so.  (Which
-            # hopefully Zope has already done.)
-            for page in catalog(portal_type="Document",
-                                path='/'.join(project.getPhysicalPath())):
-                try:
-                    page = page.getObject()
-                except AttributeError:
-                    logger.warn("Failed to export page at %s; catalog ghost??"
-                                % page.getPhysicalPath)
-                text = page.getText()
-                # XXX appending '.html' will break links!
-                z.writestr("%s/%s.html" % (proj_dirname, page.getId()), text)
+            featurelets = self._get_featurelets(project)
+            self._save_wiki_pages(project, proj_dirname, z)
+            if 'listen' in featurelets:
+                self._save_list_archives(project, proj_dirname, z)
             z.close()
             tmp.close()
         except:
@@ -156,6 +152,39 @@ class ProjectExportQueueView(object):
             raise
         os.rename(tmpname, outfile_path)  # Clobber any existing of same name.
         return outfile_path
+
+    def _save_wiki_pages(self, project, proj_dirname, azipfile):
+        catalog = getToolByName(self.context, "portal_catalog")
+        for page in catalog(portal_type="Document",
+                            path='/'.join(project.getPhysicalPath())):
+            try:
+                page = page.getObject()
+            except AttributeError:
+                logger.warn("Failed to export page at %s; catalog ghost??"
+                            % page.getPhysicalPath)
+            text = page.getText()
+            # XXX appending '.html' will break links!
+            azipfile.writestr("%s/pages/%s.html" % (proj_dirname, page.getId()), text)
+
+    def _get_featurelets(self, project):
+        supporter = IFeatureletSupporter(project)
+        all_flets = [flet for name, flet in getAdapters((supporter,), 
+                                                        IFeaturelet)]
+        installed_flets = [(flet.id, flet) for flet in all_flets 
+                           if flet.installed]
+        installed_flets = dict(installed_flets)
+        return installed_flets
+
+    def _save_list_archives(self, project, proj_dirname, azipfile):
+        listfol = project['lists']
+        for mlistid, mlist in listfol.objectItems(): # XXX filter more?
+            # Cargo-culted from listen/browser/import_export.py
+            em = getAdapter(mlist, IMailingListMessageExport, name='mbox')
+            file_data = em.export_messages() or ''
+            mlistid = badchars.sub('_', mlistid)
+            azipfile.writestr('%s/lists/%s.mbox' % (proj_dirname, mlistid), file_data)
+        return
+        
 
 
 class ExportStatus(Persistent):

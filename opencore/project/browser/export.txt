@@ -95,7 +95,6 @@ The queue starts empty:
     >>> list(queue.iteritems())
     []
     >>> import logging
-    >>> logging.getLogger().level = logging.INFO  # XXX probably bad
     >>> self._start_log_capture(subsystem='opencore.project.export')
     >>> qview()  # nothing happens.
     >>> print self.logged
@@ -111,10 +110,10 @@ Here's an example of export failure due to missing project:
     True
     >>> len(self.logged)
     2
+    >>> self.logged.pop(0).msg
+    'Failure in export of project \'no-such-project\'...'
     >>> self.logged.pop().msg
     'Reached end of project export job queue (1 items)'
-    >>> self.logged.pop().msg
-    'Failure in export of project \'no-such-project\'...'
 
 And here's an example of success:
 
@@ -124,9 +123,11 @@ And here's an example of success:
     >>> status.succeeded
     True
     >>> len(self.logged)
-    1
+    2
     >>> self.logged.pop().msg
-    'Reached end of project export job queue (1 items)'
+    'Reached end of project export job queue (2 items)'
+    >>> self.logged.pop().msg
+    "purging old failed job ... 'no-such-project'"
 
 Let's clean up the output directory to a known blank slate:
 
@@ -191,10 +192,28 @@ If we call the queue handler, the export job will finish:
     '.../project_exports/p3/p3-....zip'
     >>> zipfile.is_zipfile(status.path)
     True
+    >>> pprint(zipfile.ZipFile(status.path, 'r').namelist())
+    ['p3/pages/project-home.html']
     >>> len(export.available_exports())
     1
     >>> status.path.endswith(export.available_exports()[0])
     True
+
+
+Try a listen export:
+
+    >>> IFeatureletSupporter(proj).installFeaturelet(ListenFeaturelet(proj))
+    >>> json = export.do_export()
+    >>> qview()
+    >>> status = export.current_status()
+
+The zip file contains the exported pages and mailing list messages.
+
+    >>> zipfile.is_zipfile(status.path)
+    True
+    >>> pprint(sorted(zipfile.ZipFile(status.path, 'r').namelist()))
+    ['p3/lists/p3_discussion.mbox', 'p3/pages/project-home.html']
+
 
 
 Now let's try to download by traversing that zipfile:

@@ -85,7 +85,7 @@ def test_suite():
                                   package='opencore.project.browser',
                                   test_class=LoggingTestCase,
                                   globs = globs,
-                                  setUp=readme_setup,
+                                  setUp=contents_content,
                                   layer = OpencoreContent,
                                   )
 
