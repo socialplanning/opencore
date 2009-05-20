@@ -1,3 +1,33 @@
+0.17.1 (unreleased)
+===================
+
+Bugs Fixed:
+
+ * Requesting membership to a project when the user already has a pending
+   membership no longer causes a site error if the project's title contains
+   non-ASCII characters. (#2807) (egj, tcoulter)
+
+ * Account confirmation emails containing non-ASCII text were getting their
+   click-to-confirm URL mangled. Confirmation emails are now properly
+   encoded to quoted-printable to fix this. (#2808) (egj)
+
+ * Some site emails were being sent with mangled headers when sent in French,
+   Portugese and Spanish, causing them to appear in the user's inbox with no
+   subject. (#2823) (egj, tcoulter)
+
+ * Projects with non-ASCII titles can now be deleted without errors. (#2824)
+   (egj, tcoulter)
+
+ * Fixed broken interaction with Plone's Link Integrity Checker, which 
+   was causing erroneous warnings about link integrity to be displayed to
+   users in some circumstances of project deletion. (#2825) (egj, tcoulter)
+
+ * Project members are now listed on the manage-team page in alphabetical
+   order, case insensitive, sorted on username. (#2751) (egj)
+
+Also various Listen i18n fixes -- need to catalog those here and/or there.
+
+
 0.17.0 (2009-05-09)
 ===================
 
@@ -36,10 +66,6 @@ Features Added:
    the project name; run the "Mark ISyncWithProjectMembership on -discussion
    lists" migration in opencore.upgrades.to_0_17_0" to retain the functionality.
    (rafrombrc)
-
- * Temporarily abstract out the link to topp into configuration.
-   This should be in a separate theme package because it's topp specific.
-   (rmarianski)
 
  * More templates marked up for translation. (egj)
 
