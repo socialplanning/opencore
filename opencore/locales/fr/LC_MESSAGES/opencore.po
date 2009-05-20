@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: opencore\n"
-"POT-Creation-Date: 2009-05-08 20:59+0000\n"
+"POT-Creation-Date: 2009-05-20 16:25+0000\n"
 "PO-Revision-Date: 2008-06-02 22:41+0200\n"
 "Last-Translator: Pierre George <pierregrg@gmail.com>\n"
 "Language-Team: OpenFSM Team <openfsm@lists.openfsm.net>\n"
@@ -65,6 +65,11 @@ msgstr ""
 msgid "Join Project"
 msgstr ""
 
+#. Default: "Mailing list archives"
+#: ./opencore/project/browser/export.pt:68
+msgid "Mailing list archives"
+msgstr ""
+
 #. Default: "News"
 #: ./opencore/nui/main/home.pt:103
 msgid "News"
@@ -94,6 +99,11 @@ msgstr ""
 #. Default: "Profile"
 #: ./opencore/account/invite-join.pt:264
 msgid "Profile"
+msgstr ""
+
+#. Default: "Project Export"
+#: ./opencore/project/browser/export.pt:36
+msgid "Project Export"
 msgstr ""
 
 msgid "Project Wiki"
@@ -134,6 +144,11 @@ msgstr ""
 #. Default: "Wiki"
 #: ./opencore/browser/topnav/mystuff-menu.pt:10
 msgid "Wiki"
+msgstr ""
+
+#. Default: "Wiki pages"
+#: ./opencore/project/browser/export.pt:67
+msgid "Wiki pages"
 msgstr ""
 
 #. Default: "Yes"
@@ -1590,7 +1605,7 @@ msgid "manage_membership_user"
 msgstr "Adresse / identifiant d'utilisateur"
 
 #. Default: "${title} on ${portal_title}"
-#: ./opencore/browser/base.py:229
+#: ./opencore/browser/base.py:225
 msgid "member_area_verbose_title"
 msgstr ""
 
@@ -1803,22 +1818,22 @@ msgid "or ${url}"
 msgstr ""
 
 #. Default: "There is no member named \"${user_id}\"."
-#: ./opencore/browser/base.py:659
+#: ./opencore/browser/base.py:655
 msgid "password_no_member_error"
 msgstr ""
 
 #. Default: "You must enter a password."
-#: ./opencore/browser/base.py:665
+#: ./opencore/browser/base.py:661
 msgid "password_no_password_error"
 msgstr "Vous devez entrer un mot de passe."
 
 #. Default: "You need to enter your username."
-#: ./opencore/browser/base.py:654
+#: ./opencore/browser/base.py:650
 msgid "password_no_username_error"
 msgstr "Vous devez entrer votre nom d'utilisateur."
 
 #. Default: "Please make sure that both password fields are the same."
-#: ./opencore/browser/base.py:668
+#: ./opencore/browser/base.py:664
 msgid "password_not_same_error"
 msgstr "Merci de vérifier que dans les deux champs les mots de passe sont identiques."
 
@@ -1878,7 +1893,7 @@ msgid "people_sortable_fields_username"
 msgstr ""
 
 #. Default: "${title}"
-#: ./opencore/browser/base.py:279
+#: ./opencore/browser/base.py:275
 msgid "portal_area_verbose_title"
 msgstr ""
 
@@ -1959,7 +1974,7 @@ msgid "profile_website"
 msgstr "Site internet"
 
 #. Default: "${title} - ${portal_title}"
-#: ./opencore/browser/base.py:245
+#: ./opencore/browser/base.py:241
 msgid "project_area_verbose_title"
 msgstr ""
 
@@ -1976,6 +1991,31 @@ msgstr ""
 #. Default: "\"${title}\" has been created. Create a team by searching for other members to invite to your ${project_noun}, then <a href=\"${proj_edit_url}\">edit your ${project_noun} home page</a>."
 #: ./opencore/project/browser/add.py:162
 msgid "project_created"
+msgstr ""
+
+#. Default: "Support is planned to add other content to the export soon (eg. blogs, mailing list subscribers, etc)."
+#: ./opencore/project/browser/export.pt:70
+msgid "project_export_content_description"
+msgstr ""
+
+#. Default: "Currently, exporting will include:"
+#: ./opencore/project/browser/export.pt:64
+msgid "project_export_content_list_header"
+msgstr ""
+
+#. Default: "Exports available for download (most recent first):"
+#: ./opencore/project/browser/export.pt:55
+msgid "project_export_file_list_heading"
+msgstr ""
+
+#. Default: "There is already a job running. Please be patient."
+#: ./opencore/project/browser/export.pt:48
+msgid "project_export_job_running"
+msgstr ""
+
+#. Default: "Export"
+#: ./opencore/project/browser/export.pt:7
+msgid "project_export_window_title"
 msgstr ""
 
 #: ./opencore/project/utils.py:68
@@ -2932,7 +2972,7 @@ msgid "wiki pages"
 msgstr ""
 
 #. Default: "${title} - ${portal_title}"
-#: ./opencore/browser/base.py:261
+#: ./opencore/browser/base.py:257
 msgid "wiki_area_verbose_title"
 msgstr ""
 

@@ -53,6 +53,10 @@ msgid "Edit"
 msgstr "Edit"
 msgid "Join Project"
 msgstr "Join Project"
+#. Default: "Mailing list archives"
+#: ./opencore/project/browser/export.pt:68
+msgid "Mailing list archives"
+msgstr "Mailing list archives"
 #. Default: "News"
 #: ./opencore/nui/main/home.pt:103
 msgid "News"
@@ -77,6 +81,10 @@ msgstr "Preferences"
 #: ./opencore/account/invite-join.pt:264
 msgid "Profile"
 msgstr "Profile"
+#. Default: "Project Export"
+#: ./opencore/project/browser/export.pt:36
+msgid "Project Export"
+msgstr "Project Export"
 msgid "Project Wiki"
 msgstr "Project Wiki"
 msgid "Projects"
@@ -107,6 +115,10 @@ msgstr "Update"
 #: ./opencore/browser/topnav/mystuff-menu.pt:10
 msgid "Wiki"
 msgstr "Wiki"
+#. Default: "Wiki pages"
+#: ./opencore/project/browser/export.pt:67
+msgid "Wiki pages"
+msgstr "Wiki pages"
 #. Default: "Yes"
 #: ./opencore/listen/browser/membership.pt:32
 msgid "Yes"
@@ -1307,7 +1319,7 @@ msgstr "manage_membership_subscribed"
 msgid "manage_membership_user"
 msgstr "manage_membership_user"
 #. Default: "${title} on ${portal_title}"
-#: ./opencore/browser/base.py:229
+#: ./opencore/browser/base.py:225
 msgid "member_area_verbose_title"
 msgstr "member_area_verbose_title"
 #. Default: "Date"
@@ -1475,19 +1487,19 @@ msgstr "or"
 msgid "or ${url}"
 msgstr "or ${url}"
 #. Default: "There is no member named \"${user_id}\"."
-#: ./opencore/browser/base.py:659
+#: ./opencore/browser/base.py:655
 msgid "password_no_member_error"
 msgstr "password_no_member_error"
 #. Default: "You must enter a password."
-#: ./opencore/browser/base.py:665
+#: ./opencore/browser/base.py:661
 msgid "password_no_password_error"
 msgstr "password_no_password_error"
 #. Default: "You need to enter your username."
-#: ./opencore/browser/base.py:654
+#: ./opencore/browser/base.py:650
 msgid "password_no_username_error"
 msgstr "password_no_username_error"
 #. Default: "Please make sure that both password fields are the same."
-#: ./opencore/browser/base.py:668
+#: ./opencore/browser/base.py:664
 msgid "password_not_same_error"
 msgstr "password_not_same_error"
 #: ./opencore/nui/main/contact-site-admin.pt:106
@@ -1534,7 +1546,7 @@ msgstr "people_sortable_fields_relevancy"
 msgid "people_sortable_fields_username"
 msgstr "people_sortable_fields_username"
 #. Default: "${title}"
-#: ./opencore/browser/base.py:279
+#: ./opencore/browser/base.py:275
 msgid "portal_area_verbose_title"
 msgstr "portal_area_verbose_title"
 #. Default: "Cancel"
@@ -1598,7 +1610,7 @@ msgstr "profile_visible_team"
 msgid "profile_website"
 msgstr "profile_website"
 #. Default: "${title} - ${portal_title}"
-#: ./opencore/browser/base.py:245
+#: ./opencore/browser/base.py:241
 msgid "project_area_verbose_title"
 msgstr "project_area_verbose_title"
 #. Default: "${num_members} members"
@@ -1613,6 +1625,26 @@ msgstr "project_create_window_title"
 #: ./opencore/project/browser/add.py:162
 msgid "project_created"
 msgstr "project_created"
+#. Default: "Support is planned to add other content to the export soon (eg. blogs, mailing list subscribers, etc)."
+#: ./opencore/project/browser/export.pt:70
+msgid "project_export_content_description"
+msgstr "project_export_content_description"
+#. Default: "Currently, exporting will include:"
+#: ./opencore/project/browser/export.pt:64
+msgid "project_export_content_list_header"
+msgstr "project_export_content_list_header"
+#. Default: "Exports available for download (most recent first):"
+#: ./opencore/project/browser/export.pt:55
+msgid "project_export_file_list_heading"
+msgstr "project_export_file_list_heading"
+#. Default: "There is already a job running. Please be patient."
+#: ./opencore/project/browser/export.pt:48
+msgid "project_export_job_running"
+msgstr "project_export_job_running"
+#. Default: "Export"
+#: ./opencore/project/browser/export.pt:7
+msgid "project_export_window_title"
+msgstr "project_export_window_title"
 #: ./opencore/project/utils.py:68
 msgid "project_noun"
 msgstr "project_noun"
@@ -2366,6 +2398,6 @@ msgstr "version_unspecified"
 msgid "wiki pages"
 msgstr "wiki pages"
 #. Default: "${title} - ${portal_title}"
-#: ./opencore/browser/base.py:261
+#: ./opencore/browser/base.py:257
 msgid "wiki_area_verbose_title"
 msgstr "wiki_area_verbose_title"
