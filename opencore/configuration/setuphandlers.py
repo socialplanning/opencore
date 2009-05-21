@@ -17,6 +17,7 @@ from opencore.interfaces import IAmAPeopleFolder
 from opencore.interfaces.membership import IEmailInvites
 from opencore.member.interfaces import REMOVAL_QUEUE_KEY
 from opencore.project.browser.email_invites import EmailInvites
+from opencore.utility.interfaces import IProvideSiteConfig
 from plone.app.controlpanel.markup import IMarkupSchema
 from zope.app.annotation import IAnnotations
 from zope.app.component.hooks import setSite
@@ -26,6 +27,7 @@ import logging
 import pkg_resources
 import socket
 import zc.queue
+
 
 log = logging.getLogger('opencore.configuration.setuphandlers')
 
@@ -342,8 +344,12 @@ def setCookieDomain(portal, out):
     app = portal.getPhysicalRoot()
     bid_mgr = app._getOb('browser_id_manager', None)
     if bid_mgr is not None:
-        bid_mgr.setCookieDomain(config.COOKIE_DOMAIN)
-        print >> out, "Set cookie domain to %s" % config.COOKIE_DOMAIN
+        setSite(portal)
+        siteconfig = queryUtility(IProvideSiteConfig)
+        # Hardcoded domain here is just a fallback.
+        cookie_domain = siteconfig.get('cookie_domain', '.openplans.org')
+        bid_mgr.setCookieDomain(cookie_domain)
+        print >> out, "Set cookie domain to %s" % cookie_domain
 
 @setuphandler
 def setupTeamTool(portal, out):
