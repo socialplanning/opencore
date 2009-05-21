@@ -1,5 +1,4 @@
 from pkg_resources import Requirement
-from zope.component import queryUtility
 
 OC_REQ = Requirement.parse('opencore')
 
