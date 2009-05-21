@@ -30,15 +30,33 @@ class TestOpenMember(OpenPlansTestCase, LogInterceptor):
     def test_validateEmail(self):
         mdtool = getToolByName(self.portal, 'portal_memberdata')
         mem = mdtool._getOb('m1')
+        # should look something like an address.
+        result = mem.validate_email('anything_else@example.com')
+        self.assertEqual(result, None)
+        result = mem.validate_email('bogus')
+        self.failIf(result is None)
 
         # duplicate not allowed
         result = mem.validate_email('notreal2@example.com')
         self.failIf(result is None)
 
-        # blacklist is enforced
-        # XXX HARDCODED DOMAIN
-        result = mem.validate_email('greetings@openplans.org')
-        self.failIf(result is None)
+    def test_validateEmail_blacklist(self):
+        # Blacklist is enforced.  To test this in isolation without
+        # hardcoding a domain, let's monkeypatch the property getter.
+        import opencore.content.member
+        mdtool = getToolByName(self.portal, 'portal_memberdata')
+        mem = mdtool._getOb('m1')
+        blacklisted = 'blacklisted@example.com'
+        def fake_getter(prop, context):
+            return blacklisted
+        old_getter = opencore.content.member.get_opencore_property
+        opencore.content.member.get_opencore_property = fake_getter
+        try:
+            result = mem.validate_email(blacklisted)
+            self.failIf(result is None)
+        finally:
+            opencore.content.member.get_opencore_property = old_getter
+
 
     def test_projectBrains(self):
         mdtool = getToolByName(self.portal, 'portal_memberdata')
