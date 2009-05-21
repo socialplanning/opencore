@@ -129,12 +129,13 @@ class ProfileView(BaseView):
         Returns a list of dicts mapping each tag in the given field of the
         given member's profile to a url corresponding to a search for that tag.
         """
+        # XXX This isn't used anywhere as of 2009-05-21? see comment
+        # in profile.pt. - PW
         if IReMember.providedBy(member):
             tags = getattr(member, 'get%s' % field.title())()
             tags = tags.split(',')
             tags = [tag.strip() for tag in tags if tag.strip()]
-            # XXX HARDCODED DOMAIN
-            tagsearchurl = 'http://www.openplans.org/tagsearch/' # TODO
+            tagsearchurl = self.portal.absolute_url() + '/tagsearch/'
             urls = [tagsearchurl + urllib.quote(tag) for tag in tags]
             return [{'tag': tag, 'url': url} for tag, url in zip(tags, urls)]
         return []
