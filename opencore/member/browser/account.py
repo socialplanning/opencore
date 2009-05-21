@@ -144,7 +144,8 @@ class MemberAccountView(BaseView, OctopoLite):
             proj = self.portal.projects[proj_id]
             proj_title = unicode(proj.Title(), 'utf-8') # accessor always will return ascii
 
-            only_admin_msg = _(u'psm_leave_project_admin', u'You are the only administrator of "${proj_title}". You can\'t leave this ${project_noun} without appointing another.',
+            only_admin_msg = _(u'psm_leave_project_admin',
+                               u'You are the only administrator of "${proj_title}". You can\'t leave this ${project_noun} without appointing another.',
                                mapping={u'proj_title':proj_title,
                                         u'project_noun':self.project_noun})
             
@@ -536,5 +537,6 @@ class DeleteAccountView(BaseView):
         portal_url = getToolByName(self.context, 'portal_url')()
         self.addPortalStatusMessage(
             _(u'psm_account_deleted',
-              u'Account %r has been permanently deleted.' % user_to_delete))
+              u'Account ${deleted_user_id} has been permanently deleted.',
+              mapping={u'deleted_user_id': user_to_delete})
         return self.redirect(portal_url)
