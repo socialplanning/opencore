@@ -111,13 +111,6 @@
      name="contact"
      template="about.pt"
      />
-  <browser:page
-     class="opencore.browser.base.BaseView"
-     for="*"
-     permission="zope2.View"
-     name="legal"
-     template="legal.pt"
-     />
   
   <!-- news -->
   <browser:page
