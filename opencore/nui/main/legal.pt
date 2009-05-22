@@ -8,7 +8,7 @@
 
       <div id="oc-content-main">
         <div class="oc-headingBlock">
-          <h1 tal:content="About ${view/portal_title}" />
+          <h1 tal:content="string:About ${view/portal_title}" />
         </div>
         <p>OpenPlans aims to transform social activism by providing tools that connect people and enable them to share ideas, stay organized, and act collectively to effect change.</p>
         
