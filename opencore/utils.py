@@ -124,8 +124,9 @@ def timestamp_memoize(secs):
 
 # XXX Temporary hack to allow semi-convenient usage of functions in
 # templates, along the lines of Sputnik's SputnikUtils view.  A TALES
-# namespace would be much cleaner; see comments in opencore.tales.utils 
-# for problems with that. Once that works, this view should die.
+# namespace would be much cleaner, and apparently should work now?
+# see comments in opencore.tales.utils for more info.
+
 
 from opencore.tales.utils import member_title
 from Products.Five.browser import BrowserView
