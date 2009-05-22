@@ -28,7 +28,7 @@
     </a>
     since
     <span i18n:name="site_birthdate" tal:replace="string:${view/dob}" />.<br />
-    &copy; 2007 <a tal:attributes="href context/@@oc-utils/topp_url">The Open Planning Project</a>
+    &copy; 2009 <a tal:attributes="href context/@@oc-utils/topp_url">The Open Planning Project</a>
   </div>
 
 </div>
