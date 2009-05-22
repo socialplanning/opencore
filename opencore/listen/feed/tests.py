@@ -2,7 +2,6 @@
 # installed...
 try:
     __import__('opencore.feed')
-    from opencore.feed.base import BaseFeedAdapter
     run_tests = True
 except ImportError:
     run_tests = False
@@ -10,9 +9,6 @@ except ImportError:
 import doctest
 import unittest
 
-if run_tests:
-    # XXX HARDCODED DOMAIN
-    BaseFeedAdapter.memberURL = lambda x, y: 'http://www.openplans.org'
 
 class DummyContext(object):
     def Title(self):
