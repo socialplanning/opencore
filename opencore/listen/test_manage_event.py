@@ -35,7 +35,6 @@ class TestMailingListManageEvent(OpenPlansTestCase):
 
     def test_200_error(self):
         view = self._getView()
-        # XXX HARDCODED DOMAIN
         headers = {'from': 'johnnywalker@example.com',
                    'to': 'mylist@lists.example.org',
                    }
@@ -44,7 +43,6 @@ class TestMailingListManageEvent(OpenPlansTestCase):
         msgs = self.mailhost.messages
         self.assertEqual(1, len(msgs), 'No error message sent')
         msg = msgs[0]
-        # XXX HARDCODED DOMAIN
         self.assertEqual('mylist-manager@lists.example.org', msg['mfrom'])
         self.assertEqual(['johnnywalker@example.com'], msg['mto'])
         self.assertEqual('Mailing list error: message too big',  msg['subject'])
@@ -52,7 +50,6 @@ class TestMailingListManageEvent(OpenPlansTestCase):
 
     def test_default_error(self):
         view = self._getView()
-        # XXX HARDCODED DOMAIN
         headers = {'from': 'mister.dewars@example.com',
                    'to': 'mylist@lists.example.org',
                    }
@@ -62,7 +59,6 @@ class TestMailingListManageEvent(OpenPlansTestCase):
         msgs = self.mailhost.messages
         self.assertEqual(1, len(msgs), 'No error message sent')
         msg = msgs[0]
-        # XXX HARDCODED DOMAIN
         self.assertEqual('mylist-manager@lists.example.org', msg['mfrom'])
         self.assertEqual(['mister.dewars@example.com'], msg['mto'])
         self.assertEqual('Mailing list error', msg['subject'])
