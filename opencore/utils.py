@@ -136,5 +136,6 @@ class OpencoreUtils(BrowserView):
         return member_title(arg)
     def topp_url(self):
         cfg = getUtility(IProvideSiteConfig)
-        # XXX HARDCODED DOMAIN
-        return cfg.get('topp_url', 'http://topp.openplans.org')
+        # Hardcoded domain is probably OK here since A) it really
+        # refers to one specific website, and B) is just a fallback.
+        return cfg.get('topp_url', 'http://theopenplanningproject.org')
