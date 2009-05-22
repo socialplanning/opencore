@@ -14,13 +14,18 @@
 
  <object name="opencore_properties" meta_type="Plone Property Sheet">
   <property name="remote_auth_sites" type="lines"></property>
-  <property name="mailing_list_fqdn" type="string">lists.openplans.org</property>
+  <property name="mailing_list_fqdn" type="string">
+    lists.openplans.org
+  </property>
   <property name="embed_whitelist" type="lines"></property>
 
   <property name="email_blacklist" type="lines">
     <element value="greetings@openplans.org" />
   </property>
 
+  <property name="enable_link_integrity_checks" type="boolean">
+    False
+  </property>
  </object>
 
 </object>
