@@ -118,13 +118,6 @@
      name="legal"
      template="legal.pt"
      />
-  <browser:page
-     class="opencore.browser.base.BaseView"
-     for="*"
-     permission="zope2.View"
-     name="privacy"
-     template="privacy.pt"
-     />
   
   <!-- news -->
   <browser:page
