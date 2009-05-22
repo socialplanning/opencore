@@ -15,10 +15,10 @@ from zope.app.component.hooks import getSite
 from zope.traversing.interfaces import IPathAdapter
 
 
-# XXX THIS DOES NOT WORK IN VIEWS CALLED FROM UNIT TESTS
+# XXX This is not used anywhere because there were problems when
+# using the namespace in unit tests, but apparently that's fixed now?
 # ... see http://permalink.gmane.org/gmane.comp.web.zope.general/61538
 # and http://www.openplans.org/projects/opencore/lists/opencore-dev/archive/2008/12/1229475623696/forum_view
-# Until that's fixed, we can't really use this namespace.
 
 class OpencoreTales(object):
     component.adapts(interface.Interface)

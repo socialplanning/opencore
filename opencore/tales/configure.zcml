@@ -9,6 +9,8 @@
     />
 
   <content class=".utils.OpencoreTales">               
+    <!-- Must be set to zope2.Public.
+         See http://www.openplans.org/projects/opencore/lists/opencore-dev/archive/2008/12/1229475623696/forum_view -->
     <require permission="zope2.Public"                   
              attributes="setEngine pretty_date project_noun member_title" />
   </content> 
