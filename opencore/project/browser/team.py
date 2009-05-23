@@ -10,7 +10,6 @@ from opencore.utility.interfaces import IEmailSender
 from operator import attrgetter
 from plone.memoize.instance import memoizedproperty
 from plone.memoize.instance import memoize
-import itertools
 
 
 class TeamRelatedView(SearchView):

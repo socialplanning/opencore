@@ -45,7 +45,7 @@
                               tal:attributes="href list_url">
                               Item Title
                             </a>
-                            <span class="oc-discreetText"><span tal:condition="view/loggedin" tal:replace="python:'(' + list.getObject().mailto + ')'">listaddress@lists.openplans.org</span></span>
+                            <span class="oc-discreetText"><span tal:condition="view/loggedin" tal:replace="python:'(' + list.getObject().mailto + ')'" /></span>
                           </dt>
                           <dd tal:condition="list_description" tal:content="list_description"/>
                         </dl>

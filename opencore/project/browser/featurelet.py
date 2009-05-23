@@ -2,7 +2,6 @@ from Products.Five.browser import BrowserView
 from topp.featurelets.interfaces import IFeatureletRegistry
 from topp.featurelets.interfaces import IFeatureletSupporter
 from topp.featurelets.supporter import FeatureletSupporter
-from topp.featurelets.interfaces import IMenuSupporter
 from topp.featurelets.base import BaseFeaturelet
 from zope.component import getUtility
 from zope.interface import implements
@@ -36,14 +35,3 @@ class FeatureletSupporterView(BrowserView, FeatureletSupporter):
                    }
 
 menu_id = BaseFeaturelet._menu_id
-
-
-class FeatureletMenuView(BrowserView):
-    def __init__(self, context, request):
-        self.context = [context]
-        self.request = request
-
-    def menu_items(self):
-        supporter = IMenuSupporter(self.context[0])
-        items = supporter.getMenuItems(menu_id)
-        return [item for item in items.values()]

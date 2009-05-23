@@ -152,7 +152,7 @@ class BaseView(BrowserView):
             msgs.append(req_psm)
         return msgs
 
-    # XXX standardize
+    # XXX standardize the method name
     def add_status_message(self, msg):
         plone_utils = self.get_tool('plone_utils')
 

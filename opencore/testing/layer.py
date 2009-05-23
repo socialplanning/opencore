@@ -28,7 +28,7 @@ from zope.component import getUtility
 try:
     from opencore.cabochon.testing.utility import setup_cabochon_mock
 except ImportError:
-    setup_cabochon_mock = lambda *args: None
+    setup_cabochon_mock = None
 
 def makerequest_decorator(orig_fn, obj):
     def new_fn(app, stdout=stdout, environ=None):
@@ -91,17 +91,14 @@ class OpenPlansLayer(Install, PloneSite):
     @classmethod
     def setUp(cls):
         portal = get_portal_as_owner()
-
         portal.clearCurrentSkin()
         portal.setupCurrentSkin(portal.REQUEST)
-
         setup_mock_mailhost(portal)
-
         portal.browser_id_manager = BrowserIdManagerMock()
-        setup_cabochon_mock(portal)
+        if setup_cabochon_mock is not None:
+            setup_cabochon_mock(portal)
         setup_mock_config()
         monkeypatch_makerequest(portal)
-
         txn.commit()
 
     @classmethod

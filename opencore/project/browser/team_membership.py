@@ -27,6 +27,13 @@ class RequestMembershipWithEmail(object):
         self.context = context
         self.portal = interface_in_aq_chain(aq_inner(context), IOpenSiteRoot)
 
+        
+    @property
+    def team_manage_url(self):
+        url = "%s/projects/%s/manage-team" % (self.portal.absolute_url(),
+                                              self.context.getId())
+        return url
+
     # XXX kill
     @property
     def _loggedinmember(self):
@@ -36,7 +43,7 @@ class RequestMembershipWithEmail(object):
     # XXX kill
     def _construct_request_email(self, request_message=None):
         team = self.context
-        team_manage_url = "%s/projects/%s/manage-team" % (self.portal.absolute_url(), team.id)
+        team_manage_url = self.team_manage_url
         member = self._loggedinmember
         member_string = member.getId()
         member_fn = member.getFullname()
