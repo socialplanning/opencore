@@ -546,7 +546,7 @@ class DeleteAccountView(BaseView):
         portal_url = getToolByName(self.context, 'portal_url')()
         self.addPortalStatusMessage(
             _(u'psm_account_deleted',
-              u'Account ${deleted_user_id} has been permanently deleted.',
+              u"Account '${deleted_user_id}' has been permanently deleted.",
               mapping={u'deleted_user_id': user_to_delete}
               )
             )
