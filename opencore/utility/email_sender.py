@@ -12,6 +12,7 @@ from zope.interface import implements
 from pprint import pprint
 import re
 import sys
+from email.quopriMIME import body_encode
 
 email_regex = re.compile(EMAIL_RE)
 
@@ -181,5 +182,16 @@ To: %(to_addr)s
             msg = msg.encode('ascii')
         except UnicodeEncodeError:
             mapping['encoding'] = self._encoding
+
+            # see http://trac.openplans.org/openplans/ticket/2808
+            # it looks like construct_simple_encoded_message ought
+            # to be doing this itself, but the line is commented
+            # out there, so i'll be cautious and make the most
+            # minimally-invasive change possible. this should
+            # probably be investigated upstream in listen and
+            # (hopefully) this line eventually removed.
+            mapping['body'] = body_encode(mapping['body'])
+
             msg = str(construct_simple_encoded_message(**mapping))
+
         self._send(msg)
