@@ -1,5 +1,7 @@
 from Products.MimetypesRegistry.mime_types import magic
 from opencore.browser.base import BaseView
+import os.path
+import DateTime
 
 class PortraitsView(BaseView):
     def portrait(self): 
@@ -19,17 +21,26 @@ class PortraitsView(BaseView):
     def _portrait_thumb(self, thumbnail_property, default_thumb='defaultPortraitThumbURL'):
         """Provides a single location to pull the user's portrait from. 
         Same as above, but returns the thumbnail.""" 
-        try:
-            member_portrait_thumb = getattr(self.viewedmember(), thumbnail_property)
-            data = member_portrait_thumb.data
-        except AttributeError:
+        member_portrait_thumb = getattr(self.viewedmember().aq_inner,
+                                        thumbnail_property, None)
+        if member_portrait_thumb is not None:
+            data = str(member_portrait_thumb.data)
+            modified = member_portrait_thumb.bobobase_modification_time()
+            content_type = member_portrait_thumb.content_type
+        else:
             default_thumb = getattr(self, default_thumb)
-            file = open(self.context.restrictedTraverse(default_thumb).context.path, 'rb') 
+            path = self.context.restrictedTraverse(default_thumb).context.path
+            file = open(path, 'rb')
+            modified = DateTime.DateTime(os.path.getmtime(path))
             data = file.read()
+            content_type = magic.guessMime(data)
             file.close()
 
-        content_type = magic.guessMime(data)
         self.response.setHeader('Content-Type', content_type)
+        modified = modified.toZone('GMT')
+        self.response.setHeader('Last-Modified', modified.rfc822())
+        # DateTime can be added to a number of days (not seconds!)
+        self.response.setHeader('Expires', (DateTime.DateTime() + 1).rfc822())
         return data
 
     def portrait_thumb(self):

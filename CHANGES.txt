@@ -28,6 +28,9 @@ Bugs Fixed:
  * Test member data now contains non-ASCII characters to provide better
    coverage re: i18n and l10n issues. (rafrombrc)
 
+ * We now set Expires and Last-Modified headers on member portraits,
+   for cacheability. (slinkp)
+
 Also various Listen i18n fixes -- need to catalog those here and/or there.
 
 
