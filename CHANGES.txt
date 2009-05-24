@@ -75,9 +75,6 @@ Features Added:
 
 Bugs Fixed:
 
-  * We now set Expires and Last-Modified headers on member portraits,
-    for cacheability (slinkp)
-
   * Converted 'body' argument from MIMEText object to string if necessary
     in MaildropHost monkey-patch. (rafrombrc)
 
