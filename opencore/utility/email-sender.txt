@@ -93,7 +93,8 @@ Send some emails, and check that they went out
     2
 
 This one contains both utf8-encoded byte strings (in the recipient and
-subject) and unicode (in the sender and body)::
+subject) and unicode (in the sender and body). It should be encoded to
+quoted-printable before being sent::
 
     >>> es.sendMail(
     ...     'Rolando Pe\xc3\xb1ate <fooey@example.com>',
