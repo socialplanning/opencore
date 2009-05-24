@@ -25,6 +25,9 @@ Bugs Fixed:
  * Project members are now listed on the manage-team page in alphabetical
    order, case insensitive, sorted on username. (#2751) (egj)
 
+ * Test member data now contains non-ASCII characters to provide better
+   coverage re: i18n and l10n issues. (rafrombrc)
+
 Also various Listen i18n fixes -- need to catalog those here and/or there.
 
 

@@ -305,7 +305,7 @@ membership, and m4 is rejected_by_admin.  All should be returned:
 
     >>> team.removeMember('m3')
     >>> view.request.form.clear()
-    >>> view.request.form['search_for'] = 'mem'
+    >>> view.request.form['search_for'] = 'm\xc3\xabm'
     >>> view.search_members()
     >>> len(view.results)
     4
