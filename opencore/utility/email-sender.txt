@@ -105,6 +105,6 @@ subject) and unicode (in the sender and body)::
     3
     >>> pprint(mh.messages[-1])
     {'mfrom': 'Gabriel =?utf-8?q?Rold=C3=A1n?= <hammy@example.com>',
-     'msg': 'I do enjoy pi\xc3\xb1atas',
+     'msg': 'I do enjoy pi=F1atas',
      'mto': ['Rolando =?utf-8?q?Pe=C3=B1ate?= <fooey@example.com>'],
      'subject': 'more testing with =?utf-8?q?pi=C3=B1atas?='}
