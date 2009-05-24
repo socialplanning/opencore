@@ -85,10 +85,6 @@ Bugs Fixed:
     account for the different APIs of different MailHost implementations.
     (rafrombrc)
 
-  * Changed "if 'mode' in self.request.keys()" to "if 'mode' in self.request"
-    in listen view b/c it's much more efficient to do an 'in' against a
-    mapping than against a sequence. (rafrombrc)
-
   * Switched from using view lookups by traversal to direct instantiation
     of the view classes in several tests so the tests don't fail when a
     different package is installed that has registered an override of the
