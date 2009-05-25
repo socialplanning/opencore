@@ -40,10 +40,15 @@ class TransientMessage(object):
         except ValueError:
             new_id = 0
 
+        if isinstance(msg, basestring) and not isinstance(msg, Message):
+            # The reason for that comparison is: if it's already a
+            # Message, then -- very confusingly -- Message is a
+            # subclass of basestring ... but calling _() on a Message
+            # returns an instance that compares equal to the original
+            # but translates differently! No kidding. WTF.
+            msg = _(msg)
         if isinstance(msg, Message):
             msg = translate(msg, context=self.site_root)
-        elif isinstance(msg, basestring):
-            msg = _(msg)
             
         if isinstance(msg, Message) or isinstance(msg, basestring):
             cleaner = Cleaner()

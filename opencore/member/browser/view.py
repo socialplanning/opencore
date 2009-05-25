@@ -167,7 +167,9 @@ class ProfileEditView(ProfileView, OctopoLite):
         if not self.check_portrait(member, portrait):
             return
 
-        member.reindexObject('portrait')
+        if portrait.filename:
+            member.reindexObject('portrait')
+
         return {
             'oc-profile-avatar' : {
                 'html': self.portrait_snippet(),

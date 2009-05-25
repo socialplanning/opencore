@@ -154,24 +154,20 @@ class BaseView(BrowserView):
 
     # XXX standardize the method name
     def add_status_message(self, msg):
-        plone_utils = self.get_tool('plone_utils')
-
-        if isinstance(msg, Message):
-            # Need to explicitly translate now because the cleaner needs
-            # to be passed text, not a msg. plone_utils *could* translate
-            # the message automatically if we didn't do the cleaning.
-            msg = self.translate(msg)
-        else:
-            # XXX Dates back to r9569; is this to allow passing in a
-            # msgid?  If so, it's useless because translation must
-            # happen before clean_html().
+        # Allow the user to pass in either msg id strings or messages.
+        if isinstance(msg, basestring) and not isinstance(msg, Message):
             msg = _(msg)
-
+        assert isinstance(msg, Message)
+        # Need to explicitly translate now because the cleaner needs
+        # to be passed text, not a msg. plone_utils *could* translate
+        # the message automatically if we didn't do the cleaning.
+        msg = self.translate(msg)
         cleaner = Cleaner()
         msg = cleaner.clean_html(msg)
         if msg.startswith('<p>'):
             msg = msg[3:-4]
         msg = unicode(msg)
+        plone_utils = self.get_tool('plone_utils')
         plone_utils.addPortalMessage(msg, request=self.request)
 
     addPortalStatusMessage = add_status_message
