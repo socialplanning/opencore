@@ -75,9 +75,6 @@ Features Added:
 
 Bugs Fixed:
 
-  * Converted 'body' argument from MIMEText object to string if necessary
-    in MaildropHost monkey-patch. (rafrombrc)
-
   * Removed 'admin' member from team memberships in the test data setup
     code. (rafrombrc)
 
