@@ -40,7 +40,7 @@ def unpatch_class(klass, method_name):
                                               klass.__name__, method_name))
 
 def alt_send(self, mfrom, mto, body, **kwargs):
-    if body.__class__ = MIMEText:
+    if body.__class__ == MIMEText:
         body = body.as_string()
     return self._orig_method__send(mfrom, mto, body)
 
