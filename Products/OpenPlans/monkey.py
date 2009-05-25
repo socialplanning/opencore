@@ -4,6 +4,7 @@ from Products.CMFCore.CatalogTool import _getAuthenticatedUser, \
      _checkPermission, AccessInactivePortalContent
 from Products.AdvancedQuery import In, Eq, Le, Ge
 from Products.AdvancedQuery.eval import eval as _eval
+from email.MIMEText import MIMEText
 import logging
 
 logger = logging.getLogger('OpenPlans.monkey')
@@ -39,6 +40,8 @@ def unpatch_class(klass, method_name):
                                               klass.__name__, method_name))
 
 def alt_send(self, mfrom, mto, body, **kwargs):
+    if body.__class__ = MIMEText:
+        body = body.as_string()
     return self._orig_method__send(mfrom, mto, body)
 
 def apply_mailhost_patches():
