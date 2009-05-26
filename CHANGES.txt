@@ -75,9 +75,6 @@ Features Added:
 
 Bugs Fixed:
 
-  * Removed 'admin' member from team memberships in the test data setup
-    code. (rafrombrc)
-
   * Added exception handling code to email_sender's delivery code to
     account for the different APIs of different MailHost implementations.
     (rafrombrc)
