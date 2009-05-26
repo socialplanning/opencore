@@ -87,7 +87,8 @@ def create_test_content(self, p_map=projects_map, m_map=members_map,
                 mship.editTeamRoles(p_roles)
                 out.append('-> project roles granted: %s' % str(p_roles))
 
-    for team in tm_tool.getTeams():
+    for proj_id in p_map.keys():
+        team = tm_tool.getTeamById(proj_id)
         if 'admin' in team.objectIds():
             team.removeMember('admin')
 
