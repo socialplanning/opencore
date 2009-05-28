@@ -25,15 +25,16 @@
 <!-- END WIKI BCRUMB -->
 
 <!-- BEGIN WIKI TABS -->
-<ul class="oc-tabs" metal:define-macro="tabs">
+<ul class="oc-tabs" metal:define-macro="tabs"
+    i18n:domain="opencore">
   <li tal:attributes="class python:view.get_tab_class(u'view')">
-    <a tal:attributes="href context/absolute_url">view</a>
+    <a tal:attributes="href context/absolute_url" i18n:translate="wiki_info_tab_view">view</a>
   </li>
   <li tal:attributes="class python:view.get_tab_class(u'edit')">
-    <a tal:attributes="href string:${context/absolute_url}/edit">edit</a>
+    <a tal:attributes="href string:${context/absolute_url}/edit" i18n:translate="wiki_info_tab_edit">edit</a>
   </li>
   <li tal:attributes="class python:view.get_tab_class([u'history', u'version', u'version_compare'])">
-    <a tal:attributes="href string:${context/absolute_url}/history">history</a>
+    <a tal:attributes="href string:${context/absolute_url}/history" i18n:translate="wiki_info_tab_history">history</a>
   </li>
 </ul>
 <!-- END WIKI TABS -->
