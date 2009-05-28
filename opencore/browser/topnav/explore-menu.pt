@@ -1,22 +1,33 @@
 
-<ul id="oc-usermenu-explore" style="display:none;">
+<ul id="oc-usermenu-explore" style="display:none;"
+    i18n:domain="opencore"
+    >
   <li>
     <a tal:attributes="href context/portal_url"
-       tal:content="string:Home" />
+       i18n:translate="topnav_explore_home">Home</a>
   </li>
 
   <li>
     <a tal:attributes="href string:${context/portal_url}/people"
-       tal:content="string:People" />
+       i18n:translate="topnav_explore_people">People</a>
   </li>
 
   <li>
     <a tal:attributes="href string:${context/portal_url}/projects"
-       tal:content="python:view.project_noun.title() + 's'" />
+       i18n:translate="topnav_explore_projects">
+      <i18n:setvar
+	 i18n:name="project_noun"
+	 tal:content="string:${view/project_noun/title}" />s
+    </a>
   </li>
 
   <li>
     <a tal:attributes="href string:${context/portal_url}/projects/create"
-       tal:content="python:'Start a %s' % view.project_noun" />
+       i18n:translate="topnav_explore_new_project">
+
+      Start a <i18n:setvar
+		 i18n:name="project_noun"
+		 tal:content="string:${view/project_noun/title}" />
+    </a>
   </li>
 </ul>
