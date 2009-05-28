@@ -1,23 +1,26 @@
 <!-- put macros here -->
 
-
 <!-- BEGIN WIKI BCRUMB -->
 <metal:bcrumb define-macro="bcrumb">
-<ul class="oc-headingBlock oc-wiki-headingBlock oc-bcrumb">
-  <li>
-    <h1 class="oc-bcrumb-current" tal:content="view/page_title" />
-  </li>
-</ul>
-<tal:lastmod condition="view/displayLastModified | nothing"
-  define="author view/lastModifiedAuthor;
-          time view/lastModifiedTime">
-  <p class="oc-discreetText oc-wiki-lastModified">
-     &nbsp; last <a tal:attributes="href string:${context/absolute_url}/latest-change">modified</a>
-     <abbr tal:attributes="title context/ModificationDate" tal:content="time" />
-     by <a tal:attributes="href string:${context/portal_url}/people/${author}/profile"
-       tal:content="author"/>
-  </p>
-</tal:lastmod>
+ 
+ <ul class="oc-headingBlock oc-wiki-headingBlock oc-bcrumb">
+    <li>
+      <h1 class="oc-bcrumb-current" tal:content="view/page_title" />
+    </li>
+  </ul>
+
+  <tal:lastmod condition="view/displayLastModified | nothing"
+               define="author view/lastModifiedAuthor;
+                       time view/lastModifiedTime">
+    <p class="oc-discreetText oc-wiki-lastModified">
+      &nbsp; last
+      <a tal:attributes="href string:${context/absolute_url}/latest-change">modified</a>
+      <abbr tal:attributes="title context/ModificationDate" tal:content="time" />
+      by <a tal:attributes="href string:${context/portal_url}/people/${author}/profile"
+            tal:content="author"/>
+    </p>
+  </tal:lastmod>
+
 </metal:bcrumb>
 <!-- END WIKI BCRUMB -->
 
@@ -32,18 +35,5 @@
   <li tal:attributes="class python:view.get_tab_class([u'history', u'version', u'version_compare'])">
     <a tal:attributes="href string:${context/absolute_url}/history">history</a>
   </li>
-
-  <!--
-  <li>
-   <form class="" >
-     <select class="oc-selectBoxAutoLinks">
-       <option value="">More...</option>
-       <option value="http://www.google.com">I'm feeling lucky</option>
-     </select>
-     <input type="submit" value="Go" style=""/>
-   </form>
-  </li>
-  -->
-
 </ul>
 <!-- END WIKI TABS -->
