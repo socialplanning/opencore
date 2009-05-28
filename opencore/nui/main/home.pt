@@ -102,7 +102,9 @@
             <h2 class="oc-feed-title">
               <a i18n:attributes="title News" title="News"
                  tal:attributes="href string:${context/portal_url}/news"
-                 tal:content="string:${view/portal_title} News" />
+		 i18n:translate="news_section_heading">
+		<tal:dummy i18n:name="portal_title" tal:content="view/portal_title" /> News
+	      </a>
             </h2>
             <ul class="oc-lineup-list">
               <li tal:repeat="item view/news" class="oc-feed-item oc-clearAfter">
