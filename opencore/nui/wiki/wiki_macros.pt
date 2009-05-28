@@ -1,7 +1,8 @@
 <!-- put macros here -->
 
 <!-- BEGIN WIKI BCRUMB -->
-<metal:bcrumb define-macro="bcrumb">
+<metal:bcrumb define-macro="bcrumb"
+	      i18n:domain="opencore">
  
  <ul class="oc-headingBlock oc-wiki-headingBlock oc-bcrumb">
     <li>
