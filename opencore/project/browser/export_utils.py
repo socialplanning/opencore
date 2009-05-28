@@ -3,6 +3,7 @@ from persistent import Persistent
 from App import config
 from Products.CMFCore.utils import getToolByName
 from Products.listen.interfaces import IMailingListMessageExport
+from Products.listen.interfaces import IMailingListSubscriberExport
 from topp.featurelets.interfaces import IFeatureletSupporter
 from topp.featurelets.supporter import IFeaturelet
 from zc.dict import OrderedDict
@@ -182,7 +183,14 @@ class ProjectExportQueueView(object):
             em = getAdapter(mlist, IMailingListMessageExport, name='mbox')
             file_data = em.export_messages() or ''
             mlistid = badchars.sub('_', mlistid)
-            azipfile.writestr('%s/lists/%s.mbox' % (proj_dirname, mlistid), file_data)
+            azipfile.writestr('%s/lists/%s.mbox' % (proj_dirname, mlistid),
+                              file_data)
+            # Now the list subscribers.
+            es = getAdapter(mlist, IMailingListSubscriberExport, name='csv')
+            file_data = es.export_subscribers() or ''
+            csv_path = '%s/lists/%s-subscribers.csv' % (proj_dirname, mlistid)
+            azipfile.writestr(csv_path, file_data)
+
         return
         
 

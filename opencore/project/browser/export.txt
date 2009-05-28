@@ -212,7 +212,9 @@ The zip file contains the exported pages and mailing list messages.
     >>> zipfile.is_zipfile(status.path)
     True
     >>> pprint(sorted(zipfile.ZipFile(status.path, 'r').namelist()))
-    ['p3/lists/p3_discussion.mbox', 'p3/pages/project-home.html']
+    ['p3/lists/p3_discussion-subscribers.csv',
+     'p3/lists/p3_discussion.mbox',
+     'p3/pages/project-home.html']
 
 
 
