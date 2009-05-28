@@ -13,11 +13,19 @@
                define="author view/lastModifiedAuthor;
                        time view/lastModifiedTime">
     <p class="oc-discreetText oc-wiki-lastModified">
-      last
-      <a tal:attributes="href string:${context/absolute_url}/latest-change">modified</a>
+
+      <a tal:attributes="href string:${context/absolute_url}/latest-change"
+	 i18n:translate="wiki_info_tab_last_modified">
+	last modified
+      </a>
+
       <abbr tal:attributes="title context/ModificationDate" tal:content="time" />
-      by <a tal:attributes="href string:${context/portal_url}/people/${author}/profile"
-            tal:content="author"/>
+
+      <a tal:attributes="href string:${context/portal_url}/people/${author}/profile"
+	 i18n:translate="wiki_info_tab_last_author">
+        by <tal:dummy i18n:name="author" tal:content="author" />
+      </a>
+
     </p>
   </tal:lastmod>
 
