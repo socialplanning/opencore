@@ -7,7 +7,8 @@
                       portal python:context.portal_url.getPortalObject();
                       portal_url here/portal_url;
                       tabindex python:Iterator(pos=7000);
-                      ">
+                      "
+	  i18n:domain="opencore">
 
 <html metal:use-macro="here/@@standard_macros/master">
   <head>
@@ -172,8 +173,14 @@ var _editor_lang = '${view/xinha_lang_code}';
             </div><!-- end expander -->
             
               <ul class="oc-actions oc-wiki-actions">
-                <li><input type="submit" name="task|save" value="Save" class="oc-button oc-chooseThis" /></li>
-                <li>or <a href="" tal:attributes="href context/absolute_url">Cancel</a></li>
+                <li><input type="submit" name="task|save" 
+			   value="Save"
+			   i18n:attributes="value wiki_edit_save_button"
+			   class="oc-button oc-chooseThis" /></li>
+                <li>
+		  <i18n:dummy i18n:translate="or">or</i18n:dummy>
+		  <a href="" tal:attributes="href context/absolute_url" i18n:translate="wiki_edit_cancel_button">Cancel</a>
+		</li>
               </ul>  
               
             </div><!-- end .oc-wiki-edit -->
