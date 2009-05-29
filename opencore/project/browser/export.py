@@ -38,7 +38,7 @@ class ProjectExportView(BaseView):
 
     def available_exports_json(self):
         """yup, it's json"""
-        return json.dumps(self.available_exports)
+        return json.dumps(self.available_exports())
 
     def current_status(self):
         queue = export_utils.get_queue(self.context)
@@ -119,7 +119,13 @@ class FilestreamIterator(Explicit):
         self.__inner = afile
         self.streamsize = streamsize
 
+    def __iter__(self):
+        # Standard python iterator protocol.
+        # Not really needed by ZPublisher, but makes testing easier.
+        return self
+
     def next(self):
+        # Standard python iterator protocol.
         data = self.__inner.read(self.streamsize)
         if not data:
             self.__inner.close()

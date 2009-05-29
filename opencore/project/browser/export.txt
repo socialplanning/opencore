@@ -6,9 +6,9 @@ An authorized user can export a project's content.
 
 Let's try the back-end export utils directly:
 
-    >>> proj = self.portal.projects.p3
+    >>> proj = self.portal.projects.p2
     >>> from opencore.project.browser.export_utils import ProjectExportQueueView
-    >>> qview = ProjectExportQueueView(proj, {})
+    >>> qview = ProjectExportQueueView(proj, proj.REQUEST)
 
 We hack the output directory to avoid polluting the real export directory:
 
@@ -22,7 +22,7 @@ We can call export() directly:
     >>> path.startswith(qview.vardir)
     True
     >>> path
-    '.../project_exports/p3/p3-....zip'
+    '.../project_exports/p2/p2-....zip'
 
 There should be a zipfile there:
 
@@ -142,7 +142,7 @@ The export UI view
 
 The export view is restricted:
 
-    >>> proj = self.portal.projects.p3
+    >>> proj = self.portal.projects.p2
     >>> self.logout()
     >>> proj.restrictedTraverse('export')
     Traceback (most recent call last):
@@ -188,54 +188,56 @@ If we call the queue handler, the export job will finish:
     >>> qview()
     >>> status.succeeded
     True
+
+We can get the path to the zipfile from the status object:
+
     >>> status.path
-    '.../project_exports/p3/p3-....zip'
+    '.../project_exports/p2/p2-....zip'
     >>> zipfile.is_zipfile(status.path)
     True
-    >>> pprint(zipfile.ZipFile(status.path, 'r').namelist())
-    ['p3/pages/project-home.html']
+    >>> exported_files = sorted(zipfile.ZipFile(status.path, 'r').namelist())
+    >>> pprint(exported_files)
+    ['p2/lists/list1-subscribers.csv',
+     'p2/lists/list1.mbox',
+     'p2/pages/fa1',
+     'p2/pages/fa2',
+     'p2/pages/img1',
+     'p2/pages/new1.html',
+     'p2/pages/project-home.html']
     >>> len(export.available_exports())
     1
     >>> status.path.endswith(export.available_exports()[0])
     True
 
+The export view provides a list of exported, downloadable zip files:
 
-Try a listen export:
+    >>> sorted(export.available_exports())
+    ['p2-....zip']
 
-    >>> IFeatureletSupporter(proj).installFeaturelet(ListenFeaturelet(proj))
-    >>> json = export.do_export()
-    >>> qview()
-    >>> status = export.current_status()
+And the same list as json:
 
-The zip file contains the exported pages and mailing list messages.
+    >>> export.available_exports_json()
+    '["p2-....zip"]'
 
-    >>> zipfile.is_zipfile(status.path)
+
+You can download the a zipfile by traversing the export view with the
+zipfile's name:
+
+    >>> zipname = export.available_exports()[-1]
+    >>> export[zipname]
+    <...export.FilestreamIterator object at ...>
+
+What you actually get is an iterator. Let's make sure the data is a
+working zip file:
+
+    >>> import StringIO
+    >>> output = StringIO.StringIO()
+    >>> for bytes in export[zipname]:
+    ...     output.write(bytes)
+    >>> z = zipfile.ZipFile(output, 'r')
+    >>> sorted(z.namelist()) == exported_files
     True
-    >>> pprint(sorted(zipfile.ZipFile(status.path, 'r').namelist()))
-    ['p3/lists/p3_discussion-subscribers.csv',
-     'p3/lists/p3_discussion.mbox',
-     'p3/pages/project-home.html']
-
-
-
-Now let's try to download by traversing that zipfile:
-# XXX LEFT OFF HERE, these are tests from the old code, rewrite them.
-
-#     >>> export = proj.restrictedTraverse('project-pages-export.zip')
-#     >>> data = export._get_exportable_data().read()
-#     >>> import zipfile, StringIO
-#     >>> z = zipfile.ZipFile(StringIO.StringIO(data))
-#     >>> z.printdir()
-#     File Name ... Modified ... Size
-#     p3/project_home.html ...
-
-# The actual view method returns an IStreamIterator::
-
-#     >>> iterator = export.export()
-#     >>> iterator
-#     <...export.FilestreamIterator object at ...>
-#     >>> len(iterator) == len(data)
-#     True
+    
 
 
 Cleanup

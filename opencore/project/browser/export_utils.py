@@ -135,10 +135,9 @@ class ProjectExportQueueView(object):
         tmp = os.fdopen(tmpfd, 'w')   # Dunno why mkstemp returns a file descr.
         try:
             z = ZipFile(tmp, 'w')
-            featurelets = self._get_featurelets(project)
             self._save_wiki_pages(project, proj_dirname, z)
-            if 'listen' in featurelets:
-                self._save_list_archives(project, proj_dirname, z)
+            self._save_files(project, proj_dirname, z)
+            self._save_list_archives(project, proj_dirname, z)
             z.close()
             tmp.close()
         except:
@@ -154,6 +153,11 @@ class ProjectExportQueueView(object):
         os.rename(tmpname, outfile_path)  # Clobber any existing of same name.
         return outfile_path
 
+    # XXX REFACTOR: All the _save methods have the same signature.
+    # Move them to a helper class?
+
+    # XXX TO DO: Update status after each _save_foo call?
+
     def _save_wiki_pages(self, project, proj_dirname, azipfile):
         catalog = getToolByName(self.context, "portal_catalog")
         for page in catalog(portal_type="Document",
@@ -166,6 +170,22 @@ class ProjectExportQueueView(object):
             text = page.getText()
             # XXX appending '.html' will break links!
             azipfile.writestr("%s/pages/%s.html" % (proj_dirname, page.getId()), text)
+
+    def _save_files(self, project, proj_dirname, azipfile):
+        from opencore.project.browser.contents import ProjectContentsView
+        contents_view = ProjectContentsView(self.context, self.request)
+        files = contents_view.files
+        for fdict in files:
+            obj = self.context.unrestrictedTraverse(fdict['path'])
+            out_path = '%s/pages/%s' % (proj_dirname, obj.getId())
+            # XXX this will be very bad for big files, since it loads
+            # the whole file into memory!  it would be much better to
+            # iterate over the horrid pdata chain, writing it to a
+            # temp file on disk, and then use
+            # azipfile.write(filename).
+            azipfile.writestr(out_path, str(obj))
+            
+
 
     def _get_featurelets(self, project):
         supporter = IFeatureletSupporter(project)
