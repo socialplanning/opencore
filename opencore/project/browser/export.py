@@ -25,7 +25,8 @@ class ProjectExportView(BaseView):
     # I suppose I could have written this with oc-behaviors and
     # octopolite, but a) i still don't really grok octopolite, and b)
     # chris P. had already nicely written the jquery code for me so I
-    # might as well use that. - PW
+    # might as well use that. If anyone wants to rewrite it, feel
+    # free. - PW
 
     vardir = None  # so we can patch it for testing.
 
@@ -55,10 +56,10 @@ class ProjectExportView(BaseView):
 
     def do_export(self):
         """Fire off an export, asynchronously."""
-        # XXX I tried to use @post_only, but it mysteriously
-        # causes this method not to be available via URL.
-        # maybe cuz it messes up the function's name?? shrug.
         if self.request.environ['REQUEST_METHOD'] != 'POST':
+            # I tried to use @post_only, but it mysteriously
+            # causes this method not to be available via URL.
+            # maybe cuz it messes up the function's name?? shrug.
             raise Forbidden('GET is not allowed here')
         queue = export_utils.get_queue(self.context)
         status = export_utils.ExportStatus(self.context.getId())
@@ -121,7 +122,7 @@ class FilestreamIterator(Explicit):
 
     def __iter__(self):
         # Standard python iterator protocol.
-        # Not really needed by ZPublisher, but makes testing easier.
+        # Not really needed by IStreamIterator, but makes testing easier.
         return self
 
     def next(self):
