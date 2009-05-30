@@ -175,7 +175,7 @@ We get a json structure back:
 
     >>> proj.REQUEST.environ['REQUEST_METHOD'] = 'POST'
     >>> export.do_export()
-    '{"state": "queued, waiting to start", "filename": null}'
+    '{"progress": "", "state": "queued, waiting to start", "filename": null}'
 
 We can check the current state of the export job:
 

@@ -4,6 +4,7 @@ from App import config
 from Products.CMFCore.utils import getToolByName
 from Products.listen.interfaces import IMailingListMessageExport
 from Products.listen.interfaces import IMailingListSubscriberExport
+from opencore.i18n import _, translate
 from topp.featurelets.interfaces import IFeatureletSupporter
 from topp.featurelets.supporter import IFeaturelet
 from zc.dict import OrderedDict
@@ -93,7 +94,7 @@ class ProjectExportQueueView(object):
                 try:
                     status.start()
                     transaction.commit()
-                    outfile_path = self.export(name)
+                    outfile_path = self.export(name, status)
                     status.finish(outfile_path)
                     transaction.get().note('Finished job for %r' % name)
                     transaction.commit()
@@ -110,7 +111,7 @@ class ProjectExportQueueView(object):
             logger.info('Reached end of project export job queue (%d items)'
                         % count)
             
-    def export(self, project_id):
+    def export(self, project_id, status=None):
         """
         the async job should:
 
@@ -123,6 +124,8 @@ class ProjectExportQueueView(object):
         # of general paranoia for the end user, let's remove
         # potentially evil character sequences before doing so.  (Which
         # hopefully Zope has already done.)
+        if status is None:
+            status = ExportStatus(project_id)
         proj_dirname = badchars.sub('_', project_id)
         outdir = getpath(project_id, self.vardir)
         project = self.context.restrictedTraverse('projects/%s' % project_id)
@@ -136,8 +139,17 @@ class ProjectExportQueueView(object):
         try:
             z = ZipFile(tmp, 'w')
             self._save_wiki_pages(project, proj_dirname, z)
+            status.progress_descr = _(u'Saving Wiki pages')
+            transaction.commit()
+
             self._save_files(project, proj_dirname, z)
+            status.progress_descr = _(u'Saving images and file attachments')
+            transaction.commit()
+
             self._save_list_archives(project, proj_dirname, z)
+            status.progress_descr = _(u'Saving mailing lists')
+            transaction.commit()
+
             z.close()
             tmp.close()
         except:
@@ -153,7 +165,6 @@ class ProjectExportQueueView(object):
         os.rename(tmpname, outfile_path)  # Clobber any existing of same name.
         return outfile_path
 
-    # XXX TO DO: Update status after each _save_foo call?
 
     def _save_wiki_pages(self, project, proj_dirname, azipfile):
         catalog = getToolByName(self.context, "portal_catalog")
@@ -223,7 +234,7 @@ class ExportStatus(Persistent):
         self.starttime = None
         self.path = None
         self.filename = None
-        self.progress_descr = u''  # XXX i18n
+        self.progress_descr = _(u'') # More detailed human-readable state info.
 
     @property
     def failed(self):
@@ -263,19 +274,20 @@ class ExportStatus(Persistent):
         self.path = path
         self.filename = os.path.basename(path)
         self.state = self.DONE
-        self.progress_descr = u'Finished'
+        self.progress_descr = _(u'Export finished')
         self.updatetime = datetime.datetime.utcnow()
 
     def fail(self):
         # XXX fire an event?
         self.state = self.FAILED
-        self.progress_descr = u'Failed! XXX more info here'
+        self.progress_descr = _(u'Export failed!')
         self.updatetime = datetime.datetime.utcnow()
 
     def json(self):
         result = {
-            'state': self.state,
+            'state': self.state, #XXX should i18n these?
             'filename': self.filename,
+            'progress': translate(self.progress_descr),
             }
         return json.dumps(result)
 
