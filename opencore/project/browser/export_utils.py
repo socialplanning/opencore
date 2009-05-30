@@ -35,7 +35,7 @@ def log_exception(msg='', level=logging.ERROR):
     """Log the most recent exception and traceback
     at the given level (default ERROR).
     """
-    # XXX should be in top.utils or some such.
+    # XXX should be in topp.utils or some such.
     import StringIO, traceback
     f = StringIO.StringIO()
     traceback.print_exc(file=f)
@@ -153,9 +153,6 @@ class ProjectExportQueueView(object):
         os.rename(tmpname, outfile_path)  # Clobber any existing of same name.
         return outfile_path
 
-    # XXX REFACTOR: All the _save methods have the same signature.
-    # Move them to a helper class?
-
     # XXX TO DO: Update status after each _save_foo call?
 
     def _save_wiki_pages(self, project, proj_dirname, azipfile):
@@ -185,16 +182,6 @@ class ProjectExportQueueView(object):
             # azipfile.write(filename).
             azipfile.writestr(out_path, str(obj))
             
-
-
-    def _get_featurelets(self, project):
-        supporter = IFeatureletSupporter(project)
-        all_flets = [flet for name, flet in getAdapters((supporter,), 
-                                                        IFeaturelet)]
-        installed_flets = [(flet.id, flet) for flet in all_flets 
-                           if flet.installed]
-        installed_flets = dict(installed_flets)
-        return installed_flets
 
     def _save_list_archives(self, project, proj_dirname, azipfile):
         listfol = project['lists']
@@ -236,14 +223,11 @@ class ExportStatus(Persistent):
         self.starttime = None
         self.path = None
         self.filename = None
+        self.progress_descr = u''  # XXX i18n
 
     @property
     def failed(self):
         return self.state == self.FAILED
-
-    @property
-    def failinfo(self):
-        return 'XXX more info on what went wrong'
 
     @property
     def succeeded(self):
@@ -279,11 +263,13 @@ class ExportStatus(Persistent):
         self.path = path
         self.filename = os.path.basename(path)
         self.state = self.DONE
+        self.progress_descr = u'Finished'
         self.updatetime = datetime.datetime.utcnow()
 
     def fail(self):
         # XXX fire an event?
         self.state = self.FAILED
+        self.progress_descr = u'Failed! XXX more info here'
         self.updatetime = datetime.datetime.utcnow()
 
     def json(self):
