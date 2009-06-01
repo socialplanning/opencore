@@ -5,11 +5,9 @@ from Products.CMFCore.utils import getToolByName
 from Products.listen.interfaces import IMailingListMessageExport
 from Products.listen.interfaces import IMailingListSubscriberExport
 from opencore.i18n import _, translate
-from topp.featurelets.interfaces import IFeatureletSupporter
-from topp.featurelets.supporter import IFeaturelet
 from zc.dict import OrderedDict
 from zipfile import ZipFile
-from zope.component import getAdapters, getAdapter
+from zope.component import getAdapter
 import datetime
 import logging
 import re
