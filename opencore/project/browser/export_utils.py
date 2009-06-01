@@ -18,6 +18,8 @@ import os
 
 _queue_name = 'project_export_queue'
 
+TEMP_PREFIX='temp_project_export'
+
 logger = logging.getLogger('opencore.project.export') #XXX
 
 badchars = re.compile(r'\W+')
@@ -132,7 +134,7 @@ class ProjectExportQueueView(object):
         # Using mkstemp instead of other classes in tempfile because I
         # want to rename the file when done w/ it, and only delete on
         # failure.
-        tmpfd, tmpname = tempfile.mkstemp(suffix='.zip', dir=outdir)
+        tmpfd, tmpname = tempfile.mkstemp(suffix='.zip', prefix=TEMP_PREFIX, dir=outdir)
         tmp = os.fdopen(tmpfd, 'w')   # Dunno why mkstemp returns a file descr.
         try:
             z = ZipFile(tmp, 'w')

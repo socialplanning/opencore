@@ -35,7 +35,8 @@ class ProjectExportView(BaseView):
         """any zip files avail to download?
         """
         path = export_utils.getpath(self.context.getId(), self.vardir)
-        zips = [f for f in os.listdir(path) if f.endswith('zip')]
+        zips = [f for f in os.listdir(path) if 
+                (f.endswith('.zip') and not f.startswith(export_utils.TEMP_PREFIX))]
         return sorted(zips, reverse=True)
 
     def available_exports_json(self):
