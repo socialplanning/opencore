@@ -88,8 +88,9 @@ by putting a status object in the queue and then calling the view.
 The queue starts empty:
 
     >>> queue = qview.queue
-    >>> queue
-    <zc.dict.dict.OrderedDict object at ...>
+    >>> import topp.utils.orderedpersistentmapping
+    >>> isinstance(queue, topp.utils.orderedpersistentmapping.SortedDict)
+    True
     >>> len(queue)
     0
     >>> list(queue.iteritems())

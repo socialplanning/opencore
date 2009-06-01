@@ -44,15 +44,15 @@ def log_exception(msg='', level=logging.ERROR):
     logger.log(level=level, msg=msg)
 
 
+_queue = None
 def get_queue(context):
-    # Bootstrap a persistent queue onto the site.
-    # XXX move this into an annotation set up via a migration!
-    portal = getToolByName(context, 'portal_url').getPortalObject()
-    if getattr(aq_base(portal), _queue_name, None) is None:
-        setattr(portal, _queue_name, OrderedDict())
-        transaction.commit()
-    queue = portal[_queue_name]
-    return queue
+    # We don't use a persistent queue because there's no meaningful way
+    # to resume a job interrupted by server restart.
+    from topp.utils.orderedpersistentmapping import SortedDict
+    global _queue
+    if _queue is None:
+        _queue = SortedDict()
+    return _queue
 
 class ProjectExportQueueView(object):
 
@@ -70,7 +70,7 @@ class ProjectExportQueueView(object):
 
     def __call__(self):
         count = len(self.queue)
-        for name, status in self.queue.iteritems():
+        for name, status in self.queue.items():
             if status.running:
                 logger.info('job already in progress for %r' % name)
                 continue

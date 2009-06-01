@@ -67,7 +67,6 @@ setup(
         'topp.featurelets>=0.3.0',
         'topp.utils>=0.5',
         'uuid',
-        'zc.dict',
         'zc.queue',
         'zcmlloader',
         ],
