@@ -5,7 +5,6 @@ from Products.CMFCore.utils import getToolByName
 from Products.listen.interfaces import IMailingListMessageExport
 from Products.listen.interfaces import IMailingListSubscriberExport
 from opencore.i18n import _, translate
-from zc.dict import OrderedDict
 from zipfile import ZipFile
 from zope.component import getAdapter
 import datetime
