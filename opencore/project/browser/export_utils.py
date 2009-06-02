@@ -6,6 +6,7 @@ from Products.listen.interfaces import IMailingListMessageExport
 from Products.listen.interfaces import IMailingListSubscriberExport
 from opencore.i18n import _, translate
 from zipfile import ZipFile
+from zope.app.component.hooks import setSite
 from zope.component import getAdapter
 import datetime
 import logging
@@ -137,29 +138,22 @@ class ProjectExportQueueView(object):
         tmp = os.fdopen(tmpfd, 'w')   # Dunno why mkstemp returns a file descr.
         try:
             z = ZipFile(tmp, 'w')
-            self._save_wiki_pages(project, proj_dirname, z)
             status.progress_descr = _(u'Saving Wiki pages')
             transaction.commit()
-
-            self._save_files(project, proj_dirname, z)
+            self._save_wiki_pages(project, proj_dirname, z)
             status.progress_descr = _(u'Saving images and file attachments')
             transaction.commit()
-
-            self._save_list_archives(project, proj_dirname, z)
+            self._save_files(project, proj_dirname, z)
             status.progress_descr = _(u'Saving mailing lists')
-            transaction.commit()
-
+            transaction.commit()            
+            self._save_list_archives(project, proj_dirname, z)
             z.close()
             tmp.close()
         except:
-            try:
+            if os.path.exists(tmpname):
                 os.unlink(tmpname)
-            except:
-                pass
-            try:
+            if os.path.exists(outfile_path):
                 os.unlink(outfile_path)
-            except:
-                pass
             raise
         os.rename(tmpname, outfile_path)  # Clobber any existing of same name.
         return outfile_path
@@ -180,7 +174,7 @@ class ProjectExportQueueView(object):
 
     def _save_files(self, project, proj_dirname, azipfile):
         from opencore.project.browser.contents import ProjectContentsView
-        contents_view = ProjectContentsView(self.context, self.request)
+        contents_view = ProjectContentsView(project, self.request)
         files = contents_view.files
         for fdict in files:
             obj = self.context.unrestrictedTraverse(fdict['path'])
@@ -196,6 +190,7 @@ class ProjectExportQueueView(object):
     def _save_list_archives(self, project, proj_dirname, azipfile):
         listfol = project['lists']
         for mlistid, mlist in listfol.objectItems(): # XXX filter more?
+            setSite(mlist)  # Needed to get the export adapter.
             # Cargo-culted from listen/browser/import_export.py
             em = getAdapter(mlist, IMailingListMessageExport, name='mbox')
             file_data = em.export_messages() or ''
