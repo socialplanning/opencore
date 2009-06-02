@@ -1,4 +1,3 @@
-from Acquisition import aq_base
 from persistent import Persistent
 from App import config
 from Products.CMFCore.utils import getToolByName
