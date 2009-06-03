@@ -44,7 +44,6 @@ background: url(/++resource++spinning_wheel_throbber.gif) 0 50% no-repeat;
   </form>
   <div id="project-export-status"
        tal:define="current view/current_status">
-    <!-- TO DO: update this status via ajax -->
     <span tal:condition="python: current.active"
        i18n:translate="project_export_job_running">
       There is already a job running. Please be patient.
@@ -65,10 +64,12 @@ background: url(/++resource++spinning_wheel_throbber.gif) 0 50% no-repeat;
   </p>
   <ul>
      <li i18n:translate="">Wiki pages</li>
+     <li i18n:translate="">Images and files</li>
      <li i18n:translate="">Mailing list archives</li>
+     <li i18n:translate="">Mailing list subscribers</li>
   </ul>
   <p i18n:translate="project_export_content_description">Support is planned to add other content to the export soon
-   (eg. blogs, mailing list subscribers, etc).
+   (eg. blogs, tasks, etc).
   </p>
   <!-- TO DO: write this up and include a link to the zip contents doc (to be written) -->
 </div>
