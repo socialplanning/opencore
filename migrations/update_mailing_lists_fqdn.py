@@ -22,7 +22,11 @@ def update_list_mailtos(context, new_fqdn):
     for brain in catalog.unrestrictedSearchResults(portal_type=
                                                    'Open Mailing List'):
         i += 1
-        ml = brain.getObject()
+        try:
+            ml = brain.getObject()
+        except AttributeError:
+            # ignore catalog ghosts
+            continue
         mailto, old_fqdn = ml.mailto.split('@')
         if old_fqdn == new_fqdn:
             continue
@@ -32,9 +36,11 @@ def update_list_mailtos(context, new_fqdn):
         changed = True
 
         if changed and i % 400 == 0:
+            transaction.get().note('Batch commit of mailing list FQDN update')
             transaction.commit()
             changed = False
 
+    transaction.get().note('Final commit of mailing list FQDN update')
     transaction.commit()
 
 username = 'admin'
