@@ -19,7 +19,7 @@
 		    $.getJSON('export/current_status_json', function(data) {
 		      if (data.state == "finished")  {
                           $('#project-export').stopTime("status");
-                          $("#project-export-status").empty().removeClass("active");
+                          $("#project-export-status").empty().append('Finished!').removeClass("active");
                           $("#project-export-list-header").removeClass("oc-hidden");
                           $("#project-export input[type='submit']").removeAttr("disabled");
                           $("#project-export-list").prepend('<li><a href="export/' + data.filename + '">' + data.filename + '</a>');
@@ -31,6 +31,9 @@
                           $("#project-export-status").empty().removeClass("active").append('Failure of some sort');
                           $("#project-export input[type='submit']").removeAttr("disabled");
                           exportEnabled = true;
+                      }
+                      else if (data.progress != '' ) {
+                           $('#currently-exporting').empty().append(data.state + ': ' + data.progress);
                       }
                       else {
                           $('#currently-exporting').empty().append(data.state);

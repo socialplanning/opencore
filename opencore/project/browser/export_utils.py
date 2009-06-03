@@ -1,4 +1,3 @@
-from persistent import Persistent
 from App import config
 from Products.CMFCore.utils import getToolByName
 from Products.listen.interfaces import IMailingListMessageExport
@@ -9,26 +8,21 @@ from zope.app.component.hooks import setSite
 from zope.component import getAdapter
 import datetime
 import logging
+import os
 import re
 import simplejson as json
 import tempfile
+import time
 import transaction
-import os
 
-_queue_name = 'project_export_queue'
 
 TEMP_PREFIX='temp_project_export'
+
+TEST=False
 
 logger = logging.getLogger('opencore.project.export') #XXX
 
 badchars = re.compile(r'\W+')
-
-
-# if len(logger.handlers) == 0:
-#     # Stupid zopectl debug hides my logging.  (or maybe that's good;
-#     # we do'nt want gunk from other threads?)
-#     logger.addHandler(logging.StreamHandler())
-#     logger.setLevel(logging.INFO)
 
 
 def log_exception(msg='', level=logging.ERROR):
@@ -46,7 +40,8 @@ def log_exception(msg='', level=logging.ERROR):
 _queue = None
 def get_queue(context):
     # We don't use a persistent queue because there's no meaningful way
-    # to resume a job interrupted by server restart.
+    # to resume a job interrupted by eg. server restart.
+    # A global will work fine for shared state.
     from topp.utils.orderedpersistentmapping import SortedDict
     global _queue
     if _queue is None:
@@ -138,14 +133,14 @@ class ProjectExportQueueView(object):
         try:
             z = ZipFile(tmp, 'w')
             status.progress_descr = _(u'Saving Wiki pages')
-            transaction.commit()
             self._save_wiki_pages(project, proj_dirname, z)
+            if TEST: time.sleep(5)
             status.progress_descr = _(u'Saving images and file attachments')
-            transaction.commit()
             self._save_files(project, proj_dirname, z)
+            if TEST: time.sleep(5)
             status.progress_descr = _(u'Saving mailing lists')
-            transaction.commit()            
             self._save_list_archives(project, proj_dirname, z)
+            if TEST: time.sleep(5)
             z.close()
             tmp.close()
         except:
@@ -206,9 +201,9 @@ class ProjectExportQueueView(object):
         
 
 
-class ExportStatus(Persistent):
+class ExportStatus(object):
     # Not even a state machine, just a little bag of info for querying state.
-    # I kinda wonder if this should just be a dict with magic values.
+    # I kinda wonder if this should just be a dict with some conventions.
 
     QUEUED = 'queued, waiting to start'
     RUNNING = 'running'
