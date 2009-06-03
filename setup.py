@@ -57,7 +57,7 @@ setup(
         'flunc>=0.6dev',
         'httplib2',
         'lxml>=2.0alpha5',
-        "oc-js==0.6.4",
+        "oc-js>=0.6.5dev",
         'oc-feed>=0.4',
         'OpencoreRedirect==dev,>=0.5dev',
         'plone.mail',
