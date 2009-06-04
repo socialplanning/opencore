@@ -138,16 +138,8 @@ class ProjectExportQueueView(object):
         tmp = os.fdopen(tmpfd, 'w')   # Dunno why mkstemp returns a file descr.
         try:
             z = ZipFile(tmp, 'w')
-            z.writestr("%s/README.txt" % proj_dirname, readme())
-            status.progress_descr = _(u'Saving Wiki pages')
-            self._save_wiki_pages(project, proj_dirname, z)
-            if TEST: time.sleep(5)
-            status.progress_descr = _(u'Saving images and file attachments')
-            self._save_files(project, proj_dirname, z)
-            if TEST: time.sleep(5)
-            status.progress_descr = _(u'Saving mailing lists')
-            self._save_list_archives(project, proj_dirname, z)
-            if TEST: time.sleep(5)
+            exporter = ContentExporter(project, self.request, status, proj_dirname, z)
+            exporter.save()
             z.close()
             tmp.close()
         except:
@@ -160,10 +152,40 @@ class ProjectExportQueueView(object):
         return outfile_path
 
 
-    def _save_wiki_pages(self, project, proj_dirname, azipfile):
+class ContentExporter(object):
+
+    def __init__(self, context, request, status, context_dirname, azipfile):
+        self.context = context
+        self.request = request
+        self.status = status
+        self.context_dirname = context_dirname
+        self.zipfile = azipfile
+
+    def save(self):
+        if TEST:
+            # For interactive testing, it's useful to be able to slow
+            # things down and watch progress.
+            sleep = lambda: time.sleep(5)
+        else:
+            sleep = lambda: None
+        self.save_docs()
+        sleep()
+        self.save_wiki_pages()
+        sleep()
+        self.save_files()
+        sleep()
+        self.save_list_archives()
+        sleep()
+
+    def save_docs(self):
+        self.status.progress_descr = _(u'Saving documentation')
+        self.zipfile.writestr("%s/README.txt" % self.context_dirname, readme())
+
+    def save_wiki_pages(self):
+        self.status.progress_descr = _(u'Saving Wiki pages')
         catalog = getToolByName(self.context, "portal_catalog")
         for page in catalog(portal_type="Document",
-                            path='/'.join(project.getPhysicalPath())):
+                            path='/'.join(self.context.getPhysicalPath())):
             try:
                 page = page.getObject()
             except AttributeError:
@@ -171,40 +193,41 @@ class ProjectExportQueueView(object):
                             % page.getPhysicalPath)
             text = page.getText()
             # XXX appending '.html' will break links!
-            azipfile.writestr("%s/pages/%s.html" % (proj_dirname, page.getId()), text)
+            self.zipfile.writestr("%s/pages/%s.html" % (self.context_dirname, 
+                                                        page.getId()), text)
 
-    def _save_files(self, project, proj_dirname, azipfile):
+    def save_files(self):
+        self.status.progress_descr = _(u'Saving images and file attachments')
         from opencore.project.browser.contents import ProjectContentsView
-        contents_view = ProjectContentsView(project, self.request)
+        contents_view = ProjectContentsView(self.context, self.request)
         files = contents_view.files
         for fdict in files:
             obj = self.context.unrestrictedTraverse(fdict['path'])
-            out_path = '%s/pages/%s' % (proj_dirname, obj.getId())
+            out_path = '%s/pages/%s' % (self.context_dirname, obj.getId())
             # XXX this will be very bad for big files, since it loads
             # the whole file into memory!  it would be much better to
             # iterate over the horrid pdata chain, writing it to a
             # temp file on disk, and then use
             # azipfile.write(filename).
-            azipfile.writestr(out_path, str(obj))
+            self.zipfile.writestr(out_path, str(obj))
             
 
-    def _save_list_archives(self, project, proj_dirname, azipfile):
-        listfol = project['lists']
+    def save_list_archives(self):
+        self.status.progress_descr = _(u'Saving mailing lists')
+        listfol = self.context['lists']
         for mlistid, mlist in listfol.objectItems(): # XXX filter more?
             setSite(mlist)  # Needed to get the export adapter.
             # Cargo-culted from listen/browser/import_export.py
             em = getAdapter(mlist, IMailingListMessageExport, name='mbox')
             file_data = em.export_messages() or ''
             mlistid = badchars.sub('_', mlistid)
-            azipfile.writestr('%s/lists/%s.mbox' % (proj_dirname, mlistid),
-                              file_data)
+            self.zipfile.writestr('%s/lists/%s.mbox' % (self.context_dirname, mlistid),
+                                  file_data)
             # Now the list subscribers.
             es = getAdapter(mlist, IMailingListSubscriberExport, name='csv')
             file_data = es.export_subscribers() or ''
-            csv_path = '%s/lists/%s-subscribers.csv' % (proj_dirname, mlistid)
-            azipfile.writestr(csv_path, file_data)
-
-        return
+            csv_path = '%s/lists/%s-subscribers.csv' % (self.context_dirname, mlistid)
+            self.zipfile.writestr(csv_path, file_data)
         
 
 
