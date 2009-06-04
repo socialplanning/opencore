@@ -3,6 +3,7 @@ from Products.CMFCore.utils import getToolByName
 from Products.listen.interfaces import IMailingListMessageExport
 from Products.listen.interfaces import IMailingListSubscriberExport
 from opencore.i18n import _, translate
+from pkg_resources import resource_stream
 from zipfile import ZipFile
 from zope.app.component.hooks import setSite
 from zope.component import getAdapter
@@ -47,6 +48,11 @@ def get_queue(context):
     if _queue is None:
         _queue = SortedDict()
     return _queue
+
+def readme():
+    text = resource_stream('opencore.project.browser', 'export_readme.txt').read()
+    return text
+
 
 class ProjectExportQueueView(object):
 
@@ -132,6 +138,7 @@ class ProjectExportQueueView(object):
         tmp = os.fdopen(tmpfd, 'w')   # Dunno why mkstemp returns a file descr.
         try:
             z = ZipFile(tmp, 'w')
+            z.writestr("%s/README.txt" % proj_dirname, readme())
             status.progress_descr = _(u'Saving Wiki pages')
             self._save_wiki_pages(project, proj_dirname, z)
             if TEST: time.sleep(5)

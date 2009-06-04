@@ -198,7 +198,8 @@ We can get the path to the zipfile from the status object:
     True
     >>> exported_files = sorted(zipfile.ZipFile(status.path, 'r').namelist())
     >>> pprint(exported_files)
-    ['p2/lists/list1-subscribers.csv',
+    ['p2/README.txt',
+     'p2/lists/list1-subscribers.csv',
      'p2/lists/list1.mbox',
      'p2/pages/fa1',
      'p2/pages/fa2',
@@ -247,3 +248,4 @@ Cleanup
     >>> import shutil
     >>> shutil.rmtree(tempdir)  #XXX this should be done in teardown
    
+

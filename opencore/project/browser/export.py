@@ -88,6 +88,9 @@ class ProjectExportView(BaseView):
         # Needs to be aq-wrapped to satisfy the security machinery.
         return iterator.__of__(self)
 
+    def readme(self):
+        return export_utils.readme()
+
 
 class FilestreamIterator(filestream_iterator, Explicit):
 

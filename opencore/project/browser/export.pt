@@ -34,13 +34,13 @@ background: url(/++resource++spinning_wheel_throbber.gif) 0 50% no-repeat;
 
 <div class="oc-headingBlock">
   <h1 i18n:translate="">Project Export</h1>
-  <p class="oc-headingContext">Export your project's content.</p>
+  <p class="oc-headingContext">Export your content.</p>
 
 </div>
     
 <div id="oc-content-main" class="oc-content-main-fullWidth">
   <form id="project-export" action="" method="get">
-    <input class="context oc-button oc-chooseThis" type="submit" value="Export this project" name="export"/>
+    <input class="context oc-button oc-chooseThis" type="submit" value="Export" name="export"/>
   </form>
   <div id="project-export-status"
        tal:define="current view/current_status">
@@ -71,7 +71,13 @@ background: url(/++resource++spinning_wheel_throbber.gif) 0 50% no-repeat;
   <p i18n:translate="project_export_content_description">Support is planned to add other content to the export soon
    (eg. blogs, tasks, etc).
   </p>
-  <!-- TO DO: write this up and include a link to the zip contents doc (to be written) -->
+
+  <div class="oc-js-expander oc-expander">
+   <h3 i18n:translate="" class="oc-js-expander_open oc-expanderLink">More info...</h3>
+   <pre class="oc-js-expander-content oc-expander-content" tal:content="view/readme">
+   </pre>
+  </div>
+  
 </div>
 <!-- end .oc-content-main -->
 
