@@ -3,10 +3,12 @@ from Products.CMFCore.utils import getToolByName
 from Products.listen.interfaces import IMailingListMessageExport
 from Products.listen.interfaces import IMailingListSubscriberExport
 from opencore.i18n import _, translate
+from opencore.utility.interfaces import IHTTPClient
 from pkg_resources import resource_stream
 from zipfile import ZipFile
 from zope.app.component.hooks import setSite
 from zope.component import getAdapter
+from zope.component import getUtility
 import datetime
 import logging
 import os
@@ -19,7 +21,7 @@ import transaction
 
 TEMP_PREFIX='temp_project_export'
 
-TEST=False
+TEST=0
 
 logger = logging.getLogger('opencore.project.export') #XXX
 
@@ -57,9 +59,11 @@ def readme():
 class ProjectExportQueueView(object):
 
     """Handle a queue of project export jobs which may take a long
-    time.  So this is intended to be run often, eg. by
-    clockserver. (An event-triggered async job would be nicer for the
-    user, but this is probably good enough)
+    time.  So this is intended to be run in a separate thread often,
+    eg. by clockserver. (An event-triggered async job would be nicer
+    for the user, but since we lack infrastructure for doing things in
+    the background and I found zc.async hard to install and overly
+    complex ... this is probably good enough)
     """
 
     def __init__(self, context, request):
@@ -120,12 +124,12 @@ class ProjectExportQueueView(object):
         * when done, notify (eg. set a PSM for the user w/ download URL)
           and release lock(s).
         """
+        if status is None:
+            status = ExportStatus(project_id)
         # We want the zip file to contain useful file names; but out
         # of general paranoia for the end user, let's remove
         # potentially evil character sequences before doing so.  (Which
         # hopefully Zope has already done.)
-        if status is None:
-            status = ExportStatus(project_id)
         proj_dirname = badchars.sub('_', project_id)
         outdir = getpath(project_id, self.vardir)
         project = self.context.restrictedTraverse('projects/%s' % project_id)
@@ -153,13 +157,16 @@ class ProjectExportQueueView(object):
 
 
 class ContentExporter(object):
+    """Does the actual work of writing content into a zipfile"""
 
     def __init__(self, context, request, status, context_dirname, azipfile):
         self.context = context
         self.request = request
         self.status = status
         self.context_dirname = context_dirname
+        self.path = '/'.join(self.context.getPhysicalPath())
         self.zipfile = azipfile
+        self.catalog = getToolByName(self.context, "portal_catalog")
 
     def save(self):
         if TEST:
@@ -176,6 +183,8 @@ class ContentExporter(object):
         sleep()
         self.save_list_archives()
         sleep()
+        #self.save_blogs()
+        #sleep()
 
     def save_docs(self):
         self.status.progress_descr = _(u'Saving documentation')
@@ -183,9 +192,7 @@ class ContentExporter(object):
 
     def save_wiki_pages(self):
         self.status.progress_descr = _(u'Saving Wiki pages')
-        catalog = getToolByName(self.context, "portal_catalog")
-        for page in catalog(portal_type="Document",
-                            path='/'.join(self.context.getPhysicalPath())):
+        for page in self.catalog(portal_type="Document", path=self.path):
             try:
                 page = page.getObject()
             except AttributeError:
@@ -198,12 +205,9 @@ class ContentExporter(object):
 
     def save_files(self):
         self.status.progress_descr = _(u'Saving images and file attachments')
-        from opencore.project.browser.contents import ProjectContentsView
-        contents_view = ProjectContentsView(self.context, self.request)
-        files = contents_view.files
-        for fdict in files:
-            obj = self.context.unrestrictedTraverse(fdict['path'])
-            out_path = '%s/pages/%s' % (self.context_dirname, obj.getId())
+        for afile in self.catalog(portal_type=("FileAttachment", "Image"), path=self.path):
+            obj = afile.getObject()
+            out_path = '%s/pages/%s' % (self.context_dirname, afile.getId)
             # XXX this will be very bad for big files, since it loads
             # the whole file into memory!  it would be much better to
             # iterate over the horrid pdata chain, writing it to a
@@ -230,6 +234,28 @@ class ContentExporter(object):
             self.zipfile.writestr(csv_path, file_data)
         
 
+    def save_blogs(self):
+        # XXX Check featurelet status
+        self.status.progress_descr = _(u'Saving blog posts')
+        url = self.context.absolute_url() + "/blog/wp-admin/export.php?author=all&download=true"
+        # Wordpress needs our ac cookie to authorize the download.
+        headers = {'Cookie': self.request.cookies.get('__ac', '')}
+        http = getUtility(IHTTPClient)
+        http.force_exception_to_status_code = True
+        http.timeout = 60
+        response, content = http.request(url, 'GET', headers=headers)
+        if int(response['status']) >= 400:
+            self.status.fail('%s failure: %s' % (response['status'], content))
+            return
+        # Weirdly, we get a 200 response if the blog doesn't exist.
+        if content[:30].lower().startswith('no blog by that name'):
+            # There are no blog posts to export, that's fine.
+            return
+        # XXX get the filename from resp header Content-Disposition: attachment; filename=wordpress.2009-06-04.xml
+        filename = 'XXX'
+        xml_path = '%s/blog/%s' % (self.context_dirname, filename) 
+        self.zipfile.writestr(xml_path, content)
+        
 
 class ExportStatus(object):
     # Not even a state machine, just a little bag of info for querying state.
@@ -289,16 +315,18 @@ class ExportStatus(object):
 
     def finish(self, path):
         # XXX fire an event?
+        if self.failed:
+            return
         self.path = path
         self.filename = os.path.basename(path)
         self.state = self.DONE
         self.progress_descr = _(u'Export finished')
         self.updatetime = datetime.datetime.utcnow()
 
-    def fail(self):
+    def fail(self, msg=''):
         # XXX fire an event?
         self.state = self.FAILED
-        self.progress_descr = _(u'Export failed!')
+        self.progress_descr = _(u'Export failed! ${failure_msg}', {'failure_msg': msg})
         self.updatetime = datetime.datetime.utcnow()
 
     def json(self):

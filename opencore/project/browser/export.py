@@ -16,9 +16,8 @@ class ProjectExportView(BaseView):
     another view).  the export page reports status; when done, it
     shows a download link.
 
-    Another async job could be written to periodically check for old
-    completed exports and delete them, if we care. (eg. greater than
-    30 days)
+    To do: another async job to periodically check for old completed
+    exports and delete them. (eg. greater than 30 days)
 
     """
 
