@@ -169,7 +169,7 @@ And try to fire off an export. It won't work with GET:
     >>> status = export.do_export()
     Traceback (most recent call last):
       ...
-    Forbidden: GET is not allowed here
+    Forbidden: only POST is allowed for this view
 
 But it works with POST.
 We get a json structure back:
@@ -226,7 +226,7 @@ zipfile's name:
 
     >>> zipname = export.available_exports()[-1]
     >>> export[zipname]
-    <...export.FilestreamIterator object at ...>
+    <open FilestreamIterator '...project_exports/p2/p2-...zip' at ...>
 
 What you actually get is an iterator. Let's make sure the data is a
 working zip file:

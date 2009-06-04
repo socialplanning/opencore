@@ -1,4 +1,4 @@
-from ZPublisher.Iterators import IStreamIterator
+from ZPublisher.Iterators import filestream_iterator
 from opencore.browser.base import BaseView
 from opencore.project.browser import export_utils
 from Acquisition import Explicit
@@ -10,16 +10,15 @@ import simplejson as json
 class ProjectExportView(BaseView):
 
     """
-    Export a project's wiki pages as a zipfile of html.
+    Export a project's content pages as a zipfile of html.
 
-    This needs to happen asynchronously.
-    the export page can report status; when done,
-    show a download link.
-    - if js available, do this nice and ajaxy
-    - if noscript, maybe do a meta refresh? (is noscript legal in <head>?)
+    This is done asynchronously (by a clockserver job that hits
+    another view).  the export page reports status; when done, it
+    shows a download link.
 
-    Another async job could periodically check for old completed
-    exports and delete them, if we care. (eg. greater than 30 days)
+    Another async job could be written to periodically check for old
+    completed exports and delete them, if we care. (eg. greater than
+    30 days)
 
     """
 
@@ -62,7 +61,7 @@ class ProjectExportView(BaseView):
             # I tried to use @post_only, but it mysteriously
             # causes this method not to be available via URL.
             # maybe cuz it messes up the function's name?? shrug.
-            raise Forbidden('GET is not allowed here')
+            raise Forbidden('only POST is allowed for this view')
         queue = export_utils.get_queue(self.context)
         status = export_utils.ExportStatus(self.context.getId())
         queue[status.name] = status
@@ -84,62 +83,22 @@ class ProjectExportView(BaseView):
         self.request.RESPONSE.setHeader('Content-Type', 'application/zip')
         # Tell ZPublisher to serve this file efficiently, freeing up
         # the Zope thread immediately.
-        iterator = FilestreamIterator(open(thezip))
+        iterator = FilestreamIterator(thezip)
         self.request.RESPONSE.setHeader('Content-Length', len(iterator))
         # Needs to be aq-wrapped to satisfy the security machinery.
         return iterator.__of__(self)
 
 
-class FilestreamIterator(Explicit):
+class FilestreamIterator(filestream_iterator, Explicit):
 
     """Wraps a file object and implements ZPublisher.Iterators.IStreamIterator,
     for efficient static file serving.
-
-    We couldn't use the existing implementation at
-    ZPublisher.Iterators.filestream_iterator, because it requires a
-    filename -- but we want to use unnamed temporary files.
-    XXX actually we don't use temp files anymore.
-    XXX Maybe we can just use the ZPublisher one after all?
-
-    I had hoped it would be possible to just do:
-
-       zope.interface.classImplements(file, IStreamIterator)
-
-    ... somewhere, and then just return the file object and have it
-    Just Work.
-
-    But that doesn't work because A) IStreamIterator is an old-style
-    Zope 2 interface, which you can't use with builtin types (aargh),
-    and B) even if I hack Zope to use a zope 3 interface there, it
-    starts to work and then somehow my temporary file gets closed
-    before ZServer is done with it, which makes ZServer die.
+    Also supports acquisition to make security happy.
     """
-
-    __implements__ = (IStreamIterator,)
-
-
-    def __init__(self, afile, streamsize=1<<16):
-        self.__inner = afile
-        self.streamsize = streamsize
-
     def __iter__(self):
         # Standard python iterator protocol.
         # Not really needed by IStreamIterator, but makes testing easier.
         return self
 
-    def next(self):
-        # Standard python iterator protocol.
-        data = self.__inner.read(self.streamsize)
-        if not data:
-            self.__inner.close()
-            raise StopIteration
-        return data
-
-    def __len__(self):
-        # Why don't files implement this already, anyway?
-        cur_pos = self.__inner.tell()
-        self.__inner.seek(0, 2)
-        size = self.__inner.tell()
-        self.__inner.seek(cur_pos, 0)
-        return size
-
+    def __repr__(self):
+        return '<open FilestreamIterator %r at %s>' % (self.name, id(self))
