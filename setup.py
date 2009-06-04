@@ -44,7 +44,6 @@ setup(
         'http://feedparser.googlecode.com/files/feedparser-4.1.zip',
         'http://download.savannah.nongnu.org/releases/pyprof/hprof-0.1.1.tar.gz#egg=hprof',
         'https://svn.openplans.org/svn/opencore/plugins/oc-feed/tags/0.4#egg=oc_feed-0.4',
-        'https://svn.openplans.org/svn/oc-js/tags/0.6.4#egg=oc-js-0.6.4',
         'https://svn.openplans.org/svn/OpencoreRedirect/trunk#egg=OpencoreRedirect-dev',
         'http://svn.red-bean.com/bob/simplejson/trunk/#egg=simplejson-dev',
         'https://svn.openplans.org/svn/ZCMLLoader/trunk#egg=ZCMLLoader',
