@@ -52,7 +52,7 @@ background: url(/++resource++spinning_wheel_throbber.gif) 0 50% no-repeat;
 
   <div>
     <span id="project-export-list-header" tal:attributes="class python: view.available_exports() and ' ' or 'oc-hidden'"
-       i18n:translate="project_export_file_list_heading">Exports available for download (most recent first):</span>
+       i18n:translate="project_export_file_list_heading">Exports available for download (most recent first, maximum of 5):</span>
     <ul id="project-export-list">
       <li tal:repeat="file view/available_exports">
         <a href=""

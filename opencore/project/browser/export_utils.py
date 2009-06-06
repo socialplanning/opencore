@@ -8,6 +8,7 @@ from pkg_resources import resource_stream
 from zipfile import ZipFile
 from zope.app.component.hooks import setSite
 from zope.component import getAdapter
+from zope.component import getAdapters
 from zope.component import getUtility
 import datetime
 import logging
@@ -16,7 +17,6 @@ import re
 import simplejson as json
 import tempfile
 import time
-import transaction
 
 
 TEMP_PREFIX='temp_project_export'
@@ -39,21 +39,34 @@ def log_exception(msg='', level=logging.ERROR):
     msg += f.getvalue()
     logger.log(level=level, msg=msg)
 
+import threading
+_status_lock = threading.Lock()
+_status_dict = {}
 
-_queue = None
-def get_queue(context):
+def get_status(name, cookie=''):
+    """ Get or create an ExportStatus instance for the given id."""
+    _status_lock.acquire()
+    try:
+        if name not in _status_dict:
+            _status_dict[name] = ExportStatus(name, cookie=cookie)
+        return _status_dict[name]
+    finally:
+        _status_lock.release()
+
+
+
+from Queue import Queue, Empty
+_queue = Queue()
+def get_queue():
     # We don't use a persistent queue because there's no meaningful way
     # to resume a job interrupted by eg. server restart.
     # A global will work fine for shared state.
-    from topp.utils.orderedpersistentmapping import SortedDict
-    global _queue
-    if _queue is None:
-        _queue = SortedDict()
     return _queue
 
 def readme():
     text = resource_stream('opencore.project.browser', 'export_readme.txt').read()
     return text
+
 
 
 class ProjectExportQueueView(object):
@@ -69,50 +82,47 @@ class ProjectExportQueueView(object):
     def __init__(self, context, request):
         self.context = context
         self.request = request
-        self.queue = get_queue(self.context)
         self.vardir = config.getConfiguration().clienthome
+        self.maxwait = 30
 
     def __call__(self):
-        count = len(self.queue)
-        for name, status in self.queue.items():
+        count = 0
+        queue = get_queue()
+        starttime = time.time()
+        while True:
+            # Let's wait to see if anything interesting turns
+            # up. This should prevent the users having to wait 0
+            # to 30 seconds for clockserver to call this view.  If
+            # clockserver should happen to fire again while we're
+            # still exporting, that's fine... the queue ensures
+            # that at most one instance of this view consumes a
+            # given item from the queue.  And if the same name
+            # gets stuffed in the queue more than once, the status
+            # dict w/ locking should ensure that only one status
+            # can exist for a given name.
+            timeout = max(0, self.maxwait - (time.time() - starttime))
+            try:
+                name = queue.get(timeout=timeout)
+            except Empty:
+                break
+            status = get_status(name)
             if status.running:
                 logger.info('job already in progress for %r' % name)
-                continue
-            elif status.failed:
-                logger.info('purging old failed job for %r' % name)
-                del(self.queue[name])
-                continue
-            elif status.succeeded:
-                logger.info('purging old finished job for %r' % name)
-                del(self.queue[name])
-                continue
-            elif status.hung:
-                logger.info('purging old hung job for %r' % name)
-                # XXX possibly another thread is still chugging on it.
-                # What can we do about that?
-                # possibly export should be called in a separate
-                # zopectl script process instead, and we'd manage PIDs?
-                del(self.queue[name])
                 continue
             else:
                 try:
                     status.start()
-                    transaction.commit()
                     outfile_path = self.export(name, status)
                     status.finish(outfile_path)
-                    transaction.get().note('Finished job for %r' % name)
-                    transaction.commit()
+                    count += 1
                 except:
-                    transaction.abort()
-                    status.fail()
+                    status.fail() #XXX message
                     log_exception('Failure in export of project %r:\n' 
                                   % name)
-                    transaction.get().note('Failed job for %r' % name)
-                    transaction.commit() # just to get the failure note.
                     # XXX Is there actually any reason to keep the job around?
                     # Maybe failed jobs should be put elsewhere?
         if count:
-            logger.info('Reached end of project export job queue (%d items)'
+            logger.info('Reached end of project export job queue (exported %d)'
                         % count)
             
     def export(self, project_id, status=None):
@@ -125,7 +135,8 @@ class ProjectExportQueueView(object):
           and release lock(s).
         """
         if status is None:
-            status = ExportStatus(project_id)
+            # easier for testing so we can pass in arbitrary status.
+            status = get_status(project_id)
         # We want the zip file to contain useful file names; but out
         # of general paranoia for the end user, let's remove
         # potentially evil character sequences before doing so.  (Which
@@ -183,8 +194,8 @@ class ContentExporter(object):
         sleep()
         self.save_list_archives()
         sleep()
-        #self.save_blogs()
-        #sleep()
+        self.save_blogs()
+        sleep()
 
     def save_docs(self):
         self.status.progress_descr = _(u'Saving documentation')
@@ -235,11 +246,15 @@ class ContentExporter(object):
         
 
     def save_blogs(self):
-        # XXX Check featurelet status
+        # For these we really do need to check featurelet status
+        # so we know what kind of responses, if any, to expect from WP.
+        featurelets = self._get_featurelets(self.context)
+        if 'blog' not in featurelets:
+            return
         self.status.progress_descr = _(u'Saving blog posts')
         url = self.context.absolute_url() + "/blog/wp-admin/export.php?author=all&download=true"
         # Wordpress needs our ac cookie to authorize the download.
-        headers = {'Cookie': self.request.cookies.get('__ac', '')}
+        headers = {'Cookie': self.status.cookie}
         http = getUtility(IHTTPClient)
         http.force_exception_to_status_code = True
         http.timeout = 60
@@ -256,10 +271,20 @@ class ContentExporter(object):
         xml_path = '%s/blog/%s' % (self.context_dirname, filename) 
         self.zipfile.writestr(xml_path, content)
         
+    def _get_featurelets(self, project):
+        from topp.featurelets.interfaces import IFeatureletSupporter
+        from topp.featurelets.supporter import IFeaturelet
+        supporter = IFeatureletSupporter(project)
+        all_flets = [flet for name, flet in getAdapters((supporter,), 
+                                                        IFeaturelet)]
+        installed_flets = [(flet.id, flet) for flet in all_flets 
+                           if flet.installed]
+        installed_flets = dict(installed_flets)
+        return installed_flets
+
 
 class ExportStatus(object):
-    # Not even a state machine, just a little bag of info for querying state.
-    # I kinda wonder if this should just be a dict with some conventions.
+    # This should maybe be a more proper state machine.
 
     QUEUED = 'queued, waiting to start'
     RUNNING = 'running'
@@ -271,7 +296,7 @@ class ExportStatus(object):
     # try some very large project exports to find a good heuristic.
     maxdelta = datetime.timedelta(hours=6)
 
-    def __init__(self, name, state=None):
+    def __init__(self, name, state=None, cookie=''):
         self.name = name
         self.state = state or self.NULL
         self.updatetime = datetime.datetime.utcnow()
@@ -279,6 +304,10 @@ class ExportStatus(object):
         self.path = None
         self.filename = None
         self.progress_descr = _(u'') # More detailed human-readable state info.
+
+        # We need to stash the requesting user's auth cookie somewhere
+        # so the export can talk to wordpress.
+        self.cookie = cookie
 
     @property
     def failed(self):
@@ -306,16 +335,24 @@ class ExportStatus(object):
             return False
         now = datetime.datetime.utcnow()
         return now - self.updatetime < self.maxdelta
-        # XXX we should also check the zope startup time, if that's
-        # possible, and see if that's more recent than self.updatetime
+
+    def queue(self, queue):
+        queue.put(self.name)
+        self.state = self.QUEUED
+        self.updatetime = self.starttime = datetime.datetime.utcnow()
+        self.progress_descr = _(u'')
+        self.filename = None
 
     def start(self):
         self.state = self.RUNNING
         self.updatetime = self.starttime = datetime.datetime.utcnow()
+        self.progress_descr = _(u'')
+        self.filename = None
 
     def finish(self, path):
         # XXX fire an event?
         if self.failed:
+            # Ok, so i guess it is a lame sort of state machine.
             return
         self.path = path
         self.filename = os.path.basename(path)

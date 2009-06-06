@@ -15,7 +15,7 @@
               data: ({ s: "stuff goes here", format: "ajax" }),
               dataType: "html",
               success: function(msg){
-                  $("#project-export").everyTime(4000, "status", function() { //first arg is millisecs, so this will probably need to be revised
+                  $("#project-export").everyTime(3000, "status", function() { //first arg is millisecs, so this will probably need to be revised
 		    $.getJSON('export/current_status_json', function(data) {
 		      if (data.state == "finished")  {
                           $('#project-export').stopTime("status");
@@ -23,12 +23,13 @@
                           $("#project-export-list-header").removeClass("oc-hidden");
                           $("#project-export input[type='submit']").removeAttr("disabled");
                           $("#project-export-list").prepend('<li><a href="export/' + data.filename + '">' + data.filename + '</a>');
+                          $("#project-export-list li:last").remove();
 
                           exportEnabled = true;
                       }
 		      else if (data.state == "failed")  {
                           $('#project-export').stopTime("status");
-                          $("#project-export-status").empty().removeClass("active").append('Failure of some sort');
+                          $("#project-export-status").empty().removeClass("active").append(data.progress);
                           $("#project-export input[type='submit']").removeAttr("disabled");
                           exportEnabled = true;
                       }

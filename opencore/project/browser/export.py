@@ -35,19 +35,22 @@ class ProjectExportView(BaseView):
         path = export_utils.getpath(self.context.getId(), self.vardir)
         zips = [f for f in os.listdir(path) if 
                 (f.endswith('.zip') and not f.startswith(export_utils.TEMP_PREFIX))]
-        return sorted(zips, reverse=True)
+        zips.sort(reverse=True)
+        # don't want to pile up zip files forever...
+        # in lieu of a UI or a sensible policy, we'll just keep the last 5
+        zips, excess_zips = zips[:5], zips[5:]
+        for f in excess_zips:
+            os.unlink(os.path.join(path, f))
+        return zips
 
     def available_exports_json(self):
-        """yup, it's json"""
+        """json representation"""
         return json.dumps(self.available_exports())
 
     def current_status(self):
-        queue = export_utils.get_queue(self.context)
-        try:
-            return queue[self.context.getId()]
-        except KeyError:
-            # set up a null status, not in the queue.
-            return export_utils.ExportStatus(self.context.getId())
+        cookie=self.request.cookies.get('__ac', '')
+        status = export_utils.get_status(self.context.getId(), cookie=cookie)
+        return status
 
     def current_status_json(self):
         """Current export status, as json. """
@@ -61,10 +64,10 @@ class ProjectExportView(BaseView):
             # causes this method not to be available via URL.
             # maybe cuz it messes up the function's name?? shrug.
             raise Forbidden('only POST is allowed for this view')
-        queue = export_utils.get_queue(self.context)
-        status = export_utils.ExportStatus(self.context.getId())
-        queue[status.name] = status
-        status.state = status.QUEUED
+        queue = export_utils.get_queue()
+        status = self.current_status()
+        # XXX should check state here.
+        status.queue(queue)
         return status.json()
  
     def __getitem__(self, name):
