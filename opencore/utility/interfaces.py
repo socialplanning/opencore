@@ -1,4 +1,6 @@
+from zope.interface import Attribute
 from zope.interface import Interface
+
 
 class IHTTPClient(Interface):
     """
@@ -43,6 +45,10 @@ class IHTTPClient(Interface):
         being and instance of the 'Response' class, the second being 
         a string that contains the response entity body.
         """
+
+    force_exception_to_status_code = Attribute(
+        "Boolean, whether to turn exceptions into responses with an error status")
+
 
 class IEmailSender(Interface):
     """

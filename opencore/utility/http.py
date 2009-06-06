@@ -11,7 +11,8 @@ class HTTPClient(Http):
     implements(IHTTPClient)
     
     def request(self, uri, method="GET", body=None, headers={},
-                redirections=DEFAULT_MAX_REDIRECTS, connection_type=None):
+                redirections=DEFAULT_MAX_REDIRECTS, connection_type=None,
+                force_exception_to_status_code=False):
         """
         Inject Connection=close into the HTTP request headers.
         """
