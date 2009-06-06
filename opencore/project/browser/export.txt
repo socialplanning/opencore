@@ -234,7 +234,7 @@ working zip file:
 
     >>> import StringIO
     >>> output = StringIO.StringIO()
-    >>> for bytes in export[zipname]:
+    >>> for bytes in export[zipname].read():
     ...     output.write(bytes)
     >>> z = zipfile.ZipFile(output, 'r')
     >>> sorted(z.namelist()) == exported_files
