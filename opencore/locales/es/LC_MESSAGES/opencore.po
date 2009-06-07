@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: opencore\n"
-"POT-Creation-Date: 2009-05-28 20:11+0000\n"
+"POT-Creation-Date: 2009-06-07 19:45+0000\n"
 "PO-Revision-Date: 2008-06-02 22:20+0200\n"
 "Last-Translator: Pierre George <pierregrg@gmail.com>\n"
 "Language-Team: OpenFSM Team <openfsm@lists.openfsm.net>\n"
@@ -66,7 +66,7 @@ msgid "Join Project"
 msgstr ""
 
 #. Default: "News"
-#: ./opencore/nui/main/home.pt:103
+#: ./opencore/nui/main/home.pt:104
 msgid "News"
 msgstr ""
 
@@ -975,12 +975,12 @@ msgid "home_newest_projects"
 msgstr "Nuevos ${project_noun}s"
 
 #. Default: "by"
-#: ./opencore/nui/main/home.pt:116
+#: ./opencore/nui/main/home.pt:119
 msgid "home_news_item_by"
 msgstr ""
 
 #. Default: "more news…"
-#: ./opencore/nui/main/home.pt:125
+#: ./opencore/nui/main/home.pt:128
 msgid "home_news_more_link"
 msgstr ""
 
@@ -1726,7 +1726,7 @@ msgid "news_read_more"
 msgstr "Leer mas…"
 
 #. Default: "${portal_title} News"
-#: ./opencore/nui/main/home.pt:106
+#: ./opencore/nui/main/home.pt:108
 msgid "news_section_heading"
 msgstr ""
 

@@ -54,7 +54,7 @@ msgstr "Edit"
 msgid "Join Project"
 msgstr "Join Project"
 #. Default: "News"
-#: ./opencore/nui/main/home.pt:103
+#: ./opencore/nui/main/home.pt:104
 msgid "News"
 msgstr "News"
 #. Default: "No"
@@ -827,11 +827,11 @@ msgstr "home_learn_more"
 msgid "home_newest_projects"
 msgstr "home_newest_projects"
 #. Default: "by"
-#: ./opencore/nui/main/home.pt:116
+#: ./opencore/nui/main/home.pt:119
 msgid "home_news_item_by"
 msgstr "home_news_item_by"
 #. Default: "more news…"
-#: ./opencore/nui/main/home.pt:125
+#: ./opencore/nui/main/home.pt:128
 msgid "home_news_more_link"
 msgstr "home_news_more_link"
 #. Default: "You want to <strong>make a difference</strong>, we want to <strong>make it easy</strong>. OpenPlans is the simple way to bring groups together, promote your cause, make plans, manage projects, and get things done."
@@ -1415,7 +1415,7 @@ msgstr "news_add_item"
 msgid "news_read_more"
 msgstr "news_read_more"
 #. Default: "${portal_title} News"
-#: ./opencore/nui/main/home.pt:106
+#: ./opencore/nui/main/home.pt:108
 msgid "news_section_heading"
 msgstr "news_section_heading"
 #. Default: "Please enter a password"
