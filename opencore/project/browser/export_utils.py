@@ -252,22 +252,30 @@ class ContentExporter(object):
         if 'blog' not in featurelets:
             return
         self.status.progress_descr = _(u'Saving blog posts')
-        url = self.context.absolute_url() + "/blog/wp-admin/export.php?author=all&download=true"
+        from opencore.utility.interfaces import IProvideSiteConfig
+        config = getUtility(IProvideSiteConfig)
+
+        # Ugh, this smells like the wrong way to get the correct URL,
+        # but the clockserver job is internal to zope and hence
+        # the current request doesn't know the virtual host info we want.
+        base_url = config.get('deliverance uri')
+        url = base_url + '/projects/' + self.context.getId()
+        url += '/blog/wp-admin/export.php?author=all&download=true'
+
         # Wordpress needs our ac cookie to authorize the download.
-        headers = {'Cookie': self.status.cookie}
+        headers = {'Cookie': '__ac=' + self.status.cookie}
         http = getUtility(IHTTPClient)
-        http.force_exception_to_status_code = True
+        http.force_exception_to_status_code = False
         http.timeout = 60
         response, content = http.request(url, 'GET', headers=headers)
         if int(response['status']) >= 400:
-            self.status.fail('%s failure: %s' % (response['status'], content))
-            return
+            #self.status.fail('%s failure: %s' % (response['status'], content))
+            raise RuntimeError("Failure connecting to wordpress: %s" % content)
         # Weirdly, we get a 200 response if the blog doesn't exist.
         if content[:30].lower().startswith('no blog by that name'):
             # There are no blog posts to export, that's fine.
             return
-        # XXX get the filename from resp header Content-Disposition: attachment; filename=wordpress.2009-06-04.xml
-        filename = 'XXX'
+        filename = response['content-disposition'].split('filename=')[-1]
         xml_path = '%s/blog/%s' % (self.context_dirname, filename) 
         self.zipfile.writestr(xml_path, content)
         

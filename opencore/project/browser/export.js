@@ -23,7 +23,9 @@
                           $("#project-export-list-header").removeClass("oc-hidden");
                           $("#project-export input[type='submit']").removeAttr("disabled");
                           $("#project-export-list").prepend('<li><a href="export/' + data.filename + '">' + data.filename + '</a>');
-                          $("#project-export-list li:last").remove();
+			    // don't want to remove unless there's "too many".
+			// we should just replace the whole list
+                          // $("#project-export-list li:last").remove();
 
                           exportEnabled = true;
                       }

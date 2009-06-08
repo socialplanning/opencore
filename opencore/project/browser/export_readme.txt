@@ -22,3 +22,14 @@ An exported zip file will contain the following subfolders:
        subscriber's login id, full name if provided, and email address.
 
   
+  blog/
+
+    If your project has blogs turned off in the preferences, there
+    will be nothing here.
+
+    If you have blogs turned on, this folder contains an export of all
+    posts and comments on your blog. It is saved in Wordpress' usual
+    Extended RSS (WXR) format, which doesn't seem to be documented
+    anywhere, but Wordpress can import it and it's a fairly simple
+    flavor of XML if you need to dig into it more deeply.
+
