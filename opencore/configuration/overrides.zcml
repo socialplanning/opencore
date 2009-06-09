@@ -9,4 +9,6 @@
   <include package="opencore.configuration.exportimport" file="overrides.zcml" />
   <include package="opencore.xinha" file="overrides.zcml" />
 
+  <include package="opencore.project.browser" file="overrides.zcml" />
+
 </configure>

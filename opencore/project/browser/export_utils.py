@@ -18,6 +18,10 @@ import simplejson as json
 import tempfile
 import time
 
+from Products.listen.interfaces import IMembershipList
+from Products.listen.lib.common import lookup_member_id
+
+
 
 TEMP_PREFIX='temp_project_export'
 
@@ -390,3 +394,44 @@ def getpath(project_id, vardir=None):
     if not os.path.isdir(path):
         os.makedirs(path)
     return path
+
+
+class EnhancedSubscriberExporter(object):
+    """ 
+    Exports subscribers and also non-subscribed allowed senders.
+    """
+
+    def __init__(self, context):
+        self.context = context
+
+    def export_subscribers(self):
+        """ Returns CSV string of subscriber data """
+        # copy-pasted from listen because listen's not factored in a way
+        # that i can reuse this code
+        # (from listen.extras:MailingListSubscriberExporter).
+
+        ml = IMembershipList(self.context)
+        cat = getToolByName(self.context, 'portal_catalog')
+        md = getToolByName(self.context, 'portal_memberdata')
+        md_path = '/'.join(md.getPhysicalPath())
+        file_data = []
+
+        for email in ml.subscribers:
+            memid = lookup_member_id(email, self.context)
+            if memid:
+                metadata = cat.getMetadataForUID('%s/%s' % (md_path, memid))
+                # title gives the user's full name. It might be a good idea
+                # to get the full object so we can directly access the full
+                # name, but that'd be more expensive...
+                title = metadata['Title']
+            else: # e-mail only subscriber 
+                memid = title = ""
+            file_data.append(','.join([memid, title, email, 'subscribed']))
+
+        for email, info in ml.allowed_senders_data.items():
+            if info['subscriber']:
+                continue
+            file_data.append(','.join(['', '', email, 'allowed']))
+            
+
+        return "\n".join(file_data)
