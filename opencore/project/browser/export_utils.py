@@ -27,7 +27,7 @@ TEMP_PREFIX='temp_project_export'
 
 TEST=0
 
-logger = logging.getLogger('opencore.project.export') #XXX
+logger = logging.getLogger('opencore.project.browser')
 
 badchars = re.compile(r'\W+')
 
@@ -118,8 +118,8 @@ class ProjectExportQueueView(object):
                     outfile_path = self.export(name, status)
                     status.finish(outfile_path)
                     count += 1
-                except:
-                    status.fail() #XXX message
+                except Exception, s:
+                    status.fail(str(s))
                     log_exception('Failure in export of project %r:\n' 
                                   % name)
                     # XXX Is there actually any reason to keep the job around?
@@ -227,6 +227,7 @@ class ContentExporter(object):
             # iterate over the horrid pdata chain, writing it to a
             # temp file on disk, and then use
             # azipfile.write(filename).
+            
             self.zipfile.writestr(out_path, str(obj))
             
 

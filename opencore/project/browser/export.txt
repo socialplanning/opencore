@@ -98,7 +98,7 @@ The queue starts empty:
     <Queue.Queue instance at ...>
     >>> queue.empty()
     True
-    >>> self._start_log_capture(subsystem='opencore.project.export')
+    >>> self._start_log_capture(subsystem='opencore.project.browser')
     >>> qview.maxwait = 0  # turn off blocking timeout for tests.
     >>> qview()  # nothing happens.
     >>> print self.logged
