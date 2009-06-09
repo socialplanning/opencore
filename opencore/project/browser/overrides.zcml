@@ -1,0 +1,18 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:five="http://namespaces.zope.org/five"
+    xmlns:browser="http://namespaces.zope.org/browser"
+    xmlns:meta="http://namespaces.zope.org/meta"
+    i18n_domain="opencore"
+    >
+
+  <adapter
+     for="Products.listen.interfaces.IMailingList"
+     provides="Products.listen.interfaces.IMailingListSubscriberExport"
+     factory=".export_utils.EnhancedSubscriberExporter"
+     name="csv"
+     />
+
+
+
+</configure>
