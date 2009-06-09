@@ -43,16 +43,15 @@ import threading
 _status_lock = threading.Lock()
 _status_dict = {}
 
-def get_status(name, cookie=''):
-    """ Get or create an ExportStatus instance for the given id."""
+def get_status(name, cookie='', context_url=''):
+    """ Get or create an ExportStatus instance for the given identifier."""
     _status_lock.acquire()
     try:
         if name not in _status_dict:
-            _status_dict[name] = ExportStatus(name, cookie=cookie)
+            _status_dict[name] = ExportStatus(name, context_url, cookie=cookie)
         return _status_dict[name]
     finally:
         _status_lock.release()
-
 
 
 from Queue import Queue, Empty
@@ -255,12 +254,8 @@ class ContentExporter(object):
         from opencore.utility.interfaces import IProvideSiteConfig
         config = getUtility(IProvideSiteConfig)
 
-        # Ugh, this smells like the wrong way to get the correct URL,
-        # but the clockserver job is internal to zope and hence
-        # the current request doesn't know the virtual host info we want.
-        base_url = config.get('deliverance uri')
-        url = base_url + '/projects/' + self.context.getId()
-        url += '/blog/wp-admin/export.php?author=all&download=true'
+        url = '%s/%s' % (self.status.context_url,
+                         '/blog/wp-admin/export.php?author=all&download=true')
 
         # Wordpress needs our ac cookie to authorize the download.
         headers = {'Cookie': '__ac=' + self.status.cookie}
@@ -273,7 +268,8 @@ class ContentExporter(object):
             raise RuntimeError("Failure connecting to wordpress: %s" % content)
         # Weirdly, we get a 200 response if the blog doesn't exist.
         if content[:30].lower().startswith('no blog by that name'):
-            # There are no blog posts to export, that's fine.
+            raise RuntimeError('Blog for project %r should exist but does not' 
+                               % self.context.getId())
             return
         filename = response['content-disposition'].split('filename=')[-1]
         xml_path = '%s/blog/%s' % (self.context_dirname, filename) 
@@ -304,7 +300,7 @@ class ExportStatus(object):
     # try some very large project exports to find a good heuristic.
     maxdelta = datetime.timedelta(hours=6)
 
-    def __init__(self, name, state=None, cookie=''):
+    def __init__(self, name, state=None, cookie='', context_url=''):
         self.name = name
         self.state = state or self.NULL
         self.updatetime = datetime.datetime.utcnow()
@@ -316,6 +312,9 @@ class ExportStatus(object):
         # We need to stash the requesting user's auth cookie somewhere
         # so the export can talk to wordpress.
         self.cookie = cookie
+        # We also need to record the original URL early, since this can't be
+        # easily reconstructed during a clockserver request.
+        self.context_url = context_url
 
     @property
     def failed(self):

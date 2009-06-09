@@ -48,8 +48,10 @@ class ProjectExportView(BaseView):
         return json.dumps(self.available_exports())
 
     def current_status(self):
-        cookie=self.request.cookies.get('__ac', '')
-        status = export_utils.get_status(self.context.getId(), cookie=cookie)
+        cookie = self.request.cookies.get('__ac', '')
+        name = self.context.getId()
+        url = self.context.absolute_url()
+        status = export_utils.get_status(name, context_url=url, cookie=cookie)
         return status
 
     def current_status_json(self):
