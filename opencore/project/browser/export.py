@@ -1,7 +1,7 @@
+from Acquisition import Explicit
 from ZPublisher.Iterators import filestream_iterator
 from opencore.browser.base import BaseView
 from opencore.project.browser import export_utils
-from Acquisition import Explicit
 from zExceptions import Forbidden
 import os
 import simplejson as json
