@@ -2,25 +2,30 @@ from App import config
 from Products.CMFCore.utils import getToolByName
 from Products.listen.interfaces import IMailingListMessageExport
 from Products.listen.interfaces import IMailingListSubscriberExport
+from Products.listen.interfaces import IMembershipList
+from Products.listen.lib.common import lookup_member_id
+from Queue import Queue, Empty
 from opencore.i18n import _, translate
 from opencore.utility.interfaces import IHTTPClient
+from opencore.utility.interfaces import IProvideSiteConfig
 from pkg_resources import resource_stream
+from topp.featurelets.interfaces import IFeatureletSupporter
+from topp.featurelets.supporter import IFeaturelet
 from zipfile import ZipFile
 from zope.app.component.hooks import setSite
 from zope.component import getAdapter
 from zope.component import getAdapters
 from zope.component import getUtility
+import StringIO
 import datetime
 import logging
 import os
 import re
 import simplejson as json
 import tempfile
+import threading
 import time
-
-from Products.listen.interfaces import IMembershipList
-from Products.listen.lib.common import lookup_member_id
-
+import traceback
 
 
 TEMP_PREFIX='temp_project_export'
@@ -37,13 +42,12 @@ def log_exception(msg='', level=logging.ERROR):
     at the given level (default ERROR).
     """
     # XXX should be in topp.utils or some such.
-    import StringIO, traceback
     f = StringIO.StringIO()
     traceback.print_exc(file=f)
     msg += f.getvalue()
     logger.log(level=level, msg=msg)
 
-import threading
+
 _status_lock = threading.Lock()
 _status_dict = {}
 
@@ -58,7 +62,6 @@ def get_status(name, cookie='', context_url=''):
         _status_lock.release()
 
 
-from Queue import Queue, Empty
 _queue = Queue()
 def get_queue():
     # We don't use a persistent queue because there's no meaningful way
@@ -256,7 +259,6 @@ class ContentExporter(object):
         if 'blog' not in featurelets:
             return
         self.status.progress_descr = _(u'Saving blog posts')
-        from opencore.utility.interfaces import IProvideSiteConfig
         config = getUtility(IProvideSiteConfig)
 
         url = '%s/%s' % (self.status.context_url,
@@ -281,8 +283,6 @@ class ContentExporter(object):
         self.zipfile.writestr(xml_path, content)
         
     def _get_featurelets(self, project):
-        from topp.featurelets.interfaces import IFeatureletSupporter
-        from topp.featurelets.supporter import IFeaturelet
         supporter = IFeatureletSupporter(project)
         all_flets = [flet for name, flet in getAdapters((supporter,), 
                                                         IFeaturelet)]
