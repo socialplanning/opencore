@@ -56,7 +56,8 @@ def get_status(name, cookie='', context_url=''):
     _status_lock.acquire()
     try:
         if name not in _status_dict:
-            _status_dict[name] = ExportStatus(name, context_url, cookie=cookie)
+            _status_dict[name] = ExportStatus(name, context_url=context_url,
+                                              cookie=cookie)
         return _status_dict[name]
     finally:
         _status_lock.release()
