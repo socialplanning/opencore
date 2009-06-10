@@ -225,13 +225,22 @@ class ContentExporter(object):
         for afile in self.catalog(portal_type=("FileAttachment", "Image"), path=self.path):
             obj = afile.getObject()
             out_path = '%s/pages/%s' % (self.context_dirname, afile.getId)
-            # XXX this will be very bad for big files, since it loads
-            # the whole file into memory!  it would be much better to
-            # iterate over the horrid pdata chain, writing it to a
-            # temp file on disk, and then use
-            # azipfile.write(filename).
-            
-            self.zipfile.writestr(out_path, str(obj))
+            if isinstance(obj.data, basestring):
+                self.zipfile.writestr(out_path, str(obj))
+                continue
+            # For large files, to avoid loading it all into memory,
+            # we iterate over the data chain and write directly to disk,
+            # then zip it afterward.
+            data = obj.data
+            temp = tempfile.NamedTemporaryFile(delete=True)
+            try:
+                while data is not None:
+                    temp.write(data)
+                    data = data.next
+                self.zipfile.write(temp.name, out_path)
+            finally:
+                temp.close()
+
             
 
     def save_list_archives(self):
