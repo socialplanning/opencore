@@ -68,7 +68,6 @@ class ProjectExportView(BaseView):
             raise Forbidden('only POST is allowed for this view')
         queue = export_utils.get_queue()
         status = self.current_status()
-        # XXX should check state here.
         status.queue(queue)
         return status.json()
  

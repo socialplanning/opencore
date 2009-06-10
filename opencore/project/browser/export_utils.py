@@ -349,6 +349,8 @@ class ExportStatus(object):
         return now - self.updatetime < self.maxdelta
 
     def queue(self, queue):
+        if self.running or self.queued:
+            return
         queue.put(self.name)
         self.state = self.QUEUED
         self.updatetime = self.starttime = datetime.datetime.utcnow()
