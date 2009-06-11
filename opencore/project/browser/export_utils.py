@@ -30,7 +30,9 @@ import traceback
 
 TEMP_PREFIX='temp_project_export'
 
-TEST=0
+# For interactive testing, it's useful to be able to slow things down
+# and watch progress.
+TEST_SLEEPTIME=0
 
 logger = logging.getLogger('opencore.project.browser')
 
@@ -187,12 +189,7 @@ class ContentExporter(object):
         self.catalog = getToolByName(self.context, "portal_catalog")
 
     def save(self):
-        if TEST:
-            # For interactive testing, it's useful to be able to slow
-            # things down and watch progress.
-            sleep = lambda: time.sleep(5)
-        else:
-            sleep = lambda: None
+        sleep = lambda: time.sleep(TEST_SLEEPTIME)
         self.save_docs()
         sleep()
         self.save_wiki_pages()
