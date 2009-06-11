@@ -23,7 +23,7 @@ class SyncUsersView(BaseView):
         params['signature'] = sig = sig.encode('base64').strip()
 
         all_member_view = self.context.people.restrictedTraverse('all.xml')
-        all_member_data = all_member_view()
+        all_member_data = all_member_view().encode('utf8')
         params['members'] = all_member_data
 
         params = urllib.urlencode(params)
