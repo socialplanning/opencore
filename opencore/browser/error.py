@@ -92,7 +92,11 @@ class ErrorReporter(BaseView):
             expected = self.request.form.get('oc-expected', '')
             mto = portal.getProperty('email_from_address')
             email_sender = IEmailSender(portal)
-
+            user = self.loggedinmember
+            if not user:
+                user_id = ''
+            else:
+                user_id = user.id  # works both for admin and remember members.
             user_email = self.request.form.get('oc-user-email', '').strip()
             if not user_email:
                 domain = urlparse.urlparse(self.request.getURL())[1]
@@ -100,7 +104,7 @@ class ErrorReporter(BaseView):
                     domain = domain[len('www.'):]
                 user_email = "anonymous@%s" % domain
 
-            msg = ('On %(time)s, %(user_email)s went to the URL %(url)s.\n\n'
+            msg = ('On %(time)s, %(user_id)s <%(user_email)s> went to the URL %(url)s.\n\n'
                    'Did: %(did)s\n\nExpected: %(expected)s\n\nTraceback: %(traceback)s' % locals())
             site = portal.getProperty('title', 'Untitled site')
             email_sender.sendMail(mto, msg, '[%s] site error report' % site,
