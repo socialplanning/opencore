@@ -7,9 +7,9 @@ Features Added:
     any. (slinkp)
 
   * Project content export is now linked from the top nav, and
-    includes: wiki pages, mailing list archive as an mbox file,
-    mailing list subscribers and allowed senders as a csv file, and
-    blog pages as a WXR file. (slinkp)
+    includes: wiki pages, file and image attachments, mailing list
+    archive as an mbox file, mailing list subscribers and allowed
+    senders as a csv file, and blog pages as a WXR file. (slinkp)
     
     Export is done asynchronously with an ajax UI in case it takes a
     long time. (slinkp)
