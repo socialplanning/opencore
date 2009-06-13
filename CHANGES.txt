@@ -3,6 +3,10 @@
 
 Features Added:
 
+  * IWikiHistory page history cache objects now have a resync_history_cache
+    method that will resync the cache w/ the canonical history in the
+    portal_repository tool. (rafrombrc)
+
   * submit-error-report now also includes the logged in user id, if
     any. (slinkp)
 
@@ -81,6 +85,9 @@ Features Added:
  
 
 Bugs Fixed:
+
+  * Fixed incorrect timestamp recorded in the history cache during page
+    edits. (rafrombrc)
 
   * Added exception handling code to email_sender's delivery code to
     account for the different APIs of different MailHost implementations.
