@@ -8,6 +8,9 @@ app=makerequest(app)
 import transaction
 from zope.app.component.hooks import setSite
 from opencore.nui.wiki.interfaces import IWikiHistory
+from logging import getLogger, INFO
+
+logger = getLogger('opencore.resync-page-history-caches')
 
 n = app.openplans
 setSite(n)
@@ -24,11 +27,15 @@ for page_brain in page_brains:
         # couldn't adapt, we don't cache history, skip it
         continue
     cache.resync_history_cache()
+    logger.log(INFO, '%s history cache updated' % page_brain.getPath())
     i += 1
     if i == batch:
-        transaction.get().note('incremental page history sync commit: %d'
-                               % batch)
+        msg = 'incremental page history sync commit: %d' % batch
+        transaction.get().note(msg)
         transaction.commit()
+        logger.log(INFO, msg)
         i = 0
+
 transaction.get().note('final page history sync commit: %d' % i)
 transaction.commit()
+logger.log(INFO, 'FINISHED!')
