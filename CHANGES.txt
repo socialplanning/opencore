@@ -3,6 +3,11 @@
 
 Features Added:
 
+  * added 'resync-page-history-caches.py' zopectl script in the
+    migrations directory which will go through and call resync_history_cache
+    for every page in the site.  yes, it takes a long time.  :)
+    (rafrombrc)
+
   * IWikiHistory page history cache objects now have a resync_history_cache
     method that will resync the cache w/ the canonical history in the
     portal_repository tool. (rafrombrc)
