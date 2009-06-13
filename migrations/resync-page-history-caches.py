@@ -20,7 +20,12 @@ batch = 200
 page_brains = cat(Type='Page')
 i = 0
 for page_brain in page_brains:
-    page = page_brain.getObject()
+    try:
+        page = page_brain.getObject()
+    except AttributeError:
+        # catalog ghost... might as well clear it out
+        cat._catalog.uncatalogObject(page_brain.getPath())
+        continue
     try:
         cache = IWikiHistory(page)
     except TypeError:
