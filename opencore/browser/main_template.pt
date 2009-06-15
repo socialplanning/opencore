@@ -55,7 +55,9 @@
     <tal:extra-head replace="structure provider:opencore.extra.head" />
 
   </head>  
-  <body>
+  <body tal:define="user_class python:not view.loggedin and 'anonymous' or '';
+                    context_class python:not view.piv.inProject and 'non-project' or ''"
+        tal:attributes="class string:${user_class} ${context_class}">
     <div id="oc-page-container">
       
       
