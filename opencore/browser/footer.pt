@@ -27,7 +27,7 @@
     since
     <span i18n:name="site_birthdate" tal:replace="string:${view/dob}" />.<br />
     &copy; 2005 - 2009 <a tal:attributes="href context/@@oc-utils/topp_url">The Open Planning Project</a>
-    <br />Powered by <a tal:attributes="href string:${projects_url}/opencore/">OpenCore</a>
+    <br />Powered by <a href="http://www.coactivate.org/projects/opencore/">OpenCore</a>
   </div>
 
 </div>
