@@ -235,8 +235,8 @@ respect the global configuration, let's confirm by patching that:
    'http://nohost/plone/projects/proj1'
    >>> view.project_url(project='proj1')
    'http://nohost/plone/projects/proj1'
-   >>> view.project_url(page='somepage')
-   'http://nohost/plone/projects/somepage'
+   >>> view.project_url(page='somepage')  # Ignored if there's no project
+   'http://nohost/plone/projects'
    >>> view.project_url(project='proj2', page='another')
    'http://nohost/plone/projects/proj2/another'
  
