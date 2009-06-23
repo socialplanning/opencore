@@ -73,8 +73,9 @@ class BaseView(BrowserView):
           None, then the URL of the projects folder will be returned.
 
         o page: id of a page within the project.  If provided, the URL
-          for the page is returned instead of the project's URL.  Will
-          be ignored if project is None.
+          for the page is returned instead of the project's URL.  If
+          project is None, will be relative to the container of
+          projects.
 
         o path: if True, then the absolute physical path will be
           returned instead of the URL.
@@ -85,9 +86,9 @@ class BaseView(BrowserView):
             prefix = '/'.join(pfolder.getPhysicalPath())
         else:
             prefix = pfolder.absolute_url()
-        if project is None:
-            return prefix
-        parts = [prefix, project]
+        parts = [prefix]
+        if project is not None:
+            parts.append(project)
         if page is not None:
             parts.append(page)
         return '/'.join(parts)
