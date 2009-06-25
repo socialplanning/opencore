@@ -1,6 +1,12 @@
 0.17.1 (unreleased)
 ===================
 
+Features Added:
+
+ * Added 'resync-page-history-caches' migration zopectl script which will
+   resynchronize all of the page history caches in the entire site
+   (rafrombrc)
+
 Bugs Fixed:
 
  * Use English text as the default-of-last-resort for all internationalized
