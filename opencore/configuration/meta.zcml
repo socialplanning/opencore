@@ -1,5 +1,4 @@
 <configure xmlns="http://namespaces.zope.org/zope">
-  <!-- addform meta goes here too -->
   <include package="opencore.project" file="meta.zcml" />
   <include package="opencore.browser.topnav" file="meta.zcml" />
 </configure>
