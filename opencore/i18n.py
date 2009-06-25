@@ -78,6 +78,14 @@ class ProjectNounAwareTranslationDomain(TranslationDomain):
     intended to be registered as an override. when opencore
     upgrades to a more recent version of zope.i18n with the
     recursive translation feature, this should be discarded.
+
+    ...but it can't be registered as an override, because the
+    `registerTranslations` directive initializes and registers
+    TranslationDomain objects directly instead of using ZCA
+    component lookup (actually there doesn't seem to be any
+    factory component so i'm not sure how else to do it) ..
+    so instead we'll register an override of `registerTranslations`
+    (below) which forks the original to register these guys.
     """
 
     def translate(self, msgid, mapping=None, context=None,
