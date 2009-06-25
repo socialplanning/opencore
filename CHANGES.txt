@@ -3,6 +3,9 @@
 
 Bugs Fixed:
 
+ * Use English text as the default-of-last-resort for all internationalized
+   strings if no translation is available in a given language. (egj)
+
  * Requesting membership to a project when the user already has a pending
    membership no longer causes a site error if the project's title contains
    non-ASCII characters. (#2807) (egj, tcoulter)

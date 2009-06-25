@@ -13,6 +13,38 @@ def translate(msgid, domain=i18n_domain, mapping=None, context=None,
     """
     kw = dict(mapping=mapping, context=context,
               target_language=target_language, default=default)
+
+    # if no translation is available in the desired language,
+    # and no default is specified, use the english translation
+    # as a fallback; better that than "email_to_pending_user"
+    if default is None:
+        default_kw = dict(kw)
+        default_kw['target_language'] = 'en'
+
+        if isinstance(msgid, zope.i18nmessageid.Message):
+            # Messages have a read-only mapping; we can make a copy to stuff
+            # our mapping in there.
+
+            # msgid.domain may return None; if it does, TranslationDomain.translate
+            # will clobber its own translation domain with None from the msgid object,
+            # and then we'll get a component lookup error (luckily we have a test in
+            # opencore/utility/email-sender.txt L39 that managed to trip this wire)
+            msgid = zope.i18nmessageid.Message(msgid, domain=i18n_domain)
+
+        default = getUtility(ITranslationDomain,
+                             i18n_domain).translate(msgid, **default_kw)
+        # zope.i18n.translationdomain:TranslationDomain.translate says
+        # that MessageID attributes override arguments, so it's safe to
+        # just stuff these all in, i think
+        kw['default'] = default
+
+        # Products.Five.i18n @L38 clobbers kw['default'] with msgid.default
+        # so we need to trick it.
+        if isinstance(msgid, zope.i18nmessageid.Message):
+            # Messages have a read-only mapping; we can make a copy to stuff
+            # our mapping in there.
+            msgid = zope.i18nmessageid.Message(msgid, default=default)
+
     return utranslate(domain, msgid, **kw)
 
 from zope.component import getUtility
