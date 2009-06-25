@@ -3,11 +3,16 @@
 
 Features Added:
 
- * Added 'resync-page-history-caches' migration zopectl script which will
+ * Added resync_history_cache method to AnnotationCachedWikiHistory class
+   and resync-page-history-caches.py migration zopectl script which will
    resynchronize all of the page history caches in the entire site
    (rafrombrc)
 
 Bugs Fixed:
+
+ * Use the current time when updating the modification date in the history
+   cache instead of page.modified(), since that will actually represent the
+   time of the _previous_ edit (rafrombrc)
 
  * Use English text as the default-of-last-resort for all internationalized
    strings if no translation is available in a given language. (egj)
