@@ -19,16 +19,15 @@
     <span i18n:name="portal_title" tal:replace="string:${view/portal_title}" /> is
     <a tal:attributes="href people_url">
       <span i18n:name="num_people" tal:replace="string:${view/nusers}"/>
-      people
-    </a>
+      people</a>
     and
     <a tal:attributes="href projects_url">
       <span i18n:name="num_projects" tal:replace="string:${view/projects_served_count}"/>
-      <span i18n:name="project_noun" tal:replace="view/project_noun">project</span>s
-    </a>
+      <span i18n:name="project_noun" tal:replace="view/project_noun">project</span>s</a>
     since
     <span i18n:name="site_birthdate" tal:replace="string:${view/dob}" />.<br />
-    &copy; 2007 <a tal:attributes="href context/@@oc-utils/topp_url">The Open Planning Project</a>
+    &copy; 2005 - 2009 <a tal:attributes="href context/@@oc-utils/topp_url">The Open Planning Project</a>
+    <br />Powered by <a href="http://www.coactivate.org/projects/opencore/">OpenCore</a>
   </div>
 
 </div>
