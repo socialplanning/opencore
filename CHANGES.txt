@@ -3,11 +3,6 @@
 
 Features Added:
 
-  * added 'resync-page-history-caches.py' zopectl script in the
-    migrations directory which will go through and call resync_history_cache
-    for every page in the site.  yes, it takes a long time.  :)
-    (rafrombrc)
-
   * IWikiHistory page history cache objects now have a resync_history_cache
     method that will resync the cache w/ the canonical history in the
     portal_repository tool. (rafrombrc)
@@ -19,7 +14,7 @@ Features Added:
     includes: wiki pages, file and image attachments, mailing list
     archive as an mbox file, mailing list subscribers and allowed
     senders as a csv file, and blog pages as a WXR file. (slinkp)
-    
+
     Export is done asynchronously with an ajax UI in case it takes a
     long time. (slinkp)
 
@@ -87,7 +82,7 @@ Features Added:
 
   * More info at the /stats view (try the link to active project stats)
     (pw)
- 
+
 
 Bugs Fixed:
 
@@ -112,6 +107,52 @@ Bugs Fixed:
 
   * Add some tweaks to the MailHost mock that the tests use so it will act
     nicely in places where the code expects a MaildropHost. (rafrombrc)
+
+
+0.17.1 (UNRELEASED)
+===================
+
+Features Added:
+
+ * Added 'resync-page-history-caches.py' zopectl script in the migrations
+   directory which will go through and call resync_history_cache for
+   every page in the site.  yes, it takes a long time.  :) (rafrombrc)
+
+Bugs Fixed:
+
+ * Use English text as the default-of-last-resort for all internationalized
+   strings if no translation is available in a given language. (egj)
+
+ * Requesting membership to a project when the user already has a pending
+   membership no longer causes a site error if the project's title contains
+   non-ASCII characters. (#2807) (egj, tcoulter)
+
+ * Account confirmation emails containing non-ASCII text were getting their
+   click-to-confirm URL mangled. Confirmation emails are now properly
+   encoded to quoted-printable to fix this. (#2808) (egj)
+
+ * Some site emails were being sent with mangled headers when sent in French,
+   Portugese and Spanish, causing them to appear in the user's inbox with no
+   subject. (#2823) (egj, tcoulter)
+
+ * Projects with non-ASCII titles can now be deleted without errors. (#2824)
+   (egj, tcoulter)
+
+ * Fixed broken interaction with Plone's Link Integrity Checker, which 
+   was causing erroneous warnings about link integrity to be displayed to
+   users in some circumstances of project deletion. (#2825) (egj, tcoulter)
+
+ * Project members are now listed on the manage-team page in alphabetical
+   order, case insensitive, sorted on username. (#2751) (egj)
+
+ * Test member data now contains non-ASCII characters to provide better
+   coverage re: i18n and l10n issues. (rafrombrc)
+
+ * We now set Expires and Last-Modified headers on member portraits,
+   for cacheability. (slinkp)
+
+Also various Listen i18n fixes -- need to catalog those here and/or
+there.
 
 
 0.17.0 (2009-05-09)
