@@ -63,3 +63,81 @@ def available_languages():
     util = getUtility(ITranslationDomain, i18n_domain)
     return util.getCatalogsInfo.keys()
 
+
+# everything below this comment, and the corresponding registration 
+# in opencore.configuration's meta.zcml, should be discarded by
+# upgrading zope.i18n as soon as possible.
+from zope.i18n.translationdomain import TranslationDomain
+class ProjectNounAwareTranslationDomain(TranslationDomain):
+    """
+    a thin wrapper around default TranslationDomain component
+    that injects appropriate translation for msgid `project_noun`
+    into all translations (except when translating `project_noun`
+    of course)
+
+    intended to be registered as an override. when opencore
+    upgrades to a more recent version of zope.i18n with the
+    recursive translation feature, this should be discarded.
+    """
+
+    def translate(self, msgid, mapping=None, context=None,
+                  target_language=None, default=None):
+        if msgid == "project_noun":
+            noun = TranslationDomain.translate(
+                self, msgid, mapping, context, target_language, default)
+            return noun
+
+        mapping = mapping or {}
+
+        # defer import to circumvent loops
+        from opencore.project.utils import project_noun
+
+        mapping['project_noun'] = project_noun()
+
+        if isinstance(msgid, zope.i18nmessageid.Message) and msgid.mapping:
+            combined_mapping = dict(mapping)
+            combined_mapping.update(msgid.mapping)
+            msgid = zope.i18nmessageid.Message(msgid, mapping=combined_mapping)
+            
+        return TranslationDomain.translate(
+            self, msgid, mapping, context, target_language, default)
+
+
+# fork of same-named function in zope/i18n/zcml.py 
+import os
+from zope.i18n.gettextmessagecatalog import GettextMessageCatalog
+from zope.component.zcml import utility
+from zope.i18n.interfaces import ITranslationDomain
+from zope.i18n.testmessagecatalog import TestMessageCatalog
+import zope.i18nmessageid
+def registerTranslations(_context, directory):
+
+    path = os.path.normpath(directory)
+    domains = {}
+
+    # Gettext has the domain-specific catalogs inside the language directory,
+    # which is exactly the opposite as we need it. So create a dictionary that
+    # reverses the nesting.
+    for language in os.listdir(path):
+        lc_messages_path = os.path.join(path, language, 'LC_MESSAGES')
+        if os.path.isdir(lc_messages_path):
+            for domain_file in os.listdir(lc_messages_path):
+                if domain_file.endswith('.mo'):
+                    domain_path = os.path.join(lc_messages_path, domain_file)
+                    domain = domain_file[:-3]
+                    if not domain in domains:
+                        domains[domain] = {}
+                    domains[domain][language] = domain_path
+
+    # Now create TranslationDomain objects and add them as utilities
+    for name, langs in domains.items():
+        domain = ProjectNounAwareTranslationDomain(name)
+
+        for lang, file in langs.items():
+            domain.addCatalog(GettextMessageCatalog(lang, name, file))
+
+        # make sure we have a TEST catalog for each domain:
+        domain.addCatalog(TestMessageCatalog(name))
+
+        utility(_context, ITranslationDomain, domain, name=name)
+#

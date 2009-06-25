@@ -8,6 +8,10 @@ Features Added:
    resynchronize all of the page history caches in the entire site
    (rafrombrc)
 
+ * The infamous `project_noun` is now injected implicitly into all translation
+   mappings, meaning ${project_noun} can be used in any translation without
+   fear. (egj)
+
 Bugs Fixed:
 
  * Use the current time when updating the modification date in the history
