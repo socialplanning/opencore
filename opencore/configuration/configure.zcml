@@ -34,9 +34,10 @@
   <include package="Products.CacheSetup" />
   <include package="Products.CMFSquidTool" />
 
-  <i18n:registerTranslations directory="../locales" />
-
   <!-- See zcmlloader; this loads all zcml from all packages that have a setuptools
        entry_point like [topp.zcmlloader] opencore = foo -->
   <topp:includePlugins target="opencore" />
+
+  <i18n:registerTranslations directory="../locales" />
+
 </configure>

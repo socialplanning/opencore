@@ -86,13 +86,6 @@ Features Added:
 
 Bugs Fixed:
 
-  * Fixed incorrect timestamp recorded in the history cache during page
-    edits. (rafrombrc)
-
-  * Added exception handling code to email_sender's delivery code to
-    account for the different APIs of different MailHost implementations.
-    (rafrombrc)
-
   * Switched from using view lookups by traversal to direct instantiation
     of the view classes in several tests so the tests don't fail when a
     different package is installed that has registered an override of the
@@ -114,11 +107,27 @@ Bugs Fixed:
 
 Features Added:
 
- * Added 'resync-page-history-caches.py' zopectl script in the migrations
-   directory which will go through and call resync_history_cache for
-   every page in the site.  yes, it takes a long time.  :) (rafrombrc)
+ * Added PSM for successful invite-join so new members will have at least
+   one obvious link to the projects they just joined. (rafrombrc)
+
+ * Added migrations/resync-page-history-caches.py zopectl script which will
+   resynchronize all page history caches on a site. (#2836) (rafrombrc)
+
+ * The infamous `project_noun` is now injected implicitly into all translation
+   mappings, meaning ${project_noun} can be used in any translation without
+   fear. (egj)
 
 Bugs Fixed:
+
+ * Wiki history no longer reports incorrect modification dates for
+   individual versions of a page. Run resync-page-history-caches.py to
+   fix existing content; see "Features" above. (#2836) (rafrombrc)
+
+ * Added exception handling code to email_sender's delivery code to
+   account for the different APIs of different MailHost implementations.
+   (rafrombrc)
+
+ * Added async project security reindex for succesful invite-joins. (rafrombrc)
 
  * Use English text as the default-of-last-resort for all internationalized
    strings if no translation is available in a given language. (egj)
@@ -150,9 +159,6 @@ Bugs Fixed:
 
  * We now set Expires and Last-Modified headers on member portraits,
    for cacheability. (slinkp)
-
-Also various Listen i18n fixes -- need to catalog those here and/or
-there.
 
 
 0.17.0 (2009-05-09)

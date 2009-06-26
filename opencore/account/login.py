@@ -190,7 +190,6 @@ class InitialLogin(BaseView):
             self.membertool.createMemberArea(member.getId())
 
         # set login time since for some reason zope doesn't do it
-        
         member.setLogin_time(DateTime())
 
         # first check for any pending requests which are also email invites
@@ -204,7 +203,8 @@ class InitialLogin(BaseView):
         # convert email invites into mship objects
         email_invites = email_invites_bucket.convertInvitesForMember(member)
         
-        # autoconfirm any mships which both the admin and the user already took action on
+        # autoconfirm any mships which both the admin and the user
+        # already took action on
         for mship in email_invites:
             # copied from join.py, should combine
             mship._v_self_approved = True
