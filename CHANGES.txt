@@ -4,12 +4,10 @@
 Features Added:
 
  * Added PSM for successful invite-join so new members will have at least
-   one obvious link to the projects they are on. (rafrombrc)
+   one obvious link to the projects they just joined. (rafrombrc)
 
- * Added resync_history_cache method to AnnotationCachedWikiHistory class
-   and resync-page-history-caches.py migration zopectl script which will
-   resynchronize all of the page history caches in the entire site.
-   (rafrombrc)
+ * Added migrations/resync-page-history-caches.py zopectl script which will
+   resynchronize all page history caches on a site. (#2836) (rafrombrc)
 
  * The infamous `project_noun` is now injected implicitly into all translation
    mappings, meaning ${project_noun} can be used in any translation without
@@ -17,9 +15,9 @@ Features Added:
 
 Bugs Fixed:
 
- * Use the current time when updating the modification date in the history
-   cache instead of page.modified(), since that will actually represent the
-   time of the _previous_ edit. (rafrombrc)
+ * Wiki history no longer reports incorrect modification dates for individual
+   versions of a page. Run resync-page-history-caches.py to fix existing content;
+   see "Features" above. (#2836) (rafrombrc)
 
  * Added async project security reindex for succesful invite-joins. (rafrombrc)
 
@@ -53,8 +51,6 @@ Bugs Fixed:
 
  * We now set Expires and Last-Modified headers on member portraits,
    for cacheability. (slinkp)
-
-Also various Listen i18n fixes -- need to catalog those here and/or there.
 
 
 0.17.0 (2009-05-09)
