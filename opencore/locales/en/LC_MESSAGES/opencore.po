@@ -96,7 +96,7 @@ msgid "More info..."
 msgstr ""
 
 #. Default: "News"
-#: ./opencore/nui/main/home.pt:104
+#: ./opencore/nui/main/home.pt:100
 msgid "News"
 msgstr ""
 
@@ -419,6 +419,11 @@ msgstr ""
 #. Default: "Active Projects"
 #: ./opencore/stats/project_activity.pt:7
 msgid "active_projects"
+msgstr ""
+
+#. Default: "You have been added to the ${project_link} ${project_noun}."
+#: ./opencore/account/join.py:214
+msgid "added_to_proj_psm"
 msgstr ""
 
 #. Default: "all project stats"
@@ -961,8 +966,8 @@ msgstr ""
 msgid "footer_news_link"
 msgstr ""
 
-#. Default: "${DYNAMIC_CONTENT} ${portal_title} is <a href=\"${DYNAMIC_CONTENT}\"> ${num_people} people </a> and <a href=\"${DYNAMIC_CONTENT}\"> ${num_projects} ${project_noun}s </a> since ${site_birthdate}.<br /> &copy; 2009 <a href=\"${DYNAMIC_CONTENT}\">The Open Planning Project</a>"
-#: ./opencore/browser/footer.pt:31
+#. Default: "${DYNAMIC_CONTENT} ${portal_title} is <a href=\"${DYNAMIC_CONTENT}\"> ${num_people} people</a> and <a href=\"${DYNAMIC_CONTENT}\"> ${num_projects} ${project_noun}s</a> since ${site_birthdate}.<br /> &copy; 2005 - 2009 <a href=\"${DYNAMIC_CONTENT}\">The Open Planning Project</a> <br />Powered by <a href=\"http://www.coactivate.org/projects/opencore/\">OpenCore</a>"
+#: ./opencore/browser/footer.pt:29
 msgid "footer_stats_summary"
 msgstr ""
 
@@ -1102,12 +1107,12 @@ msgid "home_newest_projects"
 msgstr ""
 
 #. Default: "by"
-#: ./opencore/nui/main/home.pt:119
+#: ./opencore/nui/main/home.pt:115
 msgid "home_news_item_by"
 msgstr ""
 
 #. Default: "more news…"
-#: ./opencore/nui/main/home.pt:128
+#: ./opencore/nui/main/home.pt:124
 msgid "home_news_more_link"
 msgstr ""
 
@@ -1122,12 +1127,12 @@ msgid "home_project_created"
 msgstr ""
 
 #. Default: "${num_project_members} member${DYNAMIC_CONTENT}"
-#: ./opencore/nui/main/home.pt:87
+#: ./opencore/nui/main/home.pt:83
 msgid "home_project_num_members"
 msgstr ""
 
 #. Default: "last updated ${project_updated}"
-#: ./opencore/nui/main/home.pt:90
+#: ./opencore/nui/main/home.pt:86
 msgid "home_project_updated"
 msgstr ""
 
@@ -1667,7 +1672,7 @@ msgid "manage_membership_user"
 msgstr ""
 
 #. Default: "${title} on ${portal_title}"
-#: ./opencore/browser/base.py:225
+#: ./opencore/browser/base.py:233
 msgid "member_area_verbose_title"
 msgstr ""
 
@@ -1862,7 +1867,7 @@ msgid "news_read_more"
 msgstr ""
 
 #. Default: "${portal_title} News"
-#: ./opencore/nui/main/home.pt:108
+#: ./opencore/nui/main/home.pt:104
 msgid "news_section_heading"
 msgstr ""
 
@@ -1882,22 +1887,22 @@ msgid "or ${url}"
 msgstr ""
 
 #. Default: "There is no member named \"${user_id}\"."
-#: ./opencore/browser/base.py:655
+#: ./opencore/browser/base.py:663
 msgid "password_no_member_error"
 msgstr ""
 
 #. Default: "You must enter a password."
-#: ./opencore/browser/base.py:661
+#: ./opencore/browser/base.py:669
 msgid "password_no_password_error"
 msgstr ""
 
 #. Default: "You need to enter your username."
-#: ./opencore/browser/base.py:650
+#: ./opencore/browser/base.py:658
 msgid "password_no_username_error"
 msgstr ""
 
 #. Default: "Please make sure that both password fields are the same."
-#: ./opencore/browser/base.py:664
+#: ./opencore/browser/base.py:672
 msgid "password_not_same_error"
 msgstr ""
 
@@ -1956,7 +1961,7 @@ msgid "people_sortable_fields_username"
 msgstr ""
 
 #. Default: "${title}"
-#: ./opencore/browser/base.py:275
+#: ./opencore/browser/base.py:283
 msgid "portal_area_verbose_title"
 msgstr ""
 
@@ -2036,7 +2041,7 @@ msgid "profile_website"
 msgstr ""
 
 #. Default: "${title} - ${portal_title}"
-#: ./opencore/browser/base.py:241
+#: ./opencore/browser/base.py:249
 msgid "project_area_verbose_title"
 msgstr ""
 
@@ -2424,7 +2429,7 @@ msgid "psm_check_username_password"
 msgstr "Oops! Your username and password do not match.  Please try again or <a href=\"forgot\">retrieve your sign in information</a>."
 
 #. Default: "Please choose an image in gif, jpeg, png, or bmp format."
-#: ./opencore/member/browser/view.py:161
+#: ./opencore/member/browser/view.py:156
 msgid "psm_choose_image"
 msgstr ""
 
@@ -2614,7 +2619,7 @@ msgid "psm_signin_welcome"
 msgstr ""
 
 #. Default: "Thanks for joining ${portal_title}, ${mem_id}!<br/>\nA confirmation email has been sent to you with instructions on activating your account."
-#: ./opencore/account/join.py:61
+#: ./opencore/account/join.py:62
 msgid "psm_thankyou_for_joining"
 msgstr ""
 
@@ -3043,7 +3048,7 @@ msgid "wiki pages"
 msgstr ""
 
 #. Default: "${title} - ${portal_title}"
-#: ./opencore/browser/base.py:257
+#: ./opencore/browser/base.py:265
 msgid "wiki_area_verbose_title"
 msgstr ""
 
