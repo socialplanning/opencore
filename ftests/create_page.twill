@@ -12,11 +12,11 @@
 go ${base_url}/projects/${projname}/project-home
 follow "edit"
 fv edit_form text "((${pagename})) ((${pagename2}))" 
-submit Save
+submit 'wiki_edit_save_button'
 follow ${pagename}
 find "psm_page_created"
 find ${pagename}
 fv edit_form text "This is the new page ${pagename}."
-submit Save
+submit 'wiki_edit_save_button'
 find "This is the new page ${pagename}."
 find "Your changes have been saved" i

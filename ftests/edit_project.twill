@@ -19,7 +19,7 @@ go ${base_url}/projects/${projname}/project-home
 follow edit
 fv edit_form title $projfullname
 fv edit_form text ${projbody}${pagelink}
-submit 'Save'
+submit 'wiki_edit_save_button'
 code 200
 find $projfullname
 find $projbody
