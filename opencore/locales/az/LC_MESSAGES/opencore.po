@@ -897,11 +897,11 @@ msgstr "home_learn_more"
 msgid "home_newest_projects"
 msgstr "home_newest_projects"
 #. Default: "by"
-#: ./opencore/nui/main/home.pt:114
+#: ./opencore/nui/main/home.pt:116
 msgid "home_news_item_by"
 msgstr "home_news_item_by"
 #. Default: "more news…"
-#: ./opencore/nui/main/home.pt:123
+#: ./opencore/nui/main/home.pt:125
 msgid "home_news_more_link"
 msgstr "home_news_more_link"
 #. Default: "You want to <strong>make a difference</strong>, we want to <strong>make it easy</strong>. OpenPlans is the simple way to bring groups together, promote your cause, make plans, manage projects, and get things done."
@@ -1489,21 +1489,25 @@ msgstr "new_topic_view_required"
 msgid "new_topic_view_subject"
 msgstr "new_topic_view_subject"
 #. Default: "We would love to hear from you. Learn more <a href=\"${DYNAMIC_CONTENT}\">about us and our software</a> or <a href=\"${DYNAMIC_CONTENT}\">contact us</a> for more information."
-#: ./opencore/nui/main/news.pt:39
+#: ./opencore/nui/main/news.pt:43
 msgid "news_about_us_description"
 msgstr "news_about_us_description"
 #. Default: "About us"
-#: ./opencore/nui/main/news.pt:38
+#: ./opencore/nui/main/news.pt:42
 msgid "news_about_us_heading"
 msgstr "news_about_us_heading"
 #. Default: "Add news item..."
-#: ./opencore/nui/main/news.pt:16
+#: ./opencore/nui/main/news.pt:20
 msgid "news_add_item"
 msgstr "news_add_item"
 #. Default: "Read more…"
-#: ./opencore/nui/main/news.pt:31
+#: ./opencore/nui/main/news.pt:35
 msgid "news_read_more"
 msgstr "news_read_more"
+#. Default: "${portal_title} News"
+#: ./opencore/nui/main/home.pt:106
+msgid "news_section_heading"
+msgstr "news_section_heading"
 #. Default: "Please enter a password"
 #: ./opencore/member/factory.py:83
 msgid "no_password"
@@ -2447,15 +2451,31 @@ msgstr "wiki pages"
 #: ./opencore/browser/base.py:257
 msgid "wiki_area_verbose_title"
 msgstr "wiki_area_verbose_title"
+#. Default: "Cancel"
+#: ./opencore/nui/wiki/wiki-edit-xinha.pt:182
+msgid "wiki_edit_cancel_button"
+msgstr "wiki_edit_cancel_button"
+#. Default: "Save"
+#: ./opencore/nui/wiki/wiki-edit-xinha.pt:176
+msgid "wiki_edit_save_button"
+msgstr "wiki_edit_save_button"
 #. Default: "edit"
-#: ./opencore/nui/wiki/wiki_macros.pt:31
+#: ./opencore/nui/wiki/wiki_macros.pt:42
 msgid "wiki_info_tab_edit"
 msgstr "wiki_info_tab_edit"
 #. Default: "history"
-#: ./opencore/nui/wiki/wiki_macros.pt:34
+#: ./opencore/nui/wiki/wiki_macros.pt:45
 msgid "wiki_info_tab_history"
 msgstr "wiki_info_tab_history"
+#. Default: "by ${author}"
+#: ./opencore/nui/wiki/wiki_macros.pt:27
+msgid "wiki_info_tab_last_author"
+msgstr "wiki_info_tab_last_author"
+#. Default: "last modified"
+#: ./opencore/nui/wiki/wiki_macros.pt:18
+msgid "wiki_info_tab_last_modified"
+msgstr "wiki_info_tab_last_modified"
 #. Default: "view"
-#: ./opencore/nui/wiki/wiki_macros.pt:28
+#: ./opencore/nui/wiki/wiki_macros.pt:39
 msgid "wiki_info_tab_view"
 msgstr "wiki_info_tab_view"

@@ -1064,12 +1064,12 @@ msgid "home_newest_projects"
 msgstr "Nuevos ${project_noun}s"
 
 #. Default: "by"
-#: ./opencore/nui/main/home.pt:114
+#: ./opencore/nui/main/home.pt:116
 msgid "home_news_item_by"
 msgstr ""
 
 #. Default: "more news…"
-#: ./opencore/nui/main/home.pt:123
+#: ./opencore/nui/main/home.pt:125
 msgid "home_news_more_link"
 msgstr ""
 
@@ -1818,26 +1818,31 @@ msgid "new_topic_view_subject"
 msgstr "Asunto:"
 
 #. Default: "We would love to hear from you. Learn more <a href=\"${DYNAMIC_CONTENT}\">about us and our software</a> or <a href=\"${DYNAMIC_CONTENT}\">contact us</a> for more information."
-#: ./opencore/nui/main/news.pt:39
+#: ./opencore/nui/main/news.pt:43
 #, fuzzy
 msgid "news_about_us_description"
 msgstr "Quisieramos saber algo de Ud. Aprenda mas<a href=\"${DYNAMIC_CONTENT}\">acerca de este sitio internet</a> or <a href=\"${DYNAMIC_CONTENT}\">contactenos</a> para mas informacion "
 
 #. Default: "About us"
-#: ./opencore/nui/main/news.pt:38
+#: ./opencore/nui/main/news.pt:42
 msgid "news_about_us_heading"
 msgstr "Acerca de nosotros"
 
 #. Default: "Add news item..."
-#: ./opencore/nui/main/news.pt:16
+#: ./opencore/nui/main/news.pt:20
 msgid "news_add_item"
 msgstr "Agregar item de noticias"
 
 #. Default: "Read more…"
-#: ./opencore/nui/main/news.pt:31
+#: ./opencore/nui/main/news.pt:35
 #, fuzzy
 msgid "news_read_more"
 msgstr "Leer mas…"
+
+#. Default: "${portal_title} News"
+#: ./opencore/nui/main/home.pt:106
+msgid "news_section_heading"
+msgstr ""
 
 #. Default: "Please enter a password"
 #: ./opencore/member/factory.py:83
@@ -3034,18 +3039,38 @@ msgstr ""
 msgid "wiki_area_verbose_title"
 msgstr ""
 
+#. Default: "Cancel"
+#: ./opencore/nui/wiki/wiki-edit-xinha.pt:182
+msgid "wiki_edit_cancel_button"
+msgstr ""
+
+#. Default: "Save"
+#: ./opencore/nui/wiki/wiki-edit-xinha.pt:176
+msgid "wiki_edit_save_button"
+msgstr ""
+
 #. Default: "edit"
-#: ./opencore/nui/wiki/wiki_macros.pt:31
+#: ./opencore/nui/wiki/wiki_macros.pt:42
 msgid "wiki_info_tab_edit"
 msgstr ""
 
 #. Default: "history"
-#: ./opencore/nui/wiki/wiki_macros.pt:34
+#: ./opencore/nui/wiki/wiki_macros.pt:45
 msgid "wiki_info_tab_history"
 msgstr ""
 
+#. Default: "by ${author}"
+#: ./opencore/nui/wiki/wiki_macros.pt:27
+msgid "wiki_info_tab_last_author"
+msgstr ""
+
+#. Default: "last modified"
+#: ./opencore/nui/wiki/wiki_macros.pt:18
+msgid "wiki_info_tab_last_modified"
+msgstr ""
+
 #. Default: "view"
-#: ./opencore/nui/wiki/wiki_macros.pt:28
+#: ./opencore/nui/wiki/wiki_macros.pt:39
 msgid "wiki_info_tab_view"
 msgstr ""
 

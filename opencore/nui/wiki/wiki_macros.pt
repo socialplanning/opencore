@@ -2,22 +2,33 @@
 
 
 <!-- BEGIN WIKI BCRUMB -->
-<metal:bcrumb define-macro="bcrumb">
-<ul class="oc-headingBlock oc-wiki-headingBlock oc-bcrumb">
-  <li>
-    <h1 class="oc-bcrumb-current" tal:content="view/page_title" />
-  </li>
-</ul>
-<tal:lastmod condition="view/displayLastModified | nothing"
-  define="author view/lastModifiedAuthor;
-          time view/lastModifiedTime">
-  <p class="oc-discreetText oc-wiki-lastModified">
-     &nbsp; last <a tal:attributes="href string:${context/absolute_url}/latest-change">modified</a>
-     <abbr tal:attributes="title context/ModificationDate" tal:content="time" />
-     by <a tal:attributes="href string:${context/portal_url}/people/${author}/profile"
-       tal:content="author"/>
-  </p>
-</tal:lastmod>
+<metal:bcrumb define-macro="bcrumb"
+	      i18n:domain="opencore">
+ <ul class="oc-headingBlock oc-wiki-headingBlock oc-bcrumb">
+    <li>
+      <h1 class="oc-bcrumb-current" tal:content="view/page_title" />
+    </li>
+  </ul>
+
+  <tal:lastmod condition="view/displayLastModified | nothing"
+               define="author view/lastModifiedAuthor;
+                       time view/lastModifiedTime">
+    <p class="oc-discreetText oc-wiki-lastModified">
+
+      <a tal:attributes="href string:${context/absolute_url}/latest-change"
+	 i18n:translate="wiki_info_tab_last_modified">
+	last modified
+      </a>
+
+      <abbr tal:attributes="title context/ModificationDate" tal:content="time" />
+
+      <a tal:attributes="href string:${context/portal_url}/people/${author}/profile"
+	 i18n:translate="wiki_info_tab_last_author">
+        by <tal:dummy i18n:name="author" tal:content="author" />
+      </a>
+
+    </p>
+  </tal:lastmod>
 </metal:bcrumb>
 <!-- END WIKI BCRUMB -->
 
@@ -33,18 +44,6 @@
   <li tal:attributes="class python:view.get_tab_class([u'history', u'version', u'version_compare'])">
     <a tal:attributes="href string:${context/absolute_url}/history" i18n:translate="wiki_info_tab_history">history</a>
   </li>
-
-  <!--
-  <li>
-   <form class="" >
-     <select class="oc-selectBoxAutoLinks">
-       <option value="">More...</option>
-       <option value="http://www.google.com">I'm feeling lucky</option>
-     </select>
-     <input type="submit" value="Go" style=""/>
-   </form>
-  </li>
-  -->
-
+  &nbsp;
 </ul>
 <!-- END WIKI TABS -->
