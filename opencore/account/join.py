@@ -5,6 +5,7 @@ Join Views
 * separate pre-confirmed view for folks already invited to a project
 """
 
+from Acquisition import aq_parent
 from Products.CMFCore.utils import getToolByName
 from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
 from opencore.account import browser
@@ -200,11 +201,16 @@ class InviteJoinView(JoinView, ConfirmAccountView):
         auto_joined_list = []
         for mship in mships:
             mship._v_self_approved = True
-            mship_id = mship.aq_parent.getId()
-            if mship_id in self.proj_ids:
+            team_id = aq_parent(mship).getId()
+            if team_id in self.proj_ids:
                 mship.do_transition('approve_public')
-                auto_joined_list.append(mship_id)
+                auto_joined_list.append(team_id)
             notify(JoinedProjectEvent(mship))
+        if auto_joined_list:
+            tmtool = getToolByName(self.context, 'portal_teams')
+            for team_id in auto_joined_list:
+                team = tmtool.getTeamById(team_id)
+                team.reindexTeamSpaceSecurity() # will be async
         return auto_joined_list
 
     def project(self, _id):
