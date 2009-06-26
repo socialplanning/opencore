@@ -45,6 +45,9 @@ def create_topnav_viewlet(name, sort_order,
     klass_name = "%s-%s" % (ViewletBase.__name__, str(name))
 
     # replaces 'project' text with the dynamic project_noun that comes from base.ini
+
+    # XXX TODO this doesn't seem appropriate at all. surely this should be controlled
+    #          by just spelling out ${project_noun} in the ZCML text?
     text = text.replace('Project', project_noun().title()).replace('project', project_noun())
 
     attrs = dict(name=name,

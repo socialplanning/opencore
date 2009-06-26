@@ -96,7 +96,7 @@ msgid "More info..."
 msgstr ""
 
 #. Default: "News"
-#: ./opencore/nui/main/home.pt:103
+#: ./opencore/nui/main/home.pt:104
 msgid "News"
 msgstr ""
 
@@ -1102,12 +1102,12 @@ msgid "home_newest_projects"
 msgstr ""
 
 #. Default: "by"
-#: ./opencore/nui/main/home.pt:116
+#: ./opencore/nui/main/home.pt:119
 msgid "home_news_item_by"
 msgstr ""
 
 #. Default: "more news…"
-#: ./opencore/nui/main/home.pt:125
+#: ./opencore/nui/main/home.pt:128
 msgid "home_news_more_link"
 msgstr ""
 
@@ -1862,7 +1862,7 @@ msgid "news_read_more"
 msgstr ""
 
 #. Default: "${portal_title} News"
-#: ./opencore/nui/main/home.pt:106
+#: ./opencore/nui/main/home.pt:108
 msgid "news_section_heading"
 msgstr ""
 
