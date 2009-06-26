@@ -212,7 +212,7 @@ class InviteJoinView(JoinView, ConfirmAccountView):
                 proj_link = '<a href="%s">%s</a>' % (self.project_url(team_id),
                                                      self.proj_title(team_id))
                 self.add_status_message(_(u'added_to_proj_psm',
-                                          u'You have been added to the ${project_link} project.',
+                                          u'You have been added to the ${project_link} ${project_noun}.',
                                           mapping={'project_link': proj_link}))
                 team = tmtool.getTeamById(team_id)
                 team.reindexTeamSpaceSecurity() # will be async
