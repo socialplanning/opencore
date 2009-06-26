@@ -13,7 +13,7 @@
 extend_with flunc.checkbox
 
 go ${base_url}
-follow "Start a ${projtxt}"
+follow "topnav_explore_new_project"
 
 # check blank title
 fv create_form projid $projid

@@ -6,4 +6,4 @@
 #
 
 go ${base_url}
-find 'oc-topnav-context.*People.*${projtxt}s.*Start A ${projtxt}.*oc-usermenu-explore.*Home.*People.*${projtxt}s.*Start a ${projtxt}.*oc-topnav-usermenu.*${user}.*oc-usermenu-mystuff.*Profile.*Wiki.*Account.*Sign out' si
+find 'oc-topnav-context.*People.*${projtxt}s.*Start A ${projtxt}.*oc-usermenu-explore.*topnav_explore_home.*topnav_explore_people.*topnav_explore_projects.*topnav_explore_new_project.*oc-topnav-usermenu.*${user}.*oc-usermenu-mystuff.*Profile.*Wiki.*Account.*Sign out' si

@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: opencore\n"
-"POT-Creation-Date: 2009-05-22 16:21+0000\n"
+"POT-Creation-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "PO-Revision-Date: 2008-10-08 15:57-0400\n"
 "Last-Translator: \n"
 "Language-Team: The Open Planning Project <opencore-dev@lists.openplans.org>\n"
@@ -63,12 +63,36 @@ msgstr ""
 msgid "Edit"
 msgstr ""
 
+#. Default: "failure_msg"
+#: ./opencore/project/browser/export_utils.py:387
+msgid "Export failed! ${failure_msg}"
+msgstr ""
+
+#: ./opencore/project/browser/export_utils.py:381
+msgid "Export finished"
+msgstr ""
+
+#. Default: "Images and files"
+#: ./opencore/project/browser/export.pt:67
+msgid "Images and files"
+msgstr ""
+
 msgid "Join Project"
 msgstr ""
 
 #. Default: "Mailing list archives"
 #: ./opencore/project/browser/export.pt:68
 msgid "Mailing list archives"
+msgstr ""
+
+#. Default: "Mailing list subscribers"
+#: ./opencore/project/browser/export.pt:69
+msgid "Mailing list subscribers"
+msgstr ""
+
+#. Default: "More info..."
+#: ./opencore/project/browser/export.pt:76
+msgid "More info..."
 msgstr ""
 
 #. Default: "News"
@@ -118,6 +142,26 @@ msgstr ""
 msgid "Remove"
 msgstr ""
 
+#: ./opencore/project/browser/export_utils.py:209
+msgid "Saving Wiki pages"
+msgstr ""
+
+#: ./opencore/project/browser/export_utils.py:268
+msgid "Saving blog posts"
+msgstr ""
+
+#: ./opencore/project/browser/export_utils.py:205
+msgid "Saving documentation"
+msgstr ""
+
+#: ./opencore/project/browser/export_utils.py:222
+msgid "Saving images and file attachments"
+msgstr ""
+
+#: ./opencore/project/browser/export_utils.py:245
+msgid "Saving mailing lists"
+msgstr ""
+
 #: ./opencore/browser/topnav/topnav.py:61
 msgid "Sign in"
 msgstr ""
@@ -148,7 +192,7 @@ msgid "Wiki"
 msgstr ""
 
 #. Default: "Wiki pages"
-#: ./opencore/project/browser/export.pt:67
+#: ./opencore/project/browser/export.pt:66
 msgid "Wiki pages"
 msgstr ""
 
@@ -597,7 +641,7 @@ msgstr ""
 msgid "date"
 msgstr ""
 
-#: ./opencore/project/browser/manageteam.py:595
+#: ./opencore/project/browser/manageteam.py:598
 msgid "demote_to_member"
 msgstr "${name} is no longer an administrator"
 
@@ -669,7 +713,7 @@ msgstr ""
 "Cheers,\n"
 "The ${portal_title} Team"
 
-#: ./opencore/project/browser/manageteam.py:776
+#: ./opencore/project/browser/manageteam.py:779
 msgid "email_invite_static_body"
 msgstr ""
 "${user_message}\n"
@@ -2006,23 +2050,23 @@ msgstr ""
 msgid "project_created"
 msgstr ""
 
-#. Default: "Support is planned to add other content to the export soon (eg. blogs, mailing list subscribers, etc)."
-#: ./opencore/project/browser/export.pt:70
+#. Default: "Support is planned to add other content to the export soon (eg. blogs, tasks, etc)."
+#: ./opencore/project/browser/export.pt:71
 msgid "project_export_content_description"
 msgstr ""
 
 #. Default: "Currently, exporting will include:"
-#: ./opencore/project/browser/export.pt:64
+#: ./opencore/project/browser/export.pt:63
 msgid "project_export_content_list_header"
 msgstr ""
 
-#. Default: "Exports available for download (most recent first):"
-#: ./opencore/project/browser/export.pt:55
+#. Default: "Exports available for download (most recent first, maximum of 5):"
+#: ./opencore/project/browser/export.pt:54
 msgid "project_export_file_list_heading"
 msgstr ""
 
 #. Default: "There is already a job running. Please be patient."
-#: ./opencore/project/browser/export.pt:48
+#: ./opencore/project/browser/export.pt:47
 msgid "project_export_job_running"
 msgstr ""
 
@@ -2340,12 +2384,12 @@ msgstr ""
 msgid "projects_start_project_button"
 msgstr ""
 
-#: ./opencore/project/browser/manageteam.py:591
+#: ./opencore/project/browser/manageteam.py:594
 msgid "promote_to_admin"
 msgstr "${name} is now an administrator"
 
-#. Default: "Account %r has been permanently deleted."
-#: ./opencore/member/browser/account.py:547
+#. Default: "Account '${deleted_user_id}' has been permanently deleted."
+#: ./opencore/member/browser/account.py:548
 msgid "psm_account_deleted"
 msgstr ""
 
@@ -2355,17 +2399,17 @@ msgid "psm_account_not_activated"
 msgstr ""
 
 #. Default: "Account not deleted."
-#: ./opencore/member/browser/account.py:518
+#: ./opencore/member/browser/account.py:519
 msgid "psm_account_not_deleted"
 msgstr ""
 
 #. Default: "You cannot leave this ${project_noun}."
-#: ./opencore/member/browser/account.py:164
+#: ./opencore/member/browser/account.py:165
 msgid "psm_cannot_leave_project"
 msgstr ""
 
 #. Default: "Please check the old password you entered."
-#: ./opencore/member/browser/account.py:407
+#: ./opencore/member/browser/account.py:408
 msgid "psm_check_old_password"
 msgstr ""
 
@@ -2390,12 +2434,12 @@ msgid "psm_denied"
 msgstr ""
 
 #. Default: "Your email address has been changed."
-#: ./opencore/member/browser/account.py:445
+#: ./opencore/member/browser/account.py:446
 msgid "psm_email_changed"
 msgstr ""
 
 #. Default: "Please enter your new email address."
-#: ./opencore/member/browser/account.py:429
+#: ./opencore/member/browser/account.py:430
 msgid "psm_enter_new_email"
 msgstr ""
 
@@ -2405,7 +2449,7 @@ msgid "psm_enter_username_email"
 msgstr ""
 
 #. Default: "Error sending mail to: ${mem_id}"
-#: ./opencore/project/browser/manageteam.py:538
+#: ./opencore/project/browser/manageteam.py:541
 msgid "psm_error_sending_mail_to_member"
 msgstr ""
 
@@ -2440,7 +2484,7 @@ msgid "psm_mailing_list_deletion_cancelled"
 msgstr ""
 
 #. Default: "You have added ${num_approved} members."
-#: ./opencore/project/browser/manageteam.py:255
+#: ./opencore/project/browser/manageteam.py:258
 msgid "psm_many_requests_approved"
 msgstr ""
 
@@ -2474,7 +2518,7 @@ msgid "psm_not_sufficient_perms"
 msgstr "You do not have sufficient permissions."
 
 #. Default: "You have added ${mem_id}."
-#: ./opencore/project/browser/manageteam.py:252
+#: ./opencore/project/browser/manageteam.py:255
 msgid "psm_one_request_approved"
 msgstr ""
 
@@ -2499,7 +2543,7 @@ msgid "psm_pass_reset_fail"
 msgstr "Oops!  Your attempt to reset your password failed.  Did you mistype your username or password?"
 
 #. Default: "Your password has been changed."
-#: ./opencore/member/browser/account.py:413
+#: ./opencore/member/browser/account.py:414
 msgid "psm_password_changed"
 msgstr ""
 
@@ -2514,7 +2558,7 @@ msgid "psm_please_correct_errors"
 msgstr ""
 
 #. Default: "Please select members to approve."
-#: ./opencore/project/browser/manageteam.py:194
+#: ./opencore/project/browser/manageteam.py:197
 msgid "psm_please_select_members"
 msgstr ""
 
@@ -2550,7 +2594,7 @@ msgid "psm_security_changed"
 msgstr "The security policy has been changed."
 
 #. Default: "Please select members to discard."
-#: ./opencore/project/browser/manageteam.py:273
+#: ./opencore/project/browser/manageteam.py:276
 msgid "psm_select_members_discard"
 msgstr ""
 
@@ -2574,7 +2618,7 @@ msgstr ""
 msgid "psm_wiki_content_stripped"
 msgstr ""
 
-#: ./opencore/project/browser/manageteam.py:412
+#: ./opencore/project/browser/manageteam.py:415
 msgid "remind_invite_none_selected"
 msgstr "Please select at least one person to send a reminder to."
 
@@ -2854,18 +2898,38 @@ msgid "title_required"
 msgstr ""
 
 #. Default: "<a href=\"${member_url}\">${id}</a> has declined your invitation to join <a href=\"${project_url}\">${proj_id}</a>"
-#: ./opencore/member/browser/account.py:342
+#: ./opencore/member/browser/account.py:343
 msgid "tmsg_decline_invite"
 msgstr ""
 
 #. Default: "<a href=\"${member_url}\">${id}</a> has joined <a href=\"${project_url}\">${proj_id}</a>"
-#: ./opencore/member/browser/account.py:290
+#: ./opencore/member/browser/account.py:291
 msgid "tmsg_joined_project"
 msgstr ""
 
 #. Default: "To:"
 #: ./opencore/member/browser/contact.pt:25
 msgid "to-label"
+msgstr ""
+
+#. Default: "Home"
+#: ./opencore/browser/topnav/explore-menu.pt:6
+msgid "topnav_explore_home"
+msgstr ""
+
+#. Default: "Start a ${project_noun}"
+#: ./opencore/browser/topnav/explore-menu.pt:28
+msgid "topnav_explore_new_project"
+msgstr ""
+
+#. Default: "People"
+#: ./opencore/browser/topnav/explore-menu.pt:11
+msgid "topnav_explore_people"
+msgstr ""
+
+#. Default: "${project_noun}s"
+#: ./opencore/browser/topnav/explore-menu.pt:18
+msgid "topnav_explore_projects"
 msgstr ""
 
 #. Default: "Search site"
@@ -2976,5 +3040,20 @@ msgstr ""
 #. Default: "${title} - ${portal_title}"
 #: ./opencore/browser/base.py:257
 msgid "wiki_area_verbose_title"
+msgstr ""
+
+#. Default: "edit"
+#: ./opencore/nui/wiki/wiki_macros.pt:31
+msgid "wiki_info_tab_edit"
+msgstr ""
+
+#. Default: "history"
+#: ./opencore/nui/wiki/wiki_macros.pt:34
+msgid "wiki_info_tab_history"
+msgstr ""
+
+#. Default: "view"
+#: ./opencore/nui/wiki/wiki_macros.pt:28
+msgid "wiki_info_tab_view"
 msgstr ""
 

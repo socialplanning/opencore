@@ -13,7 +13,7 @@ extend_with flunc.checkbox
 setlocal projpolicy closed_policy
 
 go ${base_url}
-follow "Start a ${projtxt}"
+follow "topnav_explore_new_project"
 fv create_form projid $projname
 fv create_form title $projfullname
 fv create_form workflow_policy $projpolicy
