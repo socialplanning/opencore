@@ -4,6 +4,7 @@ i18n_domain = 'opencore'
 
 import zope.i18nmessageid
 _ = zope.i18nmessageid.MessageFactory(i18n_domain)
+from zope.i18nmessageid import Message
 
 from Products.CMFPlone.i18nl10n import utranslate
 
@@ -19,7 +20,7 @@ def translate(msgid, domain=i18n_domain, mapping=None, context=None,
     # if no translation is available in the desired language,
     # and no default is specified, use the english translation
     # as a fallback; better that than "email_to_pending_user"
-    if default is None:
+    if default is None and getattr(msgid, default, None) is None:
         try:
             translator = getUtility(ITranslationDomain, i18n_domain)
         except ComponentLookupError:
