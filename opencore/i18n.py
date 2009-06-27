@@ -125,13 +125,22 @@ class ProjectNounAwareTranslationDomain(TranslationDomain):
 
 
 # fork of same-named function in zope/i18n/zcml.py 
+# which also incorporates PTS's monkeypatch thereof,
+# to auto-compile translations. _that_ can go away
+# if we upgrade to zope.i18n>=3.5.0 according to pw
 import os
 from zope.i18n.gettextmessagecatalog import GettextMessageCatalog
 from zope.component.zcml import utility
 from zope.i18n.interfaces import ITranslationDomain
 from zope.i18n.testmessagecatalog import TestMessageCatalog
 import zope.i18nmessageid
+
+from Products.PlacelessTranslationService.load import _compile_locales_dir
 def registerTranslations(_context, directory):
+
+    # here's that PTS monkeypatch
+    _compile_locales_dir(directory)
+    # end PTS monkeypatch
 
     path = os.path.normpath(directory)
     domains = {}
