@@ -1,3 +1,5 @@
+from zope.component import ComponentLookupError
+
 i18n_domain = 'opencore'
 
 import zope.i18nmessageid
@@ -18,6 +20,11 @@ def translate(msgid, domain=i18n_domain, mapping=None, context=None,
     # and no default is specified, use the english translation
     # as a fallback; better that than "email_to_pending_user"
     if default is None:
+        try:
+            translator = getUtility(ITranslationDomain, i18n_domain)
+        except ComponentLookupError:
+            return utranslate(domain, msgid, **kw)
+
         default_kw = dict(kw)
         default_kw['target_language'] = 'en'
 
@@ -31,8 +38,7 @@ def translate(msgid, domain=i18n_domain, mapping=None, context=None,
             # opencore/utility/email-sender.txt L39 that managed to trip this wire)
             msgid = zope.i18nmessageid.Message(msgid, domain=i18n_domain)
 
-        default = getUtility(ITranslationDomain,
-                             i18n_domain).translate(msgid, **default_kw)
+        default = translator.translate(msgid, **default_kw)
         # zope.i18n.translationdomain:TranslationDomain.translate says
         # that MessageID attributes override arguments, so it's safe to
         # just stuff these all in, i think
