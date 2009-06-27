@@ -20,7 +20,7 @@ def translate(msgid, domain=i18n_domain, mapping=None, context=None,
     # if no translation is available in the desired language,
     # and no default is specified, use the english translation
     # as a fallback; better that than "email_to_pending_user"
-    if default is None and getattr(msgid, default, None) is None:
+    if default is None and getattr(msgid, 'default', None) is None:
         try:
             translator = getUtility(ITranslationDomain, i18n_domain)
         except ComponentLookupError:
