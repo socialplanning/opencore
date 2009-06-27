@@ -23,6 +23,12 @@ def translate(msgid, domain=i18n_domain, mapping=None, context=None,
         try:
             translator = getUtility(ITranslationDomain, i18n_domain)
         except ComponentLookupError:
+            # in a fresh build, MO files will not yet have been compiled,
+            # so it's possible that we won't find an ITranslationDomain
+            # (notably in buildbot builds!). there's no reason to *force*
+            # the existence of an English PO file so in that case we'll
+            # revert to the default behavior for defaults.
+            # http://www.coactivate.org/projects/opencore/lists/opencore-dev/archive/2009/06/1245964042046/forum_view#1246051875766
             return utranslate(domain, msgid, **kw)
 
         default_kw = dict(kw)
