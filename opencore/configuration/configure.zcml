@@ -1,7 +1,10 @@
 <configure xmlns="http://namespaces.zope.org/zope"
            xmlns:zcml="http://namespaces.zope.org/zcml"
            xmlns:topp="http://namespaces.openplans.org/topp"
-           xmlns:i18n="http://namespaces.zope.org/i18n">
+           xmlns:i18n="http://namespaces.zope.org/i18n"
+ 	   xmlns:opencore="http://namespaces.openplans.org/opencore"
+	   >
+
   <include package="topp.zcmlloader" file="meta.zcml" />
   <include file="permissions.zcml" />
   <include file="profiles.zcml" />
@@ -37,6 +40,8 @@
        entry_point like [topp.zcmlloader] opencore = foo -->
   <topp:includePlugins target="opencore" />
 
-  <i18n:registerTranslations directory="../locales" />
+  <!-- use a forked version of i18n:registerTranslations
+       which injects `project_noun` into all Message mappings -->
+  <opencore:registerTranslations directory="../locales" />
 
 </configure>
