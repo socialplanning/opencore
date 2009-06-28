@@ -2,6 +2,7 @@ i18n_domain = 'opencore'
 
 import zope.i18nmessageid
 _ = zope.i18nmessageid.MessageFactory(i18n_domain)
+from zope.i18nmessageid import Message
 
 from Products.CMFPlone.i18nl10n import utranslate
 
@@ -17,7 +18,18 @@ def translate(msgid, domain=i18n_domain, mapping=None, context=None,
     # if no translation is available in the desired language,
     # and no default is specified, use the english translation
     # as a fallback; better that than "email_to_pending_user"
-    if default is None:
+    if default is None and getattr(msgid, 'default', None) is None:
+        try:
+            translator = getUtility(ITranslationDomain, i18n_domain)
+        except ComponentLookupError:
+            # in a fresh build, MO files will not yet have been compiled,
+            # so it's possible that we won't find an ITranslationDomain
+            # (notably in buildbot builds!). there's no reason to *force*
+            # the existence of an English PO file so in that case we'll
+            # revert to the default behavior for defaults.
+            # http://www.coactivate.org/projects/opencore/lists/opencore-dev/archive/2009/06/1245964042046/forum_view#1246051875766
+            return utranslate(domain, msgid, **kw)
+
         default_kw = dict(kw)
         default_kw['target_language'] = 'en'
 
@@ -112,13 +124,22 @@ class ProjectNounAwareTranslationDomain(TranslationDomain):
 
 
 # fork of same-named function in zope/i18n/zcml.py 
+# which also incorporates PTS's monkeypatch thereof,
+# to auto-compile translations. _that_ can go away
+# if we upgrade to zope.i18n>=3.5.0 according to pw
 import os
 from zope.i18n.gettextmessagecatalog import GettextMessageCatalog
 from zope.component.zcml import utility
 from zope.i18n.interfaces import ITranslationDomain
 from zope.i18n.testmessagecatalog import TestMessageCatalog
 import zope.i18nmessageid
+
+from Products.PlacelessTranslationService.load import _compile_locales_dir
 def registerTranslations(_context, directory):
+
+    # here's that PTS monkeypatch
+    _compile_locales_dir(directory)
+    # end PTS monkeypatch
 
     path = os.path.normpath(directory)
     domains = {}
