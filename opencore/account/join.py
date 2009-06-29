@@ -6,6 +6,7 @@ Join Views
 """
 
 from Acquisition import aq_parent
+from DateTime import DateTime
 from Products.CMFCore.utils import getToolByName
 from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
 from opencore.account import browser
@@ -18,11 +19,13 @@ from opencore.i18n import _
 from opencore.interfaces.event import JoinedProjectEvent
 from opencore.interfaces.membership import IEmailInvites
 from opencore.member.interfaces import ICreateMembers
+from zExceptions import Redirect
 from zope.component import getUtility
 from zope.event import notify
 from topp.utils.pretty_text import truncate
 import zExceptions
 
+import transaction
 import urllib
 
 class JoinView(browser.AccountView, OctopoLite):
@@ -187,13 +190,16 @@ class InviteJoinView(JoinView, ConfirmAccountView):
 
         self.confirm(member)
         self.login(member.getId())
+        member.setLogin_time(DateTime())
         auto_joined_list = self.do_invite_joins(member)
-        go_to = ''
+        # XXX: lost too much time trying to make these redirects work using
+        # self.redirect... finally gave up and resorted to brute force of
+        # hand-committing the txn and then raising a RedirectError
+        transaction.get().note('Member %s created' % member.getId())
+        transaction.commit()
         if auto_joined_list:
-            redirect_to_project = auto_joined_list[0]
-            go_to = '?go_to=%s' % self.project_url(redirect_to_project)
-        root = getToolByName(self.context, 'portal_url')()
-        return self.redirect("%s/init-login%s" % (root, go_to))
+            raise Redirect, self.project_url(auto_joined_list[0])
+        raise Redirect("%s/tour" % self.memfolder_url())
 
     def do_invite_joins(self, member):
         """do the joins and activations"""
