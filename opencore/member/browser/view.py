@@ -11,6 +11,7 @@ from topp.utils.pretty_date import prettyDate
 from zope.app.event.objectevent import ObjectModifiedEvent
 from zope.component import getMultiAdapter
 from zope.event import notify
+import transaction
 import urllib
 
 
@@ -55,7 +56,7 @@ class ProfileView(BaseView):
 
 
     def populate_project_lists(self):
-        for (_, m) in self.mship_proj_map().items():
+        for m in self.mship_proj_map().values():
             mship = m['mship']
             proj = m['proj']
             if mship.review_state == 'private' or proj.review_state == 'closed':
@@ -152,8 +153,10 @@ class ProfileEditView(ProfileView, OctopoLite):
     def check_portrait(self, member, portrait):
         try:
             member.setPortrait(portrait)
-        except ValueError: # must have tried to upload an unsupported filetype
-            self.addPortalStatusMessage(_(u'psm_choose_image', u'Please choose an image in gif, jpeg, png, or bmp format.'))
+        except (ValueError, IOError): # must have tried to upload an unsupported filetype
+            self.addPortalStatusMessage(_(u'psm_choose_image',
+                                          u'Unsupported image format.  Please use JPEG, GIF, BMP, or non-interlaced PNG format.'))
+            transaction.abort()
             return False
         return True
 

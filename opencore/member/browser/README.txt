@@ -595,7 +595,7 @@ Once logged in properly, you can use it::
     >>> editview.check_portrait(m1, '<xml>definitely not an image</xml>')
     False
     >>> utils.get_status_messages(editview)
-    [u'Please choose an image in ... format.']
+    [u'Unsupported image format...']
     >>> editview.remove_portrait()
     {...}
     >>> m1.getPortrait()
