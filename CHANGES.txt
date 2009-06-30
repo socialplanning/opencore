@@ -6,6 +6,10 @@ Features Added:
  * Added PSM for successful invite-join so new members will have at least
    one obvious link to the projects they just joined. (rafrombrc)
 
+ * After a successful invite-join, a new member is now redirected to the
+   homepage of the project he just joined, instead of his generic "tour"
+   page. (rafrombrc)
+
  * Added migrations/resync-page-history-caches.py zopectl script which will
    resynchronize all page history caches on a site. (#2836) (rafrombrc)
 
