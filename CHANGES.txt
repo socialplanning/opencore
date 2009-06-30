@@ -19,9 +19,12 @@ Features Added:
 
 Bugs Fixed:
 
- * Wiki history no longer reports incorrect modification dates for individual
-   versions of a page. Run resync-page-history-caches.py to fix existing content;
-   see "Features" above. (#2836) (rafrombrc)
+ * Correctly catch PIL-generated IOErrors on portrait uploads, w/
+   improved notification and more correct behavior (rafrombrc)
+
+ * Wiki history no longer reports incorrect modification dates for
+   individual versions of a page. Run resync-page-history-caches.py to
+   fix existing content; see "Features" above. (#2836) (rafrombrc)
 
  * Added async project security reindex for succesful invite-joins. (rafrombrc)
 
