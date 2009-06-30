@@ -245,10 +245,17 @@ class AnnotationCachedWikiHistory(object):
             version_id = keys[version_id]
         return self.annot[version_id]
 
-    def new_history_item(self, message=None, reversion=False, history=None, author=None):
-        """reversion might be called 'after'"""
+    def new_history_item(self, message=None, reversion=False, history=None,
+                         author=None):
+        """This will add a new history item to the history cache
+        stored on the page.  WARNING: This method assumes it is being
+        called _during_ the request when the revision is actually
+        taking place.  It is not meant to be used after the fact, to
+        synchronize with the existing history information in the
+        portal_repository.  Please use the resync_history_cache method
+        for that purpose.
+        """
         page = self.context
-
         try:
             repo = getToolByName(page, 'portal_repository')
             first_item = repo.getHistory(page, countPurged=False)[0]
@@ -280,10 +287,37 @@ class AnnotationCachedWikiHistory(object):
             version_id=new_version_id,
             comment=message,
             author=author,
-            modification_date=page.modified(),
+            modification_date=DateTime(), # now
             )
 
         self.annot[new_version_id] = new_history_item
+
+    def resync_history_cache(self):
+        """
+        Synchronizes the history cache stored on the page object w/
+        the canonical history that is stored in the portal_repository,
+        overwriting whatever was already in the cache.
+        """
+        page = self.context
+        new_cache = IOBTree()
+        repo = getToolByName(page, 'portal_repository')
+        real_history = repo.getHistory(page, countPurged=False)
+        # most recent is first, need to reverse
+        for revision in reversed(real_history):
+            sys_md = revision.sys_metadata
+            version_id = revision.version_id
+            new_history_item = dict(
+                version_id=version_id,
+                comment=revision.comment,
+                author=sys_md.get('principal'),
+                modification_date=DateTime(sys_md.get('timestamp'))
+                )
+            new_cache[version_id] = new_history_item
+        # we've populated the new cache, now write it back to the
+        # storage
+        annot = IAnnotations(page)
+        annot[annot_key] = new_cache
+        self.annot = annot[annot_key]
 
 
 class WikiPageVersionMigrate(BrowserView):

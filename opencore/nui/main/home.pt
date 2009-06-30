@@ -73,11 +73,7 @@
               <li class="oc-lineup-item oc-clearAfter" tal:repeat="project view/recently_updated_projects">
               <!-- FIXME optimization potential -->
                 <a tal:attributes="href python:view.project_url(project.getId)">
-                  <!-- FIXME weird seek error without the | nothing -->
-                  <tal:setvar define="logo project/getObject/getLogo | nothing;
-                                    thumb_url python:logo and ('%s/logo_thumb' % project.getURL()) or view.defaultProjLogoURL">
-                    <img class="oc-project-logo" tal:attributes="src thumb_url; alt project/Title; title project/Title" />
-                  </tal:setvar>
+                    <img class="oc-project-logo" tal:attributes="src string:${project/getURL}/logo_thumb; alt project/Title; title project/Title" />
                 </a>
                 <h3 class="oc-feed-item-title">
                   <a href="" tal:attributes="href python:view.project_url(project.getId)" tal:content="project/Title" />

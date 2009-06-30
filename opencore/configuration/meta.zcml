@@ -1,5 +1,18 @@
-<configure xmlns="http://namespaces.zope.org/zope">
-  <!-- addform meta goes here too -->
+<configure xmlns="http://namespaces.zope.org/zope"
+	   xmlns:meta="http://namespaces.zope.org/meta"
+	   >
+
+  <meta:directives namespace="http://namespaces.openplans.org/opencore">
+
+    <meta:directive
+        name="registerTranslations"
+        schema="zope.i18n.zcml.IRegisterTranslationsDirective"
+        handler="opencore.i18n.registerTranslations"
+        />
+
+  </meta:directives>
+
   <include package="opencore.project" file="meta.zcml" />
   <include package="opencore.browser.topnav" file="meta.zcml" />
+
 </configure>

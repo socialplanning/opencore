@@ -1,7 +1,32 @@
-0.17.1 (unreleased)
+0.17.1 (2009-06-30)
 ===================
 
+Features Added:
+
+ * Added PSM for successful invite-join so new members will have at least
+   one obvious link to the projects they just joined. (rafrombrc)
+
+ * After a successful invite-join, a new member is now redirected to the
+   homepage of the project he just joined, instead of his generic "tour"
+   page. (rafrombrc)
+
+ * Added migrations/resync-page-history-caches.py zopectl script which will
+   resynchronize all page history caches on a site. (#2836) (rafrombrc)
+
+ * The infamous `project_noun` is now injected implicitly into all translation
+   mappings, meaning ${project_noun} can be used in any translation without
+   fear. (egj)
+
 Bugs Fixed:
+
+ * Wiki history no longer reports incorrect modification dates for individual
+   versions of a page. Run resync-page-history-caches.py to fix existing content;
+   see "Features" above. (#2836) (rafrombrc)
+
+ * Added async project security reindex for succesful invite-joins. (rafrombrc)
+
+ * Use English text as the default-of-last-resort for all internationalized
+   strings if no translation is available in a given language. (egj)
 
  * Requesting membership to a project when the user already has a pending
    membership no longer causes a site error if the project's title contains
@@ -30,8 +55,6 @@ Bugs Fixed:
 
  * We now set Expires and Last-Modified headers on member portraits,
    for cacheability. (slinkp)
-
-Also various Listen i18n fixes -- need to catalog those here and/or there.
 
 
 0.17.0 (2009-05-09)
