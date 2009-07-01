@@ -1,5 +1,7 @@
 from Products.CMFCore.utils import getToolByName
+from Products.listen.lib.common import construct_simple_encoded_message
 from Products.validation.validators.BaseValidators import EMAIL_RE
+from email.quopriMIME import body_encode
 from opencore.i18n import i18n_domain
 from opencore.i18n import translate
 from opencore.interfaces import IOpenSiteRoot
@@ -34,6 +36,11 @@ class EmailSender(object):
 
     def debug_send(self, *args, **kw):
         pprint(locals(), sys.stderr)
+
+    @property
+    def _encoding(self):
+        putils = getToolByName(self.context, 'plone_utils')
+        return putils.getSiteEncoding()
 
     @property
     def _send(self):
@@ -111,30 +118,44 @@ class EmailSender(object):
             if email_addr is not None:
                 mfrom = email_addr
 
-        if isinstance(msg, unicode):
-            msg = msg.encode('utf-8')
-
         #we construct the mail message ourselves ... because the mailhost generates bogus messages
         #by bogus i mean that the mail message generated has 2 sets of separate headers
-        msg_body = msg
+        mapping = self._unicode_values(dict(
+            from_addr=mfrom,
+            to_addr='; '.join(recips),
+            subject=subject,
+            body=msg,
+            ))
         if subject:
-            msg = """\
-From: %(mfrom)s
-To: %(recips)s
+            msg = u"""\
+From: %(from_addr)s
+To: %(to_addr)s
 Subject: %(subject)s
 
-%(msg_body)s""" % dict(mfrom=mfrom,
-                       recips='; '.join(recips),
-                       subject=subject,
-                       msg_body=msg_body,
-                       )
+%(body)s""" % mapping
         else:
-            msg = """\
-From: %(mfrom)s
-To: %(recips)s
-%(msg_body)s""" % dict(mfrom=mfrom,
-                       recips='; '.join(recips),
-                       msg_body=msg_body,
-                       )
-            
+            msg = u"""\
+From: %(from_addr)s
+To: %(to_addr)s
+%(body)s""" % mapping
+
+        # At this point we should have a unicode string; we need raw
+        # bytes to send, and we may need to do the weird
+        # quoted-printable encoding of non-utf8 strings.
+        try:
+            msg = msg.encode(self._encoding)
+        except UnicodeEncodeError:
+            mapping['encoding'] = self._encoding
+
+            # see http://trac.openplans.org/openplans/ticket/2808
+            # it looks like construct_simple_encoded_message ought
+            # to be doing this itself, but the line is commented
+            # out there, so i'll be cautious and make the most
+            # minimally-invasive change possible. this should
+            # probably be investigated upstream in listen and
+            # (hopefully) this line eventually removed.
+            mapping['body'] = body_encode(mapping['body'])
+
+            msg = str(construct_simple_encoded_message(**mapping))
+
         self._send(msg)
