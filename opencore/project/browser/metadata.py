@@ -1,25 +1,23 @@
 """
 selective catalog metadata handling 
 """
+from Acquisition import aq_inner
 from zope.app.event import objectevent
-from zope.interface import implements
 from zope.app.annotation.interfaces import IAnnotations
 import zope.event
 from BTrees.OOBTree import OOBTree
 from Products.CMFCore.utils import getToolByName
 from Products.CMFPlone.CatalogTool import registerIndexableAttribute
-from Products.CMFEditions.interfaces.IArchivist import ArchivistUnregisteredError
 from opencore.interfaces import IProject
 from opencore.interfaces import IOpenPage
-from opencore.interfaces.catalog import ILastModifiedAuthorId
 from opencore.interfaces.catalog import IIndexingGhost
 from opencore.interfaces.event import IAfterProjectAddedEvent
+from opencore.utils import interface_in_aq_chain
 from Missing import MV
 
-from Products.listen.interfaces import ISearchableMessage, ISearchableArchive, IMailMessage, IMailingList
-from zope.app.event.interfaces import IObjectModifiedEvent, IObjectCreatedEvent
+from Products.listen.interfaces import ISearchableMessage, IMailMessage, IMailingList
+from zope.app.event.interfaces import IObjectModifiedEvent
 from zope.component import adapter
-from zope.interface import alsoProvides
 
 # where the last modified author is stored
 ANNOT_KEY = 'opencore.project.browser.metadata'
@@ -43,17 +41,11 @@ def updateThreadCount(obj, event):
         cat._catalog.catalogObject(proxy, list_path, idxs=['mailing_list_threads'])
 
 def updateContainerMetadata(obj, event):
-    try:
-        parent = obj.aq_inner.aq_parent
-    except AttributeError:
-        parent = None
-
-    if not (parent and IProject.providedBy(parent)):
+    project = interface_in_aq_chain(aq_inner(obj), IProject)
+    if project is None:
         return
-
-    parent.setModificationDate()
-    parent.reindexObject(idxs=['modified'])
-
+    project.setModificationDate()
+    project.reindexObject(idxs=['modified'])
     
 def notifyObjectModified(obj):
     zope.event.notify(objectevent.ObjectModifiedEvent(obj))
