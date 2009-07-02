@@ -224,13 +224,9 @@ class ProjectsSearchView(SearchView):
         return project_brains
     
     def recently_updated_projects(self, sort_limit=10):
-        
         rs = (('modified', 'desc'),)
-            
         query = Eq('portal_type', 'OpenProject') & (Eq('project_policy', 'open_policy') | Eq('project_policy', 'medium_policy'))
-
         query = self.adv_context_restrictions_applied(query)
-        
         project_brains = self.catalog.evalAdvancedQuery(query, rs)
         return project_brains[:sort_limit]
 
