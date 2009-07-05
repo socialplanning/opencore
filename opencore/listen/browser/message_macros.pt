@@ -13,7 +13,7 @@
           tal:attributes="href string:forum_view#${item/id};
           title item/date">Subject</a>
           <span class="oc-discreetText">
-              by <a href="."
+              <span i18n:translate="">by</span> <a href="."
                   tal:omit-tag="not:item/from_id"
                   tal:attributes="href string:${here/portal_url}/people/${item/from_id}">
                   <span tal:replace="item/mail_from">test@example.com</span>
@@ -54,7 +54,7 @@
             tal:omit-tag="not:message/from_id"
             tal:attributes="href string:${here/portal_url}/people/${message/from_id}">
             <span tal:replace="structure message/mail_from">test@example.com</span></a>
-        on <span tal:replace="message/date">Mon, 12 Nov 2005 14:58</span>
+        <span i18n:translate="">on</span> <span tal:replace="message/date">Mon, 12 Nov 2005 14:58</span>
       </span>
     </div>
 

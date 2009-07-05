@@ -5,7 +5,7 @@
 <body>
 
   <div metal:define-macro="featured_projects">
-    <h2>Featured Projects</h2>
+    <h2 i18n:translate="featured_project_heading">Featured Projects</h2>
   </div>
 
 </body>

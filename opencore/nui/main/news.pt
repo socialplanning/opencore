@@ -27,7 +27,7 @@
                                  name item/getId"
                  />
             </h2>
-            <p class="oc-feed-item-data oc-discreetText">by 
+            <p class="oc-feed-item-data oc-discreetText"><span i18n:translate="">by</span> 
               <a tal:define="userid item/Creator" tal:attributes="href string:${context/portal_url}/people/${userid}" tal:content="userid" />,
               <span tal:content="python: view.pretty_date(item.CreationDate)">today</span>
             </p>
@@ -40,7 +40,7 @@
       <div id="oc-content-sidebar">
         <div id="oc-contact" class="oc-boxy">
           <h2 i18n:translate="news_about_us_heading">About us</h2>
-          <p i18n:translate="news_about_us_description">We would love to hear from you. Learn more <a tal:attributes="href string:${here/portal_url}/about">about us and our software</a> or <a tal:attributes="href string:${here/portal_url}/contact">contact us</a> for more information.</p>
+          <p i18n:translate="news_about_us_description">We would love to hear from you. Learn more <a i18n:name="about_our_software_portal_url" tal:attributes="href string:${here/portal_url}/about"><span i18n:translate="about_us_and_our_software">about us and our software</span></a> or <a i18n:name="contact_us_portal_url" tal:attributes="href string:${here/portal_url}/contact"><span i18n:translate="contact_us">contact us</span></a> for more information.</p>
         </div>
       </div>
 

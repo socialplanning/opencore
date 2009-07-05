@@ -124,6 +124,7 @@
                       <input type="submit"
                              name="LIST_ID_submit_delete"
                              value="Delete"
+                             i18n:attributes="value listt_is_submit_delete"
                              onclick="DELETELIST_CONFIRM"
                              tal:attributes="name string:${item_id}_submit_delete;
                                              onclick string:javascript:deletelist_openConfirmation('${here/absolute_url}', '$item_id')" />

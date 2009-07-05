@@ -6,8 +6,8 @@
     <div metal:fill-slot="content">
       <div id="oc-content-main" class="oc-content-main-fullWidth">
         <div class="oc-headingBlock">
-          <h1>Join</h1>
-          <p class="oc-headingContext">Request membership to &ldquo;<span tal:replace="context/Title" />&rdquo;.</p>
+          <h1 i18n:translate="join_heading">Join</h1>
+          <p class="oc-headingContext" i18n:translate="join_help">Request membership to &ldquo;<span i18n:name="join_context_title" tal:replace="context/Title" />&rdquo;.</p>
         </div>
         <form method="POST" id="request-membership" name="request-membership"
               tal:attributes="action view/request/ACTUAL_URL">
@@ -143,8 +143,8 @@
           </div>
   
           <fieldset>
-              <label for="request-message">Message for &ldquo;<span tal:replace="context/Title" />&rdquo;</label>
-              <span class="oc-discreetText">(optional)</span>
+              <label for="request-message" i18n:translate="">Message for &ldquo;<span i18n:name="msg_for_context_title" tal:replace="context/Title" />&rdquo;</label>
+              <span class="oc-discreetText" i18n:translate="">(optional)</span>
               <textarea rows="4" cols="80" 
                         class="oc-autoFocus"
                         name="request-message"
@@ -153,8 +153,8 @@
           </fieldset>
           <fieldset>
             <ul class="oc-actions">
-              <li><input type="submit" name="task|request-membership" value="Join" class="oc-button oc-chooseThis" /> </li>
-	      <li>or <a tal:attributes="href context/absolute_url">Cancel</a></li>
+              <li><input type="submit" name="task|request-membership" value="Join" i18n:attributes="value" class="oc-button oc-chooseThis" /> </li>
+	      <li><span i18n:translate="">or</span> <a tal:attributes="href context/absolute_url" i18n:translate="">Cancel</a></li>
 	    </ul>
           </fieldset>
         </form>

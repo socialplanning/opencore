@@ -6,22 +6,22 @@
 	<body>
 	<div metal:fill-slot="content">
 		<div class="oc-headingBlock">
-		<h1>Really delete these items permanently?</h1>
+		<h1 i18n:translate="delete_items_permanently">Really delete these items permanently?</h1>
 		</div>
 		<div id="oc-content-main" class="oc-content-main-fullWidth">
 		<form id="confirm-delete" action="" method="POST"
 		      tal:attributes="action  string:${context/absolute_url}/contents">
 		  <ul tal:repeat="item request/form/sources">
 		    <input type="hidden" name=""
-			   tal:attributes="name string:task|${item}|delete" value="Delete" />
+			   tal:attributes="name string:task|${item}|delete" value="Delete" i18n:attributes="value" />
 		    <li tal:content="item"> id </li>
 		    <!-- would like to show title here, but for attachments, we don't have enough context to find the attachment and get its title. maybe later.  -->
 		    <!-- FIXME: Should we set PSMs for the deleted items? -->
 		  </ul>
 		  <p>
-		    <input type="submit" name="delete" value=" Really Delete " />
+		    <input type="submit" name="delete" value=" Really Delete " i18n:attributes="value" />
 		  </p>
-		  <p><a href="" tal:attributes="href string:${context/absolute_url}/contents">Cancel and go back to the contents form</a></p>
+		  <p><a href="" tal:attributes="href string:${context/absolute_url}/contents" i18n:translate="">Cancel and go back to the contents form</a></p>
 		</form>
 		</div><!-- end .oc-content-main -->
 	</div><!-- end content-fill-slot -->

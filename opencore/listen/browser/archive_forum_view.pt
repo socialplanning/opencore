@@ -32,7 +32,7 @@
                     <a href="#"
                        tal:content="structure item/brief_subject"
                        tal:attributes="href item/url">
-                    Subject</a>
+                    <span i18n:translate="">Subject</span></a>
                   </td>
                   <td>
                     <a href="."

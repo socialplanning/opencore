@@ -60,7 +60,7 @@ class RequestMembershipWithEmail(object):
         email_msg = sender.constructMailMessage(email_msg)
 
         if request_message:
-            member_message = _('email_mship_request_message',
+            member_message = _(u'email_mship_request_message',
                                mapping = {'member_id': member_string,
                                           'project_title': team.title,
                                           'team_manage_url': team_manage_url,

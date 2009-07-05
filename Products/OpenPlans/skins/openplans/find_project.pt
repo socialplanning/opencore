@@ -5,9 +5,9 @@
 <body>
 
   <div metal:define-macro="find_project">
-    <h2>Find Project</h2>
+    <h2 i18n:translate="find_project_heading">Find Project</h2>
 
-    <p>
+    <p i18n:translate="find_project_help">
       You can become a member of any of the projects that we have
       listed on OpenPlans.org.  As a member, you can keep up with
       current news and information.  You can even submit your own
@@ -16,16 +16,19 @@
     </p>
 
     <p>
-      Start your search here:<br />
+      <span i18n:translate="start_your_search_here">Start your search here:</span><br />
       <br />
       <a href="COMINGSOON"
-         tal:attributes="href string:$portal_url/coming_soon">Find by Type</a><br />
+         tal:attributes="href string:$portal_url/coming_soon">
+            <span i18n:translate="start_find_by_type">Find by Type</span></a><br />
       <br />
       <a href="COMINGSOON"
-         tal:attributes="href string:$portal_url/coming_soon">Find by Location</a><br />
+         tal:attributes="href string:$portal_url/coming_soon">
+            <span i18n:translate="start_find_by_location">Find by Location</span></a><br />
       <br />
       <a href="COMINGSOON"
-         tal:attributes="href string:$portal_url/coming_soon">Find by Name</a><br />
+         tal:attributes="href string:$portal_url/coming_soon">
+            <span i18n:translate="start_find_by_name">Find by Name</span></a><br />
       <br />
     </p>
 

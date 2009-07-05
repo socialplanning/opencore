@@ -24,15 +24,15 @@
           <div metal:use-macro="here/@@wiki_macros/tabs" />
 
           <div class="oc-headingBlock">
-            <!-- <h1>Compare Versions: <span tal:replace="here/title_or_id">page</span></h1> --> 
+            <!-- <h1 i18n:translate="">Compare Versions: <span tal:replace="here/title_or_id">page</span></h1> --> 
           </div>
           <div class="oc-widget oc-widget-version-compare oc-boxy oc-clearAfter">
           <table cellpadding="0" cellspacing="0" border="0">
             <tr>
-              <th scope="row">Comparing</th>
+              <th scope="row" i18n:translate="">Comparing</th>
               <td>
                 <tal:if condition="view/new_prev_enabled">
-                  <a class="oc-button oc-smallText" title="older" tal:attributes="href string:version_compare?version_id=${old_id}&amp;version_id=${prev_new_id}">
+                  <a class="oc-button oc-smallText" title="older" i18n:attributes="title" tal:attributes="href string:version_compare?version_id=${old_id}&amp;version_id=${prev_new_id}">
                     &larr;
                   </a>
                 </tal:if>
@@ -49,7 +49,7 @@
               <td>
                 <!-- next widget -->
                 <tal:if condition="view/new_next_enabled">
-                  <a class="oc-button oc-smallText" title="newer" tal:attributes="href string:version_compare?version_id=${old_id}&amp;version_id=${next_new_id}">
+                  <a class="oc-button oc-smallText" title="newer" i18n:attributes="title" tal:attributes="href string:version_compare?version_id=${old_id}&amp;version_id=${next_new_id}">
                     &rarr;<!-- FIXME -->
                   </a>
                 </tal:if>
@@ -59,21 +59,21 @@
               </td>
               <td>
                 <!-- meta -->
-                by <a tal:define="author view/new_version/sys_metadata/principal" 
+                <span i18n:translate="">by</span> <a tal:define="author view/new_version/sys_metadata/principal" 
                             tal:attributes="href string:${people_url}/${author}/profile"
-                            tal:content="author">author</a>, modified
+                            tal:content="author">author</a>, <span i18n:translate="">modified</span>
                 <abbr tal:attributes="title python:view.new_version.object.ModificationDate()">
-                  <Span tal:replace="python: view.pretty_mod_date(view.new_version)" />
+                  <span tal:replace="python: view.pretty_mod_date(view.new_version)" />
                 </abbr>
               </td>
               <td>
               </td>
             </tr>
             <tr>
-              <th scope="row">to</th>
+              <th scope="row" i18n:translate="">to</th>
               <td>
                 <tal:if condition="view/old_prev_enabled">
-                  <a class="oc-button oc-smallText" title="older" tal:attributes="href string:version_compare?version_id=${prev_old_id}&amp;version_id=${new_id}">
+                  <a class="oc-button oc-smallText" title="older" i18n:attributes="title" tal:attributes="href string:version_compare?version_id=${prev_old_id}&amp;version_id=${new_id}">
                     &larr;
                   </a>
                 </tal:if>
@@ -89,7 +89,7 @@
               <td>
                 <!-- FIXME next widget --> 
                 <tal:if condition="view/old_next_enabled">
-                  <a class="oc-button oc-smallText" title="newer" tal:attributes="href string:version_compare?version_id=${next_old_id}&amp;version_id=${new_id}">
+                  <a class="oc-button oc-smallText" title="newer" i18n:attributes="title" tal:attributes="href string:version_compare?version_id=${next_old_id}&amp;version_id=${new_id}">
                       &rarr;<!-- FIXME -->
                   </a>
                 </tal:if>
@@ -98,9 +98,9 @@
                 </tal:if>
               </td>
               <td>
-                by <a tal:define="author view/old_version/sys_metadata/principal" 
+                <span i18n:translate="">by</span> <a tal:define="author view/old_version/sys_metadata/principal" 
                             tal:attributes="href string:${people_url}/${author}/profile"
-                            tal:content="author">author</a>, modified
+                            tal:content="author">author</a>, <span i18n:translate="">modified</span>
               <abbr tal:attributes="title python:view.old_version.object.ModificationDate()">
                 <span tal:replace="python:view.pretty_mod_date(view.old_version)" />
               </abbr>
@@ -112,7 +112,7 @@
                   <!-- FIXME ? relative --> 
                   <form method="post" id="revert_form" action="revert">
                     <input type="hidden" name="version_id" tal:attributes="value old_id" />
-                    <input type="submit" class="oc-smallText" name="revert" value="revert to this version" />
+                    <input type="submit" class="oc-smallText" name="revert" value="revert to this version" i18n:attributes="value" />
                   </form> 
                 </tal:if>
               </td>
@@ -120,10 +120,10 @@
           </table>
 
           <div class="oc-version-compare-legend oc-smallText">
-            <h2 class="oc-smallText">Key</h2>
+            <h2 class="oc-smallText" i18n:translate="">Key</h2>
             <ul>
-              <li><ins>inserted</ins></li>      
-              <li><del>deleted</del></li>
+              <li i18n:translate="wiki_version_compare_inserted"><ins>inserted</ins></li>      
+              <li i18n:translate="wiki_version_compare_deleted"><del>deleted</del></li>
             </ul>
           </div><!-- end .oc-history-compare-legend -->
           </div><!-- end .oc-widget-history-compare -->

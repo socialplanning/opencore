@@ -29,7 +29,8 @@
               i18n:translate="message_reply_view_subject">Subject:</label>
             <input type="text" name="subject" value="." size="40" tal:attributes="value view/reply_subject; class python:error and ' oc-fieldBlock-error' or ''" />
             <span title="Required" class="oc-discreetText"
-              i18n:translate="message_reply_view_required">
+              i18n:translate="message_reply_view_required"
+              i18n:attributes="title">
               (Required)
             </span>
             <div tal:condition="error" tal:content="error" class="oc-form-error" />
@@ -37,8 +38,9 @@
           <div tal:define="error errors/body|nothing"
             tal:attributes="class python:'oc-fieldBock' + (error and 'error' or '')">
             <label for="body" i18n:translate="message_reply_view_reply">Reply</label>
-            <span title="Required"  class="oc-discreetText" 
-              i18n:translate="message_reply_view_required">
+            <span title="Required" class="oc-discreetText" 
+              i18n:translate="message_reply_view_required"
+              i18n:attributes="title">
               (Required)
             </span>
             <div tal:condition="error" tal:content="error" class="oc-form-error" />

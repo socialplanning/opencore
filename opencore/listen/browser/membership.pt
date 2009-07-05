@@ -14,7 +14,7 @@
             <thead>
             <tr>
               <th scope="col" i18n:translate="manage_membership_user">Address / User ID</th>
-              <th scope="col">Susbscribed?</th>
+              <th scope="col" i18n:translate="manage_membership_susbscribed">Susbscribed?</th>
               <th scope="col"></th>
               <th scope="col"></th>
             </tr>

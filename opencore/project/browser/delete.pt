@@ -21,15 +21,15 @@
              class="enableUnloadProtection"
              tal:attributes="action view/name">
             <fieldset class="oc-boxy">
-              <legend class="oc-legend-heading oc-biggerText">Delete <span tal:replace="view/project_noun/title">Project</span></legend>
+              <legend class="oc-legend-heading oc-biggerText" i18n:translate="">Delete <span i18n:name="delete_project" tal:replace="view/project_noun/title">Project</span></legend>
               <button type="submit" 
                       name="delete:boolean" 
                       value="True" 
                       class="oc-button oc-confirmProjectDelete">
-                Delete <span tal:replace="view/project_noun/title">Project</span>
+                <span i18n:translate="">Delete <span i18n:name="remove_view_project_noun_title" tal:replace="view/project_noun/title">Project</span></span>
               </button>
-              Remove this <span tal:replace="view/project_noun">project</span> from <span tal:replace="view/portal_title" />?
-              <span id="oc-project-delete-warning" class="oc-hidden oc-warning">
+              <span i18n:translate="">Remove this <span i18n:name="remove_view_project_noun" tal:replace="view/project_noun">project</span> from <span i18n:name="remove_view_project_title" tal:replace="view/portal_title" />?</span>
+              <span id="oc-project-delete-warning" class="oc-hidden oc-warning" i18n:translate="">
                 Removing is permanent, are you sure you want to continue?
               </span>
             </fieldset>

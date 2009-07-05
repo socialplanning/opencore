@@ -13,7 +13,8 @@
         <div class="oc-headingBlock">
           <h1 i18n:translate="mailing_lists_heading">Mailing lists</h1>
           <p i18n:translate="mailing_lists_description" class="oc-headingContent">
-            View<span tal:condition="can_add_lists"> or manage exisiting</span> mailing lists<span tal:condition="can_add_lists"> or <a tal:attributes="href string:${context/absolute_url}/create">add a new mailing list</a></span>.
+            View<span tal:condition="can_add_lists"> or manage exisiting</span> mailing lists<span tal:condition="can_add_lists"> or <a i18n:name="absolute_url_create" tal:attributes="href string:${context/absolute_url}/create">
+              <span i18n:translate="add_new_mailing_list">add a new mailing list</span></a></span>.
           </p>
         </div>
   
@@ -60,16 +61,19 @@
                             <input type="hidden"
                                   name="list_id"
                                   value="LIST_ID"
+                                  i18n:attributes="value"
                                   tal:attributes="value list_id" />
                             <input type="hidden"
                                   name="LIST_ID_confirm_delete"
                                   id="LIST_ID_confirm_delete"
                                   value="false"
+                                  i18n:attributes="value"
                                   tal:define="name string:${list_id}_confirm_delete"
                                   tal:attributes="name name;id name" />
                             <input type="submit"
                                   name="LIST_ID_submit_delete"
                                   value="Delete"
+                                  i18n:attributes="value"
                                   onclick="DELETELIST_CONFIRM"
                                   tal:attributes="name string:${list_id}_submit_delete;
                                       onclick string:javascript:deletelist_openConfirmation('${here/absolute_url}', '$list_id')" />
@@ -90,7 +94,7 @@
       </div><!-- oc-content-main -->
       
       <div id="oc-content-sidebar">
-          <a class="oc-banana" tal:attributes="href string:${context/absolute_url}/create">Add a mailing list</a>
+          <a class="oc-banana" tal:attributes="href string:${context/absolute_url}/create"><span i18n:translate="add_mailing_list">Add a mailing list</span></a>
       </div>
     </div>
   </body>

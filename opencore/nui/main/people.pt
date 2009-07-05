@@ -11,7 +11,11 @@
         <p i18n:translate="people_members" class="oc-headingContext">
           <span i18n:name="num_members" tal:replace="view/nusers">XXX</span> members,
           <span tal:condition="view/loggedin">and growing</span>
-          <span tal:condition="not: view/loggedin">and <a tal:attributes="href string:${context/portal_url}/join">you</a></span>
+          <span tal:condition="not: view/loggedin">and 
+                <a i18n:name="portal_url_join" tal:attributes="href string:${context/portal_url}/join">
+                   <span i18n:translate="people_you">you</span>
+                </a>
+          </span>
         </p>
       </div>
 
@@ -20,7 +24,7 @@
 	<tal:viewlet replace="structure provider:opencore.searchresults.top" />
 
         <div class="oc-blocklist">
-          <h2 class="oc-feed-title">New Members</h2>
+          <h2 class="oc-feed-title" i18n:translate="news_about_new_members">New Members</h2>
 	  
           <ol class="oc-lineup-list">
             <li class="oc-lineup-item oc-clearAfter"

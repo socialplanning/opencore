@@ -17,7 +17,7 @@
         <p>Whether your group is mobilizing voters, planning a protest, or growing a garden, OpenPlans can help you become more effective. OpenPlans is about greasing the wheels of democracy.</p>
         <p>With our collaborative wiki pages and other tools, you and your group can:</p>
         <ul class="oc-smallText">
-          <li>Make <span tal:replace="view/project_noun">project</span>s</li>
+          <li>Make <span i18n:name="project_noun_view" tal:replace="view/project_noun"><span i18n:translate="project">project</span></span>s</li>
           <li>Share to-do lists</li>
           <li>Upload photos</li>
           <li>Publicize your cause</li>
@@ -25,15 +25,19 @@
           <li>Store and share files</li>
           <li>and more&hellip;</li>
         </ul>
-        <p>If you don't see something you need, please <a tal:attributes="href string:${context/portal_url}/contact-site-admin">let us know</a>. Chances are, it's just around the bend.</p>
-        <p>OpenPlans is developed by <a tal:attributes="href context/@@oc-utils/topp_url"><acronym title="The Open Planning Project">TOPP</acronym></a>.</p>
+        <p>If you don't see something you need, please <a i18n:name="portal_url_contact_site_admin" tal:attributes="href string:${context/portal_url}/contact-site-admin"><span i18n:translate="let_us_know">let us know</span></a>. Chances are, it's just around the bend.</p>
+        <p>OpenPlans is developed by <a i18n:name="oc_utils_topp_url" tal:attributes="href context/@@oc-utils/topp_url"><acronym title="The Open Planning Project" i18n:attributes="title">TOPP</acronym></a>.</p>
 
 	</div>
       </div><!-- content-main -->
       <div id="oc-content-sidebar">
         <div i18n:translate="about_let_us_know" class="oc-getstarted">
           <h2>Help!</h2>
-          <p>We're here to help you. If you have a question, <a tal:attributes="href string:${context/portal_url}/contact-site-admin">let us know</a>.</p>
+          <p>We're here to help you. If you have a question, 
+            <a tal:attributes="href string:${context/portal_url}/contact-site-admin" i18n:name="about_let_us_know_url">
+              <span i18n:translate="let_us_know">let us know</span>
+            </a>.
+          </p>
         </div>
       </div>
     </div><!-- content-fill-slot -->

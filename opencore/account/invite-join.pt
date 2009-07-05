@@ -257,23 +257,23 @@
 	  <ul class="oc-join-icons oc-clearAfter">
 	    <li>
 	      <img src="/++resource++img/touricons/team.gif" />
-	      <p i18n:translate="Team">Team</p>
+	      <p i18n:translate="label_team">Team</p>
 	    </li>
 	    <li>
 	      <img src="/++resource++img/touricons/portrait.gif" />
-	      <p i18n:translate="Profile">Profile</p>
+	      <p i18n:translate="label_profile">Profile</p>
 	    </li>
 	    <li>
 	      <img src="/++resource++img/touricons/wiki.gif" />
-	      <p i18n:translate="Pages">Pages</p>
+	      <p i18n:translate="label_pages">Pages</p>
 	    </li>
 	    <li>
 	      <img src="/++resource++img/touricons/mailinglist.gif" />
-	      <p i18n:translate="Discussions">Discussions</p>
+	      <p i18n:translate="label_discussions">Discussions</p>
 	    </li>
 	    <li>
 	      <img src="/++resource++img/touricons/blog.gif" />
-	      <p i18n:translate="Blogs">Blogs</p>
+	      <p i18n:translate="label_blogs">Blogs</p>
 	    </li>
 	  </ul>
         </div>

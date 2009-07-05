@@ -58,13 +58,13 @@
     Write new message
   </a>
   <div class="oc-boxy">
-    <h2>About &ldquo;<span tal:replace="context/Title" />&rdquo;</h2>
+    <h2 i18n:translate="about_context_heading">About &ldquo;<span i18n:name="about_context_title" tal:replace="context/Title" />&rdquo;</h2>
     <dl class="oc-plainList">
       <tal:email tal:condition="view/loggedin">
-        <dt>Address</dt>
+        <dt i18n:translate="about_address_label">Address</dt>
         <dd id="listaddress" tal:content="structure view/listAddress" tal:condition="view/listAddress" />
       </tal:email>
-      <dt>Description</dt>
+      <dt i18n:translate="about_description_label">Description</dt>
       <dd tal:content="view/listDescription" tal:condition="view/listDescription" />
       <dd i18n:translate="listen_macros_no_desc" tal:condition="not:view/listDescription">
         none
@@ -78,7 +78,8 @@
 <!-- LISTEN SUBSCRIBE MACRO -->
 <metal:subscribe i18n:domain="opencore" define-macro="subscribe">
   <div class="oc-listen-details-subscribe oc-boxy oc-clearAfter">
-    <p tal:condition="python:isAnon or not can_subscribe" id="unsub-instructions" i18n:translate="mailinglist_view_to_unsubscribe">
+    <p tal:condition="python:isAnon or not can_subscribe" id="unsub-instructions"
+       i18n:translate="mailinglist_view_to_unsubscribe">
       To unsubscribe from this list send an email to the list with the subject
       "<span tal:replace="view/unsubscribe_keyword" i18n:name="sunsubscribe_keyword" />"
       and an empty body.

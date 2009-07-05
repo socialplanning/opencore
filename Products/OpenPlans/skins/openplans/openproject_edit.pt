@@ -4,7 +4,8 @@
     <metal:block fill-slot="extra_info">
       <div class="field"><a href="TEAM MGMT URL"
               tal:define="team_url python:here.getSpaceTeams()[0].absolute_url();"
-              tal:attributes="href team_url">Manage project membership</a>
+              tal:attributes="href team_url">
+            <span i18n:translate="manage_project_membership">Manage project membership</span></a>
       </div>
     </metal:block>
   </div>

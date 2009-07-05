@@ -6,9 +6,9 @@
   </h2>	
   <div class="oc-blankSlate">
     <img src="/++resource++img/summaryicons/mailinglist.gif" />
-    <p>There aren't any discussions for this project yet.</p>
-    <p tal:condition="view/context/isProjectMember">
-      <a tal:attributes="href string:${view/create}">
+    <p i18n:translate="any_discussions_for_project_yet">There aren't any discussions for this project yet.</p>
+    <p i18n:translate="isproject_member_start_discussion" tal:condition="view/context/isProjectMember">
+      <a tal:attributes="href string:${view/create}" i18n:name="start_a_discussion_link">
         Start a Discussion</a></p>
   </div>
 </div>

@@ -15,7 +15,7 @@
 
 	<tal:block condition="python:value and attachments">
 	    <fieldset id="attachmentsBox">
-            <legend>Attachments</legend>
+            <legend i18n:translate="legend_attachments_label">Attachments</legend>
             <ul class="visualNoMarker">
             <tal:related tal:repeat="item attachments">
                 <li tal:define="
@@ -82,7 +82,7 @@
 
 	<dl id="attachment-controls" class="collapsible inline collapsedOnLoad"
 	    tal:attributes="class python:widget.expanded and 'collapsible inline' or 'collapsible inline collapsedOnLoad'">
-        <dt class="collapsibleHeader">Manage Attachments</dt>
+        <dt class="collapsibleHeader" i18n:translate="manage_attachments_title">Manage Attachments</dt>
         <dd class="collapsibleContent">
 
     <div tal:condition="nocall:attachments">
@@ -160,10 +160,10 @@
 			tal:define="error_title errors/attachmentTitle|nothing;"
 	        tal:attributes="class python:test(error_title, 'field error', 'field')">
 		  
-		  <label for="title">
+		  <label for="title" i18n:translate="manage_attachments_title_label">
 		  	Add attachment to document
 		  </label>
-		  <div class="formHelp">
+		  <div class="formHelp" i18n:translate="manage_attachments_title_help">
 				Enter a title for the attachment
 		  </div>
 		  <div tal:content="error_title">Validation error output</div>
@@ -179,7 +179,7 @@
 	 class="field "
 	 tal:define="error_file errors/attachmentFile|nothing;"
 	 tal:attributes="class python:test(error_file, 'field error', 'field')"> 
-		<div class="formHelp">
+		<div class="formHelp" i18n:translate="manage_attachment_add_upload_help">
 			Select an attachment to add and click 'Upload'
 		</div>
 		
@@ -204,7 +204,7 @@
 			   value="Upload" 
 			   i18n:attributes="value"
 			   tal:attributes="tabindex tabindex/next;" /> 
-			<div class="formHelp">
+			<div class="formHelp" i18n:translate="manage_upload_title_help">
 			  Once an attachment is uploaded, you can link to it in your body
 			  text by putting double parentheses around either the ((title))
                           or the ((filename)).

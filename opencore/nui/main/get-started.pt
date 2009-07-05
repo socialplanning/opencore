@@ -6,7 +6,7 @@
     <li tal:condition="ms/isAnonymousUser">
       <h3>
         <a tal:attributes="href string:${context/portal_url}/join" i18n:translate="get_started_join">Become a member</a>
-        <span class="oc-discreetText">or
+        <span class="oc-discreetText"><span i18n:translate="">or</span>
           <a tal:attributes="href string:${context/portal_url}/login" i18n:translate="get_started_login">log in</a>.
         </span>
       </h3>

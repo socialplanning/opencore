@@ -1,12 +1,12 @@
 
 <div class="oc-headingBlock">
-  <h1>Team members</h1>
+  <h1 i18n:translate="team_members_heading">Team members</h1>
   <p class="oc-headingContext">
     <span tal:replace="options/batch/sequence_length"/>
-    member(s).
+    <span i18n:translate="team_members_numbers">member(s).</span>
     
     <span tal:condition="python: view.membertool.checkPermission('TeamSpace: Manage team memberships', context)">
-      <a href="manage-team">
+      <a href="manage-team" i18n:translate="add_or_remove_members">
 	Add or remove members.
       </a>
     </span>

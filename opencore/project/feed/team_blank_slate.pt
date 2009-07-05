@@ -2,12 +2,12 @@
      tal:define="lowertitle context/title/lower"
      tal:attributes="id string:oc-feed-${lowertitle}">
   <h2 class="oc-feed-title clearAfter">
-    <a tal:attributes="href view/feed/link">Team</a>
+    <a tal:attributes="href view/feed/link" i18n:translate="">Team</a>
   </h2>
   <div class="oc-blankSlate"
        tal:condition="context/isProjectAdmin">
     <img src="/++resource++img/summaryicons/team.gif" />
-    <p>There are currently no members for this group.</p>
+    <p i18n:translate="">There are currently no members for this group.</p>
     <p><a i18n:translate="team-manage_send_email_invite" href="invite">        
         Send an email to invite people to join</a></p>
   </div>

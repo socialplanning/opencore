@@ -6,8 +6,8 @@
     <div metal:fill-slot="content">
     
       <div class="oc-headingBlock">
-        <h1>Invite users</h1>
-        <p class="oc-headingContext">Customize an email to invite people to join</p>
+        <h1 i18n:translate="invite_users_heading">Invite users</h1>
+        <p class="oc-headingContext" i18n:translate="invite_users_help">Customize an email to invite people to join</p>
       </div>
     
       <div id="oc-content-main">
@@ -19,14 +19,14 @@
             <tbody>
               <tr class="oc-form-row">
                 <th class="oc-form-label" scope="row">
-                  <label for="email-invites">To:</label>
+                  <label for="email-invites" i18n:translate="">To:</label>
                 </th>
                 <td class="oc-form-value" tal:content="request/form/id | nothing">
                 </td>
               </tr>
               <tr class="oc-form-row">
                 <th class="oc-form-label" scope="row">
-                  <label for="from">From:</label>
+                  <label for="from" i18n:translate="">From:</label>
                 </th>
                 <td class="oc-form-value">
                   &ldquo;<span tal:replace="python: view.loggedinmember.getFullname() or view.loggedinmember.id" />&rdquo; &lt;<span tal:replace="python: view.loggedinmember.email" />&gt;
@@ -36,7 +36,7 @@
               </tr>
               <tr class="oc-form-row">
                 <th class="oc-form-label" scope="row">
-                  <label for="subject">Subject:</label>
+                  <label for="subject" i18n:translate="">Subject:</label>
                 </th>
                 <td class="oc-form-value">
                   <input style="width: 30em;" type="text" name="subject" tal:attributes="value string:You've been invited to join `${context/Title}'" />
@@ -44,16 +44,16 @@
               </tr>
               <tr class="oc-form-row">
                 <th class="oc-form-label" scope="row">
-                  <label for="message">Message:</label>
+                  <label for="message" i18n:translate="">Message:</label>
                 </th>
                 <td class="oc-form-value">
                 <div class="oc-boxy">
 
 
-<textarea rows="9" cols="70"  name="message">
-Hi <span tal:replace="request/form/id  | nothing" />,
+<textarea rows="9" cols="70"  name="message" i18n:translate="">
+Hi <span i18n:name="member_id" tal:replace="request/form/id  | nothing" />,
 
-You have been invited to join <span tal:replace="context/Title" /> by  <span tal:replace="python: view.loggedinmember.getFullname() or view.loggedinmember.id" />. Please visit your account page to accept or decline the invitation.
+You have been invited to join <span i18n:name="project_title" tal:replace="context/Title" /> by  <span i18n:name="member_id_to_invite" tal:replace="python: view.loggedinmember.getFullname() or view.loggedinmember.id" />. Please visit your account page to accept or decline the invitation.
 
 Cheers,  
 The OpenPlans team
@@ -68,7 +68,7 @@ The OpenPlans team
                 </th>
                 <td class="oc-form-value">
                   <input type="submit" 
-                         tal:attributes="name string:task|${request/form/id|nothing}|invite-member" value="Send"
+                         tal:attributes="name string:task|${request/form/id|nothing}|invite-member" value="Send" i18n:attributes="value"
                          class="oc-button" />
                 </td>
                 <td class="oc-form-help">

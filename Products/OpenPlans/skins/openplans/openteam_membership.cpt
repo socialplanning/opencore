@@ -30,7 +30,9 @@
     <div tal:define="canmanage python:mtool.checkPermission('TeamSpace: Manage team memberships', here);
                      onteam python:bool(here.has_key(member.getId()))"
        tal:condition="python: not isAnon and not canmanage and not onteam">
-      <a tal:attributes="href python:'%s/join' % here.absolute_url()">Join this project</a>
+      <a tal:attributes="href python:'%s/join' % here.absolute_url()">
+	    <span i18n:translate="join_this_project_label">Join this project</span>
+      </a>
     </div>
 
     <metal:block tal:condition="python:test(search_submitted and not search_results, 1, 0)">

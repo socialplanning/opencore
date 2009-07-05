@@ -12,8 +12,9 @@
         <img tal:attributes="src thumb_uri; alt image_desc" />
       </a>
       <div class="edit">
-        <a tal:attributes="href string:backend-upload?task|${image/id}|delete-image=del&amp;att=${image/id}" title="Trash" onclick="return confirmDeleteFile('');"><img src="++resource++img/edit_trash.gif" alt="Trash" height="15" width="15" /></a>
-        <span tal:replace="width"/>x<span tal:replace="height"/>
+        <a tal:attributes="href string:backend-upload?task|${image/id}|delete-image=del&amp;att=${image/id}" title="Trash" i18n:attributes="title" onclick="return confirmDeleteFile('');">
+          <img src="++resource++img/edit_trash.gif" alt="Trash" i18n:attributes="alt" height="15" width="15" /></a>
+        <span tal:replace="width"/><!-- x --><span tal:replace="height"/>
       </div>
     </div>
   </tal:setvar>

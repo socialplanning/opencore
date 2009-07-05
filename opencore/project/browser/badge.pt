@@ -18,15 +18,16 @@
         <span tal:replace="desc" />
       </p>
       <p i18n:translate="project_badge_num_members">
-	<span i18n:name="num_members" tal:replace="python: len(context.getTeams()[0].getActiveMemberships())" /> members
+	<span i18n:name="num_members" tal:replace="python: len(context.getTeams()[0].getActiveMemberships())" /> 
+	<span i18n:name="num_members_string">members</span>
       </p>
       <p>
 	<span class="oc-feed-item-data oc-discreetText">
-          last updated
+          <span i18n:translate="">last updated</span>
           <tal:has_updated_author
 	     define="userid python:context.portal_catalog(getId=context.getId())[0].lastModifiedAuthor"
 	     condition="userid">
-            by
+            <span i18n:translate="">by</span>
             <a tal:attributes="href string:${context/portal_url}/people/${userid}/profile" tal:content="userid" />,
           </tal:has_updated_author>
           <span tal:content="python: view.pretty_date(context.ModificationDate())" />

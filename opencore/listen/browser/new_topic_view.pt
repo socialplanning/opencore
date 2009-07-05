@@ -38,7 +38,8 @@
                        tal:attributes="value request/subject|nothing;
                                        class python:error and ' oc-fieldBlock-error' or ''" />
               <span title="Required" class="oc-discreetText" 
-                    i18n:translate="new_topic_view_required">
+                    i18n:translate="new_topic_view_required"
+                    i18n:attributes="title">
                 (Required)
               </span>
               <div tal:condition="error" tal:content="error"
@@ -49,7 +50,8 @@
                      i18n:translate="new_topic_view_message_body">Message:</label>
               <span title="Required" class="oc-discreetText"
                     i18n:domain="plone"
-                    i18n:translate="new_topic_view_required">
+                    i18n:translate="new_topic_view_required"
+                    i18n:attributes="title">
                 (Required)
               </span>
               <div tal:condition="error" tal:content="error"

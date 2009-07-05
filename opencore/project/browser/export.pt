@@ -34,13 +34,16 @@ background: url(/++resource++spinning_wheel_throbber.gif) 0 50% no-repeat;
 
 <div class="oc-headingBlock">
   <h1 i18n:translate="">Project Export</h1>
-  <p class="oc-headingContext">Export your content.</p>
+
+  <p class="oc-headingContext" i18n:translate="">Export your content.</p>
 
 </div>
     
 <div id="oc-content-main" class="oc-content-main-fullWidth">
   <form id="project-export" action="" method="get">
-    <input class="context oc-button oc-chooseThis" type="submit" value="Export" name="export"/>
+
+    <input class="context oc-button oc-chooseThis" type="submit" name="export"
+           value="Export" i18n:attributes="value"/>
   </form>
   <div id="project-export-status"
        tal:define="current view/current_status">

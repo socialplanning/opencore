@@ -9,7 +9,7 @@
                  memberships python:portal_teams.getTeamMembershipsFor()
                  ">
 
-    <h1>Your Projects</h1>
+    <h1 i18n:translate="your_projects_heading">Your Projects</h1>
 
     <table class="listing" tal:condition="memberships">
       <thead>

@@ -13,9 +13,9 @@
   <div metal:fill-slot="main"
        tal:define="errors options/state/getErrors;">
 
-    <h1>Contact Project Administrators</h1>
+    <h1 i18n:translate="contact_project_administrators_heading">Contact Project Administrators</h1>
 
-    <div class="documentDescription">
+    <div class="documentDescription" i18n:translate="contact_project_administrators_help">
       Are you interested in getting involved with this project, or in
       contacting the folks who are organizing this effort for any
       reason?  If so, please use the form below to send a message to

@@ -10,8 +10,8 @@
 
 
   <div metal:fill-slot="main">
-    <h2>Coming Soon</h2>
-    <p>This feature is not yet implemented.</p>
+    <h2 i18n:translate="coming_soon_heading">Coming Soon</h2>
+    <p i18n:translate="coming_soon_help">This feature is not yet implemented.</p>
   </div>
 
 </body>

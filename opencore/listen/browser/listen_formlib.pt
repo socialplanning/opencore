@@ -18,7 +18,8 @@
           <fieldset class="oc-boxy" tal:repeat="widget view/widgets">
             <label for="field.name" title="The widget's hint"
               tal:attributes="for widget/name; title widget/hint"
-              tal:content="widget/label">Label</label>
+              tal:content="widget/label" i18n:translate=""
+               i18n:attributes="title">Label</label>
             <div tal:condition="widget/error"
               tal:content="structure widget/error"
               class="oc-form-error" />

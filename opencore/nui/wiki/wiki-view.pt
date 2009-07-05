@@ -28,7 +28,9 @@
           define="attachments view/fileAttachments"
           condition="attachments">
           <div id="oc-wiki-viewAttachments" class="oc-js-expander oc-boxy">
-            <h2 class="oc-bigText"><a href="#" class="oc-js-expander_open oc-expanderLink">View attachments</a></h2>
+            <h2 class="oc-bigText">
+	      <a href="#" class="oc-js-expander_open oc-expanderLink" i18n:translate="">View attachments</a>
+	    </h2>
 
             <div class="oc-js-expander-content">
 

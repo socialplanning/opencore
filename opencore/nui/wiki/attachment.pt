@@ -6,22 +6,22 @@
            tal:attributes="href attachment/getURL | attachment/absolute_url"
            tal:content="attachment/Title | attachment/getId">Id</a>  
         <span class="oc-discreetText" tal:content="attachment/getObjSize"></span>
-        <a href="" class="oc-js-liveEdit_showForm oc-actionLink">Edit</a>
+        <a href="" class="oc-js-liveEdit_showForm oc-actionLink" i18n:translate="">Edit</a>
 	<tal:if condition="python: view.display_delete_for(attachment)">
           <a class="oc-js-actionLink oc-actionLink"
              tal:attributes="href string:edit?task|${attachment/getId}|delete-attachment" >
-            Delete
+            <span i18n:translate="">Delete</span>
           </a>
         </tal:if>
       </div><!-- end .liveEdit-value -->  
       <div class="oc-js-liveEdit-editForm">
-      <label for="attachment_title">Title:</label>
+      <label for="attachment_title" i18n:translate="">Title:</label>
       <input type="text" size="30"
              tal:attributes="value attachment/Title;
                              name string:${attachment/getId}_title"/>
-      <input type="submit" value="Edit" class="oc-js-actionButton"
+      <input type="submit" value="Edit" i18n:attributes="value" class="oc-js-actionButton"
              tal:attributes="name string:task|${attachment/getId}|update-attachment" />
-      or <a class="oc-js-liveEdit_hideForm" href="">Cancel</a>
+      <span i18n:translate="">or</span> <a class="oc-js-liveEdit_hideForm" href="" i18n:translate="">Cancel</a>
       </div><!-- end .oc-js-liveEdit-editForm -->
     </li>
   </tal:setvar>

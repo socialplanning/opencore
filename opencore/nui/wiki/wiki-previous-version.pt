@@ -31,7 +31,8 @@
                   <tr>
                     <td>
                       <tal:if condition="python: previous_id is not None">
-                      <a class="oc-button oc-smallText" tal:attributes="href string:version?version_id=${previous_id}" title="older">&larr;</a>
+                      <a class="oc-button oc-smallText" tal:attributes="href string:version?version_id=${previous_id}"
+			 title="older" i18n:attributes="title">&larr;</a>
                       </tal:if>
 
                       <tal:if condition="python: previous_id is None">
@@ -43,16 +44,17 @@
                     </th>
                     <td>
                       <tal:if condition="python: next_id is not None">
-                      <a class="oc-button oc-smallText" tal:attributes="href string:version?version_id=${next_id}" title="newer">&rarr;</a>
+                      <a class="oc-button oc-smallText" tal:attributes="href string:version?version_id=${next_id}"
+			 title="newer" i18n:attributes="title">&rarr;</a>
                       </tal:if>
                       <tal:if condition="python: next_id is None">
                       
                       </tal:if>
                     </td>
                       <td>
-                        by <a tal:define="author version/sys_metadata/principal" 
+                        <span i18n:translate="">by</span> <a tal:define="author version/sys_metadata/principal" 
                                 tal:attributes="href string:${people_url}/${author}/profile"
-                                tal:content="author">author</a>, modified 
+                                tal:content="author">author</a>, <span i18n:translate="">modified</span> 
                         <abbr tal:attributes="title python:version.object.ModificationDate()">
                           <span tal:replace="python:view.pretty_mod_date(version)" />
                         </abbr>
@@ -63,14 +65,15 @@
                   <ul class="oc-actions">
                     <tal:if condition="python: version_id != cur_id">
                       <li>
-                        <a tal:attributes = "href string:version_compare?version_id=${version_id}&amp;version_id=${cur_id}">compare with current version</a>
+                        <a tal:attributes ="href string:version_compare?version_id=${version_id}&amp;version_id=${cur_id}"
+			   i18n:translate="compare_with_current_version">compare with current version</a>
                       </li>
                     </tal:if>
                     <li>
                       <!-- FIXME ? relative --> 
                       <form method="post" id="revert_form" action="revert" tal:condition="python: view.can_revert()">
                         <input type="hidden" name="version_id" tal:attributes="value version_id" />
-                        <input type="submit" name="revert" value="revert to this version" class="oc-smallText" />
+                        <input type="submit" name="revert" class="oc-smallText" value="revert to this version" i18n:attributes="value" />
                       </form> 
                     </li>
                   </ul>
@@ -78,7 +81,7 @@
               </div><!-- .oc-widget-version-compare -->
               
               <div tal:condition="version/comment" class="oc-boxy oc-version-note">
-              <h3>Revision note:</h3>
+              <h3 i18n:translate="revision_note_heading">Revision note:</h3>
               <p tal:content="version/comment" />
               </div>
                

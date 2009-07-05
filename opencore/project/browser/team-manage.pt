@@ -10,7 +10,7 @@
     <div metal:fill-slot="content">
     
     <div class="oc-headingBlock">
-      <h1>Team management</h1>
+      <h1 i18n:translate="team_management_heading">Team management</h1>
       <p class="oc-headingContext"
          tal:define="nmembers python:len(view.active_mships);
                      npending python:len(view.pending_mships) + len(view.pending_email_invites);
@@ -74,19 +74,19 @@
     
     <div id="oc-content-sidebar">
       <div class="oc-boxy">
-        <h2>Invite new members</h2>
+        <h2 i18n:translate="invite_new_members_heading">Invite new members</h2>
         
         <form name="search-members" id="search-members" method="POST" 
               tal:attributes="action view/request/ACTUAL_URL">
     
           <div class="oc-headingBlock">
-            <h3>Search for members</h3>
-            <p class="oc-headingContext">Search for and invite existing members</p>
+            <h3 i18n:translate="search_for_members_heading">Search for members</h3>
+            <p class="oc-headingContext" i18n:translate="search_invite_members_help">Search for and invite existing members</p>
           </div>
           <fieldset class="oc-form-fieldBlock" style="margin-bottom: 1em;">
             <input class="oc-input-typeText" type="text" name="search_for" />
             <input type="submit" name="task|none|search-members"
-             value="Search" class="oc-button" />
+             value="Search" i18n:attributes="value" class="oc-button" />
            </fieldset>
     
           <metal:search-members use-macro="team_manage_macros/search-members-results" />
@@ -95,27 +95,29 @@
         <hr />
       
         <div class="oc-headingBlock">
-          <h3>Invite by email address</h3>
-          <p class="oc-headingContext"><a i18n:translate="team-manage_send_email_invite" href="invite">Send an email to invite people to join</a></p>
+          <h3 i18n:translate="invite_by_email_heading">Invite by email address</h3>
+          <p class="oc-headingContext">
+                  <a href="invite" i18n:translate="send_email_invite_people_heading">Send an email to invite people to join</a>
+          </p>
         </div>
 
       </div>
       
       <div id="oc-security-settings" class="oc-boxy">
-        <h2>Your security settings</h2>
-        <p tal:condition="python:proj['security']=='open_policy'">
-          Currently anyone can view the content of your <span tal:replace="view/project_noun">project</span>
+        <h2 i18n:translate="your_security_settings_heading">Your security settings</h2>
+        <p tal:condition="python:proj['security']=='open_policy'" i18n:translate="">
+          Currently anyone can view the content of your <span i18n:name="view_project_noun" tal:replace="view/project_noun">project</span>
           and contribute to it.
         </p>
-        <p tal:condition="python:proj['security']=='medium_policy'">
-          Currently anyone can view the content of your <span tal:replace="view/project_noun">project</span>.
+        <p tal:condition="python:proj['security']=='medium_policy'" i18n:translate="">
+          Currently anyone can view the content of your <span i18n:name="view_project_noun" tal:replace="view/project_noun">project</span>.
           Only team members can contribute content.
         </p>
-        <p tal:condition="python:proj['security']=='closed_policy'">
+        <p tal:condition="python:proj['security']=='closed_policy'" i18n:translate="">
           Currently only your team members can view the content
-          of your <span tal:replace="view/project_noun">project</span> and contribute to it.
+          of your <span i18n:name="view_project_noun" tal:replace="view/project_noun">project</span> and contribute to it.
         </p>
-        <p><a href="preferences">Change security settings</a></p>
+        <p><a href="preferences" i18n:translate="">Change security settings</a></p>
       </div>
 
     </div><!-- end #oc-content-sidebar -->

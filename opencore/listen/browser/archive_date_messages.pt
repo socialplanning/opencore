@@ -17,12 +17,12 @@
               <a href="." tal:attributes="href message/url;"
                  ><strong tal:content="structure message/brief_subject">Re: Subj</strong></a>
               <span class="oc-discreetText">
-                from <a href="."
+                <span i18n:translate="">from</span> <a href="."
                    tal:omit-tag="not:message/from_id"
                    tal:attributes="href string:${here/portal_url}/people/${message/from_id}/profile"
                      ><span tal:replace="structure message/mail_from">test@example.com</span
                    ></a>
-                on <span tal:replace="message/date">Tue, 16 Nov 2005</span>
+                <span i18n:translate="">on</span> <span tal:replace="message/date">Tue, 16 Nov 2005</span>
               </span>
             </li>
           </ul>

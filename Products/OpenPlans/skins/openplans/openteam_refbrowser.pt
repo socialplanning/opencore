@@ -87,7 +87,7 @@
                 <span tal:replace="python:obj.Title() or obj.absolute_url(relative=1)" />
                 <a href="#"
                    tal:attributes="href obj/absolute_url">
-                  (manage membership)
+                  <span i18n:translate="refbroswer_manage_membership">(manage membership)</span>
                 </a>
 
                 <a href="#"

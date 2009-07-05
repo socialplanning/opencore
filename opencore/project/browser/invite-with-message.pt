@@ -21,7 +21,7 @@
             <tbody>
               <tr class="oc-form-row">
                 <th class="oc-form-label" scope="row">
-                  <label for="email-invites">To:</label>
+                  <label for="email-invites" i18n:translate="">To:</label>
                 </th>
                 <td class="oc-form-value">
                   <textarea style="height: auto" rows="2" cols="20" id="email-invites" name="email-invites"
@@ -34,7 +34,7 @@
               </tr>
               <tr class="oc-form-row">
                 <th class="oc-form-label" scope="row">
-                  <label for="from">From:</label>
+                  <label for="from" i18n:translate="">From:</label>
                 </th>
                 <td class="oc-form-value">
                   &ldquo;<span tal:replace="python: view.loggedinmember.getFullname() or view.loggedinmember.id" />&rdquo; &lt;<span tal:replace="python: view.loggedinmember.email" />&gt;
@@ -44,18 +44,18 @@
               </tr>
               <tr class="oc-form-row">
                 <th class="oc-form-label" scope="row">
-                  <label for="subject">Subject:</label>
+                  <label for="subject" i18n:translate="">Subject:</label>
                 </th>
                 <td class="oc-form-value">
-                  <input style="width: 30em;" tal:condition="remind" type="text" name="subject" tal:attributes='value string:A reminder to join "${context/Title}" on ${view/portal_title}'/>
-                  <input style="width: 30em;" tal:condition="not: remind" type="text" name="subject" tal:attributes='value string:You have been invited to join "${context/Title}" on ${view/portal_title}'/>
+                  <input style="width: 30em;" tal:condition="remind" type="text" name="subject" tal:attributes='value string:A reminder to join "${context/Title}" on ${view/portal_title}' i18n:attributes="value"/>
+                  <input style="width: 30em;" tal:condition="not: remind" type="text" name="subject" tal:attributes='value string:You have been invited to join "${context/Title}" on ${view/portal_title}' i18n:attributes="value"/>
                 </td>
                 <td class="oc-form-help">
                 </td>
               </tr>
               <tr class="oc-form-row">
                 <th class="oc-form-label" scope="row">
-                  <label for="message">Message:</label>
+                  <label for="message" i18n:translate="">Message:</label>
                 </th>
                 <td class="oc-form-value">
                 <div class="oc-boxy">
@@ -84,9 +84,11 @@ This is a reminder.
                 <td class="oc-form-value">
                   <input tal:condition="remind" type="submit" 
                          name="task|remind-email-invites" value="Send"
+                         i18n:attributes="value"
                          class="oc-button" />
                   <input tal:condition="not: remind" type="submit" 
                          name="task|email-invites" value="Send"
+                         i18n:attributes="value"
                          class="oc-button" />
                 </td>
                 <td class="oc-form-help">

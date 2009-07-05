@@ -13,7 +13,7 @@
         <tal:condition condition="python: projectObject is not None">
           <div class="projectTitle"><a
               tal:attributes="href projectObject/absolute_url"
-              tal:content="projectObject/Title">Project Tools</a>
+              tal:content="projectObject/Title"><span i18n:translate="project_tools">Project Tools</span></a>
           </div>
 
           <h5 i18n:translate="box_tools">Tools</h5>

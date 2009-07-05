@@ -42,6 +42,7 @@
     <link tal:replace="structure provider:plone.htmlhead.links" />
 
     <link rel="alternate" href="" title="RSS 1.0" type="application/rss+xml"
+          i18n:attributes="title"
           tal:condition="python: syntool.isSyndicationAllowed(here)"
           tal:attributes="href string:$here_url/RSS" />
 
@@ -129,15 +130,15 @@
                               <a name="documentContent"></a>
 
                               <div metal:use-macro="here/global_statusmessage/macros/portal_message">
-                                Portal status message
+                                <!-- "Portal status message" -->
                               </div>
 
                               <metal:header metal:define-slot="header" tal:content="nothing">
-                                Visual Header
+                                <!-- "Visual Header" -->
                               </metal:header>
 
                               <metal:bodytext metal:define-slot="main" tal:content="nothing">
-                                Page body text
+                                <!-- "Page body text" -->
                               </metal:bodytext>
 
                               <metal:sub metal:define-slot="sub">

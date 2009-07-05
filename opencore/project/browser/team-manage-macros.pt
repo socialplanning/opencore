@@ -88,20 +88,20 @@
 
   <li>
     <input type="submit" name="task|batch_checked|approve-requests"
-           value="Approve"
+           value="Approve" i18n:attributes="value"
            class="oc-button" />
   </li>
   <!--li>
     <input type="submit" name="task|batch_checked|discard-requests"
-           value="Discard" class="oc-button" />
+           value="Discard" i18n:attributes="value" class="oc-button" />
   </li-->
   <li>
     <input type="submit" name="task|batch_checked|reject-requests"
-           value="Deny" class="oc-button" />
+           value="Deny" i18n:attributes="value" class="oc-button" />
   </li>
   <!--li>
       <input type="submit" name="task|reject_msg"
-             value="Deny with message" class="oc-button" />
+             value="Deny with message" i18n:attributes="value" class="oc-button" />
   </li-->
 
 </metal:requestbuttons>
@@ -112,11 +112,11 @@
 
   <li>
     <input type="submit" name="task|batch_checked|remove-invitations"
-           value="Remove" class="oc-button" />
+           value="Remove" i18n:attributes="value" class="oc-button" />
   </li>
   <li>
     <input type="submit" name="task|batch_checked|remind-invitations"
-           value="Remind" class="oc-button" />
+           value="Remind" i18n:attributes="value" class="oc-button" />
   </li>
 
 </metal:invitationbuttons>
@@ -126,11 +126,11 @@
 
   <li>
     <input type="submit" name="task|batch_checked|remove-email-invites"
-           value="Remove" class="oc-button" />
+           value="Remove" i18n:attributes="value" class="oc-button" />
   </li>
   <li>
     <input type="submit" name="task|batch_checked|remind-email-invites"
-           value="Remind" class="oc-button" />
+           value="Remind" i18n:attributes="value" class="oc-button" />
   </li>
 
 </metal:email-invitebuttons>
@@ -150,9 +150,9 @@
         <thead>
           <tr>
             <th class="oc-dataTable-checkBoxColumn"><input type="checkbox" class="oc-checkAll" /></th>
-            <th scope="col"><!--a class="oc-columnSortable" href=""-->Username<!--/a--></th>
-            <th scope="col"><!--a class="oc-columnSortable" href=""-->Status<!--/a--></th>
-            <th scope="col"><!--a class="oc-columnSortable" href=""-->Date requested<!--/a--></th>
+            <th scope="col" i18n:translate=""><!--a class="oc-columnSortable" href=""-->Username<!--/a--></th>
+            <th scope="col" i18n:translate=""><!--a class="oc-columnSortable" href=""-->Status<!--/a--></th>
+            <th scope="col" i18n:translate=""><!--a class="oc-columnSortable" href=""-->Date requested<!--/a--></th>
           </tr>
         </thead>
 
@@ -222,7 +222,7 @@
             </tal:roleoptions>
           </select>
 
-          <input type="submit" value="go" tal:attributes="name string:task|${item/id}|set-roles" />
+          <input type="submit" value="go" i18n:attributes="value" tal:attributes="name string:task|${item/id}|set-roles" />
                
         </div><!-- end .liveEdit-editForm -->
       </div><!-- end .liveEdit -->
@@ -272,10 +272,10 @@
         <thead>
           <tr>
             <th class="oc-dataTable-checkBoxColumn"><input tal:condition="changeable" type="checkbox" class="oc-checkAll" /></th>
-            <th scope="col"><!--a class="oc-columnSortable" href=""-->Username<!--/a--></th>
-            <th scope="col"><!--a class="oc-columnSortable" href=""-->Role<!--/a--></th>
-            <th scope="col"><!--a class="oc-columnSortable" href=""-->Effective since<!--/a--></th>
-            <th scope="col"><!--a class="oc-columnSortable" href=""-->Listed<!--/a--></th>
+            <th scope="col" i18n:translate=""><!--a class="oc-columnSortable" href=""-->Username<!--/a--></th>
+            <th scope="col" i18n:translate=""><!--a class="oc-columnSortable" href=""-->Role<!--/a--></th>
+            <th scope="col" i18n:translate=""><!--a class="oc-columnSortable" href=""-->Effective since<!--/a--></th>
+            <th scope="col" i18n:translate=""><!--a class="oc-columnSortable" href=""-->Listed<!--/a--></th>
           </tr>
         </thead>
 
@@ -293,10 +293,10 @@
           tal:condition="python:len(mships) > 1">
         <li>
           <input type="submit" name="task|batch_checked|remove-members"
-                 value="Remove" class="oc-button" />
+                 value="Remove" i18n:attributes ="value" class="oc-button" />
           <noscript>
             <input type="submit" name="task|batch_all|set-roles"
-                   class="oc-button" value="Change roles" />
+                   class="oc-button" value="Change roles" i18n:attributes="value" />
           </noscript>
         </li>
       </ul>
@@ -312,9 +312,9 @@
     <table class="oc-dataTable" tal:condition="view/results | nothing">
       <thead>
         <tr>
-          <th scope="col">Username</th>
-          <th scope="col">Full name</th>
-          <th scope="col">Actions</th>
+          <th scope="col" i18n:translate="">Username</th>
+          <th scope="col" i18n:translate="">Full name</th>
+          <th scope="col" i18n:translate="">Actions</th>
         </tr>
       </thead>
       <tbody>
@@ -330,9 +330,9 @@
             <span tal:condition="python:member.getId in view.existing_ids">Already a member</span>
                   
             <input tal:condition="python:member.getId not in view.existing_ids"
-                   type="submit" value="Invite" class="oc-button"
+                   type="submit" value="Invite" i18n:attributes="value" class="oc-button"
                    tal:attributes="name string:task|${member/getId}|invite-member" />
-            <a tal:attributes="href string:invite-member?id=${member/getId}">customize it</a>
+            <a tal:attributes="href string:invite-member?id=${member/getId}" i18n:translate="">customize it</a>
           </td>
         </tr>
       </tbody>

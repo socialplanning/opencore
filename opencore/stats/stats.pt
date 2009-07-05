@@ -58,8 +58,8 @@
     </li>
     </ul>
 
-    <h2 i18n:translate="">projects</h2>
-    <p>(note, "active" does not check activity in lists, blogs, or
+    <h2 i18n:translate="projects_headind">projects</h2>
+    <p i18n:translate="projects_help_active">(note, "active" does not check activity in lists, blogs, or
     tasks... just pages and preferences)</p>
     <ul>
     <li i18n:translate="stats_active_projects">

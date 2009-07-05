@@ -12,7 +12,7 @@
 
     <span tal:condition="python:request.get('select') == 'active'">
     <h1 i18n:translate="active_projects">Active Projects</h1>
-    <p>(note, "active" does not check activity in lists, blogs, or
+    <p i18n:translate="active_projects_help">(note, "active" does not check activity in lists, blogs, or
     tasks... just pages and preferences)</p>
     </span>
 

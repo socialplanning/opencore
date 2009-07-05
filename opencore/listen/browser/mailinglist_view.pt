@@ -55,8 +55,8 @@
             <dt i18n:translate="mailinglist_view_contact">
               Contact
             </dt>
-            <dd id="manager_email">
-              Please direct inquiries about this list to <span tal:replace="structure view/manager_email">manager@list.com</span>.
+            <dd id="manager_email" i18n:translate="manager_email_help">
+              Please direct inquiries about this list to <span tal:replace="structure view/manager_email" i18n:name="manager_email_view">manager@list.com</span>.
             </dd>
           </dl>
           <div metal:use-macro="here/@@listen_macros/subscribe" />

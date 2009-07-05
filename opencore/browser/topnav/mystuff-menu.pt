@@ -2,12 +2,12 @@
     id="oc-usermenu-mystuff" style="display:none;"
     tal:define="memfolder_url view/memfolder_url">
   <li>
-    <a i18n:translate="Profile"
+    <a i18n:translate="label_profile"
        tal:attributes="href string:${memfolder_url}/profile">Profile</a>
   </li>
 
   <li>
-    <a i18n:translate="Wiki"
+    <a i18n:translate="label_wiki"
        tal:attributes="href view/memhome_url">Wiki</a>
   </li>
 
@@ -19,7 +19,7 @@
                    "
        tal:attributes="href string:${memfolder_url}/account"
        >
-       <tal:i18n i18n:translate="Account">Account</tal:i18n>
+       <tal:i18n i18n:translate="label_account">Account</tal:i18n>
        <span class="oc-mystuff-messagecount"
              tal:condition="has_msgs">
            (<span id="num_updates_menu" tal:content="string:${msgs}" />

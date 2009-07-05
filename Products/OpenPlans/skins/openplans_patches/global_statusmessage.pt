@@ -12,7 +12,7 @@
 
         <div class="portalMessage" id="portalMessage">
             <div id="portalMessageMessage"><tal:msg tal:content="portal_message" i18n:translate="">Portal Message</tal:msg></div>
-            <div title="hide" id="portalMessageX" onclick="document.getElementById('portalMessage').setAttribute('style', 'display: none')">X</div>
+            <div title="hide" i18n:attributes="title" id="portalMessageX" onclick="document.getElementById('portalMessage').setAttribute('style', 'display: none')" i18n:translate="">X</div>
         </div>
 
     </tal:block>

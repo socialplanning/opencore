@@ -26,14 +26,14 @@
      <tal:if condition="python:len(history) > 0"> 
      
     <div class="oc-headingBlock oc-boxy" tal:define="lastChange python:history[-1]"> 
-    <h2>All versions of &ldquo;<span tal:replace="here/title_or_id">page</span>&rdquo;</h2>
-    <span class="oc-headingContext oc-discreetText">
-     <span tal:replace="python:len(history)"/> versions total. Last edit performed by 
-      <a tal:define="author lastChange/author" 
+    <h2 i18n:translate="all_versions_of_page_heading">All versions of &ldquo;<span i18n:name="all_versions_of_page_title" tal:replace="here/title_or_id">page</span>&rdquo;</h2>
+    <span class="oc-headingContext oc-discreetText" i18n:translate="all_versions_of_page_help">
+     <span i18n:name="len_history_versions_total" tal:replace="python:len(history)"/> versions total. Last edit performed by 
+      <a tal:define="author lastChange/author" i18n:name="last_change_people_url_author"
                      tal:attributes="href string:${people_url}/${author}" 
                      tal:content="author">author</a>, 
-      <abbr tal:attributes="title python:lastChange['modification_date']">
-       <span tal:replace="python: view.pretty_mod_date(lastChange)" />. 
+      <abbr i18n:name="last_change_modification_date" tal:attributes="title python:lastChange['modification_date']">
+       <span i18n:name="last_change_pretty_mod_date" tal:replace="python: view.pretty_mod_date(lastChange)" />. 
       </abbr>
     </span>
     </div> <!-- end .oc-headingBlock --> 
@@ -43,9 +43,9 @@
       
       <tal:if condition="python:len(history) > 1">            
       <div class="oc-actions">
-          <input type="submit" value="Compare" />
+          <input type="submit" value="Compare" i18n:attributes="value" />
           <tal:if condition="python:len(history) > 1">
-            <span class="oc-discreetText">Select two versions to compare them or click a version number to view it.</span>
+            <span class="oc-discreetText" i18n:translate="">Select two versions to compare them or click a version number to view it.</span>
           </tal:if>
       </div> <!-- end .oc-actions --> 
       </tal:if>
@@ -74,10 +74,10 @@
           <tal:span replace="version_title" />
         </a>
       </h3>
-      by 
+      <span i18n:translate="">by</span> 
       <a tal:define="author version/author" 
                            tal:attributes="href string:${people_url}/${author}/profile" 
-                           tal:content="author">author</a>, 
+                           tal:content="author"><!-- author --></a>, 
       <abbr tal:attributes="title version/modification_date">
         <span tal:replace="python: view.pretty_mod_date(version['modification_date'])" />
       </abbr>
@@ -90,7 +90,7 @@
       
       <tal:if condition="python:len(history) > 1">      
       <div class="oc-actions">
-        <input type="submit" value="Compare" />
+        <input type="submit" value="Compare" i18n:attributes="value" />
       </div> <!-- end .oc-actions --> 
       </tal:if>
       
@@ -98,13 +98,13 @@
     </div> <!-- end #oc-lineup div -->
     </tal:if><!-- end if gt 0 versions -->
     
-    <tal:if condition="python: len(history) == 0">
+    <tal:if condition="python: len(history) == 0" i18n:translate="">
       There are no previous versions of this page
     </tal:if>
     
     </tal:block><!-- end of content for versionable objects -->       
     <tal:block tal:condition="python: not pr.isVersionable(context)">
-      <div id="oc-content-main"> 
+      <div id="oc-content-main" i18n:translate=""> 
         This content does not have versioning information.
       </div>
     </tal:block> 

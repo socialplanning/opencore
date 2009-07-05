@@ -14,7 +14,7 @@
           <strong i18n:translate="threaded_message_return">Return to date view:</strong>
           <a id="to_threaded" href="." tal:attributes="href string:${view/folderURL}/by_thread"
             i18n:translate="threaded_message_threaded">threaded</a>
-          or
+          <span i18n:translate="">or</span>
           <a id="to_flat" href="." tal:attributes="href string:${view/folderURL}/by_date"
             i18n:translate="threaded_message_flat">flat</a>
         </div>
@@ -50,7 +50,7 @@
             <a href="#" tal:content="structure prev_link/brief_subject"
               tal:attributes="href prev_link/url">Subject</a>
             <span class="oc-smallText">
-              <span tal:omit-tag="">by</span>
+              <span tal:omit-tag="" i18n:translate="">by</span>
               <span tal:replace="prev_link/mail_from">Author</span>
             </span>
           </li>
@@ -61,7 +61,7 @@
             <a href="#" tal:content="structure next_link/brief_subject" 
               tal:attributes="href next_link/url">Subject</a>
             <span class="oc-smallText">
-              <span tal:omit-tag="">by</span>
+              <span tal:omit-tag="" i18n:translate="">by</span>
               <span tal:replace="next_link/mail_from">Author</span>
             </span>
           </li>

@@ -37,7 +37,7 @@
 
                       <form action="contents" method="POST"
                             tal:attributes="name form_name" class="oc-js-formConfirm">
-                        <span class="oc-hidden oc-warning oc-confirm">This deletion is permanent. Are you sure you want to delete?</span>
+                        <span class="oc-hidden oc-warning oc-confirm" i18n:translate="">This deletion is permanent. Are you sure you want to delete?</span>
                         <input tal:replace="structure view/authenticator_input"/>
                         <input type="hidden" name="item_type"
                                tal:attributes="value item_type" /> 
@@ -88,7 +88,7 @@
                                                     myvalue string:obj_date">
                                       <metal:do use-macro="view/template/macros/sortable_header" />
                                     </th>
-                                    <th>Actions</th>
+                                    <th i18n:translate="">Actions</th>
                                   </tr>
                                 </thead>
                               </tal:if>
@@ -152,17 +152,17 @@
                                           <div tal:condition="item_editable"
                                                class="oc-js-liveEdit-editForm oc-liveEdit-editForm">
                                             <input type="text" 
-                                                   tal:attributes="name string:${item/path}_title; value item/title" />
-                                            <input type="submit" class="oc-js-actionButton" value="Save"
-                                                   tal:attributes="name string:task|${item/path}|update" /> or
-                                            <a href="" class="oc-js-liveEdit_hideForm" tal:content="string:Cancel" />
+                                                   tal:attributes="name string:${item/path}_title; value item/title" i18n:attributes="value" />
+                                            <input type="submit" class="oc-js-actionButton" value="Save" i18n:attributes="value"
+                                                   tal:attributes="name string:task|${item/path}|update" /> <span i18n:translate="">or</span>
+                                            <a href="" class="oc-js-liveEdit_hideForm" i18n:translate="">Cancel</a>
                                           </div>
                                         </td>
                                         <td tal:condition="python:item_type!='pages'" tal:content="item/obj_size" />
                                         <td>
                                           <span tal:replace="item/obj_date" />
                                           <tal:setvar define="author item/obj_author" condition="author">
-                                            by
+                                            <span i18n:translate="">by</span>
                                             <a tal:attributes="href string:${context/portal_url}/people/${author}/profile" tal:content="author" />
                                           </tal:setvar>
                                         </td>
@@ -171,11 +171,11 @@
                                           <ul class="oc-actions oc-dataTable-row-actions" tal:condition="item_editable">
                                             <li>
 
-                                              <a href="#" class="oc-js-liveEdit_showForm oc-actionLink">Rename</a></li>
+                                              <a href="#" class="oc-js-liveEdit_showForm oc-actionLink" i18n:translate="">Rename</a></li>
                                             <li tal:condition="deletable">
                                               <a class="oc-js-actionPost oc-actionLink oc-js-confirm"
                                                  tal:attributes="href string:contents?task|${item/path}|delete=Delete&amp;item_type=${item_type}&amp;authenticator=${view/authenticator}">
-                                                Delete <span class="oc-hidden oc-warning oc-confirm">This deletion is permanent. Are you sure you want to delete?</span>
+                                                <span i18n:translate="deletion_permanent_are_you_sure">Delete <span class="oc-hidden oc-warning oc-confirm">This deletion is permanent. Are you sure you want to delete?</span></span>
                                               </a>
                                             </li>
                                           </ul>
@@ -202,7 +202,7 @@
                         <ul class="oc-actions oc-dataTable-actions" tal:condition="python: item_type != 'pages' or len(item_collection) > 1">
                           <tal:if condition="show_deletes">
                             <li>
-                              <input type="submit" name="task|batch_deletes|delete" value="Delete" class="oc-button" />
+                              <input type="submit" name="task|batch_deletes|delete" value="Delete" i18n:attributes="value" class="oc-button" />
                             </li>
                           </tal:if>
                         </ul>

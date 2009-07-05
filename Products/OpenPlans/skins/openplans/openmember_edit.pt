@@ -12,7 +12,7 @@
                tal:define="dummy python:request.set('disable_border', 1)" />
 
 <metal:header define-macro="header">
-  <h1>Edit Personal Info and Preferences</h1>
+  <h1 i18n:translate="edit_personal_info_preferences_heading">Edit Personal Info and Preferences</h1>
 </metal:header>
 
 <metal:body define-macro="body"
@@ -22,7 +22,7 @@
       <a href="PASSWORD_FORM"
          tal:attributes="href string:$portal_url/password_form">
         <img src="lock_icon.gif" alt="" />
-        Change Password
+        <span i18n:translate="change_password_form">Change Password</span>
       </a>
     </li>
   </ul>

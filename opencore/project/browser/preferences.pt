@@ -226,7 +226,7 @@
                 Update
               </button>
             </li>
-            <li i18n:translate="Or">or <a href="" i18n:translate="Cancel">Cancel</a></li>
+            <li><span i18n:translate="">or</span> <a href="" i18n:translate="Cancel">Cancel</a></li>
           </ul>
         </form>
       </div><!-- end .oc-content-main -->

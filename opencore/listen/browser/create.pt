@@ -153,7 +153,7 @@
 								       i18n:attributes="value create_create_button"
 								       class="oc-button oc-chooseThis" />
 							</li>
-							<li>or <a i18n:translate="list_cancel" href="">Cancel</a></li>
+							<li><span i18n:translate="">or</span> <a i18n:translate="list_cancel" href="">Cancel</a></li>
 						</ul>
 					</fieldset>
 				</form>

@@ -58,7 +58,10 @@
 
     <p i18n:translate="error_404_contact_site_admin">
       If you know you have the correct web address, please contact the
-        <a tal:attributes="href string:${context/portal_url}/contact-site-admin">Site Administration</a>.
+        <a tal:attributes="href string:${context/portal_url}/contact-site-admin"
+	   i18n:name="error_404_contact_site_admin_url">
+           <span i18n:translate="label_site_administration">Site Administration</span>
+        </a>.
     </p>
 
   </div>

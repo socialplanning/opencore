@@ -23,12 +23,12 @@
 
     <title metal:fill-slot="title" tal:content="python:view.window_title(mode='edit')" />
     <metal:link-slot metal:fill-slot="link">
-      <link type="text/css" rel="stylesheet" title="blue-look" href="/++resource++xinha/skins/blue-look/skin.css"/>
-      <link type="text/css" rel="alternate stylesheet" title="green-look" href="/++resource++xinha/skins/green-look/skin.css"/>
-      <link type="text/css" rel="alternate stylesheet" title="xp-blue" href="/++resource++xinha/skins/xp-blue/skin.css"/>
-      <link type="text/css" rel="alternate stylesheet" title="xp-green" href="/++resource++xinha/skins/xp-green/skin.css"/>
-      <link type="text/css" rel="alternate stylesheet" title="inditreuse" href="/++resource++xinha/skins/inditreuse/skin.css"/>
-      <link type="text/css" rel="alternate stylesheet" title="blue-metallic" href="/++resource++xinha/skins/blue-metallic/skin.css"/>
+      <link type="text/css" rel="stylesheet" title="blue-look" i18n:attributes="title" href="/++resource++xinha/skins/blue-look/skin.css"/>
+      <link type="text/css" rel="alternate stylesheet" title="green-look" i18n:attributes="title" href="/++resource++xinha/skins/green-look/skin.css"/>
+      <link type="text/css" rel="alternate stylesheet" title="xp-blue" i18n:attributes="title" href="/++resource++xinha/skins/xp-blue/skin.css"/>
+      <link type="text/css" rel="alternate stylesheet" title="xp-green" i18n:attributes="title" href="/++resource++xinha/skins/xp-green/skin.css"/>
+      <link type="text/css" rel="alternate stylesheet" title="inditreuse" i18n:attributes="title" href="/++resource++xinha/skins/inditreuse/skin.css"/>
+      <link type="text/css" rel="alternate stylesheet" title="blue-metallic" i18n:attributes="title" href="/++resource++xinha/skins/blue-metallic/skin.css"/>
     </metal:link-slot>
     <metal:script-slot metal:fill-slot="script">
 <!-- xinha code below  -->
@@ -65,7 +65,7 @@ var _editor_lang = '${view/xinha_lang_code}';
                        tal:define="title context/Title">
                     <h1 tal:condition="title" class="oc-bcrumb-current" tal:content="title" />
                     <h1 tal:condition="not: title" class="oc-bcrumb-current" tal:content="context/id" />
-                    &nbsp;<a href="#" class="oc-js-liveEdit_showForm oc-actionLink">RENAME</a>
+                    &nbsp;<a href="#" class="oc-js-liveEdit_showForm oc-actionLink" i18n:translate="">RENAME</a>
                   </div>
                   <div class="oc-js-liveEdit-editForm oc-liveEdit-editForm">
                     <input name="title" type="text" tal:attributes="value string:${context/Title}" /> 
@@ -87,7 +87,7 @@ var _editor_lang = '${view/xinha_lang_code}';
                 <tal:description
                   define="news_interface python:modules['opencore.interfaces'].INewsItem"
                   condition="python:news_interface.providedBy(context)">
-                  <label for="description">Description</label>
+                  <label for="description" i18n:translate="">Description</label>
                   <textarea id="description" name="description" tal:content="context/Description" />
                 </tal:description>
                 <textarea id="rawtext" name="rawtext" style="visibility:hidden; overflow:hidden; display:none;" tal:content="view/rawtext"></textarea>
@@ -106,18 +106,22 @@ var _editor_lang = '${view/xinha_lang_code}';
               </div><!-- end .oc-wiki-edit-content" --> 
  
               <div class="oc-js-expander oc-expander">
-                <h2 class="oc-bigText"><a href="#oc-wiki-comment" class="oc-js-expander_open oc-expanderLink">Revision note</a></h2>
+                <h2 class="oc-bigText">
+                      <a href="#oc-wiki-comment" class="oc-js-expander_open oc-expanderLink" i18n:translate="">Revision note</a>
+                </h2>
                 <div class="oc-js-expander-content">
                   <textarea name="comment" id="comment" rows="5" cols="80"></textarea>
                 </div><!-- end expander-content -->
               </div><!-- end expander -->
               
             <div class="oc-js-expander oc-expander">
-              <h2 class="oc-bigText"><a href="#oc-wiki-manageAttachments" class="oc-js-expander_open oc-expanderLink">Manage attachments</a></h2>
+              <h2 class="oc-bigText">
+                      <a href="#oc-wiki-manageAttachments" class="oc-js-expander_open oc-expanderLink" i18n:translate="">Manage attachments</a>
+              </h2>
 
               <div class="oc-js-expander-content">
-                
-                  <h3>Current attachments:</h3>
+                 
+                  <h3 i18n:translate="current_attachments_heading">Current attachments:</h3>
                   <ol class="oc-attachments" id="oc-wiki-attachments">
                       <tal:repeat repeat="attachment attachments">
                         <tal:macro metal:use-macro="view/attachment_snippet/macros/attachment" />
@@ -126,14 +130,14 @@ var _editor_lang = '${view/xinha_lang_code}';
                 
   
                 <fieldset>
-                  <legend class="oc-legend-heading oc-bigText">Upload a new file:</legend>
+                  <legend class="oc-legend-heading oc-bigText" i18n:translate="">Upload a new file:</legend>
                   <input type="hidden" name="oc-target" value="oc-wiki-attachments" />
   
                   <table class="oc-form">
                     <thead></thead>
                     <tbody>
                       <tr class="oc-form-row">
-                        <th class="oc-form-label"><label for="attachmentFile">Locate file</label></th>
+                        <th class="oc-form-label"><label for="attachmentFile" i18n:translate="">Locate file</label></th>
                         <td class="oc-form-value"><input type="file"           
                             id="attachmentFile"
                             name="attachmentFile"
@@ -145,7 +149,7 @@ var _editor_lang = '${view/xinha_lang_code}';
                         <td class="oc-form-help"></td>
                       </tr>
                       <tr class="oc-table-row">
-                        <th class="oc-form-label"><label for="attachmentTitle">Title</label></th>
+                        <th class="oc-form-label"><label for="attachmentTitle" i18n:translate="">Title</label></th>
                         <td class="oc-form-value"><input type="text" 
                             id="attachmentTitle" 
                             name="attachmentTitle" 
@@ -154,15 +158,15 @@ var _editor_lang = '${view/xinha_lang_code}';
                             tal:attributes="tabindex tabindex/next;"
                             value=""/></td>
                         <td class="oc-form-help">
-                          <span class="oc-form-context">(optional)</span>
+                          <span class="oc-form-context" i18n:translate="">(optional)</span>
                           <span class="oc-table-validator"></span>
                         </td>
                       </tr>
                       <tr class="oc-options">
                         <th class="oc-form-label"></th>
                         <td class="oc-form-value">  
-                          <span class="oc-indicator" id="indicator|upload-attachment"><img src="++resource++img/indicator-bounce-eee.gif" alt="Loading..." /></span> 
-                          <input type="submit" name="task|upload-attachment" class="oc-js-actionButton oc-has-indicator" value="Upload" /> or <a href="#" class="oc-js-expander_close">Cancel</a></td>
+                          <span class="oc-indicator" id="indicator|upload-attachment"><img src="++resource++img/indicator-bounce-eee.gif" alt="Loading..." i18n:attributes="alt" /></span> 
+                          <input type="submit" name="task|upload-attachment" class="oc-js-actionButton oc-has-indicator" value="Upload" i18n:attributes="value" /> <span i18n:translate="">or</span> <a href="#" class="oc-js-expander_close" i18n:translate="">Cancel</a></td>
                         <td class="oc-form-help"></td>
                       </tr>
                     </tbody>

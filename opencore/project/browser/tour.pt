@@ -102,7 +102,8 @@
 	    </tal:comment>
 
 	  Want to add or remove tools from your <span tal:replace="view/project_noun" i18n:name="project_noun">project</span>?
-	  Change your <a tal:attributes="href project_prefs_url">preferences</a>.
+	  Change your <a tal:attributes="href project_prefs_url" i18n:name="project_prefs_url_preferences">
+	  <span i18n:name="project_prefs_url_preferences_name">preferences</span></a>.
 	</p>
 
       </div><!-- end #oc-content-main -->
