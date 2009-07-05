@@ -181,11 +181,10 @@ Upload an attachment
      >>> request.form = form
 
 and check that it appears in the list of files
-(should it be unicode output?)
+(should it be unicode output?) -- the magic number
+we're searching for here is the size of xinha_logo.gif
      >>> print view.create_attachment_manager()
      <...203x50...
-
-(the magic number is the size of xinha_logo.gif)    
 
 and delete it
      >>> request.form = {'task|logo.gif|delete-image' : 'Delete'}
