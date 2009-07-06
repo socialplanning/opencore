@@ -1,4 +1,10 @@
-0.17.1 (unreleased)
+0.17-dev (unreleased)
+===================
+
+ * Correctly catch PIL-generated IOErrors on portrait uploads, w/
+   improved notification and more correct behavior (rafrombrc)
+
+0.17.1 (2009-06-30)
 ===================
 
 Features Added:
@@ -18,9 +24,6 @@ Features Added:
    fear. (egj)
 
 Bugs Fixed:
-
- * Correctly catch PIL-generated IOErrors on portrait uploads, w/
-   improved notification and more correct behavior (rafrombrc)
 
  * Wiki history no longer reports incorrect modification dates for
    individual versions of a page. Run resync-page-history-caches.py to
