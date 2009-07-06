@@ -62,9 +62,6 @@
   <property name="index_naive_time_as_local">True</property>
  </index>
  <index name="getLocation" meta_type="TextIndex"/>
- <index name="getSkills" meta_type="KeywordIndex">
-  <indexed_attr value="interests" />
- </index>
  <index name="getReview_state" meta_type="FieldIndex">
   <indexed_attr value="getReview_state"/>
  </index>

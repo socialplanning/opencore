@@ -144,13 +144,7 @@ class ProjectAddView(ProjectBaseView, OctopoLite):
         for viewlet in viewlet_mgr.viewlets:
             if hasattr(viewlet, 'save'):
                 viewlet.save()
-
-        # location may be injected into the request by the geo viewlets
-        location = self.request.form.get('location', u'')
-        if location:
-            proj.setLocation(location)
-            proj.reindexObject(idxs=['location'])
-
+        
         self.template = None  # Don't render anything before redirect.
         site_url = getToolByName(self.context, 'portal_url')()
         proj_edit_url = '%s/projects/%s/project-home/edit' % (site_url, id_)
