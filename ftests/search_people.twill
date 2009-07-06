@@ -9,7 +9,7 @@
 #
 
 go ${base_url}/people
-find 'New Members'
+find 'news_about_new_members'
 fv search_form search_for $query
 submit 
 find 'Result'
