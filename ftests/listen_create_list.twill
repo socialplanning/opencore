@@ -10,7 +10,7 @@
 #
 go ${base_url}/projects/${projname}
 follow "Mailing Lists"
-follow "Add a mailing list"
+follow "add_mailing_list"
 find 'Managers.*${user}' s
 fv 2 title ${listtitle}
 fv 2 description ${listdesc}
