@@ -59,13 +59,16 @@ are attempted without anything checked::
 
 Now let's make sure the project admin can approve membership requests.
 And an event should get fired as well.
-First we need to clear out the memoized cache:
+First we need to clear out the memoized cache and the mailhost message
+history:
 
     >>> self.clearMemoCache()
 
     >>> self.clear_events()
     >>> self.events
     []
+    >>> mailhost = view.get_tool('MailHost')
+    >>> mailhost.messages = []
     >>> res = view.approve_requests(['m4'])
     >>> from opencore.interfaces.event import IJoinedProjectEvent
     >>> self.event_fired(IJoinedProjectEvent)
@@ -77,7 +80,6 @@ First we need to clear out the memoized cache:
 
 Verify that the notifying email went out::
 
-    >>> mailhost = view.get_tool('MailHost')
     >>> len(mailhost.messages)
     1
 
