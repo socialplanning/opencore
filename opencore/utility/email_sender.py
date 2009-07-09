@@ -25,7 +25,6 @@ class EmailSender(object):
     implements(IEmailSender)
     adapts(IOpenSiteRoot)
     debug = False
-    #debug = True    
 
     def __init__(self, context):
         self.context = context
