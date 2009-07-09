@@ -1,6 +1,10 @@
+from Products.CMFCore.utils import getToolByName
+from Products.CMFPlone.interfaces import IPloneSiteRoot
 from opencore.utility.interfaces import IFeedbackerClient
 from opencore.utility.interfaces import IHTTPClient
 from opencore.utility.interfaces import IProvideSiteConfig
+from topp.utils.zutils import aq_iface
+from zope.app.component.hooks import getSite
 from zope.component import getUtility
 from zope.interface import implements
 import feedparser
@@ -19,8 +23,26 @@ class FeedbackerClient(object):
                                           config.get('feedbacker path'.strip()))
         req_url = "%satom?%s" % (feedbacker_url, query_string)
         h = getUtility(IHTTPClient)
-        resp, content = h.request(req_url) # GET is the default
+
+        context = getSite()
+        mship_tool = getToolByName(context, 'portal_membership')
+        headers = {}
+        if not mship_tool.isAnonymousUser():
+            member = mship_tool.getAuthenticatedMember()
+            login = member.id
+            auth_helper = self._get_auth_helper(context)
+            cookie = auth_helper.generateCookie(login)
+            headers = dict(Cookie=cookie)
+
+        resp, content = h.request(req_url,
+                                  method="GET",
+                                  headers=headers,
+                                  )
         if resp.get('status') != '200':
             # feedbacker failure
             return
         return feedparser.parse(content)
+
+    def _get_auth_helper(self, context):
+        portal = aq_iface(context, IPloneSiteRoot)
+        return portal.acl_users.credentials_signed_cookie_auth
