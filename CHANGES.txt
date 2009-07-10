@@ -86,6 +86,9 @@ Features Added:
 
 Bugs Fixed:
 
+  * Don't make clients download a new copy of obfuscation.js for every
+    mailing list view they ever visit. (slinkp)
+
   * Switched from using view lookups by traversal to direct instantiation
     of the view classes in several tests so the tests don't fail when a
     different package is installed that has registered an override of the
