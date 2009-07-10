@@ -102,13 +102,23 @@ Bugs Fixed:
     nicely in places where the code expects a MaildropHost. (rafrombrc)
 
 
-0.17.1 (UNRELEASED)
+also on 0.17-dev (unreleased)
+=============================
+
+ * Correctly catch PIL-generated IOErrors on portrait uploads, w/
+   improved notification and more correct behavior (rafrombrc)
+
+0.17.1 (2009-06-30)
 ===================
 
 Features Added:
 
  * Added PSM for successful invite-join so new members will have at least
    one obvious link to the projects they just joined. (rafrombrc)
+
+ * After a successful invite-join, a new member is now redirected to the
+   homepage of the project he just joined, instead of his generic "tour"
+   page. (rafrombrc)
 
  * Added migrations/resync-page-history-caches.py zopectl script which will
    resynchronize all page history caches on a site. (#2836) (rafrombrc)
@@ -119,16 +129,9 @@ Features Added:
 
 Bugs Fixed:
 
- * Correctly catch PIL-generated IOErrors on portrait uploads, w/
-   improved notification and more correct behavior (rafrombrc)
-
  * Wiki history no longer reports incorrect modification dates for
    individual versions of a page. Run resync-page-history-caches.py to
    fix existing content; see "Features" above. (#2836) (rafrombrc)
-
- * Added exception handling code to email_sender's delivery code to
-   account for the different APIs of different MailHost implementations.
-   (rafrombrc)
 
  * Added async project security reindex for succesful invite-joins. (rafrombrc)
 
@@ -202,10 +205,6 @@ Features Added:
    the project name; run the "Mark ISyncWithProjectMembership on -discussion
    lists" migration in opencore.upgrades.to_0_17_0" to retain the functionality.
    (rafrombrc)
-
- * Temporarily abstract out the link to topp into configuration.
-   This should be in a separate theme package because it's topp specific.
-   (rmarianski)
 
  * More templates marked up for translation. (egj)
 
