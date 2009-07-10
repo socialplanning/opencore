@@ -1,7 +1,7 @@
 <html i18n:domain="opencore" metal:use-macro="here/@@standard_macros/master">
   <body>
     <div metal:fill-slot="content">
-      <script type="text/javascript" src="++resource++obfuscation.js"></script>
+      <script type="text/javascript" src="/++resource++obfuscation.js"></script>
       <div metal:use-macro="here/@@listen_macros/bcrumb"/>
       <div metal:use-macro="here/@@listen_macros/tabs"/>
       <div id="oc-content-main"
