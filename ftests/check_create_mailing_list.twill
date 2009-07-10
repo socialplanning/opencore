@@ -5,6 +5,6 @@
 #
 go ${base_url}/projects/${projname}
 follow "Mailing Lists"
-follow "Add a mailing list" 
+follow "add_mailing_list"
 find 'Archival'
-notfind "Add a mailing list" 
+notfind "add_mailing_list"

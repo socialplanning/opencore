@@ -23,4 +23,7 @@ follow "history"
 
 notfind "wiki_info_tab_last_modified</a>" s
 notfind "<abbr[^>]*>today</abbr>.*wiki_info_tab_last_author" s
-find "Last edit performed by\s* <a [^>]*>\s*${user}\s*</a>"
+find "all_versions_of_page_help"   
+#    ^^ was: Last edit performed by\s* <a [^>]*>\s*${user}\s*</a>"
+# XXX TODO: we need a way to get dynamic variables into the 'az' 
+# translation so that we can actually test what we want to test!
