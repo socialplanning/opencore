@@ -23,11 +23,13 @@ from fields import SquareScaledImageField
 
 from opencore.configuration import PROJECTNAME
 from opencore.configuration import PROHIBITED_MEMBER_PREFIXES
+from opencore.interfaces.event import MemberModifiedEvent
 from opencore.utility.interfaces import IHTTPClient
 from opencore.utils import get_opencore_property
 from types import TupleType, ListType, UnicodeType
 from zope.component import getAdapter
 from zope.component import getUtility
+from zope.event import notify
 import Products.Archetypes.public as atapi
 import logging
 import random
@@ -531,6 +533,13 @@ class OpenMember(FolderishMember):
                                        default='"password" is not a valid password.',
                                        domain='remember-plone')
 
+    security.declareProtected(ManagePortal, 'change_member_id')
+    def change_member_id(self, newid):
+        """Changes the id of this member object, delegates to
+        _change_member_id, this is just an alias so we can call this
+        directly from a browser."""
+        return self._change_member_id(newid)
+
     def _change_member_id(self, newid):
         """Changes the id of this member object and all of the related
         objects (home folder, memberships)"""
@@ -558,6 +567,11 @@ class OpenMember(FolderishMember):
             memfolder.manage_delLocalRoles((old_id,))
         if 'Owner' not in memfolder.get_local_roles_for_userid(newid):
             memfolder.manage_setLocalRoles(newid, ('Owner',))
+        # bit of a kludge here, we're decorating the event object w/
+        # the old_id to get the WP notifier to do the right thing
+        event = MemberModifiedEvent(self)
+        event._old_id = old_id
+        notify(event)
         return 'ID changed to %s' % newid
 
 atapi.registerType(OpenMember, package=PROJECTNAME)
