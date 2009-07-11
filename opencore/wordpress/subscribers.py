@@ -143,11 +143,21 @@ def notify_wordress_user_removed(mem, event):
     send_to_wordpress(uri, username, params, mem)
 
 def notify_wordpress_user_modified(mem, event):
-    uri = 'openplans-user-modified.php'
-    username = mem.getId()
-    params = dict(
-        username=username,
-        email=mem.getEmail(),
-        display_name=mem.Title(),
-        )
-    send_to_wordpress(uri, username, params, mem)
+    old_id = getattr(event, '_old_id', None)
+    # are we changing the user login?
+    if old_id is not None:
+        # yup.  remove the old record.
+        uri = 'openplans-remove-user.php'
+        params = dict(username=old_id)
+        send_to_wordpress(uri, old_id, params, mem)
+        # and create the new one.
+        notify_wordpress_user_created(mem, event)
+    else:
+        uri = 'openplans-user-modified.php'
+        username = mem.getId()
+        params = dict(
+            username=username,
+            email=mem.getEmail(),
+            display_name=mem.Title(),
+            )
+        send_to_wordpress(uri, username, params, mem)
