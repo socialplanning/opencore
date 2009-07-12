@@ -51,6 +51,7 @@ setup(
         'https://svn.openplans.org/svn/flunc/trunk#egg=flunc-0.6dev',
         'http://svn-mirror.plone.org/svn/collective/ploneundelete/branches/repoze#egg=ploneundelete-0.1dev',
         'https://svn.openplans.org/svn/vendor/Products.TeamSpace#egg=Products.TeamSpace',
+        'https://svn.plone.org/svn/collective/Products.membrane/trunk/#egg=Products.membrane-dev'
         ],
     install_requires=[
         'borg.localrole==2.0.1',
@@ -61,7 +62,7 @@ setup(
         'lxml>=2.0alpha5',
         "oc-js>=0.6.5dev",
         'oc-feed>=0.4',
-        'OpencoreRedirect==dev,>=0.5dev',
+        'OpencoreRedirect>=0.5',
         'plone.mail',
         'Products.CacheSetup==1.2',
         'Products.GenericSetup>=1.4.1',
@@ -75,7 +76,7 @@ setup(
         'Products.PlacelessTranslationService>=1.4.9',
         'Products.RichDocument',
         'Products.TeamSpace',
-        'Products.Membrane==1.1b5',
+        'Products.membrane==dev',
         'Products.Remember==1.1b3',
         'Products.QueueCatalog==1.6.0',
         'ploneundelete',
