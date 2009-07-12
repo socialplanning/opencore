@@ -62,28 +62,10 @@
 
   <import-step
      version="20071029-01"
-     id="securityTweaks"
-     handler="opencore.configuration.setuphandlers.securityTweaks"
-     title="OpenCore security tweaks">
-    OpenCore-related miscellaneous security settings.
-    <dependency step="install_dependencies" />
-  </import-step>
-
-  <import-step
-     version="20071029-01"
      id="installWorkflowPolicies"
      handler="opencore.configuration.setuphandlers.installWorkflowPolicies"
      title="OpenCore install project workflow policies">
     Install workflow policies for use inside OpenProject objects.
-    <dependency step="install_dependencies" />
-  </import-step>
-
-  <import-step
-     version="20071029-01"
-     id="install_team_placeful_workflow_policies"
-     handler="opencore.configuration.setuphandlers.install_team_placeful_workflow_policies"
-     title="OpenCore install team workflow policies">
-    Install workflow policies for use inside OpenTeam objects.
     <dependency step="install_dependencies" />
   </import-step>
 
@@ -102,15 +84,6 @@
      handler="opencore.configuration.setuphandlers.setMemberType"
      title="OpenCore set default member type">
     Set IUserAdder utilities default member type to OpenMember.
-    <dependency step="install_dependencies" />
-  </import-step>
-
-  <import-step
-     version="20071029-01"
-     id="setTeamType"
-     handler="opencore.configuration.setuphandlers.setTeamType"
-     title="OpenCore set team type">
-    Set team tool's default team type to OpenTeam.
     <dependency step="install_dependencies" />
   </import-step>
 

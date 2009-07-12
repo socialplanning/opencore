@@ -77,7 +77,6 @@ def install_dependencies(portal, out):
         print >> out, '--> installing: %s' % dep
         qi.installProduct(dep)
 
-@setuphandler
 def install_team_placeful_workflow_policies(portal, out):
     print >> out, 'Installing team placeful workflow policies'
 
@@ -147,7 +146,6 @@ def setPermissions(obj, perm_data, out):
                 # permission doesn't exist... that's okay
                 pass
 
-@setuphandler
 def securityTweaks(portal, out):
     """ tweak site-wide security settings """
     print >> out, 'Modifying site security settings'
@@ -192,7 +190,6 @@ def setMemberType(portal, out):
                                                            'OpenMember',
                                                            ))
 
-@setuphandler
 def setTeamType(portal, out):
     tmtool = getToolByName(portal, 'portal_teams')
     teamtype = OpenTeam.portal_type
@@ -357,6 +354,10 @@ def setupTeamTool(portal, out):
     tmtool.setDefaultAllowedRoles(config.DEFAULT_ROLES)
     tmtool.setDefaultRoles(config.DEFAULT_ROLES[:1])
     tmtool.setDefaultActiveStates(config.DEFAULT_ACTIVE_MSHIP_STATES)
+
+    setTeamType(portal, out)
+    securityTweaks(portal, out)
+    install_team_placeful_workflow_policies(portal, out)
 
 @setuphandler
 def installNewsFolder(portal, out):
