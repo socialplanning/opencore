@@ -13,6 +13,7 @@ from Products.PluggableAuthService import registerMultiPlugin
 from Products.listen.permissions import AddMailingList
 from opencore import configuration as config
 from opencore.auth import remoteauthplugin
+from opencore.auth import SignedCookieAuthHelper
 from opencore.bbb.module_alias import do_aliases
 from opencore.nui import indexing
 from opencore.utility.interfaces import IProvideSiteConfig
@@ -31,7 +32,7 @@ registerDirectory(SKINS_DIR, GLOBALS)
 
 # register the remote auth PAS plugin
 registerMultiPlugin(remoteauthplugin.RemoteOpenCoreAuth.meta_type)
-
+registerMultiPlugin(SignedCookieAuthHelper.SignedCookieAuthHelper.meta_type)
 
 def initialize(context):
     lrinit(context)
