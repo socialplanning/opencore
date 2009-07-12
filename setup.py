@@ -62,7 +62,7 @@ setup(
         'OpencoreRedirect==dev,>=0.5dev',
         'plone.mail',
         'Products.CacheSetup==1.2',
-        'Products.GenericSetup==1.4.1',
+        'Products.GenericSetup>=1.4.1',
         'simplejson',
         'topp.featurelets>=0.3.0',
         'topp.utils>=0.5',
