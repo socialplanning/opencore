@@ -125,26 +125,6 @@
 
   <import-step
      version="20071029-01"
-     id="setProjectFolderPermissions"
-     handler="opencore.configuration.setuphandlers.setProjectFolderPermissions"
-     title="OpenCore set project folder permissions">
-    Set permissions on OpenCore projects folder.
-    <dependency step="addProjectsFolder" />
-    <dependency step="install_dependencies" />
-  </import-step>
-
-  <import-step
-     version="20071029-01"
-     id="setupProjectLayout"
-     handler="opencore.configuration.setuphandlers.setupProjectLayout"
-     title="OpenCore set projects folder layout">
-    Specifies the default view for the projects folder.
-    <dependency step="addProjectsFolder" />
-    <dependency step="install_dependencies" />
-  </import-step>
-
-  <import-step
-     version="20071029-01"
      id="setupHomeLayout"
      handler="opencore.configuration.setuphandlers.setupHomeLayout"
      title="OpenCore set portal object layout">

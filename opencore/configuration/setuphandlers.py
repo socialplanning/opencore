@@ -238,7 +238,6 @@ def addProjectsFolder(portal, out):
     pfolder.setImmediatelyAddableTypes(['OpenProject'])
 
     # Install default policy
-
     pwf_tool = getToolByName(pfolder, 'portal_placeful_workflow')
     wf_config = pwf_tool.getWorkflowPolicyConfig(pfolder)
     if wf_config is None:
@@ -248,13 +247,14 @@ def addProjectsFolder(portal, out):
         wf_config.setPolicyBelow(policy='open_policy')
         wf_tool = getToolByName(pfolder, 'portal_workflow')
 
-@setuphandler
+    setupProjectLayout(portal, out)
+    setProjectFolderPermissions(portal, out)
+
 def setProjectFolderPermissions(portal, out):
     print >> out, 'Setting extra permissions in projects folder'
     pfolder = portal._getOb('projects')
     setPermissions(pfolder, DEFAULT_PFOLDER_PERMISSIONS_DATA, out)
 
-@setuphandler
 def setupProjectLayout(portal, out):
     print >> out, 'Setting projects folder view'
     pfolder = portal._getOb('projects')
