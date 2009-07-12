@@ -77,7 +77,7 @@ setup(
         'Products.RichDocument',
         'Products.TeamSpace',
         'Products.membrane==dev',
-        'Products.Remember==1.1b3',
+        'Products.remember',
         'Products.QueueCatalog==1.6.0',
         'ploneundelete',
         ],
