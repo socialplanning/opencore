@@ -49,6 +49,8 @@ setup(
         'http://svn.red-bean.com/bob/simplejson/trunk/#egg=simplejson-dev',
         'https://svn.openplans.org/svn/ZCMLLoader/trunk#egg=ZCMLLoader',
         'https://svn.openplans.org/svn/flunc/trunk#egg=flunc-0.6dev',
+        'http://svn-mirror.plone.org/svn/collective/ploneundelete/branches/repoze#egg=ploneundelete-0.1dev',
+        'https://svn.openplans.org/svn/vendor/Products.TeamSpace#egg=Products.TeamSpace',
         ],
     install_requires=[
         'borg.localrole==2.0.1',
@@ -71,6 +73,12 @@ setup(
         'zcmlloader',
         'Products.listen>=0.6,<0.7',
         'Products.PlacelessTranslationService>=1.4.9',
+        'Products.RichDocument',
+        'Products.TeamSpace',
+        'Products.Membrane==1.1b5',
+        'Products.Remember==1.1b3',
+        'Products.QueueCatalog==1.6.0',
+        'ploneundelete',
         ],
     
     extras_require=dict(ubuntu=['hprof']),
