@@ -71,6 +71,7 @@ setup(
         'zc.queue',
         'zcmlloader',
         'Products.listen==0.6',
+        'Products.PlacelessTranslationService==1.4.9',
         ],
     
     extras_require=dict(ubuntu=['hprof']),
