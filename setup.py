@@ -49,7 +49,7 @@ setup(
         'http://svn.red-bean.com/bob/simplejson/trunk/#egg=simplejson-dev',
         'https://svn.openplans.org/svn/ZCMLLoader/trunk#egg=ZCMLLoader',
         'https://svn.openplans.org/svn/flunc/trunk#egg=flunc-0.6dev',
-        'http://svn.plone.org/svn/collective/Products.listen/branches/0.6#egg=Products.listen-0.6'
+        'http://svn-mirror.plone.org/svn/collective/Products.listen/branches/0.6#egg=Products.listen-0.6'
         ],
     install_requires=[
         'borg.localrole==2.0.1',
