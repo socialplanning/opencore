@@ -33,7 +33,7 @@ class WFPolicyReadAdapter(object):
             ob = self.context
         wf_id = ''
         pwf = getToolByName(ob, 'portal_placeful_workflow')
-        config = pwf.getWorkflowPolicyConfig(ob)
+        config = getattr(ob.aq_explicit, WorkflowPolicyConfig_id, None)
         if config is not None:
             wf_id = config.getPolicyInId()
         else:
@@ -80,11 +80,11 @@ class WFPolicyWriteAdapter(WFPolicyReadAdapter):
     def setPolicy(self, policy_in, skip_update_role_mappings=False):
         context = self.context
         pwf = getToolByName(context, 'portal_placeful_workflow')
-        config = pwf.getWorkflowPolicyConfig(context)
+        config = getattr(context.aq_explicit, WorkflowPolicyConfig_id, None)
         if config is None:
             addP = context.manage_addProduct['CMFPlacefulWorkflow']
             addP.manage_addWorkflowPolicyConfig()
-            config = pwf.getWorkflowPolicyConfig(context)
+            config = getattr(context.aq_explicit, WorkflowPolicyConfig_id, None)
         
         wftool = getToolByName(context, 'portal_workflow')
         update_role_mappings = False
