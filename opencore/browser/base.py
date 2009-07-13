@@ -612,7 +612,7 @@ class BaseView(BrowserView):
         pass
 
     def pretty_date(self, date, include_time=False):
-        return prettyDate(date, include_time)
+        return prettyDate(date)
 
     def get_tab_class(self, link):
         css_class = ''
