@@ -139,3 +139,22 @@ class OpencoreUtils(BrowserView):
         # Hardcoded domain is probably OK here since A) it really
         # refers to one specific website, and B) is just a fallback.
         return cfg.get('topp_url', 'http://theopenplanningproject.org')
+
+###################################################
+#  moved from opencore.testing.utils
+#   (why? see r24491 commit message)
+from plone.memoize import instance
+from plone.memoize import view
+from zope.app.annotation.interfaces import IAnnotations
+
+def clear_all_memos(view):
+    clear_instance_memo(view)
+    clear_view_memo(view.request)
+
+def clear_instance_memo(obj):
+    instance._m.clear(obj)
+
+def clear_view_memo(request):
+    anot = IAnnotations(request)
+    if anot.has_key(view.ViewMemo.key):
+        del anot[view.ViewMemo.key]

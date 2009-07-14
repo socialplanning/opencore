@@ -2,7 +2,7 @@ from Products.CMFCore.utils import getToolByName
 from Products.Five import BrowserView
 from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
 from Products.listen.interfaces import ISearchableArchive
-from opencore.testing.utils import clear_all_memos
+from opencore.utils import clear_all_memos
 from opencore.utils import get_utility_for_context
 from plone.memoize import view
 import DateTime

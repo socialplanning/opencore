@@ -2,12 +2,13 @@ from AccessControl.SecurityManagement import newSecurityManager
 from Products.PloneTestCase.setup import portal_owner
 from Products.PloneTestCase.setup import portal_name
 from Testing import ZopeTestCase
-from plone.memoize import view, instance
+
 from types import UnicodeType
-from zope.app.annotation.interfaces import IAnnotations
 from zope.publisher.browser import TestRequest
 from zope.testing.cleanup import cleanUp
 from opencore.configuration.setuphandlers import Z_DEPS, DEPS
+
+from opencore.utils import clear_all_memos, clear_instance_memo, clear_view_memo #BBB
 
 def login_portal_owner(app=None):
     if app is None:
@@ -35,18 +36,6 @@ def makeContent(container, id, portal_type, **kw):
     container.invokeFactory(id=id, type_name=portal_type, **kw)
     o = getattr(container, id)
     return o
-
-def clear_view_memo(request):
-    anot = IAnnotations(request)
-    if anot.has_key(view.ViewMemo.key):
-        del anot[view.ViewMemo.key]
-
-def clear_instance_memo(obj):
-    instance._m.clear(obj)
-
-def clear_all_memos(view):
-    clear_instance_memo(view)
-    clear_view_memo(view.request)
 
 def clear_status_messages(view):
     """Clear all portal status messages from cookies, the request,
