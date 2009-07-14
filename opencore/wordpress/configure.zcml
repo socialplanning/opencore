@@ -31,6 +31,12 @@
     handler=".subscribers.notify_wordress_user_left_project"
     />
 
+  <subscriber
+     for="opencore.interfaces.IProject
+          zope.app.container.interfaces.IObjectRemovedEvent"
+     handler=".subscribers.notify_wordpress_project_deleted"
+     />
+
   <!-- member deletion events -->
   <!-- project deletion happens in wordpress featurelet removePackage -->
   <subscriber

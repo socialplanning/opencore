@@ -1,5 +1,6 @@
 from Products.CMFCore.utils import getToolByName
 from decorator import decorator
+from opencore.interfaces import IProject
 from opencore.project.utils import get_featurelets
 from opencore.utility.interfaces import IHTTPClient
 from opencore.utility.interfaces import IProvideSiteConfig
@@ -10,28 +11,30 @@ import logging
 
 log = logging.getLogger('opencore.wordpress')
 
-# @@ DWM: why not use @adapter so one could see how these are hooked
-# up while looking at the code
-
 @decorator
-def project_contains_blog(f, mship_obj, event):
+def project_contains_blog(f, obj, event):
     """decorator to verify that the project has a blog before
        sending the event to wordpress"""
-    team = mship_obj.aq_inner.aq_parent
-    proj_id = team.getId()
-    portal = getToolByName(mship_obj, 'portal_url').getPortalObject()
-    try:
-        project = portal.projects._getOb(proj_id)
-    except KeyError:
-        # cannot find project with same name as team (unit test only?)
-        return
+    if IProject.providedBy(obj):
+        proj_id = obj.getId()
+        project = obj
+    else:
+        # it's a membership object
+        team = obj.aq_inner.aq_parent
+        proj_id = team.getId()
+        portal = getToolByName(obj, 'portal_url').getPortalObject()
+        try:
+            project = portal.projects._getOb(proj_id)
+        except KeyError:
+            # cannot find project with same name as team (unit test only?)
+            return
     for flet in get_featurelets(project):
         if flet['name'] == 'blog':
             break
     else:
         # no blog on project
         return
-    f(mship_obj, event)
+    f(obj, event)
 
 def try_to_send_to_wordpress(uri, username, params, context):
     """Send some data (params) to wordpress with the given user.
@@ -161,3 +164,15 @@ def notify_wordpress_user_modified(mem, event):
             display_name=mem.Title(),
             )
         send_to_wordpress(uri, username, params, mem)
+
+@project_contains_blog
+def notify_wordpress_project_deleted(project, event):
+    uri = 'openplans-delete-blog.php'
+    params = dict(
+        # XXX this hardcoded 'openplans.org' stuff has got to go :(
+        domain=project.getId(),
+        )
+    mtool = getToolByName(project, 'portal_membership')
+    mem = mtool.getAuthenticatedMember()
+    username = mem.getId()
+    send_to_wordpress(uri, username, params, project)
