@@ -12,7 +12,6 @@ from Products.CMFCore.FSPageTemplate import FSPageTemplate
 from Products.PluggableAuthService import registerMultiPlugin
 from Products.listen.permissions import AddMailingList
 from opencore import configuration as config
-from opencore.auth import remoteauthplugin
 from opencore.auth import SignedCookieAuthHelper
 from opencore.bbb.module_alias import do_aliases
 from opencore.nui import indexing
@@ -30,8 +29,8 @@ SKINS_DIR = 'skins'
 registerFileExtension('xsl', FSPageTemplate)
 registerDirectory(SKINS_DIR, GLOBALS)
 
-# register the remote auth PAS plugin
-registerMultiPlugin(remoteauthplugin.RemoteOpenCoreAuth.meta_type)
+# register the signed cookie auth helper PAS plugin (which is important for 
+# SSO across apps)
 registerMultiPlugin(SignedCookieAuthHelper.SignedCookieAuthHelper.meta_type)
 
 def initialize(context):
@@ -80,13 +79,6 @@ def initialize(context):
                                             SignedCookieAuthHelper.manage_addSignedCookieAuthHelper ),
                            visibility = None
                            )
-
-    context.registerClass(remoteauthplugin.RemoteOpenCoreAuth,
-                          permission = add_user_folders,
-                          constructors = (remoteauthplugin.manage_addOpenCoreRemoteAuthForm,
-                                          remoteauthplugin.manage_addOpenCoreRemoteAuth),
-                          visibility = None
-                          )
 
     # do all at import cataloging setup
     indexing.register_indexable_attrs()

@@ -358,31 +358,6 @@ class OpenMember(FolderishMember):
         data = ' '.join(data)
         return data
 
-    security.declarePrivate('_remote_auth_sites')
-    def _remote_auth_sites(self):
-        ptool = getToolByName(self, 'portal_properties')
-        ocprops = ptool._getOb('opencore_properties')
-        remote_auth_sites = ocprops.getProperty('remote_auth_sites')
-        remote_auth_sites = [s for s in remote_auth_sites if s.strip()]
-        return remote_auth_sites
-
-    security.declarePrivate('_id_exists_remotely')
-    def _id_exists_remotely(self, id):
-        """
-        Checks all of the servers in the remote_auth_sites property to
-        see if this specified id exists on any of those sites.
-        """
-        remote_auth_sites = self._remote_auth_sites()
-        if remote_auth_sites:
-            http = getUtility(IHTTPClient)
-            for url in remote_auth_sites:
-                mem_url = "%s/%s/exists" % (url, member_path(id))
-                resp, content = http.request(mem_url)
-                if resp.status == 200:
-                    # a remote member exists
-                    return True
-        return False
-
     security.declarePrivate('validate_id')
     def validate_id(self, id):
         """
@@ -417,28 +392,10 @@ class OpenMember(FolderishMember):
                 return self.translate(msg, default=msg)
 
         mbtool = getToolByName(self, 'membrane_tool')
-        if len(mbtool.unrestrictedSearchResults(getUserName=id)) > 0L \
-                or self._id_exists_remotely(id):
+        if len(mbtool.unrestrictedSearchResults(getUserName=id)) > 0L:
             msg = "The login name you selected is already " + \
                 "in use. Please choose another." 
             return self.translate(msg, default=msg)
-
-
-    security.declarePrivate('_email_exists_remotely')
-    def _email_exists_remotely(self, email):
-        """
-        Checks all of the servers in the remote_auth_sites property to
-        see if this specified id exists on any of those sites.
-        """
-        remote_auth_sites = self._remote_auth_sites()
-        if remote_auth_sites:
-            http = getUtility(IHTTPClient)
-            for url in remote_auth_sites:
-                email_url = "%s/people/email?email=%s" % (url, email)
-                resp, content = http.request(email_url, method='HEAD')
-                if resp.status == 200:
-                    return True
-        return False
 
     security.declarePrivate('validate_email')
     def validate_email(self, email):
@@ -459,8 +416,7 @@ class OpenMember(FolderishMember):
             if email_blacklist and email.lower() in email_blacklist:
                 return self.translate(msg, default=msg)
             mbtool = getToolByName(self, 'membrane_tool')
-            if len(mbtool.unrestrictedSearchResults(getEmail=email)) > 0 \
-                   or self._email_exists_remotely(email):
+            if len(mbtool.unrestrictedSearchResults(getEmail=email)) > 0:
                 return self.translate(msg, default=msg)
 
     def __bobo_traverse__(self, REQUEST, name):
@@ -484,12 +440,10 @@ class OpenMember(FolderishMember):
 
     def verifyCredentials(self, credentials):
         """
-        We override base member class's verifyCredentials for two reasons:
+        We override base member class's verifyCredentials for one reason:
 
         o to be able to support case insensitive login.
 
-        o to mark the credentials object to negate a check by the remote
-          auth plug-in
         """
         mbtool = getToolByName(self, MBTOOLNAME)
         login = credentials.get('login')
@@ -506,8 +460,6 @@ class OpenMember(FolderishMember):
         if not mbtool.case_sensitive_auth:
             username = username.lower()
         if login == username:
-            # we ARE the right member, block remote auth
-            credentials['opencore_auth_match'] = True
             if hasher.validate(hashed, password):
                 # AND the password was right
                 return True
