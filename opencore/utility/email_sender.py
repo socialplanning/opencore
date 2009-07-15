@@ -72,7 +72,9 @@ class EmailSender(object):
             try:
                 return member.getEmail()
             except:
-                return None
+                # we don't know what it is, return the original token and let
+                # the caller sort it out
+                return addr_token
 
     def _unicode_values(self, d):
         result = {}
