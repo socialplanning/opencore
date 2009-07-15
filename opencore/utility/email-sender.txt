@@ -31,7 +31,7 @@ Check converting to email addresses
     >>> es._to_email_address('Joe <foo@bar.com>')
     'Joe <foo@bar.com>'
     >>> print es._to_email_address('nosuchmember')
-    None
+    nosuchmember
 
 Check translation machinery::
     >>> from zope.i18nmessageid import Message
