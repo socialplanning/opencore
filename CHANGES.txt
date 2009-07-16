@@ -112,6 +112,17 @@ also on 0.17-dev (unreleased)
  * Correctly catch PIL-generated IOErrors on portrait uploads, w/
    improved notification and more correct behavior (rafrombrc)
 
+ * Add @id hooks to each table.oc-dataTable in project contents to make
+   it possible for clients (e.g. CSS, Deliverance, Flunc) to distinguish
+   between contents of different types. New type-specific selectors are 
+
+    table#oc-dataTable-files
+    table#oc-dataTable-pages
+    table#oc-dataTable-lists
+
+   The generic selector `table.oc-dataTable` still works to select all
+   tables of contents.
+
 0.17.1 (2009-06-30)
 ===================
 

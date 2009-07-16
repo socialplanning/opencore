@@ -41,7 +41,8 @@
                         <input tal:replace="structure view/authenticator_input"/>
                         <input type="hidden" name="item_type"
                                tal:attributes="value item_type" /> 
-                        <table class="oc-dataTable" cellpadding="0" cellspacing="0">
+                        <table class="oc-dataTable" cellpadding="0" cellspacing="0"
+			       tal:attributes="id string:oc-dataTable-${item_type}">
                           <metal:thead define-macro="item_thead_snippet">
                             <tal:setvar define="item_type item_type | options/item_type;
                                                 item_date_author_header item_date_author_header | options/item_date_author_header;
@@ -215,7 +216,8 @@
                   <metal:contents_table_uneditable define-macro="contents_table_uneditable">
                     <div class="oc-widget oc-widget-dataTable">
                       <h2 class="oc-dataTable-heading"><tal:dummy replace="item_header" /></h2>
-                      <table class="oc-dataTable" cellpadding="0" cellspacing="0">
+                      <table class="oc-dataTable" cellpadding="0" cellspacing="0"
+			     tal:attributes="id string:oc-dataTable-${item_type}">
                         <tal:macro metal:use-macro="template/macros/item_thead_snippet" />
                         <tal:macro metal:use-macro="template/macros/item_tbody_snippet" />
                       </table>
