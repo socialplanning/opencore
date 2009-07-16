@@ -175,4 +175,10 @@ def notify_wordpress_project_deleted(project, event):
     mtool = getToolByName(project, 'portal_membership')
     mem = mtool.getAuthenticatedMember()
     username = mem.getId()
-    send_to_wordpress(uri, username, params, project)
+    try: 
+        send_to_wordpress(uri, username, params, project)
+    except AssertionError, e:
+        # we're deleting the project; we don't care if there's no matching blog
+        if not 'already been deleted' in str(e):
+            raise
+
