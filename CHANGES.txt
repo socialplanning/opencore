@@ -86,10 +86,6 @@ Features Added:
 
 Bugs Fixed:
 
-  * Don't make clients re-download numerous images, CSS, and JS files
-    over and over at different URLs; instead use canonical resource
-    URLs relative to the app root. (slinkp)
-
   * Switched from using view lookups by traversal to direct instantiation
     of the view classes in several tests so the tests don't fail when a
     different package is installed that has registered an override of the
@@ -108,6 +104,10 @@ Bugs Fixed:
 
 also on 0.17-dev (unreleased)
 =============================
+
+ * Don't make clients re-download numerous images, CSS, and JS files
+   over and over at different URLs; instead use canonical resource
+   URLs relative to the app root. (slinkp)
 
  * Correctly catch PIL-generated IOErrors on portrait uploads, w/
    improved notification and more correct behavior (rafrombrc)
