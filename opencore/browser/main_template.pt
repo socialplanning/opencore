@@ -19,10 +19,10 @@
 
     <link rel="stylesheet" href="/++resource++css/opencore.css" type="text/css" media="all" />
     <!--[if IE]>
-      <link rel="stylesheet" href="++resource++css/ie.css" type="text/css" media="all" />
+      <link rel="stylesheet" href="/++resource++css/ie.css" type="text/css" media="all" />
     <![endif]-->
     <!--[if IE 6]>
-      <link rel="stylesheet" href="++resource++css/ie6.css" type="text/css" media="all" />
+      <link rel="stylesheet" href="/++resource++css/ie6.css" type="text/css" media="all" />
     <![endif]-->
     
     <link rel="shortcut icon" type="image/x-icon" href="/++resource++img/favicon.ico" />

@@ -21,7 +21,7 @@
     <ul id="oc-topnav-globalmenu" class="oc-dropdown-list">
       <li class="oc-dropdown-container">
         <a tal:attributes="href here/portal_url">
-          <img src="++resource++img/logo.gif" 
+          <img src="/++resource++img/logo.gif" 
                tal:attributes="alt view/portal_title"
                style="display: inline;" />
         </a>

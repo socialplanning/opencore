@@ -2,7 +2,7 @@
     metal:use-macro="here/@@standard_macros/master">
   <head>
     <title metal:fill-slot="title" tal:content="python:view.window_title(mode='history')" />
-    <script metal:fill-slot="script" src="++resource++oc-js/checkbox-limit-select.js"></script>
+    <script metal:fill-slot="script" src="/++resource++oc-js/checkbox-limit-select.js"></script>
     <meta metal:fill-slot="meta" name="ROBOTS" content="NOINDEX" />
   </head>
   <body>

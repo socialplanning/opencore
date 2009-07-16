@@ -31,7 +31,7 @@ slots. Here is an example of how to inject extra css into the header
 of your page::
 
 <metal:link fill-slot="link">
-  <link rel="stylesheet" href="++resource++css/custom.css"
+  <link rel="stylesheet" href="/++resource++css/custom.css"
         type="text/css" media="all" />
 </metal:link>
 
