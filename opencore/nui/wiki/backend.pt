@@ -11,10 +11,10 @@
     _resized_dir = ".resized";
   </script>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
- <link href="++resource++xinha/plugins/ImageManager/assets/manager.css" rel="stylesheet" type="text/css"/>
-<script type="text/javascript" src="++resource++xinha/plugins/ImageManager/assets/popup.js"></script>
-<script type="text/javascript" src="++resource++xinha/popups/popup.js"></script>
-<script type="text/javascript" src="++resource++xinha/plugins/ImageManager/assets/dialog.js"></script>
+ <link href="/++resource++xinha/plugins/ImageManager/assets/manager.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="/++resource++xinha/plugins/ImageManager/assets/popup.js"></script>
+<script type="text/javascript" src="/++resource++xinha/popups/popup.js"></script>
+<script type="text/javascript" src="/++resource++xinha/plugins/ImageManager/assets/dialog.js"></script>
 <script type="text/javascript">
 /*<![CDATA[*/
 	if(window.opener)
@@ -25,7 +25,7 @@
 	var base_url = components.slice(0, components.length - 2).join("/");
 /*]]>*/
 </script>
-<script type="text/javascript" src="++resource++xinha/plugins/ImageManager/assets/manager.js"></script></head><body>
+<script type="text/javascript" src="/++resource++xinha/plugins/ImageManager/assets/manager.js"></script></head><body>
 <div class="title">Insert Image</div>
 <form target="imgManager" id="uploadForm" method="post" enctype="multipart/form-data" tal:attributes="action string:${here/absolute_url}/backend-upload">
 
@@ -43,7 +43,7 @@
         
   </tbody></table>
 
-  <div id="messages" style="display: none;"><span id="message">Uploading</span><img src="++resource++xinha/plugins/ImageManager/img/dots.gif/dots.gif" alt="..." height="12" width="22"/></div>
+  <div id="messages" style="display: none;"><span id="message">Uploading</span><img src="/++resource++xinha/plugins/ImageManager/img/dots.gif/dots.gif" alt="..." height="12" width="22"/></div>
 
   <iframe src="backend-images" name="imgManager" id="imgManager" class="imageFrame" title="Image Selection" frameborder="0" scrolling="auto"></iframe>
 
@@ -66,7 +66,7 @@
     </td>
     <td rowspan="2">
       <div style="position: relative;">
-        <img src="++resource++img/locked.gif" id="imgLock" alt="Constrained Proportions" valign="middle" height="32" width="25"/><input id="constrain_prop" checked="checked" onclick="javascript:toggleConstrains(this);" style="position: absolute; top: 8px; left: 0px;" type="checkbox"/>
+        <img src="/++resource++img/locked.gif" id="imgLock" alt="Constrained Proportions" valign="middle" height="32" width="25"/><input id="constrain_prop" checked="checked" onclick="javascript:toggleConstrains(this);" style="position: absolute; top: 8px; left: 0px;" type="checkbox"/>
       </div>
     </td>
     <th align="left">Margin:</th>

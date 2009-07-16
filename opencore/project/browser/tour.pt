@@ -22,7 +22,7 @@
 
           <div>
             <a tal:attributes="href string:${context/absolute_url}/project-home">
-              <img src="++resource++img/touricons/wiki.gif" class="oc-tour-icon" />
+              <img src="/++resource++img/touricons/wiki.gif" class="oc-tour-icon" />
               <h3 i18n:translate="project_tour_wiki">Wiki pages</h3>
             </a>
             <ul class="oc-discreetText oc-plainList">
@@ -35,7 +35,7 @@
 
           <div tal:condition="view/has_blog">
             <a tal:attributes="href string:${context/absolute_url}/blog">
-              <img src="++resource++img/touricons/blog.gif" class="oc-tour-icon" />
+              <img src="/++resource++img/touricons/blog.gif" class="oc-tour-icon" />
               <h3 i18n:translate="project_tour_blog">Blog</h3>
             </a>
             <ul class="oc-discreetText oc-plainList">
@@ -55,7 +55,7 @@
 
           <div>
             <a tal:attributes="href string:${context/absolute_url}/manage-team">
-              <img src="++resource++img/touricons/team.gif" class="oc-tour-icon" />
+              <img src="/++resource++img/touricons/team.gif" class="oc-tour-icon" />
               <h3 i18n:translate="project_tour_team">Manage your team</h3>
             </a>
             <ul class="oc-discreetText oc-plainList">
@@ -67,7 +67,7 @@
         
           <div tal:condition="view/has_mailing_lists">
             <a tal:attributes="href string:${context/absolute_url}/lists">
-              <img src="++resource++img/touricons/mailinglist.gif" class="oc-tour-icon" />
+              <img src="/++resource++img/touricons/mailinglist.gif" class="oc-tour-icon" />
               <h3 i18n:translate="project_tour_mailinglists">Mailing lists</h3>
             </a>
             <ul class="oc-discreetText oc-plainList">
@@ -79,7 +79,7 @@
         
           <div tal:condition="view/has_task_tracker">
             <a tal:attributes="href string:${context/absolute_url}/tasks">
-              <img src="++resource++img/touricons/tasks.gif" class="oc-tour-icon" />
+              <img src="/++resource++img/touricons/tasks.gif" class="oc-tour-icon" />
               <h3 i18n:translate="project_tour_tasktracker">Task Tracker</h3>
             </a>
             <ul class="oc-discreetText oc-plainList">
