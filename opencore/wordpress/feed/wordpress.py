@@ -9,6 +9,9 @@ from opencore.nui.wiki.utils import unescape # XXX this should not live here!
 from zope.component import adapts
 from zope.interface import implements
 
+from opencore.utility.interfaces import IProvideSiteConfig
+from zope.component import getUtility
+
 class WordpressFeedAdapter(BaseFeedAdapter):
     """feed for recent wordpress blogs"""
     # this should not be used if the project has no blog
@@ -34,10 +37,14 @@ class WordpressFeedAdapter(BaseFeedAdapter):
         self._items = []
         # without the trailing slash, one gets different results!
         # see http://trac.openplans.org/openplans/ticket/2197#comment:3
-        uri = '%s/blog/feed/' % self.context.absolute_url()
+
+        base_uri = getUtility(IProvideSiteConfig).get('wordpress uri')
+        uri = '%s/feed/' % base_uri
 
         # pull down the feed with the proper cookie
         req = urllib2.Request(uri)
+
+        req.add_header('X-Openplans-Project', self.context.getId())
         cookie = self.context.REQUEST.get_header('Cookie')
         if cookie:
             req.add_header('Cookie', cookie)
