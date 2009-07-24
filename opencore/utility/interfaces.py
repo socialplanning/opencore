@@ -79,7 +79,7 @@ class IProvideSiteConfig(Interface):
 
 class IFeedbackerClient(Interface):
     """A global utility for making feedbacker requests"""
-    def get_atom(query_string):
+    def get_atom(query_string, send_auth=False):
         """Fetch an Atom feed from feedbacker using a GET request with
         the provided query string; parses the results w/ feedparser
         and returns the parsed feed object."""

@@ -14,7 +14,7 @@ class FeedbackerClient(object):
     """A global utility for making feedbacker requests"""
     implements(IFeedbackerClient)
 
-    def get_atom(self, query_string):
+    def get_atom(self, query_string, send_auth=False):
         """Fetch an Atom feed from feedbacker using a GET request with
         the provided query string; parses the results w/ feedparser
         and returns the parsed feed object."""
@@ -27,7 +27,7 @@ class FeedbackerClient(object):
         context = getSite()
         mship_tool = getToolByName(context, 'portal_membership')
         headers = {}
-        if not mship_tool.isAnonymousUser():
+        if send_auth and not mship_tool.isAnonymousUser():
             member = mship_tool.getAuthenticatedMember()
             login = member.id
             auth_helper = self._get_auth_helper(context)
