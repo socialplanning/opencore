@@ -76,7 +76,7 @@ setup(
         'Products.PlacelessTranslationService>=1.4.9',
         'Products.RichDocument',
         'Products.TeamSpace',
-        'Products.membrane==dev',
+        'Products.membrane',
         'Products.remember',
         'Products.QueueCatalog==1.6.0',
         'ploneundelete',
