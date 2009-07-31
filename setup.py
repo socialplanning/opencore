@@ -51,7 +51,7 @@ setup(
         'https://svn.openplans.org/svn/flunc/trunk#egg=flunc-0.6dev',
         'http://svn-mirror.plone.org/svn/collective/ploneundelete/branches/repoze#egg=ploneundelete-0.1dev',
         'https://svn.openplans.org/svn/vendor/Products.TeamSpace#egg=Products.TeamSpace',
-        'https://svn.plone.org/svn/collective/Products.membrane/trunk/#egg=Products.membrane-dev'
+        'http://svn-mirror.plone.org/svn/collective/Products.membrane/trunk/#egg=Products.membrane-dev'
         ],
     install_requires=[
         'borg.localrole==2.0.1',
