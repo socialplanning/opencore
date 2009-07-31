@@ -53,13 +53,13 @@
     Team tool configuration.
     <dependency step="install_dependencies" />
   </import-step>
-<!--
+
   <import-step id="pas_contents" version="20051116-01"
                handler="opencore.configuration.exportimport.importPAS"
                title="PAS Contents">
     Import the PAS' registry and plugins.
   </import-step>
--->
+
   <import-step
      version="20071029-01"
      id="installWorkflowPolicies"
