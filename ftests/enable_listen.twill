@@ -16,4 +16,4 @@ follow "Preferences"
 edit_checkbox prefs_form featurelets:list 'listen'
 submit update:boolean
 follow "Mailing Lists"
-find "add a mailing list" i
+find "add_mailing_list"
