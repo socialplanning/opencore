@@ -51,7 +51,8 @@ setup(
         'https://svn.openplans.org/svn/flunc/trunk#egg=flunc-0.6dev',
         'http://svn-mirror.plone.org/svn/collective/ploneundelete/branches/repoze#egg=ploneundelete-0.1dev',
         'https://svn.openplans.org/svn/vendor/Products.TeamSpace#egg=Products.TeamSpace',
-        'http://svn-mirror.plone.org/svn/collective/Products.membrane/trunk/#egg=Products.membrane-dev'
+        'http://svn-mirror.plone.org/svn/collective/Products.membrane/trunk/#egg=Products.membrane-dev',
+        'https://svn.openplans.org/svn/opencore/integrationlib/trunk#egg=opencore_integrationlib-dev',
         ],
     install_requires=[
         'borg.localrole==2.0.1',
@@ -63,6 +64,7 @@ setup(
         "oc-js>=0.6.5dev",
         'oc-feed>=0.4',
         'OpencoreRedirect>=0.5',
+        'opencore_integrationlib',
         'plone.mail',
         'Products.CacheSetup==1.2',
         'Products.GenericSetup>=1.4.1',
