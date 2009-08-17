@@ -70,6 +70,52 @@ def importToolset(context):
     logger.info('MemberData tool imported.')
 
 
+def installCookieAuth(context):
+
+    portal = context.getSite()
+
+    uf = portal.acl_users
+
+    login_path = 'require_login'
+    logout_path = 'logged_out'
+    cookie_name = '__ac'
+
+    from Products.CMFCore.utils import getToolByName
+
+    crumbler = getToolByName(portal, 'cookie_authentication', None)
+
+    if crumbler is not None:
+        login_path = crumbler.auto_login_page
+        logout_path = crumbler.logout_page
+        cookie_name = crumbler.auth_cookie
+        
+    found = uf.objectIds(['Signed Cookie Auth Helper'])
+    if not found:
+        openplans = uf.manage_addProduct['OpenPlans']
+        openplans.manage_addSignedCookieAuthHelper('credentials_signed_cookie_auth',
+                                                   cookie_name=cookie_name)
+
+    from Products.PlonePAS.Extensions.Install import activatePluginInterfaces
+    import sys
+    activatePluginInterfaces(portal, 'credentials_signed_cookie_auth', sys.stdout)
+
+    signed_cookie_auth = uf._getOb('credentials_signed_cookie_auth')
+    if 'login_form' in signed_cookie_auth.objectIds():
+        signed_cookie_auth.manage_delObjects(ids=['login_form'])
+    signed_cookie_auth.cookie_name = cookie_name
+    signed_cookie_auth.login_path = login_path
+
+    old_cookie_auth = uf._getOb('credentials_cookie_auth', None)
+    if old_cookie_auth is not None:
+        old_cookie_auth.manage_activateInterfaces([])
+
+    from Products.PluggableAuthService.interfaces.plugins import IChallengePlugin
+    plugins = uf._getOb('plugins', None)
+    if plugins is not None:
+        plugins.movePluginsUp(IChallengePlugin,
+                              ['credentials_signed_cookie_auth'],)
+
+
 # override the default PAS handlers since those assume the setup tool
 # is inside the PAS instance
 def exportPAS(context):
