@@ -79,6 +79,7 @@ def exportPAS(context):
 
 def importPAS(context):
     if context.isDirectory('PAS'):
+        import pdb;pdb.set_trace()
         IFilesystemImporter(context.getSite().acl_users).import_(context,
                                                                  'PAS',
                                                                  True)
