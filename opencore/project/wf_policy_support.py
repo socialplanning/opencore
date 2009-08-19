@@ -1,11 +1,11 @@
 from Acquisition import aq_get, aq_inner, aq_base
 from Products.CMFCore.utils import getToolByName
-from Products.CMFPlacefulWorkflow.PlacefulWorkflowTool import WorkflowPolicyConfig_id
 from opencore.interfaces.workflow import IWriteWorkflowPolicySupport
 from opencore.interfaces.workflow import IReadWorkflowPolicySupport
 from Products.OpenPlans.workflows import PLACEFUL_POLICIES
 from Products.OpenPlans.workflows import MEMBERSHIP_PLACEFUL_POLICIES
 
+from opencore.utils import get_workflow_policy_config
 from zope.interface import implements
 from zope.component import getMultiAdapter
 
@@ -33,12 +33,14 @@ class WFPolicyReadAdapter(object):
             ob = self.context
         wf_id = ''
         pwf = getToolByName(ob, 'portal_placeful_workflow')
-        config = getattr(ob.aq_explicit, WorkflowPolicyConfig_id, None)
+
+        config = get_workflow_policy_config(ob)
+
         if config is not None:
             wf_id = config.getPolicyInId()
         else:
             # Get the default from the container via acquisition
-            config = aq_get(aq_inner(ob), WorkflowPolicyConfig_id, None)
+            config = get_workflow_policy_config(ob)
             if config is not None:
                 wf_id = config.getPolicyBelowId()
         return wf_id
@@ -80,11 +82,11 @@ class WFPolicyWriteAdapter(WFPolicyReadAdapter):
     def setPolicy(self, policy_in, skip_update_role_mappings=False):
         context = self.context
         pwf = getToolByName(context, 'portal_placeful_workflow')
-        config = getattr(context.aq_explicit, WorkflowPolicyConfig_id, None)
+        config = get_workflow_policy_config(context)
         if config is None:
             addP = context.manage_addProduct['CMFPlacefulWorkflow']
             addP.manage_addWorkflowPolicyConfig()
-            config = getattr(context.aq_explicit, WorkflowPolicyConfig_id, None)
+            config = get_workflow_policy_config(context)
         
         wftool = getToolByName(context, 'portal_workflow')
         update_role_mappings = False

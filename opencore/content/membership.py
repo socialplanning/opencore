@@ -8,6 +8,7 @@ from opencore.configuration import PROJECTNAME, DEFAULT_ROLES
 from opencore.interfaces.membership import IMembershipTransitionEvent
 from opencore.interfaces.membership import IOpenMembership
 from opencore.interfaces.membership import MembershipTransitionEvent
+from opencore.utils import get_workflow_policy_config
 from zope import event 
 from zope.component import adapter
 from zope.interface import implements
@@ -87,7 +88,7 @@ class OpenMembership(TeamMembership):
         wftool = getToolByName(self, 'portal_workflow')
 
         pwft = getToolByName(self, 'portal_placeful_workflow')
-        config = pwft.getWorkflowPolicyConfig(self.getTeam())
+        config = get_workflow_policy_config(self.getTeam())
         if config is not None:
             wfids = config.getPlacefulChainFor('OpenMembership')
             # only one in chain
