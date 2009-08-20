@@ -1,13 +1,17 @@
 from Acquisition import aq_base
-from fassembler.configparser import configparser
 from opencore.browser.naming import get_view_names
 import logging
 import transaction
 
 logger = logging.getLogger("opencore.upgrades")
 
-etc_svn_subdir = configparser.get_config('etc_svn_subdir')
-default_profile_id = 'opencore.configuration:%s' % etc_svn_subdir
+def default_profile_id():
+    from opencore.utility.interfaces import IProvideSiteConfig
+    from zope.component import getUtility
+
+    configparser = getUtility(IProvideSiteConfig)
+    etc_svn_subdir = configparser.get_config('etc_svn_subdir')
+    return 'opencore.configuration:%s' % etc_svn_subdir
 
 def move_blocking_content(portal):
     """
@@ -51,7 +55,8 @@ def rerun_import_steps(context, steps):
     request = context.REQUEST
     profile_id = request.form.get('profile_id')
     if not profile_id:
-        profile_id = default_profile_id
+        profile_id = default_profile_id()
+
     for step_id in steps:
         purge = steps.get(step_id).get('purge_old', None)
         result = run_import_step(context, step_id,
@@ -61,9 +66,13 @@ def rerun_import_steps(context, steps):
     ran_steps = ', '.join(steps.keys())
     print 'done importing selected steps: %s' % ran_steps
 
-def run_import_step(setup_tool, step_id, profile_id=default_profile_id,
+def run_import_step(setup_tool, step_id, profile_id=None,
                     run_deps=False, purge_old=None):
     """ run an import step via the setup tool """
+    
+    if profile_id is None:
+        profile_id = default_profile_id()
+
     result = setup_tool.runImportStepFromProfile('profile-%s' % profile_id,
                                                  step_id,
                                                  run_dependencies=run_deps,

@@ -3,19 +3,23 @@ from Products.CMFCore.utils import getToolByName
 from Products.Five.site.localsite import disableLocalSiteHook
 from opencore.upgrades.utils import run_import_step
 from opencore.upgrades.utils import logger
-from opencore.upgrades.utils import default_profile_id
 from zope.app.component.hooks import setSite
 from zope.component import getSiteManager
 from zope.component import queryMultiAdapter
 from zope.interface import Interface
 from zope.interface import providedBy
 
+from opencore.upgrades.utils import default_profile_id
+
 def import_opencore_profile(context):
     """
     Re-imports the entire opencore GenericSetup profile for this site.
     """
     setuptool = getToolByName(context, 'portal_setup')
-    setuptool.runAllImportStepsFromProfile('profile-%s' % default_profile_id)
+
+    profile_id = default_profile_id()
+
+    setuptool.runAllImportStepsFromProfile('profile-%s' % profile_id)
 
 def fixup_list_lookup_utility(context):
     """
