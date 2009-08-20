@@ -62,28 +62,10 @@
 
   <import-step
      version="20071029-01"
-     id="securityTweaks"
-     handler="opencore.configuration.setuphandlers.securityTweaks"
-     title="OpenCore security tweaks">
-    OpenCore-related miscellaneous security settings.
-    <dependency step="install_dependencies" />
-  </import-step>
-
-  <import-step
-     version="20071029-01"
      id="installWorkflowPolicies"
      handler="opencore.configuration.setuphandlers.installWorkflowPolicies"
      title="OpenCore install project workflow policies">
     Install workflow policies for use inside OpenProject objects.
-    <dependency step="install_dependencies" />
-  </import-step>
-
-  <import-step
-     version="20071029-01"
-     id="install_team_placeful_workflow_policies"
-     handler="opencore.configuration.setuphandlers.install_team_placeful_workflow_policies"
-     title="OpenCore install team workflow policies">
-    Install workflow policies for use inside OpenTeam objects.
     <dependency step="install_dependencies" />
   </import-step>
 
@@ -107,39 +89,10 @@
 
   <import-step
      version="20071029-01"
-     id="setTeamType"
-     handler="opencore.configuration.setuphandlers.setTeamType"
-     title="OpenCore set team type">
-    Set team tool's default team type to OpenTeam.
-    <dependency step="install_dependencies" />
-  </import-step>
-
-  <import-step
-     version="20071029-01"
      id="addProjectsFolder"
      handler="opencore.configuration.setuphandlers.addProjectsFolder"
      title="OpenCore add projects folder">
     Create and configure OpenCore projects container.
-    <dependency step="install_dependencies" />
-  </import-step>
-
-  <import-step
-     version="20071029-01"
-     id="setProjectFolderPermissions"
-     handler="opencore.configuration.setuphandlers.setProjectFolderPermissions"
-     title="OpenCore set project folder permissions">
-    Set permissions on OpenCore projects folder.
-    <dependency step="addProjectsFolder" />
-    <dependency step="install_dependencies" />
-  </import-step>
-
-  <import-step
-     version="20071029-01"
-     id="setupProjectLayout"
-     handler="opencore.configuration.setuphandlers.setupProjectLayout"
-     title="OpenCore set projects folder layout">
-    Specifies the default view for the projects folder.
-    <dependency step="addProjectsFolder" />
     <dependency step="install_dependencies" />
   </import-step>
 
