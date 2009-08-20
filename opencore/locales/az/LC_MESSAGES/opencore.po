@@ -30,7 +30,7 @@ msgstr "(show up to ${batch_size} results per page)"
 msgid "Account"
 msgstr "Account"
 #. Default: "Actions"
-#: ./opencore/project/browser/contents.pt:91
+#: ./opencore/project/browser/contents.pt:92
 msgid "Actions"
 msgstr "Actions"
 #. Default: "Cancel"
@@ -79,7 +79,7 @@ msgstr "Currently anyone can view the content of your ${view_project_noun}. Only
 msgid "Currently only your team members can view the content of your ${view_project_noun} and contribute to it."
 msgstr "Currently only your team members can view the content of your ${view_project_noun} and contribute to it."
 #. Default: "Delete"
-#: ./opencore/project/browser/contents.pt:205
+#: ./opencore/project/browser/contents.pt:206
 msgid "Delete"
 msgstr "Delete"
 #. Default: "Description"
@@ -186,7 +186,7 @@ msgstr "RENAME"
 msgid "Remove"
 msgstr "Remove"
 #. Default: "Rename"
-#: ./opencore/project/browser/contents.pt:174
+#: ./opencore/project/browser/contents.pt:175
 msgid "Rename"
 msgstr "Rename"
 #. Default: "Required"
@@ -198,7 +198,7 @@ msgstr "Required"
 msgid "Revision note"
 msgstr "Revision note"
 #. Default: "Save"
-#: ./opencore/project/browser/contents.pt:156
+#: ./opencore/project/browser/contents.pt:157
 msgid "Save"
 msgstr "Save"
 #. Default: "Save changes"
@@ -646,7 +646,7 @@ msgstr "contents_desc"
 msgid "contents_heading"
 msgstr "contents_heading"
 #. Default: "View tasklists"
-#: ./opencore/project/browser/contents.pt:248
+#: ./opencore/project/browser/contents.pt:250
 msgid "contents_view_tasks"
 msgstr "contents_view_tasks"
 #. Default: "Create"
@@ -722,7 +722,7 @@ msgstr "date"
 msgid "delete_items_permanently"
 msgstr "delete_items_permanently"
 #. Default: "Delete <span class=\"oc-hidden oc-warning oc-confirm\">This deletion is permanent. Are you sure you want to delete?</span>"
-#: ./opencore/project/browser/contents.pt:178
+#: ./opencore/project/browser/contents.pt:179
 msgid "deletion_permanent_are_you_sure"
 msgstr "deletion_permanent_are_you_sure"
 #: ./opencore/project/browser/manageteam.py:598

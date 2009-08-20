@@ -34,7 +34,7 @@ msgid "Account"
 msgstr ""
 
 #. Default: "Actions"
-#: ./opencore/project/browser/contents.pt:91
+#: ./opencore/project/browser/contents.pt:92
 msgid "Actions"
 msgstr ""
 
@@ -96,7 +96,7 @@ msgid "Currently only your team members can view the content of your ${view_proj
 msgstr ""
 
 #. Default: "Delete"
-#: ./opencore/project/browser/contents.pt:205
+#: ./opencore/project/browser/contents.pt:206
 msgid "Delete"
 msgstr ""
 
@@ -233,7 +233,7 @@ msgid "Remove"
 msgstr ""
 
 #. Default: "Rename"
-#: ./opencore/project/browser/contents.pt:174
+#: ./opencore/project/browser/contents.pt:175
 msgid "Rename"
 msgstr ""
 
@@ -248,7 +248,7 @@ msgid "Revision note"
 msgstr ""
 
 #. Default: "Save"
-#: ./opencore/project/browser/contents.pt:156
+#: ./opencore/project/browser/contents.pt:157
 msgid "Save"
 msgstr ""
 
@@ -816,7 +816,7 @@ msgid "contents_heading"
 msgstr ""
 
 #. Default: "View tasklists"
-#: ./opencore/project/browser/contents.pt:248
+#: ./opencore/project/browser/contents.pt:250
 msgid "contents_view_tasks"
 msgstr ""
 
@@ -911,7 +911,7 @@ msgid "delete_items_permanently"
 msgstr ""
 
 #. Default: "Delete <span class=\"oc-hidden oc-warning oc-confirm\">This deletion is permanent. Are you sure you want to delete?</span>"
-#: ./opencore/project/browser/contents.pt:178
+#: ./opencore/project/browser/contents.pt:179
 msgid "deletion_permanent_are_you_sure"
 msgstr ""
 
