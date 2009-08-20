@@ -12,6 +12,7 @@ from Products.CMFCore.FSPageTemplate import FSPageTemplate
 from Products.PluggableAuthService import registerMultiPlugin
 from Products.listen.permissions import AddMailingList
 from opencore import configuration as config
+from opencore.auth import SignedCookieAuthHelper
 from opencore.bbb.module_alias import do_aliases
 from opencore.nui import indexing
 from opencore.utility.interfaces import IProvideSiteConfig
@@ -30,7 +31,7 @@ registerDirectory(SKINS_DIR, GLOBALS)
 
 # register the signed cookie auth helper PAS plugin (which is important for 
 # SSO across apps)
-
+registerMultiPlugin(SignedCookieAuthHelper.SignedCookieAuthHelper.meta_type)
 
 def initialize(context):
     lrinit(context)

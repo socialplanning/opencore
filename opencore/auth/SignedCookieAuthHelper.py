@@ -73,8 +73,11 @@ def manage_addSignedCookieAuthHelper(self, id, title='',
     if RESPONSE is not None:
         RESPONSE.redirect('manage_workspace')
 
-from Globals import DTMLFile
-manage_addSignedCookieAuthHelperForm = DTMLFile("../zmi/SignedCookieAuthHelperForm", globals())
+from Products.PageTemplates.PageTemplateFile import PageTemplateFile
+
+manage_addSignedCookieAuthHelperForm = PageTemplateFile(
+        "zmi/SignedCookieAuthHelperForm.pt", globals(),
+        __name__="manage_addSignedCookieAuthHelperForm")
 
 from opencore.configuration import utils as conf_utils 
 
