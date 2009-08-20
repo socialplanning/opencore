@@ -10,7 +10,6 @@
   <include file="profiles.zcml" />
   <include package="opencore.account" />
   <include package="opencore.api" />
-  <include package="opencore.auth" />
   <include package="opencore.browser" />
   <include package="opencore.clockqueue"
        zcml:condition="installed opencore.clockqueue" />
