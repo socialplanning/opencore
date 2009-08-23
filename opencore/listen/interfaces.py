@@ -40,4 +40,8 @@ class ISyncWithProjectMembership(Interface):
     When a mailing list is marked w/ this interface it will respond to
     member joined / removed events to stay in sync w/ the project
     membership.
+
+    Project membership is determined and manipulated by IWriteMembershipList,
+    so any list marked ISyncWithProjectMembership must also be adaptable
+    to IWriteMembershipList.
     """

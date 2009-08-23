@@ -42,7 +42,7 @@ def is_listen_featurelet_installed(f, mship_obj, action):
 
 
 @is_listen_featurelet_installed
-def perform_listen_action(mship, action):
+def add_or_remove_membership(mship, action):
     mem_id = mship.getId()
     team = mship.aq_inner.aq_parent
     proj_id = team.getId()
@@ -62,10 +62,10 @@ def perform_listen_action(mship, action):
         getattr(memlist, action)(mem_id)
 
 def member_joined_project(mship, event):
-    perform_listen_action(mship, 'subscribe')
+    add_or_remove_membership(mship, 'subscribe')
 
 def member_left_project(mship, event):
-    perform_listen_action(mship, 'unsubscribe')
+    add_or_remove_membership(mship, 'unsubscribe')
 
 def listen_featurelet_installed(proj, event):
     """need to create a default discussion mailing list
