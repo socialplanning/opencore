@@ -16,7 +16,7 @@ from zope.interface import Interface
 from zope.interface import alsoProvides
 from zope.interface import implements
 from zope.event import notify
-
+from OFS.interfaces import IObjectManager
 
 log = logging.getLogger('opencore.featurelets.listen')
 
@@ -49,10 +49,26 @@ class ListenFeaturelet(BaseFeaturelet):
         """
         See IFeaturelet.
         """
-        BaseFeaturelet.deliverPackage(self, obj)
-        container = obj._getOb(self._info['content'][0]['id'])
+        self._checkForRequiredInterfaces(obj)
+
+        # XXX we shouldn't need this
+        supporter = IFeatureletSupporter(obj)
+        prior_ids = tuple()
+        prior_info = supporter.getFeatureletDescriptor(self.id)
+        if prior_info is not None:
+            prior_content = prior_info.get('content', tuple())
+            prior_ids = [item['id'] for item in prior_content]
+
+        portal_types = getToolByName(obj, 'portal_types')
+        portal_types.constructContent('Folder',
+                                      IObjectManager(obj),
+                                      'lists',
+                                      title='Mailing lists')
+
+        container = obj.lists
         container.setLayout('mailing_lists')
         alsoProvides(container, IListenContainer)
         alsoProvides(container, ICanFeed)
         notify(ListenFeatureletCreatedEvent(obj))
-        return self._info
+
+        return self._info # XXX why is this useful?
