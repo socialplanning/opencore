@@ -59,11 +59,12 @@ class ListenFeaturelet(BaseFeaturelet):
             prior_content = prior_info.get('content', tuple())
             prior_ids = [item['id'] for item in prior_content]
 
-        portal_types = getToolByName(obj, 'portal_types')
-        portal_types.constructContent('Folder',
-                                      IObjectManager(obj),
-                                      'lists',
-                                      title='Mailing lists')
+        if 'lists' not in prior_ids:
+            portal_types = getToolByName(obj, 'portal_types')
+            portal_types.constructContent('Folder',
+                                          IObjectManager(obj),
+                                          'lists',
+                                          title='Mailing lists')
 
         container = obj.lists
         container.setLayout('mailing_lists')
