@@ -95,7 +95,11 @@
      sort_order="30"
      />
 
-
-
+  <browser:page
+     for="opencore.listen.interfaces.IListenFeatureletInstalled"
+     class="opencore.listen.browser.contact_team.ContactTeamView"
+     permission="zope2.View"
+     name="contact-team"
+     />
 
 </configure>

@@ -40,6 +40,10 @@ class IListenFeatureletInstalled(Interface):
 
      * a `discussions` viewlet is registered for the object to the
        ISummaryFeeds viewlet manager (in ./feed/configure.zcml)
+
+     * a @@contact-team view will be registered on the object (in
+       ./browser/configure.zcml)
+
     """
 
 class IListenContainer(Interface):

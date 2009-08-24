@@ -73,6 +73,13 @@
     </div><!-- end #oc-content-main -->
     
     <div id="oc-content-sidebar">
+
+      <div class="oc-boxy"
+	   tal:condition="context/opencore:membership_synced_lists">
+	<h2 i18n:translate="send_message_to_team">Send a message to your team</h2>
+	<a i18n:translate="send_message_to_team_subtitle" class="oc-banana" href="contact-team">Write message</a>
+      </div>
+
       <div class="oc-boxy">
         <h2 i18n:translate="invite_new_members_heading">Invite new members</h2>
         
@@ -101,7 +108,7 @@
           </p>
         </div>
 
-      </div>
+      </div><!-- end 'invite new members' -->
       
       <div id="oc-security-settings" class="oc-boxy">
         <h2 i18n:translate="your_security_settings_heading">Your security settings</h2>
@@ -118,7 +125,7 @@
           of your <span i18n:name="view_project_noun" tal:replace="view/project_noun">project</span> and contribute to it.
         </p>
         <p><a href="preferences" i18n:translate="">Change security settings</a></p>
-      </div>
+      </div><!-- end 'security settings' -->
 
     </div><!-- end #oc-content-sidebar -->
     

@@ -3,6 +3,15 @@
 
 Features Added:
 
+  * The manage-team view now provides a "Write message to team" button which
+    directs the user to his ISyncWithProjectMembership mailing list.  If the
+    listen featurelet is not installed or there is no ISyncWithProjectMembership
+    list within the project's lists container, the button will not be present.
+    (Feature requested by Tom L.)
+
+    A new @@contact-team view is registered on all IListenFeatureletInstalled
+    objects to do the dynamic redirection. (egj)
+
   * IWikiHistory page history cache objects now have a resync_history_cache
     method that will resync the cache w/ the canonical history in the
     portal_repository tool. (rafrombrc)
