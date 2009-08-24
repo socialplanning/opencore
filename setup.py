@@ -65,7 +65,7 @@ setup(
         'Products.GenericSetup==1.4.1',
         'simplejson',
         'topp.featurelets>=0.3.0',
-        'topp.utils>=0.5',
+        'topp.utils>=0.5.1',
         'uuid',
         'zc.queue',
         'zcmlloader',
