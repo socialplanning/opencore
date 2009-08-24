@@ -70,6 +70,9 @@ class ListenFeaturelet(BaseFeaturelet):
         container.setLayout('mailing_lists')
         alsoProvides(container, IListenContainer)
         alsoProvides(container, ICanFeed)
+
+        alsoProvides(obj, self.installed_marker)
+
         notify(ListenFeatureletCreatedEvent(obj))
 
         return self._info # XXX why is this useful?
