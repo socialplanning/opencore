@@ -83,3 +83,9 @@ class IFeedbackerClient(Interface):
         """Fetch an Atom feed from feedbacker using a GET request with
         the provided query string; parses the results w/ feedparser
         and returns the parsed feed object."""
+
+class ICleanHtml(Interface):
+    """clean html using the site policy"""
+
+    def clean(html):
+        """return a cleaned version of the html"""

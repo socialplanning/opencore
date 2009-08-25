@@ -14,4 +14,8 @@
              provides="opencore.utility.interfaces.IFeedbackerClient"
              />
 
+    <utility factory=".clean_html.HtmlCleaner"
+             provides=".interfaces.ICleanHtml"
+             />
+
 </configure>

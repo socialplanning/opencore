@@ -2,7 +2,7 @@ from Acquisition import aq_inner
 from opencore.browser.base import BaseView
 from opencore.browser.formhandler import OctopoLite, action
 from opencore.nui.wiki.utils import unescape
-from opencore.utility.interfaces import IProvideSiteConfig
+from opencore.utility.interfaces import ICleanHtml
 from PIL import Image
 from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
 from StringIO import StringIO
@@ -14,16 +14,13 @@ import simplejson
 
 from lxml import etree # no longer necessary after lxml.html trunk gets released
 from lxml.html import fromstring # no longer necessary after lxml.html trunk gets released
-import copy # no longer necessary after lxml.html trunk gets release
 import logging
 import re
 __replace_meta_content_type = re.compile(
     r'<meta http-equiv="Content-Type".*?>').sub  # no longer necessary after lxml.html trunk gets release
 
 
-from lxml.html.clean import Cleaner
 from lxml.html.clean import _find_external_links
-from lxml.html import fromstring
 from lxml.html import tostring
 from opencore.interfaces.catalog import ILastModifiedAuthorId
 from topp.utils.pretty_date import prettyDate
@@ -95,24 +92,7 @@ class WikiEdit(WikiBase, OctopoLite):
     def _clean_html(self, html):
         """ delegate cleaning of html to lxml .. sort of """
         ## FIXME: we should have some way of notifying the user about tags that were removed
-        config = getUtility(IProvideSiteConfig)
-        whitelist = config.get('embed_whitelist', default='').split(',')
-        whitelist = [ x.strip() for x in whitelist if x.strip() ]
-
-        cleaner = Cleaner(host_whitelist=whitelist, safe_attrs_only=False)
-        
-        # stolen from lxml.html.clean
-        if isinstance(html, basestring):
-            return_string = True
-            doc = fromstring(html)
-        else:
-            return_string = False
-            doc = copy.deepcopy(html)
-        cleaner(doc)
-        if return_string:
-            return tounicode(doc)
-        else:
-            return doc
+        return getUtility(ICleanHtml).clean(html)
 
     @action('save')
     def handle_save(self, target=None, fields=None):
