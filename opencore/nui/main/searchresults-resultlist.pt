@@ -6,10 +6,9 @@
   </h3>
   <span class="oc-discreetText">
     <tal:has_updated_author define="userid item/lastModifiedAuthor" condition="userid">
-      <tal:i18n i18n:translate="searchresults_modified_by">modified by</tal:i18n>
+      <tal:i18n i18n:translate="searchresults_modified_by">modified XXX by</tal:i18n>
       <a tal:attributes="href string:${context/portal_url}/people/${userid}/profile" 
-	 tal:define="mem_title nocall:context/@@oc-utils/member_title"
-	 tal:content="python:mem_title(userid)" />,
+	 tal:content="userid/opencore:member_title" />,
     </tal:has_updated_author>
     <tal:i18n i18n:translate="searchresults_last_updated">last updated</tal:i18n>
     <span tal:replace="python: view.pretty_date(item.ModificationDate)" />

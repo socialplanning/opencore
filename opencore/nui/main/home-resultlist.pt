@@ -1,14 +1,13 @@
 <tal:set define="item options/item;
 		 portal_type item/portal_type;
-		 is_user python: portal_type == 'OpenMember';
-		 mem_title nocall:context/@@oc-utils/member_title;"
+		 is_user python: portal_type == 'OpenMember';"
 	 i18n:domain="opencore" >
 
   <tal:is_user condition="is_user">
     <h3>
       <img tal:attributes="src item/getIcon" />
       <a tal:attributes="href string:${context/portal_url}/people/${item/getId}/profile"
-	 tal:content="python:mem_title(item)" />
+	 tal:content="item/opencore:member_title" />
     </h3>
     <span class="oc-discreetText" i18n:translate="searchresults_member_since">
       member since
@@ -34,10 +33,9 @@
 
       <tal:has_updated_author define="userid item/lastModifiedAuthor" condition="userid"
 			      i18n:translate="searchresults_last_modified_author">
-        modified by
+        modified by aaa
         <a tal:attributes="href string:${context/portal_url}/people/${userid}/profile" 
-           tal:define="mem_title nocall:context/@@oc-utils/member_title"
-           tal:content="python:mem_title(userid)"
+           tal:content="userid/opencore:member_title"
 	   i18n:name="member_title" />,
       </tal:has_updated_author>
 
