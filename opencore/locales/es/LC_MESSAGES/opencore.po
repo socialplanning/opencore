@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: opencore\n"
-"POT-Creation-Date: 2008-12-18 21:43+0000\n"
+"POT-Creation-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "PO-Revision-Date: 2009-06-18 18:42-0400\n"
 "Last-Translator: Leonardo Caballero <leonardocaballero@gmail.com>\n"
 "Language-Team: Plone Cono Sur <plone-conosur@lists.plone.org>\n"
@@ -24,6 +24,11 @@ msgstr ""
 msgid " Really Delete "
 msgstr "Eliminar realmente"
 
+#. Default: "(optional)"
+#: ./opencore/nui/wiki/wiki-edit-xinha.pt:161
+msgid "(optional)"
+msgstr ""
+
 #. Default: "(show up to ${batch_size} results per page)"
 #: ./opencore/nui/main/search-widget.pt:42
 msgid "(show up to ${batch_size} results per page)"
@@ -33,12 +38,12 @@ msgid "Account"
 msgstr "Cuenta"
 
 #. Default: "Actions"
-#: ./opencore/project/browser/contents.pt:91
+#: ./opencore/project/browser/contents.pt:92
 msgid "Actions"
 msgstr "Acciones"
 
 #. Default: "Cancel"
-#: ./opencore/project/browser/contents.pt:158
+#: ./opencore/nui/wiki/wiki-edit-xinha.pt:169
 msgid "Cancel"
 msgstr "Cancelar"
 
@@ -48,7 +53,7 @@ msgid "Cancel and go back to the contents form"
 msgstr "Cancelar y volver atrás a el formulario de contenido"
 
 #. Default: "Change security settings"
-#: ./opencore/project/browser/team-manage.pt:120
+#: ./opencore/project/browser/team-manage.pt:127
 msgid "Change security settings"
 msgstr "Cambiar configuración de seguridad"
 
@@ -63,7 +68,7 @@ msgid "Comparing"
 msgstr "Comparando"
 
 #. Default: "Contact"
-#: ./opencore/listen/browser/membership.pt:37
+#: ./opencore/listen/browser/manage_membership.pt:49
 msgid "Contact"
 msgstr "Contacto"
 
@@ -80,24 +85,29 @@ msgid "Create account"
 msgstr "Crear cuenta"
 
 #. Default: "Currently anyone can view the content of your ${view_project_noun} and contribute to it."
-#: ./opencore/project/browser/team-manage.pt:109
+#: ./opencore/project/browser/team-manage.pt:116
 msgid "Currently anyone can view the content of your ${view_project_noun} and contribute to it."
 msgstr "Actualmente, cualquiera puede ver el contenido de su ${view_project_noun} y contribuir con el mismo."
 
 #. Default: "Currently anyone can view the content of your ${view_project_noun}. Only team members can contribute content."
-#: ./opencore/project/browser/team-manage.pt:113
+#: ./opencore/project/browser/team-manage.pt:120
 msgid "Currently anyone can view the content of your ${view_project_noun}. Only team members can contribute content."
 msgstr "Actualmente, cualquiera puede ver el contenido de su ${view_project_noun}. Sólo los miembros del equipo pueden contribuir contenido."
 
 #. Default: "Currently only your team members can view the content of your ${view_project_noun} and contribute to it."
-#: ./opencore/project/browser/team-manage.pt:118
+#: ./opencore/project/browser/team-manage.pt:125
 msgid "Currently only your team members can view the content of your ${view_project_noun} and contribute to it."
 msgstr "Actualmente, sólo los miembros de su equipo pueden ver el contenido de su ${view_project_noun} y contribuir con el mismo."
 
 #. Default: "Delete"
-#: ./opencore/listen/browser/mailing_lists.pt:73
+#: ./opencore/project/browser/contents.pt:206
 msgid "Delete"
 msgstr "Eliminar"
+
+#. Default: "Description"
+#: ./opencore/nui/wiki/wiki-edit-xinha.pt:90
+msgid "Description"
+msgstr ""
 
 #. Default: "Edit"
 #: ./opencore/member/browser/field_snippet.pt:5
@@ -124,7 +134,7 @@ msgid "Export your content."
 msgstr "Exportar su contenido"
 
 #. Default: "From:"
-#: ./opencore/project/browser/invite-with-message.pt:37
+#: ./opencore/project/browser/invite-member.pt:29
 msgid "From:"
 msgstr "De:"
 
@@ -146,6 +156,16 @@ msgstr "Incluirse al Proyecto"
 msgid "Key"
 msgstr "Clave"
 
+#. Default: "Loading..."
+#: ./opencore/nui/wiki/wiki-edit-xinha.pt:168
+msgid "Loading..."
+msgstr ""
+
+#. Default: "Locate file"
+#: ./opencore/nui/wiki/wiki-edit-xinha.pt:140
+msgid "Locate file"
+msgstr ""
+
 #. Default: "Mailing list archives"
 #: ./opencore/project/browser/export.pt:71
 msgid "Mailing list archives"
@@ -156,8 +176,13 @@ msgstr "Archivos de lista de correo electrónico"
 msgid "Mailing list subscribers"
 msgstr "Lista de suscriptores"
 
+#. Default: "Manage attachments"
+#: ./opencore/nui/wiki/wiki-edit-xinha.pt:119
+msgid "Manage attachments"
+msgstr ""
+
 #. Default: "Message:"
-#: ./opencore/project/browser/invite-with-message.pt:58
+#: ./opencore/project/browser/invite-member.pt:47
 msgid "Message:"
 msgstr "Mensaje"
 
@@ -167,7 +192,7 @@ msgid "More info..."
 msgstr "Más información..."
 
 #. Default: "News"
-#: ./opencore/nui/main/home.pt:103
+#: ./opencore/nui/main/home.pt:100
 msgid "News"
 msgstr "Noticias"
 
@@ -201,13 +226,18 @@ msgstr "Wiki del proyecto"
 msgid "Projects"
 msgstr "Proyectos"
 
+#. Default: "RENAME"
+#: ./opencore/nui/wiki/wiki-edit-xinha.pt:68
+msgid "RENAME"
+msgstr ""
+
 #. Default: "Remove"
 #: ./opencore/project/browser/preferences.pt:104
 msgid "Remove"
 msgstr "Remover"
 
 #. Default: "Rename"
-#: ./opencore/project/browser/contents.pt:174
+#: ./opencore/project/browser/contents.pt:175
 msgid "Rename"
 msgstr "Renombrar"
 
@@ -216,8 +246,13 @@ msgstr "Renombrar"
 msgid "Required"
 msgstr "Requerido"
 
+#. Default: "Revision note"
+#: ./opencore/nui/wiki/wiki-edit-xinha.pt:110
+msgid "Revision note"
+msgstr ""
+
 #. Default: "Save"
-#: ./opencore/project/browser/contents.pt:156
+#: ./opencore/project/browser/contents.pt:157
 msgid "Save"
 msgstr "Guardar"
 
@@ -247,7 +282,7 @@ msgid "Saving mailing lists"
 msgstr "Guardando listas de correo electrónico"
 
 #. Default: "Search"
-#: ./opencore/project/browser/team-manage.pt:88
+#: ./opencore/project/browser/team-manage.pt:95
 msgid "Search"
 msgstr "Búsqueda"
 
@@ -257,7 +292,7 @@ msgid "Select two versions to compare them or click a version number to view it.
 msgstr "Seleccionar dos versiones para comparar o haga clic para ver dicha versión."
 
 #. Default: "Send"
-#: ./opencore/project/browser/invite-with-message.pt:85
+#: ./opencore/project/browser/invite-member.pt:70
 msgid "Send"
 msgstr "Enviar"
 
@@ -273,7 +308,7 @@ msgid "Start A Project"
 msgstr "Iniciar un proyecto"
 
 #. Default: "Subject:"
-#: ./opencore/project/browser/invite-with-message.pt:47
+#: ./opencore/project/browser/invite-member.pt:39
 msgid "Subject:"
 msgstr "Asunto:"
 
@@ -304,8 +339,13 @@ msgstr "Este contenido no tiene información sobre versionado."
 msgid "This deletion is permanent. Are you sure you want to delete?"
 msgstr "Esta eliminación es permanente. ¿Usted esta seguro que quiere eliminar?"
 
+#. Default: "Title"
+#: ./opencore/nui/wiki/wiki-edit-xinha.pt:152
+msgid "Title"
+msgstr ""
+
 #. Default: "To:"
-#: ./opencore/project/browser/invite-with-message.pt:24
+#: ./opencore/project/browser/invite-member.pt:22
 msgid "To:"
 msgstr "A:"
 
@@ -313,6 +353,16 @@ msgstr "A:"
 #: ./opencore/member/browser/profile-edit.pt:101
 msgid "Update"
 msgstr "Actualizar"
+
+#. Default: "Upload"
+#: ./opencore/nui/wiki/wiki-edit-xinha.pt:169
+msgid "Upload"
+msgstr ""
+
+#. Default: "Upload a new file:"
+#: ./opencore/nui/wiki/wiki-edit-xinha.pt:133
+msgid "Upload a new file:"
+msgstr ""
 
 #. Default: "Wiki pages"
 #: ./opencore/project/browser/export.pt:69
@@ -350,7 +400,7 @@ msgid "about_openplans"
 msgstr "<p>OpenPlans es una plataforma para activismo social.</p> <p>Ya sea que su grupo este movilizando votantes, planeando una protesta, o cultivar un jardín, OpenPlans puede ayudarle ha ser más efectivo. OpenPlans se trata de engrasar las ruedas de la democracia.</p> <p>Con nuestras páginas de Wiki colaborativas y otras herramientas, usted y su grupo pueden:</p> <ul class=\"oc-smallText\"> <li>Make ${project_noun_view}s</li> <li>Compartir listas de cosas por hacer (listas to-do)</li> <li>Subir fotos</li> <li>Publicar su causa</li> <li>Crear y usar lista de correo electrónico</li> <li>Almacenar y compartir archivos</li> <li>y más...</li> </ul> <p>Si usted no ve algo que necesite, por favor ${portal_url_contact_site_admin}. Los cambios están, probablemente a la vuelta de la esquina.</p> <p>OpenPlans es desarrollado por ${oc_utils_topp_url}.</p>"
 
 #. Default: "about us and our software"
-#: ./opencore/nui/main/news.pt:40
+#: ./opencore/nui/main/news.pt:43
 msgid "about_us_and_our_software"
 msgstr "acerca de nosotros y nuestro software"
 
@@ -579,6 +629,11 @@ msgstr "Agregar una lista de correo electrónico"
 msgid "add_new_mailing_list"
 msgstr "Agregar una nueva lista de correo electrónico"
 
+#. Default: "You have been added to the ${project_link} ${project_noun}."
+#: ./opencore/account/join.py:214
+msgid "added_to_proj_psm"
+msgstr ""
+
 #. Default: "all project stats"
 #: ./opencore/stats/menu.pt:14
 msgid "all project stats"
@@ -645,7 +700,7 @@ msgid "archive_forum_view_by"
 msgstr "Ver por <strong>conversación</strong> o <a href=\"date_view\">fecha</a>"
 
 #. Default: "There are currently no posts in this archive."
-#: ./opencore/listen/browser/archive_forum_view.pt:51
+#: ./opencore/listen/browser/archive_date_messages.pt:30
 msgid "archive_no_posts"
 msgstr "De momento, no hay elementos en este archivo."
 
@@ -689,8 +744,18 @@ msgstr "ordenar"
 msgid "blog posts"
 msgstr "entradas de bitácoras"
 
+#. Default: "blue-look"
+#: ./opencore/nui/wiki/wiki-edit-xinha.pt:26
+msgid "blue-look"
+msgstr ""
+
+#. Default: "blue-metallic"
+#: ./opencore/nui/wiki/wiki-edit-xinha.pt:31
+msgid "blue-metallic"
+msgstr ""
+
 #. Default: "by"
-#: ./opencore/listen/browser/message_macros.pt:16
+#: ./opencore/nui/wiki/wiki-version-compare.pt:62
 msgid "by"
 msgstr "por"
 
@@ -735,7 +800,7 @@ msgid "contact-site-admin_label_subject"
 msgstr "Asunto"
 
 #. Default: "contact us"
-#: ./opencore/nui/main/news.pt:40
+#: ./opencore/nui/main/news.pt:43
 msgid "contact_us"
 msgstr "contacte nos"
 
@@ -750,7 +815,7 @@ msgid "contents_heading"
 msgstr "${project_noun} contenidos"
 
 #. Default: "View tasklists"
-#: ./opencore/project/browser/contents.pt:248
+#: ./opencore/project/browser/contents.pt:250
 msgid "contents_view_tasks"
 msgstr "Ver lista de tareas"
 
@@ -829,6 +894,11 @@ msgstr "Decida quien puede ver y contribuir en este ${project_noun}.  Usted podr
 msgid "create_project_url"
 msgstr "Dirección de sitio Web"
 
+#. Default: "Current attachments:"
+#: ./opencore/nui/wiki/wiki-edit-xinha.pt:124
+msgid "current_attachments_heading"
+msgstr ""
+
 #. Default: "date"
 #: ./opencore/stats/active.pt:16
 msgid "date"
@@ -840,7 +910,7 @@ msgid "delete_items_permanently"
 msgstr "¿Realmente quiere eliminar permanentemente estos elementos?"
 
 #. Default: "Delete <span class=\"oc-hidden oc-warning oc-confirm\">This deletion is permanent. Are you sure you want to delete?</span>"
-#: ./opencore/project/browser/contents.pt:178
+#: ./opencore/project/browser/contents.pt:179
 msgid "deletion_permanent_are_you_sure"
 msgstr "Eliminar <span class=\"oc-hidden oc-warning oc-confirm\">Esta eliminación es permanente. ¿Usted esta seguro que quiere eliminar?</span>"
 
@@ -885,7 +955,7 @@ msgid "email threads"
 msgstr "hilos de conversación por correo electrónico"
 
 #. Default: "You requested a password reset for your ${portal_title} account. If you did not request this information, please ignore this message.\n\nTo change your password, please visit the following URL: ${url}"
-#: ./opencore/account/login.py:284
+#: ./opencore/account/login.py:285
 msgid "email_forgot_password"
 msgstr ""
 "Usted solicito reinicializar una contraseña para su cuenta de ${portal_title}. Si usted no solicitud esta información, por favor ignore este mensaje.\n"
@@ -893,7 +963,7 @@ msgstr ""
 "Para cambiar su contraseña, por favor visite la siguiente dirección del sitio Web: ${url}"
 
 #. Default: "${portal_title} - Password reset"
-#: ./opencore/account/login.py:289
+#: ./opencore/account/login.py:290
 msgid "email_forgot_password_subject"
 msgstr "${portal_title} - Reiniciar contraseña"
 
@@ -1130,8 +1200,29 @@ msgstr "¡Opa!"
 msgid "false"
 msgstr "falso"
 
-#. Default: "${hack_values_i18n_mapping} ${portal_title} is ${num_people} and ${projects_url} since ${site_birthdate}.<br /> &copy; 2007 - 2009 ${oc_utils_topp_url}"
-#: ./opencore/browser/footer.pt:41
+#. Default: "about"
+#: ./opencore/browser/footer.pt:3
+msgid "footer_about_link"
+msgstr ""
+
+#. Default: "contact"
+#: ./opencore/browser/footer.pt:4
+msgid "footer_contact_link"
+msgstr ""
+
+#. Default: "help"
+#: ./opencore/browser/footer.pt:6
+msgid "footer_help_link"
+msgstr ""
+
+#. Default: "news"
+#: ./opencore/browser/footer.pt:5
+msgid "footer_news_link"
+msgstr ""
+
+#. Default: "${DYNAMIC_CONTENT} ${portal_title} is <a href=\"${DYNAMIC_CONTENT}\"> ${num_people} people</a> and <a href=\"${DYNAMIC_CONTENT}\"> ${num_projects} ${project_noun}s</a> since ${site_birthdate}.<br /> &copy; 2005 - 2009 <a href=\"${DYNAMIC_CONTENT}\">The Open Planning Project</a> <br />Powered by <a href=\"http://www.coactivate.org/projects/opencore/\">OpenCore</a>"
+#: ./opencore/browser/footer.pt:29
+#, fuzzy
 msgid "footer_stats_summary"
 msgstr "${hack_values_i18n_mapping} ${portal_title} hay ${num_people} y ${projects_url} esta desde ${site_birthdate}.<br /> &copy; 2007 - 2009 ${oc_utils_topp_url}"
 
@@ -1216,7 +1307,7 @@ msgid "forum_update_button"
 msgstr "Actualizar"
 
 #. Default: "from"
-#: ./opencore/listen/browser/archive_thread_messages.pt:22
+#: ./opencore/listen/browser/archive_date_messages.pt:20
 msgid "from"
 msgstr "desde"
 
@@ -1250,6 +1341,11 @@ msgstr "Buscar gente"
 msgid "get_started_project_search"
 msgstr "Buscar ${project_noun}s"
 
+#. Default: "green-look"
+#: ./opencore/nui/wiki/wiki-edit-xinha.pt:27
+msgid "green-look"
+msgstr ""
+
 #. Default: "Find ${project_noun}s"
 #: ./opencore/nui/main/home.pt:30
 msgid "home_find_projects"
@@ -1276,12 +1372,12 @@ msgid "home_newest_projects"
 msgstr "Más reciente ${project_noun}s"
 
 #. Default: "by"
-#: ./opencore/nui/main/home.pt:114
+#: ./opencore/nui/main/home.pt:115
 msgid "home_news_item_by"
 msgstr "por"
 
 #. Default: "more news…"
-#: ./opencore/nui/main/home.pt:123
+#: ./opencore/nui/main/home.pt:124
 msgid "home_news_more_link"
 msgstr "más noticias..."
 
@@ -1296,12 +1392,12 @@ msgid "home_project_created"
 msgstr "creado ${creation_date}"
 
 #. Default: "${num_project_members} member${num_project_members_string}"
-#: ./opencore/nui/main/home.pt:87
+#: ./opencore/nui/main/home.pt:83
 msgid "home_project_num_members"
 msgstr "${num_project_members} miembro${num_project_members_string}"
 
 #. Default: "last updated ${project_updated}"
-#: ./opencore/nui/main/home.pt:90
+#: ./opencore/nui/main/home.pt:86
 msgid "home_project_updated"
 msgstr "actualizado por ultimo en ${project_updated}"
 
@@ -1319,6 +1415,11 @@ msgstr "${project_noun}s actualizado"
 #: ./opencore/nui/main/home.pt:3
 msgid "home_window_title"
 msgstr "Openplans: herramientas de gestión de proyectos libre, wikis, bitácoras, lista de correo electrónico y sistema de seguimiento de tareas para su vecindario y comunidades globales."
+
+#. Default: "inditreuse"
+#: ./opencore/nui/wiki/wiki-edit-xinha.pt:30
+msgid "inditreuse"
+msgstr ""
 
 #. Default: "You do not have sufficient privileges to view this page."
 #: ./opencore/account/insufficient_privileges.pt:10
@@ -1361,12 +1462,12 @@ msgid "invite-w-m_remind_title"
 msgstr "Recordar a los usuarios"
 
 #. Default: "Invite by email address"
-#: ./opencore/project/browser/team-manage.pt:98
+#: ./opencore/project/browser/team-manage.pt:105
 msgid "invite_by_email_heading"
 msgstr "Invitar por correo electrónico"
 
 #. Default: "Invite new members"
-#: ./opencore/project/browser/team-manage.pt:77
+#: ./opencore/project/browser/team-manage.pt:84
 msgid "invite_new_members_heading"
 msgstr "Invitar a nuevos miembros"
 
@@ -1470,35 +1571,10 @@ msgstr "Bitácora"
 msgid "label_discussions"
 msgstr "Discusiones"
 
-#. Default: "about"
-#: ./opencore/browser/footer.pt:4
-msgid "label_footer_about_link"
-msgstr "acerca de"
-
-#. Default: "contact"
-#: ./opencore/browser/footer.pt:7
-msgid "label_footer_contact_link"
-msgstr "contacto"
-
-#. Default: "help"
-#: ./opencore/browser/footer.pt:13
-msgid "label_footer_help_link"
-msgstr "ayuda"
-
-#. Default: "news"
-#: ./opencore/browser/footer.pt:10
-msgid "label_footer_news_link"
-msgstr "noticias"
-
 #. Default: "Pages"
 #: ./opencore/account/invite-join.pt:268
 msgid "label_pages"
 msgstr "Páginas"
-
-#. Default: "${label_num_people} people"
-#: ./opencore/browser/footer.pt:31
-msgid "label_people"
-msgstr "${label_num_people} gente"
 
 #. Default: "Profile"
 #: ./opencore/account/invite-join.pt:264
@@ -1941,7 +2017,7 @@ msgid "manage_membership_susbscribed"
 msgstr "¿Incluido?"
 
 #. Default: "Address / User ID"
-#: ./opencore/listen/browser/membership.pt:16
+#: ./opencore/listen/browser/manage_membership.pt:21
 msgid "manage_membership_user"
 msgstr "Dirección de correo electrónico / Identificador de usuario"
 
@@ -1951,37 +2027,37 @@ msgid "manager_email_help"
 msgstr "Por favor, dirija sus preguntas sobre esta lista a ${manager_email_view}."
 
 #. Default: "${title} on ${portal_title}"
-#: ./opencore/browser/base.py:225
+#: ./opencore/browser/base.py:233
 msgid "member_area_verbose_title"
 msgstr "${title} en ${portal_title}"
 
 #. Default: "Date"
-#: ./opencore/member/browser/member_macros.pt:28
+#: ./opencore/member/browser/member_macros.pt:27
 msgid "member_macros_date_header"
 msgstr "Fecha"
 
 #. Default: "member since ${membersince}, last login ${lastlogin}"
-#: ./opencore/member/browser/member_macros.pt:12
+#: ./opencore/member/browser/member_macros.pt:11
 msgid "member_macros_date_stats"
 msgstr "miembro desde ${membersince}, ultimo ves que inicio sesión ${lastlogin}"
 
 #. Default: "Page"
-#: ./opencore/member/browser/member_macros.pt:29
+#: ./opencore/member/browser/member_macros.pt:28
 msgid "member_macros_page_header"
 msgstr "Página"
 
 #. Default: "Pages last modified by ${member}"
-#: ./opencore/member/browser/member_macros.pt:23
+#: ./opencore/member/browser/member_macros.pt:22
 msgid "member_macros_pages_modified"
 msgstr "Paginas modificadas recientemente por ${member}"
 
 #. Default: "Recent activity"
-#: ./opencore/member/browser/member_macros.pt:20
+#: ./opencore/member/browser/member_macros.pt:19
 msgid "member_macros_recent_activity"
 msgstr "Actividad reciente"
 
 #. Default: "members"
-#: ./opencore/stats/active.pt:17
+#: ./opencore/stats/project_activity.pt:28
 msgid "members"
 msgstr "miembros"
 
@@ -2086,7 +2162,7 @@ msgid "moderation_users_heading"
 msgstr "Moderación de usuarios en espera"
 
 #. Default: "modified"
-#: ./opencore/nui/wiki/wiki-previous-version.pt:57
+#: ./opencore/nui/wiki/wiki-version-compare.pt:64
 msgid "modified"
 msgstr "modificado"
 
@@ -2131,7 +2207,7 @@ msgid "new_topic_view_subject"
 msgstr "Asunto:"
 
 #. Default: "newer"
-#: ./opencore/nui/wiki/wiki-previous-version.pt:47
+#: ./opencore/nui/wiki/wiki-version-compare.pt:52
 msgid "newer"
 msgstr "más recientes"
 
@@ -2141,24 +2217,34 @@ msgid "news_about_new_members"
 msgstr "Nuevos miembros"
 
 #. Default: "We would love to hear from you. Learn more ${about_our_software_portal_url} or ${contact_us_portal_url} for more information."
-#: ./opencore/nui/main/news.pt:40
+#: ./opencore/nui/main/news.pt:43
 msgid "news_about_us_description"
 msgstr "Quisiéramos saber algo de Ud. Aprenda mas ${about_our_software_portal_url} o ${contact_us_portal_url} para más información."
 
 #. Default: "About us"
-#: ./opencore/nui/main/news.pt:39
+#: ./opencore/nui/main/news.pt:42
 msgid "news_about_us_heading"
 msgstr "Acerca de nosotros"
 
 #. Default: "Add news item..."
-#: ./opencore/nui/main/news.pt:17
+#: ./opencore/nui/main/news.pt:20
 msgid "news_add_item"
 msgstr "Agregar elemento de noticias..."
 
 #. Default: "Read more…"
-#: ./opencore/nui/main/news.pt:32
+#: ./opencore/nui/main/news.pt:35
 msgid "news_read_more"
 msgstr "Leer más..."
+
+#. Default: "${portal_title} News"
+#: ./opencore/nui/main/home.pt:104
+msgid "news_section_heading"
+msgstr ""
+
+#. Default: "Sorry, you can't do this! Please <a href='/contact-site-admin'>contact a site administrator</a> and let them know what happened."
+#: ./opencore/listen/browser/contact_team.py:39
+msgid "no_membership_synced_lists"
+msgstr ""
 
 #. Default: "Please enter a password"
 #: ./opencore/member/factory.py:83
@@ -2166,7 +2252,7 @@ msgid "no_password"
 msgstr "Por favor introduzca su contraseña"
 
 #. Default: "older"
-#: ./opencore/nui/wiki/wiki-previous-version.pt:34
+#: ./opencore/nui/wiki/wiki-version-compare.pt:35
 msgid "older"
 msgstr "más viejo"
 
@@ -2176,7 +2262,7 @@ msgid "on"
 msgstr "en"
 
 #. Default: "or"
-#: ./opencore/listen/browser/threaded_message.pt:17
+#: ./opencore/member/browser/profile-edit.pt:106
 msgid "or"
 msgstr "o"
 
@@ -2186,26 +2272,26 @@ msgid "or ${url}"
 msgstr "o ${url}"
 
 #. Default: "There is no member named \"${user_id}\"."
-#: ./opencore/browser/base.py:655
+#: ./opencore/browser/base.py:663
 msgid "password_no_member_error"
 msgstr "No hay ningún miembro llamado \"${user_id}\"."
 
 #. Default: "You must enter a password."
-#: ./opencore/browser/base.py:661
+#: ./opencore/browser/base.py:669
 msgid "password_no_password_error"
 msgstr "Usted debe introducir una contraseña."
 
 #. Default: "You need to enter your username."
-#: ./opencore/browser/base.py:650
+#: ./opencore/browser/base.py:658
 msgid "password_no_username_error"
 msgstr "Usted necesita introducir su nombre de usuario."
 
 #. Default: "Please make sure that both password fields are the same."
-#: ./opencore/browser/base.py:664
+#: ./opencore/browser/base.py:672
 msgid "password_not_same_error"
 msgstr "Por favor, asegúrese que en los dos campos las contraseñas sean idénticos."
 
-#: ./opencore/browser/error.pt:36
+#: ./opencore/nui/main/contact-site-admin.pt:106
 msgid "password_send_warning"
 msgstr "Por favor no ponga su contraseña o cualquier otra información confidencial."
 
@@ -2265,7 +2351,7 @@ msgid "people_you"
 msgstr "usted"
 
 #. Default: "${title}"
-#: ./opencore/browser/base.py:275
+#: ./opencore/browser/base.py:283
 msgid "portal_area_verbose_title"
 msgstr "${title}"
 
@@ -2345,7 +2431,7 @@ msgid "profile_website"
 msgstr "Sitio Web"
 
 #. Default: "${title} - ${portal_title}"
-#: ./opencore/browser/base.py:241
+#: ./opencore/browser/base.py:249
 msgid "project_area_verbose_title"
 msgstr "${title} - ${portal_title}"
 
@@ -2742,8 +2828,9 @@ msgstr "Por favor verifique la contraseña antigua que usted introdujo."
 msgid "psm_check_username_password"
 msgstr "Por favor verifique el nombre de usuario y contraseña. Si tiene problemas, puede <a href=\"forgot\">recuperar su información para entrar</a>."
 
-#. Default: "Please choose an image in gif, jpeg, png, or bmp format."
-#: ./opencore/member/browser/view.py:161
+#. Default: "Unsupported image format.  Please use JPEG, GIF, BMP, or non-interlaced PNG format."
+#: ./opencore/member/browser/view.py:157
+#, fuzzy
 msgid "psm_choose_image"
 msgstr "Por favor escoja una imagen en formato gif, jpeg, png, o bmp."
 
@@ -2768,7 +2855,7 @@ msgid "psm_enter_new_email"
 msgstr "Por favor introduzca su nueva dirección electrónica."
 
 #. Default: "Please enter your username or email address."
-#: ./opencore/account/login.py:243
+#: ./opencore/account/login.py:244
 msgid "psm_enter_username_email"
 msgstr "Por favor introduzca su nombre de usuario o su dirección electrónica."
 
@@ -2788,7 +2875,7 @@ msgid "psm_featurelet_removed"
 msgstr "${flet} característica ha sido removida."
 
 #. Default: "Your username is ${user_id}.  If you would like to reset your password, please check your email account for further instructions."
-#: ./opencore/account/login.py:257
+#: ./opencore/account/login.py:258
 msgid "psm_forgot_login"
 msgstr "Su nombre de usuario es ${user_id}. Si usted podrá redefinir su contraseña, por favor verifique su cuenta de correo electrónico para futuras instrucciones."
 
@@ -2936,7 +3023,7 @@ msgid "psm_signin_welcome"
 msgstr "¡Bienvenida! Usted entro en el sitio."
 
 #. Default: "Thanks for joining ${portal_title}, ${mem_id}!<br/>\nA confirmation email has been sent to you with instructions on activating your account."
-#: ./opencore/account/join.py:61
+#: ./opencore/account/join.py:62
 msgid "psm_thankyou_for_joining"
 msgstr ""
 "¡Gracias por unirse a ${portal_title}, ${mem_id}!<br/>\n"
@@ -2978,7 +3065,7 @@ msgid "reset-password_username_label"
 msgstr "Nombre de usuario"
 
 #. Default: "revert to this version"
-#: ./opencore/nui/wiki/wiki-previous-version.pt:76
+#: ./opencore/nui/wiki/wiki-version-compare.pt:115
 msgid "revert to this version"
 msgstr "revertir a esta versión"
 
@@ -2988,42 +3075,44 @@ msgid "revision_note_heading"
 msgstr "nota de revisión:"
 
 #. Default: "Search for members"
-#: ./opencore/project/browser/team-manage.pt:83
+#: ./opencore/project/browser/team-manage.pt:90
 msgid "search_for_members_heading"
 msgstr "Busqueda por miembros"
 
 #. Default: "Search for and invite existing members"
-#: ./opencore/project/browser/team-manage.pt:84
+#: ./opencore/project/browser/team-manage.pt:91
 msgid "search_invite_members_help"
 msgstr "Buscar e invitar a miembros existetes"
 
 #. Default: "in ${document_context_title},"
-#: ./opencore/nui/main/home-resultlist.pt:30
+#: ./opencore/nui/main/home-resultlist.pt:29
 msgid "searchresults_document_context"
 msgstr "en ${document_context_title},"
 
-#. Default: "modified by ${member_title},"
-#: ./opencore/nui/main/home-resultlist.pt:38
+#. Default: "modified by aaa ${member_title},"
+#: ./opencore/nui/main/home-resultlist.pt:37
+#, fuzzy
 msgid "searchresults_last_modified_author"
 msgstr "modificado por ${member_title},"
 
 #. Default: "last updated ${modification_date}"
-#: ./opencore/nui/main/home-resultlist.pt:46
+#: ./opencore/nui/main/home-resultlist.pt:44
 msgid "searchresults_last_modified_date"
 msgstr "última vez actualizado en ${modification_date}"
 
 #. Default: "last updated"
-#: ./opencore/nui/main/searchresults-resultlist.pt:14
+#: ./opencore/nui/main/searchresults-resultlist.pt:13
 msgid "searchresults_last_updated"
 msgstr "última vez actualizado"
 
 #. Default: "member since ${membership_start_date}"
-#: ./opencore/nui/main/home-resultlist.pt:15
+#: ./opencore/nui/main/home-resultlist.pt:14
 msgid "searchresults_member_since"
 msgstr "miembro desde ${membership_start_date}"
 
-#. Default: "modified by"
+#. Default: "modified XXX by"
 #: ./opencore/nui/main/searchresults-resultlist.pt:9
+#, fuzzy
 msgid "searchresults_modified_by"
 msgstr "modificado por"
 
@@ -3043,9 +3132,19 @@ msgid "send-message"
 msgstr "Enviar mensaje"
 
 #. Default: "Send an email to invite people to join"
-#: ./opencore/project/browser/team-manage.pt:100
+#: ./opencore/project/browser/team-manage.pt:107
 msgid "send_email_invite_people_heading"
 msgstr "Enviar un correo electrónico para invitar a gente a unirse"
+
+#. Default: "Send a message to your team"
+#: ./opencore/project/browser/team-manage.pt:79
+msgid "send_message_to_team"
+msgstr ""
+
+#. Default: "Write message"
+#: ./opencore/project/browser/team-manage.pt:80
+msgid "send_message_to_team_subtitle"
+msgstr ""
 
 #. Default: "sorted A to Z"
 #: ./opencore/nui/main/home-sortablefields.pt:7
@@ -3187,11 +3286,6 @@ msgstr "Asunto:"
 msgid "submit"
 msgstr "Enviar"
 
-#. Default: "Subpeona free for ${view_subpoena_free} day${view_subpoena_free_string}"
-#: ./opencore/nui/main/news.pt:12
-msgid "subpoena_free_help"
-msgstr "Subpeona gratuito por ${view_subpoena_free} día${view_subpoena_free_string}"
-
 #. Default: "You are already a pending or active member of ${project_title}."
 #: ./opencore/project/browser/team.py:151
 msgid "team_already_proj_member"
@@ -3208,7 +3302,7 @@ msgid "team_management_heading"
 msgstr "Gestión de equipo"
 
 #. Default: "Your request to join \"${project_title}\" has been sent to the ${project_noun} administrator(s)."
-#: ./opencore/account/login.py:219
+#: ./opencore/account/login.py:220
 msgid "team_proj_join_request_sent"
 msgstr "Su solicitud para  incluirse al \"${project_title}\" ha sido enviado a los administradores ${project_noun}."
 
@@ -3286,6 +3380,26 @@ msgstr "a"
 #: ./opencore/member/browser/contact.pt:25
 msgid "to-label"
 msgstr "A:"
+
+#. Default: "Home"
+#: ./opencore/browser/topnav/explore-menu.pt:6
+msgid "topnav_explore_home"
+msgstr ""
+
+#. Default: "Start a ${project_noun}"
+#: ./opencore/browser/topnav/explore-menu.pt:28
+msgid "topnav_explore_new_project"
+msgstr ""
+
+#. Default: "People"
+#: ./opencore/browser/topnav/explore-menu.pt:11
+msgid "topnav_explore_people"
+msgstr ""
+
+#. Default: "${project_noun}s"
+#: ./opencore/browser/topnav/explore-menu.pt:18
+msgid "topnav_explore_projects"
+msgstr ""
 
 #. Default: "Search site"
 #: ./opencore/browser/topnav/topnav.pt:35
@@ -3393,9 +3507,44 @@ msgid "wiki pages"
 msgstr "páginas de wiki"
 
 #. Default: "${title} - ${portal_title}"
-#: ./opencore/browser/base.py:257
+#: ./opencore/browser/base.py:265
 msgid "wiki_area_verbose_title"
 msgstr "${title} - ${portal_title}"
+
+#. Default: "Cancel"
+#: ./opencore/nui/wiki/wiki-edit-xinha.pt:186
+msgid "wiki_edit_cancel_button"
+msgstr ""
+
+#. Default: "Save"
+#: ./opencore/nui/wiki/wiki-edit-xinha.pt:180
+msgid "wiki_edit_save_button"
+msgstr ""
+
+#. Default: "edit"
+#: ./opencore/nui/wiki/wiki_macros.pt:42
+msgid "wiki_info_tab_edit"
+msgstr ""
+
+#. Default: "history"
+#: ./opencore/nui/wiki/wiki_macros.pt:45
+msgid "wiki_info_tab_history"
+msgstr ""
+
+#. Default: "by ${author}"
+#: ./opencore/nui/wiki/wiki_macros.pt:27
+msgid "wiki_info_tab_last_author"
+msgstr ""
+
+#. Default: "last modified"
+#: ./opencore/nui/wiki/wiki_macros.pt:18
+msgid "wiki_info_tab_last_modified"
+msgstr ""
+
+#. Default: "view"
+#: ./opencore/nui/wiki/wiki_macros.pt:39
+msgid "wiki_info_tab_view"
+msgstr ""
 
 #. Default: "<del>deleted</del>"
 #: ./opencore/nui/wiki/wiki-version-compare.pt:126
@@ -3407,8 +3556,18 @@ msgstr "<del>eliminado</del>"
 msgid "wiki_version_compare_inserted"
 msgstr "<ins>insertado</ins>"
 
+#. Default: "xp-blue"
+#: ./opencore/nui/wiki/wiki-edit-xinha.pt:28
+msgid "xp-blue"
+msgstr ""
+
+#. Default: "xp-green"
+#: ./opencore/nui/wiki/wiki-edit-xinha.pt:29
+msgid "xp-green"
+msgstr ""
+
 #. Default: "Your security settings"
-#: ./opencore/project/browser/team-manage.pt:107
+#: ./opencore/project/browser/team-manage.pt:114
 msgid "your_security_settings_heading"
 msgstr "Su configuración de seguridad"
 
