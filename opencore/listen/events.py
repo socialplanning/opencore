@@ -8,7 +8,7 @@ from Products.CMFCore.utils import getToolByName
 from Products.listen.interfaces import IWriteMembershipList
 from Products.listen.interfaces import IListLookup
 from opencore.i18n import _
-from opencore.listen.interfaces import ISyncWithProjectMembership
+from opencore.listen.interfaces import ISyncWithProjectMembership, IListenFeatureletInstalled
 from opencore.listen.mailinglist import OpenMailingList
 from opencore.project.utils import get_featurelets
 from utils import getSuffix
@@ -48,6 +48,10 @@ def perform_listen_action(mship, action):
     proj_id = team.getId()
     portal = getToolByName(mship, 'portal_url').getPortalObject()
     listencontainer = portal.projects._getOb(proj_id).lists
+
+    return _perform_listen_action(listencontainer, mem_id, action)
+
+def _perform_listen_action(listencontainer, mem_id, action):
     mlists = []
 
     for mlist in listencontainer.objectValues(spec='OpenMailingList'):
@@ -60,6 +64,7 @@ def perform_listen_action(mship, action):
     for ml in mlists:
         memlist = IWriteMembershipList(ml)
         getattr(memlist, action)(mem_id)
+
 
 def member_joined_project(mship, event):
     perform_listen_action(mship, 'subscribe')

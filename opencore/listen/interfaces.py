@@ -29,6 +29,9 @@ class IListenFeatureletInstalled(Interface):
     Marks an object as having the listen featurelet installed, with
     the following effects:
 
+     * the object is assumed to have a traversable `lists` child object
+       which is Folderish and supports IListenContainer
+
      * a "Mailing Lists" topnav menu item will be displayed when viewing
        the object (in ./browser/configure.zcml)
 
@@ -43,8 +46,8 @@ class IListenFeatureletInstalled(Interface):
 
      * a @@contact-team view will be registered on the object (in
        ./browser/configure.zcml)
-
     """
+
 
 class IListenContainer(Interface):
     """
