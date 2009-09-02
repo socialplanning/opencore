@@ -42,9 +42,6 @@ class ListenFeaturelet(BaseFeaturelet):
                             ),
              }
 
-    _required_interfaces = BaseFeaturelet._required_interfaces + \
-                           (IProject,)
-
     def deliverPackage(self, obj):
         """
         See IFeaturelet.
