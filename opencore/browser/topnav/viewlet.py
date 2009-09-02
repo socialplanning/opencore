@@ -1,11 +1,12 @@
 from opencore.i18n import _
 from opencore.interfaces import IMemberFolder
 from opencore.interfaces import IOpenPage
+from opencore.interfaces import IProject
+from opencore.interfaces import IOpenSiteRoot
 from opencore.interfaces.adding import IAddProject
 from opencore.interfaces.adding import IAmAPeopleFolder
 from Products.CMFCore.utils import getToolByName
 from Products.CMFPlone.interfaces import IPloneSiteRoot
-from topp.utils import zutils
 from Products.Five.viewlet.viewlet import ViewletBase
 
 class TopnavViewletBase(ViewletBase):
@@ -24,10 +25,36 @@ class TopnavViewletBase(ViewletBase):
 # for displaying all menu items
 
 def contained_within(viewlet):
-    """walk up the acquisition chain and verify if the any either the context
-       of the viewlet, or any of its parents provide the viewlet.container
-       interface"""
-    return zutils.aq_iface(viewlet.context, viewlet.container)
+    """
+    walk up the acquisition chain and verify if the any either the context
+    of the viewlet, or any of its parents, provide the viewlet.container
+    interface
+
+    returns the nearest satisfactory container or None.
+
+    however, we don't want to go outside the current 'content locus' (portal,
+    project or person) -- that is, if we're at /openplans/projects/foo/wikipage
+    and the viewlet's contained_within filter is IAddProjects, this function
+    should *not* return a true value.
+    """
+
+    from Acquisition import aq_inner, aq_parent
+
+    obj = aq_inner(viewlet.context)
+    iface = viewlet.container
+
+    while obj is not None:
+        if iface.providedBy(obj):
+            return obj
+
+        if IMemberFolder.providedBy(obj) or \
+                IProject.providedBy(obj) or \
+                IOpenSiteRoot.providedBy(obj):
+            return None
+
+        obj = aq_parent(obj)
+        
+    return None
 
 def nofilter(viewlet):
     """dummy function to always include a particular viewlet"""
@@ -85,9 +112,17 @@ def is_in_external_application(viewlet):
         return False
     return viewlet.request.get_header("HTTP_X_OPENPLANS_APPLICATION") == expected_header
 
+# XXX TODO: remove (or at least deprecate) prior to 0.18 release
 def portal_people_or_projects(viewlet):
-    """a particular set of viewlets get rendered when viewing the
-       portal, people folder, or projects folder"""
+    """
+    a particular set of viewlets get rendered when viewing the
+    portal, people folder, or projects folder
+
+    currently this set is:
+     * People
+     * Projects
+     * Start a Project
+    """
     context = viewlet.context
     for iface in IPloneSiteRoot, IAddProject, IAmAPeopleFolder:
         if iface.providedBy(context):
