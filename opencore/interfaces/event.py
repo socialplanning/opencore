@@ -29,7 +29,6 @@ class IMemberModifiedEvent(IObjectModifiedEvent):
        Necessary to add instead of just object modified event because
        the handlers for this can be expensive"""
 
-
 class IListenFeatureletCreatedEvent(IObjectCreatedEvent):
     """when a listen featurelet gets installed on a project"""
 
@@ -45,6 +44,14 @@ class IMemberRegisteredEvent(Interface):
 class IPortraitModifiedEvent(Interface):
     """ Interface for portrait edit events """
 
+
+class IMemberDeletedEvent(Interface):
+    """ When a member is deleted """
+
+class MemberDeletedEvent(object):
+    implements(IMemberDeletedEvent)
+    def __init__(self, member):
+        self.member = member
 
 class JoinedProjectEvent(ObjectModifiedEvent):
     implements(IJoinedProjectEvent)
