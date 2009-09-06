@@ -44,6 +44,4 @@
        which injects `project_noun` into all Message mappings -->
   <opencore:registerTranslations directory="../locales" />
 
-  <include package="opencore.unconfirmedmembers" />
-
 </configure>
