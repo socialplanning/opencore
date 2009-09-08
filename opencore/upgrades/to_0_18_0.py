@@ -25,3 +25,11 @@ def bootstrap_member_deletion_queue(context):
     result = run_import_step(context, 'addMemberCleanupQueue')
     logger.info(result)
     
+
+def add_sortable_title_membranetool_index(context):
+    result = run_import_step(context, 'membranetool')
+    logger.info('Reimported membrane tool from GS profile:\n%r' % result)
+    
+    getToolByName(context, 'membrane_tool').refreshCatalog()
+    logger.info('Reindexed membrane_tool ZCatalog')
+    
