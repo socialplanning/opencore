@@ -10,6 +10,17 @@ from opencore.configuration.setuphandlers import Z_DEPS, DEPS
 
 from opencore.utils import clear_all_memos, clear_instance_memo, clear_view_memo #BBB
 
+def get_view(context, view_class, request):
+    """
+    convenience function for directly instantiating
+    a useable (acquisition-wrapped) view object
+
+    http://www.coactivate.org/projects/opencore/lists/opencore-dev/archive/2009/05/1241281586467
+    """
+    view = view_class(context, request)
+    view = view.__of__(context)
+    return view
+
 def login_portal_owner(app=None):
     if app is None:
         app = ZopeTestCase.app()
