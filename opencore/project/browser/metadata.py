@@ -1,6 +1,7 @@
 """
 selective catalog metadata handling 
 """
+from Acquisition import aq_inner
 from zope.app.event import objectevent
 from zope.app.annotation.interfaces import IAnnotations
 import zope.event
@@ -52,16 +53,12 @@ def updateThreadCount(obj, event):
         cat._catalog.catalogObject(proxy, list_path, idxs=['mailing_list_threads'])
 
 def updateContainerMetadata(obj, event):
-    try:
-        parent = obj.aq_inner.aq_parent
-    except AttributeError:
-        parent = None
-
-    if not (parent and IProject.providedBy(parent)):
+    project = interface_in_aq_chain(aq_inner(obj), IProject)
+    if project is None:
         return
 
-    parent.setModificationDate()
-    parent.reindexObject(idxs=['modified'])
+    project.setModificationDate()
+    project.reindexObject(idxs=['modified'])
 
     
 def notifyObjectModified(obj):
