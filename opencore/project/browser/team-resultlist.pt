@@ -1,7 +1,6 @@
 <tal:set define="item options/item;
                  home_url python:context.portal_membership.getHomeUrl(item.getId);
 		 member_record python:view._membership_record(item);
-		 mem_title nocall:context/@@oc-utils/member_title;
 		 ">
 
   <div class="oc-avatar">
@@ -22,7 +21,7 @@
       <h3>
 	<a tal:attributes="href home_url"
 	   class="fn nickname"
-	   tal:content="python:mem_title(member_record)"
+	   tal:content="member_record/opencore:member_title"
 	   />
 	<span class="oc-discreetText"
 	      tal:condition="python: view.is_admin(path('member_record/id'))">

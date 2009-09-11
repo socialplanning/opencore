@@ -10,7 +10,7 @@ def default_profile_id():
     from zope.component import getUtility
 
     configparser = getUtility(IProvideSiteConfig)
-    etc_svn_subdir = configparser.get_config('etc_svn_subdir')
+    etc_svn_subdir = configparser.get('etc_svn_subdir')
     return 'opencore.configuration:%s' % etc_svn_subdir
 
 def move_blocking_content(portal):

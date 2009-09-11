@@ -221,6 +221,8 @@ class InitialLogin(BaseView):
                                       mapping={'project_title':proj_title,
                                                'project_noun':self.project_noun}))
 
+        notify(FirstLoginEvent(member, self.request))
+
         baseurl = self.memfolder_url()
         # Go to the user's Profile Page in Edit Mode
         default_redirect = "%s/%s" % (self.memfolder_url(), 'tour')

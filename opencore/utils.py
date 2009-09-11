@@ -13,6 +13,30 @@ from zope.component import getUtility
 
 import time
 
+def setup(app, username='admin', site='openplans'):
+    """
+    log in as admin user, provide request and site
+    so nothing blows up
+    """
+
+    from AccessControl.SecurityManagement import newSecurityManager
+    from Testing.makerequest import makerequest
+
+    user = app.acl_users.getUser(username)
+
+    assert user is not None, \
+        "Could not find user `%s`; maybe it's a remember-based user?" % username
+
+    user = user.__of__(app.acl_users)
+    newSecurityManager(app, user)
+
+    app = makerequest(app)
+    
+    from zope.app.component.hooks import setSite
+    setSite(app[site])
+
+    return app
+
 oc_props_id = 'opencore_properties'
 
 def get_opencore_property(prop, context=None):

@@ -115,6 +115,12 @@
      sortkey="10">
 
     <genericsetup:upgradeStep
+       title="Add sortable_title index to membrane tool"
+       description="Add sortable_title index to membrane tool"
+       handler=".to_0_18_0.add_sortable_title_membranetool_index"
+       />
+
+    <genericsetup:upgradeStep
        title="Mark listen folders w/ IListenContainer"
        description="Mark listen folders w/ IListenContainer"
        handler=".to_0_18_0.mark_listen_folders"

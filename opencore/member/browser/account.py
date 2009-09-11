@@ -526,6 +526,12 @@ class DeleteAccountView(BaseView):
         user_to_delete = self.viewed_member_info['id']
         old_manager = SecurityManagement.getSecurityManager()
         current_user = old_manager.getUser().getId()
+
+        from opencore.interfaces.event import MemberDeletedEvent
+
+        notify(MemberDeletedEvent(
+                self.context.portal_memberdata[user_to_delete]))
+
         # To avoid blocking while we traverse the entire contents of the site,
         # we quickly delete the member and their own content...
         if current_user == user_to_delete:

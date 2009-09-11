@@ -8,7 +8,7 @@ from Products.CMFCore.utils import getToolByName
 from Products.listen.interfaces import IWriteMembershipList
 from Products.listen.interfaces import IListLookup
 from opencore.i18n import _
-from opencore.listen.interfaces import ISyncWithProjectMembership
+from opencore.listen.interfaces import ISyncWithProjectMembership, IListenFeatureletInstalled
 from opencore.listen.mailinglist import OpenMailingList
 from opencore.project.utils import get_featurelets
 from utils import getSuffix
@@ -28,7 +28,7 @@ def is_listen_featurelet_installed(f, mship_obj, action):
     proj_id = team.getId()
     portal = getToolByName(mship_obj, 'portal_url').getPortalObject()
     try:
-        project = portal.projects._getOb(proj_id)
+        project = portal.projects[proj_id]
     except KeyError:
         # cannot find project with same name as team (unit test only?)
         return
@@ -47,7 +47,11 @@ def add_or_remove_membership(mship, action):
     team = mship.aq_inner.aq_parent
     proj_id = team.getId()
     portal = getToolByName(mship, 'portal_url').getPortalObject()
-    listencontainer = portal.projects._getOb(proj_id).lists
+    listencontainer = portal.projects[proj_id].lists
+
+    return _perform_listen_action(listencontainer, mem_id, action)
+
+def _perform_listen_action(listencontainer, mem_id, action):
     mlists = []
 
     for mlist in listencontainer.objectValues(spec='OpenMailingList'):
@@ -60,6 +64,7 @@ def add_or_remove_membership(mship, action):
     for ml in mlists:
         memlist = IWriteMembershipList(ml)
         getattr(memlist, action)(mem_id)
+
 
 def member_joined_project(mship, event):
     add_or_remove_membership(mship, 'subscribe')
@@ -90,12 +95,13 @@ def listen_featurelet_installed(proj, event):
     request.set('title', ml_title)
     lists_folder = proj.lists.aq_inner
     lists_folder.invokeFactory(OpenMailingList.portal_type, ml_id)
-    ml = lists_folder._getOb(ml_id)
+    ml = lists_folder[ml_id]
     ml.mailto = ml_id
     ms_tool = getToolByName(proj, 'portal_membership')
     cur_mem_id = unicode(ms_tool.getAuthenticatedMember().getId())
     ml.managers = (cur_mem_id,)
-    ml.setDescription(translate(_(u'discussion_list_desc', u'Discussion list for this ${project_noun}, consisting of all ${project_noun} members.',
+    ml.setDescription(translate(_(u'discussion_list_desc',
+                                  u'Discussion list for this ${project_noun}, consisting of all ${project_noun} members.',
                                   mapping={'project_noun':project_noun()}),
                                             context=request))
 
@@ -111,7 +117,7 @@ def listen_featurelet_installed(proj, event):
     cat = getToolByName(portal, 'portal_catalog')
     teams = getToolByName(portal, 'portal_teams')
     try:
-        team = teams._getOb(proj_id)
+        team = teams[proj_id]
     except KeyError:
         # if the team doesn't exist
         # then nobody is on the project yet

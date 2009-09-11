@@ -31,7 +31,7 @@ class OpencoreTales(object):
             # TALES expression is used in the default view on a
             # context, because calling the object invokes the default
             # view again.
-            self.context = context()
+            self.context = context#()
         else:
             self.context = context
 
@@ -43,7 +43,16 @@ class OpencoreTales(object):
 
     def member_title(self):
         return member_title(self.context)
-        
+
+    def membership_synced_lists(self):
+        from opencore.listen.browser.contact_team import find_membership_synced_lists
+        try:
+            return find_membership_synced_lists(self.context)
+        except TypeError:
+            # a TypeError would mean that context is not IListenFeatureletInstalled
+            # (or context['lists'] is not IListenContainer, but that's more
+            #  under-the-hood here)
+            return []
 
 def member_title(id_or_dict):
     """

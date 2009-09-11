@@ -1,6 +1,5 @@
 <tal:set define="item options/item;
-                 home_url python:context.portal_membership.getHomeUrl(item.getId);
-		 mem_title nocall:context/@@oc-utils/member_title;">
+                 home_url python:context.portal_membership.getHomeUrl(item.getId)">
 
   <div class="oc-avatar">
     <a tal:attributes="href home_url">      
@@ -16,7 +15,7 @@
   <div class="oc-lineup-content">
     <h3 class="oc-lineup-item-title n fn nickname">
       <a tal:attributes="href home_url"
-         tal:content="python:mem_title(item)" />
+         tal:content="item/opencore:member_title" />
     </h3>
 
     <div class="oc-discreetText adr"

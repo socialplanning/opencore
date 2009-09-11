@@ -26,8 +26,29 @@ class IOpenMailingList(IMailingList):
 
 class IListenFeatureletInstalled(Interface):
     """
-    Marks an object as having the listen featurelet installed.
+    Marks an object as having the listen featurelet installed, with
+    the following effects:
+
+     * the object is assumed to have a traversable `lists` child object
+       which is Folderish and supports IListenContainer
+
+     * a "Mailing Lists" topnav menu item will be displayed when viewing
+       the object (in ./browser/configure.zcml)
+
+     * ITellYouAboutContent(object, name='lists') will be usable without
+       raising a string exception (in ./query.py)
+
+     * a @@listen_config view will be registered on the object (in
+       opencore/featurelets/browser/configure.zcml)
+
+     * a `discussions` viewlet is registered for the object to the
+       ISummaryFeeds viewlet manager (in ./feed/configure.zcml)
+
+     * a @@contact-team view will be registered on the object (in
+       ./browser/configure.zcml)
+
     """
+
 
 class IListenContainer(Interface):
     """
