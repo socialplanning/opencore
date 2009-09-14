@@ -1,6 +1,12 @@
 0.18.0 (UNRELEASED)
 ===================
 
+Migrations:
+
+  * declare_supported_languages for #2800.  Make sure you run this upgrade step
+    with configuration profile 'opencore.configuration:default' or else rebuild
+    to pick up changes!
+
 Features Added:
 
   * The manage-team view now provides a "Write message to team" button which
@@ -109,6 +115,8 @@ Bugs Fixed:
 
   * Add some tweaks to the MailHost mock that the tests use so it will act
     nicely in places where the code expects a MaildropHost. (rafrombrc)
+
+  * Declare all supported languages (#2800)
 
 
 also on 0.17-dev (unreleased)
