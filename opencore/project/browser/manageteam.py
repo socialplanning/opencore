@@ -43,8 +43,6 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite, AccountView,
     team_manage = ZopeTwoPageTemplateFile('team-manage.pt')
     team_manage_macros = ZopeTwoPageTemplateFile('team-manage-macros.pt')
 
-    mship_type = OpenMembership.portal_type
-
     # XXX REFACTOR: role_map is repeated in nui.member.view.MemberAccountView
     # XXX could intefere with mbship tool b/c of aquisition
     rolemap = {'ProjectAdmin': 'administrator',
@@ -76,7 +74,7 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite, AccountView,
     @req_memoize
     def pending_mships(self):
         cat = self.get_tool('portal_catalog')
-        return cat(portal_type=self.mship_type,
+        return cat(portal_type=OpenMembership.portal_type,
                    path=self.team_path,
                    review_state='pending',
                    )
@@ -107,7 +105,7 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite, AccountView,
     def active_mships(self):
         cat = self.get_tool('portal_catalog')
         mem_ids = self.team.getActiveMemberIds()
-        brains = cat(portal_type=self.mship_type,
+        brains = cat(portal_type=OpenMembership.portal_type,
                      path=self.team_path,
                      id=mem_ids)
         mships = []
