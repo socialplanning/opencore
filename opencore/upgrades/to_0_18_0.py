@@ -33,3 +33,6 @@ def add_sortable_title_membranetool_index(context):
     getToolByName(context, 'membrane_tool').refreshCatalog()
     logger.info('Reindexed membrane_tool ZCatalog')
     
+def declare_supported_languages(context):
+    result = run_import_step(context, 'languagetool')
+    logger.info('Reimported portal_languages tool from GS profile:\n%s' % result)

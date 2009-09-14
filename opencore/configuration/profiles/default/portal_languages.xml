@@ -9,7 +9,10 @@
  <display_flags value="False"/>
  <start_neutral value="False"/>
  <supported_langs>
-  <element value="en"/>
   <element value="az"/>
+  <element value="en"/>
+  <element value="es"/>
+  <element value="fr"/>
+  <element value="pt"/>
  </supported_langs>
 </object>
