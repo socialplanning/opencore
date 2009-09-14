@@ -21,19 +21,21 @@ def mark_listen_folders(context):
                         % '/'.join(listfolder.getPhysicalPath()))
 
 
-def bootstrap_member_deletion_queue(context):
-    result = run_import_step(context, 'addMemberCleanupQueue')
+def bootstrap_member_deletion_queue(setup_tool):
+    profile_id = setup_tool.REQUEST.form.get('profile_id')
+    result = run_import_step(setup_tool, 'addMemberCleanupQueue', profile_id=profile_id)
     logger.info(result)
     
 
-def add_sortable_title_membranetool_index(context):
-    result = run_import_step(context, 'membranetool')
+def add_sortable_title_membranetool_index(setup_tool):
+    profile_id = setup_tool.REQUEST.form.get('profile_id')
+    result = run_import_step(setup_tool, 'membranetool', profile_id=profile_id)
     logger.info('Reimported membrane tool from GS profile:\n%r' % result)
     
-    getToolByName(context, 'membrane_tool').refreshCatalog()
+    getToolByName(setup_tool, 'membrane_tool').refreshCatalog()
     logger.info('Reindexed membrane_tool ZCatalog')
     
-def declare_supported_languages(context):
-    profile_id = context.REQUEST.form.get('profile_id')
-    result = run_import_step(context, 'languagetool', profile_id=profile_id)
+def declare_supported_languages(setup_tool):
+    profile_id = setup_tool.REQUEST.form.get('profile_id')
+    result = run_import_step(setup_tool, 'languagetool', profile_id=profile_id)
     logger.info('Reimported portal_languages tool from GS profile:\n%s' % result)
