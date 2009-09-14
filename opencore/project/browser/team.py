@@ -258,13 +258,10 @@ class ProjectTeamView(TeamRelatedView):
         return []
 
     def handle_sort_default(self):
-        #mem_ids = [mem_brain.getId for mem_brain in self.membership_brains]
         query = dict(portal_type='OpenMember',
-                     #getId=mem_ids,
                      project_ids=[self.team.getId()],
-                     sort_on='getId',
+                     sort_on='sortable_title',
                      )
-        
         # @@ DRY
         results = self.membranetool(**query)
 
