@@ -12,15 +12,16 @@ Set up the view::
     >>> proj = projects.p1
     >>> view = ProjectTeamView(proj, request)
 
-Sort by username::
+Sorting by username will actually sort by Full Name, with ID as a fallback::
 
     >>> results = view.memberships('username')
     >>> brains = list(results)
     >>> len(brains)
     3
     
-    >>> [b.getId for b in brains]
-    ['m1', 'm3', 'm4']
+    >>> print ["<%s (%s)>" % (b.Title.decode('utf8'), b.getId) for b in brains]
+    [u'<M\xebmber Four (m4)>', u'<M\xebmber O\xf1e (m1)>', u'<M\xebmber Three (m3)>']
+
 
 Clear the memoize from the request::
 
@@ -33,8 +34,8 @@ Sorting by nothing should sort by username::
     >>> len(brains)
     3
     
-    >>> [b.getId for b in brains]
-    ['m1', 'm3', 'm4']
+    >>> print ["<%s (%s)>" % (b.Title.decode('utf8'), b.getId) for b in brains]
+    [u'<M\xebmber Four (m4)>', u'<M\xebmber O\xf1e (m1)>', u'<M\xebmber Three (m3)>']
 
 Clear the memoize from the request::
 
