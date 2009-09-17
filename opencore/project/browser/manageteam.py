@@ -121,11 +121,18 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite, AccountView,
         Return a formatted dictionary of information from a membership
         brain that is ready to be used by the templates.
         """
-        member = self.get_tool('portal_memberdata')[brain.getId]
+        try:
+            member = self.get_tool('portal_memberdata')[brain.getId]
+            Title = member.Title()
+            sortkey = member.Title().lower()
+        except KeyError:  # 'portal_owner' in tests, at least
+            Title = brain.getId
+            sortkey = brain.getId.lower()
+            
         data = {'id': brain.id,
                 'getId': brain.getId,
-                'Title': member.Title(),
-                'sortkey': member.Title().lower(),
+                'Title': Title,
+                'sortkey': sortkey,
                 }
 
         data['listed'] = self.listedmap[brain.review_state]
