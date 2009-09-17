@@ -82,6 +82,7 @@ setup(
         'Products.remember',
         'Products.QueueCatalog==1.6.0',
         'ploneundelete',
+        'zope.i18n>=3.7.1',
         ],
     
     extras_require=dict(ubuntu=['hprof']),
