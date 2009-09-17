@@ -200,10 +200,10 @@
                        mem_url python:view.getMemberURL(mem_id)">
 	<a tal:attributes="href mem_url"
 	   tal:condition="mem_url"
-	   tal:content="mem_id" />
+	   tal:content="item/Title" />
 	
 	<tal:memid condition="not: mem_url"
-		   replace="mem_id" />
+		   replace="item/Title" />
       </div>
     </td>
 
