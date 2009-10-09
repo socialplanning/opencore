@@ -50,6 +50,7 @@ class NuiBaseAdd(WickedAdd, BaseView):
         assert title, 'Must have a title to create content' 
         newcontentid=self.sanitize(title)
         container = self.get_container()
+
         try:
             container.invokeFactory(self.type_name, id=newcontentid,
                              title=title)
@@ -61,7 +62,7 @@ class NuiBaseAdd(WickedAdd, BaseView):
             referrer = self.context.absolute_url()
             return self.redirect(referrer)
 
-        newcontent = getattr(self.context, newcontentid)
+        newcontent = container[newcontentid]
         self.do_wicked(newcontent, title, section)
         self.add_status_message(_(u'psm_page_created',
                                   u'"${pagetitle}" has been created',
