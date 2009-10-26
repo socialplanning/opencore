@@ -49,6 +49,7 @@ setup(
         'http://svn.red-bean.com/bob/simplejson/trunk/#egg=simplejson-dev',
         'https://svn.openplans.org/svn/ZCMLLoader/trunk#egg=ZCMLLoader',
         'https://svn.openplans.org/svn/flunc/trunk#egg=flunc-0.6dev',
+        'http://svn.sccs.swarthmore.edu/egj/zope_i18n_fork_r105273#egg=zope.i18n-3.7.2opencore',
         ],
     install_requires=[
         'borg.localrole==2.0.1',
@@ -69,6 +70,7 @@ setup(
         'uuid',
         'zc.queue',
         'zcmlloader',
+        'zope.i18n==3.7.2opencore',
         ],
     
     extras_require=dict(ubuntu=['hprof']),
