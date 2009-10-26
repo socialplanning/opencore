@@ -124,50 +124,24 @@ class ProjectNounAwareTranslationDomain(TranslationDomain):
             self, msgid, mapping, context, target_language, default)
 
 
+
+
+
 # fork of same-named function in zope/i18n/zcml.py 
 # which also incorporates PTS's monkeypatch thereof,
 # to auto-compile translations. _that_ can go away
 # if we upgrade to zope.i18n>=3.5.0 according to pw
-import os
-from zope.i18n.gettextmessagecatalog import GettextMessageCatalog
-from zope.component.zcml import utility
-from zope.i18n.interfaces import ITranslationDomain
-from zope.i18n.testmessagecatalog import TestMessageCatalog
-import zope.i18nmessageid
+
+from zope.i18n.zcml import registerTranslations as register_translations
 
 from Products.PlacelessTranslationService.load import _compile_locales_dir
+
 def registerTranslations(_context, directory):
 
     # here's that PTS monkeypatch
     _compile_locales_dir(directory)
     # end PTS monkeypatch
 
-    path = os.path.normpath(directory)
-    domains = {}
+    register_translations(_context, directory,
+                          _factory=ProjectNounAwareTranslationDomain)
 
-    # Gettext has the domain-specific catalogs inside the language directory,
-    # which is exactly the opposite as we need it. So create a dictionary that
-    # reverses the nesting.
-    for language in os.listdir(path):
-        lc_messages_path = os.path.join(path, language, 'LC_MESSAGES')
-        if os.path.isdir(lc_messages_path):
-            for domain_file in os.listdir(lc_messages_path):
-                if domain_file.endswith('.mo'):
-                    domain_path = os.path.join(lc_messages_path, domain_file)
-                    domain = domain_file[:-3]
-                    if not domain in domains:
-                        domains[domain] = {}
-                    domains[domain][language] = domain_path
-
-    # Now create TranslationDomain objects and add them as utilities
-    for name, langs in domains.items():
-        domain = ProjectNounAwareTranslationDomain(name)
-
-        for lang, file in langs.items():
-            domain.addCatalog(GettextMessageCatalog(lang, name, file))
-
-        # make sure we have a TEST catalog for each domain:
-        domain.addCatalog(TestMessageCatalog(name))
-
-        utility(_context, ITranslationDomain, domain, name=name)
-#
