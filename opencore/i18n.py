@@ -124,6 +124,10 @@ class ProjectNounAwareTranslationDomain(TranslationDomain):
             self, msgid, mapping, context, target_language, default)
 
 
+    def _registerMessageCatalog(self, language, catalog_name):
+        key = language
+        mc = self._catalogs.setdefault(key, [])
+        mc.insert(0, catalog_name)
 
 
 
