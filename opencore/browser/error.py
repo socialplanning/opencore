@@ -72,6 +72,9 @@ Traceback: %s
 
 class ErrorReporter(BaseView):
 
+    def mail_from(self, user_email):
+        return user_email
+
     def __call__(self):
         portal = getToolByName(self.context, 'portal_url').getPortalObject()
         if 'error_submitted' in self.request.form:
@@ -95,6 +98,6 @@ class ErrorReporter(BaseView):
                    'Did: %(did)s\n\nExpected: %(expected)s\n\nTraceback: %(traceback)s' % locals())
             site = portal.getProperty('title', 'Untitled site')
             email_sender.sendMail(mto, msg, '[%s] site error report' % site,
-                                  user_email)
+                                  self.mail_from(user_email))
             self.add_status_message(u'Thanks for your feedback.')
         return self.redirect(portal.absolute_url())
