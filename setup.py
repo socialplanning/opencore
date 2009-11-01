@@ -52,7 +52,7 @@ setup(
         'http://svn-mirror.plone.org/svn/collective/ploneundelete/branches/repoze#egg=ploneundelete-0.1dev',
         'https://svn.openplans.org/svn/vendor/Products.TeamSpace#egg=Products.TeamSpace',
         'http://svn-mirror.plone.org/svn/collective/Products.membrane/trunk/#egg=Products.membrane-dev',
-        'https://svn.openplans.org/svn/opencore/integrationlib/trunk#egg=opencore_integrationlib-dev',
+        'https://svn.openplans.org/svn/opencore/contrib/opencore_integrationlib/trunk#egg=opencore_integrationlib-dev',
         ],
     install_requires=[
         'borg.localrole==2.0.1',
