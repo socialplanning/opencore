@@ -9,9 +9,4 @@
 	     provides="opencore.utility.interfaces.IEmailSender"
 	     factory="opencore.utility.email_sender.EmailSender"
 	     />
-
-    <utility factory="opencore.utility.feedbacker.FeedbackerClient"
-             provides="opencore.utility.interfaces.IFeedbackerClient"
-             />
-
 </configure>
