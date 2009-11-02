@@ -135,15 +135,6 @@
      />
 
   <opencore:menuitem
-     name="Export"
-     filter=".viewlet.contained_within"
-     container="opencore.interfaces.IProject"
-     item_url="export"
-     sort_order="85"
-     permission="teamspace.ManageTeamMemberships"
-     />
-
-  <opencore:menuitem
      name="Join Project"
      filter=".viewlet.not_part_of_project"
      container="opencore.interfaces.IProject"

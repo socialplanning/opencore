@@ -80,14 +80,6 @@ def test_suite():
                                     setUp=readme_setup,
                                     layer = OpencoreContent,
                                   )
-    export = dtf.ZopeDocFileSuite("export.txt",
-                                  optionflags=optionflags,
-                                  package='opencore.project.browser',
-                                  test_class=LoggingTestCase,
-                                  globs = globs,
-                                  setUp=contents_content,
-                                  layer = OpencoreContent,
-                                  )
 
     team_view = dtf.ZopeDocFileSuite("team-view.txt", 
                                     optionflags=optionflags,
@@ -188,7 +180,6 @@ def test_suite():
               readme,
               delete,
               team_view,
-              export,
               )
 
     return unittest.TestSuite(suites)

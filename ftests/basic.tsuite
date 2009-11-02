@@ -17,7 +17,6 @@ edit_project
 add_page
 disable_listen
 enable_listen
-export_content
 search_user
 logout
 check_footer
