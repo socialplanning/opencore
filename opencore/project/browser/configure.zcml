@@ -9,11 +9,6 @@
      />
 
   <browser:resource
-     file="export.js"
-     name="export.js"
-     />
-
-  <browser:resource
       file="spinning_wheel_throbber.gif"
       name="spinning_wheel_throbber.gif"
      />
@@ -257,23 +252,5 @@
      name="lists"
      />
 
-
-  <!-- Project content export -->
-  <browser:page
-     for="opencore.interfaces.IProject"
-     class=".export.ProjectExportView"
-     permission="cmf.ModifyPortalContent"
-     name="export"
-     template="export.pt"
-     allowed_attributes="available_exports_json current_status_json do_export"
-     />
-
-  <!-- intended to be hit by clockserver periodically -->
-  <browser:page
-     class=".export_utils.ProjectExportQueueView"
-     for="Products.CMFPlone.Portal.PloneSite"
-     permission="five.ManageSite"
-     name="manage_project_export_queue"
-     />
 
 </configure>
