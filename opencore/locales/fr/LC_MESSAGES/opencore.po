@@ -1089,7 +1089,9 @@ msgstr "Subject: ${portal_title} – Invitation dans  ${project_title}"
 #. Default: "\nYour request to join \"${project_title}\" on ${portal_title} has been approved.\nThe ${project_noun} is accessible at the following address:\n\n${project_url}\n"
 #: ./opencore/project/browser/mship_messages.py:62
 msgid "email_request_approved"
-msgstr "Votre demande d'inclusion dans   \"${project_title}\" dans ${portal_title} a été approuvée.    ${project_noun} est accessible à l'adresse suivante : ${project_url}"
+msgstr ""
+"Votre demande d'inclusion dans \"${project_title}\" dans ${portal_title} a été approuvée.\n"
+"${project_noun} est accessible à l'adresse suivante : ${project_url}"
 
 #. Default: "${portal_title} - Welcome to ${project_title}"
 #: ./opencore/project/browser/mship_messages.py:71
