@@ -1530,7 +1530,6 @@ msgstr "Confirmar contraseña"
 
 #. Default: "We will not share your email with anyone. Ever."
 #: ./opencore/account/join.pt:159
-#, fuzzy
 msgid "join_description"
 msgstr "La inscripción es gratuita y su dirección de correo electrónico no será compartida con nadie, sin embargo, usted deberá confirmar su dirección de correo electrónico, esto para evitar que rebotes de correo no deseado o spam que engañen a este sistema."
 
@@ -1551,7 +1550,6 @@ msgstr "Volverse un miembro significa..."
 
 #. Default: "<li> You can join and participate in existing ${project_noun}s </li> <li> You can create your own ${project_noun} and invite others to join </li> <li>You can share information about yourself</li>"
 #: ./opencore/account/join.pt:179
-#, fuzzy
 msgid "join_get_started_list"
 msgstr "<li>Usted puede unirse y participar en los ${project_noun}s existente(s)</li> <li> Usted puede crear su propio ${project_noun} e invitar otros a participar</li> <li>Usted puede compartir información sobre Usted</li>"
 
@@ -2859,7 +2857,6 @@ msgstr "Por favor verifique el nombre de usuario y contraseña. Si tiene problem
 
 #. Default: "Unsupported image format.  Please use JPEG, GIF, BMP, or non-interlaced PNG format."
 #: ./opencore/member/browser/view.py:157
-#, fuzzy
 msgid "psm_choose_image"
 msgstr "Por favor escoja una imagen en formato gif, jpeg, png, o bmp."
 
@@ -3053,7 +3050,6 @@ msgstr "¡Bienvenida! Usted entro en el sitio."
 
 #. Default: "Thanks for joining ${portal_title}, ${mem_id}!\nA confirmation email has been sent to you with instructions on activating your account. After you have activated your account, your request to join the ${project_noun} will be sent to the ${project_noun} administrators."
 #: ./opencore/account/join.py:62
-#, fuzzy
 msgid "psm_thankyou_for_joining"
 msgstr ""
 "¡Gracias por unirse a ${portal_title}, ${mem_id}!<br/>\n"
@@ -3121,7 +3117,6 @@ msgstr "en ${document_context_title},"
 
 #. Default: "modified by aaa ${member_title},"
 #: ./opencore/nui/main/home-resultlist.pt:37
-#, fuzzy
 msgid "searchresults_last_modified_author"
 msgstr "modificado por ${member_title},"
 
@@ -3142,7 +3137,6 @@ msgstr "miembro desde ${membership_start_date}"
 
 #. Default: "modified XXX by"
 #: ./opencore/nui/main/searchresults-resultlist.pt:9
-#, fuzzy
 msgid "searchresults_modified_by"
 msgstr "modificado por"
 
