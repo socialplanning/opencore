@@ -1129,7 +1129,7 @@ msgstr ""
 
 #: ./opencore/account/browser.py:70
 msgid "email_to_pending_user_subject"
-msgstr ""
+msgstr "Bienvenue à ${portal_title}! – cliquez sur le lien dans ce message"
 
 #. Default: "Could not moderate!"
 #: ./opencore/listen/browser/view.py:424
