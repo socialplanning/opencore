@@ -1036,14 +1036,12 @@ msgstr ""
 #, fuzzy
 msgid "email_membership_deactivated"
 msgstr ""
-"Asunto: ${portal_title} - Membresia desactivada para ${project_title}\n"
-"\n"
 "Usted ya no es miembro del equipo de \"${project_title}\" en ${portal_title}."
 
 #. Default: "${portal_title} - Membership deactivated for ${project_title}"
 #: ./opencore/project/browser/mship_messages.py:103
 msgid "email_membership_deactivated_subject"
-msgstr ""
+msgstr "${portal_title} - Membresia desactivada para ${project_title}"
 
 #. Default: ""
 #: ./opencore/project/browser/team_membership.py:51
@@ -1062,26 +1060,20 @@ msgstr "Esto es para hacerle recordar. ${inviter_name} lo invito a usted a unirs
 
 #. Default: "\nThis is a reminder that you've been invited to join \"${project_title}\" on ${portal_title}.\nPlease visit your account page to accept or decline the invitation: ${account_url}\n"
 #: ./opencore/project/browser/mship_messages.py:37
-#, fuzzy
 msgid "email_remind_invitee"
 msgstr ""
-"Asunto: ${portal_title} - invitación a incluirse en ${project_title}\n"
-"\n"
 "Esto es para hacerle recordar que usted ha sido invitado a incluirse en \"${project_title}\" en ${portal_title}.\n"
 "Por favor visite la página de su cuenta para aceptar o rechazar la invitación: ${account_url}"
 
 #. Default: " ${portal_title} - Invitation to join ${project_title} "
 #: ./opencore/project/browser/mship_messages.py:44
 msgid "email_remind_invitee_subject"
-msgstr ""
+msgstr "${portal_title} - invitación a incluirse en ${project_title}"
 
 #. Default: "\nThis is a reminder that you've been invited to join \"${project_title}\" on ${portal_title}.\nPlease first confirm your email address at the following address: ${conf_url}\nand then you can accept or decline the invitation.\n"
 #: ./opencore/project/browser/mship_messages.py:49
-#, fuzzy
 msgid "email_remind_pending_invitee"
 msgstr ""
-"Asunto: ${portal_title} - invitación a incluirse en ${project_title}\n"
-"\n"
 "Este es para hacerle recordar que ha estado invitado a incluirse en \"${project_title}\" en ${portal_title}.\n"
 "Por favor confirma su dirección correo electrónica a la siguiente dirección : ${conf_url}\n"
 "luego puede aceptar o rechazar la invitación."
@@ -1089,35 +1081,29 @@ msgstr ""
 #. Default: "${portal_title} - Invitation to join ${project_title}"
 #: ./opencore/project/browser/mship_messages.py:57
 msgid "email_remind_pending_invitee_subject"
-msgstr ""
+msgstr "${portal_title} - invitación a incluirse en ${project_title}"
 
 #. Default: "\nYour request to join \"${project_title}\" on ${portal_title} has been approved.\nThe ${project_noun} is accessible at the following address:\n\n${project_url}\n"
 #: ./opencore/project/browser/mship_messages.py:62
-#, fuzzy
 msgid "email_request_approved"
 msgstr ""
-"Asunto: ${portal_title} - Bienvenida a ${project_title}\n"
-"\n"
 "Su pedido para incluirse en \"${project_title}\" en el ${portal_title} fue aprobado. El ${project_noun} es accesible en la dirección siguiente: ${project_url}"
 
 #. Default: "${portal_title} - Welcome to ${project_title}"
 #: ./opencore/project/browser/mship_messages.py:71
 msgid "email_request_approved_subject"
-msgstr ""
+msgstr "${portal_title} - Bienvenida a ${project_title}"
 
 #. Default: "\nYour request to join \"${project_title}\" on ${portal_title} has been denied.\n"
 #: ./opencore/project/browser/mship_messages.py:76
-#, fuzzy
 msgid "email_request_denied"
 msgstr ""
-"Asunto: ${portal_title} - Su pedido de inclusión en  ${project_title}\n"
-"\n"
 "Su pedido de inclusión en  \"${project_title}\" en ${portal_title} fue rechazado."
 
 #. Default: "${portal_title} - Your request to join ${project_title}"
 #: ./opencore/project/browser/mship_messages.py:82
 msgid "email_request_denied_subject"
-msgstr ""
+msgstr "${portal_title} - Su pedido de inclusión en  ${project_title}"
 
 #: ./opencore/account/browser.py:65
 msgid "email_to_pending_user"
