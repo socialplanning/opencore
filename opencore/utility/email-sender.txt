@@ -48,8 +48,10 @@ previously constructed Message::
     >>> mapping=dict(project_title="p1", member_id="lammy", 
     ...     team_manage_url="bloop", project_noun='banana')
     >>> msg = _(u"email_membership_requested", mapping=mapping)
-    >>> es.constructMailMessage(msg)
-    u'...p1...lammy...banana\'s...bloop...'
+    >>> msg = es.constructMailMessage(msg)
+
+    >>> "p1" in msg and "lammy" in msg and "banana\'s" in msg and "bloop" in msg
+    True
 
 It should handle unicode in the mapping dict:
     >>> mapping['member_id'] = u'I like pi\xf1atas'
