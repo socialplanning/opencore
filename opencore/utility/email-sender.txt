@@ -55,23 +55,31 @@ previously constructed Message::
 
 It should handle unicode in the mapping dict:
     >>> mapping['member_id'] = u'I like pi\xf1atas'
-    >>> es.constructMailMessage(msg)
-    u'...p1...I like pi\xf1atas...bloop...'
+    >>> msg_l10n = es.constructMailMessage(msg)
+    >>> u"I like pi\xf1atas" in msg_l10n
+    True
+    >>> "p1" in msg_l10n and "banana\'s" in msg_l10n and "bloop" in msg_l10n
+    True
+    >>> "lammy" not in msg_l10n
+    True
 
 It should handle raw byte strings in the mapping too, because those
 may come from raw user input:
 
     >>> mapping['member_id'] = 'I like pi\xc3\xb1atas'
-    >>> es.constructMailMessage(msg)
-    u'...p1...I like pi\xf1atas...bloop...'
+    >>> msg_l10n = es.constructMailMessage(msg)
+    >>> u"I like pi\xf1atas" in msg_l10n
+    True
+    >>> "p1" in msg_l10n and "banana\'s" in msg_l10n and "bloop" in msg_l10n
+    True
+    >>> "lammy" not in msg_l10n
+    True
 
 Values passed as keyword args should override those in the message's mapping:
 
-    >>> es.constructMailMessage(msg, team_manage_url='nowhere')
-    u'...p1...I like pi\xf1atas...nowhere...'
-    >>> u'bloop'in es.constructMailMessage(msg, team_manage_url='nowhere') 
-    False
-  
+    >>> msg_l10n = es.constructMailMessage(msg, team_manage_url='nowhere')
+    >>> "bloop" not in msg_l10n and "nowhere" in msg_l10n
+    True
 
 Send some emails, and check that they went out
     >>> es.sendMail(

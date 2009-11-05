@@ -954,11 +954,17 @@ msgstr ""
 #: ./opencore/account/login.py:287
 msgid "email_forgot_password"
 msgstr ""
+"Vous avez oublié votre mot de passé dans ${portal_title}?  Pas de problème.\n"
+"\n"
+"Cliquez sur le lien dans ce message pour réinitialiser votre mot de passe  : ${url}\n"
+"\n"
+"Salutations, \n"
+"L’équipe ${portal_title} "
 
 #. Default: "${portal_title} - Password reset"
 #: ./opencore/account/login.py:292
 msgid "email_forgot_password_subject"
-msgstr ""
+msgstr "${portal_title} - Réinitialiser mon mot de passe"
 
 #. Default: "\nThe invitation extended to you to join \"${project_title}\" on ${portal_title} has been revoked.\n"
 #: ./opencore/project/browser/mship_messages.py:87
@@ -1037,10 +1043,14 @@ msgstr "Subject: ${portal_title} - Inclusion désactivée pour  ${project_title}
 #: ./opencore/project/browser/team_membership.py:51
 msgid "email_membership_requested"
 msgstr ""
+"${member_id} voudrait participer à \"${project_title}\".\n"
+"\n"
+"Pour approuver ou refuser cette demande , merci de visiter la page des gestion d’équipe  de ${project_noun} ici: ${team_manage_url}\n"
+
 
 #: ./opencore/project/browser/team_membership.py:59
 msgid "email_membership_requested_subject"
-msgstr ""
+msgstr "${portal_title} - Demande d’entrer dans ${project_title}"
 
 #: ./opencore/project/browser/team_membership.py:72
 msgid "email_mship_request_message"
@@ -1079,7 +1089,9 @@ msgstr "Subject: ${portal_title} – Invitation dans  ${project_title}"
 #. Default: "\nYour request to join \"${project_title}\" on ${portal_title} has been approved.\nThe ${project_noun} is accessible at the following address:\n\n${project_url}\n"
 #: ./opencore/project/browser/mship_messages.py:62
 msgid "email_request_approved"
-msgstr "Votre demande d'inclusion dans   \"${project_title}\" dans ${portal_title} a été approuvée.    ${project_noun} est accessible à l'adresse suivante : ${project_url}"
+msgstr ""
+"Votre demande d'inclusion dans \"${project_title}\" dans ${portal_title} a été approuvée.\n"
+"${project_noun} est accessible à l'adresse suivante : ${project_url}"
 
 #. Default: "${portal_title} - Welcome to ${project_title}"
 #: ./opencore/project/browser/mship_messages.py:71
@@ -1099,10 +1111,25 @@ msgstr "${portal_title} – Votre demande d'inclusion dans  ${project_title}"
 #: ./opencore/account/browser.py:65
 msgid "email_to_pending_user"
 msgstr ""
+"${user_name}, \n"
+"\n"
+"Vous vous êtes récemment inscrit pour utiliser ${portal_title}.en mentionnant une adresse courriel \n"
+"\n"
+"S'il vous plaît confirmez que vous avez reçu ce message a votre adresse courriel, en cliquant simplement sur le lien suivant: $(url)\n"
+"\n"
+"Si vous ne pouvez pas cliquer sur le lien, vous pouvez le copier et coller dans la barre d'adresse de votre navigateur.\n"
+"\n"
+"Une fois que vous avez confirmé, vous pouvez commencer à utiliser ${portal_title}.\n\n"
+"\n"
+"Si vous n'aviez pas initié cette demande d’inscription ou croyez qu'elle a été envoyée par erreur, vous pouvez ignorer ce message.\n\n"
+"\n"
+"Salutations \n"
+"L equipe ${portal_title}\n"
+"${portal_url}"
 
 #: ./opencore/account/browser.py:70
 msgid "email_to_pending_user_subject"
-msgstr ""
+msgstr "Bienvenue à ${portal_title}! – cliquez sur le lien dans ce message"
 
 #. Default: "Could not moderate!"
 #: ./opencore/listen/browser/view.py:424
