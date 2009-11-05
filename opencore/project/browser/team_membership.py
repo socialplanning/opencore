@@ -55,9 +55,18 @@ class RequestMembershipWithEmail(object):
                                  'team_manage_url': team_manage_url,
                                  }
                       )
+
+        email_subject = _(u'email_membership_requested_subject',
+                          mapping = {'member_id': member_string,
+                                     'project_title': team.title,
+                                     'project_noun': project_noun(),
+                                     'team_manage_url': team_manage_url,
+                                     }
+                          )
         
         sender = IEmailSender(self.portal)
         email_msg = sender.constructMailMessage(email_msg)
+        email_subject = sender.constructMailMessage(email_subject)
 
         if request_message:
             member_message = _(u'email_mship_request_message',
@@ -69,7 +78,7 @@ class RequestMembershipWithEmail(object):
                                )
             member_message = sender.constructMailMessage(member_message)
             email_msg += member_message
-        return email_msg
+        return (email_msg, email_subject)
         
     def join(self, request_message=None):
         context = self.context
@@ -78,11 +87,14 @@ class RequestMembershipWithEmail(object):
             return False
 
         sender = IEmailSender(self.portal)
-        email_msg = self._construct_request_email(request_message)
+        email_msg, email_subject = \
+            self._construct_request_email(request_message)
+
         mto = context.get_admin_ids()
         for recipient in mto:
             try:
-                sender.sendMail(recipient, msg=email_msg)
+                sender.sendMail(recipient, 
+                                msg=email_msg, subject=email_subject)
             except MailHostError:
                 pass
 

@@ -1035,8 +1035,7 @@ msgstr ""
 #: ./opencore/project/browser/mship_messages.py:97
 #, fuzzy
 msgid "email_membership_deactivated"
-msgstr ""
-"Usted ya no es miembro del equipo de \"${project_title}\" en ${portal_title}."
+msgstr "Usted ya no es miembro del equipo de \"${project_title}\" en ${portal_title}."
 
 #. Default: "${portal_title} - Membership deactivated for ${project_title}"
 #: ./opencore/project/browser/mship_messages.py:103
@@ -1048,8 +1047,12 @@ msgstr "${portal_title} - Membresia desactivada para ${project_title}"
 msgid "email_membership_requested"
 msgstr ""
 
+#: ./opencore/project/browser/team_membership.py:59
+msgid "email_membership_requested_subject"
+msgstr ""
+
 #. Default: ""
-#: ./opencore/project/browser/team_membership.py:63
+#: ./opencore/project/browser/team_membership.py:72
 msgid "email_mship_request_message"
 msgstr ""
 
@@ -1086,8 +1089,7 @@ msgstr "${portal_title} - invitación a incluirse en ${project_title}"
 #. Default: "\nYour request to join \"${project_title}\" on ${portal_title} has been approved.\nThe ${project_noun} is accessible at the following address:\n\n${project_url}\n"
 #: ./opencore/project/browser/mship_messages.py:62
 msgid "email_request_approved"
-msgstr ""
-"Su pedido para incluirse en \"${project_title}\" en el ${portal_title} fue aprobado. El ${project_noun} es accesible en la dirección siguiente: ${project_url}"
+msgstr "Su pedido para incluirse en \"${project_title}\" en el ${portal_title} fue aprobado. El ${project_noun} es accesible en la dirección siguiente: ${project_url}"
 
 #. Default: "${portal_title} - Welcome to ${project_title}"
 #: ./opencore/project/browser/mship_messages.py:71
@@ -1097,8 +1099,7 @@ msgstr "${portal_title} - Bienvenida a ${project_title}"
 #. Default: "\nYour request to join \"${project_title}\" on ${portal_title} has been denied.\n"
 #: ./opencore/project/browser/mship_messages.py:76
 msgid "email_request_denied"
-msgstr ""
-"Su pedido de inclusión en  \"${project_title}\" en ${portal_title} fue rechazado."
+msgstr "Su pedido de inclusión en  \"${project_title}\" en ${portal_title} fue rechazado."
 
 #. Default: "${portal_title} - Your request to join ${project_title}"
 #: ./opencore/project/browser/mship_messages.py:82

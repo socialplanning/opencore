@@ -1032,8 +1032,7 @@ msgstr ""
 #. Default: "\nYou are no longer a member of \"${project_title}\" on ${portal_title}.\n"
 #: ./opencore/project/browser/mship_messages.py:97
 msgid "email_membership_deactivated"
-msgstr ""
-"Voce ja nao e membro do time de  \"${project_title}\" em ${portal_title}."
+msgstr "Voce ja nao e membro do time de  \"${project_title}\" em ${portal_title}."
 
 #. Default: "${portal_title} - Membership deactivated for ${project_title}"
 #: ./opencore/project/browser/mship_messages.py:103
@@ -1044,7 +1043,11 @@ msgstr "${portal_title} - Membresia desativada para ${project_title}"
 msgid "email_membership_requested"
 msgstr ""
 
-#: ./opencore/project/browser/team_membership.py:63
+#: ./opencore/project/browser/team_membership.py:59
+msgid "email_membership_requested_subject"
+msgstr ""
+
+#: ./opencore/project/browser/team_membership.py:72
 msgid "email_mship_request_message"
 msgstr ""
 
@@ -1094,13 +1097,12 @@ msgstr "${portal_title} – Bemvinda a ${project_title}"
 #. Default: "\nYour request to join \"${project_title}\" on ${portal_title} has been denied.\n"
 #: ./opencore/project/browser/mship_messages.py:76
 msgid "email_request_denied"
-msgstr ""
-"Seu pedido de inclusao em  \"${project_title}\" em ${portal_title} foi rechazado."
+msgstr "Seu pedido de inclusao em  \"${project_title}\" em ${portal_title} foi rechazado."
 
 #. Default: "${portal_title} - Your request to join ${project_title}"
 #: ./opencore/project/browser/mship_messages.py:82
 msgid "email_request_denied_subject"
-msgstr ${portal_title} – Seu pedido de inclusao em  ${project_title}"
+msgstr ""
 
 #: ./opencore/account/browser.py:65
 msgid "email_to_pending_user"

@@ -1044,14 +1044,16 @@ msgstr "${portal_title} – Your \"${project_title}\" membership"
 #: ./opencore/project/browser/team_membership.py:51
 msgid "email_membership_requested"
 msgstr ""
-"Subject: ${portal_title} - Request to join ${project_title}\n"
-"\n"
 "${member_id} would like to get involved with \"${project_title}\".\n"
 "\n"
 "To approve or deny this request please visit the ${project_noun}'s team management screen: ${team_manage_url}\n"
 " "
 
-#: ./opencore/project/browser/team_membership.py:63
+#: ./opencore/project/browser/team_membership.py:59
+msgid "email_membership_requested_subject"
+msgstr "${portal_title} - Request to join ${project_title}"
+
+#: ./opencore/project/browser/team_membership.py:72
 msgid "email_mship_request_message"
 msgstr ""
 " \n"
