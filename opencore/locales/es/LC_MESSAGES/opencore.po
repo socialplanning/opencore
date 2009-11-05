@@ -1110,6 +1110,10 @@ msgstr "${portal_title} - Su pedido de inclusión en  ${project_title}"
 msgid "email_to_pending_user"
 msgstr ""
 
+#: ./opencore/account/browser.py:70
+msgid "email_to_pending_user_subject"
+msgstr ""
+
 #. Default: "Could not moderate!"
 #: ./opencore/listen/browser/view.py:424
 msgid "err_could_not_moderate"
@@ -3315,7 +3319,7 @@ msgid "submit"
 msgstr "Enviar"
 
 #. Default: "You are already a pending or active member of ${project_title}."
-#: ./opencore/project/browser/team.py:151
+#: ./opencore/project/browser/team.py:158
 msgid "team_already_proj_member"
 msgstr "Usted tiene algo pendiente o una activación de miembros de ${project_title}."
 

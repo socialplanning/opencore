@@ -1134,8 +1134,6 @@ msgstr "${portal_title} – Your request to join \"${project_title}\" "
 #: ./opencore/account/browser.py:65
 msgid "email_to_pending_user"
 msgstr ""
-"Subject: Welcome to ${portal_title}! - Please confirm your email address\n"
-"\n"
 "${user_name},\n"
 "\n"
 "You recently signed up to use ${portal_title}. \n"
@@ -1151,6 +1149,10 @@ msgstr ""
 "Cheers,\n"
 "The ${portal_title} Team\n"
 "${portal_url}"
+
+#: ./opencore/account/browser.py:70
+msgid "email_to_pending_user_subject"
+msgstr "Welcome to ${portal_title}! - Please confirm your email address"
 
 #. Default: "Could not moderate!"
 #: ./opencore/listen/browser/view.py:424
@@ -3344,7 +3346,7 @@ msgid "submit"
 msgstr ""
 
 #. Default: "You are already a pending or active member of ${project_title}."
-#: ./opencore/project/browser/team.py:151
+#: ./opencore/project/browser/team.py:158
 msgid "team_already_proj_member"
 msgstr ""
 
