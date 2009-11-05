@@ -487,7 +487,6 @@ msgstr "Sua conta"
 
 #. Default: "${project} ${project} has invited you to become a member"
 #: ./opencore/member/browser/account.pt:56
-#, fuzzy
 msgid "account_invite"
 msgstr "${project} ${project} invitou voce  a ser membro em seu time"
 
@@ -533,13 +532,11 @@ msgstr ""
 
 #. Default: "Latest updates (${num_updates})"
 #: ./opencore/member/browser/account.pt:25
-#, fuzzy
 msgid "account_latest_updates"
 msgstr "Cambios recientes (${num_updates})"
 
 #. Default: "<p><strong>What does it mean to be &ldquo;listed&rdquo; on a ${project_noun}?</strong></p> <p>For your privacy, you can choose whether or not to be publicly listed as a member of a ${project_noun}.</p> <p>If you choose not to be listed then only fellow team members can see your affiliation. Those who are not members of the team will not see you listed in the team roster, nor will they see the ${project_noun} listed anywhere on your profile.</p> <p>However, any updates you make on a publicly viewable ${project_noun} could still display your username and a link to your profile.</p>"
 #: ./opencore/member/browser/account.pt:202
-#, fuzzy
 msgid "account_listed_explanation"
 msgstr "<p><strong>O Que significa ser &ldquo;listado&rdquo; num ${project_noun}?</strong></p> <p>Para sua privacidade, vc pode escolher ser o no publicamente mencionad@ como membro do equipo de ${project_noun}.</p> <p>Se escolhe no ser listad@, entao so os outros membros do equipo vem a  sua participaçao. Os quem nao sao membros do equipo nao vam ver su nome na lista, e nao vam ver o   ${project_noun} mencionado em Su perfil.</p> <p>Embora qualquer cambio que vc introduz num ${project_noun} visivel publicamente poderia ensinar Su nome de usuario e um  vinculo ate su perfil </p>"
 
@@ -705,13 +702,11 @@ msgstr "De momento, no tem elementos nesse archivo"
 
 #. Default: "View by <a href=\"../forum_view\">conversation</a> or <strong>date</strong> (<strong>threaded</strong> or <a id=\"switch_view\" href=\"by_date\">flat</a>)"
 #: ./opencore/listen/browser/archive_thread_messages.pt:13
-#, fuzzy
 msgid "archive_thread_view_by"
 msgstr "Ver por <a href=\"../forum_view\">conversa</a> o <strong>data</strong> (<strong>filado</strong> o <a id=\"switch_view\" href=\"by_date\">llano</a>)"
 
 #. Default: "View by <a href=\"../forum_view\">conversation</a> or <strong>date</strong> (<strong>flat</strong> or <a id=\"switch_view\" href=\"by_thread\">threaded</a>)"
 #: ./opencore/listen/browser/archive_date_messages.pt:12
-#, fuzzy
 msgid "archive_view_by"
 msgstr "Ver por<a href=\"../forum_view\">conversa</a> o <strong>fecha</strong> (<strong>llano</strong> o <a id=\"switch_view\" href=\"by_thread\">hilado</a>)"
 
@@ -976,7 +971,6 @@ msgstr "${portal_title} - Invitaçao a  se incluir em  ${project_title}"
 
 #. Default: "${inviter_name} has invited you to join \"${project_title}\" on ${portal_title}. ${portal_title} is a free toolset for social change. With ${portal_title}, you can build collaborative pages for organizing ${project_noun}s. You can also blog, set up mailing lists, store and share files, and keep track of tasks."
 #: ./opencore/project/browser/invite-with-message.pt:74
-#, fuzzy
 msgid "email_invite_default_body"
 msgstr "${inviter_name}  invitou voce a se incluire em \"${project_title}\" em ${portal_title}. ${portal_title} e un caixa de ferramentas livres para o cambio social . Com ${portal_title}, voce pode editar paginas en colaboraçao para organizar ${project_noun}s. Voce pode tambem blogar, estabelecer listas de correio, guardar y compartilhar arquivos, e documentar tarefas."
 
@@ -1053,7 +1047,6 @@ msgstr ""
 
 #. Default: "This is a reminder. ${inviter_name} has invited you to join \"${project_title}\" on ${portal_title}. ${portal_title} is a free toolset for social change. With ${portal_title}, you can build collaborative pages for organizing ${project_noun}s. You can also blog, set up mailing lists, store and share files, and keep track of tasks."
 #: ./opencore/project/browser/invite-with-message.pt:68
-#, fuzzy
 msgid "email_remind_default_body"
 msgstr "Isso e para recordar lhe. ${inviter_name} invitou voce a se incluir em \"${project_title}\" em ${portal_title}. ${portal_title} e uma caixa de ferramentas livres para o cambio social . Com ${portal_title}, voce pode redactar paginas conjuntamente para organisar ${project_noun}s. Pode tambem blogar, instalar listas de correio, guardar y compartilhar arquivos, documentar tarefas."
 
@@ -1214,7 +1207,6 @@ msgstr ""
 
 #. Default: "Chances are, we're already on it. But, if you would please tell us what you were trying to do, it will help us fix the problem faster.  Thank you."
 #: ./opencore/browser/error.pt:21
-#, fuzzy
 msgid "error_site_description"
 msgstr "Talvez ja estamos trabalhando em corregir isso. Mais, se pode nos dizer que e o que  voce queria fazer, isso  nos ajudaraa a arreglar o problema mais rapidamente. Obrigado"
 
@@ -1250,9 +1242,8 @@ msgstr "noticias"
 
 #. Default: "${DYNAMIC_CONTENT} ${portal_title} is <a href=\"${DYNAMIC_CONTENT}\"> ${num_people} people</a> and <a href=\"${DYNAMIC_CONTENT}\"> ${num_projects} ${project_noun}s</a> since ${site_birthdate}.<br /> &copy; 2005 - 2009 <a href=\"${DYNAMIC_CONTENT}\">The Open Planning Project</a> <br />Powered by <a href=\"http://www.coactivate.org/projects/opencore/\">OpenCore</a>"
 #: ./opencore/browser/footer.pt:29
-#, fuzzy
 msgid "footer_stats_summary"
-msgstr "${portal_title} is <a href=\"${people_url}\"> ${num_people} gente </a> and <a href=\"${projects_url}\"> ${num_projects} ${project_noun}s </a> since ${site_birthdate}.<br /> &copy; 2007 <a href=\"${DYNAMIC_CONTENT}\">The Open Planning Project</a>"
+msgstr "${portal_title} is <a href=\"${people_url}\"> ${num_people} gente </a> and <a href=\"${projects_url}\"> ${num_projects} ${project_noun}s </a> since ${site_birthdate}."
 
 #. Default: "New users"
 #: ./opencore/account/forgot.pt:13
@@ -1376,7 +1367,6 @@ msgstr ""
 
 #. Default: "Find ${project_noun}s"
 #: ./opencore/nui/main/home.pt:30
-#, fuzzy
 msgid "home_find_projects"
 msgstr "Encontrar ${project_noun}s"
 
@@ -1397,7 +1387,6 @@ msgstr "Aprenda mais"
 
 #. Default: "Newest ${project_noun}s"
 #: ./opencore/nui/main/home.pt:45
-#, fuzzy
 msgid "home_newest_projects"
 msgstr "Novos ${project_noun}s"
 
@@ -1413,7 +1402,6 @@ msgstr ""
 
 #. Default: "You want to <strong>make a difference</strong>, we want to <strong>make it easy</strong>. OpenPlans is the simple way to bring groups together, promote your cause, make plans, manage projects, and get things done."
 #: ./opencore/nui/main/home.pt:38
-#, fuzzy
 msgid "home_opening_blurb"
 msgstr "Voce quer <strong>ser efficiente</strong>, nois queremos <strong>tornar isso  mais facil</strong>. ${portal_title} e um sitio para juntar grupos, promover suas causas, fazer planes , e fazer coisas acontecer."
 
@@ -1439,7 +1427,6 @@ msgstr "Iniciar um ${project_noun}"
 
 #. Default: "Updated ${project_noun}s"
 #: ./opencore/nui/main/home.pt:71
-#, fuzzy
 msgid "home_updated_projects"
 msgstr "${project_noun}s actualizado"
 
@@ -1465,7 +1452,6 @@ msgstr "permisos insuficientes"
 
 #. Default: "${project} has invited you to become a member"
 #: ./opencore/member/browser/invitations.pt:13
-#, fuzzy
 msgid "invitations_invite"
 msgstr "${project} invitou-lhe a ser membro"
 
@@ -1481,7 +1467,6 @@ msgstr "Adaptar uma mensajem electronica para convidar gente a se incluir"
 
 #. Default: "Invite users"
 #: ./opencore/project/browser/invite-with-message.pt:10
-#, fuzzy
 msgid "invite-w-m_invite_title"
 msgstr "Convidar participantes"
 
@@ -1492,7 +1477,6 @@ msgstr "Adaptar uma mensajem electronica par fazer recordar a gente se  incluir"
 
 #. Default: "Remind users"
 #: ./opencore/project/browser/invite-with-message.pt:9
-#, fuzzy
 msgid "invite-w-m_remind_title"
 msgstr "Fazer recordar aos  participantes"
 
@@ -1518,7 +1502,6 @@ msgstr ""
 
 #. Default: "Already a member?"
 #: ./opencore/account/join.pt:187
-#, fuzzy
 msgid "join_already_member_heading"
 msgstr "Ja e membro do time?"
 
@@ -1539,7 +1522,6 @@ msgstr "Confirmar contrasenha"
 
 #. Default: "We will not share your email with anyone. Ever."
 #: ./opencore/account/join.pt:159
-#, fuzzy
 msgid "join_description"
 msgstr "A inscripçao e  livre e seu endereço electronico nao sera dada a ninguem, noobstante, voce devera confirmar seu endereço electronico, isso  para evitar que robotes de spam enganhen esse sistema"
 
@@ -1555,13 +1537,11 @@ msgstr "Nome completo"
 
 #. Default: "Becoming a member means…"
 #: ./opencore/account/join.pt:166
-#, fuzzy
 msgid "join_get_started"
 msgstr "Virar un membro significa…"
 
 #. Default: "<li> You can join and participate in existing ${project_noun}s </li> <li> You can create your own ${project_noun} and invite others to join </li> <li>You can share information about yourself</li>"
 #: ./opencore/account/join.pt:179
-#, fuzzy
 msgid "join_get_started_list"
 msgstr "<li>Voce pode se incluir e participar no  ${project_noun}s existente</li> <li>Voce pode criar seu propio ${project_noun} e invitar outros a  se incluir nele </li> <li>Voce pode compartihar informaçoes sobre voce</li>"
 
@@ -1797,7 +1777,6 @@ msgstr "Inciado por"
 
 #. Default: "<h2>About &ldquo;${list_title}&rdquo;</h2> <dl class=\"oc-plainList\"> <dt>Address</dt> ${list_address} <dt>Description</dt> ${list_desc} </dl>"
 #: ./opencore/listen/browser/search.pt:75
-#, fuzzy
 msgid "listen_search_sidebar"
 msgstr "<h2>Acerca de  &ldquo;${list_title}&rdquo;</h2> <dl class=\"oc-plainList\"> <dt>Endereço</dt> ${list_address} <dt>Descripçao</dt> ${list_desc} </dl>"
 
@@ -1888,9 +1867,8 @@ msgstr "Lista de correio"
 
 #. Default: "View<span> or manage exisiting</span> mailing lists<span> or ${absolute_url_create}</span>."
 #: ./opencore/listen/browser/mailing_lists.pt:16
-#, fuzzy
 msgid "mailing_lists_description"
-msgstr "Ver<span> or administrar </span> listas de correio<span>  existentes o <a href=\"${DYNAMIC_CONTENT}\">agregar uma nova lista de correio</a></span>."
+msgstr "Ver<span> or administrar </span> listas de correio<span>  existentes o <a href=\"${absolute_url_create}\">agregar uma nova lista de correio</a></span>."
 
 #. Default: "Mailing lists"
 #: ./opencore/listen/browser/mailing_lists.pt:14
@@ -1989,7 +1967,6 @@ msgstr "Titulo"
 
 #. Default: "To unsubscribe from this list send an email to the list with the subject \"${sunsubscribe_keyword}\" and an empty body."
 #: ./opencore/listen/browser/listen_macros.pt:84
-#, fuzzy
 msgid "mailinglist_view_to_unsubscribe"
 msgstr "Para  sair dessa  lista , enviar uma mensasem na  lista con o asunto \"${sunsubscribe_keyword}\" e sim texto no corpo"
 
@@ -2225,13 +2202,11 @@ msgstr ""
 
 #. Default: "From:"
 #: ./opencore/listen/browser/new_topic_view.pt:27
-#, fuzzy
 msgid "new_topic_view_from"
 msgstr "de parte de"
 
 #. Default: "New post to &ldquo;${list_title}&rdquo;"
 #: ./opencore/listen/browser/new_topic_view.pt:12
-#, fuzzy
 msgid "new_topic_view_heading"
 msgstr "Novo envio a  &ldquo;${list_title}&rdquo;"
 
@@ -2262,9 +2237,8 @@ msgstr ""
 
 #. Default: "We would love to hear from you. Learn more ${about_our_software_portal_url} or ${contact_us_portal_url} for more information."
 #: ./opencore/nui/main/news.pt:43
-#, fuzzy
 msgid "news_about_us_description"
-msgstr "Quisieramos saber algo de voce. Aprenda mais<a href=\"${DYNAMIC_CONTENT}\">acerca desse sitio internet</a> o <a href=\"${DYNAMIC_CONTENT}\">nos contactar</a> para mais informaçao "
+msgstr "Quisieramos saber algo de voce. Aprenda mais<a href=\"${about_our_software_portal_url}\">acerca desse sitio internet</a> o <a href=\"${contact_us_portal_url}\">nos contactar</a> para mais informaçao "
 
 #. Default: "About us"
 #: ./opencore/nui/main/news.pt:42
@@ -2278,7 +2252,6 @@ msgstr "Agregar item de noticias"
 
 #. Default: "Read more…"
 #: ./opencore/nui/main/news.pt:35
-#, fuzzy
 msgid "news_read_more"
 msgstr "Ler mais…"
 
@@ -2373,9 +2346,8 @@ msgstr ""
 
 #. Default: "${num_members} members, <span>and growing</span> <span>and ${portal_url_join} </span>"
 #: ./opencore/nui/main/people.pt:15
-#, fuzzy
 msgid "people_members"
-msgstr "${num_members} participantes, <span>e creciendo</span> <span>e <a href=\"${DYNAMIC_CONTENT}\">voce</a></span>"
+msgstr "${num_members} participantes, <span>e creciendo</span> <span>e <a href=\"${portal_url_join}\">voce</a></span>"
 
 #. Default: "sorted by name"
 #: ./opencore/nui/main/people-sortablefields.pt:8
@@ -2454,7 +2426,6 @@ msgstr "Lugar"
 
 #. Default: "Member home"
 #: ./opencore/member/browser/profile.pt:66
-#, fuzzy
 msgid "profile_member_home"
 msgstr "Pagina incial do participante"
 
@@ -2769,19 +2740,16 @@ msgstr ""
 
 #. Default: "Currently serving ${num_projects} ${project_noun}"
 #: ./opencore/nui/main/projects.pt:12
-#, fuzzy
 msgid "projects_currently_serving"
 msgstr "De momento hospedando ${num_projects} ${project_noun}s "
 
 #. Default: "Can&rsquo;t find a ${project_noun} you are interested in? See a need that is not being met?"
 #: ./opencore/nui/main/projects.pt:71
-#, fuzzy
 msgid "projects_get_started"
 msgstr "Nao tem ${project_noun} que lhe interese? O voce ve uma necessidade que no e cuberta?"
 
 #. Default: "Get started…"
 #: ./opencore/nui/main/projects.pt:70
-#, fuzzy
 msgid "projects_get_started_heading"
 msgstr "Começar…"
 
@@ -2881,7 +2849,6 @@ msgstr "Por favor verifique o nome de usuario y contrasenha. Se tiver  problemas
 
 #. Default: "Unsupported image format.  Please use JPEG, GIF, BMP, or non-interlaced PNG format."
 #: ./opencore/member/browser/view.py:157
-#, fuzzy
 msgid "psm_choose_image"
 msgstr "Por favor escolha uma imagem em formato gif, jpeg, png, or bmp "
 
@@ -3021,7 +2988,6 @@ msgstr "Por favor corregir os errores mencionados"
 
 #. Default: "Please select members to approve."
 #: ./opencore/project/browser/manageteam.py:204
-#, fuzzy
 msgid "psm_please_select_members"
 msgstr "Por favor escolha participantes para ser aprovados"
 
@@ -3452,19 +3418,16 @@ msgstr ""
 
 #. Default: "Let other ${portal_title} members know who you are and what you're interested in. The more information you provide, the more contacts you'll make."
 #: ./opencore/member/browser/tour.pt:17
-#, fuzzy
 msgid "tour_complete_profile_desc"
 msgstr " Informe outros participantes em  ${portal_title} sobre quem e voce e que lhe interesa. Dando mais informaçoes, se fazem mais contactos. "
 
 #. Default: "${absolute_url_profile-edit}"
 #: ./opencore/member/browser/tour.pt:16
-#, fuzzy
 msgid "tour_complete_profile_heading"
-msgstr "<a href=\"${DYNAMIC_CONTENT}\">Completar seu perfil</a>"
+msgstr "<a href=\"${absolute_url_profile-edit}\">Completar seu perfil</a>"
 
 #. Default: "Welcome to ${portal_title}!"
 #: ./opencore/member/browser/tour.pt:11
-#, fuzzy
 msgid "tour_heading"
 msgstr "Bemvinda em ${portal_title}!"
 
@@ -3475,7 +3438,6 @@ msgstr ""
 
 #. Default: "${project} has invited you to become a member"
 #: ./opencore/member/browser/tour.pt:50
-#, fuzzy
 msgid "tour_invite"
 msgstr "${project} lhe invitou a ser parte do seu time"
 
@@ -3491,13 +3453,11 @@ msgstr "Voce encontrou algo que lhe interesava? Pode ficar de voluntari@ algo do
 
 #. Default: "Join a ${project_noun} and help it succeed"
 #: ./opencore/member/browser/tour.pt:23
-#, fuzzy
 msgid "tour_join_projects_heading"
-msgstr "<a href=\"${DYNAMIC_CONTENT}\">Inclui-se em um  ${project_noun} e participa em sua dinamica</a>"
+msgstr "Inclui-se em um  ${project_noun} e participa em sua dinamica"
 
 #. Default: "${project_noun}s you belong to:"
 #: ./opencore/member/browser/tour.pt:70
-#, fuzzy
 msgid "tour_projects_belong"
 msgstr "${project_noun}s en quales voce participa:"
 
@@ -3508,9 +3468,8 @@ msgstr ""
 
 #. Default: "${projects_noun_create_url}"
 #: ./opencore/member/browser/tour.pt:31
-#, fuzzy
 msgid "tour_start_projects_heading"
-msgstr "<a href=\"${DYNAMIC_CONTENT}\">Inicie seu propio ${project_noun}</a>"
+msgstr "<a href=\"${projects_noun_create_url}\">Inicie seu propio ${project_noun}</a>"
 
 #. Default: "Update"
 #: ./opencore/member/browser/portrait-snippet.pt:23
