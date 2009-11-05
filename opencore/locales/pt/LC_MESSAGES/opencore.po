@@ -953,11 +953,17 @@ msgstr ""
 #: ./opencore/account/login.py:287
 msgid "email_forgot_password"
 msgstr ""
+"Vc esqueceu sua senha em ${portal_title}?  Nao tem problema.\n"
+"\n"
+"Faça clique no link conteudo nessa mensajem para reincialisar sua senha  : ${url}\n"
+"\n"
+"Saudaçoes, \n"
+"Equipo ${portal_title} "
 
 #. Default: "${portal_title} - Password reset"
 #: ./opencore/account/login.py:292
 msgid "email_forgot_password_subject"
-msgstr ""
+msgstr "${portal_title} – reincializar minha senha"
 
 #. Default: "\nThe invitation extended to you to join \"${project_title}\" on ${portal_title} has been revoked.\n"
 #: ./opencore/project/browser/mship_messages.py:87
@@ -1036,10 +1042,14 @@ msgstr "${portal_title} - Membresia desativada para ${project_title}"
 #: ./opencore/project/browser/team_membership.py:51
 msgid "email_membership_requested"
 msgstr ""
+"${member_id} quer participar em \"${project_title}\".\n"
+"\n"
+"para aprova o negar esse pedido, por favour visitor a pagina de administraçao de equipo do the ${project_noun} aqui: ${team_manage_url}\n"
+""
 
 #: ./opencore/project/browser/team_membership.py:59
 msgid "email_membership_requested_subject"
-msgstr ""
+msgstr "${portal_title} – Pedido de entrar em ${project_title}"
 
 #: ./opencore/project/browser/team_membership.py:72
 msgid "email_mship_request_message"
@@ -1095,15 +1105,30 @@ msgstr "Seu pedido de inclusao em  \"${project_title}\" em ${portal_title} foi r
 #. Default: "${portal_title} - Your request to join ${project_title}"
 #: ./opencore/project/browser/mship_messages.py:82
 msgid "email_request_denied_subject"
-msgstr ""
+msgstr "${portal_title} – Seu pedido de entrar em ${project_title}"
 
 #: ./opencore/account/browser.py:65
 msgid "email_to_pending_user"
 msgstr ""
+"${user_name},\n"
+"\n"
+"Vc se cadastrou faz poco no sitio web ${portal_title}, dando uma direccion de correio electronico \n"
+"\n"
+"Por favor confira que vc recebeu este mensajem na su caixa de correo , fazendo clique no link aqui : ${url}\n"
+"\n"
+"Se vc nao pode  fazer claque no link, pode cortar ele e pegar ele na barra de endereço de seu navegador.\n"
+"\n"
+"Uma vez que feito isso,pode comenzar a usar ${portal_title}.\n"
+"\n"
+"Se Vc nao foi quem feiz esse pedido, o cree que esta mensajem chego para vc por error, pode ignorar-o.\n"
+"\n"
+"Saudacoes,\n"
+"Equipo ${portal_title} \n"
+"${portal_url}"
 
 #: ./opencore/account/browser.py:70
 msgid "email_to_pending_user_subject"
-msgstr ""
+msgstr "Bemvinda a  ${portal_title}! – clicar no link que contem essa mensajem"
 
 #. Default: "Could not moderate!"
 #: ./opencore/listen/browser/view.py:424
