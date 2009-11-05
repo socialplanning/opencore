@@ -1045,10 +1045,14 @@ msgstr "${portal_title} - Membresia desactivada para ${project_title}"
 #: ./opencore/project/browser/team_membership.py:51
 msgid "email_membership_requested"
 msgstr ""
+"${member_id} quisiera participar en \"${project_title}\".\n"
+"\n"
+"Para aprobar o rechazar este pedido , por favor visitor la pagina de administracion de equipo de ${project_noun}aqui: ${team_manage_url}\n"
+""
 
 #: ./opencore/project/browser/team_membership.py:59
 msgid "email_membership_requested_subject"
-msgstr ""
+msgstr "${portal_title} – Pedido de entrar en  ${project_title}"
 
 #. Default: ""
 #: ./opencore/project/browser/team_membership.py:72
@@ -1108,10 +1112,26 @@ msgstr "${portal_title} - Su pedido de inclusión en  ${project_title}"
 #: ./opencore/account/browser.py:65
 msgid "email_to_pending_user"
 msgstr ""
+msgstr ""
+"${user_name},\n"
+"\n"
+"Ud se registro recientemente en el sitio web ${portal_title}, dando una direccion de correo electronico \n"
+"\n"
+"Por favor confirma que ha recibido este mensaje en su caja de correo , clicando en el lazo aqui : ${url}\n"
+"\n"
+"Si no puede clicar en el link, puede cortarlo y pegarle en la barra de direccion de su navegador.\n"
+"\n"
+"Una vez que ha hecho eso,puede comenzar a usar ${portal_title}.\n"
+"\n"
+"Si Ud no fuen quien hizo este pedido, o cree que este mensaje le llego por error, puede ignorarlo.\n"
+"\n"
+"Saludos,\n"
+"Equipo ${portal_title} \n"
+"${portal_url}"
 
 #: ./opencore/account/browser.py:70
 msgid "email_to_pending_user_subject"
-msgstr ""
+msgstr "Bienvenida à ${portal_title}! – clicar en el lazo contenido en este mensaje "
 
 #. Default: "Could not moderate!"
 #: ./opencore/listen/browser/view.py:424
