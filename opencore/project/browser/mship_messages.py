@@ -48,10 +48,15 @@ request_denied = _(u'email_request_denied', u"""Subject: ${portal_title} - Your 
 Your request to join "${project_title}" on ${portal_title} has been denied.
 """)
 
-invitation_retracted = _(u'email_invitation_retracted', u"""Subject: ${portal_title} - Invitation to join  ${project_title}
-
+invitation_retracted = _(
+    u'email_invitation_retracted',
+    u"""
 The invitation extended to you to join "${project_title}" on ${portal_title} has been revoked.
 """)
+
+invitation_retracted_subject = _(
+    u'email_invitation_retracted_subject',
+    u"""${portal_title} - Invitation to join  ${project_title}""")
 
 membership_deactivated = _(u'email_membership_deactivated', u"""Subject: ${portal_title} - Membership deactivated for ${project_title}
 

@@ -353,6 +353,9 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite, AccountView,
                 }
         msg = sender.constructMailMessage(mship_messages.invitation_retracted,
                                           **msg_subs)
+        msg_subject = sender.constructMailMessage(
+            mship_messages.invitation_retracted_subject,
+            **msg_subs)
         ret = {}
         for mem_id in mem_ids:
             mship = self.team.getMembershipByMemberId(mem_id)
@@ -371,7 +374,7 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite, AccountView,
                 deletes.append(mem_id)
             ret[mem_id] = {'action': 'delete'}
             if email_confirmation():
-                sender.sendMail(mem_id, msg=msg)
+                sender.sendMail(mem_id, msg=msg, subject=msg_subject)
 
         if deletes:
             self.team.manage_delObjects(ids=deletes)

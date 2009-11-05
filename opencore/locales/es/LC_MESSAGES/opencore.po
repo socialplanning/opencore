@@ -915,7 +915,7 @@ msgid "deletion_permanent_are_you_sure"
 msgstr "Eliminar <span class=\"oc-hidden oc-warning oc-confirm\">Esta eliminación es permanente. ¿Usted esta seguro que quiere eliminar?</span>"
 
 #. Default: "${name} ya no es mas un administrador"
-#: ./opencore/project/browser/manageteam.py:605
+#: ./opencore/project/browser/manageteam.py:608
 msgid "demote_to_member"
 msgstr "${name} ya no es mas un administrador"
 
@@ -967,13 +967,16 @@ msgstr ""
 msgid "email_forgot_password_subject"
 msgstr "${portal_title} - Reiniciar contraseña"
 
-#. Default: "Subject: ${portal_title} - Invitation to join  ${project_title}\n\nThe invitation extended to you to join \"${project_title}\" on ${portal_title} has been revoked.\n"
+#. Default: "\nThe invitation extended to you to join \"${project_title}\" on ${portal_title} has been revoked.\n"
 #: ./opencore/project/browser/mship_messages.py:51
 msgid "email_invitation_retracted"
 msgstr ""
-"Asunto: ${portal_title} - Invitación a incluirse en  ${project_title}\n"
-"\n"
 "La invitación mandada a usted para incluirse en \"${project_title}\" en ${portal_title} fue cancelada."
+
+#. Default: "${portal_title} - Invitation to join  ${project_title}"
+#: ./opencore/project/browser/mship_messages.py:57
+msgid "email_invitation_retracted_subject"
+msgstr "${portal_title} - Invitación a incluirse en ${project_title}"
 
 #. Default: "${inviter_name} has invited you to join \"${project_title}\" on ${portal_title}. ${portal_title} is a free toolset for social change. With ${portal_title}, you can build collaborative pages for organizing ${project_noun}s. You can also blog, set up mailing lists, store and share files, and keep track of tasks."
 #: ./opencore/project/browser/invite-with-message.pt:74
@@ -1011,7 +1014,7 @@ msgstr ""
 "EL equipo ${portal_name} \n"
 "${portal_url}"
 
-#: ./opencore/project/browser/manageteam.py:786
+#: ./opencore/project/browser/manageteam.py:789
 msgid "email_invite_static_body"
 msgstr ""
 "${user_message}\n"
@@ -1024,7 +1027,7 @@ msgstr ""
 "${site_contact_url}"
 
 #. Default: "Subject: ${portal_title} - Membership deactivated for ${project_title}\n\nYou are no longer a member of \"${project_title}\" on ${portal_title}.\n"
-#: ./opencore/project/browser/mship_messages.py:56
+#: ./opencore/project/browser/mship_messages.py:61
 msgid "email_membership_deactivated"
 msgstr ""
 "Asunto: ${portal_title} - Membresia desactivada para ${project_title}\n"
@@ -2796,7 +2799,7 @@ msgstr "ordenado por nombre de proyecto"
 msgid "projects_start_project_button"
 msgstr "Iniciar un nuevo ${project_noun}"
 
-#: ./opencore/project/browser/manageteam.py:601
+#: ./opencore/project/browser/manageteam.py:604
 msgid "promote_to_admin"
 msgstr "${name} es ahora un administrador"
 
@@ -2862,7 +2865,7 @@ msgid "psm_enter_username_email"
 msgstr "Por favor introduzca su nombre de usuario o su dirección electrónica."
 
 #. Default: "Error sending mail to: ${mem_id}"
-#: ./opencore/project/browser/manageteam.py:548
+#: ./opencore/project/browser/manageteam.py:551
 msgid "psm_error_sending_mail_to_member"
 msgstr "Error al enviando correo a: ${mem_id}"
 
@@ -3038,7 +3041,7 @@ msgid "psm_wiki_content_stripped"
 msgstr "Su etiqueta HTML '${stripped_tag}' fue removida por que ${unallowed_host} no esta permitido hospedar contenido incrustado en este sitio. "
 
 #. Default: "."
-#: ./opencore/project/browser/manageteam.py:422
+#: ./opencore/project/browser/manageteam.py:425
 msgid "remind_invite_none_selected"
 msgstr "Por favor escoger por lo menos una persona a quien mandar un mensaje de recuerdo."
 

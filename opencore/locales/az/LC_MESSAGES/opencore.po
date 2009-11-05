@@ -725,7 +725,7 @@ msgstr "delete_items_permanently"
 #: ./opencore/project/browser/contents.pt:179
 msgid "deletion_permanent_are_you_sure"
 msgstr "deletion_permanent_are_you_sure"
-#: ./opencore/project/browser/manageteam.py:605
+#: ./opencore/project/browser/manageteam.py:608
 msgid "demote_to_member"
 msgstr "demote_to_member"
 #. Default: "Deny this message and notify the sender, message optional"
@@ -771,8 +771,9 @@ msgstr "email_forgot_password""Forgot your ${portal_title} password?  No problem
 #, fuzzy
 msgid "email_forgot_password_subject"
 msgstr "email_forgot_password_subject"
-#. Default: "Subject: ${portal_title} - Invitation to join  ${project_title}\n\nThe invitation extended to you to join \"${project_title}\" on ${portal_title} has been revoked.\n"
+#. Default: "\nThe invitation extended to you to join \"${project_title}\" on ${portal_title} has been revoked.\n"
 #: ./opencore/project/browser/mship_messages.py:51
+#, fuzzy
 msgid "email_invitation_retracted"
 msgstr "email_invitation_retracted""Subject: ${portal_title} – Your Invitation to join ”${project_title}” \n"
 " \n"
@@ -780,6 +781,10 @@ msgstr "email_invitation_retracted""Subject: ${portal_title} – Your Invitation
 "\n"
 "The ${portal_title} Team"
 
+#. Default: "${portal_title} - Invitation to join  ${project_title}"
+#: ./opencore/project/browser/mship_messages.py:57
+msgid "email_invitation_retracted_subject"
+msgstr "email_invitation_retracted_subject"
 #. Default: "${inviter_name} has invited you to join \"${project_title}\" on ${portal_title}. ${portal_title} is a free toolset for social change. With ${portal_title}, you can build collaborative pages for organizing ${project_noun}s. You can also blog, set up mailing lists, store and share files, and keep track of tasks."
 #: ./opencore/project/browser/invite-with-message.pt:74
 msgid "email_invite_default_body"
@@ -808,7 +813,7 @@ msgstr "email_invite_pending_member""Subject: You've been invited to join \"${pr
 "Cheers,\n"
 "The ${portal_title} Team"
 
-#: ./opencore/project/browser/manageteam.py:786
+#: ./opencore/project/browser/manageteam.py:789
 msgid "email_invite_static_body"
 msgstr "email_invite_static_body""${user_message}\n"
 "To accept this invitation or to learn more about this ${project_noun}, click here: ${join_url} \n"
@@ -817,7 +822,7 @@ msgstr "email_invite_static_body""${user_message}\n"
 "The ${portal_title} Team"
 
 #. Default: "Subject: ${portal_title} - Membership deactivated for ${project_title}\n\nYou are no longer a member of \"${project_title}\" on ${portal_title}.\n"
-#: ./opencore/project/browser/mship_messages.py:56
+#: ./opencore/project/browser/mship_messages.py:61
 msgid "email_membership_deactivated"
 msgstr "email_membership_deactivated""Subject: ${portal_title} – Your \"${project_title}\" membership\n"
 "\n"
@@ -2282,7 +2287,7 @@ msgstr "projects_sortable_fields_sortable_title"
 #: ./opencore/nui/main/projects.pt:73
 msgid "projects_start_project_button"
 msgstr "projects_start_project_button"
-#: ./opencore/project/browser/manageteam.py:601
+#: ./opencore/project/browser/manageteam.py:604
 msgid "promote_to_admin"
 msgstr "promote_to_admin"
 #. Default: "Account '${deleted_user_id}' has been permanently deleted."
@@ -2334,7 +2339,7 @@ msgstr "psm_enter_new_email"
 msgid "psm_enter_username_email"
 msgstr "psm_enter_username_email"
 #. Default: "Error sending mail to: ${mem_id}"
-#: ./opencore/project/browser/manageteam.py:548
+#: ./opencore/project/browser/manageteam.py:551
 msgid "psm_error_sending_mail_to_member"
 msgstr "psm_error_sending_mail_to_member"
 #. Default: "${flet} feature has been added."
@@ -2468,7 +2473,7 @@ msgstr "psm_thankyou_for_joining"
 #: ./opencore/nui/wiki/view.py:204
 msgid "psm_wiki_content_stripped"
 msgstr "psm_wiki_content_stripped"
-#: ./opencore/project/browser/manageteam.py:422
+#: ./opencore/project/browser/manageteam.py:425
 msgid "remind_invite_none_selected"
 msgstr "remind_invite_none_selected"
 #. Default: "Remove"
