@@ -19,13 +19,24 @@ We can find the logged in user::
     >>> rm._loggedinmember
     <OpenMember at ...>
 
-We can construct an email to request membership to the project::
+We can construct an email to request membership to the project.
+The helper method returns a (message, subject) tuple::
     >>> self.logout()
     >>> self.login('m4')
     >>> team.manage_delObjects(['m4'])
     >>> msg = rm._construct_request_email(request_message="Hi")
-    >>> msg
-    u'...Project One...m4...Hi...'
+
+    >>> "Project One" in msg[0]
+    True
+
+    >>> "m4" in msg[0]
+    True
+
+    >>> "Hi" in msg[0]
+    True
+
+    >>> "\n" not in msg[1]
+    True
 
     >>> from Products.CMFCore.utils import getToolByName    
     >>> mh = getToolByName(team, "MailHost")
