@@ -241,7 +241,9 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite, AccountView,
             #XXX sending the email should go in an event subscriber
             try:
                 _email_sender(self).sendMail(
-                    mem_id, msg=mship_messages.request_approved, **msg_subs)
+                    mem_id, msg=mship_messages.request_approved,
+                    subject=mship_messages.request_approved_subject,
+                    **msg_subs)
             except MailHostError: 
                 pass
             self._add_transient_msg_for(mem_id, 'You have been accepted to')
@@ -322,7 +324,10 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite, AccountView,
         
             msg = sender.constructMailMessage(mship_messages.request_denied,
                                               **msg_subs)
-            sender.sendMail(mem_id, msg=msg)
+            msg_subject = sender.constructMailMessage(
+                mship_messages.request_denied_subject,
+                **msg_subs)
+            sender.sendMail(mem_id, msg=msg, subject=msg_subject)
             self._add_transient_msg_for(mem_id, 'You have been denied membership to')
 
         plural = len(mem_ids) != 1
@@ -416,10 +421,12 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite, AccountView,
                 msg_vars['conf_url'] = self._confirmation_url(mem)
                 sender.sendMail(mem_id, 
                                 msg=mship_messages.remind_pending_invitee,
+                                subject=mship_messages.remind_pending_invitee_subject,
                                 **msg_vars)
             else:
                 sender.sendMail(mem_id, msg=mship_messages.remind_invitee,
-                                 **msg_vars)
+                                subject=mship_messages.remind_invitee_subject,
+                                **msg_vars)
 
         if not mem_ids:
             self.add_status_message(_(u"remind_invite_none_selected"))
@@ -445,13 +452,16 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite, AccountView,
                 }
         msg = sender.constructMailMessage(mship_messages.invitation_retracted,
                                           **msg_subs)
+        msg_subject = sender.constructMailMessage(
+            mship_messages.invitation_retracted_subject,
+            **msg_subs)
 
         invite_util = getUtility(IEmailInvites, context=self.portal)
         proj_id = self.context.getId()
         for address in addresses:
             invite_util.removeInvitation(address, proj_id)
             if email_confirmation():
-                sender.sendMail(address, msg=msg)
+                sender.sendMail(address, msg=msg, subject=msg_subject)
 
         plural = len(addresses) != 1
         msg = u'Email invitation%s removed: %s' % (plural and 's' or '',', '.join(addresses))
@@ -546,6 +556,7 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite, AccountView,
             try:
                 sender.sendMail(mem_id,
                                 msg=mship_messages.membership_deactivated,
+                                subject=mship_messages.membership_deactivated_subject,
                                 **msg_subs)
             except MailHostError:
                 self.add_status_message(_(u'psm_error_sending_mail_to_member', 'Error sending mail to: ${mem_id}', mapping={u'mem_id': mem_id}))
@@ -939,10 +950,13 @@ class InviteView(ManageTeamView):
                             _email_sender(self).sendMail(
                                 mem_id,
                                 msg=mship_messages.invite_pending_member,
+                                subject=mship_messages.invite_pending_member_subject,
                                 **msg_subs)
                         else:
                             _email_sender(self).sendMail(
-                                mem_id, msg=mship_messages.invite_member,
+                                mem_id,
+                                msg=mship_messages.invite_member,
+                                subject=mship_messages.invite_member_subject,
                                 **msg_subs)
                     mem_invites.append(mem_id)
                 else:

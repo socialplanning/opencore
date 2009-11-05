@@ -912,7 +912,7 @@ msgstr ""
 msgid "deletion_permanent_are_you_sure"
 msgstr ""
 
-#: ./opencore/project/browser/manageteam.py:608
+#: ./opencore/project/browser/manageteam.py:619
 msgid "demote_to_member"
 msgstr "${name} is no longer an administrator"
 
@@ -969,7 +969,7 @@ msgid "email_forgot_password_subject"
 msgstr "${portal_title} - Reset Password"
 
 #. Default: "\nThe invitation extended to you to join \"${project_title}\" on ${portal_title} has been revoked.\n"
-#: ./opencore/project/browser/mship_messages.py:55
+#: ./opencore/project/browser/mship_messages.py:87
 msgid "email_invitation_retracted"
 msgstr ""
 "Your invitation to join ”${project_title}” on ${portal_title} has expired.  For more information, please contact an administrator of this ${project_noun}.\n"
@@ -977,7 +977,7 @@ msgstr ""
 "The ${portal_title} Team"
 
 #. Default: "${portal_title} - Invitation to join  ${project_title}"
-#: ./opencore/project/browser/mship_messages.py:61
+#: ./opencore/project/browser/mship_messages.py:93
 msgid "email_invitation_retracted_subject"
 msgstr "${portal_title} – Your Invitation to join ”${project_title}”"
 
@@ -1002,12 +1002,10 @@ msgstr ""
 msgid "email_invite_member_subject"
 msgstr "You've been invited to join \"${project_title}\""
 
-#. Default: "Subject: You've been invited to join \"${project_title}\"\n\nHi ${user_name},\n\nYou have been invited to join \"${project_title}\" by ${inviter_name}.\nPlease first confirm your email address at the following address: ${conf_url}\nand then you can accept or decline the invitation.\n\nCheers,\nThe ${portal_name} Team\n${portal_url}\n"
+#. Default: "Hi ${user_name},\n\nYou have been invited to join \"${project_title}\" by ${inviter_name}.\nPlease first confirm your email address at the following address: ${conf_url}\nand then you can accept or decline the invitation.\n\nCheers,\nThe ${portal_name} Team\n${portal_url}\n"
 #: ./opencore/project/browser/mship_messages.py:19
 msgid "email_invite_pending_member"
 msgstr ""
-"Subject: You've been invited to join \"${project_title}\"\n"
-"\n"
 "Hi ${user_name},\n"
 "\n"
 "You have been invited to join \"${project_title}\" by ${inviter_name}.Please visit your account page to accept or decline the invitation: ${account_url}\n"
@@ -1015,7 +1013,12 @@ msgstr ""
 "Cheers,\n"
 "The ${portal_title} Team"
 
-#: ./opencore/project/browser/manageteam.py:791
+#. Default: "You've been invited to join ${project_title}"
+#: ./opencore/project/browser/mship_messages.py:32
+msgid "email_invite_pending_member_subject"
+msgstr "Subject: You've been invited to join \"${project_title}\" "
+
+#: ./opencore/project/browser/manageteam.py:802
 msgid "email_invite_static_body"
 msgstr ""
 "${user_message}\n"
@@ -1024,8 +1027,9 @@ msgstr ""
 "Cheers,\n"
 "The ${portal_title} Team"
 
-#. Default: "Subject: ${portal_title} - Membership deactivated for ${project_title}\n\nYou are no longer a member of \"${project_title}\" on ${portal_title}.\n"
-#: ./opencore/project/browser/mship_messages.py:65
+#. Default: "\nYou are no longer a member of \"${project_title}\" on ${portal_title}.\n"
+#: ./opencore/project/browser/mship_messages.py:97
+#, fuzzy
 msgid "email_membership_deactivated"
 msgstr ""
 "Subject: ${portal_title} – Your \"${project_title}\" membership\n"
@@ -1035,6 +1039,11 @@ msgstr ""
 "You are no longer a member of \"${project_title}\".  For more information, please contact an administrator of this ${project_noun}.\n"
 "\n"
 "The ${portal_title} Team"
+
+#. Default: "${portal_title} - Membership deactivated for ${project_title}"
+#: ./opencore/project/browser/mship_messages.py:103
+msgid "email_membership_deactivated_subject"
+msgstr ""
 
 #: ./opencore/project/browser/team_membership.py:51
 msgid "email_membership_requested"
@@ -1061,8 +1070,9 @@ msgstr ""
 msgid "email_remind_default_body"
 msgstr ""
 
-#. Default: "Subject: ${portal_title} - Invitation to join ${project_title}\n\nThis is a reminder that you've been invited to join \"${project_title}\" on ${portal_title}.\nPlease visit your account page to accept or decline the invitation: ${account_url}\n"
-#: ./opencore/project/browser/mship_messages.py:32
+#. Default: "\nThis is a reminder that you've been invited to join \"${project_title}\" on ${portal_title}.\nPlease visit your account page to accept or decline the invitation: ${account_url}\n"
+#: ./opencore/project/browser/mship_messages.py:37
+#, fuzzy
 msgid "email_remind_invitee"
 msgstr ""
 "Subject: ${portal_title} – Invitation to join \"${project_title}\" \n"
@@ -1074,8 +1084,14 @@ msgstr ""
 "Cheers,\n"
 "The ${portal_title} Team"
 
-#. Default: "Subject: ${portal_title} - Invitation to join ${project_title}\n\nThis is a reminder that you've been invited to join \"${project_title}\" on ${portal_title}.\nPlease first confirm your email address at the following address: ${conf_url}\nand then you can accept or decline the invitation.\n"
-#: ./opencore/project/browser/mship_messages.py:38
+#. Default: " ${portal_title} - Invitation to join ${project_title} "
+#: ./opencore/project/browser/mship_messages.py:44
+msgid "email_remind_invitee_subject"
+msgstr ""
+
+#. Default: "\nThis is a reminder that you've been invited to join \"${project_title}\" on ${portal_title}.\nPlease first confirm your email address at the following address: ${conf_url}\nand then you can accept or decline the invitation.\n"
+#: ./opencore/project/browser/mship_messages.py:49
+#, fuzzy
 msgid "email_remind_pending_invitee"
 msgstr ""
 "Subject: A reminder to join \"${project_title}\" on ${portal_title}\n"
@@ -1087,8 +1103,14 @@ msgstr ""
 " Cheers,\n"
 "The ${portal_title} Team"
 
-#. Default: "Subject: ${portal_title} - Welcome to ${project_title}\n\nYour request to join \"${project_title}\" on ${portal_title} has been approved.  The ${project_noun} is accessible at the following address: ${project_url}\n"
-#: ./opencore/project/browser/mship_messages.py:45
+#. Default: "${portal_title} - Invitation to join ${project_title}"
+#: ./opencore/project/browser/mship_messages.py:57
+msgid "email_remind_pending_invitee_subject"
+msgstr ""
+
+#. Default: "\nYour request to join \"${project_title}\" on ${portal_title} has been approved.\nThe ${project_noun} is accessible at the following address:\n\n${project_url}\n"
+#: ./opencore/project/browser/mship_messages.py:62
+#, fuzzy
 msgid "email_request_approved"
 msgstr ""
 "Subject: ${portal_title} – Welcome to \"${project_title}\"\n"
@@ -1100,8 +1122,14 @@ msgstr ""
 "Cheers,\n"
 " The ${portal_title} Team"
 
-#. Default: "Subject: ${portal_title} - Your request to join ${project_title}\n\nYour request to join \"${project_title}\" on ${portal_title} has been denied.\n"
-#: ./opencore/project/browser/mship_messages.py:50
+#. Default: "${portal_title} - Welcome to ${project_title}"
+#: ./opencore/project/browser/mship_messages.py:71
+msgid "email_request_approved_subject"
+msgstr ""
+
+#. Default: "\nYour request to join \"${project_title}\" on ${portal_title} has been denied.\n"
+#: ./opencore/project/browser/mship_messages.py:76
+#, fuzzy
 msgid "email_request_denied"
 msgstr ""
 "Subject: ${portal_title} – Your request to join \"${project_title}\" \n"
@@ -1111,6 +1139,11 @@ msgstr ""
 "Your request to join \"${project_title}\" has been denied.  For more information, please contact an administrator of this ${project_noun}.\n"
 " \n"
 "The ${portal_title} Team"
+
+#. Default: "${portal_title} - Your request to join ${project_title}"
+#: ./opencore/project/browser/mship_messages.py:82
+msgid "email_request_denied_subject"
+msgstr ""
 
 #: ./opencore/account/browser.py:65
 msgid "email_to_pending_user"
@@ -2841,7 +2874,7 @@ msgstr ""
 msgid "projects_start_project_button"
 msgstr ""
 
-#: ./opencore/project/browser/manageteam.py:604
+#: ./opencore/project/browser/manageteam.py:615
 msgid "promote_to_admin"
 msgstr "${name} is now an administrator"
 
@@ -2906,7 +2939,7 @@ msgid "psm_enter_username_email"
 msgstr ""
 
 #. Default: "Error sending mail to: ${mem_id}"
-#: ./opencore/project/browser/manageteam.py:551
+#: ./opencore/project/browser/manageteam.py:562
 msgid "psm_error_sending_mail_to_member"
 msgstr ""
 
@@ -2941,7 +2974,7 @@ msgid "psm_mailing_list_deletion_cancelled"
 msgstr ""
 
 #. Default: "You have added ${num_approved} members."
-#: ./opencore/project/browser/manageteam.py:265
+#: ./opencore/project/browser/manageteam.py:267
 msgid "psm_many_requests_approved"
 msgstr ""
 
@@ -2975,7 +3008,7 @@ msgid "psm_not_sufficient_perms"
 msgstr "You do not have sufficient permissions."
 
 #. Default: "You have added ${mem_id}."
-#: ./opencore/project/browser/manageteam.py:262
+#: ./opencore/project/browser/manageteam.py:264
 msgid "psm_one_request_approved"
 msgstr ""
 
@@ -3051,7 +3084,7 @@ msgid "psm_security_changed"
 msgstr "The security policy has been changed."
 
 #. Default: "Please select members to discard."
-#: ./opencore/project/browser/manageteam.py:283
+#: ./opencore/project/browser/manageteam.py:285
 msgid "psm_select_members_discard"
 msgstr ""
 
@@ -3075,7 +3108,7 @@ msgstr ""
 msgid "psm_wiki_content_stripped"
 msgstr ""
 
-#: ./opencore/project/browser/manageteam.py:425
+#: ./opencore/project/browser/manageteam.py:432
 msgid "remind_invite_none_selected"
 msgstr "Please select at least one person to send a reminder to."
 
