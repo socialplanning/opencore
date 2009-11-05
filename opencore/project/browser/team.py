@@ -78,9 +78,16 @@ class RequestMembershipView(TeamRelatedView, formhandler.OctopoLite, LoginView):
                              u'portal_url': site_url,
                              u'portal_title':self.portal_title()})
         
+        subject = _(u'email_to_pending_user_subject',
+                    mapping={u'user_name':id,
+                             u'url':url,
+                             u'portal_url': site_url,
+                             u'portal_title':self.portal_title()})
+        
         sender = IEmailSender(self.portal)
         sender.sendMail(mto=email,
-                        msg=message)
+                        msg=message,
+                        subject=subject)
 
     # XXX get this outta here right away
     def _create(self):
