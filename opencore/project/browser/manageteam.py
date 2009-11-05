@@ -713,7 +713,9 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite, AccountView,
         self.redirect('manage-team')
         
     def send_invite_member_email(self, mem_id, msg_subs):
-        _email_sender(self).sendMail(mem_id, msg=mship_messages.invite_member,
+        _email_sender(self).sendMail(mem_id, 
+                                     msg=mship_messages.invite_member,
+                                     subject=mship_messages.invite_member_subject,
                                      **msg_subs)
 
     @view.memoizedproperty
