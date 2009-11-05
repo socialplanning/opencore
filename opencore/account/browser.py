@@ -67,8 +67,14 @@ class AccountView(BaseView):
                              u'url':url,
                              u'portal_url':root,
                              u'portal_title':self.portal_title()})
+        subject = _(u'email_to_pending_user_subject',
+                    mapping={u'user_name':user_name,
+                             u'url':url,
+                             u'portal_url':root,
+                             u'portal_title':self.portal_title()})
         
         sender = IEmailSender(self.portal)
 
         sender.sendMail(mto=email,
-                        msg=message)
+                        msg=message,
+                        subject=subject)
