@@ -954,11 +954,17 @@ msgstr ""
 #: ./opencore/account/login.py:287
 msgid "email_forgot_password"
 msgstr ""
+"Vous avez oublié votre mot de passé dans ${portal_title}?  Pas de problème.\n"
+"\n"
+"Cliquez sur le lien dans ce message pour réinitialiser votre mot de passe  : ${url}\n"
+"\n"
+"Salutations, \n"
+"L’équipe ${portal_title} "
 
 #. Default: "${portal_title} - Password reset"
 #: ./opencore/account/login.py:292
 msgid "email_forgot_password_subject"
-msgstr ""
+msgstr "${portal_title} - Réinitialiser mon mot de passe"
 
 #. Default: "\nThe invitation extended to you to join \"${project_title}\" on ${portal_title} has been revoked.\n"
 #: ./opencore/project/browser/mship_messages.py:87
@@ -1037,10 +1043,14 @@ msgstr "Subject: ${portal_title} - Inclusion désactivée pour  ${project_title}
 #: ./opencore/project/browser/team_membership.py:51
 msgid "email_membership_requested"
 msgstr ""
+"${member_id} voudrait participer à \"${project_title}\".\n"
+"\n"
+"Pour approuver ou refuser cette demande , merci de visiter la page des gestion d’équipe  de ${project_noun} ici: ${team_manage_url}\n"
+
 
 #: ./opencore/project/browser/team_membership.py:59
 msgid "email_membership_requested_subject"
-msgstr ""
+msgstr "${portal_title} - Demande d’entrer dans ${project_title}"
 
 #: ./opencore/project/browser/team_membership.py:72
 msgid "email_mship_request_message"
