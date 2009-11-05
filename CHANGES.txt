@@ -25,14 +25,6 @@ Features Added:
   * submit-error-report now also includes the logged in user id, if
     any. (slinkp)
 
-  * Project content export is now linked from the top nav, and
-    includes: wiki pages, file and image attachments, mailing list
-    archive as an mbox file, mailing list subscribers and allowed
-    senders as a csv file, and blog pages as a WXR file. (slinkp)
-
-    Export is done asynchronously with an ajax UI in case it takes a
-    long time. (slinkp)
-
   * Member deletion now works, and has a link from the account page.
     (slinkp)
 
@@ -41,9 +33,6 @@ Features Added:
 
   * Added IMemberRegisteredEvent and IPortraitModifiedEvent events, firing
     them at the appropriate places. (rafrombrc)
-
-  * Added 'opencore.analytics' viewlet to allow easy inclusion of an
-    analytics snippet in the IExtraBody viewlet manager. (rafrombrc)
 
   * Added support for optional 'include_time' argument to the pretty_date
     functions. (rafrombrc)
@@ -88,12 +77,6 @@ Features Added:
 
   * Added 'more_test_content' external method for easy generation of a
     bunch of extra test accounts. (rafrombrc)
-
-  * Added support for featured projects to be selected by a site admin.
-    (rmarianski)
-
-  * Added FeedbackerClient utility to support fetching of data from
-    feedbacker app if it is installed with the stack. (rafrombrc)
 
   * More info at the /stats view (try the link to active project stats)
     (pw)
