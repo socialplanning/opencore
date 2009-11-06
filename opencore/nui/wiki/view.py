@@ -447,7 +447,13 @@ class WikiEdit(WikiBase, OctopoLite):
         if rawtext:
             return rawtext
         else:
-            return "<p>Please enter some text for your page</p>"
+            return self.blank_slate_content()
+
+    def blank_slate_content(self):
+        """
+        override this in a subclass for custom wiki blank slate text
+        """
+        return "<p>Please enter some text for your page</p>"
 
 
 class AttachmentView(BaseView):
