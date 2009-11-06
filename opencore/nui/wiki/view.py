@@ -106,6 +106,12 @@ def tounicode(doc, pretty_print=False, include_meta_content_type=False, encoding
 from opencore.xinha.i18n import available_languages as available_xinha_languages
 from zope.i18n.interfaces import IUserPreferredLanguages
 from Products.PlacelessTranslationService.Negotiator import lang_accepted
+
+class RedirectToWikiEdit(WikiBase):
+
+    def __call__(self, *args, **kw):
+        return self.redirect('./edit')
+
 class WikiEdit(WikiBase, OctopoLite):
 
     template = ZopeTwoPageTemplateFile("wiki-edit-xinha.pt")
