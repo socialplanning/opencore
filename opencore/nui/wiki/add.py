@@ -69,7 +69,10 @@ class NuiBaseAdd(WickedAdd, BaseView):
                                   mapping={'pagetitle': title})
                                 )
         url = newcontent.absolute_url()
-        restr = "%s/edit" % url
+        
+        referrer_id = self.context.getId()
+
+        restr = "%s/edit?created_from=%s" % (url, referrer_id)
         return self.redirect(restr)
 
     @property
