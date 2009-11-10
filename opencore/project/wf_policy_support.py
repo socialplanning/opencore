@@ -1,4 +1,4 @@
-from Acquisition import aq_get, aq_inner, aq_base
+from Acquisition import aq_get, aq_inner
 from Products.CMFCore.utils import getToolByName
 from Products.CMFPlacefulWorkflow.PlacefulWorkflowTool import WorkflowPolicyConfig_id
 from opencore.interfaces.workflow import IWriteWorkflowPolicySupport
@@ -89,7 +89,33 @@ class WFPolicyWriteAdapter(WFPolicyReadAdapter):
         wftool = getToolByName(context, 'portal_workflow')
         update_role_mappings = False
         if self.getCurrentPolicyId() != policy_in:
+            # keep track of private pages we change workflows
+            # because they revert back to the default visible state
+            private_pages = []
+            cat = getToolByName(context, 'portal_catalog')
+            wft = getToolByName(context, 'portal_workflow')
+            project_path = '/'.join(context.getPhysicalPath())
+            page_brains = cat(portal_type='Document',
+                              path=project_path,
+                              review_state='team_visible',
+                              )
+            for page_brain in page_brains:
+                page = page_brain.getObject()
+                state = wft.getInfoFor(page, 'review_state')
+                if state == 'team_visible':
+                    private_pages.append(page)
+
+            # here we update the workflow
             config.manage_makeChanges(policy_in, policy_in)
+
+            # we'll push all private pages back into their private workflow state
+            for page in private_pages:
+                transitions = [x['id'] for x in wft.getTransitionsFor(page)]
+                if 'team' in transitions:
+                    wft.doActionFor(page, 'team')
+                    page.reindexObject(idxs=['review_state'])
+
+            # this triggers a reindex of permissions in the project
             update_role_mappings = True
 
         # we may have to change state of the context object
