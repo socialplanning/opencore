@@ -40,7 +40,6 @@ setup(
         },
     zip_safe=False,
     dependency_links=[
-        'https://svn.plone.org/svn/collective/borg/components/borg.localrole/trunk#egg=borg.localrole-dev',
         'http://feedparser.googlecode.com/files/feedparser-4.1.zip',
         'http://download.savannah.nongnu.org/releases/pyprof/hprof-0.1.1.tar.gz#egg=hprof',
         'https://svn.openplans.org/svn/opencore/plugins/oc-feed/tags/0.4#egg=oc_feed-0.4',
