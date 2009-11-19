@@ -6,13 +6,4 @@
     i18n_domain="opencore"
     >
 
-  <adapter
-     for="Products.listen.interfaces.IMailingList"
-     provides="Products.listen.interfaces.IMailingListSubscriberExport"
-     factory=".export_utils.EnhancedSubscriberExporter"
-     name="csv"
-     />
-
-
-
 </configure>
