@@ -3,9 +3,21 @@
 
 Migrations:
 
-  * declare_supported_languages for #2800.  Make sure you run this upgrade step
-    with configuration profile 'opencore.configuration:default' or else rebuild
-    to pick up changes!
+  * "Declare Supported Languages" (#2800) allows the site to serve the Spanish,
+    Portugese (BR) and French translations when users visit the site with their
+    browser's language preferences set.
+
+  * "Add sortable_title index to membrane tool" regenerates the membrane_tool
+    catalog and reindexes it, to allow fast sorting of lists of members by the
+    lowercase form of their username.
+
+  * "Mark listen folders w/ IListenContainer" applies a marker interface to all
+    projects' `lists` folder, which will enable the manage-team view to display
+    a "Write message to team" button when applicable.
+
+  * "Bootstrap member removal queue" sets up the asynchronous task queue which
+    will process member deletion requests.
+
 
 Features Added:
 
