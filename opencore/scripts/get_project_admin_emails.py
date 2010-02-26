@@ -45,9 +45,12 @@ for proj_brain in all_projs:
             projects_for_this_member = member_project_map.setdefault(mbrain.getId, [])
             projects_for_this_member.append(proj_brain.getId)
 
-    members = cat(portal_type='OpenMember', path='/openplans/portal_memberdata/',
-                  id=member_project_map.keys())
-    for mbrain in members:
-        print '%s,%s' % (mbrain.getId, mbrain.getEmail)
-        # I guess we don't need the project for anything anymore after all.
+
+
+members = cat(portal_type='OpenMember', path='/openplans/portal_memberdata/',
+              id=member_project_map.keys())
+
+for mbrain in members:
+    print '%s,%s' % (mbrain.getId, mbrain.getEmail)
+    # I guess we don't need the project for anything anymore after all.
 
