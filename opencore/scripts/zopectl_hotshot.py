@@ -1,3 +1,11 @@
+"""
+A skeleton script showing how to run some Zope code under the hotshot
+profiler, useful for performance tuning.
+
+You would need to edit this script to make it do something useful.
+See the comments.
+"""
+
 USER_ID = 'admin' # <-- SHOULD BE A MANAGER USER DEFINED AT ZOPE ROOT
 SITE_ID = 'openplans' # <-- SHOULD BE A PLONE SITE DEFINED AT ZOPE ROOT
 OUTPUT_FILE = '/tmp/opencore_hotshot_profile.prof'

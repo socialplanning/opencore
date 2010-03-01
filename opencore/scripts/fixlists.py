@@ -1,3 +1,10 @@
+"""Fixes listen mailing lists that have got purged from the IListLookup
+utility.  If an optional argument is provided, it's assumed to be
+a log file (from a previous run) from which we read FAILED fixes
+to try again.
+"""
+
+
 from zope.event import notify
 from zope.app.event.objectevent import ObjectModifiedEvent
 from zope.component import getUtility
@@ -6,11 +13,6 @@ from Testing.makerequest import makerequest
 import transaction
 from zope.app.component.hooks import setSite
 
-"""Fixes listen mailing lists that have got purged from the IListLookup
-utility.  If an optional argument is provided, it's assumed to be
-a log file (from a previous run) from which we read FAILED fixes
-to try again.
-"""
 
 def fixlist(thelist):
     print "fixing %r" % '/'.join(thelist.getPhysicalPath())

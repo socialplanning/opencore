@@ -5,6 +5,13 @@ from zope.app.component.hooks import setSite
 from Products.listen.content import WriteMembershipList
 
 def find(app, users_or_emails):
+    """
+    Use this at the `zopectl debug` prompt to remove a list of
+    usernames or email addresses from ALL Listen subscriber and
+    allowed_sender lists.  Useful for eg. nuking spammers.
+    """
+
+
     app=makerequest(app)
     setSite(app.openplans)
     newSecurityManager(app.REQUEST, UnrestrictedUser('root', '', [], []).__of__(app))
@@ -20,4 +27,5 @@ def find(app, users_or_emails):
             if ml.is_subscribed(astring):
                 print "Removing subscriber %s from %s" % (astring, path)
                 ml.unsubscribe(astring)
+
 

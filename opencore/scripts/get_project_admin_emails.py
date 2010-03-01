@@ -1,3 +1,6 @@
+"""Print a list of all project administrators for all Projects.
+Mean to be used via `zopectl run`.
+"""
 username = 'admin'
 from AccessControl.SecurityManagement import newSecurityManager
 from Testing.makerequest import makerequest

@@ -1,8 +1,9 @@
-# run via zopectl run
-
 """A quick hack to make lots of opencore projects.
 hopefully useful for testing how things scale up.
+
+Run this via zopectl run.
 """
+
 from AccessControl.SecurityManagement import newSecurityManager
 from Testing.makerequest import makerequest
 from ZODB.POSException import ConflictError

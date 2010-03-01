@@ -1,3 +1,7 @@
+"""
+A `zopectl run` script that makes message mbox and subscriber csv
+exports of ALL mailing lists.  Mostly just for testing.
+"""
 from Products.listen.extras import import_export
 from Testing.makerequest import makerequest
 from AccessControl.SecurityManagement import newSecurityManager

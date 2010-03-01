@@ -1,5 +1,6 @@
-# Prints all Listen lists and their addresses.
-# Meant to be run via 'zopectl run'
+"""Prints all Listen lists and their addresses.
+Meant to be run via 'zopectl run'
+"""
 
 portal = app.openplans
 

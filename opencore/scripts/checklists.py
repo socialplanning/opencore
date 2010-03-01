@@ -1,3 +1,8 @@
+"""Verifies that all mailing lists are correctly registered with the
+IListLookup utility.  (At one time there was a bug with that.)
+"""
+
+
 from zope.component import getUtility
 from Products.listen.interfaces import IListLookup
 from Testing.makerequest import makerequest
