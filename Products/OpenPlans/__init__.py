@@ -33,7 +33,6 @@ registerDirectory(SKINS_DIR, GLOBALS)
 # register the signed cookie auth helper PAS plugin (which is important for 
 # SSO across apps)
 registerMultiPlugin(SignedCookieAuthHelper.SignedCookieAuthHelper.meta_type)
-registerMultiPlugin(SignedCookieAuthHelper.SignedCookieAuthHelper.meta_type)
 
 def initialize(context):
     lrinit(context)
