@@ -4,7 +4,7 @@ from opencore.interfaces.workflow import IWriteWorkflowPolicySupport
 from opencore.interfaces.workflow import IReadWorkflowPolicySupport
 from Products.OpenPlans.workflows import PLACEFUL_POLICIES
 from Products.OpenPlans.workflows import MEMBERSHIP_PLACEFUL_POLICIES
-
+from Products.CMFPlacefulWorkflow.PlacefulWorkflowTool import WorkflowPolicyConfig_id
 from opencore.utils import get_workflow_policy_config
 from zope.interface import implements
 from zope.component import getMultiAdapter
