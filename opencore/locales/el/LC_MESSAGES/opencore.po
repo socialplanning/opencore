@@ -1,0 +1,3496 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: opencore\n"
+"POT-Creation-Date: YEAR-MO-DA HO:MI +ZONE\n"
+"PO-Revision-Date: 2008-03-06 19:45-0500\n"
+"Last-Translator: \n"
+"Language-Team: The Open Planning Project <opencore-dev@lists.openplans.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 9bit\n"
+"Plural-Forms: nplurals=1; plural=0\n"
+"Language-Code: el\n"
+"Language-Name: Ελληνικά\n"
+"Preferred-Encodings: utf-8 latin1\n"
+"Domain: opencore\n"
+"X-Poedit-Language: Greek\n"
+"X-Poedit-Country: GREECE\n"
+
+#. Default: "Really Delete"
+#: ./opencore/project/browser/delete-form.pt:22
+msgid " Really Delete "
+msgstr ""
+
+#: ./opencore/nui/wiki/wiki-edit-xinha.pt:161
+msgid "(optional)"
+msgstr ""
+
+#: ./opencore/nui/main/search-widget.pt:42
+msgid "(show up to ${batch_size} results per page)"
+msgstr ""
+
+msgid "Account"
+msgstr ""
+
+#: ./opencore/project/browser/contents.pt:92
+msgid "Actions"
+msgstr ""
+
+#: ./opencore/nui/wiki/wiki-edit-xinha.pt:169
+#: ./opencore/project/browser/contents.pt:159
+#: ./opencore/project/browser/preferences.pt:107
+msgid "Cancel"
+msgstr ""
+
+#: ./opencore/project/browser/delete-form.pt:24
+msgid "Cancel and go back to the contents form"
+msgstr ""
+
+#: ./opencore/project/browser/team-manage.pt:120
+msgid "Change security settings"
+msgstr ""
+
+#: ./opencore/nui/wiki/wiki-history.pt:46
+msgid "Compare"
+msgstr ""
+
+#: ./opencore/nui/wiki/wiki-version-compare.pt:32
+msgid "Comparing"
+msgstr ""
+
+#: ./opencore/listen/browser/manage_membership.pt:49
+#: ./opencore/listen/browser/membership.pt:37
+msgid "Contact"
+msgstr ""
+
+#. Default: "Contact (email)"
+#: ./opencore/listen/browser/manage_membership.pt:53
+msgid "Contact_email"
+msgstr ""
+
+msgid "Contents"
+msgstr ""
+
+#: ./opencore/browser/topnav/topnav.py:65
+msgid "Create account"
+msgstr ""
+
+#: ./opencore/project/browser/team-manage.pt:109
+msgid "Currently anyone can view the content of your ${view_project_noun} and contribute to it."
+msgstr ""
+
+#: ./opencore/project/browser/team-manage.pt:113
+msgid "Currently anyone can view the content of your ${view_project_noun}. Only team members can contribute content."
+msgstr ""
+
+#: ./opencore/project/browser/team-manage.pt:118
+msgid "Currently only your team members can view the content of your ${view_project_noun} and contribute to it."
+msgstr ""
+
+#: ./opencore/listen/browser/mailing_lists.pt:73
+#: ./opencore/project/browser/contents.pt:206
+#: ./opencore/project/browser/delete-form.pt:15
+msgid "Delete"
+msgstr ""
+
+#: ./opencore/nui/wiki/wiki-edit-xinha.pt:90
+msgid "Description"
+msgstr ""
+
+#: ./opencore/member/browser/field_snippet.pt:5
+msgid "Edit"
+msgstr ""
+
+#: ./opencore/project/browser/export.pt:45
+msgid "Export"
+msgstr ""
+
+#. Default: "failure_msg"
+#: ./opencore/project/browser/export_utils.py:387
+msgid "Export failed! ${failure_msg}"
+msgstr ""
+
+#: ./opencore/project/browser/export_utils.py:381
+msgid "Export finished"
+msgstr ""
+
+#: ./opencore/project/browser/export.pt:38
+msgid "Export your content."
+msgstr ""
+
+#: ./opencore/project/browser/invite-member.pt:29
+#: ./opencore/project/browser/invite-with-message.pt:37
+msgid "From:"
+msgstr ""
+
+#: ./opencore/project/browser/invite-member.pt:56
+msgid "Hi ${member_id}, You have been invited to join ${project_title} by ${member_id_to_invite}. Please visit your account page to accept or decline the invitation. Cheers, The OpenPlans team"
+msgstr ""
+
+#: ./opencore/project/browser/export.pt:70
+msgid "Images and files"
+msgstr ""
+
+msgid "Join Project"
+msgstr ""
+
+#: ./opencore/nui/wiki/wiki-version-compare.pt:123
+msgid "Key"
+msgstr ""
+
+#: ./opencore/nui/wiki/wiki-edit-xinha.pt:168
+msgid "Loading..."
+msgstr ""
+
+#: ./opencore/nui/wiki/wiki-edit-xinha.pt:140
+msgid "Locate file"
+msgstr ""
+
+#: ./opencore/project/browser/export.pt:71
+msgid "Mailing list archives"
+msgstr ""
+
+#: ./opencore/project/browser/export.pt:72
+msgid "Mailing list subscribers"
+msgstr ""
+
+#: ./opencore/nui/wiki/wiki-edit-xinha.pt:119
+msgid "Manage attachments"
+msgstr ""
+
+#: ./opencore/project/browser/invite-member.pt:47
+#: ./opencore/project/browser/invite-with-message.pt:58
+msgid "Message:"
+msgstr ""
+
+#: ./opencore/project/browser/export.pt:79
+msgid "More info..."
+msgstr ""
+
+#: ./opencore/nui/main/home.pt:100
+msgid "News"
+msgstr ""
+
+#: ./opencore/listen/browser/membership.pt:33
+msgid "No"
+msgstr ""
+
+msgid "Pages"
+msgstr ""
+
+msgid "People"
+msgstr ""
+
+msgid "Preferences"
+msgstr ""
+
+msgid "Profile"
+msgstr ""
+
+#: ./opencore/project/browser/export.pt:36
+msgid "Project Export"
+msgstr ""
+
+msgid "Project Wiki"
+msgstr ""
+
+msgid "Projects"
+msgstr ""
+
+#: ./opencore/nui/wiki/wiki-edit-xinha.pt:68
+msgid "RENAME"
+msgstr ""
+
+#: ./opencore/project/browser/preferences.pt:104
+msgid "Remove"
+msgstr ""
+
+#: ./opencore/project/browser/contents.pt:175
+msgid "Rename"
+msgstr ""
+
+#: ./opencore/listen/browser/new_topic_view.pt:40
+msgid "Required"
+msgstr ""
+
+#: ./opencore/nui/wiki/wiki-edit-xinha.pt:110
+msgid "Revision note"
+msgstr ""
+
+#: ./opencore/project/browser/contents.pt:157
+msgid "Save"
+msgstr ""
+
+#: ./opencore/listen/browser/manage_membership.pt:82
+msgid "Save changes"
+msgstr ""
+
+#: ./opencore/project/browser/export_utils.py:209
+msgid "Saving Wiki pages"
+msgstr ""
+
+#: ./opencore/project/browser/export_utils.py:268
+msgid "Saving blog posts"
+msgstr ""
+
+#: ./opencore/project/browser/export_utils.py:205
+msgid "Saving documentation"
+msgstr ""
+
+#: ./opencore/project/browser/export_utils.py:222
+msgid "Saving images and file attachments"
+msgstr ""
+
+#: ./opencore/project/browser/export_utils.py:245
+msgid "Saving mailing lists"
+msgstr ""
+
+#: ./opencore/project/browser/team-manage.pt:88
+msgid "Search"
+msgstr ""
+
+#: ./opencore/nui/wiki/wiki-history.pt:48
+msgid "Select two versions to compare them or click a version number to view it."
+msgstr ""
+
+#: ./opencore/project/browser/invite-member.pt:70
+#: ./opencore/project/browser/invite-with-message.pt:85
+msgid "Send"
+msgstr ""
+
+#: ./opencore/browser/topnav/topnav.py:61
+msgid "Sign in"
+msgstr ""
+
+#: ./opencore/browser/topnav/topnav.py:103
+msgid "Sign out"
+msgstr ""
+
+msgid "Start A Project"
+msgstr ""
+
+#: ./opencore/project/browser/invite-member.pt:39
+#: ./opencore/project/browser/invite-with-message.pt:47
+msgid "Subject:"
+msgstr ""
+
+msgid "Summary"
+msgstr ""
+
+msgid "Team"
+msgstr ""
+
+#: ./opencore/nui/main/about.pt:29
+msgid "The Open Planning Project"
+msgstr ""
+
+#: ./opencore/nui/wiki/wiki-history.pt:101
+msgid "There are no previous versions of this page"
+msgstr ""
+
+#: ./opencore/nui/wiki/wiki-history.pt:107
+msgid "This content does not have versioning information."
+msgstr ""
+
+#: ./opencore/project/browser/contents.pt:40
+msgid "This deletion is permanent. Are you sure you want to delete?"
+msgstr ""
+
+#: ./opencore/nui/wiki/wiki-edit-xinha.pt:152
+msgid "Title"
+msgstr ""
+
+#: ./opencore/project/browser/invite-member.pt:22
+#: ./opencore/project/browser/invite-with-message.pt:24
+msgid "To:"
+msgstr ""
+
+#: ./opencore/member/browser/profile-edit.pt:101
+#: ./opencore/project/browser/preferences.pt:101
+msgid "Update"
+msgstr ""
+
+#: ./opencore/nui/wiki/wiki-edit-xinha.pt:169
+msgid "Upload"
+msgstr ""
+
+#: ./opencore/nui/wiki/wiki-edit-xinha.pt:133
+msgid "Upload a new file:"
+msgstr ""
+
+#: ./opencore/project/browser/export.pt:69
+msgid "Wiki pages"
+msgstr ""
+
+#: ./opencore/listen/browser/membership.pt:32
+msgid "Yes"
+msgstr ""
+
+#. Default: "Address"
+#: ./opencore/listen/browser/listen_macros.pt:64
+msgid "about_address_label"
+msgstr ""
+
+#. Default: "About &ldquo;${about_context_title}&rdquo;"
+#: ./opencore/listen/browser/listen_macros.pt:61
+msgid "about_context_heading"
+msgstr ""
+
+#. Default: "Description"
+#: ./opencore/listen/browser/listen_macros.pt:67
+msgid "about_description_label"
+msgstr ""
+
+#. Default: "<h2>Help!</h2> <p>We're here to help you. If you have a question, ${about_let_us_know_url}. </p>"
+#: ./opencore/nui/main/about.pt:37
+#, fuzzy
+msgid "about_let_us_know"
+msgstr " "
+
+#. Default: "<p>OpenPlans is a platform for social activism.</p> <p>Whether your group is mobilizing voters, planning a protest, or growing a garden, OpenPlans can help you become more effective. OpenPlans is about greasing the wheels of democracy.</p> <p>With our collaborative wiki pages and other tools, you and your group can:</p> <ul class=\"oc-smallText\"> <li>Make ${project_noun_view}s</li> <li>Share to-do lists</li> <li>Upload photos</li> <li>Publicize your cause</li> <li>Create and use mailing lists</li> <li>Store and share files</li> <li>and more…</li> </ul> <p>If you don't see something you need, please ${portal_url_contact_site_admin}. Chances are, it's just around the bend.</p> <p>OpenPlans is developed by ${oc_utils_topp_url}.</p>"
+#: ./opencore/nui/main/about.pt:29
+#, fuzzy
+msgid "about_openplans"
+msgstr " "
+
+#. Default: "about us and our software"
+#: ./opencore/nui/main/news.pt:43
+msgid "about_us_and_our_software"
+msgstr ""
+
+#. Default: "Cancel"
+#: ./opencore/member/browser/account.pt:177
+msgid "account_cancel_change_pass"
+msgstr "Άκυρο"
+
+#. Default: "Cancel"
+#: ./opencore/member/browser/account.pt:148
+msgid "account_cancel_hide_email"
+msgstr "Άκυρο"
+
+#. Default: "Change email"
+#: ./opencore/member/browser/account.pt:125
+msgid "account_change_email"
+msgstr "Αλλαγή email"
+
+#. Default: "Change password"
+#: ./opencore/member/browser/account.pt:156
+msgid "account_change_pass"
+msgstr "Αλλαγή κωδικού"
+
+#. Default: "Change"
+#: ./opencore/member/browser/account.pt:143
+msgid "account_change_submit"
+msgstr ""
+
+#. Default: "Close"
+#: ./opencore/member/browser/account.pt:97
+msgid "account_close_message"
+msgstr ""
+
+#. Default: "Confirm new password"
+#: ./opencore/member/browser/account.pt:168
+msgid "account_confirm_new_pass"
+msgstr "Επιβεβαίωση νέου κωδικού"
+
+#. Default: "Current password"
+#: ./opencore/member/browser/account.pt:160
+msgid "account_current_pass"
+msgstr "Τρέχων κωδικός"
+
+#. Default: "Delete Account"
+#: ./opencore/member/browser/account.pt:187
+msgid "account_delete"
+msgstr ""
+
+#. Default: "No, I want to keep this account."
+#: ./opencore/member/browser/delete.pt:21
+msgid "account_delete_cancel"
+msgstr ""
+
+#. Default: "Yes, delete this account permanently."
+#: ./opencore/member/browser/delete.pt:24
+msgid "account_delete_confirm"
+msgstr ""
+
+#. Default: "Delete This Account Permanently?"
+#: ./opencore/member/browser/delete.pt:12
+msgid "account_delete_heading"
+msgstr ""
+
+#. Default: "Careful! You cannot undo this action!"
+#: ./opencore/member/browser/delete.pt:17
+msgid "account_delete_warning"
+msgstr ""
+
+#. Default: "View and manage your memberships and account settings."
+#: ./opencore/member/browser/account.pt:13
+msgid "account_description"
+msgstr "Δες και άλλαξε τις ρυθμίσεις μελλών και λογαριασμών."
+
+#. Default: "Edit profile"
+#: ./opencore/member/browser/account.pt:121
+msgid "account_edit_profile"
+msgstr "Επεξεργασία του προφίλ"
+
+#. Default: "Email"
+#: ./opencore/member/browser/account.pt:129
+msgid "account_email_label"
+msgstr "Email"
+
+#. Default: "Your account"
+#: ./opencore/member/browser/account.pt:12
+msgid "account_heading"
+msgstr "Ο λογαριασμός σου"
+
+#. Default: "${project} ${project} has invited you to become a member"
+#: ./opencore/member/browser/account.pt:56
+msgid "account_invite"
+msgstr "${project} ${project} σε προσκάλεσε να γίνεις μέλος"
+
+#. Default: "<!-- this is a hacky way to get the 'contact_url' key into the i18n mapping, so that it can be used in the anchor href below. i don't know of a cleaner way to do this, unfortunately --> ${contact_url} <h1>This doesn't seem like a valid request.</h1> <h2>Please double check the link in your email and try pasting it again.</h2> <h3> If you are having trouble, please don't hesitate to ${contact_url_headin3} us. </h3>"
+#: ./opencore/account/invite-join-badrequest.pt:22
+msgid "account_invitejoin_badrequest_content"
+msgstr ""
+
+#. Default: "Sign up for ${portal_title}"
+#: ./opencore/account/invite-join-badrequest.pt:4
+msgid "account_invitejoin_badrequest_window_title"
+msgstr ""
+
+#. Default: "What joining will do"
+#: ./opencore/account/invite-join.pt:239
+msgid "account_invitejoin_get_started"
+msgstr ""
+
+#. Default: "Welcome to ${portal_title}"
+#: ./opencore/account/invite-join.pt:23
+msgid "account_invitejoin_heading"
+msgstr ""
+
+#. Default: "You've been invited to participate in the following ${project_noun}"
+#: ./opencore/account/invite-join.pt:27
+msgid "account_invitejoin_invitations"
+msgstr ""
+
+#. Default: "Join ${project_title}."
+#: ./opencore/account/invite-join.pt:69
+msgid "account_invitejoin_project_join"
+msgstr ""
+
+#. Default: "learn more"
+#: ./opencore/account/invite-join.pt:58
+msgid "account_invitejoin_project_visit"
+msgstr ""
+
+#. Default: "Sign up for ${portal_title}"
+#: ./opencore/account/invite-join.pt:9
+msgid "account_invitejoin_window_title"
+msgstr ""
+
+#. Default: "Latest updates (${num_updates})"
+#: ./opencore/member/browser/account.pt:25
+msgid "account_latest_updates"
+msgstr "Τελευταίες ανανεώσεις (${num_updates})"
+
+#. Default: "<p><strong>What does it mean to be &ldquo;listed&rdquo; on a ${project_noun}?</strong></p> <p>For your privacy, you can choose whether or not to be publicly listed as a member of a ${project_noun}.</p> <p>If you choose not to be listed then only fellow team members can see your affiliation. Those who are not members of the team will not see you listed in the team roster, nor will they see the ${project_noun} listed anywhere on your profile.</p> <p>However, any updates you make on a publicly viewable ${project_noun} could still display your username and a link to your profile.</p>"
+#: ./opencore/member/browser/account.pt:202
+msgid "account_listed_explanation"
+msgstr "<p><strong>Τι σημαίνει να εμφανίζεσαι στη &ldquo;λίστα&rdquo; ενός εγχειρήματος;</strong></p> <p>Για την προστασία της ιδιωτικότητάς σου, μπορείς να διαλέξεις αν θα εμφανίζεται δημόσια η ένταξή σου σε ένα εγχείρημα.</p> <p>Αν επιλέξεις να μην εμφανίζεσαι, μόνο τα υπόλοιπα μέλη του εγχειρήματος θα βλέπουν την ένταξή σου. Αυτοί που δεν είναι μέλη της ομάδας δεν θα σε βλέπουν στη λίστα των μελών, ούτε θα βλέπουν το εγχείρημα πουθενά στο προφίλ σου.</p> <p>Παρόλα αυτά, οι αλλαγές που θα κάνεις σε ένα δημόσιο εγχείρημα μπορεί να εμφανίζουν το όνομα και έναν σύνδεσμο στο προφίλ σου.</p>"
+
+#. Default: "New password"
+#: ./opencore/member/browser/account.pt:164
+msgid "account_new_pass"
+msgstr "Νέος κωδικός"
+
+#. Default: "Actions"
+#: ./opencore/member/browser/account_project_table.pt:19
+msgid "account_project_actions_header"
+msgstr ""
+
+#. Default: "${project_noun}s you belong to (${num_projects})"
+#: ./opencore/member/browser/account_project_table.pt:8
+msgid "account_project_belong_to"
+msgstr "εγχειρήματα στα οποία ανήκεις (${num_projects})"
+
+#. Default: "Change listing"
+#: ./opencore/member/browser/account_project_table.pt:38
+msgid "account_project_change_listing"
+msgstr ""
+
+#. Default: "Listed"
+#: ./opencore/member/browser/account_project_table.pt:18
+msgid "account_project_listed_header"
+msgstr ""
+
+#. Default: "<h2>You don't belong to any ${project_noun} </h2> <p>Why not ${look_for_one_project_to_join} or ${start_your_own_project}? </p>"
+#: ./opencore/member/browser/account_project_table.pt:55
+#, fuzzy
+msgid "account_project_no_projects"
+msgstr "<h2>Δεν ανήκεις σε κανένα εγχείρημα.</h2> <p>Γιατί δεν <a href=\"${DYNAMIC_CONTENT}\">βρίσκεις κάποιο να συμμετάσχεις</a> ή <a href=\"${DYNAMIC_CONTENT}\">ξεκίνησε το δικό σου</a>;</p>"
+
+#. Default: "${project_noun}"
+#: ./opencore/member/browser/account_project_table.pt:15
+msgid "account_project_project_header"
+msgstr "Εγχείρημα"
+
+#. Default: "Role"
+#: ./opencore/member/browser/account_project_table.pt:16
+msgid "account_project_role_header"
+msgstr "Ρόλος"
+
+#. Default: "Since"
+#: ./opencore/member/browser/account_project_table.pt:17
+msgid "account_project_since_header"
+msgstr "Από"
+
+#. Default: "Account settings"
+#: ./opencore/member/browser/account.pt:120
+msgid "account_settings"
+msgstr "Ρυθμίσεις λογαριασμού"
+
+#: ./opencore/stats/active.pt:22
+msgid "active"
+msgstr ""
+
+#: ./opencore/stats/menu.pt:12
+msgid "active project stats"
+msgstr ""
+
+#. Default: "Active Objects"
+#: ./opencore/stats/active.pt:7
+msgid "active_objects"
+msgstr ""
+
+#. Default: "Active Projects"
+#: ./opencore/stats/project_activity.pt:7
+msgid "active_projects"
+msgstr ""
+
+#. Default: "(note, \"active\" does not check activity in lists, blogs, or tasks... just pages and preferences)"
+#: ./opencore/stats/project_activity.pt:15
+msgid "active_projects_help"
+msgstr ""
+
+#. Default: "Add a mailing list"
+#: ./opencore/listen/browser/mailing_lists.pt:97
+msgid "add_mailing_list"
+msgstr ""
+
+#. Default: "add a new mailing list"
+#: ./opencore/listen/browser/mailing_lists.pt:17
+msgid "add_new_mailing_list"
+msgstr ""
+
+#. Default: "You have been added to the ${project_link} ${project_noun}."
+#: ./opencore/account/join.py:214
+msgid "added_to_proj_psm"
+msgstr ""
+
+#: ./opencore/stats/menu.pt:14
+msgid "all project stats"
+msgstr ""
+
+#. Default: "All Projects"
+#: ./opencore/stats/project_activity.pt:20
+msgid "all_projects"
+msgstr ""
+
+#. Default: "All versions of &ldquo;${all_versions_of_page_title}&rdquo;"
+#: ./opencore/nui/wiki/wiki-history.pt:29
+msgid "all_versions_of_page_heading"
+msgstr ""
+
+#. Default: "${len_history_versions_total} versions total. Last edit performed by ${last_change_people_url_author}, ${last_change_modification_date}"
+#: ./opencore/nui/wiki/wiki-history.pt:35
+msgid "all_versions_of_page_help"
+msgstr ""
+
+#. Default: "Allow this message to be posted"
+#: ./opencore/listen/browser/moderation.pt:43
+msgid "allow_this_message_posted"
+msgstr ""
+
+#. Default: "Allowed Senders"
+#: ./opencore/listen/browser/view.py:560
+msgid "allowed_senders"
+msgstr ""
+
+#. Default: "view all"
+#: ./opencore/listen/browser/archive_date_view.pt:17
+msgid "archive_date_view_all"
+msgstr "εμφάνιση όλων"
+
+#. Default: "View by <a href=\"forum_view\">conversation</a> or <strong>date</strong>"
+#: ./opencore/listen/browser/archive_date_view.pt:10
+msgid "archive_date_view_by"
+msgstr "Εμφάνιση ανά <a href=\"forum_view\">συζήτηση</a> ή <strong>ημερομηνία</strong>"
+
+#. Default: "Started by"
+#: ./opencore/listen/browser/archive_forum_view.pt:23
+msgid "archive_forum_list_thread_starter"
+msgstr "Ξεκίνησε από τον/την"
+
+#. Default: "Last activity"
+#: ./opencore/listen/browser/archive_forum_view.pt:25
+msgid "archive_forum_thread_last_activity"
+msgstr "Τελευταία δραστηριότητα"
+
+#. Default: "Replies"
+#: ./opencore/listen/browser/archive_forum_view.pt:24
+msgid "archive_forum_thread_replies"
+msgstr "Απαντήσεις"
+
+#. Default: "Subject"
+#: ./opencore/listen/browser/archive_forum_view.pt:22
+msgid "archive_forum_thread_subject"
+msgstr "Θέμα"
+
+#. Default: "View by <strong>conversation</strong> or <a href=\"date_view\">date</a>"
+#: ./opencore/listen/browser/archive_forum_view.pt:10
+msgid "archive_forum_view_by"
+msgstr "Εμφάνιση ανά <strong>συζήτηση</strong> ή <a href=\"date_view\">ημερομηνία</a>"
+
+#. Default: "There are currently no posts in this archive."
+#: ./opencore/listen/browser/archive_date_messages.pt:30
+#: ./opencore/listen/browser/archive_date_view.pt:31
+#: ./opencore/listen/browser/archive_forum_view.pt:51
+msgid "archive_no_posts"
+msgstr "Δεν υπάρχουν δημοσιεύσεις σε αυτό το αρχείο."
+
+#. Default: "View by <a href=\"../forum_view\">conversation</a> or <strong>date</strong> (<strong>threaded</strong> or <a id=\"switch_view\" href=\"by_date\">flat</a>)"
+#: ./opencore/listen/browser/archive_thread_messages.pt:13
+msgid "archive_thread_view_by"
+msgstr "Εμφάνιση ανά <a href=\"../forum_view\">συζήτηση</a> ή <strong>ημερομηνία</strong> (<strong>δενδροειδώς</strong> ή <a id=\"switch_view\" href=\"by_date\">επίπεδα</a>)"
+
+#. Default: "View by <a href=\"../forum_view\">conversation</a> or <strong>date</strong> (<strong>flat</strong> or <a id=\"switch_view\" href=\"by_thread\">threaded</a>)"
+#: ./opencore/listen/browser/archive_date_messages.pt:12
+msgid "archive_view_by"
+msgstr "Εμφάνιση ανά <a href=\"../forum_view\">συζήτηση</a> ή <strong>ημερομηνία</strong> (<strong>επίπεδα</strong> ή <a id=\"switch_view\" href=\"by_thread\">δενδροειδώς</a>)"
+
+#. Default: "or jump to"
+#: ./opencore/nui/main/batch_macros.pt:76
+msgid "batch_macros_jump_to_page"
+msgstr ""
+
+#. Default: "Next"
+#: ./opencore/nui/main/batch_macros.pt:70
+msgid "batch_macros_next_x_items"
+msgstr "Επόμενο"
+
+#. Default: "Page"
+#: ./opencore/nui/main/batch_macros.pt:23
+msgid "batch_macros_page"
+msgstr ""
+
+#. Default: "Prev"
+#: ./opencore/nui/main/batch_macros.pt:19
+msgid "batch_macros_previous_x_items"
+msgstr "Προηγούμενο"
+
+#. Default: "sort"
+#: ./opencore/nui/main/batch_macros.pt:119
+msgid "batch_macros_sort"
+msgstr ""
+
+#: ./opencore/stats/project_activity.pt:34
+msgid "blog posts"
+msgstr ""
+
+#: ./opencore/nui/wiki/wiki-edit-xinha.pt:26
+msgid "blue-look"
+msgstr ""
+
+#: ./opencore/nui/wiki/wiki-edit-xinha.pt:31
+msgid "blue-metallic"
+msgstr ""
+
+#: ./opencore/listen/browser/message_macros.pt:16
+#: ./opencore/listen/browser/threaded_message.pt:53
+#: ./opencore/nui/main/news.pt:30
+msgid "by"
+msgstr ""
+
+#. Default: "compare with current version"
+#: ./opencore/nui/wiki/wiki-previous-version.pt:68
+msgid "compare_with_current_version"
+msgstr ""
+
+#. Default: "Complete your profile"
+#: ./opencore/member/browser/tour.pt:16
+msgid "complete_your_profile"
+msgstr ""
+
+#. Default: "Fill in the form below to contact the site administrators."
+#: ./opencore/nui/main/contact-site-admin.pt:12
+msgid "contact-site-admin_description"
+msgstr "Συμπλήρωσε την παρακάτω φόρμα για να επικοινωνήσεις με τους διαχειριστές του ιστοχώρου"
+
+#. Default: "Message"
+#: ./opencore/nui/main/contact-site-admin.pt:99
+msgid "contact-site-admin_label_message"
+msgstr "Μήνυμα"
+
+#. Default: "(Required)"
+#: ./opencore/nui/main/contact-site-admin.pt:51
+msgid "contact-site-admin_label_required"
+msgstr "(Απαιτείται)"
+
+#. Default: "E-Mail"
+#: ./opencore/nui/main/contact-site-admin.pt:48
+msgid "contact-site-admin_label_sender_from_address"
+msgstr "E-Mail"
+
+#. Default: "Name"
+#: ./opencore/nui/main/contact-site-admin.pt:30
+msgid "contact-site-admin_label_sender_fullname"
+msgstr "Όνομα"
+
+#. Default: "Subject"
+#: ./opencore/nui/main/contact-site-admin.pt:78
+msgid "contact-site-admin_label_subject"
+msgstr "Θέμα"
+
+#. Default: "contact us"
+#: ./opencore/nui/main/news.pt:43
+msgid "contact_us"
+msgstr ""
+
+#. Default: "At-a-glance view of all documents within this ${project_noun}."
+#: ./opencore/project/browser/contents.pt:13
+msgid "contents_desc"
+msgstr "Γρήγορη ματιά όλων των κειμένων μέσα σε αυτό το εγχείρημα."
+
+#. Default: "${project_noun} contents"
+#: ./opencore/project/browser/contents.pt:10
+msgid "contents_heading"
+msgstr "περιεχόμενα για το εγχείρημα"
+
+#. Default: "View tasklists"
+#: ./opencore/project/browser/contents.pt:250
+msgid "contents_view_tasks"
+msgstr "Εμφάνιση λίστας"
+
+#. Default: "Create"
+#: ./opencore/project/browser/create.pt:113
+msgid "create_create_button"
+msgstr "Δημιούργησε"
+
+#. Default: "Cancel"
+#: ./opencore/project/browser/create.pt:119
+msgid "create_project_cancel"
+msgstr "Άκυρο"
+
+#. Default: "Clear"
+#: ./opencore/project/browser/create.pt:74
+msgid "create_project_clear_logo"
+msgstr "Καθαρισμός"
+
+#. Default: "Only team members can view, contribute, or search for this ${project_noun}"
+#: ./opencore/project/browser/create.pt:100
+msgid "create_project_closed_policy"
+msgstr "Μόνο μέλη της ομάδας μπορούν να δουν, συνεισφέρουν, ή να ψάξουν σε αυτό το εγχείρημα"
+
+#. Default: "Each ${project_noun} is a toolbox to help you get things done. Using your ${project_noun} you can team up with others, sketch out your plans, and keep track of your progress."
+#: ./opencore/project/browser/create.pt:13
+msgid "create_project_desc"
+msgstr "Ξεκίνα ένα νέο εγχείρημα για να αποκτήσεις πρόσβαση σε εργαλεία επικοινωνίας και συνεργασίας."
+
+#. Default: "Description"
+#: ./opencore/project/browser/create.pt:56
+msgid "create_project_goals"
+msgstr "Περιγραφή"
+
+#. Default: "Start a ${project_noun}"
+#: ./opencore/project/browser/create.pt:10
+msgid "create_project_heading"
+msgstr "Νέο εγχείρημα"
+
+#. Default: "Image or logo"
+#: ./opencore/project/browser/create.pt:70
+msgid "create_project_image"
+msgstr "Εικόνα ή λογότυπο"
+
+#. Default: "Anyone can view this ${project_noun} but only team members can contribute to it"
+#: ./opencore/project/browser/create.pt:95
+msgid "create_project_medium_policy"
+msgstr "Οποιοσδήποτε μπορεί να δει αυτό το εγχείρημα αλλά μόνο τα μέλη της ομάδας μπορούν να συνεισφέρουν σε αυτό"
+
+#. Default: "Name"
+#: ./opencore/project/browser/create.pt:26
+msgid "create_project_name"
+msgstr "Όνομα"
+
+#. Default: "Anyone can view this ${project_noun} and any ${portal_title} member can contribute to it"
+#: ./opencore/project/browser/create.pt:90
+msgid "create_project_open_policy"
+msgstr "Οποιοσδήποτε μπορεί να δει αυτό το εγχείρημα και οποιοδήποτε μέλος του ${portal_title} μπορεί να συνεισφέρει σε αυτό"
+
+#. Default: "Step 1: Basics"
+#: ./opencore/project/browser/create.pt:21
+msgid "create_project_step_basics"
+msgstr "Βήμα 1ο: Τα βασικά"
+
+#. Default: "Step 2: Security"
+#: ./opencore/project/browser/create.pt:82
+msgid "create_project_step_security"
+msgstr "Βήμα 2ο: Ασφάλεια"
+
+#. Default: "Decide who can see and contribute to this ${project_noun}. You will create your team on the next page."
+#: ./opencore/project/browser/create.pt:83
+#, fuzzy
+msgid "create_project_step_security_desc"
+msgstr "Αποφάσισε ποιος θα βλέπει και θα συνεισφέρει σε αυτό το εγχείρημα. Θα δημιουργήσεις την ομάδα σου στην επόμενη σελίδα."
+
+#. Default: "URL"
+#: ./opencore/project/browser/create.pt:40
+msgid "create_project_url"
+msgstr "Διεύθυνση"
+
+#. Default: "Current attachments:"
+#: ./opencore/nui/wiki/wiki-edit-xinha.pt:124
+msgid "current_attachments_heading"
+msgstr ""
+
+#: ./opencore/stats/active.pt:16
+msgid "date"
+msgstr ""
+
+#. Default: "Really delete these items permanently?"
+#: ./opencore/project/browser/delete-form.pt:9
+msgid "delete_items_permanently"
+msgstr ""
+
+#. Default: "Delete <span class=\"oc-hidden oc-warning oc-confirm\">This deletion is permanent. Are you sure you want to delete?</span>"
+#: ./opencore/project/browser/contents.pt:179
+msgid "deletion_permanent_are_you_sure"
+msgstr ""
+
+#: ./opencore/project/browser/manageteam.py:599
+msgid "demote_to_member"
+msgstr "${name} δεν είναι πλέον διαχειριστής"
+
+#. Default: "Deny this message and notify the sender, message optional"
+#: ./opencore/listen/browser/moderation.pt:59
+msgid "deny_msg_notify_sender"
+msgstr ""
+
+#. Default: "Cancel"
+#: ./opencore/listen/browser/moderation.pt:78
+msgid "deny_msg_notify_sender_cancel_label"
+msgstr ""
+
+#. Default: "or"
+#: ./opencore/listen/browser/moderation.pt:77
+msgid "deny_msg_notify_sender_or_label"
+msgstr ""
+
+#. Default: "Deny this message without notifying the sender"
+#: ./opencore/listen/browser/moderation.pt:51
+msgid "deny_msg_without_notifying"
+msgstr ""
+
+#. Default: "Discard all posts"
+#: ./opencore/listen/browser/moderation.pt:90
+msgid "discard_all_posts_value"
+msgstr ""
+
+#. Default: "Discussion list for this ${project_noun}, consisting of all ${project_noun} members."
+#: ./opencore/listen/events.py:98
+msgid "discussion_list_desc"
+msgstr "Λίστα συζήτησης γι αυτό το εγχείρημα, που αποτελείται από όλα τα μέλη του."
+
+#: ./opencore/stats/project_activity.pt:32
+msgid "email threads"
+msgstr ""
+
+#. Default: "You requested a password reset for your ${portal_title} account. If you did not request this information, please ignore this message.\n\nTo change your password, please visit the following URL: ${url}"
+#: ./opencore/account/login.py:284
+msgid "email_forgot_password"
+msgstr ""
+"Ζήτησες ένα νέο κωδικό για το λογαριασμό σου στο ${portal_title}. Αν δεν το έχεις κάνει, αγνόησε αυτό το μήνυμα.\n"
+"\n"
+"Για να αλλάξεις τον κωδικό σου, πήγαινε στην παρακάτω διεύθυνση: ${url}"
+
+#. Default: "${portal_title} - Password reset"
+#: ./opencore/account/login.py:289
+#, fuzzy
+msgid "email_forgot_password_subject"
+msgstr "%s - Αλλαγή κωδικού"
+
+#. Default: "Subject: ${portal_title} - Invitation to join  ${project_title}\n\nThe invitation extended to you to join \"${project_title}\" on ${portal_title} has been revoked.\n"
+#: ./opencore/project/browser/mship_messages.py:51
+msgid "email_invitation_retracted"
+msgstr "Θέμα: ${portal_title} - Πρόσκληση για συμμετοχή  ${portal_title} \n\n Η πρόσκληση για τη συμμετοχή σου στο ${project_title} στο ${portal_title} ανακλήθηκε."
+
+#. Default: "${inviter_name} has invited you to join \"${project_title}\" on ${portal_title}. ${portal_title} is a free toolset for social change. With ${portal_title}, you can build collaborative pages for organizing ${project_noun}s. You can also blog, set up mailing lists, store and share files, and keep track of tasks."
+#: ./opencore/project/browser/invite-with-message.pt:74
+msgid "email_invite_default_body"
+msgstr "Ο/Η ${inviter_name} σε προσκάλεσε να συμμετάσχεις στο \"${project_title}\" στο ${portal_title}. Το ${portal_title} είναι μια ανοικτή κοινότητα ανθρώπων που προσφέρουν άμεση και μη εμπορευματική πληροφόρηση. Ένας χώρος κοινωνικής δικτύωσης και αυτοργάνωσης για τη δημιουργία νέων δομών ανταλλαγής της πληροφορίας."
+
+#. Default: "Subject: You've been invited to join \"${project_title}\"\n\nHi ${user_name},\n\nYou have been invited to join \"${project_title}\" by ${inviter_name}.\nPlease visit your account page to accept or decline the invitation: ${account_url}\n\nCheers,\nThe ${portal_name} Team\n${portal_url}\n"
+#: ./opencore/project/browser/mship_messages.py:3
+msgid "email_invite_member"
+msgstr "Θέμα: Προσκλήθηκες να συμμετάσχεις στο \"${project_title}\"\n\n Γεια σου ${user_name},\n\n Προσκλήθηκες να συμμετάσχεις στο \"${project_title}\" από τον/την ${inviter_name}.\n Μπορείς να επισεκφθείς τη σελίδα του λογαριασμού σου για να δεχτείς ή να απορρίψεις την πρόσκληση: ${account_url}\n\n Η ομάδα του ${portal_name} \n ${portal_url}"
+
+#. Default: "Subject: You've been invited to join \"${project_title}\"\n\nHi ${user_name},\n\nYou have been invited to join \"${project_title}\" by ${inviter_name}.\nPlease first confirm your email address at the following address: ${conf_url}\nand then you can accept or decline the invitation.\n\nCheers,\nThe ${portal_name} Team\n${portal_url}\n"
+#: ./opencore/project/browser/mship_messages.py:15
+msgid "email_invite_pending_member"
+msgstr ""
+"Θέμα: Προσκλήθηκες να συμμετάσχεις στο \"${project_title}\"\n"
+"\n"
+"${user_name},\n"
+"\n"
+"προσκλήθηκες να συμμετάσχεις στο \"${project_title}\" από τον/την ${inviter_name}.\n"
+"Μπορείς να επιβεβαιώσεις το email σου στην παρακάτω διεύθυνση: ${conf_url}\n"
+" και στη συνέχεια να αποδεχθείς ή απορρίψεις την πρόσκληση.\n"
+"\n"
+"Η ομάδα του ${portal_name} \n"
+"${portal_url}"
+
+#: ./opencore/project/browser/manageteam.py:780
+#: ./opencore/project/browser/mship_messages.py:61
+msgid "email_invite_static_body"
+msgstr ""
+"${user_message}\n"
+"Για να αποδεχθείς την πρόσκληση ή να μάθεις περισσότερα για αυτό το εγχείρημα, πάτησε εδώ:\n"
+"${join_url}. \n"
+"\n"
+"---------------------------------------------------------------------\n"
+"Αυτό το μήνυμα στάλθηκε από το ${portal_title}.\n"
+"Για να επικοινωνήσει με το ${portal_title}, πήγαινε εδώ:\n"
+"${site_contact_url}"
+
+#. Default: "Subject: ${portal_title} - Membership deactivated for ${project_title}\n\nYou are no longer a member of \"${project_title}\" on ${portal_title}.\n"
+#: ./opencore/project/browser/mship_messages.py:56
+msgid "email_membership_deactivated"
+msgstr "Θέμα: ${portal_title} - Η συμμετοχή σου απενεργοποιήθηκε στο  ${project_title}\n\n Δεν είσαι πλέον μέλος του \"${project_title}\" στο ${portal_title}."
+
+#: ./opencore/project/browser/team_membership.py:51
+msgid "email_membership_requested"
+msgstr "Θέμα: ${portal_title} - Αίτηση για συμμετοχή ${project_title}\n\n Ο/η ${member_id} θα ήθελε να συμμετάσχει στο \"${project_title}\".\n\n Για να αποδεχθείς ή να απορρίψεις αυτή την αίτηση πήγαινε στη σελίδα διαχείρισης του εγχειρήματος: ${team_manage_url}"
+
+#: ./opencore/project/browser/team_membership.py:63
+msgid "email_mship_request_message"
+msgstr "Ο/η ${member_id} συμπεριέλαβε το παρακάτω μήνυμα:\n\n \"${member_message}\""
+
+#. Default: "This is a reminder. ${inviter_name} has invited you to join \"${project_title}\" on ${portal_title}. ${portal_title} is a free toolset for social change. With ${portal_title}, you can build collaborative pages for organizing ${project_noun}s. You can also blog, set up mailing lists, store and share files, and keep track of tasks."
+#: ./opencore/project/browser/invite-with-message.pt:68
+msgid "email_remind_default_body"
+msgstr "Αυτή είναι μια υπενθύμιση. Ο/η ${inviter_name} σε προσκάλεσε να συμμετάσχεις στο \"${project_title}\" στο ${portal_title}. Το ${portal_title} είναι μια ανοικτή κοινότητα ανθρώπων που προσφέρουν άμεση και μη εμπορευματική πληροφόρηση. Ένας χώρος κοινωνικής δικτύωσης και αυτοργάνωσης για τη δημιουργία νέων δομών ανταλλαγής της πληροφορίας"
+
+#. Default: "Subject: ${portal_title} - Invitation to join ${project_title}\n\nThis is a reminder that you've been invited to join \"${project_title}\" on ${portal_title}.\nPlease visit your account page to accept or decline the invitation: ${account_url}\n"
+#: ./opencore/project/browser/mship_messages.py:28
+msgid "email_remind_invitee"
+msgstr "Θέμα: ${portal_title} - Πρόσκληση για συμμετοχή στο ${project_title}\n\n Αυτή είναι μια υπενθύμιση πως έχεις προσκληθεί να συμμετάσχεις στο \"${project_title}\" στο ${portal_title}.\n Μπορείς να επισκεφθείς τη σελίδα του λογαριασμού σου για να αποδεχθείς ή να αρνηθείς την πρόσκληση: ${account_url}"
+
+#. Default: "Subject: ${portal_title} - Invitation to join ${project_title}\n\nThis is a reminder that you've been invited to join \"${project_title}\" on ${portal_title}.\nPlease first confirm your email address at the following address: ${conf_url}\nand then you can accept or decline the invitation.\n"
+#: ./opencore/project/browser/mship_messages.py:34
+msgid "email_remind_pending_invitee"
+msgstr "Θέμα: ${portal_title} - Πρόσκληση για συμμετοχή στο ${project_title}\n\n Αυτή είναι μια υπενθύμιση πως έχεις προσκληθεί να συμμετάσχεις στο \"${project_title}\" στο ${portal_title}.\n Επιβεβαίωσε πρώρα την email διεύθυνσή σου στην παρακάτω διεύθυνση: ${conf_url}\n και στη συνέχεια μπορείς να αποδεχθείς ή αρνηθείς την πρόσκληση."
+
+#. Default: "Subject: ${portal_title} - Welcome to ${project_title}\n\nYour request to join \"${project_title}\" on ${portal_title} has been approved.  The ${project_noun} is accessible at the following address: ${project_url}\n"
+#: ./opencore/project/browser/mship_messages.py:41
+msgid "email_request_approved"
+msgstr "Θέμα: ${portal_title} - Καλώς ήρθες στο ${project_title}\n\n Η αίτησή σου να συμμετάσχεις στο \"${project_title}\" στο ${portal_title} έχει εγκριθεί.  Το εγχείρημα είναι προσβάσιμο από την παρακάτω διεύθυνση: ${project_url}"
+
+#. Default: "Subject: ${portal_title} - Your request to join ${project_title}\n\nYour request to join \"${project_title}\" on ${portal_title} has been denied.\n"
+#: ./opencore/project/browser/mship_messages.py:46
+msgid "email_request_denied"
+msgstr "Θέμα: ${portal_title} - Η αίτησή σου να συμμετάσχεις στο ${project_title}\n\n Η αίτησή σου να συμμετάσχεις στο \"${project_title}\" στο ${portal_title} δεν έγινε δεκτή."
+
+#: ./opencore/account/browser.py:65
+#: ./opencore/project/browser/team.py:75
+msgid "email_to_pending_user"
+msgstr "Θέμα: Καλωσήρθες στο ${portal_title}! - Επιβεβαίωσε την email διεύθυνσή σου\n\n ${user_name},\n\n Γράφτηκες πρόσφατα στο ${portal_title}. \n \n Επιβεβαίωσε ν email διεύθυνσή σου στην παρακάτω διεύθυνση: ${url}\n\n Αν δε μπορείς να πατήσεις τον παραπάνω σύνδεσμος, μπορείς να τον αντιγράψεις στη μπάρα διεύθυνσης του browser σου.\n\n Όταν την επιβεβαιώσεις, μπορείς να ξεκινησεις να χρησιμοποιείς όλες τις λειτουργίες του ${portal_title}.\n\n Αν δεν έκανες εσύ την αίτηση εγγραφής, ή αν πιστεύεις οτι έγινε από λάθος, μπορείς να αγνοήσεις αυτό το μήνυμα.\n\n Η ομάδα του ${portal_title} \n ${portal_url}"
+
+#. Default: "Could not moderate!"
+#: ./opencore/listen/browser/view.py:424
+msgid "err_could_not_moderate"
+msgstr "Δε μπόρεσε να γίνει η διαχείριση!"
+
+#. Default: "The name must contain at least 2 characters with at least 1 letter or number."
+#: ./opencore/project/browser/preferences.py:105
+msgid "err_project_name"
+msgstr "Το όνομα πρέπει να περιέχει τουλάχιστον 2 χαρακτήρες με τουλάχιστον 1 γράμμα ή αριθμό"
+
+#. Default: "If you know you have the correct web address, please contact the ${error_404_contact_site_admin_url}."
+#: ./opencore/browser/notfound.pt:61
+msgid "error_404_contact_site_admin"
+msgstr ""
+
+#. Default: "You've tried to find something that's not here. Sorry about that!"
+#: ./opencore/browser/notfound.pt:23
+msgid "error_404_header"
+msgstr ""
+
+#. Default: "I'm trying to figure out what page you're looking for, but I'm stumped. You're on your own, kid."
+#: ./opencore/browser/notfound.pt:38
+msgid "error_404_no_suggestions"
+msgstr ""
+
+#. Default: "<li>Please check to make sure you typed the url correctly</li> <li>Or, search:</li>"
+#: ./opencore/browser/notfound.pt:44
+msgid "error_404_search"
+msgstr ""
+
+#. Default: "Search site"
+#: ./opencore/browser/notfound.pt:51
+msgid "error_404_search_form_label"
+msgstr ""
+
+#. Default: "Search"
+#: ./opencore/browser/notfound.pt:55
+msgid "error_404_search_form_submit"
+msgstr ""
+
+#. Default: "If you don't see what you're looking for:"
+#: ./opencore/browser/notfound.pt:36
+msgid "error_404_search_prompt"
+msgstr ""
+
+#. Default: "Were you trying to find one of these pages?"
+#: ./opencore/browser/notfound.pt:28
+msgid "error_404_suggested_results"
+msgstr ""
+
+#. Default: "Whoops!"
+#: ./opencore/browser/notfound.pt:21
+msgid "error_404_title"
+msgstr ""
+
+#. Default: "Not Found"
+#: ./opencore/browser/notfound.pt:8
+msgid "error_404_window_title"
+msgstr ""
+
+#. Default: "Error details"
+#: ./opencore/browser/error.pt:66
+msgid "error_form_details"
+msgstr ""
+
+#. Default: "What were you doing?"
+#: ./opencore/browser/error.pt:34
+msgid "error_form_did"
+msgstr ""
+
+#. Default: "Your email:"
+#: ./opencore/browser/error.pt:45
+msgid "error_form_email"
+msgstr ""
+
+#. Default: "What did you expect?"
+#: ./opencore/browser/error.pt:39
+msgid "error_form_expected"
+msgstr ""
+
+#. Default: "Something unexpected happened."
+#: ./opencore/browser/error.pt:19
+msgid "error_form_header"
+msgstr ""
+
+#. Default: "If you give us your email address, <br />we will let you know when this problem is fixed."
+#: ./opencore/browser/error.pt:51
+msgid "error_form_help"
+msgstr ""
+
+#. Default: "Send"
+#: ./opencore/browser/error.pt:58
+msgid "error_form_submitbutton"
+msgstr ""
+
+#. Default: "Error"
+#: ./opencore/browser/error.pt:7
+msgid "error_form_window_title"
+msgstr ""
+
+#. Default: "Chances are, we're already on it. But, if you would please tell us what you were trying to do, it will help us fix the problem faster. Thank you."
+#: ./opencore/browser/error.pt:21
+#, fuzzy
+msgid "error_site_description"
+msgstr "Κατά πάσα πιθανότητα, το κοιτάζουμε ήδη. Αλλά, αν μας πεις τι προσπαθούσες να κάνεις, θα μας βοηθήσεις να το φτιάξουμε γρηγορότερα. Ευχαριστούμε."
+
+#. Default: "Oops!"
+#: ./opencore/browser/error.pt:18
+msgid "error_site_heading"
+msgstr "Ουπς!"
+
+#: ./opencore/listen/browser/mailing_lists.pt:66
+msgid "false"
+msgstr ""
+
+#. Default: "about"
+#: ./opencore/browser/footer.pt:3
+msgid "footer_about_link"
+msgstr "ταυτότητα"
+
+#. Default: "contact"
+#: ./opencore/browser/footer.pt:4
+msgid "footer_contact_link"
+msgstr "επικοινωνία"
+
+#. Default: "help"
+#: ./opencore/browser/footer.pt:6
+msgid "footer_help_link"
+msgstr "βοήθεια"
+
+#. Default: "news"
+#: ./opencore/browser/footer.pt:5
+msgid "footer_news_link"
+msgstr "νέα"
+
+#. Default: "${DYNAMIC_CONTENT} ${portal_title} is <a href=\"${DYNAMIC_CONTENT}\"> ${num_people} people</a> and <a href=\"${DYNAMIC_CONTENT}\"> ${num_projects} ${project_noun}s</a> since ${site_birthdate}.<br /> &copy; 2005 - 2009 <a href=\"${DYNAMIC_CONTENT}\">The Open Planning Project</a> <br />Powered by <a href=\"http://www.coactivate.org/projects/opencore/\">OpenCore</a>"
+#: ./opencore/browser/footer.pt:29
+msgid "footer_stats_summary"
+msgstr ""
+
+#. Default: "New users"
+#: ./opencore/account/forgot.pt:13
+msgid "forgot_new_users"
+msgstr "Νέοι χρήστες"
+
+#. Default: "Whether your group is mobilizing voters, planning a protest, or growing a garden, ${portal_title_openplans} can help you become more effective."
+#: ./opencore/account/forgot.pt:14
+#, fuzzy
+msgid "forgot_openplans_more_effective"
+msgstr " "
+
+#. Default: "Enter your username or email address to retrieve your login information."
+#: ./opencore/account/forgot_snippet.pt:8
+msgid "forgot_snippet_enter_username"
+msgstr "Βάλε το όνομα ή την email διεύθυνσή σου για να λάβεις τις πληροφορίες του λογαριασμού σου."
+
+#. Default: "Send"
+#: ./opencore/account/forgot_snippet.pt:32
+msgid "forgot_snippet_form_submit"
+msgstr ""
+
+#. Default: "<a class=\"oc-js-expander_open oc-expanderLink-open oc-expanderLink\" href=\"forgot\">Forgot your username or password?</a>"
+#: ./opencore/account/forgot_snippet.pt:4
+msgid "forgot_snippet_title"
+msgstr "<a class=\"oc-js-expander_open oc-expanderLink-open oc-expanderLink\" href=\"forgot\">Ξέχασες το όνομα ή τον κωδικό σου;</a>"
+
+#. Default: "Username or email address"
+#: ./opencore/account/forgot_snippet.pt:14
+msgid "forgot_snippet_username_label"
+msgstr "Όνομα ή email διεύθυνση"
+
+#. Default: "(optional)"
+#: ./opencore/account/invite-join.pt:125
+#: ./opencore/account/join.pt:60
+msgid "form_optional_value"
+msgstr ""
+
+#. Default: "Flat"
+#: ./opencore/listen/browser/forum_message_view.pt:39
+msgid "forum_flat_option"
+msgstr "Επίπεδο"
+
+#. Default: "Oldest first"
+#: ./opencore/listen/browser/forum_message_view.pt:45
+msgid "forum_oldest_option"
+msgstr "Τα παλιότερα πρώτα"
+
+#. Default: "Recent First"
+#: ./opencore/listen/browser/forum_message_view.pt:47
+msgid "forum_recent_option"
+msgstr "Τα πιο πρόσφατα πρώτα"
+
+#. Default: "Return to conversation view"
+#: ./opencore/listen/browser/forum_message_view.pt:29
+msgid "forum_return_conv_view"
+msgstr "Επιστροφή στην προβολή συζήτησης"
+
+#. Default: "Thread order:"
+#: ./opencore/listen/browser/forum_message_view.pt:43
+msgid "forum_thread_order_label"
+msgstr "Σειρά του θέματος:"
+
+#. Default: "Thread Outline:"
+#: ./opencore/listen/browser/forum_message_view.pt:18
+msgid "forum_thread_outline_label"
+msgstr "Περίγραμμα του θέματος:"
+
+#. Default: "Thread view:"
+#: ./opencore/listen/browser/forum_message_view.pt:35
+msgid "forum_thread_view_label"
+msgstr "Εμφάνιση του θέματος:"
+
+#. Default: "Threaded"
+#: ./opencore/listen/browser/forum_message_view.pt:37
+msgid "forum_threaded_option"
+msgstr "Δενδροειδής"
+
+#. Default: "Update"
+#: ./opencore/listen/browser/forum_message_view.pt:51
+msgid "forum_update_button"
+msgstr "Ενημέρωση"
+
+#: ./opencore/listen/browser/archive_date_messages.pt:20
+#: ./opencore/listen/browser/archive_thread_messages.pt:22
+msgid "from"
+msgstr ""
+
+#. Default: "From:"
+#: ./opencore/member/browser/contact.pt:33
+msgid "from-label"
+msgstr ""
+
+#. Default: "Get started!"
+#: ./opencore/nui/main/get-started.pt:3
+msgid "get_started_heading"
+msgstr ""
+
+#. Default: "Become a member"
+#: ./opencore/nui/main/get-started.pt:8
+msgid "get_started_join"
+msgstr ""
+
+#. Default: "log in"
+#: ./opencore/nui/main/get-started.pt:10
+msgid "get_started_login"
+msgstr ""
+
+#. Default: "Find people"
+#: ./opencore/nui/main/get-started.pt:20
+msgid "get_started_people_search"
+msgstr ""
+
+#. Default: "Find ${project_noun}s"
+#: ./opencore/nui/main/get-started.pt:16
+msgid "get_started_project_search"
+msgstr ""
+
+#: ./opencore/nui/wiki/wiki-edit-xinha.pt:27
+msgid "green-look"
+msgstr ""
+
+#. Default: "Find ${project_noun}s"
+#: ./opencore/nui/main/home.pt:30
+msgid "home_find_projects"
+msgstr "Βρες εγχειρήματα"
+
+#. Default: "OpenPlans offers free mailing lists, wikis, task tracking, team management, and blogs to help you build an online community and promote real-world change."
+#: ./opencore/nui/main/home.pt:39
+msgid "home_functions_blurb"
+msgstr ""
+
+#. Default: "Do good, better."
+#: ./opencore/nui/main/home.pt:18
+msgid "home_header"
+msgstr " "
+
+#. Default: "Learn more"
+#: ./opencore/nui/main/home.pt:27
+msgid "home_learn_more"
+msgstr "Μάθε περισσότερα"
+
+#. Default: "Newest ${project_noun}s"
+#: ./opencore/nui/main/home.pt:45
+msgid "home_newest_projects"
+msgstr "Τελευταία εγχειρήματα"
+
+#. Default: "by"
+#: ./opencore/nui/main/home.pt:115
+msgid "home_news_item_by"
+msgstr ""
+
+#. Default: "more news…"
+#: ./opencore/nui/main/home.pt:124
+msgid "home_news_more_link"
+msgstr ""
+
+#. Default: "You want to <strong>make a difference</strong>, we want to <strong>make it easy</strong>. OpenPlans is the simple way to bring groups together, promote your cause, make plans, manage projects, and get things done."
+#: ./opencore/nui/main/home.pt:38
+#, fuzzy
+msgid "home_opening_blurb"
+msgstr " "
+
+#. Default: "created ${creation_date}"
+#: ./opencore/nui/main/home.pt:59
+msgid "home_project_created"
+msgstr "δημιουργήθηκε ${creation_date}"
+
+#. Default: "${num_project_members} member${num_project_members_string}"
+#: ./opencore/nui/main/home.pt:83
+msgid "home_project_num_members"
+msgstr ""
+
+#. Default: "last updated ${project_updated}"
+#: ./opencore/nui/main/home.pt:86
+msgid "home_project_updated"
+msgstr "τελευταία ενημέρωση ${project_updated}"
+
+#. Default: "Start a ${project_noun}"
+#: ./opencore/nui/main/home.pt:33
+msgid "home_start_project"
+msgstr "Νέο εγχείρημα"
+
+#. Default: "Updated ${project_noun}s"
+#: ./opencore/nui/main/home.pt:71
+msgid "home_updated_projects"
+msgstr "Ανανεωμένα εγχειρήματα"
+
+#. Default: "Openplans: free project management tools, wikis, blogs, mailing lists and task tracking for neighborhood and global communities."
+#: ./opencore/nui/main/home.pt:3
+msgid "home_window_title"
+msgstr ""
+
+#: ./opencore/nui/wiki/wiki-edit-xinha.pt:30
+msgid "inditreuse"
+msgstr ""
+
+#. Default: "You do not have sufficient privileges to view this page."
+#: ./opencore/account/insufficient_privileges.pt:10
+msgid "insufficient_privileges_description"
+msgstr "Δεν έχεις αρκετά προνόμια για να δεις τη σελίδα."
+
+#. Default: "Insufficient Privileges"
+#: ./opencore/account/insufficient_privileges.pt:8
+msgid "insufficient_privileges_heading"
+msgstr "Ανεπαρκή προνόμια"
+
+#. Default: "${project} has invited you to become a member"
+#: ./opencore/member/browser/invitations.pt:13
+msgid "invitations_invite"
+msgstr "Το εγχείρημα σε προσκάλεσε να γίνεις μέλος"
+
+#. Default: "Comma separated, or one per line"
+#: ./opencore/project/browser/invite-with-message.pt:32
+msgid "invite-w-m_comma"
+msgstr "Χωρισμένα με κόμμα, ή ένα σε κάθε γραμμή"
+
+#. Default: "Customize an email to invite people to join"
+#: ./opencore/project/browser/invite-with-message.pt:12
+msgid "invite-w-m_invite_desc"
+msgstr "Παραμετροποίησε ένα email για να προσκαλείς ανθρώπους να συμμετάσχουν"
+
+#. Default: "Invite users"
+#: ./opencore/project/browser/invite-with-message.pt:10
+msgid "invite-w-m_invite_title"
+msgstr "Προσκάλεσε χρήστες"
+
+#. Default: "Customize an email to remind people to join"
+#: ./opencore/project/browser/invite-with-message.pt:11
+msgid "invite-w-m_remind_desc"
+msgstr "Παραμετροποίησε ένα email για να θυμίζεις σε ανθρώπους να συμμετάσχουν"
+
+#. Default: "Remind users"
+#: ./opencore/project/browser/invite-with-message.pt:9
+msgid "invite-w-m_remind_title"
+msgstr "Υπενθύμισε σε χρήστε"
+
+#. Default: "Invite by email address"
+#: ./opencore/project/browser/team-manage.pt:98
+msgid "invite_by_email_heading"
+msgstr ""
+
+#. Default: "Invite new members"
+#: ./opencore/project/browser/team-manage.pt:77
+msgid "invite_new_members_heading"
+msgstr ""
+
+#. Default: "Invite users"
+#: ./opencore/project/browser/invite-member.pt:9
+msgid "invite_users_heading"
+msgstr ""
+
+#. Default: "Customize an email to invite people to join"
+#: ./opencore/project/browser/invite-member.pt:10
+msgid "invite_users_help"
+msgstr ""
+
+#. Default: "Already a member?"
+#: ./opencore/account/invite-join.pt:228
+#: ./opencore/account/join.pt:187
+msgid "join_already_member_heading"
+msgstr "Είσαι ήδη μέλος;"
+
+#. Default: "Join"
+#: ./opencore/account/invite-join.pt:204
+#: ./opencore/account/join.pt:142
+msgid "join_button"
+msgstr "Γίνε μέλος"
+
+#. Default: "Check your email to confirm registration"
+#: ./opencore/account/invite-join.pt:87
+#: ./opencore/account/join.pt:20
+msgid "join_check_email"
+msgstr "Κοίταξε το email σου για να επιβεβαιώσεις την εγγραφή"
+
+#. Default: "Confirm password"
+#: ./opencore/account/invite-join.pt:183
+#: ./opencore/account/join.pt:119
+msgid "join_conf_password_label"
+msgstr "Επιβεβαίωση κωδικού"
+
+#. Default: "We will not share your email with anyone. Ever."
+#: ./opencore/account/invite-join.pt:80
+#: ./opencore/account/join.pt:159
+#, fuzzy
+msgid "join_description"
+msgstr "Η εγγραφή είναι ελεύθερη και το email σου δεν θα το μοιραστούμε με κανένα, όμως, θα πρέπει να επιβεβαιώσεις την email διεύθυνσή σου ώστε να αποφεύγουμε να χρησιμοποιούν το σύστημά μας για να στέλνουν ανεπιθύμητη αλληλογραφία."
+
+#. Default: "Email"
+#: ./opencore/account/invite-join.pt:138
+#: ./opencore/account/join.pt:75
+msgid "join_email_label"
+msgstr "Email"
+
+#. Default: "Full Name"
+#: ./opencore/account/invite-join.pt:118
+#: ./opencore/account/join.pt:53
+msgid "join_full_name_label"
+msgstr "Πλήρες Όνομα"
+
+#. Default: "Becoming a member means…"
+#: ./opencore/account/join.pt:166
+msgid "join_get_started"
+msgstr "Το να γίνεις μέλος σημαίνει πως..."
+
+#. Default: "<li> You can join and participate in existing ${project_noun}s </li> <li> You can create your own ${project_noun} and invite others to join </li> <li>You can share information about yourself</li>"
+#: ./opencore/account/invite-join.pt:251
+#: ./opencore/account/join.pt:179
+#, fuzzy
+msgid "join_get_started_list"
+msgstr "<li>Μπορείς να συμμετάσχεις σε υπάρχοντα εγχειρήματα</li> <li>Μπορείς να δημιουργήσεις δικά σου εγχειρήματα και να καλέσεις άλλους να συμμετάσχουν</li> <li>Μπορείς να μοιραστείς δικές σου πληροφορίες</li>"
+
+#. Default: "Create an account on ${page_title}"
+#: ./opencore/account/join.pt:15
+msgid "join_page_title"
+msgstr "Δημιούργησε ένα λογαριασμό στο ${page_title}"
+
+#. Default: "Password"
+#: ./opencore/account/invite-join.pt:163
+#: ./opencore/account/join.pt:97
+msgid "join_password_label"
+msgstr "Κωδικός"
+
+#. Default: "Sign in"
+#: ./opencore/account/invite-join.pt:229
+#: ./opencore/account/join.pt:188
+msgid "join_sign_in"
+msgstr "Είσοδος"
+
+#. Default: "Username"
+#: ./opencore/account/invite-join.pt:98
+#: ./opencore/account/join.pt:31
+msgid "join_username_label"
+msgstr "Όνομα"
+
+#. Default: "Create an account"
+#: ./opencore/account/join.pt:5
+msgid "join_window_title"
+msgstr ""
+
+#. Default: "Account"
+#: ./opencore/browser/topnav/mystuff-menu.pt:22
+msgid "label_account"
+msgstr ""
+
+#. Default: "by"
+#: ./opencore/listen/browser/threaded_message.pt:38
+msgid "label_author"
+msgstr "από"
+
+#. Default: "Blogs"
+#: ./opencore/account/invite-join.pt:276
+msgid "label_blogs"
+msgstr ""
+
+#. Default: "Discussions"
+#: ./opencore/account/invite-join.pt:272
+msgid "label_discussions"
+msgstr ""
+
+#. Default: "Pages"
+#: ./opencore/account/invite-join.pt:268
+msgid "label_pages"
+msgstr ""
+
+#. Default: "Profile"
+#: ./opencore/account/invite-join.pt:264
+#: ./opencore/browser/topnav/mystuff-menu.pt:5
+msgid "label_profile"
+msgstr ""
+
+#. Default: "(Required)"
+#: ./opencore/nui/main/contact-site-admin.pt:102
+msgid "label_required"
+msgstr "(Απαιτείται)"
+
+#. Default: "Send"
+#: ./opencore/nui/main/contact-site-admin.pt:121
+msgid "label_send"
+msgstr "Αποστολή"
+
+#. Default: "Site Administration"
+#: ./opencore/browser/notfound.pt:63
+msgid "label_site_administration"
+msgstr ""
+
+#. Default: "Team"
+#: ./opencore/account/invite-join.pt:260
+msgid "label_team"
+msgstr ""
+
+#. Default: "Wiki"
+#: ./opencore/browser/topnav/mystuff-menu.pt:10
+msgid "label_wiki"
+msgstr ""
+
+#: ./opencore/stats/project_activity.pt:27
+msgid "last activity (any kind)"
+msgstr ""
+
+#: ./opencore/stats/project_activity.pt:33
+msgid "last activity (blog)"
+msgstr ""
+
+#: ./opencore/stats/project_activity.pt:31
+msgid "last activity (mail)"
+msgstr ""
+
+#: ./opencore/stats/project_activity.pt:29
+msgid "last activity (wiki)"
+msgstr ""
+
+#: ./opencore/project/browser/badge.pt:26
+msgid "last updated"
+msgstr ""
+
+#. Default: "let us know"
+#: ./opencore/nui/main/about.pt:28
+msgid "let_us_know"
+msgstr ""
+
+#. Default: "avg life before dormancy"
+#: ./opencore/stats/active.pt:23
+msgid "life_before_dormancy"
+msgstr ""
+
+#: ./opencore/stats/project_activity.pt:35
+msgid "link"
+msgstr ""
+
+#. Default: "The requested list prefix is already taken."
+#: ./opencore/listen/browser/view.py:199
+msgid "list_create_duplicate_error"
+msgstr "Το συγκεκριμένο πρόθεμα λίστας υπάρχει ήδη."
+
+#. Default: "\"${title}\" has been created."
+#: ./opencore/listen/browser/view.py:294
+msgid "list_created"
+msgstr "\"${title}\" δημιουργήθηκε."
+
+#. Default: "The mailing list archival method must be set to all, text-only, or none."
+#: ./opencore/listen/browser/view.py:187
+msgid "list_invalid_archive_error"
+msgstr "Η μέθοδος αρχειοθέτησης της λίστας πρέπει να ρυθμιστεί σε όλα, μόνο κείμενο ή τίποτα."
+
+#. Default: "The following managers are not members of this site: ${managers}"
+#: ./opencore/listen/browser/view.py:171
+msgid "list_invalid_managers_error"
+msgstr "Οι παρακάτω διαχειριστές δεν είναι μέλη αυτού του ιστοχώρου: ${managers}"
+
+#. Default: "Only the following characters are allowed in list address prefixes: alpha-numerics, underscores, hyphens, and periods (i.e. A-Z, a-z, 0-9, and _-. symbols)"
+#: ./opencore/listen/browser/view.py:195
+msgid "list_invalid_prefix_error"
+msgstr "Μόνο οι παρακάτω χαρακτήρες επιτρέπονται στις διευθύνσεις λιστών: αλφαρηθμιτικο, κάτω παύλες, παύλες και τελείες (i.e. A-Z, a-z, 0-9, και _-.)"
+
+#. Default: "The mailing list must have a title."
+#: ./opencore/listen/browser/view.py:149
+msgid "list_invalid_title"
+msgstr "Η λίστα πρέπει να έχει έναν τίτλο."
+
+#. Default: "The mailing list security must be set to open, moderated, or closed."
+#: ./opencore/listen/browser/view.py:178
+msgid "list_invalid_workflow_error"
+msgstr "Η ασφάλεια της λίστας πρέπει να ρυθμιστεί σε ανοιχτή, με διαχείριση ή κλειστή."
+
+#. Default: "The mailing list must have a list prefix."
+#: ./opencore/listen/browser/view.py:193
+msgid "list_missing_prefix_error"
+msgstr "Η λίστα πρέπει να έχει άν πρόθεμα"
+
+#. Default: "The mailing list must have at least one manager."
+#: ./opencore/listen/browser/view.py:160
+msgid "list_no_managers_error"
+msgstr "Η λίστα πρέπει να έχει τουλάχιστον ένα διαχειριστή."
+
+#. Default: "Your changes have been saved."
+#: ./opencore/listen/browser/view.py:355
+msgid "list_preferences_updated"
+msgstr "Οι αλλαγές αποθηκεύτηκαν."
+
+#. Default: "List Address Prefix"
+#: ./opencore/listen/interfaces.py:16
+msgid "listen_address_prefix"
+msgstr "Πρόθεμα Διεύθυνσης Λίστας"
+
+#. Default: "The prefix portion of the main address for the mailing list."
+#: ./opencore/listen/interfaces.py:17
+msgid "listen_address_prefix_description"
+msgstr "Το τμήμα του προθέματος στη βασική διεύθυνση της λίστας."
+
+#. Default: "Membership"
+#: ./opencore/listen/browser/listen_macros.pt:20
+msgid "listen_macros_membership"
+msgstr "Μέλη"
+
+#. Default: "Messages"
+#: ./opencore/listen/browser/listen_macros.pt:15
+msgid "listen_macros_messages"
+msgstr "Μηνύματα"
+
+#. Default: "Moderation"
+#: ./opencore/listen/browser/listen_macros.pt:31
+msgid "listen_macros_moderation"
+msgstr "Διαχείριση"
+
+#. Default: "none"
+#: ./opencore/listen/browser/listen_macros.pt:69
+msgid "listen_macros_no_desc"
+msgstr "κανένα"
+
+#. Default: "Write new message"
+#: ./opencore/listen/browser/listen_macros.pt:55
+msgid "listen_macros_post"
+msgstr "Γράψε νέο μήνυμα"
+
+#. Default: "Preferences"
+#: ./opencore/listen/browser/listen_macros.pt:47
+msgid "listen_macros_preferences"
+msgstr "Ρυθμίσεις"
+
+#. Default: "Search"
+#: ./opencore/listen/browser/listen_macros.pt:36
+msgid "listen_macros_search"
+msgstr "Αναζήτηση"
+
+#. Default: "Summary"
+#: ./opencore/listen/browser/listen_macros.pt:40
+msgid "listen_macros_summary"
+msgstr "Περίληψη"
+
+#. Default: "Search"
+#: ./opencore/listen/browser/search.pt:24
+msgid "listen_search_button"
+msgstr "Αναζήτηση"
+
+#. Default: "Started by"
+#: ./opencore/listen/browser/search.pt:37
+msgid "listen_search_creator"
+msgstr "Δημιουργήθηκε από"
+
+#. Default: "<h2>About &ldquo;${list_title}&rdquo;</h2> <dl class=\"oc-plainList\"> <dt>Address</dt> ${list_address} <dt>Description</dt> ${list_desc} </dl>"
+#: ./opencore/listen/browser/search.pt:75
+msgid "listen_search_sidebar"
+msgstr "<h2>Ταυτότητα &ldquo;${list_title}&rdquo;</h2> <dl class=\"oc-plainList\"> <dt>Διεύθνση</dt> ${list_address} <dt>Περιγραφή</dt> ${list_desc} </dl>"
+
+#. Default: "Subject"
+#: ./opencore/listen/browser/search.pt:35
+msgid "listen_search_subject"
+msgstr "Θέμα"
+
+#. Default: "Edit"
+#: ./opencore/member/browser/profile.pt:30
+msgid "location-edit"
+msgstr ""
+
+#. Default: "Whether your group is mobilizing voters, planning a protest, or growing a garden, ${portal_title_openplans} can help you become more effective."
+#: ./opencore/account/login.pt:21
+#, fuzzy
+msgid "login_description"
+msgstr " "
+
+#. Default: "New users"
+#: ./opencore/account/login.pt:20
+msgid "login_heading"
+msgstr "Νέοι χρήστες"
+
+#. Default: "Sign in"
+#: ./opencore/account/login_snippet.pt:23
+msgid "login_snippet_header"
+msgstr "Είσοδος"
+
+#. Default: "Keep me logged in"
+#: ./opencore/account/login_snippet.pt:54
+msgid "login_snippet_keep_logged_in"
+msgstr "Κράτησέ με συνδεδεμένο"
+
+#. Default: "Sign in"
+#: ./opencore/account/login_snippet.pt:62
+msgid "login_snippet_login_button"
+msgstr "Είσοδος"
+
+#. Default: "Password"
+#: ./opencore/account/login_snippet.pt:45
+msgid "login_snippet_password_label"
+msgstr "Κωδικός"
+
+#. Default: "Username"
+#: ./opencore/account/login_snippet.pt:27
+msgid "login_snippet_username_label"
+msgstr "Όνομα"
+
+#. Default: "look for one to join"
+#: ./opencore/member/browser/account_project_table.pt:54
+msgid "look_for_one_to_join"
+msgstr ""
+
+#. Default: "List Address"
+#: ./opencore/listen/browser/lookup_view.pt:11
+msgid "lookup_view_address"
+msgstr "Διεύθυνση Λίστας"
+
+#. Default: "Registered Mailing Lists"
+#: ./opencore/listen/browser/lookup_view.pt:6
+msgid "lookup_view_heading"
+msgstr "Εγγεγραμένες Λίστες Ηλεκτρονικού Ταχυδρομείου"
+
+#. Default: "List Path"
+#: ./opencore/listen/browser/lookup_view.pt:12
+msgid "lookup_view_path"
+msgstr "Διαδρομή Λίστας"
+
+#. Default: "Purge Invalid Entries"
+#: ./opencore/listen/browser/lookup_view.pt:27
+msgid "lookup_view_purge_button"
+msgstr "Διαγραφή Άκυρων Εγγραφών"
+
+#: ./opencore/stats/active.pt:19
+#: ./opencore/stats/stats.pt:91
+msgid "mailing lists"
+msgstr ""
+
+#. Default: "Actions"
+#: ./opencore/listen/browser/mailing_lists.pt:29
+msgid "mailing_lists_actions"
+msgstr ""
+
+#. Default: "Mailing list"
+#: ./opencore/listen/browser/mailing_lists.pt:27
+msgid "mailing_lists_column_header"
+msgstr "Λίστα ηλεκτρονικού ταχυδρομείου"
+
+#. Default: "View<span> or manage exisiting</span> mailing lists<span> or ${absolute_url_create}</span>."
+#: ./opencore/listen/browser/mailing_lists.pt:16
+#, fuzzy
+msgid "mailing_lists_description"
+msgstr "Εμφάνιση<span> ή διαχείριση υπάρχουσων</span> λιστών<span> ή <a href=\"${DYNAMIC_CONTENT}\">προσθήκη νέας</a></span>."
+
+#. Default: "Mailing lists"
+#: ./opencore/listen/browser/mailing_lists.pt:14
+msgid "mailing_lists_heading"
+msgstr "Λίστες ηλεκτρονικού ταχυδρομείου"
+
+#. Default: "Last activity"
+#: ./opencore/listen/browser/mailing_lists.pt:28
+msgid "mailing_lists_last_activity"
+msgstr "Τελευταία δραστηριότητα"
+
+#. Default: "There are currently no mailing lists for this ${project_noun}."
+#: ./opencore/listen/browser/mailing_lists.pt:90
+msgid "mailing_lists_no_lists"
+msgstr "Δεν υπάρχουν λίστες γι αυτό το εγχείρημα."
+
+#. Default: "Address"
+#: ./opencore/listen/browser/mailinglist_view.pt:19
+msgid "mailinglist_view_address"
+msgstr "Διεύθυνση"
+
+#. Default: "Message archive"
+#: ./opencore/listen/browser/mailinglist_view.pt:44
+msgid "mailinglist_view_archive"
+msgstr "Αρχείο Μηνυμάτων"
+
+#. Default: "View messages."
+#: ./opencore/listen/browser/mailinglist_view.pt:51
+msgid "mailinglist_view_archive_link"
+msgstr "Εμφάνιση μηνυμάτων."
+
+#. Default: "Contact"
+#: ./opencore/listen/browser/mailinglist_view.pt:55
+msgid "mailinglist_view_contact"
+msgstr "Επικοινωνία"
+
+#. Default: "Description"
+#: ./opencore/listen/browser/mailinglist_view.pt:15
+msgid "mailinglist_view_desc"
+msgstr "Περιγραφή"
+
+#. Default: "<strong>Email address:</strong>"
+#: ./opencore/listen/browser/listen_macros.pt:114
+msgid "mailinglist_view_email_add"
+msgstr "<strong>Email διεύθυνση:</strong>"
+
+#. Default: "To subscribe to the list enter your email in the field below."
+#: ./opencore/listen/browser/listen_macros.pt:109
+msgid "mailinglist_view_enter_email"
+msgstr "Για να γραφτείς σε αυτήν τη λίστα, γράψε το email σου στο πρακάτω πεδίο."
+
+#. Default: "Managers"
+#: ./opencore/listen/browser/mailinglist_view.pt:27
+msgid "mailinglist_view_managers"
+msgstr "Διαχειριστές"
+
+#. Default: "You are currently <strong>not subscribed</strong> to this list."
+#: ./opencore/listen/browser/listen_macros.pt:97
+msgid "mailinglist_view_not_subscribed"
+msgstr "Δεν είσαι εγγεγραμένος σε αυτήν τη λίστα."
+
+#. Default: "Subscribe"
+#: ./opencore/listen/browser/listen_macros.pt:103
+msgid "mailinglist_view_sub_button"
+msgstr "Εγγραφή"
+
+#. Default: "Subscribe Address"
+#: ./opencore/listen/browser/listen_macros.pt:118
+msgid "mailinglist_view_sub_email_button"
+msgstr "Εγγραφή Διεύθυνσης"
+
+#. Default: "Subscription status"
+#: ./opencore/listen/browser/listen_macros.pt:93
+msgid "mailinglist_view_sub_form_heading"
+msgstr "Κατάσταση εγγραφής"
+
+#. Default: "Subscription pending"
+#: ./opencore/listen/browser/listen_macros.pt:128
+msgid "mailinglist_view_sub_pending"
+msgstr "Η εγγραφή εκρεμεί"
+
+#. Default: "Your subscription request is pending moderation by the list manager. ${manager_email}"
+#: ./opencore/listen/browser/listen_macros.pt:131
+msgid "mailinglist_view_sub_pending_desc"
+msgstr "Η αίτηση εγγραφής περιμένει έγκριση από έναν διαχειριστή της λίστας."
+
+#. Default: "You are currently <strong>subscribed</strong> to this list."
+#: ./opencore/listen/browser/listen_macros.pt:94
+msgid "mailinglist_view_subscribed"
+msgstr "Είσαι εγγεγραμένος/η στη λίστα."
+
+#. Default: "Title"
+#: ./opencore/listen/browser/mailinglist_view.pt:12
+msgid "mailinglist_view_title"
+msgstr "Τίτλος"
+
+#. Default: "To unsubscribe from this list send an email to the list with the subject \"${sunsubscribe_keyword}\" and an empty body."
+#: ./opencore/listen/browser/listen_macros.pt:84
+msgid "mailinglist_view_to_unsubscribe"
+msgstr "Για να διαγραφείτε από τη λίστα, στείλτε ένα email στη λίστα με θέμα \"${sunsubscribe_keyword}\" και κενό περιεχόμενο."
+
+#. Default: "Type"
+#: ./opencore/listen/browser/mailinglist_view.pt:38
+msgid "mailinglist_view_type"
+msgstr "Τύπος"
+
+#. Default: "Unsubscribe"
+#: ./opencore/listen/browser/listen_macros.pt:101
+msgid "mailinglist_view_unsub_button"
+msgstr "Διαγραφή"
+
+#. Default: "all"
+#: ./opencore/nui/main/search-widget.pt:70
+msgid "main_macros_all"
+msgstr ""
+
+#. Default: "Everything"
+#: ./opencore/nui/main/search-widget.pt:32
+msgid "main_macros_everything_label"
+msgstr "Τα πάντα"
+
+#. Default: "People"
+#: ./opencore/nui/main/search-widget.pt:14
+msgid "main_macros_people_label"
+msgstr "Άνθρωποι"
+
+#. Default: "Search"
+#: ./opencore/nui/main/search-widget.pt:41
+msgid "main_macros_search_button"
+msgstr "Αναζήτηση"
+
+#. Default: "Search"
+#: ./opencore/nui/main/search-widget.pt:13
+msgid "main_macros_search_label"
+msgstr "Αναζήτηση"
+
+#. Default: "Manage Allowed Senders"
+#: ./opencore/listen/browser/view.py:540
+msgid "manage_allowed_senders"
+msgstr ""
+
+#. Default: "Add:"
+#: ./opencore/listen/browser/manage_membership.pt:66
+msgid "manage_membership_add"
+msgstr "Προσθήκη:"
+
+#. Default: "Remove"
+#: ./opencore/listen/browser/manage_membership.pt:20
+msgid "manage_membership_remove"
+msgstr "Αφαίρεση"
+
+#. Default: "Subscribe?"
+#: ./opencore/listen/browser/manage_membership.pt:71
+msgid "manage_membership_subscribe"
+msgstr "Εγγραφή;"
+
+#. Default: "Subscribed"
+#: ./opencore/listen/browser/manage_membership.pt:22
+msgid "manage_membership_subscribed"
+msgstr "Εγγεγραμένοι"
+
+#. Default: "Susbscribed?"
+#: ./opencore/listen/browser/membership.pt:17
+msgid "manage_membership_susbscribed"
+msgstr ""
+
+#. Default: "Address / User ID"
+#: ./opencore/listen/browser/manage_membership.pt:21
+#: ./opencore/listen/browser/membership.pt:16
+msgid "manage_membership_user"
+msgstr "Διεύθυνση / ID χρήστη"
+
+#. Default: "Please direct inquiries about this list to ${manager_email_view}."
+#: ./opencore/listen/browser/mailinglist_view.pt:59
+msgid "manager_email_help"
+msgstr ""
+
+#. Default: "${title} on ${portal_title}"
+#: ./opencore/browser/base.py:233
+msgid "member_area_verbose_title"
+msgstr ""
+
+#. Default: "Date"
+#: ./opencore/member/browser/member_macros.pt:28
+msgid "member_macros_date_header"
+msgstr "Ημερομηνία"
+
+#. Default: "member since ${membersince}, last login ${lastlogin}"
+#: ./opencore/member/browser/member_macros.pt:12
+msgid "member_macros_date_stats"
+msgstr ""
+
+#. Default: "Page"
+#: ./opencore/member/browser/member_macros.pt:29
+msgid "member_macros_page_header"
+msgstr "Σελίδα"
+
+#. Default: "Pages last modified by ${member}"
+#: ./opencore/member/browser/member_macros.pt:23
+msgid "member_macros_pages_modified"
+msgstr "Σελίδες που επεξεργάστηκε πρόσφατα ο/η ${member}"
+
+#. Default: "Recent activity"
+#: ./opencore/member/browser/member_macros.pt:20
+msgid "member_macros_recent_activity"
+msgstr "Πρόσφατη δραστηριότητα"
+
+#: ./opencore/stats/active.pt:17
+#: ./opencore/stats/project_activity.pt:28
+#: ./opencore/stats/stats.pt:34
+msgid "members"
+msgstr ""
+
+#. Default: "Message:"
+#: ./opencore/member/browser/contact.pt:50
+msgid "message-label"
+msgstr ""
+
+#. Default: "Attachments"
+#: ./opencore/listen/browser/message_macros.pt:66
+msgid "message_macros_attms"
+msgstr "Συννημένα"
+
+#. Default: "from"
+#: ./opencore/listen/browser/message_macros.pt:52
+msgid "message_macros_from"
+msgstr "από"
+
+#. Default: "Reply"
+#: ./opencore/listen/browser/message_macros.pt:43
+msgid "message_macros_reply"
+msgstr "Απάντηση"
+
+#. Default: "Actions"
+#: ./opencore/listen/browser/moderation.pt:103
+msgid "moderation_actions"
+msgstr ""
+
+#. Default: "Approve"
+#: ./opencore/listen/browser/moderation.pt:43
+msgid "moderation_approve_button"
+msgstr "Έγκριση"
+
+#. Default: "Discard"
+#: ./opencore/listen/browser/moderation.pt:51
+msgid "moderation_discard_button"
+msgstr "Διαγραφή"
+
+#. Default: "No posts pending moderation"
+#: ./opencore/listen/browser/moderation.pt:93
+msgid "moderation_no_posts"
+msgstr "Δεν υπάρχουν δημοσιεύσεις που περιμένουν διαχείριση"
+
+#. Default: "No members pending moderation."
+#: ./opencore/listen/browser/moderation.pt:133
+msgid "moderation_no_users"
+msgstr "Δεν υπάρχουν μέλη που περιμένουν διαχείριση"
+
+#. Default: "Posts awaiting moderation"
+#: ./opencore/listen/browser/moderation.pt:16
+msgid "moderation_posts"
+msgstr "Δημοσιεύσεις που περιμένουν διαχείριση"
+
+#. Default: "Actions"
+#: ./opencore/listen/browser/moderation.pt:22
+msgid "moderation_posts_actions"
+msgstr ""
+
+#. Default: "From"
+#: ./opencore/listen/browser/moderation.pt:20
+msgid "moderation_posts_from"
+msgstr "Από"
+
+#. Default: "Message"
+#: ./opencore/listen/browser/moderation.pt:21
+msgid "moderation_posts_msg"
+msgstr "Μήνυμα"
+
+#. Default: "<strong>Reason:</strong> <span class=\"oc-discreetText\">(optional)</span>"
+#: ./opencore/listen/browser/moderation.pt:68
+msgid "moderation_reason"
+msgstr "<strong>Αιτία:</strong> <span class=\"oc-discreetText\">(προαιρετικό)</span>"
+
+#. Default: "Reject"
+#: ./opencore/listen/browser/moderation.pt:59
+msgid "moderation_reject_confirm_button"
+msgstr "Απόρριψη"
+
+#. Default: "User"
+#: ./opencore/listen/browser/moderation.pt:102
+msgid "moderation_user"
+msgstr "Χρήστης"
+
+#. Default: "Approve"
+#: ./opencore/listen/browser/moderation.pt:116
+msgid "moderation_user_approve"
+msgstr "Έγκριση"
+
+#. Default: "Discard"
+#: ./opencore/listen/browser/moderation.pt:119
+msgid "moderation_user_discard"
+msgstr "Διαγραφή"
+
+#. Default: "Reject"
+#: ./opencore/listen/browser/moderation.pt:123
+msgid "moderation_user_reject"
+msgstr "Απόρριψη"
+
+#. Default: "Users awaiting moderation"
+#: ./opencore/listen/browser/moderation.pt:98
+msgid "moderation_users_heading"
+msgstr "Χρήστες που περιμένουν διαχείριση"
+
+#: ./opencore/nui/wiki/wiki-previous-version.pt:57
+#: ./opencore/nui/wiki/wiki-version-compare.pt:64
+msgid "modified"
+msgstr ""
+
+#. Default: "Edit"
+#: ./opencore/member/browser/profile.pt:20
+msgid "name-edit"
+msgstr ""
+
+#. Default: "Cancel"
+#: ./opencore/listen/browser/new_topic_view.pt:73
+msgid "new_topic_cancel_button"
+msgstr "Άκυρο"
+
+#. Default: "Send"
+#: ./opencore/listen/browser/new_topic_view.pt:69
+msgid "new_topic_send_button"
+msgstr "Αποστολή"
+
+#. Default: "From:"
+#: ./opencore/listen/browser/new_topic_view.pt:27
+msgid "new_topic_view_from"
+msgstr "Από:"
+
+#. Default: "New post to &ldquo;${list_title}&rdquo;"
+#: ./opencore/listen/browser/new_topic_view.pt:12
+msgid "new_topic_view_heading"
+msgstr "Νέ δημοσίευση στη &ldquo;${list_title}&rdquo;"
+
+#. Default: "Message:"
+#: ./opencore/listen/browser/new_topic_view.pt:49
+msgid "new_topic_view_message_body"
+msgstr "Μήνυμα:"
+
+#. Default: "(Required)"
+#: ./opencore/listen/browser/new_topic_view.pt:40
+msgid "new_topic_view_required"
+msgstr "(Απαιτείται)"
+
+#. Default: "Subject:"
+#: ./opencore/listen/browser/new_topic_view.pt:31
+msgid "new_topic_view_subject"
+msgstr "Θέμα:"
+
+#: ./opencore/nui/wiki/wiki-previous-version.pt:47
+#: ./opencore/nui/wiki/wiki-version-compare.pt:52
+msgid "newer"
+msgstr ""
+
+#. Default: "New Members"
+#: ./opencore/nui/main/people.pt:27
+msgid "news_about_new_members"
+msgstr ""
+
+#. Default: "We would love to hear from you. Learn more ${about_our_software_portal_url} or ${contact_us_portal_url} for more information."
+#: ./opencore/nui/main/news.pt:43
+#, fuzzy
+msgid "news_about_us_description"
+msgstr " "
+
+#. Default: "About us"
+#: ./opencore/nui/main/news.pt:42
+msgid "news_about_us_heading"
+msgstr "Ταυτότητα"
+
+#. Default: "Add news item..."
+#: ./opencore/nui/main/news.pt:20
+msgid "news_add_item"
+msgstr "Προσθήκη νέου..."
+
+#. Default: "Read more…"
+#: ./opencore/nui/main/news.pt:35
+msgid "news_read_more"
+msgstr "Διαβάστε περισσότερα..."
+
+#. Default: "${portal_title} News"
+#: ./opencore/nui/main/home.pt:104
+#: ./opencore/nui/main/news.pt:11
+msgid "news_section_heading"
+msgstr ""
+
+#. Default: "Please enter a password"
+#: ./opencore/member/factory.py:83
+msgid "no_password"
+msgstr "Βάλτε έναν κωδικό"
+
+#: ./opencore/nui/wiki/wiki-previous-version.pt:34
+#: ./opencore/nui/wiki/wiki-version-compare.pt:35
+msgid "older"
+msgstr ""
+
+#: ./opencore/listen/browser/archive_date_messages.pt:25
+#: ./opencore/listen/browser/archive_thread_messages.pt:27
+#: ./opencore/listen/browser/message_macros.pt:57
+msgid "on"
+msgstr ""
+
+#: ./opencore/listen/browser/threaded_message.pt:17
+#: ./opencore/member/browser/account.pt:147
+#: ./opencore/member/browser/profile-edit.pt:106
+msgid "or"
+msgstr ""
+
+#: ./opencore/member/browser/contact.pt:66
+msgid "or ${url}"
+msgstr ""
+
+#. Default: "There is no member named \"${user_id}\"."
+#: ./opencore/browser/base.py:663
+msgid "password_no_member_error"
+msgstr "Δεν υπάρχει μέλος με όνομα \"${user_id}\"."
+
+#. Default: "You must enter a password."
+#: ./opencore/browser/base.py:669
+msgid "password_no_password_error"
+msgstr "Βάλτε έναν κωδικό."
+
+#. Default: "You need to enter your username."
+#: ./opencore/browser/base.py:658
+msgid "password_no_username_error"
+msgstr "Πρέπει να εισάγεις ένα όνομα χρήστη"
+
+#. Default: "Please make sure that both password fields are the same."
+#: ./opencore/browser/base.py:672
+msgid "password_not_same_error"
+msgstr "Σιγουρέψου οτι και τα δύο πεδία για τον κωδικό είναι ίδια."
+
+#: ./opencore/browser/error.pt:36
+#: ./opencore/nui/main/contact-site-admin.pt:106
+msgid "password_send_warning"
+msgstr "Μην περιλαμβάνετε τον κωδικό ή άλλες ευαίσθητες πληροφορίες."
+
+#. Default: "Or enter a new address where you would like to receive the activation email for this account again"
+#: ./opencore/account/pending.pt:24
+msgid "pending_description"
+msgstr "Ή πρόσθεσε μια νέα διεύθυνση όπου θα ήθελες να λάβιες νέο email ενεργοποίησης γι αυτόν τον λογαριασμό"
+
+#. Default: "Email"
+#: ./opencore/account/pending.pt:41
+msgid "pending_email_label"
+msgstr "Email"
+
+#. Default: "Enter a different email address"
+#: ./opencore/account/pending.pt:33
+msgid "pending_enter_new_email"
+msgstr "Βάλε μια διαφορετική email διεύθυνση"
+
+#. Default: "Send"
+#: ./opencore/account/pending.pt:50
+msgid "pending_form_submit"
+msgstr ""
+
+#. Default: "<a class=\"oc-js-expander_open oc-expanderLink\"> If you think this is a mistake, you can try to login again </a>"
+#: ./opencore/account/pending.pt:70
+msgid "pending_mistake"
+msgstr "<a class=\"oc-js-expander_open oc-expanderLink\"> Αν θεωρείς οτι έχει γίνει λάθος, μπορείς να προσπαθήσεις να συνδεθείς ξανά </a>"
+
+#. Default: "Send me another activation email"
+#: ./opencore/account/pending.pt:13
+msgid "pending_send_another_activation"
+msgstr "Στείλε μου άλλο ένα email ενεργοποίησης"
+
+#. Default: "${num_members} members, <span>and growing</span> <span>and ${portal_url_join} </span>"
+#: ./opencore/nui/main/people.pt:15
+#, fuzzy
+msgid "people_members"
+msgstr "${num_members} μέλη, <span>και αυξάνονται</span> <span>και <a href=\"/join\">εσένα</a></span"
+
+#. Default: "sorted by name"
+#: ./opencore/nui/main/people-sortablefields.pt:8
+msgid "people_sortable_fields_exact_getFullname"
+msgstr ""
+
+#. Default: "sorted by relevancy"
+#: ./opencore/nui/main/people-sortablefields.pt:2
+msgid "people_sortable_fields_relevancy"
+msgstr ""
+
+#. Default: "sorted by username"
+#: ./opencore/nui/main/people-sortablefields.pt:6
+msgid "people_sortable_fields_username"
+msgstr ""
+
+#. Default: "you"
+#: ./opencore/nui/main/people.pt:16
+msgid "people_you"
+msgstr ""
+
+#. Default: "${title}"
+#: ./opencore/browser/base.py:283
+msgid "portal_area_verbose_title"
+msgstr ""
+
+#. Default: "Cancel"
+#: ./opencore/member/browser/portrait-snippet.pt:33
+msgid "portrait-snippet_cancel"
+msgstr "Άκυρο"
+
+#. Default: "Change image"
+#: ./opencore/member/browser/portrait-snippet.pt:10
+msgid "portrait-snippet_change_image"
+msgstr "Αλλαγή εικόνας"
+
+#. Default: "About"
+#: ./opencore/member/browser/profile-edit.pt:56
+msgid "profile-edit_about_label"
+msgstr "Ταυτότητα"
+
+#. Default: "Cancel"
+#: ./opencore/member/browser/profile-edit.pt:107
+msgid "profile-edit_cancel"
+msgstr "Άκυρο"
+
+#. Default: "Interests"
+#: ./opencore/member/browser/profile-edit.pt:62
+msgid "profile-edit_interests_label"
+msgstr "Ενδιαφέροντα"
+
+#. Default: "Location"
+#: ./opencore/member/browser/profile-edit.pt:35
+msgid "profile-edit_location_label"
+msgstr "Περιοχή"
+
+#. Default: "Name"
+#: ./opencore/member/browser/profile-edit.pt:21
+msgid "profile-edit_name_label"
+msgstr "Όνομα"
+
+#. Default: "Website"
+#: ./opencore/member/browser/profile-edit.pt:45
+msgid "profile-edit_website_label"
+msgstr "Ιστοσελίδα"
+
+#. Default: "Edit"
+#: ./opencore/member/browser/profile.pt:13
+msgid "profile_edit"
+msgstr "Επεξεργασία"
+
+#. Default: "Location"
+#: ./opencore/member/browser/profile.pt:29
+msgid "profile_location"
+msgstr "Περιοχή"
+
+#. Default: "Member home"
+#: ./opencore/member/browser/profile.pt:66
+msgid "profile_member_home"
+msgstr "Αρχική σελίδα μέλους"
+
+#. Default: "Name"
+#: ./opencore/member/browser/profile.pt:19
+msgid "profile_name"
+msgstr "Όνομα"
+
+#. Default: "visible to all:"
+#: ./opencore/member/browser/profile.pt:47
+msgid "profile_visible_all"
+msgstr "εμφανές σε όλους:"
+
+#. Default: "visible only to team members:"
+#: ./opencore/member/browser/profile.pt:55
+msgid "profile_visible_team"
+msgstr "εμφανές μόνο σε μέλη της ομάδας:"
+
+#. Default: "Website"
+#: ./opencore/member/browser/profile.pt:73
+msgid "profile_website"
+msgstr "Ιστοσελίδα"
+
+#. Default: "${title} - ${portal_title}"
+#: ./opencore/browser/base.py:249
+msgid "project_area_verbose_title"
+msgstr ""
+
+#. Default: "${num_members} ${num_members_string}"
+#: ./opencore/project/browser/badge.pt:22
+msgid "project_badge_num_members"
+msgstr ""
+
+#. Default: "Start a ${project_noun} - ${portal_title}"
+#: ./opencore/project/browser/create.pt:4
+msgid "project_create_window_title"
+msgstr ""
+
+#. Default: "\"${title}\" has been created. Create a team by searching for other members to invite to your ${project_noun}, then <a href=\"${proj_edit_url}\">edit your ${project_noun} home page</a>."
+#: ./opencore/project/browser/add.py:156
+msgid "project_created"
+msgstr "Το \"${title}\" δημιουργήκε. Δημιούργησε μια ομάδα αναζητώντας άλλα μέλη για να προσκαλέσεις στο εγχείρημά σου, μετά <a href=\"${proj_edit_url}\">επεξεργάσου την αρχική σελίδα του εγχειρήματός σου</a>."
+
+#. Default: "Support is planned to add other content to the export soon (eg. blogs, tasks, etc)."
+#: ./opencore/project/browser/export.pt:74
+msgid "project_export_content_description"
+msgstr ""
+
+#. Default: "Currently, exporting will include:"
+#: ./opencore/project/browser/export.pt:66
+msgid "project_export_content_list_header"
+msgstr ""
+
+#. Default: "Exports available for download (most recent first, maximum of 5):"
+#: ./opencore/project/browser/export.pt:57
+msgid "project_export_file_list_heading"
+msgstr ""
+
+#. Default: "There is already a job running. Please be patient."
+#: ./opencore/project/browser/export.pt:50
+msgid "project_export_job_running"
+msgstr ""
+
+#. Default: "Export"
+#: ./opencore/project/browser/export.pt:7
+msgid "project_export_window_title"
+msgstr ""
+
+#: ./opencore/project/utils.py:68
+msgid "project_noun"
+msgstr ""
+
+#. Default: "Remove this ${project_noun} from ${portal_title}?"
+#: ./opencore/project/browser/preferences.pt:217
+msgid "project_prefs_delete_prompt"
+msgstr ""
+
+#. Default: "${project_noun} preferences"
+#: ./opencore/project/browser/preferences.pt:20
+msgid "project_prefs_heading"
+msgstr ""
+
+#. Default: "Description"
+#: ./opencore/project/browser/preferences.pt:61
+msgid "project_prefs_project_description"
+msgstr ""
+
+#. Default: "Image or logo"
+#: ./opencore/project/browser/preferences.pt:73
+msgid "project_prefs_project_logo"
+msgstr ""
+
+#. Default: "Change image"
+#: ./opencore/project/browser/preferences.pt:87
+msgid "project_prefs_project_logo_change"
+msgstr ""
+
+#. Default: "Name"
+#: ./opencore/project/browser/preferences.pt:36
+msgid "project_prefs_project_name"
+msgstr ""
+
+#. Default: "URL"
+#: ./opencore/project/browser/preferences.pt:50
+msgid "project_prefs_project_url"
+msgstr ""
+
+#. Default: "Basics"
+#: ./opencore/project/browser/preferences.pt:31
+msgid "project_prefs_section_basics"
+msgstr ""
+
+#. Default: "Delete ${project_noun}"
+#: ./opencore/project/browser/preferences.pt:214
+msgid "project_prefs_section_delete"
+msgstr ""
+
+#. Default: "Select the home page for your ${project_noun}:"
+#: ./opencore/project/browser/preferences.pt:180
+msgid "project_prefs_section_homepage"
+msgstr ""
+
+#. Default: "Security"
+#: ./opencore/project/browser/preferences.pt:123
+msgid "project_prefs_section_security"
+msgstr ""
+
+#. Default: "Tools"
+#: ./opencore/project/browser/preferences.pt:153
+msgid "project_prefs_section_tools"
+msgstr ""
+
+#. Default: "Which additional tools would you like to install?"
+#: ./opencore/project/browser/preferences.pt:155
+msgid "project_prefs_section_tools_subheading"
+msgstr ""
+
+#. Default: "Only team members can view, contribute, or search for this ${project_noun}"
+#: ./opencore/project/browser/preferences.pt:145
+msgid "project_prefs_security_closed"
+msgstr ""
+
+#. Default: "Anyone can view this ${project_noun} but only team members can contribute to it"
+#: ./opencore/project/browser/preferences.pt:138
+msgid "project_prefs_security_medium"
+msgstr ""
+
+#. Default: "Anyone can view this ${project_noun} and any ${portal_title} member can contribute to it"
+#: ./opencore/project/browser/preferences.pt:131
+msgid "project_prefs_security_open"
+msgstr ""
+
+#. Default: "Preferences"
+#: ./opencore/project/browser/preferences.pt:13
+msgid "project_prefs_window_title"
+msgstr ""
+
+#. Default: "Announce your ${project_noun}."
+#: ./opencore/project/browser/tour.pt:20
+msgid "project_tour_announce"
+msgstr ""
+
+#. Default: "Blog"
+#: ./opencore/project/browser/tour.pt:39
+msgid "project_tour_blog"
+msgstr ""
+
+#. Default: "Speak out"
+#: ./opencore/project/browser/tour.pt:44
+msgid "project_tour_blog_advocate"
+msgstr ""
+
+#. Default: "Attract attention"
+#: ./opencore/project/browser/tour.pt:43
+msgid "project_tour_blog_buzz"
+msgstr ""
+
+#. Default: "Publish updates"
+#: ./opencore/project/browser/tour.pt:42
+msgid "project_tour_blog_publish"
+msgstr ""
+
+#. Default: "Communicate"
+#: ./opencore/project/browser/tour.pt:19
+msgid "project_tour_communicate"
+msgstr ""
+
+#. Default: "Congratulations on starting your ${project_noun}."
+#: ./opencore/project/browser/tour.pt:13
+msgid "project_tour_header"
+msgstr ""
+
+#. Default: "Now you can…"
+#: ./opencore/project/browser/tour.pt:14
+msgid "project_tour_header_2"
+msgstr ""
+
+#. Default: "Mailing lists"
+#: ./opencore/project/browser/tour.pt:71
+msgid "project_tour_mailinglists"
+msgstr ""
+
+#. Default: "Promote discussions"
+#: ./opencore/project/browser/tour.pt:75
+msgid "project_tour_mailinglists_discuss"
+msgstr ""
+
+#. Default: "Call supporters to action"
+#: ./opencore/project/browser/tour.pt:76
+msgid "project_tour_mailinglists_engage"
+msgstr ""
+
+#. Default: "Keep everyone up-to-date"
+#: ./opencore/project/browser/tour.pt:74
+msgid "project_tour_mailinglists_update"
+msgstr ""
+
+#. Default: "Organize"
+#: ./opencore/project/browser/tour.pt:52
+msgid "project_tour_organize"
+msgstr ""
+
+#. Default: "Keep your team organized and on-track."
+#: ./opencore/project/browser/tour.pt:53
+msgid "project_tour_organize_team"
+msgstr ""
+
+#. Default: "<!-- this is a hacky way to get the 'project_prefs_url' key into the i18n mapping, so that it can be used in the anchor href below. i don't know of a cleaner way to do this, unfortunately --> ${project_prefs_url} Want to add or remove tools from your ${project_noun}? Change your ${project_prefs_url_preferences}."
+#: ./opencore/project/browser/tour.pt:105
+msgid "project_tour_preferences"
+msgstr ""
+
+#. Default: "Task Tracker"
+#: ./opencore/project/browser/tour.pt:83
+msgid "project_tour_tasktracker"
+msgstr ""
+
+#. Default: "Assign tasks to others"
+#: ./opencore/project/browser/tour.pt:87
+msgid "project_tour_tasktracker_delegate"
+msgstr ""
+
+#. Default: "Share to-do lists"
+#: ./opencore/project/browser/tour.pt:86
+msgid "project_tour_tasktracker_share"
+msgstr ""
+
+#. Default: "Keep track of progress"
+#: ./opencore/project/browser/tour.pt:88
+msgid "project_tour_tasktracker_track"
+msgstr ""
+
+#. Default: "Manage your team"
+#: ./opencore/project/browser/tour.pt:59
+msgid "project_tour_team"
+msgstr ""
+
+#. Default: "Invite people to join this ${project_noun}"
+#: ./opencore/project/browser/tour.pt:62
+msgid "project_tour_team_invite"
+msgstr ""
+
+#. Default: "Build momentum"
+#: ./opencore/project/browser/tour.pt:63
+msgid "project_tour_team_invite_again"
+msgstr ""
+
+#. Default: "Find collaborators"
+#: ./opencore/project/browser/tour.pt:64
+msgid "project_tour_team_invite_again_kinda"
+msgstr ""
+
+#. Default: "Wiki pages"
+#: ./opencore/project/browser/tour.pt:26
+msgid "project_tour_wiki"
+msgstr ""
+
+#. Default: "Sketch out your goals"
+#: ./opencore/project/browser/tour.pt:31
+msgid "project_tour_wiki_brainstorm"
+msgstr ""
+
+#. Default: "Write collaboratively"
+#: ./opencore/project/browser/tour.pt:30
+msgid "project_tour_wiki_collaborate"
+msgstr ""
+
+#. Default: "A blank canvas for key information"
+#: ./opencore/project/browser/tour.pt:29
+msgid "project_tour_wiki_infodump"
+msgstr ""
+
+#. Default: "Share photos"
+#: ./opencore/project/browser/tour.pt:32
+msgid "project_tour_wiki_media"
+msgstr ""
+
+#. Default: "Tour - ${project_title} on ${portal_title}"
+#: ./opencore/project/browser/tour.pt:4
+msgid "project_tour_window_title"
+msgstr ""
+
+#: ./opencore/stats/active.pt:18
+msgid "projects"
+msgstr ""
+
+#. Default: "Manage"
+#: ./opencore/member/browser/profile.pt:39
+msgid "projects-manage"
+msgstr ""
+
+#. Default: "Currently serving ${num_projects} ${project_noun}"
+#: ./opencore/nui/main/projects.pt:12
+#, fuzzy
+msgid "projects_currently_serving"
+msgstr "Εξυπηρετεί ${num_projects} εγχειρήματα"
+
+#. Default: "Can&rsquo;t find a ${project_noun} you are interested in? See a need that is not being met?"
+#: ./opencore/nui/main/projects.pt:71
+msgid "projects_get_started"
+msgstr "Δε μπορείς να βρεις ένα εγχείρημα που να σε ενδιαφέρει; Βλέπεις μια ανάγκη που δεν καλύπτεται;"
+
+#. Default: "Get started…"
+#: ./opencore/nui/main/projects.pt:70
+msgid "projects_get_started_heading"
+msgstr " "
+
+#. Default: "projects"
+#: ./opencore/stats/stats.pt:61
+msgid "projects_headind"
+msgstr ""
+
+#. Default: "(note, \"active\" does not check activity in lists, blogs, or tasks... just pages and preferences)"
+#: ./opencore/stats/stats.pt:62
+msgid "projects_help_active"
+msgstr ""
+
+#. Default: "${num_project_members} member(s), last updated ${modification_date}"
+#: ./opencore/nui/main/projects.pt:53
+msgid "projects_project_stats_summary"
+msgstr ""
+
+#. Default: "Recently updated ${project_noun}(s)"
+#: ./opencore/nui/main/projects.pt:20
+msgid "projects_recently_updated"
+msgstr ""
+
+#. Default: "created by"
+#: ./opencore/nui/main/projects-resultlist.pt:29
+msgid "projects_searchresults_created_by"
+msgstr ""
+
+#. Default: "last updated"
+#: ./opencore/nui/main/projects-resultlist.pt:37
+msgid "projects_searchresults_last_updated"
+msgstr ""
+
+#. Default: "sorted by project creator"
+#: ./opencore/nui/main/projects-sortablefields.pt:12
+msgid "projects_sortable_fields_Creator"
+msgstr ""
+
+#. Default: "sorted by date created"
+#: ./opencore/nui/main/projects-sortablefields.pt:10
+msgid "projects_sortable_fields_created"
+msgstr ""
+
+#. Default: "sorted by date updated"
+#: ./opencore/nui/main/projects-sortablefields.pt:8
+msgid "projects_sortable_fields_modified"
+msgstr ""
+
+#. Default: "sorted by relevancy"
+#: ./opencore/nui/main/projects-sortablefields.pt:2
+msgid "projects_sortable_fields_relevancy"
+msgstr ""
+
+#. Default: "sorted by project name"
+#: ./opencore/nui/main/projects-sortablefields.pt:6
+msgid "projects_sortable_fields_sortable_title"
+msgstr ""
+
+#. Default: "Start a new ${project_noun}"
+#: ./opencore/nui/main/projects.pt:73
+msgid "projects_start_project_button"
+msgstr "Ξεκίνα ένα νέο εγχείρημα"
+
+#: ./opencore/project/browser/manageteam.py:595
+msgid "promote_to_admin"
+msgstr "Ο/η ${name} είναι τώρα διαχειριστής"
+
+#. Default: "Account '${deleted_user_id}' has been permanently deleted."
+#: ./opencore/member/browser/account.py:548
+msgid "psm_account_deleted"
+msgstr ""
+
+#. Default: "Your account has not yet been activated. An email was sent to ${user} from ${email_from_address} containing a link to activate your account."
+#: ./opencore/account/login.py:55
+msgid "psm_account_not_activated"
+msgstr "Ο λογαριασμός σου δεν έχει ακόμη ενεργοποιηθεί. Ένα email έχει σταλή στο ${user} από το ${email_from_address} που περιέχει έναν σύνδεσμο για να ενεργοποιήσεις το λογαριασμό σου."
+
+#. Default: "Account not deleted."
+#: ./opencore/member/browser/account.py:519
+msgid "psm_account_not_deleted"
+msgstr ""
+
+#. Default: "You cannot leave this ${project_noun}."
+#: ./opencore/member/browser/account.py:165
+msgid "psm_cannot_leave_project"
+msgstr "Δε μπορείς να φύγεις από αυτό το εγχείρημα."
+
+#. Default: "Please check the old password you entered."
+#: ./opencore/member/browser/account.py:408
+msgid "psm_check_old_password"
+msgstr "Έλεγξε τον παλιό κωδικό που έβαλες."
+
+#. Default: "Please check your username and password. If you still have trouble, you can <a href=\"forgot\">retrieve your sign in information</a>."
+#: ./opencore/account/login.py:91
+#: ./opencore/project/browser/team.py:143
+msgid "psm_check_username_password"
+msgstr "Έλεγξε το όνομα χρήστη και τον κωδικό. Αν έχεις ακόμη πρόβλημα, μπορείς να <a href=\"forgot\">ανακτήσεις τις πληροφορίες εισόδου</a>."
+
+#. Default: "Unsupported image format.  Please use JPEG, GIF, BMP, or non-interlaced PNG format."
+#: ./opencore/member/browser/view.py:157
+#, fuzzy
+msgid "psm_choose_image"
+msgstr "Διάλεξε μια εικόνα τύπου gif, jpeg, png ή bmp. "
+
+#. Default: "Please correct the errors indicated below."
+#: ./opencore/listen/browser/view.py:203
+#: ./opencore/project/browser/add.py:103
+#: ./opencore/project/browser/preferences.py:125
+msgid "psm_correct_errors_below"
+msgstr "Διόρθωσε τα λάθη που εμφανίζονται παρακάτω."
+
+#. Default: "Denied -- bad key"
+#: ./opencore/account/confirmation.py:53
+#: ./opencore/account/join.py:239
+msgid "psm_denied"
+msgstr "Όχι -- κακό κλειδί"
+
+#. Default: "Your email address has been changed."
+#: ./opencore/member/browser/account.py:446
+msgid "psm_email_changed"
+msgstr "Η email διεύθυνσή σου, άλλαξε."
+
+#. Default: "Please enter your new email address."
+#: ./opencore/member/browser/account.py:430
+msgid "psm_enter_new_email"
+msgstr "Βάλε τη νέα σου διεύθυνση."
+
+#. Default: "Please enter your username or email address."
+#: ./opencore/account/login.py:243
+msgid "psm_enter_username_email"
+msgstr "Βάλε το όνομα χρήστη ή την email διεύθυνση."
+
+#. Default: "Error sending mail to: ${mem_id}"
+#: ./opencore/project/browser/manageteam.py:542
+msgid "psm_error_sending_mail_to_member"
+msgstr "Λάθος κατά την αποστολή mail στο: ${mem_id}"
+
+#. Default: "${flet} feature has been added."
+#: ./opencore/project/browser/preferences.py:195
+msgid "psm_featurelet_added"
+msgstr "Το ${flet} προστέθηκε"
+
+#. Default: "${flet} feature has been removed."
+#: ./opencore/project/browser/preferences.py:200
+msgid "psm_featurelet_removed"
+msgstr "Το ${flet} αφαιρέθηκε"
+
+#. Default: "Your username is ${user_id}.  If you would like to reset your password, please check your email account for further instructions."
+#: ./opencore/account/login.py:257
+msgid "psm_forgot_login"
+msgstr "Το όνομα χρήστη σου είναι ${user_id}.  Αν θέλεις να αλλάξεις τον κωδικό σου, έλεξγε το email σου για περαιτέρω οδηγίες."
+
+#. Default: "You are the only administrator of \"${proj_title}\". You can't leave this ${project_noun} without appointing another."
+#: ./opencore/member/browser/account.py:152
+#, fuzzy
+msgid "psm_leave_project_admin"
+msgstr "Είσαι ο μόνος διαχειριστής του \"${proj_title}\". Δε μπορείς να φύγεις από αυτό το εγχείρημα χωρίς να διορίσεις άλλον."
+
+#. Default: "Mailing list deleted."
+#: ./opencore/featurelets/browser/listen.py:53
+msgid "psm_mailing_list_deleted"
+msgstr "Η λίστα διεγράφη."
+
+#. Default: "Mailing list deletion cancelled."
+#: ./opencore/featurelets/browser/listen.py:48
+msgid "psm_mailing_list_deletion_cancelled"
+msgstr "Η διαγραφή της λίστα ακυρώθηκε."
+
+#. Default: "You have added ${num_approved} members."
+#: ./opencore/project/browser/manageteam.py:259
+msgid "psm_many_requests_approved"
+msgstr "Πρόσθεσες ${num_approved} μέλη."
+
+#. Default: "Message sent."
+#: ./opencore/nui/main/contact.py:66
+msgid "psm_message_sent_to_admin"
+msgstr "Το μήνυμα εστάλει."
+
+#. Default: "Message sent."
+#: ./opencore/member/browser/contact.py:29
+msgid "psm_message_sent_to_user"
+msgstr ""
+
+#: ./opencore/account/confirmation.py:101
+msgid "psm_new_activation"
+msgstr "Ένα νέο email ενεργοποίησης στάλθηκε στο ${email} από το ${mfrom}. <br />Ακολούθησε το σύνδεσμο στο email για να ενεργοποιήσεις το λογαριασμό σου."
+
+#. Default: "Please select items to delete."
+#: ./opencore/project/browser/contents.py:161
+msgid "psm_no_items_to_delete"
+msgstr "Επέλεξε τα αντικείμενα για διαγραφή."
+
+#. Default: "You have tried to activate an account that is not pending confirmation. Please sign in normally."
+#: ./opencore/account/confirmation.py:42
+msgid "psm_not_pending_account"
+msgstr "Προσπάθησες να ενεργοποιήσεις ένα λογαριασμό που έχει ήδη ενεργοποιηθεί. Μπορείς να συνδεθείς κανονικά."
+
+#. Default: "You do not have sufficient permissions."
+#: ./opencore/account/login.py:176
+#: OpenPlans/skins/openplans_login_patches/insufficient_privileges.cpy:54
+msgid "psm_not_sufficient_perms"
+msgstr "Δεν έχεις τα απαραίτητα προνόμια."
+
+#. Default: "You have added ${mem_id}."
+#: ./opencore/project/browser/manageteam.py:256
+msgid "psm_one_request_approved"
+msgstr "Πρόσθεσες τον/την  ${mem_id}."
+
+#. Default: "Creating \"${pagetitle}\" has failed because ${reason}"
+#: ./opencore/nui/wiki/add.py:57
+msgid "psm_page_create-failed"
+msgstr ""
+
+#. Default: "\"${pagetitle}\" has been created"
+#: ./opencore/nui/wiki/add.py:66
+msgid "psm_page_created"
+msgstr "Η \"${pagetitle}\" δημιουργήθηκε"
+
+#. Default: "Your password reset request has expired. You can <a href=\"login\">sign in</a> again using your old username and password or <a href=\"forgot\">request a new password</a> again."
+#: ./opencore/account/password_reset.py:34
+msgid "psm_pass_reset_expired"
+msgstr "Η αίτηση για αλλαγή κωδικού έχει λήξει. Μπορείς να <a href=\"login\">συνδεθείς</a> χρησιμοποιώντας το παλιό σου όνομα χρήστη και κωδικό ή <a href=\"forgot\">να ζητήσεις ένα νέο κωδικό</a> ξανά."
+
+#. Default: "Password reset attempt failed. Did you mistype your username or password?"
+#: ./opencore/account/password_reset.py:29
+msgid "psm_pass_reset_fail"
+msgstr "Η απόπειρα αλλαγής του κωδικού απέτυχε. Μήπως έγραψες λάθος το όνομα χρήστη ή τον κωδικό σου;"
+
+#. Default: "Your password has been changed."
+#: ./opencore/member/browser/account.py:414
+msgid "psm_password_changed"
+msgstr "Ο κωδικός σου άλλαξε."
+
+#. Default: "Welcome! Your password has been reset, and you are now signed in."
+#: ./opencore/account/password_reset.py:45
+msgid "psm_password_reset"
+msgstr "Ο κωδικός σου άλλαξε και έχεις συνδεθεί."
+
+#. Default: "Please correct the specified errors."
+#: ./opencore/nui/main/contact.py:52
+msgid "psm_please_correct_errors"
+msgstr "Διόρθωσε τα παρακάτω λάθη."
+
+#. Default: "Please select members to approve."
+#: ./opencore/project/browser/manageteam.py:198
+msgid "psm_please_select_members"
+msgstr "Επέλξε τα μέλη προς έγκριση."
+
+#. Default: "Please sign in to continue."
+#: OpenPlans/skins/openplans_login_patches/require_login.py:30
+msgid "psm_please_sign_in"
+msgstr "Συνδέσου για να συνεχίσεις."
+
+#. Default: "${project_noun} home page set to: <a href=\"${hp_url}\">${homepage}</a>"
+#: ./opencore/project/browser/preferences.py:213
+msgid "psm_proj_homepage_change"
+msgstr "Η αρχική σελίδα του εγχειρήματος άλλαξε σε: <a href=\"${hp_url}\">${homepage}</a>"
+
+#: ./opencore/project/browser/preferences.py:175
+msgid "psm_project_desc_changed"
+msgstr "Η περιγραφή άλλαξε."
+
+#: ./opencore/project/browser/preferences.py:176
+msgid "psm_project_logo_changed"
+msgstr "Η εικόνα του εγχειρήματος άλλαξε."
+
+#. Default: "The name \"${project_name}\" is reserved. Please try a different name."
+#: ./opencore/project/browser/add.py:121
+msgid "psm_project_name_reserved"
+msgstr "Το όνομα \"${project_name}\" υπάρχει ήδη. Δοκίμασε ένα άλλο όνομα."
+
+#: ./opencore/project/browser/preferences.py:174
+msgid "psm_project_title_changed"
+msgstr "Ο τίτλος άλλαξε."
+
+#: ./opencore/project/browser/preferences.py:177
+msgid "psm_security_changed"
+msgstr "Η πολιτική ασφαλείας άλλαξε."
+
+#. Default: "Please select members to discard."
+#: ./opencore/project/browser/manageteam.py:277
+msgid "psm_select_members_discard"
+msgstr "Επέλεξε μέλη προς διαγραφή."
+
+#. Default: "You have signed out."
+#: ./opencore/account/login.py:148
+msgid "psm_signed_out"
+msgstr "Έχεις αποσυνδεθεί."
+
+#. Default: "Welcome! You have signed in."
+#: ./opencore/account/login.py:68
+msgid "psm_signin_welcome"
+msgstr "Έχεις συνδεθεί."
+
+#. Default: "Thanks for joining ${portal_title}, ${mem_id}!\nA confirmation email has been sent to you with instructions on activating your account. After you have activated your account, your request to join the ${project_noun} will be sent to the ${project_noun} administrators."
+#: ./opencore/account/join.py:62
+#: ./opencore/project/browser/team.py:103
+#, fuzzy
+msgid "psm_thankyou_for_joining"
+msgstr ""
+"Ευχαριστούμε που γράφτηκε στο ${portal_title}, ${mem_id}!<br/>\n"
+"Ένα email ενεργοποίησης έχει σταλεί στο λογαριασμό σου με οδηγίες για να τον ενεργοποιήσεις."
+
+#. Default: "Your markup '${stripped_tag}' was removed because ${unallowed_host} is not an allowed host for embedded content on this site. "
+#: ./opencore/nui/wiki/view.py:204
+msgid "psm_wiki_content_stripped"
+msgstr ""
+
+#: ./opencore/project/browser/manageteam.py:416
+msgid "remind_invite_none_selected"
+msgstr "Επέλεξε τουλάχιστον ένα άτομο για να στείλεις υπενθύμιση."
+
+#. Default: "Remove"
+#: ./opencore/member/browser/portrait-snippet.pt:29
+msgid "remove"
+msgstr ""
+
+#. Default: "Reset password"
+#: ./opencore/account/reset-password.pt:74
+msgid "reset-password_button"
+msgstr "Αλλαγή κωδικού"
+
+#. Default: "Confirm password"
+#: ./opencore/account/reset-password.pt:57
+msgid "reset-password_confirm_label"
+msgstr "Επιβεβαίωση κωδικού"
+
+#. Default: "New password"
+#: ./opencore/account/reset-password.pt:41
+msgid "reset-password_new_password_label"
+msgstr "Νέος κωδικός"
+
+#. Default: "Username"
+#: ./opencore/account/reset-password.pt:28
+msgid "reset-password_username_label"
+msgstr "Όνομα χρήστη"
+
+#: ./opencore/nui/wiki/wiki-previous-version.pt:76
+#: ./opencore/nui/wiki/wiki-version-compare.pt:115
+msgid "revert to this version"
+msgstr ""
+
+#. Default: "Revision note:"
+#: ./opencore/nui/wiki/wiki-previous-version.pt:84
+msgid "revision_note_heading"
+msgstr ""
+
+#. Default: "Search for members"
+#: ./opencore/project/browser/team-manage.pt:83
+msgid "search_for_members_heading"
+msgstr ""
+
+#. Default: "Search for and invite existing members"
+#: ./opencore/project/browser/team-manage.pt:84
+msgid "search_invite_members_help"
+msgstr ""
+
+#. Default: "in ${document_context_title},"
+#: ./opencore/nui/main/home-resultlist.pt:30
+msgid "searchresults_document_context"
+msgstr ""
+
+#. Default: "modified by ${member_title},"
+#: ./opencore/nui/main/home-resultlist.pt:38
+msgid "searchresults_last_modified_author"
+msgstr ""
+
+#. Default: "last updated ${modification_date}"
+#: ./opencore/nui/main/home-resultlist.pt:46
+msgid "searchresults_last_modified_date"
+msgstr ""
+
+#. Default: "last updated"
+#: ./opencore/nui/main/searchresults-resultlist.pt:14
+msgid "searchresults_last_updated"
+msgstr ""
+
+#. Default: "member since ${membership_start_date}"
+#: ./opencore/nui/main/home-resultlist.pt:15
+msgid "searchresults_member_since"
+msgstr ""
+
+#. Default: "modified by"
+#: ./opencore/nui/main/searchresults-resultlist.pt:9
+msgid "searchresults_modified_by"
+msgstr ""
+
+#. Default: "No results found."
+#: ./opencore/nui/main/searchresults.pt:65
+msgid "searchresults_no_results"
+msgstr ""
+
+#. Default: "Send"
+#: ./opencore/member/browser/contact.pt:63
+msgid "send"
+msgstr ""
+
+#. Default: "Send message"
+#: ./opencore/member/browser/profile.pt:137
+msgid "send-message"
+msgstr ""
+
+#. Default: "Send an email to invite people to join"
+#: ./opencore/project/browser/team-manage.pt:100
+msgid "send_email_invite_people_heading"
+msgstr ""
+
+#. Default: "sorted A to Z"
+#: ./opencore/nui/main/home-sortablefields.pt:7
+msgid "sitesearch_sortable_fields_getId"
+msgstr ""
+
+#. Default: "sorted by date updated"
+#: ./opencore/nui/main/home-sortablefields.pt:9
+msgid "sitesearch_sortable_fields_modified"
+msgstr ""
+
+#. Default: "sorted by content type"
+#: ./opencore/nui/main/home-sortablefields.pt:11
+msgid "sitesearch_sortable_fields_portal_type"
+msgstr ""
+
+#. Default: "sorted by relevancy"
+#: ./opencore/nui/main/home-sortablefields.pt:2
+msgid "sitesearch_sortable_fields_relevancy"
+msgstr ""
+
+#. Default: "sorted by creator"
+#: ./opencore/nui/main/searchresults-sortablefields.pt:5
+msgid "sortable_fields_Creator"
+msgstr ""
+
+#. Default: "sorted A-Z"
+#: ./opencore/nui/main/searchresults-sortablefields.pt:2
+msgid "sortable_fields_getId"
+msgstr ""
+
+#. Default: "sorted by content type"
+#: ./opencore/nui/main/searchresults-sortablefields.pt:3
+msgid "sortable_fields_portal_type"
+msgstr ""
+
+#. Default: "start your own"
+#: ./opencore/member/browser/account_project_table.pt:56
+msgid "start_your_own"
+msgstr ""
+
+#. Default: "Start your own ${project_noun}"
+#: ./opencore/member/browser/tour.pt:32
+msgid "start_your_own_project"
+msgstr ""
+
+#: ./opencore/stats/menu.pt:10
+msgid "stats history"
+msgstr ""
+
+#: ./opencore/stats/menu.pt:8
+msgid "stats overview"
+msgstr ""
+
+#. Default: "${active_lists_count} active, after ${stats_expiry_date}"
+#: ./opencore/stats/stats.pt:97
+msgid "stats_active_lists"
+msgstr ""
+
+#. Default: "${active_projects} active, edited after ${expiry_date}"
+#: ./opencore/stats/stats.pt:69
+msgid "stats_active_projects"
+msgstr ""
+
+#. Default: "${num_users} active, logged in after ${expiry_date}"
+#: ./opencore/stats/stats.pt:40
+msgid "stats_active_users"
+msgstr ""
+
+#. Default: "This page is only good for approximating historical trends."
+#: ./opencore/stats/active.pt:14
+msgid "stats_approximate_disclaimer"
+msgstr ""
+
+#. Default: "${dormant_lists} dormant, after being active for an average of ${stickiness_days} days"
+#: ./opencore/stats/stats.pt:103
+msgid "stats_dormant_lists"
+msgstr ""
+
+#. Default: "${dormant_projects} dormant, after being active for an average of ${stickiness_days} days"
+#: ./opencore/stats/stats.pt:75
+msgid "stats_dormant_projects"
+msgstr ""
+
+#. Default: "${dormant_users} dormant, after being active for an average of ${stickiness_days} days"
+#: ./opencore/stats/stats.pt:45
+msgid "stats_dormant_users"
+msgstr ""
+
+#. Default: "${members_count} total"
+#: ./opencore/stats/stats.pt:55
+msgid "stats_members_total"
+msgstr ""
+
+#. Default: "on date ${date}"
+#: ./opencore/stats/stats.pt:32
+msgid "stats_on_date"
+msgstr ""
+
+#. Default: "${projects_count} total"
+#: ./opencore/stats/stats.pt:85
+msgid "stats_projects_total"
+msgstr ""
+
+#. Default: "Portal Stats"
+#: ./opencore/stats/stats.pt:9
+msgid "stats_title"
+msgstr ""
+
+#. Default: "${total_lists} total"
+#: ./opencore/stats/stats.pt:113
+msgid "stats_total_lists"
+msgstr ""
+
+#. Default: "${unused_lists} unused, after first 24 hours"
+#: ./opencore/stats/stats.pt:108
+msgid "stats_unused_lists"
+msgstr ""
+
+#. Default: "${unused_member_count} unused, after first 24 hours"
+#: ./opencore/stats/stats.pt:50
+msgid "stats_unused_members"
+msgstr ""
+
+#. Default: "${unused_projects} unused, after first 24 hours"
+#: ./opencore/stats/stats.pt:80
+msgid "stats_unused_projects"
+msgstr ""
+
+#. Default: "Subject:"
+#: ./opencore/member/browser/contact.pt:41
+msgid "subject-label"
+msgstr ""
+
+#. Default: "Submit"
+#: ./opencore/member/browser/delete.pt:27
+msgid "submit"
+msgstr ""
+
+#. Default: "You are already a pending or active member of ${project_title}."
+#: ./opencore/project/browser/team.py:151
+msgid "team_already_proj_member"
+msgstr "Είσαι ήδη ενεργό ή προς έγκριση μέλος του ${project_title}."
+
+#. Default: "You are already a member of this ${project_noun}."
+#: ./opencore/project/browser/team.py:47
+msgid "team_already_project_member"
+msgstr "Είσαι ήδη μέλος του εγχειρήματος."
+
+#. Default: "Team management"
+#: ./opencore/project/browser/team-manage.pt:13
+msgid "team_management_heading"
+msgstr ""
+
+#. Default: "Your request to join \"${project_title}\" has been sent to the ${project_noun} administrator(s)."
+#: ./opencore/account/login.py:219
+#: ./opencore/project/browser/team.py:157
+#, fuzzy
+msgid "team_proj_join_request_sent"
+msgstr "Η αίτησή σου για να εγγραφείς στο \"${project_title}\" έχει σταλεί στους διαχειριστές του εγχειρήματος."
+
+#. Default: "sorted by location"
+#: ./opencore/project/browser/team-sortablefields.pt:6
+msgid "team_sortable_fields_location"
+msgstr ""
+
+#. Default: "sorted by membership start date"
+#: ./opencore/project/browser/team-sortablefields.pt:4
+msgid "team_sortable_fields_membership_date"
+msgstr ""
+
+#. Default: "sorted by user name"
+#: ./opencore/project/browser/team-sortablefields.pt:2
+msgid "team_sortable_fields_username"
+msgstr ""
+
+#. Default: "flat"
+#: ./opencore/listen/browser/threaded_message.pt:18
+msgid "threaded_message_flat"
+msgstr "επίπεδα"
+
+#. Default: "Next in thread:"
+#: ./opencore/listen/browser/threaded_message.pt:58
+msgid "threaded_message_next"
+msgstr "Επόμενο στο θέμα:"
+
+#. Default: "Replies:"
+#: ./opencore/listen/browser/threaded_message.pt:29
+msgid "threaded_message_replies"
+msgstr "Απαντήσεις:"
+
+#. Default: "Return to date view:"
+#: ./opencore/listen/browser/threaded_message.pt:14
+msgid "threaded_message_return"
+msgstr "Επιστροφή στην προβολή ανά ημερομηνία:"
+
+#. Default: "In reply to:"
+#: ./opencore/listen/browser/threaded_message.pt:47
+msgid "threaded_message_thread_reply"
+msgstr "Σε απάντηση στο:"
+
+#. Default: "threaded"
+#: ./opencore/listen/browser/threaded_message.pt:15
+msgid "threaded_message_threaded"
+msgstr "δενδροειδώς"
+
+#: ./opencore/stats/project_activity.pt:26
+msgid "title"
+msgstr ""
+
+#. Default: "Required"
+#: ./opencore/nui/main/contact-site-admin.pt:51
+msgid "title_required"
+msgstr "Απαιτείται"
+
+#. Default: "<a href=\"${member_url}\">${id}</a> has declined your invitation to join <a href=\"${project_url}\">${proj_id}</a>"
+#: ./opencore/member/browser/account.py:343
+#, fuzzy
+msgid "tmsg_decline_invite"
+msgstr "Ο/η ${id} αρνήθηκε την προσκλησή σου για το <a href=\"${project_url}\">${proj_id}</a>"
+
+#. Default: "<a href=\"${member_url}\">${id}</a> has joined <a href=\"${project_url}\">${proj_id}</a>"
+#: ./opencore/member/browser/account.py:291
+#, fuzzy
+msgid "tmsg_joined_project"
+msgstr "${id} γράφτηκε στο <a href=\"${project_url}\">${proj_id}</a>"
+
+#: ./opencore/nui/wiki/wiki-version-compare.pt:73
+msgid "to"
+msgstr ""
+
+#. Default: "To:"
+#: ./opencore/member/browser/contact.pt:25
+msgid "to-label"
+msgstr ""
+
+#. Default: "Home"
+#: ./opencore/browser/topnav/explore-menu.pt:6
+msgid "topnav_explore_home"
+msgstr ""
+
+#. Default: "Start a ${project_noun}"
+#: ./opencore/browser/topnav/explore-menu.pt:28
+msgid "topnav_explore_new_project"
+msgstr ""
+
+#. Default: "People"
+#: ./opencore/browser/topnav/explore-menu.pt:11
+msgid "topnav_explore_people"
+msgstr ""
+
+#. Default: "${project_noun}s"
+#: ./opencore/browser/topnav/explore-menu.pt:18
+msgid "topnav_explore_projects"
+msgstr ""
+
+#. Default: "Search site"
+#: ./opencore/browser/topnav/topnav.pt:35
+msgid "topnav_site_search_label"
+msgstr ""
+
+#. Default: "Let other ${portal_title} members know who you are and what you're interested in. The more information you provide, the more contacts you'll make."
+#: ./opencore/member/browser/tour.pt:17
+msgid "tour_complete_profile_desc"
+msgstr ""
+
+#. Default: "${absolute_url_profile-edit}"
+#: ./opencore/member/browser/tour.pt:16
+#, fuzzy
+msgid "tour_complete_profile_heading"
+msgstr "<a href=\"${DYNAMIC_CONTENT}\">Συμπλήρωσε το προφίλ σου</a>"
+
+#. Default: "Welcome to ${portal_title}!"
+#: ./opencore/member/browser/tour.pt:11
+msgid "tour_heading"
+msgstr "Καλώς ήρθες στο ${portal_title}!"
+
+#. Default: "We hope you will use this website to plan events, start ${project_noun}s, and improve your communities. Now you can…"
+#: ./opencore/member/browser/tour.pt:12
+msgid "tour_heading_desc"
+msgstr ""
+
+#. Default: "${project} has invited you to become a member"
+#: ./opencore/member/browser/tour.pt:50
+msgid "tour_invite"
+msgstr "Το ${project} σε προσκάλεσε να γίνεις μέλος"
+
+#. Default: "You have been invited to:"
+#: ./opencore/member/browser/tour.pt:42
+msgid "tour_invite_heading"
+msgstr "Σε έχουν προσκαλέσει στο:"
+
+#. Default: "Found something you're interested in? Want to volunteer an hour of your time? Join a ${project_noun} and help someone's vision become a reality."
+#: ./opencore/member/browser/tour.pt:26
+msgid "tour_join_projects_desc"
+msgstr ""
+
+#. Default: "Join a ${project_noun} and help it succeed"
+#: ./opencore/member/browser/tour.pt:23
+#, fuzzy
+msgid "tour_join_projects_heading"
+msgstr "<a href=\"${DYNAMIC_CONTENT}\">Γράψου σε ένα εγχείρημα και βοήθησέ το να πετύχει</a>"
+
+#. Default: "${project_noun}s you belong to:"
+#: ./opencore/member/browser/tour.pt:70
+msgid "tour_projects_belong"
+msgstr "Εγχειρήματα στα οποία ανήκεις:"
+
+#. Default: "Is there something you'd like to do? Install bike parking? Create a community garden? Throw a block party? Start your own ${project_noun} and use our toolkit to stay organized."
+#: ./opencore/member/browser/tour.pt:35
+msgid "tour_start_projects_desc"
+msgstr " "
+
+#. Default: "${projects_noun_create_url}"
+#: ./opencore/member/browser/tour.pt:31
+#, fuzzy
+msgid "tour_start_projects_heading"
+msgstr "<a href=\"${DYNAMIC_CONTENT}\">Ξεκίνησε το δικό σου εγχείρημα</a>"
+
+#. Default: "Update"
+#: ./opencore/member/browser/portrait-snippet.pt:23
+msgid "update"
+msgstr ""
+
+#. Default: "Current Version"
+#: ./opencore/nui/wiki/historyview.py:50
+msgid "version_current_title"
+msgstr ""
+
+#. Default: "Please choose the two versions you would like to compare."
+#: ./opencore/nui/wiki/historyview.py:139
+msgid "version_error_choose_two"
+msgstr ""
+
+#. Default: "Please choose only two versions to compare."
+#: ./opencore/nui/wiki/historyview.py:142
+msgid "version_error_too_many"
+msgstr ""
+
+#. Default: "Initial Version"
+#: ./opencore/nui/wiki/historyview.py:48
+msgid "version_initial_title"
+msgstr ""
+
+#. Default: "Please choose a valid version."
+#: ./opencore/nui/wiki/historyview.py:151
+msgid "version_invalid_id"
+msgstr ""
+
+#. Default: "Version ${version_num}"
+#: ./opencore/nui/wiki/historyview.py:52
+msgid "version_requested_title"
+msgstr ""
+
+#. Default: "No version specified."
+#: ./opencore/nui/wiki/wiki-previous-version.pt:16
+msgid "version_unspecified"
+msgstr ""
+
+#: ./opencore/stats/project_activity.pt:30
+msgid "wiki pages"
+msgstr ""
+
+#. Default: "${title} - ${portal_title}"
+#: ./opencore/browser/base.py:265
+msgid "wiki_area_verbose_title"
+msgstr ""
+
+#. Default: "Cancel"
+#: ./opencore/nui/wiki/wiki-edit-xinha.pt:186
+msgid "wiki_edit_cancel_button"
+msgstr ""
+
+#. Default: "Save"
+#: ./opencore/nui/wiki/wiki-edit-xinha.pt:180
+msgid "wiki_edit_save_button"
+msgstr ""
+
+#. Default: "edit"
+#: ./opencore/nui/wiki/wiki_macros.pt:42
+msgid "wiki_info_tab_edit"
+msgstr ""
+
+#. Default: "history"
+#: ./opencore/nui/wiki/wiki_macros.pt:45
+msgid "wiki_info_tab_history"
+msgstr ""
+
+#. Default: "by ${author}"
+#: ./opencore/nui/wiki/wiki_macros.pt:27
+msgid "wiki_info_tab_last_author"
+msgstr ""
+
+#. Default: "last modified"
+#: ./opencore/nui/wiki/wiki_macros.pt:18
+msgid "wiki_info_tab_last_modified"
+msgstr ""
+
+#. Default: "view"
+#: ./opencore/nui/wiki/wiki_macros.pt:39
+msgid "wiki_info_tab_view"
+msgstr ""
+
+#. Default: "<del>deleted</del>"
+#: ./opencore/nui/wiki/wiki-version-compare.pt:126
+msgid "wiki_version_compare_deleted"
+msgstr ""
+
+#. Default: "<ins>inserted</ins>"
+#: ./opencore/nui/wiki/wiki-version-compare.pt:125
+msgid "wiki_version_compare_inserted"
+msgstr ""
+
+#: ./opencore/nui/wiki/wiki-edit-xinha.pt:28
+msgid "xp-blue"
+msgstr ""
+
+#: ./opencore/nui/wiki/wiki-edit-xinha.pt:29
+msgid "xp-green"
+msgstr ""
+
+#. Default: "Your security settings"
+#: ./opencore/project/browser/team-manage.pt:107
+msgid "your_security_settings_heading"
+msgstr ""
+
