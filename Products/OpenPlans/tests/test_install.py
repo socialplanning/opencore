@@ -11,7 +11,7 @@ from Products.OpenPlans.workflows import PLACEFUL_POLICIES
 from opencore.configuration import DEFAULT_ROLES
 from openplanstestcase import OpenPlansTestCase
 from opencore.interfaces.workflow import IWriteWorkflowPolicySupport
-
+from opencore.utils import get_workflow_policy_config
 from opencore.nui.indexing import PROJECT_POLICY as ppidx
 from Products.OpenPlans.content.project import OpenProject 
 
@@ -41,7 +41,7 @@ class TestOpenPlansInstall(OpenPlansTestCase):
         pwf_tool = getToolByName(self.portal, 'portal_placeful_workflow')
         for wf_id in PLACEFUL_POLICIES.keys():
             self.failIf(wf_id not in pwf_tool.objectIds())
-        project_wf_config = pwf_tool.getWorkflowPolicyConfig(self.portal.projects)
+        project_wf_config = get_workflow_policy_config(self.portal.projects)
         self.failUnless(project_wf_config)
         self.failUnless(project_wf_config.getPolicyBelowId())
             
