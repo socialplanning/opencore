@@ -17,7 +17,6 @@ from opencore.interfaces import IAmAPeopleFolder
 from opencore.interfaces.membership import IEmailInvites
 from opencore.member.interfaces import REMOVAL_QUEUE_KEY
 from opencore.project.browser.email_invites import EmailInvites
-from opencore.utils import get_workflow_policy_config
 from opencore.utility.interfaces import IProvideSiteConfig
 from plone.app.controlpanel.markup import IMarkupSchema
 from zope.app.annotation import IAnnotations
@@ -84,11 +83,11 @@ def install_team_placeful_workflow_policies(portal, out):
     # Install default policy
     pwf_tool = getToolByName(portal, 'portal_placeful_workflow')
     teams = getToolByName(portal, 'portal_teams')
-    wf_config = get_workflow_policy_config(teams)
+    wf_config = pwf_tool.getWorkflowPolicyConfig(teams)
     if wf_config is None:
         print >> out, 'Setting default team security policy to Open'
         teams.manage_addProduct['CMFPlacefulWorkflow'].manage_addWorkflowPolicyConfig()
-        wf_config = get_workflow_policy_config(teams)
+        wf_config = pwf_tool.getWorkflowPolicyConfig(teams)
         wf_config.setPolicyBelow(policy='mship_open_policy')
         wf_tool = getToolByName(teams, 'portal_workflow')
         wf_tool.updateRoleMappings()
@@ -237,11 +236,11 @@ def addProjectsFolder(portal, out):
 
     # Install default policy
     pwf_tool = getToolByName(pfolder, 'portal_placeful_workflow')
-    wf_config = get_workflow_policy_config(pfolder)
+    wf_config = pwf_tool.getWorkflowPolicyConfig(pfolder)
     if wf_config is None:
         print >> out, 'Setting default project security policy to Open'
         pfolder.manage_addProduct['CMFPlacefulWorkflow'].manage_addWorkflowPolicyConfig()
-        wf_config = get_workflow_policy_config(pfolder)
+        wf_config = pwf_tool.getWorkflowPolicyConfig(pfolder)
         wf_config.setPolicyBelow(policy='open_policy')
         wf_tool = getToolByName(pfolder, 'portal_workflow')
 

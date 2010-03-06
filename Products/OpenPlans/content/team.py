@@ -13,7 +13,6 @@ from Products.TeamSpace.team import Team, team_type_information
 from opencore.interfaces import IOpenTeam
 from opencore.interfaces.event import ChangedTeamRolesEvent
 from opencore.nui.indexing import queueObjectReindex
-from opencore.utils import get_workflow_policy_config
 from zExceptions import Redirect
 from zope.event import notify
 from zope.interface import implements
@@ -202,7 +201,7 @@ class OpenTeam(Team):
         # XXX hack around workflow transition
         # pretend we execucted approve_public
         pwft = getToolByName(self, 'portal_placeful_workflow')
-        config = get_workflow_policy_config(self)
+        config = pwft.getWorkflowPolicyConfig(self)
         if config is not None:
             wfids = config.getPlacefulChainFor('OpenMembership')
             wfid = wfids[0]

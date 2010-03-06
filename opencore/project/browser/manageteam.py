@@ -11,7 +11,6 @@ from opencore.browser import formhandler
 from opencore.account.utils import email_confirmation
 from opencore.browser.base import view
 from opencore.i18n import _
-from opencore.utils import get_workflow_policy_config
 from opencore.utility.interfaces import IEmailSender
 from opencore.interfaces.message import ITransientMessage
 from opencore.interfaces.membership import IEmailInvites
@@ -365,7 +364,7 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite, AccountView,
         ret = {}
         for mem_id in mem_ids:
             mship = self.team.getMembershipByMemberId(mem_id)
-            config = get_workflow_policy_config(self.team)
+            config = pwft.getWorkflowPolicyConfig(self.team)
             if config is not None:
                 wf_ids = config.getPlacefulChainFor('OpenMembership')
                 wf_id = wf_ids[0]

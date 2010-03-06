@@ -1,11 +1,11 @@
 from Acquisition import aq_get, aq_inner, aq_base
 from Products.CMFCore.utils import getToolByName
+from Products.CMFPlacefulWorkflow.PlacefulWorkflowTool import WorkflowPolicyConfig_id
 from opencore.interfaces.workflow import IWriteWorkflowPolicySupport
 from opencore.interfaces.workflow import IReadWorkflowPolicySupport
 from Products.OpenPlans.workflows import PLACEFUL_POLICIES
 from Products.OpenPlans.workflows import MEMBERSHIP_PLACEFUL_POLICIES
 
-from opencore.utils import get_workflow_policy_config
 from zope.interface import implements
 from zope.component import getMultiAdapter
 
@@ -32,12 +32,13 @@ class WFPolicyReadAdapter(object):
         if ob is None:
             ob = self.context
         wf_id = ''
-        config = get_workflow_policy_config(ob)
+        pwf = getToolByName(ob, 'portal_placeful_workflow')
+        config = pwf.getWorkflowPolicyConfig(ob)
         if config is not None:
             wf_id = config.getPolicyInId()
         else:
             # Get the default from the container via acquisition
-            config = get_workflow_policy_config(ob)
+            config = aq_get(aq_inner(ob), WorkflowPolicyConfig_id, None)
             if config is not None:
                 wf_id = config.getPolicyBelowId()
         return wf_id
@@ -78,11 +79,12 @@ class WFPolicyWriteAdapter(WFPolicyReadAdapter):
 
     def setPolicy(self, policy_in, skip_update_role_mappings=False):
         context = self.context
-        config = get_workflow_policy_config(context)
+        pwf = getToolByName(context, 'portal_placeful_workflow')
+        config = pwf.getWorkflowPolicyConfig(context)
         if config is None:
             addP = context.manage_addProduct['CMFPlacefulWorkflow']
             addP.manage_addWorkflowPolicyConfig()
-            config = get_workflow_policy_config(context)
+            config = pwf.getWorkflowPolicyConfig(context)
         
         wftool = getToolByName(context, 'portal_workflow')
         update_role_mappings = False

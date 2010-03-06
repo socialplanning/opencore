@@ -34,8 +34,8 @@ Now query for the mship as anonymous user... also shouldn't show up::
 Verify that the correct workflow chain is associated with the mship object
     >>> teams = self.portal.portal_teams
     >>> team = teams.newproject
-    >>> from opencore.utils import get_workflow_policy_config
-    >>> config = get_workflow_policy_config(team)
+    >>> pwft = self.portal.portal_placeful_workflow
+    >>> config = pwft.getWorkflowPolicyConfig(team)
     >>> config is not None
     True
     >>> config.getPlacefulChainFor('OpenMembership')
