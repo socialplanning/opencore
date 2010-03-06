@@ -6,6 +6,7 @@ from zope.configuration.exceptions import ConfigurationError
 from zope.configuration.fields import Path, GlobalInterface, GlobalObject
 from zope.publisher.interfaces.browser import IDefaultBrowserLayer
 from zope.security.zcml import Permission
+from zope.app.component.back35 import LayerField
 
 class ISearchViewDirective(Interface):
     """ 
@@ -40,6 +41,13 @@ class ISearchViewDirective(Interface):
 
     for_ = GlobalInterface(
         title=u"The interface this view is for.",
+        required=False
+        )
+
+    layer = LayerField(
+        title=u"The layer the default view is declared for",
+        description=u"The default layer for which the default view is "
+                    u"applicable. By default it is applied to all layers.",
         required=False
         )
 
