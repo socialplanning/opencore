@@ -74,7 +74,7 @@
     />
 
   <browser:page
-    class="opencore.nui.wiki.view.WikiEdit"
+    class="opencore.nui.wiki.view.RedirectToWikiEdit"
     for="opencore.interfaces.IOpenPage"
     name="update"
     permission="cmf.ModifyPortalContent"

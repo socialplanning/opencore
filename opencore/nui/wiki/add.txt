@@ -38,8 +38,13 @@ proper add form::
     >>> view.sanitize('team')
     'team-page'
 
+When you add a new page, you'll be redirected to the URL for the resulting
+new page. It will include a querystring parameter ``created_from`` to
+indicate the source page from which you created the new page, provided
+the source page is within the same project as the destination::
+
     >>> view.add_content(title='Manage Team!', section='text')
-    'http://nohost/plone/projects/p1/manage-team-page/edit'
+    'http://nohost/plone/projects/p1/manage-team-page/edit?created_from=p1'
 
     >>> view.get_container()
     <OpenProject at /plone/projects/p1>
@@ -64,7 +69,7 @@ now we simple make parity with wicked::
     >>> view = NuiPageAdd(new_page, new_page.REQUEST)
 
     >>> view.add_content(title='Lists!', section='text')
-    'http://nohost/plone/projects/p1/lists-page/edit'
+    'http://nohost/plone/projects/p1/lists-page/edit?created_from=manage-team-page'
 
 `get_container` returns the project, not the page::
 
@@ -97,7 +102,7 @@ normalized::
     >>> view = NuiContainerAdd(projects.p1, self.folder.REQUEST)
     >>> retadd = view.add_content()
     >>> print retadd
-    http://nohost/plone/projects/p1/test-geomatique/edit
+    http://nohost/plone/projects/p1/test-geomatique/edit?created_from=p1
     >>> delattr(view, "_redirected")
     >>> view.portal_status_message
     [...u'"Test G&#233;omatique" has been created'...]
@@ -115,7 +120,7 @@ explosions::
     >>> view = NuiContainerAdd(projects.p1, self.folder.REQUEST)
     >>> retadd = view.add_content()
     >>> print retadd
-    http://nohost/plone/projects/p1/%7E3322/edit
+    http://nohost/plone/projects/p1/%7E3322/edit?created_from=p1
     >>> delattr(view, "_redirected")
     >>> view.portal_status_message
     [u'"&#13090;" has been created']

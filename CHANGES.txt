@@ -9,6 +9,16 @@ Migrations:
 
 Features Added:
 
+  * You can now customize the blank slate template for new wiki pages within
+    a project more easily. Subclass and override opencore.nui.wiki.view.WikiEdit
+    with a custom blank_slate_content() method that returns the desired text.
+
+    To find the page from which a new page was created, you can now look for a
+    'created_from' key in the request querystring. This will be the id of the
+    page that created this page.
+
+    (#2864) (egj) (feature requested by Pierre)
+
   * The manage-team view now provides a "Write message to team" button which
     directs the user to his ISyncWithProjectMembership mailing list.  If the
     listen featurelet is not installed or there is no ISyncWithProjectMembership
