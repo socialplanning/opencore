@@ -1,7 +1,7 @@
 0.18.1 (unreleased)
 ===================
 
- * Register SignedCookieAuthHelper so it can be added from the ZMI
+No changes yet.
 
 0.18.0 (2010-01-24)
 ===================
