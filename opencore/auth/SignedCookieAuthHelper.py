@@ -25,7 +25,7 @@
 $Id: SignedCookieAuthHelper.py 72211 2007-01-24 12:41:44Z novalis $
 """
 
-from base64 import encodestring, decodestring
+import base64
 from urllib import quote, unquote
 
 import hmac
@@ -48,6 +48,8 @@ from Products.PluggableAuthService.interfaces.plugins import \
 
 from Products.PluggableAuthService.plugins.CookieAuthHelper import ICookieAuthHelper
 from Products.PlonePAS.plugins.cookie_handler import ExtendedCookieAuthHelper
+
+from opencore_integrationlib import auth as oc_auth
 
 def getCookieDomainKW(context):
     domain_kw = {}
@@ -90,24 +92,8 @@ def get_secret_file_name():
 def get_secret():
     secret_file_name = get_secret_file_name()
 
-    if os.path.exists(secret_file_name):
-        f = open(secret_file_name)
-        password = f.readline().strip()
-        f.close()
-    else:
-        #this may throw an error if the file cannot be created, but that's OK, because 
-        #then users will know to create it themselves
-        f = open(secret_file_name, "w")
-        from random import SystemRandom
-        random = SystemRandom()
-        letters = [chr(ord('A') + i) for i in xrange(26)]
-        letters += [chr(ord('a') + i) for i in xrange(26)]
-        letters += map(str, xrange(10))
-        password = "".join([random.choice(letters) for i in xrange(10)])
-        f.write(password)
-        f.close()
-    return password
-
+    return oc_auth.get_secret(secret_file_name, generate_random_on_failure=True)
+    
 class SignedCookieAuthHelper(ExtendedCookieAuthHelper):
     """ Multi-plugin for managing details of Cookie Authentication with signing. """
 
@@ -124,11 +110,10 @@ class SignedCookieAuthHelper(ExtendedCookieAuthHelper):
                , IAuthenticationPlugin )
 
     def generateHash(self, login):
-        return hmac.new(self.secret, login, sha).hexdigest()
+        return oc_auth.generate_hash(login, self.secret)
 
     def generateCookieVal(self, login):
-        encoded = encodestring("%s\0%s" % (login, self.generateHash(login)))
-        return quote(encoded.rstrip())
+        return oc_auth.generate_cookie_value(login, self.secret)
 
     def generateCookie(self, login):
         cookie_val = self.generateCookieVal(login)
@@ -139,6 +124,7 @@ class SignedCookieAuthHelper(ExtendedCookieAuthHelper):
         """ Extract credentials from cookie or 'request'. """
         creds = {}
         cookie = request.get(self.cookie_name, '')
+
         # Look in the request.form for the names coming from the login form
         login = request.form.get('__ac_name', '')
 
@@ -147,10 +133,12 @@ class SignedCookieAuthHelper(ExtendedCookieAuthHelper):
             creds['password'] = request.form.get('__ac_password', '')
 
         elif cookie and cookie != 'deleted':
-            cookie_val = decodestring(unquote(cookie))
-            login, hash = cookie_val.split('\0')
-
-            if not hash == self.generateHash(login):
+            try:
+                login, hash = oc_auth.authenticate_from_cookie(
+                    cookie, self.secret)
+            except oc_auth.BadCookie:
+                raise ValueError # this exception had been uncaught in the code i'm refactoring
+            except oc_auth.NotAuthenticated:
                 return None
 
             creds['login'] = login

@@ -48,6 +48,7 @@ setup(
         'https://svn.openplans.org/svn/ZCMLLoader/trunk#egg=ZCMLLoader',
         'https://svn.openplans.org/svn/flunc/trunk#egg=flunc-0.6dev',
         'http://svn.sccs.swarthmore.edu/egj/zope_i18n_fork_r105273#egg=zope.i18n-3.7.2opencore',
+        'https://svn.openplans.org/svn/opencore/integrationlib/trunk#egg=opencore_integrationlib-dev',
         ],
     install_requires=[
         'borg.localrole==2.0.1',
@@ -59,6 +60,7 @@ setup(
         "oc-js>=0.7",
         'oc-feed>=0.4',
         'OpencoreRedirect==dev,>=0.5dev',
+        'opencore_integrationlib',
         'plone.mail',
         'Products.CacheSetup==1.2',
         'Products.GenericSetup==1.4.1',
