@@ -10,6 +10,12 @@
    long time. (slinkp)
 
 
+0.18.1 (unreleased)
+===================
+
+ * Register SignedCookieAuthHelper so it can be added from the ZMI
+
+
 0.18.0 (2010-01-24)
 ===================
 
@@ -56,9 +62,6 @@ Features Added:
   * Added IMemberRegisteredEvent and IPortraitModifiedEvent events, firing
     them at the appropriate places. (rafrombrc)
 
-  * Added 'opencore.analytics' viewlet to allow easy inclusion of an
-    analytics snippet in the IExtraBody viewlet manager. (rafrombrc)
-
   * Added support for optional 'include_time' argument to the pretty_date
     functions. (rafrombrc)
 
@@ -102,12 +105,6 @@ Features Added:
 
   * Added 'more_test_content' external method for easy generation of a
     bunch of extra test accounts. (rafrombrc)
-
-  * Added support for featured projects to be selected by a site admin.
-    (rmarianski)
-
-  * Added FeedbackerClient utility to support fetching of data from
-    feedbacker app if it is installed with the stack. (rafrombrc)
 
   * More info at the /stats view (try the link to active project stats)
     (pw)
