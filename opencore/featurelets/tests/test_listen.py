@@ -12,7 +12,6 @@ from zope.interface import Interface
 
 from zope.app.component.hooks import setSite, setHooks
 from topp.featurelets.interfaces import IFeatureletSupporter
-from topp.featurelets.interfaces import IMenuSupporter
 from opencore.listen.featurelet import ListenFeaturelet
 from opencore.testing.utils import makeContent
 
@@ -45,10 +44,6 @@ class TestListenFeaturelet(OpenPlansTestCase):
 
         list_folder_id = featurelet._info['content'][0]['id']
         self.failUnless(list_folder_id in self.project.objectIds())
-        menusupporter = IMenuSupporter(self.project)
-        menu_items = menusupporter.getMenuItems(featurelet._menu_id)
-        item_title = featurelet._info['menu_items'][0]['title']
-        self.failUnless(menu_items.has_key(item_title))
 
         #try:
         #    view = getMultiAdapter((self.project, request),
@@ -65,10 +60,6 @@ class TestListenFeaturelet(OpenPlansTestCase):
 
         list_folder_id = featurelet._info['content'][0]['id']
         self.failIf(list_folder_id in self.project.objectIds())
-        menusupporter = IMenuSupporter(self.project)
-        menu_items = menusupporter.getMenuItems(featurelet._menu_id)
-        item_title = featurelet._info['menu_items'][0]['title']
-        self.failIf(menu_items.has_key(item_title))
 
         request = self.project.REQUEST
         try:

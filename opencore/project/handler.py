@@ -19,10 +19,6 @@ def handle_postcreation(event):
     instance = event.project
     request = instance.REQUEST
 
-    # add the 'project home' menu item before any others
-    #@@ move to function or subscriber
-    instance._initProjectHomeMenuItem()
-
     # add the featurelets, if any
     request.set('__initialize_project__', None)
 
