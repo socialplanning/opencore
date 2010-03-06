@@ -1,7 +1,3 @@
-0.18.1 (unreleased)
-===================
-
- * Add optional `layer` attribute to opencore:searchView directive (dimo)
 
 0.18.0 (2010-01-24)
 ===================
