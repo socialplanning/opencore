@@ -26,6 +26,8 @@ from opencore.configuration import OC_REQ as OPENCORE
 from opencore.content.fields import SquareScaledImageField
 from opencore.interfaces import IProject
 from opencore.project.utils import project_noun
+from topp.featurelets.config import MENU_ID
+from topp.featurelets.interfaces import IMenuSupporter
 from zope.app.annotation.interfaces import IAttributeAnnotatable
 from zope.component import queryMultiAdapter
 from zope.interface import Interface, implements
@@ -123,6 +125,31 @@ ProjectSchema['space_teams'].allowed_types = ('OpenTeam',)
 ProjectSchema['space_teams'].write_permission = ManagePortal
 ProjectSchema.moveField('space_teams', pos='bottom')
 
+# items for the 'breadcrumbs' menu bar
+# XXX these should probably live elsewhere, maybe in 
+# _initProjectHomeMenuItem
+
+project_menu_item = {'title': u'Home',
+                     'description': u'Home',
+                     'action': '',
+                     'extra': None,
+                     'order': 0,
+                     'permission': None,
+                     'filter': None,
+                     'icon': None,
+                     '_for': Interface,
+                     }
+
+project_menu_preferences = {'title': u'%s Preferences' % project_noun().title(),
+                            'description': u'%s Preferences' % project_noun().title(),
+                            'action': 'base_edit',
+                            'extra': None,
+                            'order': 0,
+                            'permission': 'ManageWorkflowPolicy',
+                            'filter': None,
+                            'icon': None,
+                            '_for': Interface,
+                            }
 
 class OpenProject(BrowserDefaultMixin, TeamSpaceMixin, BaseBTreeFolder):
     """
@@ -225,6 +252,17 @@ class OpenProject(BrowserDefaultMixin, TeamSpaceMixin, BaseBTreeFolder):
         page = self._getOb(self.home_page_id)
         page_file = pkg_resources.resource_stream(OPENCORE, 'copy/%s' % self.home_page_file)
         page.setText(page_file.read().replace('${project_noun}', project_noun()))
+
+    def _initProjectHomeMenuItem(self):
+        """
+        Sets up an initial 'project home' menu item in the featurelets
+        menu.
+        """        
+        menusupporter = IMenuSupporter(self)
+        menu_item = project_menu_item.copy()
+        menusupporter.addMenuItem(MENU_ID, menu_item)
+        menu_item = project_menu_preferences.copy()
+        menusupporter.addMenuItem(MENU_ID, menu_item)
 
     # Validation
     def _hasDuplicate(self, index, value):
