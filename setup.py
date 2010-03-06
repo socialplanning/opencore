@@ -48,7 +48,7 @@ setup(
         'https://svn.openplans.org/svn/ZCMLLoader/trunk#egg=ZCMLLoader',
         'https://svn.openplans.org/svn/flunc/trunk#egg=flunc-0.6dev',
         'http://svn.sccs.swarthmore.edu/egj/zope_i18n_fork_r105273#egg=zope.i18n-3.7.2opencore',
-        'https://svn.openplans.org/svn/opencore/integrationlib/trunk#egg=opencore_integrationlib-dev',
+        'https://svn.openplans.org/svn/opencore/contrib/opencore_integrationlib/trunk#egg=opencore_integrationlib-dev',
         ],
     install_requires=[
         'borg.localrole==2.0.1',
