@@ -42,16 +42,14 @@ def is_listen_featurelet_installed(f, mship_obj, action):
 
 
 @is_listen_featurelet_installed
-def add_or_remove_membership(mship, action):
+def add_or_remove_membership(mship, remove=False):
+
     mem_id = mship.getId()
     team = mship.aq_inner.aq_parent
     proj_id = team.getId()
     portal = getToolByName(mship, 'portal_url').getPortalObject()
     listencontainer = portal.projects[proj_id].lists
 
-    return _perform_listen_action(listencontainer, mem_id, action)
-
-def _perform_listen_action(listencontainer, mem_id, action):
     mlists = []
 
     for mlist in listencontainer.objectValues(spec='OpenMailingList'):
@@ -61,16 +59,26 @@ def _perform_listen_action(listencontainer, mem_id, action):
     if not mlists:
         # no autosync mailing lists; silently fail
         return
+
     for ml in mlists:
         memlist = IWriteMembershipList(ml)
-        getattr(memlist, action)(mem_id)
 
+        if remove:
+            memlist.unsubscribe(mem_id)
+        else:
+            memlist.subscribe(mem_id)
+
+def add_membership(mship):
+    return add_or_remove_membership(mship, remove=False)
+
+def remove_membership(mship):
+    return add_or_remove_membership(mship, remove=True)
 
 def member_joined_project(mship, event):
-    add_or_remove_membership(mship, 'subscribe')
+    add_membership(mship)
 
 def member_left_project(mship, event):
-    add_or_remove_membership(mship, 'unsubscribe')
+    remove_membership(mship)
 
 def listen_featurelet_installed(proj, event):
     """need to create a default discussion mailing list
