@@ -55,7 +55,7 @@
   </import-step>
 
   <import-step id="pas_contents" version="20051116-01"
-               handler="opencore.configuration.exportimport.importPAS"
+               handler="opencore.configuration.exportimport.installCookieAuth"
                title="PAS Contents">
     Import the PAS' registry and plugins.
   </import-step>
