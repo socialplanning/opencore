@@ -49,7 +49,7 @@ from Products.PluggableAuthService.interfaces.plugins import \
 from Products.PluggableAuthService.plugins.CookieAuthHelper import ICookieAuthHelper
 from Products.PlonePAS.plugins.cookie_handler import ExtendedCookieAuthHelper
 
-from opencore_integrationlib import auth as oc_auth
+import libopencore.auth
 
 def getCookieDomainKW(context):
     domain_kw = {}
@@ -92,7 +92,7 @@ def get_secret_file_name():
 def get_secret():
     secret_file_name = get_secret_file_name()
 
-    return oc_auth.get_secret(secret_file_name, generate_random_on_failure=True)
+    return libopencore.auth.get_secret(secret_file_name, generate_random_on_failure=True)
     
 class SignedCookieAuthHelper(ExtendedCookieAuthHelper):
     """ Multi-plugin for managing details of Cookie Authentication with signing. """
@@ -110,10 +110,10 @@ class SignedCookieAuthHelper(ExtendedCookieAuthHelper):
                , IAuthenticationPlugin )
 
     def generateHash(self, login):
-        return oc_auth.generate_hash(login, self.secret)
+        return libopencore.auth.generate_hash(login, self.secret)
 
     def generateCookieVal(self, login):
-        return oc_auth.generate_cookie_value(login, self.secret)
+        return libopencore.auth.generate_cookie_value(login, self.secret)
 
     def generateCookie(self, login):
         cookie_val = self.generateCookieVal(login)
@@ -134,11 +134,11 @@ class SignedCookieAuthHelper(ExtendedCookieAuthHelper):
 
         elif cookie and cookie != 'deleted':
             try:
-                login, hash = oc_auth.authenticate_from_cookie(
+                login, hash = libopencore.auth.authenticate_from_cookie(
                     cookie, self.secret)
-            except oc_auth.BadCookie:
+            except libopencore.auth.BadCookie:
                 raise ValueError # this exception had been uncaught in the code i'm refactoring
-            except oc_auth.NotAuthenticated:
+            except libopencore.auth.NotAuthenticated:
                 return None
 
             creds['login'] = login
