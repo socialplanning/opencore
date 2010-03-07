@@ -40,13 +40,10 @@ def setup(app, username='admin', site='openplans'):
 oc_props_id = 'opencore_properties'
 
 ## see http://projects.openplans.org/opencore/changeset/24979/
-#from Products.CMFPlacefulWorkflow.PlacefulWorkflowTool import WorkflowPolicyConfig_id
-
+from Products.CMFPlacefulWorkflow.PlacefulWorkflowTool import WorkflowPolicyConfig_id
 def get_workflow_policy_config(context):
     pwf_tool = getToolByName(context, 'portal_placeful_workflow')
-    return pwf_tool.getWorkflowPolicyConfig(context)
-
-    #return getattr(context.aq_explicit, WorkflowPolicyConfig_id, None)
+    return getattr(context.aq_explicit, WorkflowPolicyConfig_id, None)
 
 def get_opencore_property(prop, context=None):
     """
