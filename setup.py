@@ -63,7 +63,7 @@ setup(
         'opencore_integrationlib',
         'plone.mail',
         'Products.CacheSetup==1.2',
-        'Products.GenericSetup==1.4.1',
+        'Products.GenericSetup<1.5',
         'simplejson',
         'topp.featurelets>=0.3.0',
         'topp.utils>=0.5.1',
@@ -71,6 +71,8 @@ setup(
         'zc.queue',
         'zcmlloader',
         'zope.i18n==3.7.2opencore',
+        'five.intid==0.4.1',
+        'Products.QueueCatalog',
         ],
     
     extras_require=dict(ubuntu=['hprof']),
