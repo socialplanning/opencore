@@ -8,7 +8,11 @@ from zope.app.component.hooks import getSite
 from zope.component import getUtility
 from zope.interface import implements
 import feedparser
+import socket
 import urlparse
+import logging
+
+logger = logging.getLogger('opencore.utility.feedbacker')
 
 class FeedbackerClient(object):
     """A global utility for making feedbacker requests"""
@@ -34,13 +38,20 @@ class FeedbackerClient(object):
             cookie = auth_helper.generateCookie(login)
             headers = dict(Cookie=cookie)
 
-        resp, content = h.request(req_url,
-                                  method="GET",
-                                  headers=headers,
-                                  )
+        try:
+            resp, content = h.request(req_url,
+                                      method="GET",
+                                      headers=headers,
+                                      )
+        except socket.error:
+            logger.error('feedbacker server down? %s' % req_url)
+            return feedparser.FeedParserDict(entries=[])
+
         if resp.get('status') != '200':
-            # feedbacker failure
-            return
+            logger.error('feedbacker error %s from %s' % (resp.get('status'),
+                                                          req_url))
+            return feedparser.FeedParserDict(entries=[])
+
         return feedparser.parse(content)
 
     def _get_auth_helper(self, context):
