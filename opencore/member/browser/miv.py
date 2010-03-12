@@ -82,6 +82,10 @@ class MemberInfoView(BrowserView):
 
 
 class ProfileView(BrowserView):
+
+    # XXX IS THIS CRUFT?  There's another profile class in view.py
+    # which is definitely used.
+
     implements(IMemberHomePage)
     def __init__(self, context, request):
         self.context = context
