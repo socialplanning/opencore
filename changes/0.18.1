@@ -2,3 +2,7 @@
 ===================
 
  * Add optional `layer` attribute to opencore:searchView directive (dimo)
+
+ * Add <meta http-equiv="Content-type"> tag with charset=UTF-8 declaration
+   to the main-template.pt <head>. This prevents non-ASCII response content
+   from becoming mangled if it's passed through an lxml filter on the way out.
