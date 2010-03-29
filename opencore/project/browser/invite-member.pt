@@ -56,7 +56,7 @@ Hi <span i18n:name="member_id" tal:replace="request/form/id  | nothing" />,
 You have been invited to join <span i18n:name="project_title" tal:replace="context/Title" /> by  <span i18n:name="member_id_to_invite" tal:replace="python: view.loggedinmember.getFullname() or view.loggedinmember.id" />. Please visit your account page to accept or decline the invitation.
 
 Cheers,  
-The OpenPlans team
+The <span tal:replace="view/portal_title">OpenPlans</span> team
 </textarea>
                 </div>
 		</td>
