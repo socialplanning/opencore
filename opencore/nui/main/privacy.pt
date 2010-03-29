@@ -7,50 +7,11 @@
     <div metal:fill-slot="content">
       <div id="oc-content-main">
         <div class="oc-headingBlock">
-          <h1 tal:content="string:About ${view/portal_title}" />
-        </div>
-        <p>OpenPlans aims to transform social activism by providing tools that connect people and enable them to share ideas, stay organized, and act collectively to effect change.</p>
-        
-        <h1>About <acronym title="The Open Planning Project">TOPP</acronym></h1>
-        <p>OpenPlans is the work of <a tal:attributes="href context/@@oc-utils/topp_url">The Open Planning Project</a>, a New York City-based non-profit organization dedicated to using technology to enhance community participation. In addition to OpenPlans, we also sponsor <a href="http://www.geoserver.org/">GeoServer</a>, an open source platform for sharing geographic information, and the <a href="http://www.nycsr.org/">New York City Streets Renaissance Campaign</a>, which advocates for lively public space in New York City.</p>
-      </div><!-- content-main -->
-      <div id="oc-content-sidebar">
-        <div id="oc-contact" class="oc-boxy">
-          <h2>Contact Us</h2>
-            <address class="vcard">
-              <p style="font-weight: bold;" class="fn org">
-                <a class="url" tal:attributes="href context/@@oc-utils/topp_url">The Open Planning Project</a>
-              </p>
-              <dl class="oc-plainList">
-                <dt>Address</dt>
-                <dd class="adr">
-                  <div class="street-address">349 West 12th Street #3</div>
-                  <span class="locality">New York</span>, <span class="region">NY</span> <span class="postal-code">10014</span>
-                </dd>
-                <dt>Phone</dt>
-                <dd class="tel">212.219.6070</dd>
-                <dt>Fax</dt>
-                <dd class="tel">646.390.2624</dd>
-                <dt>Email (General Inquiries)</dt>
-                <dd class="email"
-                    tal:content="structure python:view.spamProtect('info@openplans.org')" />
-                <dt>Email (Help)</dt>
-                <dd class="email"
-                    tal:content="structure python:view.spamProtect('help@openplans.org')" />
-              </dl>
-            </address>
-        </div>
-        <div class="oc-boxy">
-          <h2>Help!</h2>
-          <p>
-            We are here for you. If you could use some help, don't hesitate
-            to email <span tal:replace="python:view.spamProtect('help@openplans.org')" />
-            or visit the <a style="" href="http://www.openplans.org/projects/openplans-help/">OpenPlans Help and Documentation</a> <span tal:replace="view/project_noun">project</span>.
-            If you have technical knowledge and want to get involved, 
-            visit the <a style="" href="http://www.openplans.org/projects/opencore/">OpenCore Software</a> <span tal:replace="view/project_noun">project</span> for more information.
-          </p>
+          <h1 tal:content="string:Privacy statement for ${view/portal_title}" />
         </div>
       </div>
+     <p>This should be customized for your site. (we should put some
+     links here to documentation on how to do that)</p>
     </div><!-- content-fill-slot -->
   </body>
 </html>
