@@ -13,8 +13,8 @@
           <h1 tal:content="string:About ${view/portal_title}" />
         </div>
 	<div i18n:translate="about_openplans">
-        <p><span tal:replace="view/portal_title" tal:name="site_title">CoActivate</span> is a platform for social activism.</p>
-        <p>Whether your group is mobilizing voters, planning a protest, or growing a garden, <span tal:replace="view/portal_title" tal:name="site_title">CoActivate</span> can help you become more effective. <span tal:replace="view/portal_title" tal:name="site_title">CoActivate</span> is about greasing the wheels of democracy.</p>
+        <p><span tal:replace="view/portal_title" i18n:name="site_title">CoActivate</span> is a platform for social activism.</p>
+        <p>Whether your group is mobilizing voters, planning a protest, or growing a garden, <span tal:replace="view/portal_title" i18n:name="site_title">CoActivate</span> can help you become more effective. <span tal:replace="view/portal_title" i18n:name="site_title">CoActivate</span> is about greasing the wheels of democracy.</p>
         <p>With our collaborative wiki pages and other tools, you and your group can:</p>
         <ul class="oc-smallText">
           <li>Make <span tal:replace="view/project_noun">project</span>s</li>
