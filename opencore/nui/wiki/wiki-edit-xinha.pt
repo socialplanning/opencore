@@ -1,12 +1,7 @@
 <tal:vars tal:define="attachments view/fileAttachments;
                       Iterator python:modules['Products.CMFPlone'].IndexIterator;
-                      lockable python:hasattr(here, 'wl_isLocked');
-                      errors view/errors;
-                      isLocked python:lockable and here.wl_isLocked();
-                      member python:here.portal_membership.getAuthenticatedMember();
-                      portal python:context.portal_url.getPortalObject();
-                      portal_url here/portal_url;
                       tabindex python:Iterator(pos=7000);
+                      member python:here.portal_membership.getAuthenticatedMember();
                       "
 	  i18n:domain="opencore">
 
@@ -142,7 +137,6 @@ var _editor_lang = '${view/xinha_lang_code}';
                             id="attachmentFile"
                             name="attachmentFile"
                             size="30" 
-                            tabindex="" 
                             tal:attributes="tabindex tabindex/next;
                             value request/attachmentFile/filename | nothing"
                             /></td>
@@ -154,7 +148,6 @@ var _editor_lang = '${view/xinha_lang_code}';
                             id="attachmentTitle" 
                             name="attachmentTitle" 
                             size="30" 
-                            tabindex=""
                             tal:attributes="tabindex tabindex/next;"
                             value=""/></td>
                         <td class="oc-form-help">
