@@ -1,7 +1,6 @@
 <tal:vars tal:define="attachments view/fileAttachments;
                       Iterator python:modules['Products.CMFPlone'].IndexIterator;
                       tabindex python:Iterator(pos=7000);
-                      member python:here.portal_membership.getAuthenticatedMember();
                       "
 	  i18n:domain="opencore">
 
