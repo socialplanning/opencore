@@ -17,7 +17,7 @@ class TopNavView(HeaderHijackable):
     """
     Provides req'd information for rendering top nav in any context.
     """
-    @property
+
     def contextmenu(self):
         """ask a viewlet manager for the context menu
            HeaderHijackable takes care of making sure that the context
