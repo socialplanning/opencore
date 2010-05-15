@@ -110,7 +110,8 @@
 
   <a rel="include"
      tal:condition="view/twirlip_uri"
-     tal:attributes="href string:${view/twirlip_uri}/user/watchlist"/>
+     tal:attributes="href string:${view/twirlip_uri}/user/watchlist"></a>
+
   <metal:do use-macro="view/project_table/macros/project_table" />
 
 </div><!-- end #oc-content-main -->
