@@ -73,7 +73,7 @@ if these doctests are bad tests they are at least decent docs.
       'description': '',
       'id': 'p5',
       'logo': None,
-      'title': 'Project F\xc3\xbcnf',
+      'title': 'Project F...nf',
       'url': 'http://nohost/plone/projects/p5'}]
 
 

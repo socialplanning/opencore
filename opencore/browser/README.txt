@@ -96,9 +96,9 @@ See member_info_test.txt.
 test nusers and projects_served_count
 -------------------------
     >>> pview.nusers()
-    5
+    6
     >>> pview.projects_served_count()
-    4
+    5
     >>> members_map = {'new_user':{'fullname':'new user',
     ...                            'password':'testy',
     ...                            'email':'new_user@example.com',
@@ -111,15 +111,15 @@ test nusers and projects_served_count
     'Project new_project added\nMember new_user added'
     >>> self.clearMemoCache()
     >>> pview.nusers()
-    6
+    7
     >>> pview.projects_served_count()
-    5
+    6
     >>> self.logout()
     >>> pview.loggedin
     False
     >>> self.clearMemoCache()
     >>> pview.projects_served_count()
-    5
+    6
 
 portal_status_message
 =====================
@@ -155,7 +155,7 @@ Add a closed project, and the number of total projects should update (footer)
    The view is the homepage, so let's reuse that. Initially, we should have 4 projects
    >>> self.clearMemoCache()
    >>> view.projects_served_count()
-   5
+   6
 
    Let's add a new closed project
    First, let's login as m1
@@ -169,13 +169,13 @@ Add a closed project, and the number of total projects should update (footer)
    another result
    >>> self.clearMemoCache()
    >>> view.projects_served_count()
-   6
+   7
 
    Now we logout, and we should still get the new project
    >>> self.clearMemoCache()
    >>> self.logout()
    >>> view.projects_served_count()
-   6
+   7
 
 
 
