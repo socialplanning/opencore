@@ -176,7 +176,7 @@ not explode::
     >>> view.leave_project('i18n')
     False
     >>> view.portal_status_message
-    [u'You are the only administrator of "&#26085;&#35486;."...]
+    [u'You are the only administrator of "\u65e5\u8a9e."...]
 
     Now we'll try to set the listing as private:
 
@@ -361,7 +361,7 @@ And now if we were to receive an info message::
 
     And now we should be able to view those messages
     >>> list(view.infomsgs)
-    [(0, 'All your base are belong to us'), (1, 'You were just acceped to Move Zig')]
+    [(0, u'All your base are belong to us'), (1, u'You were just acceped to Move Zig')]
 
     Let's go ahead and kill the first one, the message is not so nice
     >>> sorted(view.close_msg_handler('0').keys())
@@ -370,7 +370,7 @@ And now if we were to receive an info message::
     Poof, he's gone
     >>> self.clearMemoCache()
     >>> list(view.infomsgs)
-    [(1, 'You were just acceped to Move Zig')]
+    [(1, u'You were just acceped to Move Zig')]
 
     And if we try to axe something that isn't there ...
     We get zilch back
