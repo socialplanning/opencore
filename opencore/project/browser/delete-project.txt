@@ -50,7 +50,7 @@ don't need for this test::
     >>> p4_proj = projects_folder.p4
     >>> delete_team(p4_proj)
     >>> sorted(self.portal.portal_teams.objectIds())
-    ['.wf_policy_config', 'p1', 'p2', 'p3']
+    ['.wf_policy_config', 'p1', 'p2', 'p3', 'p5']
 
 
 Put it all together
@@ -82,12 +82,12 @@ Get the delete view and invoke it::
 p1 should be gone::
 
     >>> sorted(projects_folder.objectIds())
-    ['.wf_policy_config', 'p2', 'p3', 'p4']
+    ['.wf_policy_config', 'p2', 'p3', 'p4', 'p5']
 
 The team should also be gone::
 
     >>> sorted(self.portal.portal_teams.objectIds())
-    ['.wf_policy_config', 'p2', 'p3']
+    ['.wf_policy_config', 'p2', 'p3', 'p5']
 
 We redirect to the account page after project deletion::
 

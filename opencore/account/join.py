@@ -216,7 +216,7 @@ class InviteJoinView(JoinView, ConfirmAccountView):
             tmtool = getToolByName(self.context, 'portal_teams')
             for team_id in auto_joined_list:
                 proj_link = '<a href="%s">%s</a>' % (self.project_url(team_id),
-                                                     self.proj_title(team_id))
+                                                     self.proj_title(team_id).decode('utf8'))
                 self.add_status_message(_(u'added_to_proj_psm',
                                           u'You have been added to the ${project_link} ${project_noun}.',
                                           mapping={'project_link': proj_link}))
@@ -231,7 +231,7 @@ class InviteJoinView(JoinView, ConfirmAccountView):
         proj_obj = self.context.projects.get(invite)
         if proj_obj is not None:
             return proj_obj.Title()
-        return None
+        return ''
 
     def if_pending_user(self):
         """

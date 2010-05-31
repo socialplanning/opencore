@@ -8,6 +8,7 @@ projects_map = {'p1':{'title':'Project One',},
                 'p2':{'title':'Project Two',},
                 'p3':{'title':'Project Three',},
                 'p4':{'title':'Project Four',},
+                'p5':{'title':'Project Fünf',},
                 }
 
 members_map = {'m1':{'fullname':'Mëmber Oñe',
@@ -42,6 +43,13 @@ members_map = {'m1':{'fullname':'Mëmber Oñe',
                                   'p2':('ProjectAdmin',),
                                   },
                      },
+               'p5m':{'fullname':'Lammy',
+                      'password':'testy',
+                      'email':'notreal5@example.com',
+                      'projects': {'p5':('ProjectAdmin',),
+                                   },
+                      },
+               
                }
 
 
