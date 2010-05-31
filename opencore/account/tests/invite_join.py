@@ -21,7 +21,7 @@ Invites start in opencore.project.browser.manageteam.InviteView::
     >>> from Testing.makerequest import makerequest
     >>> self.portal = makerequest(self.portal); request = self.portal.REQUEST
     >>> inv = self.portal.projects.p1.unrestrictedTraverse("invite")
-    >>> key=inv.do_nonmember_invitation_email('bob@bob.com', 'p1')
+    >>> key=inv.do_nonmember_invitation_email('bob@bob.com', 'p5')
 
 It is stored in the invite_utils in a keyed map::
 
@@ -43,7 +43,7 @@ We'll simulate the link and get the invite-join view. Let's logout::
     'bob@bob.com'
 
     >>> inv_join.invites
-    {'p1': DateTime('...')}
+    {'p5': DateTime('...')}
 
 The proj_ids property on the view returns the id of every project
 which has been rendered in the template. Since we did not pass in
@@ -61,20 +61,20 @@ to the view when the form is submitted. So we'll just mock this up
 very dumbly, in a way which mimics the actual behavior, so that even
 if these doctests are bad tests they are at least decent docs.
 
-    >>> request.form['project'] = 'p1'
-    >>> request.form['invites'] = ['p1']
+    >>> request.form['project'] = 'p5'
+    >>> request.form['invites'] = ['p5']
 
     >>> inv_join = self.portal.unrestrictedTraverse("invite-join")
     >>> inv_join.proj_ids
-    ['p1']
+    ['p5']
 
     >>> pprint(inv_join.invite_map)
     [{'closed': False,
       'description': '',
-      'id': 'p1',
+      'id': 'p5',
       'logo': None,
-      'title': 'Project One',
-      'url': 'http://nohost/plone/projects/p1'}]
+      'title': 'Project F\xc3\xbcnf',
+      'url': 'http://nohost/plone/projects/p5'}]
 
 
 Saving
@@ -104,7 +104,7 @@ create_member as confirmed::
     >>> request.form.update(dict(password='p@ssw0rd',
     ...                     confirm_password='p@ssw0rd',
     ...                     id='bob',
-    ...                     invites=['p1']))
+    ...                     invites=['p5']))
 
     >>> member = inv_join._create_member(confirmed=True)
 
@@ -155,10 +155,10 @@ Rig up the dummy subscriber
 
 The do_invite_joins method returns a list of projects that were joined::
     >>> inv_join.do_invite_joins(member)
-    ['p1']
-    >>> mbship = self.portal.portal_teams.p1['bob']
+    ['p5']
+    >>> mbship = self.portal.portal_teams.p5['bob']
     >>> mbship
-    <OpenMembership at /plone/portal_teams/p1/bob>
+    <OpenMembership at /plone/portal_teams/p5/bob>
 
     >>> mbship.getTeamRoles()
     ['ProjectMember']
