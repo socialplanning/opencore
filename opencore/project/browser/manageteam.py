@@ -634,57 +634,6 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite, AccountView,
 
         return self.redirect('%s/manage-team' % self.context.absolute_url())
 
-    @formhandler.action('set-roles')
-    def set_roles(self, targets, fields):
-        """
-        Brings the stored team roles into sync with the values stored
-        in the request form.
-        """
-        roles = [f.get('role') for f in fields]
-        roles_from_form = dict(zip(targets, roles))
-
-        team = self.team
-        changes = []
-        for mem_id in roles_from_form:
-            from_form = roles_from_form[mem_id]
-            if team.getHighestTeamRoleForMember(mem_id) != from_form:
-                index = DEFAULT_ROLES.index(from_form)
-                mem_roles = DEFAULT_ROLES[:index + 1]
-                team.setTeamRolesForMember(mem_id, mem_roles)
-                changes.append(mem_id)
-
-        if changes:
-            commands = {}
-            active_mships = self.active_mships
-            active_mships = dict([(m['getId'], m) for m in active_mships])
-            for mem_id in changes:
-                item = active_mships.get(mem_id)
-                if item:
-                    extra_context={'item': item,
-                                   'team_manage_macros': self.team_manage_macros,
-                                   'changeable': True}
-                    html = self.render_macro(self.team_manage_macros.macros['mshiprow'],
-                                             extra_context=extra_context)
-                    commands[mem_id] = {'action': 'replace',
-                                        'html': html,
-                                        'effects': 'highlight'}
-                    promoted = team.getHighestTeamRoleForMember(mem_id) == 'ProjectAdmin'
-                    if promoted:
-                        transient_msg = 'You are now an admin of'
-                        status_msg = _(u'promote_to_admin',
-                                       mapping={'name': mem_id})
-                    else:
-                        transient_msg = 'You are no longer an admin of'
-                        status_msg = _(u'demote_to_member',
-                                       mapping={'name': mem_id})
-                    self._add_transient_msg_for(mem_id, transient_msg)
-                    self.add_status_message(status_msg)
-
-            return commands
-        else:
-            msg = u"No roles changed"
-            self.add_status_message(msg)
-        
 
     ##################
     #### MEMBER SEARCH BUTTON HANDLER
