@@ -1,4 +1,4 @@
-from opencore.configuration import DEFAULT_ROLES
+from opencore.configuration import DEFAULT_ROLES, MEMBER_ROLES, ADMIN_ROLES
 from Products.CMFCore.utils import getToolByName
 from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
 from Products.MailHost.MailHost import MailHostError
@@ -575,6 +575,64 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite, AccountView,
 
         self.team.reindexTeamSpaceSecurity()
         return ret
+
+    @formhandler.action('promote-admin')
+    def promote_admin(self, targets, fields=None):
+        mem_ids = targets
+        changes = []
+        team = self.team
+
+        for mem_id in mem_ids:
+            if team.getHighestTeamRoleForMember(mem_id) == 'ProjectAdmin':
+                continue
+            team.setTeamRolesForMember(mem_id, ADMIN_ROLES)
+            changes.append(mem_id)
+
+        self.team.reindexTeamSpaceSecurity()
+
+        if len(changes) == 0:
+            msg = u"Select one or more project members to promote to admins"
+            self.add_status_message(msg)
+            return self.redirect('%s/manage-team' % self.context.absolute_url())
+
+        for mem_id in changes:
+            transient_msg = 'You are now an admin of'
+            self._add_transient_msg_for(mem_id, transient_msg)
+
+            status_msg = _(u'promote_to_admin',
+                           mapping={'name': mem_id})
+            self.add_status_message(status_msg)
+
+        return self.redirect('%s/manage-team' % self.context.absolute_url())
+
+    @formhandler.action('demote-admin')
+    def demote_admin(self, targets, fields=None):
+        mem_ids = targets
+        changes = []
+        team = self.team
+
+        for mem_id in mem_ids:
+            if team.getHighestTeamRoleForMember(mem_id) == 'ProjectMember':
+                continue
+            team.setTeamRolesForMember(mem_id, MEMBER_ROLES)
+            changes.append(mem_id)
+
+        self.team.reindexTeamSpaceSecurity()
+
+        if len(changes) == 0:
+            msg = u"Select one or more project admins to demote to members"
+            self.add_status_message(msg)
+            return self.redirect('%s/manage-team' % self.context.absolute_url())
+
+        for mem_id in changes:
+            transient_msg = 'You are no longer an admin of'
+            self._add_transient_msg_for(mem_id, transient_msg)
+
+            status_msg = _(u'demote_to_member',
+                           mapping={'name': mem_id})
+            self.add_status_message(status_msg)
+
+        return self.redirect('%s/manage-team' % self.context.absolute_url())
 
     @formhandler.action('set-roles')
     def set_roles(self, targets, fields):
