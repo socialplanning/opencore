@@ -88,7 +88,7 @@ Also verify that the transient messages were saved::
     >>> from opencore.interfaces.message import ITransientMessage
     >>> tm = ITransientMessage(self.portal)
     >>> list(tm.get_msgs('m4', view.msg_category))
-    [(0, 'You have been accepted to <a href="http://nohost/plone/projects/p3">Project Three</a>')]
+    [(0, u'You have been accepted to <a href="http://nohost/plone/projects/p3">Project Three</a>')]
 
 Next we recreate the request and test discarding; no add'l email
 should be sent::
@@ -133,9 +133,9 @@ And we should also have some rejection msgs for the user::
 
     >>> msgs = list(tm.get_msgs('m4', view.msg_category))
     >>> msgs[0]
-    (0, 'You have been accepted to <a href="http://nohost/plone/projects/p3">Project Three</a>')
+    (0, u'You have been accepted to <a href="http://nohost/plone/projects/p3">Project Three</a>')
     >>> msgs[1]
-    (1, 'You have been denied membership to <a href="http://nohost/plone/projects/p3">Project Three</a>')
+    (1, u'You have been denied membership to <a href="http://nohost/plone/projects/p3">Project Three</a>')
 
 Verify that invitation reminders go out::
 
@@ -209,7 +209,7 @@ And if we try nobody
 Transient Message should be added as well
 
     >>> list(tm.get_msgs('m2', view.msg_category))
-    [(0, 'You have been deactivated from <a href="http://nohost/plone/projects/p3">Project Three</a>')]
+    [(0, u'You have been deactivated from <a href="http://nohost/plone/projects/p3">Project Three</a>')]
 
 Ensure that form submissions changing the team roles for members
 behave as expected.  At the beginning we re-add and approve m3 so we
@@ -227,7 +227,7 @@ can use him for testing later:
     >>> wft.setStatusOf('openplans_team_membership_workflow', mship, status)
     >>> res = view.approve_requests(['m3'])
     >>> list(tm.get_msgs('m3', view.msg_category))
-    [(0, 'You have been accepted to <a href="http://nohost/plone/projects/p3">Project Three</a>')]
+    [(0, u'You have been accepted to <a href="http://nohost/plone/projects/p3">Project Three</a>')]
     >>> 'm3' in mship.getActiveMemberIds()
     True
 
@@ -271,7 +271,7 @@ portal_owner was demoted, and m3 was promoted
 The user should also get a transient message saying that he was made
 into an admin
     >>> list(tm.get_msgs('m3', view.msg_category))[-1]
-    (1, 'You are now an admin of <a href="http://nohost/plone/projects/p3">Project Three</a>')
+    (1, u'You are now an admin of <a href="http://nohost/plone/projects/p3">Project Three</a>')
 
 If a project admin is removed from the team, he should lose the
 ProjectAdmin role::
@@ -294,7 +294,7 @@ Demotions should also yield transient messages
     ...     })
     >>> html = view.set_roles(['m3'], [dict(role='ProjectMember')])
     >>> list(tm.get_msgs('m3', view.msg_category))[-1]
-    (2, 'You are no longer an admin of <a href="http://nohost/plone/projects/p3">Project Three</a>')
+    (2, u'You are no longer an admin of <a href="http://nohost/plone/projects/p3">Project Three</a>')
     >>> get_status_messages(view)
     [u'm3 is no longer an administrator']
 
