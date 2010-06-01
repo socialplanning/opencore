@@ -61,7 +61,7 @@ setup(
         'oc-feed>=0.4',
         'OpencoreRedirect==dev,>=0.5dev',
         'plone.mail',
-        'Products.CacheSetup==1.2',
+        'Products.CacheSetup==1.2.1',
         'Products.GenericSetup<1.5',
         'simplejson',
         'topp.featurelets>=0.3.0',
