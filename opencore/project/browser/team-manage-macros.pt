@@ -223,9 +223,13 @@
             </tal:roleoptions>
           </select>
 	  
-          <input type="submit" value="go"
+          <input type="submit" value="go" tal:condition="python:member_role == 'administrator'"
 		 i18n:attributes="value" 
-		 tal:attributes="name string:task|${item/id}|set-roles" />
+		 tal:attributes="name string:task|${item/id}|demote-admin" />
+
+          <input type="submit" value="go" tal:condition="python:member_role == 'member'"
+		 i18n:attributes="value" 
+		 tal:attributes="name string:task|${item/id}|promote-admin" />
           
         </div><!-- end .liveEdit-editForm -->
 
