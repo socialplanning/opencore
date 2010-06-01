@@ -146,6 +146,5 @@ def registerTranslations(_context, directory):
     _compile_locales_dir(directory)
     # end PTS monkeypatch
 
-    register_translations(_context, directory,
-                          _factory=ProjectNounAwareTranslationDomain)
+    register_translations(_context, directory)
 
