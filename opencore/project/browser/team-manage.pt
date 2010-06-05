@@ -5,6 +5,14 @@
   <head>
     <title metal:fill-slot="title"
            tal:content="string:Manage Team - ${view/window_title}" />
+
+    <metal:slot fill-slot="script">
+      <script type="text/javascript" 
+	      src="/++resource++jquery/jquery-1.3.2.min.js"></script>
+      <script type="text/javascript"
+	      src="/++resource++team-manage.js"></script>
+    </metal:slot>
+
   </head>
   <body>
     <div metal:fill-slot="content">

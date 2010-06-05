@@ -106,6 +106,7 @@ class action(object):
     # modfied from zope.formlib (ZPL)
     def __init__(self, label, default=False, 
                  actions=None, apply=None,
+                 skip_octopus_response=False,
                  **options):
         caller_locals = sys._getframe(1).f_locals
         if actions is None:
@@ -115,6 +116,7 @@ class action(object):
         self.actions = actions
         self.label = label
         self.options = options
+        self.skip_octopus_response = skip_octopus_response
         if default:
             if actions.default is not None:
                 raise Exception("Only one default action is permitted per action registry")
@@ -200,8 +202,11 @@ class Octopus(object):
         if ret is None:
             ret = dict()
 
-        mode = self._octopus_get('mode')
+        mode = self._octopus_get('mode')            
+
         if mode == 'async':
+            if not isinstance(ret, dict):
+                ret = {}
             self._octopus_async_postprocess(ret)
             return htmlify(ret)  # no
         else:
@@ -259,7 +264,8 @@ class Octopus(object):
             if hasattr(base, 'actions'):
                 try:
                     if action in base.actions:
-                        return base.actions[action](self, objects, fields)
+                        method = base.actions[action]
+                        return method(self, objects, fields)
                 except TypeError: #actions isn't a list
                     pass
 

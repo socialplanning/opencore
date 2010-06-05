@@ -576,7 +576,7 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite, AccountView,
         self.team.reindexTeamSpaceSecurity()
         return ret
 
-    @formhandler.action('promote-admin')
+    @formhandler.action('promote-admin', skip_octopus_response=True)
     def promote_admin(self, targets, fields=None):
         mem_ids = targets
         changes = []
@@ -605,7 +605,7 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite, AccountView,
 
         return self.redirect('%s/manage-team' % self.context.absolute_url())
 
-    @formhandler.action('demote-admin')
+    @formhandler.action('demote-admin', skip_octopus_response=True)
     def demote_admin(self, targets, fields=None):
         mem_ids = targets
         changes = []

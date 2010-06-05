@@ -207,40 +207,14 @@
       </div>
     </td>
 
-    <td tal:define="member_role item/role">
-      <div class="oc-js-liveEdit" tal:condition="python:not view.id_is_loggedin(item)">
-        <div class="oc-js-liveEdit-value oc-js-liveEdit_showForm oc-liveEdit-value oc-directEdit" tal:content="member_role">
-          
-        </div><!-- end .liveEdit-value -->
+    <td class="role" tal:define="member_role item/role">
+      <div tal:condition="python:not view.id_is_loggedin(item)"
+	   tal:attributes="class member_role"
+	   tal:content="member_role">
+      </div>
 
-        <div class="oc-js-liveEdit-editForm oc-js-actionSelect oc-liveEdit-editForm">
-          <select tal:attributes="name string:${item/id}_role;
-                                  id string:${item/id}_role;">
-            <tal:roleoptions repeat="roleitem view/rolemap/items">
-	      <option tal:attributes="value python:roleitem[0];
-				      selected python:(roleitem[1] == member_role);"
-		      tal:content="python:roleitem[1]" />
-            </tal:roleoptions>
-          </select>
-	  
-          <input type="submit" value="go" tal:condition="python:member_role == 'administrator'"
-		 i18n:attributes="value" 
-		 tal:attributes="name string:task|${item/id}|demote-admin" />
-
-          <input type="submit" value="go" tal:condition="python:member_role == 'member'"
-		 i18n:attributes="value" 
-		 tal:attributes="name string:task|${item/id}|promote-admin" />
-          
-        </div><!-- end .liveEdit-editForm -->
-
-      </div><!-- end .liveEdit -->
-      
-
-      <div tal:condition="python:view.id_is_loggedin(item)">
-        <span tal:replace="member_role" />
-        <input type="hidden"
-               tal:attributes="name string:${item/id}_role;
-                               value item/role_value" />
+      <div tal:condition="python:view.id_is_loggedin(item)"
+	   tal:content="member_role">
       </div>
     </td>
 
