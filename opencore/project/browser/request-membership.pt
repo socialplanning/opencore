@@ -9,8 +9,9 @@
           <h1 i18n:translate="join_heading">Join</h1>
           <p class="oc-headingContext" i18n:translate="join_help">Request membership to &ldquo;<span i18n:name="join_context_title" tal:replace="context/Title" />&rdquo;.</p>
         </div>
-        <form method="POST" id="request-membership" name="request-membership"
-              tal:attributes="action view/request/ACTUAL_URL">
+        <form method="POST" id="request-membership"
+	      name="request-membership"
+	      action="request-membership">
 
           <div class="oc-boxy oc-columnGroup oc-clearAfter" tal:condition="not:view/loggedin">
           
