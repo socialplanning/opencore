@@ -66,6 +66,14 @@
 
   <browser:page
      for="opencore.interfaces.IOpenSiteRoot"
+     class="opencore.browser.base.BaseView"
+     permission="zope.Public"
+     name="becoming-a-member"
+     template="becoming-a-member.pt"
+     />
+
+  <browser:page
+     for="opencore.interfaces.IOpenSiteRoot"
      class=".confirmation.PendingView"
      permission="zope.Public"
      name="pending"

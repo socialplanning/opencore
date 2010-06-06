@@ -1896,3 +1896,18 @@ abbr, acronym {
 .oc-wiki-content table.listing td {
   border: 1px solid #ccc;
 }
+
+
+div#oc-joining-explanation ul.oc-lineup-list {
+    padding-top: 10px;
+    }
+
+div#oc-joining-explanation ul.oc-lineup-list li.oc-feed-item {
+    float: left;
+    width: 33%;
+    border: 0;
+    margin: 0;
+    padding: 0;
+    text-align: center;
+    }
+
