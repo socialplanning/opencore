@@ -10,10 +10,20 @@
  * Fix #2899 (egj)
 
  * Add `opencore.browser.interfaces.IExtraFooter` viewlet manager to let
-   additional content be plugged in to the site footer
+   additional content be plugged in to the site footer.
    
- * Add @@becoming-a-member view on the site root which is looked up and
+ * Add @@becoming-a-member view on the site root. It is looked up and
    rendered in the @@join and @@invite-join views, on their sidebars.
+   Previously @@join and @@invite-join each had (very similary) hardcoded
+   text on their sidebars.
 
    This view can be overridden to customize the "Becoming a member means.."
    sidebar widget.
+
+ * Render @@becoming-a-member in the sidebar of the @@request-membership
+   view on projects when the requesting user is not logged in.
+
+ * On @@request-membership, display a sidebar widget with the project's name
+   and description if the project has a non-empty description.
+
+   (The code for this already existed in the template but was commented out.)
