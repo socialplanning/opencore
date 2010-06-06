@@ -1,0 +1,2 @@
+<div id="oc-wiki-content" class="oc-wiki-content"
+     tal:content="structure here/getText"/>
