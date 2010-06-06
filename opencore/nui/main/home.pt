@@ -1,8 +1,11 @@
 <html i18n:domain="opencore" metal:use-macro="here/@@standard_macros/master">
   <head>
-    <title metal:fill-slot="title" i18n:translate="home_window_title">Openplans:
-    free project management tools, wikis, blogs, mailing lists and task
-    tracking for neighborhood and global communities.
+    <title metal:fill-slot="title">
+      <div tal:replace="view/portal_title" />:
+      <tal:title i18n:translate="home_window_title">
+      free project management tools, wikis, blogs, mailing lists and task
+      tracking for neighborhood and global communities.
+      </tal:title>
    </title>
 
     <metal:script fill-slot="meta">
