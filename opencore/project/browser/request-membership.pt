@@ -138,10 +138,16 @@
                       </span>
                     </td>
                   </tr>
+
+		  <tal:stuff
+		     replace="structure provider:opencore.create_account">
+		    project prefs viewlet stuff goes here!
+		  </tal:stuff>
                   
                 </tbody>
               </table>            
             </fieldset>
+
           </div><!-- end condition: not logged in -->
   
           <fieldset>

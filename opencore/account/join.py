@@ -18,14 +18,18 @@ from opencore.i18n import _
 from opencore.interfaces.event import JoinedProjectEvent
 from opencore.interfaces.membership import IEmailInvites
 from opencore.member.interfaces import ICreateMembers
-from zope.component import getUtility
+from zope.component import getUtility, getMultiAdapter
 from zope.event import notify
 from topp.utils.pretty_text import truncate
 import zExceptions
 
 import urllib
 
-class JoinView(browser.AccountView, OctopoLite):
+class BaseJoinView(object):
+    """ no-op base class for all views that let new members
+    create accounts on the site. """
+
+class JoinView(browser.AccountView, OctopoLite, BaseJoinView):
 
     template = ZopeTwoPageTemplateFile('join.pt')
 
@@ -45,10 +49,24 @@ class JoinView(browser.AccountView, OctopoLite):
         factory = ICreateMembers(self.portal)
 
         self.errors = factory.validate(self.request)
+
+        viewlet_mgr = getMultiAdapter((self.context, self.request, self),
+                                      name='opencore.create_account')
+        if not hasattr(viewlet_mgr, 'viewlets'):
+            # This means it hasn't had update() called yet. only do that once.
+            viewlet_mgr.update()
+        for viewlet in viewlet_mgr.viewlets:
+            if hasattr(viewlet, 'validate'):
+                self.errors.update(viewlet.validate())
+
         if self.errors:
             # XXX let's raise something instead of returning.
             # it's ugly to overload function return values to signal errors.
             return self.errors
+
+        for viewlet in viewlet_mgr.viewlets:
+            if hasattr(viewlet, 'save'):
+                viewlet.save()
 
         mem = factory.create(self.request.form)
         mem_name = mem.getFullname() or mem.getId()

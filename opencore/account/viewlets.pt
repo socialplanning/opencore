@@ -1,0 +1,5 @@
+<!-- Viewlets for the account registration view -->
+<span xmlns:tal="http://xml.zope.org/namespaces/tal"
+    tal:omit-tag="" tal:repeat="viewlet options/viewlets">
+  <span tal:replace="structure viewlet/render" />
+</span>

@@ -30,3 +30,13 @@
 
  * Add a view @@raw-view on IOpenPage objects which renders the page's HTML
    content without any styling or modification, and without the site chrome.
+
+ * Add a `opencore.account.viewlet_manager.ICreateAccount` viewlet manager
+   which is registered for the @@join, @@request-membership and @@invite-join
+   views, to allow (e.g.) extra form fields to be plugged into the signup forms.
+
+   The views follow the same (gunky) pattern for pluggable validation and form
+   response handling as the Project Preferences view -- viewlets can plug-in
+   their own form validation with a `.validate(self)` method and can plug-in
+   successful submission handlers with a `.save(self)` method.
+   

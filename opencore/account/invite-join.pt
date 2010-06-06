@@ -197,6 +197,12 @@
                       </span>
                     </td>
                   </tr>
+
+		  <tal:stuff
+		     replace="structure provider:opencore.create_account">
+		    project prefs viewlet stuff goes here!
+		  </tal:stuff>
+
                   <tr class="oc-actions">
                     <th class="oc-form-label">
                     </th>

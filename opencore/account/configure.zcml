@@ -88,4 +88,13 @@
      name="resend-confirmation"
      />
 
+  <browser:viewletManager
+     view=".join.BaseJoinView"
+     name="opencore.create_account"
+     provides=".viewlet_manager.ICreateAccount"
+     class=".viewlet_manager.CreateAccountManager"
+     template="viewlets.pt"
+     permission="zope2.View"
+     />
+
 </configure>
