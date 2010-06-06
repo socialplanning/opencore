@@ -1,5 +1,6 @@
 <div i18n:domain="opencore" id="oc-footer">
-  <ul class="oc-smallText">
+ <div class="oc-smallText">
+  <ul>
     <li><a i18n:translate="footer_about_link" tal:attributes="href string:${here/portal_url}/about">about</a></li>
     <li><a i18n:translate="footer_contact_link" tal:attributes="href string:${here/portal_url}/contact-site-admin">contact</a></li>
     <li><a i18n:translate="footer_news_link" tal:attributes="href string:${here/portal_url}/news">news</a></li>
@@ -8,7 +9,7 @@
     <!-- <li><a tal:attributes="href string:${here/portal_url}/privacy">privacy</a></li> -->
   </ul>
 
-  <div i18n:translate="footer_stats_summary" id="oc-footer-about" class="oc-smallText"
+  <div i18n:translate="footer_stats_summary" id="oc-footer-about"
        tal:define="people_url string:${here/portal_url}/people;
 	           projects_url string:${here/portal_url}/projects">
     <tal:comment replace="nothing">
@@ -26,7 +27,13 @@
       <span i18n:name="project_noun" tal:replace="view/project_noun">project</span>s</a>
     since
     <span i18n:name="site_birthdate" tal:replace="string:${view/dob}" />.
-    <br />Powered by <a href="http://www.coactivate.org/projects/opencore/">OpenCore</a>
+  </div>
+  
+  <div tal:content="structure provider:opencore.extra.footer">
   </div>
 
+  <div>
+    Powered by <a href="http://www.coactivate.org/projects/opencore/">OpenCore</a>
+  </div>
+ </div>
 </div>
