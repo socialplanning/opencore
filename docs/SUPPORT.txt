@@ -9,16 +9,15 @@ http://plone.org/documentation/how-to/ask-for-help
 
 MAILING LISTS:
 
-opencore-dev@lists.openplans.org:
-- Focused on the development of the OpenPlans software itself.
-- http://www.openplans.org/projects/opencore/lists/opencore-dev
+opencore-dev@lists.coactivate.org:
+- Focused on the development of the OpenCore software itself.
+- http://www.coactivate.org/projects/opencore/lists/opencore-dev
 
 opencore-users@lists.openplans.org:
-- Support venue for folks who are trying to use (but not develop)
-  OpenCore and the OpenPlans software.
-- http://www.openplans.org/projects/opencore/lists/opencore-users
+- Support venue for folks who are trying to use OpenCore.
+- http://www.coactivate.org/projects/opencore/lists/opencore-users
 
 
 IRC:
 
-irc://irc.freenode.net/#openplans
+irc://irc.freenode.net/#opencore
