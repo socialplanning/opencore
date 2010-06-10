@@ -29,12 +29,19 @@ def delete_listen_members(app, users_or_emails, delete_member=True):
     # way we're sure to clean up as much as possible regardless of which way
     # the input is specified.
     for e in sorted(emails):
+        # XXX searchMemberDataContents seems to not work for known data.
+        # This finds nothing in most cases.
+        # Maybe use membrane_tool or portal_catalog?
         results = mdata.searchMemberDataContents('email', e)
         mem_ids.update([r['username'] for r in results])
     for i in sorted(mem_ids):
+        # XXX searchMemberDataContents seems to not work for known data.
+	# This finds nothing in most cases.
+        # Maybe user membrane_tool or portal_catalog?
         results = mdata.searchMemberDataContents('id', i)
         emails.update([r['email'] for r in results])
-    
+
+
     users_or_emails = sorted(mem_ids.union(emails))
     print "=" * 50
     print "Removing list subscriptions for %r" % users_or_emails
@@ -51,7 +58,8 @@ def delete_listen_members(app, users_or_emails, delete_member=True):
                 print "Removing subscriber %s from %s" % (astring, path)
                 ml.unsubscribe(astring)
 
-    if delete_member:
+    mem_ids = list(mem_ids)
+    if delete_member and mem_ids:
         # I believe that our project memberships get cleaned up
         # automatically when the member gets deleted; this may just be
         # because TeamSpace looks up the member object before looking
