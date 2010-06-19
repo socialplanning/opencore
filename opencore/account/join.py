@@ -106,6 +106,8 @@ class JoinView(browser.AccountView, OctopoLite, BaseJoinView):
         validation_errors = ICreateMembers(self.portal).validate(self.request)
 
         if ignore_password_confirmation and 'confirm_password' in validation_errors:
+            if validation_errors.get('password') == validation_errors['confirm_password']:
+                del(validation_errors['password'])
             del(validation_errors['confirm_password'])
 
         ret = {}
