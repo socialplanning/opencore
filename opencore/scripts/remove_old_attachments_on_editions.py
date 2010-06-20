@@ -11,8 +11,8 @@ except IndexError:
 
 from opencore.utils import setup
 
-app = setup(app)
-portal = app.openplans
+app = setup(app, site=portal)
+portal = app[portal]
 
 wf = getToolByName(portal,'portal_workflow')
 cat = getToolByName(portal,'portal_catalog')
@@ -53,5 +53,6 @@ for obj in content:
         traceback.print_exc()
         continue
             
+
 
 
