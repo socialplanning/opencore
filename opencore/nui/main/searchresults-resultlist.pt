@@ -6,7 +6,7 @@
   </h3>
   <span class="oc-discreetText">
     <tal:has_updated_author define="userid item/lastModifiedAuthor" condition="userid">
-      <tal:i18n i18n:translate="searchresults_modified_by">modified XXX by</tal:i18n>
+      <tal:i18n i18n:translate="searchresults_modified_by">modified by</tal:i18n>
       <a tal:attributes="href string:${context/portal_url}/people/${userid}/profile" 
 	 tal:content="userid/opencore:member_title" />,
     </tal:has_updated_author>
