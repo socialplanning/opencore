@@ -28,12 +28,9 @@ function buildForm(memId, memberRole) {
 };
 
 jQuery(document).ready(function() {
-
-	jQuery("tbody#mship-rows td.role div.administrator").live("click", function() {
-		jQuery(this).replaceWith(buildForm(getMemberId(this), "administrator"));
-	    });
-	jQuery("tbody#mship-rows td.role div.member").live("click", function() {
-		jQuery(this).replaceWith(buildForm(getMemberId(this), "member"));
+	jQuery("tbody#mship-rows td.role div").live("click", function() {
+		var memberRole = jQuery(this).attr("class");
+		jQuery(this).replaceWith(buildForm(getMemberId(this), memberRole));
 	    });
 
 	jQuery("tbody#mship-rows td.role select").live("change", function() {

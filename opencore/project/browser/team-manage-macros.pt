@@ -214,7 +214,7 @@
       </div>
 
       <div tal:condition="python:view.id_is_loggedin(item)"
-	   tal:content="member_role">
+	   tal:replace="member_role">
       </div>
     </td>
 
