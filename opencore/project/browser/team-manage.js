@@ -23,17 +23,21 @@ function buildForm(memId, memberRole) {
     html += "<option value='ProjectMember' selected='true'>member</option>";
   };
   html += "</select>";
-  html += "<input type='submit' value='go' name='task|" + memId + "|" + action + "' />";
+  html += "<input style='display:none;' type='submit' value='go' name='task|" + memId + "|" + action + "' />";
   return html;
 };
 
 jQuery(document).ready(function() {
 
-  jQuery("tbody#mship-rows td.role div.administrator").hover(function() {
-    jQuery(this).replaceWith(buildForm(getMemberId(this), "administrator"));
-  });
+	jQuery("tbody#mship-rows td.role div.administrator").live("click", function() {
+		jQuery(this).replaceWith(buildForm(getMemberId(this), "administrator"));
+	    });
+	jQuery("tbody#mship-rows td.role div.member").live("click", function() {
+		jQuery(this).replaceWith(buildForm(getMemberId(this), "member"));
+	    });
 
-  jQuery("tbody#mship-rows td.role div.member").hover(function() {
-    jQuery(this).replaceWith(buildForm(getMemberId(this), "member"));
-  });
-});
+	jQuery("tbody#mship-rows td.role select").live("change", function() {
+		jQuery(this).siblings("input[type='submit']").click();
+	    });
+
+    });
