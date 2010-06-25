@@ -593,6 +593,8 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite, AccountView,
         if len(changes) == 0:
             msg = u"Select one or more project members to promote to admins"
             self.add_status_message(msg)
+            if self.request.form.get("mode", None) == "async":
+                return {}
             return self.redirect('%s/manage-team' % self.context.absolute_url())
 
         for mem_id in changes:
@@ -603,6 +605,8 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite, AccountView,
                            mapping={'name': mem_id})
             self.add_status_message(status_msg)
 
+        if self.request.form.get("mode", None) == "async":
+            return {"role": "administrator"}
         return self.redirect('%s/manage-team' % self.context.absolute_url())
 
     @formhandler.action('demote-admin', skip_octopus_response=True)
@@ -622,6 +626,8 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite, AccountView,
         if len(changes) == 0:
             msg = u"Select one or more project admins to demote to members"
             self.add_status_message(msg)
+            if self.request.form.get("mode", None) == "async":
+                return {}
             return self.redirect('%s/manage-team' % self.context.absolute_url())
 
         for mem_id in changes:
@@ -632,6 +638,8 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite, AccountView,
                            mapping={'name': mem_id})
             self.add_status_message(status_msg)
 
+        if self.request.form.get("mode", None) == "async":
+            return {"role": "member"}
         return self.redirect('%s/manage-team' % self.context.absolute_url())
 
 
