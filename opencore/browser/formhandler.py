@@ -115,7 +115,6 @@ class action(object):
         self.actions = actions
         self.label = label
         self.options = options
-        self.skip_octopus_response = skip_octopus_response
         if default:
             if actions.default is not None:
                 raise Exception("Only one default action is permitted per action registry")
