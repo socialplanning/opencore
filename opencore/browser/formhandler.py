@@ -106,7 +106,6 @@ class action(object):
     # modfied from zope.formlib (ZPL)
     def __init__(self, label, default=False, 
                  actions=None, apply=None,
-                 skip_octopus_response=False,
                  **options):
         caller_locals = sys._getframe(1).f_locals
         if actions is None:

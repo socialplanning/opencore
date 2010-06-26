@@ -576,71 +576,67 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite, AccountView,
         self.team.reindexTeamSpaceSecurity()
         return ret
 
-    @formhandler.action('promote-admin', skip_octopus_response=True)
+    def change_role(self, mem_ids, action):
+        assert action in ("promote", "demote")
+
+        changes = []
+        team = self.team
+        
+        if action == "demote":
+            wrong_role = "ProjectMember"
+            new_role = MEMBER_ROLES
+        else:
+            wrong_role = "ProjectAdmin"
+            new_role = ADMIN_ROLES
+
+        for mem_id in mem_ids:
+            if team.getHighestTeamRoleForMember(mem_id) == wrong_role:
+                continue
+            team.setTeamRolesForMember(mem_id, new_role)
+            changes.append(mem_id)
+
+        self.team.reindexTeamSpaceSecurity()
+        
+        if len(changes) == 0:
+            if action == "demote":
+                msg = u"Select one or more project admins to demote to members"
+            else:
+                msg = u"Select one or more project members to promote to admins"
+            self.add_status_message(msg)
+            if self.request.form.get("mode", None) == "async":
+                return {}
+            return self.redirect('%s/manage-team' % self.context.absolute_url())
+
+        for mem_id in changes:
+            if action == "demote":
+                transient_msg = 'You are no longer an admin of'
+            else:
+                transient_msg = 'You are now an admin of'
+            self._add_transient_msg_for(mem_id, transient_msg)
+
+            if action == "demote":
+                status_msg = _(u'demote_to_member',
+                               mapping={'name': mem_id})
+            else:
+                status_msg = _(u'promote_to_admin',
+                               mapping={'name': mem_id})
+            self.add_status_message(status_msg)
+
+        if self.request.form.get("mode", None) == "async":
+            if action == "demote":
+                return {"role": "member"}
+            else:
+                return {"role": "administrator"}
+
+        return self.redirect('%s/manage-team' % self.context.absolute_url())
+
+    @formhandler.action('promote-admin')
     def promote_admin(self, targets, fields=None):
-        mem_ids = targets
-        changes = []
-        team = self.team
-
-        for mem_id in mem_ids:
-            if team.getHighestTeamRoleForMember(mem_id) == 'ProjectAdmin':
-                continue
-            team.setTeamRolesForMember(mem_id, ADMIN_ROLES)
-            changes.append(mem_id)
-
-        self.team.reindexTeamSpaceSecurity()
-
-        if len(changes) == 0:
-            msg = u"Select one or more project members to promote to admins"
-            self.add_status_message(msg)
-            if self.request.form.get("mode", None) == "async":
-                return {}
-            return self.redirect('%s/manage-team' % self.context.absolute_url())
-
-        for mem_id in changes:
-            transient_msg = 'You are now an admin of'
-            self._add_transient_msg_for(mem_id, transient_msg)
-
-            status_msg = _(u'promote_to_admin',
-                           mapping={'name': mem_id})
-            self.add_status_message(status_msg)
-
-        if self.request.form.get("mode", None) == "async":
-            return {"role": "administrator"}
-        return self.redirect('%s/manage-team' % self.context.absolute_url())
-
-    @formhandler.action('demote-admin', skip_octopus_response=True)
+        return self.change_role(targets, action="promote")
+        
+    @formhandler.action('demote-admin')
     def demote_admin(self, targets, fields=None):
-        mem_ids = targets
-        changes = []
-        team = self.team
-
-        for mem_id in mem_ids:
-            if team.getHighestTeamRoleForMember(mem_id) == 'ProjectMember':
-                continue
-            team.setTeamRolesForMember(mem_id, MEMBER_ROLES)
-            changes.append(mem_id)
-
-        self.team.reindexTeamSpaceSecurity()
-
-        if len(changes) == 0:
-            msg = u"Select one or more project admins to demote to members"
-            self.add_status_message(msg)
-            if self.request.form.get("mode", None) == "async":
-                return {}
-            return self.redirect('%s/manage-team' % self.context.absolute_url())
-
-        for mem_id in changes:
-            transient_msg = 'You are no longer an admin of'
-            self._add_transient_msg_for(mem_id, transient_msg)
-
-            status_msg = _(u'demote_to_member',
-                           mapping={'name': mem_id})
-            self.add_status_message(status_msg)
-
-        if self.request.form.get("mode", None) == "async":
-            return {"role": "member"}
-        return self.redirect('%s/manage-team' % self.context.absolute_url())
+        return self.change_role(targets, action="demote")
 
 
     ##################
