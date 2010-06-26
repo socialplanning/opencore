@@ -203,7 +203,9 @@ class Octopus(object):
         mode = self._octopus_get('mode')            
 
         if mode == 'async':
-            if not isinstance(ret, dict):
+            if not isinstance(ret, dict) \
+                    and not isinstance(ret, list) \
+                    and not isinstance(ret, tuple):
                 ret = {}
             self._octopus_async_postprocess(ret)
             return htmlify(ret)  # no
