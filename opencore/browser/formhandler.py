@@ -200,8 +200,13 @@ class Octopus(object):
         if ret is None:
             ret = dict()
 
-        mode = self._octopus_get('mode')
+        mode = self._octopus_get('mode')            
+
         if mode == 'async':
+            if not isinstance(ret, dict) \
+                    and not isinstance(ret, list) \
+                    and not isinstance(ret, tuple):
+                ret = {}
             self._octopus_async_postprocess(ret)
             return htmlify(ret)  # no
         else:
@@ -259,7 +264,8 @@ class Octopus(object):
             if hasattr(base, 'actions'):
                 try:
                     if action in base.actions:
-                        return base.actions[action](self, objects, fields)
+                        method = base.actions[action]
+                        return method(self, objects, fields)
                 except TypeError: #actions isn't a list
                     pass
 

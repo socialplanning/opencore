@@ -9,6 +9,11 @@
      />
 
   <browser:resource
+     file="team-manage.js"
+     name="team-manage.js"
+     />
+
+  <browser:resource
       file="spinning_wheel_throbber.gif"
       name="spinning_wheel_throbber.gif"
      />
