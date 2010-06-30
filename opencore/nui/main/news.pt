@@ -11,9 +11,6 @@
 	  <tal:dummy i18n:name="portal_title" tal:content="view/portal_title" /> News
 	</h1>
 
-        <p class="oc-headingContext" tal:define="days_free view/subpoena_free; plural python: days_free != 1">
-          Subpeona free for <span tal:replace="view/subpoena_free" /> day<span tal:condition="plural" tal:content="string:s"/>
-        </p>
       </div>
 
       <div id="oc-content-main">
