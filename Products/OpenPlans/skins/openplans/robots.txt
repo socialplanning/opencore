@@ -2,4 +2,5 @@ User-agent: *
 Disallow: /*history
 Disallow: /*version
 Disallow: /*version_compare
-Crawl-delay: 5
+Disallow: /*summary
+Crawl-delay: 60
