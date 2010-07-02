@@ -20,16 +20,17 @@ storage = getToolByName(portal,'portal_repository')
 content = cat(Language='all', portal_type='Document')
 total=len(content)
 skipped = 0
-purged = [0,0]
+purged = 0
 current=0
+delta = 0
 
 for obj in content:
     current+=1
     if current%10 == 0:
-        print "%f%% %d more to go" % (((100.0*current)/total),total - current)
+        print "%f%% %d more to go (%d objects purged so far)" % (((100.0*current)/total),total - current, purged)
     if current%1000 == 0:
         transaction.commit()
-        print "committing transaction"
+        print "committing transaction after dealing with 1000 pages"
     try:
         real_obj = obj.getObject()
         length = storage.getHistory(real_obj,countPurged=False)._length
@@ -44,6 +45,12 @@ for obj in content:
                     obj.getPath(),
                     edition.version_id)
                 edition.object.manage_delObjects(list(attachments))
+                purged += len(attachments)
+                delta += len(attachments)
+                if delta > 50:
+                    transaction.commit()
+                    print "Purged %d attachments, I need a break - committing transaction" % delta
+                    delta = 0
             # now the attachments are gone from old versions .. but they're also cleared out of portal_catalog
             # in order to make them show up on the wiki page's list of attachments, we should reindex them
             for attachment in real_obj.items():
