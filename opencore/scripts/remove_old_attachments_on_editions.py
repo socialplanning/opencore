@@ -28,9 +28,6 @@ for obj in content:
     current+=1
     if current%10 == 0:
         print "%f%% %d more to go (%d objects purged so far)" % (((100.0*current)/total),total - current, purged)
-    if current%1000 == 0:
-        transaction.commit()
-        print "committing transaction after dealing with 1000 pages"
     try:
         real_obj = obj.getObject()
         length = storage.getHistory(real_obj,countPurged=False)._length
@@ -39,22 +36,23 @@ for obj in content:
             skipped+=1
         else:
             for edition in storage.getHistory(real_obj):
+                this = "%s %s" % (obj.getPath(), edition.version_id)
                 attachments = edition.object.keys()
                 print "purging %s attachments from %s <version %s>" % (
                     len(attachments),
                     obj.getPath(),
                     edition.version_id)
-                edition.object.manage_delObjects(list(attachments))
+                for key in attachments:
+                    edition.object._delObject(key, suppress_events=True)
                 purged += len(attachments)
                 delta += len(attachments)
-                if delta > 50:
-                    transaction.commit()
-                    print "Purged %d attachments, I need a break - committing transaction" % delta
-                    delta = 0
+                transaction.commit()
+
             # now the attachments are gone from old versions .. but they're also cleared out of portal_catalog
             # in order to make them show up on the wiki page's list of attachments, we should reindex them
-            for attachment in real_obj.items():
-                attachment[1].reindexObject()
+            # i have a feeling this isn't true if we suppress events
+            #for attachment in real_obj.items():
+            #    attachment[1].reindexObject()
     except Exception:
         import traceback
         traceback.print_exc()
