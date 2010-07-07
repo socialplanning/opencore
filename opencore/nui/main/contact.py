@@ -61,8 +61,7 @@ class ContactView(BaseView, formhandler.OctopoLite):
         subject = form.get('subject')
         mfrom = form.get('sender_from_address')
         # XXX we require sender_fullname but we ignore it! duh.
-        self.email_sender.sendMail(mto, msg=msg, subject=subject,
-                                   mfrom=mfrom)
+        self.context.MailHost.send(msg, mto, mfrom, subject)
         self.addPortalStatusMessage(_(u'psm_message_sent_to_admin', u'Message sent.'))
         self.index = None
         self.redirect(self.portal.absolute_url())
