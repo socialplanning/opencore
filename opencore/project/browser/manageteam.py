@@ -49,10 +49,6 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite, AccountView,
                'ProjectMember': 'member',
                }
 
-    listedmap = {'public': 'yes',
-                 'private': 'no',
-                 }
-
     msg_category = 'membership'
 
     @property
@@ -135,7 +131,7 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite, AccountView,
                 'sortkey': sortkey,
                 }
 
-        data['listed'] = self.listedmap[brain.review_state]
+        data['listed'] = brain.review_state == "public"
         data['active_since'] = brain.made_active_date
 
         role = self.team.getHighestTeamRoleForMember(brain.id)
