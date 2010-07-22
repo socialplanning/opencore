@@ -2,6 +2,7 @@ from opencore.browser.base import BaseView
 from opencore.i18n import _
 from opencore.member.interfaces import IHandleMemberWorkflow
 from opencore.utility.interfaces import IEmailSender
+from opencore.nui.email_sender import EmailSender
 from AccessControl.SecurityManagement import newSecurityManager
 from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
 from Products.CMFCore.utils import getToolByName
@@ -73,8 +74,8 @@ class AccountView(BaseView):
                              u'portal_url':root,
                              u'portal_title':self.portal_title()})
         
-        sender = IEmailSender(self.portal)
+        sender = EmailSender(self.portal, secureSend=True)
 
-        sender.sendMail(mto=email,
+        sender.sendEmail(mto=email,
                         msg=message,
                         subject=subject)

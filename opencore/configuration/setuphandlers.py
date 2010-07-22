@@ -62,7 +62,7 @@ def setuphandler(fn):
     return execute_handler
 
 @setuphandler
-def install_mem_dependencies(portal, out):
+def install_mem_dependencies(portal, out=None):
     print >> out, ('Installing membrane and remember')
     qi = getToolByName(portal, 'portal_quickinstaller')
     for dep in MEM_DEPS:
@@ -70,19 +70,23 @@ def install_mem_dependencies(portal, out):
         qi.installProduct(dep)
 
 @setuphandler
-def install_dependencies(portal, out):
+def install_dependencies(portal, out=None):
     print >> out, ('Installing dependency products')
     qi = getToolByName(portal, 'portal_quickinstaller')
     for dep in DEPS:
         print >> out, '--> installing: %s' % dep
         qi.installProduct(dep)
 
-def install_team_placeful_workflow_policies(portal, out):
+def install_team_placeful_workflow_policies(portal, out=None):
     print >> out, 'Installing team placeful workflow policies'
 
     # Install default policy
-    pwf_tool = getToolByName(portal, 'portal_placeful_workflow')
-    teams = getToolByName(portal, 'portal_teams')
+    try:
+        pwf_tool = getToolByName(portal, 'portal_placeful_workflow')
+        teams = getToolByName(portal, 'portal_teams')
+    except:
+        pwf_tool = getToolByName(portal._site, 'portal_placeful_workflow')
+        teams = getToolByName(portal._site, 'portal_teams')
     wf_config = pwf_tool.getWorkflowPolicyConfig(teams)
     if wf_config is None:
         print >> out, 'Setting default team security policy to Open'
@@ -93,7 +97,7 @@ def install_team_placeful_workflow_policies(portal, out):
         wf_tool.updateRoleMappings()
 
 @setuphandler
-def installWorkflowPolicies(portal, out):
+def installWorkflowPolicies(portal, out=None):
     pwf_tool = getToolByName(portal, 'portal_placeful_workflow')
     pols = PLACEFUL_POLICIES
     # also initialize the membership placeful policies
@@ -134,7 +138,7 @@ def getDefaultChains(portal):
                             'chain': chain})
     return types_info
 
-def setPermissions(obj, perm_data, out):
+def setPermissions(obj, perm_data, out=None):
     """ apply the specified permission settings to obj """
     for roles, perms in perm_data:
         for perm in perms:
@@ -146,15 +150,18 @@ def setPermissions(obj, perm_data, out):
                 # permission doesn't exist... that's okay
                 pass
 
-def securityTweaks(portal, out):
+def securityTweaks(portal, out=None):
     """ tweak site-wide security settings """
     print >> out, 'Modifying site security settings'
     for obj_path, obj_perms in PLACEFUL_PERMISSIONS_DATA.items():
-        obj = portal.unrestrictedTraverse(obj_path)
+	try:
+            obj = portal.unrestrictedTraverse(obj_path)
+	except:
+            obj = portal._site.unrestrictedTraverse(obj_path)
         setPermissions(obj, obj_perms, out)
 
 @setuphandler
-def setupVersioning(portal, out):
+def setupVersioning(portal, out=None):
     versioned_types = ('Document', 'Event', 'News Item', 'Link', 'File', 'Image')
     ttool = getToolByName(portal, 'portal_types')
     version_tool = getToolByName(portal, 'portal_repository', None)
@@ -176,7 +183,7 @@ def setupVersioning(portal, out):
         ttool.ChangeSet.global_allow = False
 
 @setuphandler
-def setMemberType(portal, out):
+def setMemberType(portal, out=None):
     mtype = 'OpenMember'
     print >> out, 'Specifying %s as default member type' % mtype
     adder = getAdderUtility(portal)
@@ -190,8 +197,11 @@ def setMemberType(portal, out):
                                                            'OpenMember',
                                                            ))
 
-def setTeamType(portal, out):
-    tmtool = getToolByName(portal, 'portal_teams')
+def setTeamType(portal, out=None):
+    try:
+        tmtool = getToolByName(portal, 'portal_teams')
+    except:
+        tmtool = getToolByName(portal._site, 'portal_teams')
     teamtype = OpenTeam.portal_type
     allowed_types = tmtool.getAllowedTeamTypes()
     if teamtype not in allowed_types:
@@ -210,7 +220,7 @@ def setTeamType(portal, out):
         tmtool.setDefaultMembershipType(mshiptype)
 
 @setuphandler
-def addProjectsFolder(portal, out):
+def addProjectsFolder(portal, out=None):
     if not 'projects' in portal.objectIds():
         print >> out, 'Creating projects folder'
         ttool = getToolByName(portal, 'portal_types')
@@ -247,23 +257,29 @@ def addProjectsFolder(portal, out):
     setupProjectLayout(portal, out)
     setProjectFolderPermissions(portal, out)
 
-def setProjectFolderPermissions(portal, out):
+def setProjectFolderPermissions(portal, out=None):
     print >> out, 'Setting extra permissions in projects folder'
-    pfolder = portal._getOb('projects')
+    try:
+         pfolder = portal._getOb('projects')
+    except:
+         pfolder = portal._site._getOb('projects')
     setPermissions(pfolder, DEFAULT_PFOLDER_PERMISSIONS_DATA, out)
 
-def setupProjectLayout(portal, out):
+def setupProjectLayout(portal, out=None):
     print >> out, 'Setting projects folder view'
-    pfolder = portal._getOb('projects')
+    try:
+        pfolder = portal._getOb('projects')
+    except:
+        pfolder = portal._site._getOb('projects')
     pfolder.setLayout('@@view')
 
 @setuphandler
-def setupHomeLayout(portal, out):
+def setupHomeLayout(portal, out=None):
     print >> out, 'Setting home view'
     portal.setLayout('@@view')
 
 @setuphandler
-def setupPeopleFolder(portal, out):
+def setupPeopleFolder(portal, out=None):
     """
     set up the 'people' folder
     """
@@ -317,14 +333,14 @@ def setupPeopleFolder(portal, out):
     pf.setLayout('@@view')
     
 @setuphandler
-def migrateATDocToOpenPage(portal, out):
+def migrateATDocToOpenPage(portal, out=None):
     print >> out, 'Migrating ATDocument type to OpenPage'
     from Products.OpenPlans.Extensions.migrate_atdoc_openpage import \
             migrate_atdoc_openpage
     print >> out, migrate_atdoc_openpage(portal)
 
 @setuphandler
-def setSiteIndexPage(portal, out):
+def setSiteIndexPage(portal, out=None):
     index_id = 'site-home'
     index_title = 'OpenPlans Home'
     if index_id not in portal.objectIds():
