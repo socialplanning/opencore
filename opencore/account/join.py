@@ -119,9 +119,8 @@ class JoinView(browser.AccountView, OctopoLite, BaseJoinView):
                 continue
 
             ret['oc-%s-error' % error] = {
-                'html': str(validation_errors[error]),
+                'html': validation_errors[error].encode('utf-8','ignore'),
                 'action': 'copy', 'effects': 'highlight'}
-
         return ret
 
 

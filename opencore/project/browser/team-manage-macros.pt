@@ -225,7 +225,9 @@
     </td>
 
     <td>
-      <div tal:content="item/listed">
+      <div tal:condition="not: item/listed"
+	   i18n:translate="member_not_listed">
+	unlisted
       </div>
     </td>
 
@@ -254,10 +256,10 @@
         <thead>
           <tr>
             <th class="oc-dataTable-checkBoxColumn"><input tal:condition="changeable" type="checkbox" class="oc-checkAll" /></th>
-            <th scope="col" i18n:translate=""><!--a class="oc-columnSortable" href=""-->Username<!--/a--></th>
-            <th scope="col" i18n:translate=""><!--a class="oc-columnSortable" href=""-->Role<!--/a--></th>
-            <th scope="col" i18n:translate=""><!--a class="oc-columnSortable" href=""-->Effective since<!--/a--></th>
-            <th scope="col" i18n:translate=""><!--a class="oc-columnSortable" href=""-->Listed<!--/a--></th>
+            <th scope="col" i18n:translate="">Username</th>
+            <th scope="col" i18n:translate="">Role</th>
+            <th scope="col" i18n:translate="">Effective since</th>
+            <th scope="col" i18n:translate="">Listed</th>
           </tr>
         </thead>
 
