@@ -28,7 +28,7 @@ Get the list of projects that were recently updated::
    >>> recent_titles = [p.Title for p in recent_projects]
    >>> recent_titles.sort()
    >>> recent_titles
-   ['Project Four', 'Project One', 'Project Three', 'Project Two']
+   ['Project Four', 'Project F\xc3\xbcnf', 'Project One', 'Project Three', 'Project Two']
 
 Test searching for projects that start with a letter::
 
@@ -40,7 +40,7 @@ Test searching for projects that start with a letter::
    >>> titles = [p.Title for p in brains]
    >>> titles.sort()
    >>> titles
-   ['Project Four', 'Project One', 'Project Three', 'Project Two']
+   ['Project Four', 'Project F\xc3\xbcnf', 'Project One', 'Project Three', 'Project Two']
 
 
 @@ sorting is a little unclear. is this accurate/correct behavior?
@@ -51,14 +51,14 @@ Now try sorting the projects::
 
    >>> brains = view.search_by_letter('P', sort_by='modified')
    >>> [b.Title for b in brains]
-   ['Project Two', 'Project Three', 'Project One', 'Project Four']
+   ['Project Two', 'Project Three', 'Project One', 'Project Four', 'Project F\xc3\xbcnf']
 
 Explicitly sort on name::
 
    >>> brains = view.search_by_letter('P', sort_by='sortable_title')
    >>> titles = [p.Title for p in brains]
    >>> titles
-   ['Project Four', 'Project One', 'Project Three', 'Project Two']
+   ['Project Four', 'Project F\xc3\xbcnf', 'Project One', 'Project Three', 'Project Two']
 
 
 Searching for a letter that doesn't match any projects::
@@ -73,7 +73,7 @@ Searching for all projects::
    >>> brains = view.search_by_letter('all')
    >>> titles = [p.Title for p in brains]
    >>> titles
-   ['Project Four', 'Project One', 'Project Three', 'Project Two']
+   ['Project Four', 'Project F\xc3\xbcnf', 'Project One', 'Project Three', 'Project Two']
 
 Searching for projects starting with a number::
 
@@ -122,7 +122,7 @@ Try a substring search::
    >>> titles = [b.Title for b in brains]
    >>> titles.sort()
    >>> titles
-   ['Project Four', 'Project One', 'Project Three', 'Project Two']
+   ['Project Four', 'Project F\xc3\xbcnf', 'Project One', 'Project Three', 'Project Two']
 
 Try irregular chars::
 
@@ -137,7 +137,7 @@ And now sort them by creation time::
 
    >>> brains = view.search_by_text('Proj', sort_by='created')
    >>> [b.Title for b in brains]
-   ['Project Four', 'Project One', 'Project Three', 'Project Two']
+   ['Project F\xc3\xbcnf', 'Project Four', 'Project One', 'Project Three', 'Project Two']
 
    old: ['Proj2', 'Proj3', 'Proj1', 'Proj4']
 
@@ -188,7 +188,7 @@ Search for all people::
 test_user_1 shows up here, and I don't know if anyone's entirely sure
 whether that's a good or a bad thing, but let's let the test pass::
    >>> sorted(names)
-   ['m1', 'm2', 'm3', 'm4', 'test_user_1_']
+   ['m1', 'm2', 'm3', 'm4', 'p5m', 'test_user_1_']
 
 Search for a particular user::
 
@@ -317,7 +317,7 @@ Try irregular char::
 Search for everything::
    >>> brains = view.search_by_letter('all', sort_by='getId')
    >>> len(brains)
-   21
+   25
 
 Search for things starting with a number::
    >>> brains = view.search_by_letter('num')
@@ -400,7 +400,7 @@ And ensure that the closed project does not come up::
    >>> view = search.HomeView(self.portal, request)
    >>> brains = view.recently_created_projects()
    >>> [b.getId for b in brains]
-   ['5test', 'p4', 'p1', 'p3', 'p2']
+   ['5test', 'p5', 'p4', 'p1', 'p3']
    >>> for i in range(len(brains)-1):
    ...
    ...     brains[i].CreationDate >= brains[i+1].CreationDate
@@ -412,7 +412,7 @@ And ensure that the closed project does not come up::
 Check that the project url method works
    >>> brain = brains[-1]
    >>> view.project_url(brain.getId)
-   'http://nohost/plone/projects/p2'
+   'http://nohost/plone/projects/p3'
    >>> view.n_project_members(brain)
    4
 

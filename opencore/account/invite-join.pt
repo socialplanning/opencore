@@ -197,6 +197,12 @@
                       </span>
                     </td>
                   </tr>
+
+		  <tal:stuff
+		     replace="structure provider:opencore.create_account">
+		    project prefs viewlet stuff goes here!
+		  </tal:stuff>
+
                   <tr class="oc-actions">
                     <th class="oc-form-label">
                     </th>
@@ -224,58 +230,13 @@
       </div><!-- end #oc-content-main -->
       
       <div id="oc-content-sidebar">
+
+	<div class="oc-boxy" tal:content="structure here/@@becoming-a-member">
+	</div>
+
         <div class="oc-boxy">
           <h2 i18n:translate="join_already_member_heading">Already a member?</h2>
           <a i18n:translate="join_sign_in" href="login">Sign in</a>
-        </div>
-
-	<tal:comment tal:replace="nothing">
-	  <!-- [TODO] This is probably something we should consider extracting so that
-	       other templates can include it (the similar version from join.pt seems
-	       like a great candidate for using identical copy) -->
-	</tal:comment>
-
-        <div id="oc-joining-explanation" class="oc-boxy">
-          <h2 i18n:translate="account_invitejoin_get_started">What joining will do</h2>
-
-	  <tal:comment tal:replace="nothing">
-	    <!-- XXX TODO: bad i18n practices here! (project_noun pluralization) -->
-	  </tal:comment>
-
-          <ul i18n:translate="join_get_started_list">
-	    <li>You can join and participate in existing
-	      <span i18n:name="project_noun" tal:replace="view/project_noun" />s
-	    </li>
-            <li>
-	      You can create your own
-	      <span i18n:name="project_noun" tal:replace="view/project_noun" />
-	      and invite people to participate
-	    </li>
-            <li>You can share information about yourself</li>
-	  </ul>
-
-	  <ul class="oc-join-icons oc-clearAfter">
-	    <li>
-	      <img src="/++resource++img/touricons/team.gif" />
-	      <p i18n:translate="label_team">Team</p>
-	    </li>
-	    <li>
-	      <img src="/++resource++img/touricons/portrait.gif" />
-	      <p i18n:translate="label_profile">Profile</p>
-	    </li>
-	    <li>
-	      <img src="/++resource++img/touricons/wiki.gif" />
-	      <p i18n:translate="label_pages">Pages</p>
-	    </li>
-	    <li>
-	      <img src="/++resource++img/touricons/mailinglist.gif" />
-	      <p i18n:translate="label_discussions">Discussions</p>
-	    </li>
-	    <li>
-	      <img src="/++resource++img/touricons/blog.gif" />
-	      <p i18n:translate="label_blogs">Blogs</p>
-	    </li>
-	  </ul>
         </div>
 
       </div><!-- end #oc-content-sidebar -->

@@ -6,8 +6,9 @@ Opencore is a suite of applications and code designed to facilitate
 the sharing of information between groups and individuals for purpose
 of action upon common causes.
 
-Currently, opencore powers the community action site `Open Plans
-<http://www.openplans.org>`_.
+Currently, opencore powers several community action sites:
+
+ http://www.coactivate.org/projects/opencore/sites-using-opencore
 
 
 License
@@ -24,19 +25,15 @@ Installation
 Following the quickstart guide is the trouble free way to get going::
 
 see: `Getting Started with Opencore
-<http://www.openplans.org/projects/opencore/getting-started>`_
+<http://www.coactivate.org/projects/opencore/getting-started>`_
 
 
 Developer Resources
 ===================
 
-* `The Opencore Project <http://www.openplans.org/projects/opencore>`_
+* `The Opencore Project <http://www.coactivate.org/projects/opencore>`_
 
-* `#openplans <irc://irc.freenode.net/openplans>`
+* `#opencore <irc://irc.freenode.net/opencore>`
 
+* opencore-dev@lists.coactivate.org
 
-Brought to you by
-=================
-
-`The Open Planning Project <http://topp.openplans.org>`_ and many fine
-open source software projects.

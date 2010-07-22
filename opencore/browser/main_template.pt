@@ -5,6 +5,8 @@
       i18n:domain="opencore">
   <head profile="http://gmpg.org/xfn/11">
 
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
     <tal:comment replace="nothing">
       show the base tag unless you are on an edit wiki page
       that template should override the base slot

@@ -135,6 +135,11 @@
                   </td>
                 </tr>
 
+		<tal:stuff
+		   replace="structure provider:opencore.create_account">
+		  project prefs viewlet stuff goes here!
+		</tal:stuff>
+
                 <tr class="oc-actions">
                   <th class="oc-form-label">
                   </th>
@@ -162,27 +167,9 @@
       </div><!-- end #oc-content-main -->
       
       <div id="oc-content-sidebar">
-        <div class="oc-boxy">
-          <h2 i18n:translate="join_get_started">Becoming a member means&hellip;</h2>
-	  
-	  <tal:comment tal:replace="nothing">
-	    <!-- XXX TODO: bad i18n practices here! (project_noun pluralization) -->
-	  </tal:comment>
-
-          <ul i18n:translate="join_get_started_list" style="padding-left: 1em;">
-            <li>
-	      You can join and participate in existing
-	      <span i18n:name="project_noun" tal:replace="view/project_noun" />s
-	    </li>
-            <li>
-	      You can create your own
-	      <span i18n:name="project_noun" tal:replace="view/project_noun" />
-	      and invite others to join
-	    </li>
-            <li>You can share information about yourself</li>
-          </ul>
-
+        <div class="oc-boxy" tal:content="structure here/@@becoming-a-member">
         </div>
+
         <div class="oc-boxy">
           <h2 i18n:translate="join_already_member_heading">Already a member?</h2>
           <a i18n:translate="join_sign_in" href="login">Sign in</a>

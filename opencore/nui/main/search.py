@@ -1,16 +1,12 @@
-import re
-
 from DateTime import DateTime as zopedatetime
-from zExceptions import Redirect 
-
-from zope.interface import alsoProvides
-
 from Products.AdvancedQuery import Eq, RankByQueries_Sum
 from Products.CMFPlone.PloneBatch import Batch
-
-from opencore import redirect
-from opencore.interfaces import INewsItem
 from opencore.browser.base import BaseView
+from opencore.interfaces import INewsItem
+from zExceptions import Redirect 
+from zope.interface import alsoProvides
+import lxml.html
+import re
 
 num_regex = re.compile('((the|a|an)\s+)?[0-9]+')
 
@@ -77,13 +73,8 @@ def searchForPerson(mcat, search_for, sort_by=None):
         people_brains = _sort_by_id(people_brains)
     return people_brains
     
-import lxml.html
-from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
 
 class SearchView(BaseView):
-
-    from pkg_resources import resource_filename
-    from opencore.configuration import OC_REQ
 
     default_template = 'searchresults.pt'
     default_sort_string = 'searchresults-sortstring.pt'
@@ -579,10 +570,6 @@ class NewsView(SearchView):
         
     def can_add_news(self):
         return self.membertool.checkPermission('Manage Portal', self.context)
-
-    def subpoena_free(self):
-        delta = zopedatetime() - self.portal.created()
-        return int(delta)
 
     def _get_new_id(self):
         # if you don't like this

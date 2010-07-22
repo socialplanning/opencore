@@ -3,7 +3,7 @@ import pkg_resources as pkr
 
 import sys, os
 
-version = '0.18.0dev'
+version = '0.19.0-dev'
 
 f = open('README.txt')
 readme = f.read()
@@ -25,13 +25,13 @@ classifiers=[
 setup(
     name=name,
     version=version,
-    description="Software that drives http://openplans.org",
+    description="Software that drives http://coactivate.org",
     long_description=readme,
     classifiers=classifiers,
-    keywords='openplans openplans.org topp',
-    author='The Open Planning Project',
+    keywords='coactivate.org',
+    author='OpenCore developers',
     author_email='opencore-dev@lists.openplans.org',
-    url='http://www.openplans.org/projects/opencore',
+    url='http://www.coactivate.org/projects/opencore',
     license='GPLv3',
     packages=find_packages(exclude=['ez_setup', 'examples', 'tests']),
     include_package_data=True,

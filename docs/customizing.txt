@@ -1,0 +1,51 @@
+OpenCore makes heavy use of the Zope Component Architecture (ZCA), a
+framework for supporting component-based design and programming.  This
+means that it is possible to customize, extend, override or replace
+nearly every piece of the OpenCore system for your deployment's
+needs. The downside to this flexibility is that developing stable and
+maintainable customizations requires a lot of experience with OpenCore
+itself, with the ZCA, and with the particular ways in which the ZCA is
+used in OpenCore and Plone.  Since you can change almost anything in
+the system without upstream cooperation, your changes may have
+unexpected consequences in far-off parts of the system, and there is
+no way to guarantee that your customizations will work when you
+upgrade OpenCore.
+
+So OpenCore provides its own set of customization points, mainly as a
+layer on top of its use of the ZCA.  These "supported" customization
+points allow you to extend your OpenCore system with less deep general
+knowledge, and in a way that will continue to work with future
+OpenCore releases.  
+
+Depending on your needs you may still need to drop down to the general
+layer to customize your site.  If you do, please let us know, so that
+we can see if there is a way to build a supported customization point
+to address your needs.
+
+
+Customization points
+====================
+
+Injecting simple content with viewlet managers:
+ * IExtraFooter (0.18.1+)
+ * IExtraHead
+ * IExtraBody
+
+Extending forms with (validate/save) viewlet managers:
+ * ICreateAccount (0.18.1+)
+ * IMemberProfilePrefs
+ * IProjectPrefs
+
+HTML interface (for CSS, Deliverance, Flunc, etc):
+ * project contents page
+  * table#oc-dataTable-files (0.18.0+)
+  * table#oc-dataTable-pages (0.18.0+)
+  * table#oc-dataTable-lists (0.18.0+)
+  * table.oc-dataTable
+
+Miscellaneous:
+ * /@@becoming-a-member (0.18.1+)
+ * WikiEdit.blank_slate_content (0.18.0+)
+ * SearchView
+ * BaseView.window_title
+ * BaseView.area

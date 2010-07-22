@@ -1,13 +1,16 @@
 <html i18n:domain="opencore" metal:use-macro="here/@@standard_macros/master">
   <head>
-    <title metal:fill-slot="title" i18n:translate="home_window_title">Openplans:
-    free project management tools, wikis, blogs, mailing lists and task
-    tracking for neighborhood and global communities.
+    <title metal:fill-slot="title">
+      <div tal:replace="view/portal_title" />:
+      <tal:title i18n:translate="home_window_title">
+      free project management tools, wikis, blogs, mailing lists and task
+      tracking for neighborhood and global communities.
+      </tal:title>
    </title>
 
     <metal:script fill-slot="meta">
       <meta name="keywords" content="free wikis, free mailing lists, free blogs, free task tracking, free project management" />
-      <meta name="description" content="OpenPlans offers free tools to help you build an online community and promote real-world change"/>
+      <meta name="description" tal:attributes="content string:${view/portal_title} offers free tools to help you build an online community and promote real-world change"/>
     </metal:script>
   </head>
   <body>
@@ -35,8 +38,10 @@
             </ul>
             <div>
 	      <p tal:content="string:${view/portal_title} is a platform for social activism." />
-              <p i18n:translate="home_opening_blurb">You want to <strong>make a difference</strong>, we want to <strong>make it easy</strong>. OpenPlans is the simple way to bring groups together, promote your cause, make plans, manage projects, and get things done.</p>
-              <p i18n:translate="home_functions_blurb">OpenPlans offers free mailing lists, wikis, task tracking, team management, and blogs to help you build an online community and promote real-world change.</p>
+              <p i18n:translate="home_opening_blurb">You want to
+      <strong>make a difference</strong>, we want to <strong>make it
+      easy</strong>. <span tal:replace="view/portal_title" i18n:name="site_title">CoActivate</span> is the simple way to bring groups together, promote your cause, make plans, manage projects, and get things done.</p>
+              <p i18n:translate="home_functions_blurb"><span tal:replace="view/portal_title" i18n:name="site_title">CoActivate</span> offers free mailing lists, wikis, task tracking, team management, and blogs to help you build an online community and promote real-world change.</p>
 	    </div>
           </div><!-- oc-home-content -->
         
@@ -128,7 +133,7 @@
 		</a>
               </li>
             </ul>
-          </div><!-- OpenPlans News -->
+          </div><!-- CoActivate News -->
       </div>
       
     </div><!-- content-fill-slot -->

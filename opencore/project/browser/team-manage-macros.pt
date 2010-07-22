@@ -207,32 +207,14 @@
       </div>
     </td>
 
-    <td tal:define="member_role item/role">
-      <div class="oc-js-liveEdit" tal:condition="python:not view.id_is_loggedin(item)">
-        <div class="oc-js-liveEdit-value oc-js-liveEdit_showForm oc-liveEdit-value oc-directEdit" tal:content="member_role">
-          
-        </div><!-- end .liveEdit-value -->
-        <div class="oc-js-liveEdit-editForm oc-js-actionSelect oc-liveEdit-editForm">
-          <select tal:attributes="name string:${item/id}_role;
-                                id string:${item/id}_role;">
-            <tal:roleoptions repeat="roleitem view/rolemap/items">
-              <option tal:attributes="value python:roleitem[0];
-                                      selected python:(roleitem[1] == member_role);"
-                      tal:content="python:roleitem[1]" />
-            </tal:roleoptions>
-          </select>
+    <td class="role" tal:define="member_role item/role">
+      <div tal:condition="python:not view.id_is_loggedin(item)"
+	   tal:attributes="class member_role"
+	   tal:content="member_role">
+      </div>
 
-          <input type="submit" value="go" i18n:attributes="value" tal:attributes="name string:task|${item/id}|set-roles" />
-               
-        </div><!-- end .liveEdit-editForm -->
-      </div><!-- end .liveEdit -->
-      
-
-      <div tal:condition="python:view.id_is_loggedin(item)">
-        <span tal:replace="member_role" />
-        <input type="hidden"
-               tal:attributes="name string:${item/id}_role;
-                               value item/role_value" />
+      <div tal:condition="python:view.id_is_loggedin(item)"
+	   tal:replace="member_role">
       </div>
     </td>
 
@@ -243,7 +225,9 @@
     </td>
 
     <td>
-      <div tal:content="item/listed">
+      <div tal:condition="not: item/listed"
+	   i18n:translate="member_not_listed">
+	unlisted
       </div>
     </td>
 
@@ -272,10 +256,10 @@
         <thead>
           <tr>
             <th class="oc-dataTable-checkBoxColumn"><input tal:condition="changeable" type="checkbox" class="oc-checkAll" /></th>
-            <th scope="col" i18n:translate=""><!--a class="oc-columnSortable" href=""-->Username<!--/a--></th>
-            <th scope="col" i18n:translate=""><!--a class="oc-columnSortable" href=""-->Role<!--/a--></th>
-            <th scope="col" i18n:translate=""><!--a class="oc-columnSortable" href=""-->Effective since<!--/a--></th>
-            <th scope="col" i18n:translate=""><!--a class="oc-columnSortable" href=""-->Listed<!--/a--></th>
+            <th scope="col" i18n:translate="">Username</th>
+            <th scope="col" i18n:translate="">Role</th>
+            <th scope="col" i18n:translate="">Effective since</th>
+            <th scope="col" i18n:translate="">Listed</th>
           </tr>
         </thead>
 
@@ -292,12 +276,13 @@
       <ul class="oc-actions oc-dataTable-actions"
           tal:condition="python:len(mships) > 1">
         <li>
+          <input type="submit" name="task|batch_checked|promote-admin"
+                 class="oc-button" value="Promote to admin" i18n:attributes="value" />
+          <input type="submit" name="task|batch_checked|demote-admin"
+                 class="oc-button" value="Demote from admin" i18n:attributes="value" />
           <input type="submit" name="task|batch_checked|remove-members"
                  value="Remove" i18n:attributes ="value" class="oc-button" />
-          <noscript>
-            <input type="submit" name="task|batch_all|set-roles"
-                   class="oc-button" value="Change roles" i18n:attributes="value" />
-          </noscript>
+
         </li>
       </ul>
     </form>

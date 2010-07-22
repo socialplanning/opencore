@@ -105,7 +105,7 @@ normalized::
     http://nohost/plone/projects/p1/test-geomatique/edit?created_from=p1
     >>> delattr(view, "_redirected")
     >>> view.portal_status_message
-    [...u'"Test G&#233;omatique" has been created'...]
+    [...u'"Test G\xe9omatique" has been created'...]
 
 The window title should display properly, and the page should be renderable without
 explosions::
@@ -123,5 +123,5 @@ explosions::
     http://nohost/plone/projects/p1/%7E3322/edit?created_from=p1
     >>> delattr(view, "_redirected")
     >>> view.portal_status_message
-    [u'"&#13090;" has been created']
+    [u'"\u3322" has been created']
 

@@ -53,6 +53,8 @@ var _editor_lang = '${view/xinha_lang_code}';
       <div id="oc-content-main" class="oc-content-main-fullWidth">
         <div class="oc-wiki">
 
+          <div metal:use-macro="here/@@wiki_macros/tabs"/>
+
           <form name="edit_form"
             method="post"
             enctype="multipart/form-data"
@@ -73,8 +75,6 @@ var _editor_lang = '${view/xinha_lang_code}';
                   </div>
                 </li>
               </ul>
-
-            <div metal:use-macro="here/@@wiki_macros/tabs"/>
 
             <div class="oc-wiki-edit" >
 

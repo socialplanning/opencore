@@ -74,6 +74,14 @@
     />
 
   <browser:page
+    class=".view.WikiView"
+    for="opencore.interfaces.IOpenPage"
+    name="raw-view"
+    permission="zope2.View"
+    template="wiki-raw-view.pt"
+    />
+
+  <browser:page
     class="opencore.nui.wiki.view.RedirectToWikiEdit"
     for="opencore.interfaces.IOpenPage"
     name="update"

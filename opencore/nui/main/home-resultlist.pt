@@ -33,7 +33,7 @@
 
       <tal:has_updated_author define="userid item/lastModifiedAuthor" condition="userid"
 			      i18n:translate="searchresults_last_modified_author">
-        modified by aaa
+        modified by
         <a tal:attributes="href string:${context/portal_url}/people/${userid}/profile" 
            tal:content="userid/opencore:member_title"
 	   i18n:name="member_title" />,

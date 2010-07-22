@@ -3,14 +3,6 @@
 	   xmlns:five="http://namespaces.zope.org/five">
 
   <browser:page
-     for="Products.CMFPlone.Portal.PloneSite"
-     permission="zope.Public"
-     name="robots.txt"
-     template="robots.pt"
-     class=".apis.PlainTextView"
-     />
-
-  <browser:page
      for="opencore.interfaces.IProject"
      permission="zope2.View"
      name="info.xml"

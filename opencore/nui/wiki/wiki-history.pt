@@ -28,14 +28,16 @@
     <div class="oc-headingBlock oc-boxy" tal:define="lastChange python:history[-1]"> 
     <h2 i18n:translate="all_versions_of_page_heading">All versions of &ldquo;<span i18n:name="all_versions_of_page_title" tal:replace="here/title_or_id">page</span>&rdquo;</h2>
     <span class="oc-headingContext oc-discreetText" i18n:translate="all_versions_of_page_help">
-     <span i18n:name="len_history_versions_total" tal:replace="python:len(history)"/> versions total. Last edit performed by 
+      <span i18n:name="len_history_versions_total" tal:replace="python:len(history)"/> versions total. Last edit performed by 
       <a tal:define="author lastChange/author" i18n:name="last_change_people_url_author"
-                     tal:attributes="href string:${people_url}/${author}" 
-                     tal:content="author">author</a>, 
-      <abbr i18n:name="last_change_modification_date" tal:attributes="title python:lastChange['modification_date']">
-       <span i18n:name="last_change_pretty_mod_date" tal:replace="python: view.pretty_mod_date(lastChange)" />. 
-      </abbr>
+         tal:attributes="href string:${people_url}/${author}" 
+         tal:content="author">author</a>,
     </span>
+
+    <abbr tal:attributes="title python:lastChange['modification_date']">
+      <span tal:replace="python: view.pretty_mod_date(lastChange)" />. 
+    </abbr>
+
     </div> <!-- end .oc-headingBlock --> 
         
     <div class="oc-lineup">     
