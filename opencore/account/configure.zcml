@@ -66,6 +66,14 @@
 
   <browser:page
      for="opencore.interfaces.IOpenSiteRoot"
+     class="opencore.browser.base.BaseView"
+     permission="zope.Public"
+     name="becoming-a-member"
+     template="becoming-a-member.pt"
+     />
+
+  <browser:page
+     for="opencore.interfaces.IOpenSiteRoot"
      class=".confirmation.PendingView"
      permission="zope.Public"
      name="pending"
@@ -78,6 +86,15 @@
      attribute="handle_request"
      permission="zope.Public"
      name="resend-confirmation"
+     />
+
+  <browser:viewletManager
+     view=".join.BaseJoinView"
+     name="opencore.create_account"
+     provides=".viewlet_manager.ICreateAccount"
+     class=".viewlet_manager.CreateAccountManager"
+     template="viewlets.pt"
+     permission="zope2.View"
      />
 
 </configure>

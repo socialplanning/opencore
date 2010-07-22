@@ -1,0 +1,43 @@
+        <div id="oc-joining-explanation">
+          <h2 i18n:translate="account_invitejoin_get_started">What joining will do</h2>
+
+	  <tal:comment tal:replace="nothing">
+	    <!-- XXX TODO: bad i18n practices here! (project_noun pluralization) -->
+	  </tal:comment>
+
+          <ul i18n:translate="join_get_started_list">
+	    <li>You can join and participate in existing
+	      <span i18n:name="project_noun" tal:replace="view/project_noun" />s
+	    </li>
+            <li>
+	      You can create your own
+	      <span i18n:name="project_noun" tal:replace="view/project_noun" />
+	      and invite people to participate
+	    </li>
+            <li>You can share information about yourself</li>
+	  </ul>
+
+	  <ul class="oc-join-icons oc-clearAfter oc-lineup-list">
+	    <li class="oc-feed-item">
+	      <img src="/++resource++img/touricons/team.gif" />
+	      <p i18n:translate="label_team">Team</p>
+	    </li>
+	    <li class="oc-feed-item">
+	      <img src="/++resource++img/touricons/portrait.gif" />
+	      <p i18n:translate="label_profile">Profile</p>
+	    </li>
+	    <li class="oc-feed-item">
+	      <img src="/++resource++img/touricons/wiki.gif" />
+	      <p i18n:translate="label_pages">Pages</p>
+	    </li>
+	    <li class="oc-feed-item">
+	      <img src="/++resource++img/touricons/mailinglist.gif" />
+	      <p i18n:translate="label_discussions">Discussions</p>
+	    </li>
+	    <li class="oc-feed-item">
+	      <img src="/++resource++img/touricons/blog.gif" />
+	      <p i18n:translate="label_blogs">Blogs</p>
+	    </li>
+	  </ul>
+
+        </div>

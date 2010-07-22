@@ -11,7 +11,7 @@ from opencore.utility.interfaces import IEmailSender
 from operator import attrgetter
 from plone.memoize.instance import memoizedproperty
 from plone.memoize.instance import memoize
-
+from zope.component import getMultiAdapter
 
 class TeamRelatedView(SearchView):
     """
@@ -34,7 +34,9 @@ class TeamRelatedView(SearchView):
         return teams[0]
         
 
-class RequestMembershipView(TeamRelatedView, formhandler.OctopoLite, LoginView):
+from opencore.account.join import BaseJoinView
+
+class RequestMembershipView(TeamRelatedView, formhandler.OctopoLite, LoginView, BaseJoinView):
     """
     View class to handle join project requests.
     """
@@ -93,8 +95,22 @@ class RequestMembershipView(TeamRelatedView, formhandler.OctopoLite, LoginView):
     def _create(self):
         factory = ICreateMembers(self.portal)
         self.errors = factory.validate(self.request)
+
+        viewlet_mgr = getMultiAdapter((self.context, self.request, self),
+                                      name='opencore.create_account')
+        if not hasattr(viewlet_mgr, 'viewlets'):
+            # This means it hasn't had update() called yet. only do that once.
+            viewlet_mgr.update()
+        for viewlet in viewlet_mgr.viewlets:
+            if hasattr(viewlet, 'validate'):
+                self.errors.update(viewlet.validate())
+
         if self.errors:
             return self.errors
+
+        for viewlet in viewlet_mgr.viewlets:
+            if hasattr(viewlet, 'save'):
+                viewlet.save()
 
         mem = factory.create(self.request.form)
 
@@ -138,7 +154,6 @@ class RequestMembershipView(TeamRelatedView, formhandler.OctopoLite, LoginView):
             if isinstance(mem, dict):
                 # failure, so return the errors to be rendered
                 return mem 
-            from zope.component import getMultiAdapter
             from opencore.interfaces.pending_requests import IPendingRequests
             req_bucket = getMultiAdapter((mem, self.portal.projects), IPendingRequests)
             req_msg = self.request.form.get("request-message")

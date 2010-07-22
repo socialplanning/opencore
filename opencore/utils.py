@@ -155,11 +155,14 @@ def timestamp_memoize(secs):
     return arg_wrapper
 
 
+def get_config(option, default=None):
+    cfg = getUtility(IProvideSiteConfig)
+    return cfg.get(option, default=default)
+
 # XXX Temporary hack to allow semi-convenient usage of functions in
 # templates, along the lines of Sputnik's SputnikUtils view.  A TALES
 # namespace would be much cleaner, and apparently should work now?
 # see comments in opencore.tales.utils for more info.
-
 
 from opencore.tales.utils import member_title
 from Products.Five.browser import BrowserView

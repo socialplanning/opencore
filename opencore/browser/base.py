@@ -534,6 +534,10 @@ class BaseView(BrowserView):
         came_from = self.request.get('came_from')
         return came_from or getToolByName(self.context, 'portal_url')()
 
+    def admin_loggedin(self):
+        return self.get_tool("portal_membership").checkPermission(
+            "Modify portal content", self.context)
+
     @property
     def name(self):
         """The name this view is registered for. We sometimes use this
