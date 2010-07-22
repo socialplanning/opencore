@@ -1,6 +1,8 @@
 0.19.0 (unreleased)
 ===================
 
+ * Updated Greek translation. (dimo)
+
  * Project content export is now linked from the top nav, and
    includes: wiki pages, file and image attachments, mailing list
    archive as an mbox file, mailing list subscribers and allowed
