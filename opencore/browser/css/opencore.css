@@ -163,27 +163,27 @@ text-align: left;
 .oc-dropdown-list li a:hover {
   text-decoration: underline;
 }
-.oc-dropdown-list li.oc-dropdown-container {
+.oc-dropdown-list .oc-dropdown-container {
   position: relative;
   background: url("/++resource++img/dropdown-nub-closed.gif") no-repeat 98% 7px;
   padding-right: 15px;
   cursor: pointer;
 }
-.oc-dropdown-list li.oc-dropdown-container.oc-hover {
+.oc-dropdown-list .oc-dropdown-container.oc-hover {
   border-bottom: none;
   background-color: transparent;
 }
-.oc-dropdown-list li.oc-dropdown-container.oc-hover a {
+.oc-dropdown-list .oc-dropdown-container.oc-hover a {
   background: transparent;
 }
-.oc-dropdown-list ul li.oc-dropdown-container.oc-hover {
+.oc-dropdown-list .oc-dropdown-container.oc-hover {
   border: none;
 }
-.oc-dropdown-list li.oc-dropdown-container.oc-selected {
+.oc-dropdown-list .oc-dropdown-container.oc-selected {
   background: url("/++resource++img/dropdown-nub-open.gif") no-repeat 98% 7px;
   border-bottom: none;
 }
-.oc-dropdown-list li.oc-dropdown-container ul {
+.oc-dropdown-list .oc-dropdown-container ul {
   position: absolute;
   top: 1.8em;
   left: 0;
@@ -196,7 +196,7 @@ text-align: left;
   border-bottom: 2px solid #332F2A;
   z-index: 1000;
 }
-.oc-dropdown-list li.oc-dropdown-container li {
+.oc-dropdown-list .oc-dropdown-container li {
   float: left;
   list-style: none;
   clear: left;
@@ -205,12 +205,12 @@ text-align: left;
   margin: 0;
   border: none;
 }
-.oc-dropdown-list li.oc-dropdown-container li a {
+.oc-dropdown-list .oc-dropdown-container li a {
   display: block;
   margin: 0;
   padding: 0.125em .25em;
 }
-.oc-dropdown-list li.oc-dropdown-container li a:hover {
+.oc-dropdown-list .oc-dropdown-container li a:hover {
   background: #EB852B;
 }
 .oc-dropdown-list hr.oc-usermenu-divider {
