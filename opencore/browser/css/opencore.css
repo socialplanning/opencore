@@ -1202,7 +1202,8 @@ textarea.oc-fieldBlock-focused,
 input.oc-fieldBlock-focused {
   border-color: #EB852B;
   background: #fffff9;
-}.oc-fieldBlock-error textarea, 
+}
+.oc-fieldBlock-error textarea, 
 textarea.oc-fieldBlock-error,
 input.oc-fieldBlock-error {
   border-color: red;
