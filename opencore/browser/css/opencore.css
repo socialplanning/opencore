@@ -1121,7 +1121,7 @@ fieldset fieldset fieldset .oc-legend-heading,
   font-size: 12px;
 }
 #oc-content-sidebar fieldset fieldset fieldset .oc-legend-heading {
-  font-size: 10px;
+  font-size: 12px;
 }
 fieldset .oc-legend-label {
   margin: 0;
@@ -1133,7 +1133,7 @@ fieldset .oc-legend-label {
   font-weight: bold;
 }
 #oc-content-sidebar fieldset .oc-legend-label {
-  font-size: 10px;
+  font-size: 12px;
 }
 fieldset .oc-heading-context {
   margin: 0 0 .5em;
