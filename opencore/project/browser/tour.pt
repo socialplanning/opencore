@@ -14,7 +14,7 @@
           <p class="oc-headingContext" i18n:translate="project_tour_header_2"> Now you can&hellip;</p>
         </div>
 
-        <div class="oc-boxy">
+        <div>
           <div class="oc-headingBlock">
             <h2 i18n:translate="project_tour_communicate">Communicate</h2>
             <p class="oc-headingContext" i18n:translate="project_tour_announce">Announce your <span i18n:name="project_noun" tal:replace="view/project_noun">project</span>.</p>
@@ -47,7 +47,7 @@
 
         </div>
         
-        <div class="oc-boxy">
+        <div>
           <div class="oc-headingBlock">
             <h2 i18n:translate="project_tour_organize">Organize</h2>
             <p class="oc-headingContext" i18n:translate="project_tour_organize_team">Keep your team organized and on-track.</p>
