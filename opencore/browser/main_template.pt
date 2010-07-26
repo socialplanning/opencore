@@ -30,7 +30,8 @@
     <link rel="shortcut icon" type="image/x-icon" href="/++resource++img/favicon.ico" />
 
     <!-- theme CSS -->
-    <link rel="stylesheet" href="/++resource++css/themes/openplans.css" type="text/css" media="all" />
+    <link rel="stylesheet" href="/++resource++themes_openplans.css"
+          type="text/css" media="all" />
     <!-- TODO print style sheet -->
 
     <script type="text/javascript" src="/++resource++ext/yahoo-dom-event.js"></script>
