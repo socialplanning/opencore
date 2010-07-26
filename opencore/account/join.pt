@@ -172,7 +172,8 @@
 
         <div class="oc-boxy">
           <h2 i18n:translate="join_already_member_heading">Already a member?</h2>
-          <a i18n:translate="join_sign_in" href="login">Sign in</a>
+          <a class="oc-banana" 
+             i18n:translate="join_sign_in" href="login">Sign in</a>
         </div>
       </div><!-- end #oc-content-sidebar -->
 
