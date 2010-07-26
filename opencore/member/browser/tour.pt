@@ -12,12 +12,12 @@
           <p i18n:translate="tour_heading_desc" class="oc-headingContext">We hope you will use this website to plan events, start <span i18n:name="project_noun" tal:replace="view/project_noun">project</span>s, and improve your communities. Now you can&hellip;</p>
         </div>
         
-        <div class="oc-getstarted">
+        <div class="oc-getstarted oc-boxy">
           <h2 i18n:translate="tour_complete_profile_heading"><a i18n:name="absolute_url_profile-edit" tal:attributes="href string:${context/absolute_url}/profile-edit"><span i18n:translate="complete_your_profile">Complete your profile</span></a></h2>
           <p i18n:translate="tour_complete_profile_desc">Let other <span i18n:name="portal_title" tal:replace="string:${view/portal_title}" /> members know who you are and what you're interested in. The more information you provide, the more contacts you'll make.</p>
         </div>
         
-        <div class="oc-getstarted">
+        <div class="oc-getstarted oc-boxy">
           <h2>
            <a tal:attributes="href string:${context/portal_url}/projects">
               <span i18n:translate="tour_join_projects_heading">Join a <span i18n:name="project_noun" tal:replace="view/project_noun">project</span> and help it succeed</span>
@@ -26,7 +26,7 @@
           <p i18n:translate="tour_join_projects_desc">Found something you're interested in? Want to volunteer an hour of your time? Join a <span i18n:name="project_noun" tal:replace="view/project_noun">project</span> and help someone's vision become a reality.</p>
         </div>
         
-        <div class="oc-getstarted">
+        <div class="oc-getstarted oc-boxy">
           <h2 i18n:translate="tour_start_projects_heading">
            <a i18n:name="projects_noun_create_url" tal:attributes="href string:${context/portal_url}/projects/create">
              <span i18n:translate="start_your_own_project">Start your own <span i18n:name="project_noun" tal:replace="view/project_noun">project</span></span> 
