@@ -11,3 +11,7 @@
    Export is done asynchronously with an ajax UI in case it takes a
    long time. (slinkp)
 
+ * Added "Search by location" functionality to the People Search,
+   and for each search result, display the list of projects that
+   the member is a part of, so that users can browse for projects
+   with members in their area. (egj)
