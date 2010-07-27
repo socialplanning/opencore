@@ -15,3 +15,12 @@
    and for each search result, display the list of projects that
    the member is a part of, so that users can browse for projects
    with members in their area. (egj)
+
+ * Be more strict about filtering out unlisted memberships early,
+   to avoid displaying unlisted memberships.  Specifically, the
+   `project_ids` index on the membrane_tool, and the `project_ids()`
+   method on OpenMember objects, has been redefined to only return
+   listed memberships.
+
+   This change requires that the project_ids index on membrane_tool
+   be reindexed and possibly even removed and recreated.
