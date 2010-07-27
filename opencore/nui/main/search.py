@@ -45,7 +45,7 @@ def _sort_by_created(brains):
 def _sort_by_portal_type(brains):
     return sorted(brains, key=lambda b: (b.portal_type, b.id))
 
-def searchForPerson(mcat, search_for, sort_by=None):
+def searchForPerson(member_catalog, search_for, sort_by=None):
     """
     This is a function, not a method, so it can be called from
     assorted view classes.
@@ -64,7 +64,7 @@ def searchForPerson(mcat, search_for, sort_by=None):
     else:
         rs = ((sort_by, 'asc'),)
 
-    people_brains = mcat.evalAdvancedQuery(
+    people_brains = member_catalog.evalAdvancedQuery(
         Eq('RosterSearchableText', person_query),
         rs,
         )
