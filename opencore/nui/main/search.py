@@ -401,6 +401,8 @@ class PeopleSearchView(SearchView):
 class PeopleSearchLocation(PeopleSearchView):
     def handle_request(self):
         location = self.request.form.get('location')
+        if location is None:
+            return []
         results = self.membranetool(getLocation=location)
         return results
 
