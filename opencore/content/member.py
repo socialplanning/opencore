@@ -287,7 +287,16 @@ class OpenMember(FolderishMember):
                 if mtool.checkPermission(View, space):
                     projects.add(space)
         return list(projects)
-    
+
+    security.declareProtected(View, 'getListedProjectListing')
+    def getListedProjectListing(self):
+        catalog = getToolByName(self, 'portal_catalog')
+        mships = catalog(id=self.getId(), portal_type='OpenMembership',
+                         review_state='public')
+        teams = [i.getPath().split('/')[-2] for i in mships]
+        projects = catalog(portal_type='OpenProject', id=teams)
+        return projects
+
     security.declareProtected(View, 'interests')
     def interests(self):
         """Represents a list of the user skills. It used to be called "skills".
@@ -299,8 +308,15 @@ class OpenMember(FolderishMember):
 
     security.declareProtected(View, 'project_ids')
     def project_ids(self):
-        """ids of active teams. this attr is indexed"""
-        return [x.getId() for x in self.getProjectListing()]
+        """ids of active teams. this attr is indexed
+
+        we filter out any projects which the member is a part of
+        but where the membership is unlisted.  this is a safety
+        measure to prevent unlisted memberships from leaking out
+        to the UI -- if a member is unlisted, it's better to
+        err on the side of caution here.
+        """
+        return [x.getId for x in self.getListedProjectListing()]
 
     security.declareProtected(View, 'has_portrait')
     def has_portrait(self):

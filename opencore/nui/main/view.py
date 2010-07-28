@@ -1,6 +1,7 @@
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from Products.Five.viewlet.viewlet import ViewletBase
 from opencore.project.utils import project_noun
+from opencore.interfaces import IAmAPeopleFolder, IAddProject
 
 class SearchWidget(object):
     @property
@@ -8,12 +9,11 @@ class SearchWidget(object):
         return project_noun()
 
     def current_search_page(self):
-        url = self.request.getURL()
-        if url.endswith('searchresults'):
-            url = url.split('/')[-2]
-        else:
-            url = url.split('/')[-1]
-        return url
+        if IAmAPeopleFolder.providedBy(self.context):
+            return 'people'
+        if IAddProject.providedBy(self.context):
+            return 'projects'
+        return 'sitesearch'
 
     def form_action_url(self):
         from opencore.interfaces import IOpenSiteRoot

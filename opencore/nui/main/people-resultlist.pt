@@ -24,6 +24,18 @@
       <span class="locality" tal:content="loc" />
     </div>
 
-  </div>
+    <div tal:define="projects python:view.filtered_projects(item.project_ids)"
+	 tal:condition="projects">
+      <span class="oc-discreetText">Projects:</span>
+      <ul class="oc-inlineList" style="display: inline;">
+	<li tal:repeat="project projects">
+	  <a tal:attributes="href project/getPath"
+	     tal:content="project/Title">
+	  </a>
+	</li>
+      </ul>
+    </div>
   
+  </div>
+
 </tal:set>

@@ -342,7 +342,6 @@ class ProjectsSearchView(SearchView):
                               )
         return len(brains)
 
-
 class PeopleSearchView(SearchView):
 
     def lineup_class(self):
@@ -402,6 +401,17 @@ class PeopleSearchView(SearchView):
         
         return _sort_by_created(brains)
 
+    def filtered_projects(self, unfiltered_project_ids):
+        cat = self.get_tool("portal_catalog")
+        member_projects = cat(getId=list(unfiltered_project_ids),
+                              portal_type="OpenProject")
+        return member_projects
+
+class PeopleSearchLocation(PeopleSearchView):
+    def handle_request(self):
+        location = self.request.form.get('location')
+        results = self.membranetool(getLocation=location)
+        return results
 
 
 class SitewideSearchView(SearchView):

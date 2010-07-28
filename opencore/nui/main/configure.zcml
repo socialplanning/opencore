@@ -58,6 +58,14 @@
      result_listing="people-resultlist.pt"
      sortable_fields="people-sortablefields.pt"
      />
+  <opencore:searchView
+     for="opencore.interfaces.adding.IAmAPeopleFolder"
+     class=".search.PeopleSearchLocation"
+     permission="zope2.View"
+     name="location-search"
+     result_listing="people-resultlist.pt"
+     sortable_fields="people-sortablefields.pt"
+     />
   <browser:viewlet
      for="*"
      view=".search.PeopleSearchView"
