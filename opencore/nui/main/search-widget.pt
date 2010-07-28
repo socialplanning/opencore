@@ -85,7 +85,7 @@
 	Search by location:
       </label>
       <input type="text" name="location" class="oc-input-typeText" 
-	     tal:attributes="value request/location | string:''" />
+	     tal:attributes="value request/location | string:" />
     </form>
   </div>
 
