@@ -1,0 +1,98 @@
+Index: XinhaCore.js
+===================================================================
+--- XinhaCore.js	(revision 1270)
++++ XinhaCore.js	(working copy)
+@@ -1750,7 +1750,18 @@
+         // == "formatblock" we retrieve config.formatblock (or
+         // a different way to write it in JS is
+         // config["formatblock"].
+-        options = editor.config[txt];
++        options = {};
++        for (var i in editor.config[txt])
++        {
++          val = editor.config[txt][i];
++          if (typeof val == 'object') {
++            options[i] = val.tag;
++          }
++          else
++          {
++            options[i] = val;
++          }
++        }
+         cmd = txt;
+       break;
+       default:
+@@ -4882,11 +4894,15 @@
+         var blocks = [];
+         for ( var indexBlock in this.config.formatblock )
+         {
+-          // prevent iterating over wrong type
+-          if ( typeof this.config.formatblock[indexBlock] == 'string' )
++          var blockItem = this.config.formatblock[indexBlock];
++          if (typeof blockItem == 'object')
+           {
+-            blocks[blocks.length] = this.config.formatblock[indexBlock];
++            blocks[blocks.length] = blockItem.detect || blockItem.tag;
+           }
++          else if (typeof blockItem == 'string')
++          {
++            blocks[blocks.length] = blockItem;
++          }
+         }
+ 
+         var deepestAncestor = this._getFirstAncestor(this.getSelection(), blocks);
+@@ -4894,8 +4910,16 @@
+         {
+           for ( var x = 0; x < blocks.length; x++ )
+           {
+-            if ( blocks[x].toLowerCase() == deepestAncestor.tagName.toLowerCase() )
++            if (typeof blocks[x] == 'function')
+             {
++              if (blocks[x](this, deepestAncestor))
++              {
++                btn.element.selectedIndex = x;
++                break;
++              }
++            }
++	    else if ( blocks[x].toLowerCase() == deepestAncestor.tagName.toLowerCase() )
++            {
+               btn.element.selectedIndex = x;
+             }
+           }
+@@ -5202,17 +5226,34 @@
+       this.execCommand(txt, false, value);
+     break;
+     case "formatblock":
+-      // Mozilla inserts an empty tag (<>) if no parameter is passed  
++      // Mozilla inserts an empty tag (<>) if no parameter is passed
+       if ( !value )
+       {
+       	this.updateToolbar();
+       	break;
+       }
++      var invoker = null;
++      for (var i in this.config.formatblock)
++      {
++        var val = this.config.formatblock[i];
++        if (typeof val == 'object'
++            && val.tag == value)
++        {
++          invoker = val.invoker || null;
++          break;
++        }
++      }
++
+       if( !Xinha.is_gecko || value !== 'blockquote' )
+       {
+         value = "<" + value + ">";
+       }
+-      this.execCommand(txt, false, value);
++      if (invoker)
++      {
++        invoker(this);
++      } else {
++        this.execCommand(txt, false, value);
++      }
+     break;
+     default:
+       // try to look it up in the registered dropdowns
