@@ -1,0 +1,16 @@
+Migration to Xinha trunk/0.96.1 --
+
+* Fullscreen mode not loaded
+
+ Ticket filed with patch: http://trac.xinha.org/ticket/1534
+
+* Toggle HTML Source broken
+* Toolbar is not laid out correctly
+* Formatting dropdown is incomplete; "advanced" options are broken (any of the ones that aren't just a simple string HTML tag)
+* Gray skin is not applied, instead blue skin is
+* Opencore CSS styles don't seem to be applied correctly within the editor
+* Uses ImageManager and Linker; would be nice to use douglas's revamped Storage system if I can figure out the current status of that work on trunk
+
+* Linker is not really correct
+
+Also need to identify changes we made that never made it upstream - e.g. Doug's wicked-link-regex thing
