@@ -76,6 +76,8 @@ xinha_init = xinha_init ? xinha_init : function()
 
    xinha_config = xinha_config ? xinha_config() : new Xinha.Config();
 
+  xinha_config.statusBar = false;
+  
   xinha_config.width = "100%";
   xinha_config.height = "600px";
 
