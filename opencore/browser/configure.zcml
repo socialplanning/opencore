@@ -41,6 +41,11 @@
      file="../xinha/XinhaConfig.js"
      />
 
+  <browser:resource
+     name="xinha_opencore.css"
+     file="../xinha/opencore-skin.css"
+     />
+
   <browser:page
     for="*"
     class="opencore.browser.base.BaseView"
