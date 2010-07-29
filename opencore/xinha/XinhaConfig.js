@@ -44,12 +44,13 @@ xinha_init = xinha_init ? xinha_init : function()
 //      'InternalLink',
       'Linker',
       'ListType',
-      'PasteText',
-      'SetId',
+//      'PasteText',
+//      'SetId',
 //      'Stylist',
 //      'SuperClean',
-      'UnFormat',
-      'UnsavedChanges'
+//      'UnFormat',
+      'UnsavedChanges',
+      'TableOperations'
   ];
 
          // THIS BIT OF JAVASCRIPT LOADS THE PLUGINS, NO TOUCHING  :)
@@ -189,12 +190,12 @@ xinha_init = xinha_init ? xinha_init : function()
 	["fullscreen"],
         ["linebreak"],
 	["createlink", "insertimage", "inserttable", "toggleborders"],
-        ["killword"]
+	["killword"],
   ];
 
    // To adjust the styling inside the editor, we can load an external stylesheet like this
    // NOTE : YOU MUST GIVE AN ABSOLUTE URL
-  xinha_config.pageStyleSheets = ['/++resource++css/themes/openplans.css', '/++resource++css/opencore.css',  '/++resource++override-css/override.css'];
+  xinha_config.pageStyleSheets = ['/++resource++css/opencore.css', '/++resource++themes_openplans.css'];
 
    //if you're using Stylist, import a stylesheet like this
 //   xinha_config.stylistLoadStylesheet(_editor_url + "examples/files/stylist.css");
