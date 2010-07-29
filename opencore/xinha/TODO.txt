@@ -6,10 +6,12 @@ Migration to Xinha trunk/0.96.1 --
 * Gray skin is not applied, instead blue skin is
 -> This can be fixed by unloading the stylesheets (which are unused anyway ATM) or by setting them all to rel="alternate stylesheet"
 
+* Iconset is different
+-> _editor_icons = "Classic" reverts the icons.
+
 * Toggle HTML Source broken
 * Toolbar is not laid out correctly
 * Formatting dropdown is incomplete; "advanced" options are broken (any of the ones that aren't just a simple string HTML tag)
-* Opencore CSS styles don't seem to be applied correctly within the editor
 * Uses ImageManager and Linker; would be nice to use douglas's revamped Storage system if I can figure out the current status of that work on trunk
 * Linker is not really correct
 
