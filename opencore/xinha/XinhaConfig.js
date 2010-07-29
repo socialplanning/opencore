@@ -37,7 +37,6 @@ xinha_init = xinha_init ? xinha_init : function()
   xinha_plugins = xinha_plugins ? xinha_plugins :
   [
       'GetHtml',
-      'HorizontalRule',
 //      'HtmlTidy',
       'ImageManager',
       'InsertAnchor',
