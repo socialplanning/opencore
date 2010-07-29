@@ -77,7 +77,7 @@ xinha_init = xinha_init ? xinha_init : function()
    xinha_config = xinha_config ? xinha_config() : new Xinha.Config();
 
   xinha_config.statusBar = false;
-  
+
   xinha_config.width = "100%";
   xinha_config.height = "600px";
 
@@ -176,6 +176,8 @@ xinha_init = xinha_init ? xinha_init : function()
                       }
                      }
   };
+  xinha_config.flowToolbars = false;
+
   //this is the standard toolbar, feel free to remove buttons as you like
   xinha_config.toolbar = [
         ["formatblock"],
@@ -185,7 +187,7 @@ xinha_init = xinha_init ? xinha_init : function()
         ["outdent","indent"],
         ["toggleborders"],
         ["htmlmode"],
-//	["fullscreen"],
+	["fullscreen"],
         ["linebreak"],
 	["createlink", "insertimage", "inserttable", "toggleborders"],
         ["killword"]
