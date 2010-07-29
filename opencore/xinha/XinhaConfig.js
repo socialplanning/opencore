@@ -82,7 +82,7 @@ xinha_init = xinha_init ? xinha_init : function()
   xinha_config.height = "600px";
 
   xinha_config.bodyClass = "oc-wiki-content";
-  
+
   xinha_config.ImageManager.backend = "backend?";
   xinha_config.Linker.backend = "internal-link";
 
@@ -191,9 +191,11 @@ xinha_init = xinha_init ? xinha_init : function()
         ["htmlmode"],
 	["fullscreen"],
         ["linebreak"],
-	["createlink", "insertimage", "inserttable", "toggleborders"],
-	["killword"],
+	["createlink", "insertimage"],
+        ["killword", "separator"]
   ];
+
+  xinha_config.TableOperations.forceToolbarLineBreak = false;
 
    // To adjust the styling inside the editor, we can load an external stylesheet like this
    // NOTE : YOU MUST GIVE AN ABSOLUTE URL
