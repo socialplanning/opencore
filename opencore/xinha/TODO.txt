@@ -5,6 +5,7 @@ Migration to Xinha trunk/0.96.1 --
 
 * Gray skin is not applied, instead blue skin is
 -> This can be fixed by unloading the stylesheets (which are unused anyway ATM) or by setting them all to rel="alternate stylesheet"
+-> But some (limited) stuff was already in use from the blue-look skin, which I've extracted into an opencore-skin.css
 
 * Iconset is different
 -> _editor_icons = "Classic" reverts the icons.
