@@ -43,7 +43,7 @@ xinha_init = xinha_init ? xinha_init : function()
       'InsertWords',
 //      'InternalLink',
       'Linker',
-      'ListType',
+//      'ListType',
 //      'PasteText',
 //      'SetId',
 //      'Stylist',

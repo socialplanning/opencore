@@ -19,6 +19,8 @@ Migration to Xinha trunk/0.96.1 --
 -> In wiki-edit-xinha.pt, in the document.write("<textarea") part, replace the textarea's "visibility: hidden" with "display: none"
 
 * Remove "Decimal numbers" dropdown for orderedlist
+-> Fixed by uninstalling the ListType plugin
+
 * Add text to some buttons ("Link", "Image", "Table")
 
 * Uses ImageManager and Linker; would be nice to use douglas's revamped Storage system if I can figure out the current status of that work on trunk
