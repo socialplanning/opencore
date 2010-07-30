@@ -16,6 +16,7 @@ Migration to Xinha trunk/0.96.1 --
 ---> perhaps wrap it with an object (Xinha.Formatter?) to make it more self-documenting
 
 * Toggle HTML Source broken
+-> In wiki-edit-xinha.pt, in the document.write("<textarea") part, replace the textarea's "visibility: hidden" with "display: none"
 
 * Remove "Decimal numbers" dropdown for orderedlist
 * Add text to some buttons ("Link", "Image", "Table")
