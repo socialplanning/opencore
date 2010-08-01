@@ -606,3 +606,45 @@ class NewsView(SearchView):
         edit_url = '%s/edit' % item.absolute_url()
         self.request.response.redirect(edit_url)
 
+from opencore.feed.base import BaseFeedAdapter
+from opencore.feed.interfaces import IFeedData
+from opencore.interfaces.adding import IAmANewsFolder
+from zope.component import adapts
+from zope.interface import implements
+from Products.CMFCore.utils import getToolByName
+class NewsFeed(BaseFeedAdapter):
+    implements(IFeedData)
+    adapts(IAmANewsFolder)
+
+    title = "Site News"
+
+    @property
+    def items(self, n_items=5):
+        if hasattr(self, '_items'):
+            return self._items
+        cat = getToolByName(self.context, 'portal_catalog')
+        news_path = getToolByName(self.context, 'portal_url')() + '/news'
+        query = dict(portal_type='Document',
+                     sort_on='created',
+                     sort_order='descending',
+                     sort_limit=20,
+                     path=news_path
+                     )
+        brains = cat(**query)
+        for brain in brains:
+            title = brain.Title
+            description = brain.Description
+            author = brain.lastModifiedAuthor
+            link = brain.getURL()
+            pubDate = brain.modified
+            
+            self.add_item(title=title,
+                          description=description,
+                          link=link,
+                          author=author,
+                          pubDate=pubDate,
+                          byline='by')
+        try:
+            return self._items
+        except AttributeError:
+            return []
