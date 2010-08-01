@@ -623,7 +623,7 @@ class NewsFeed(BaseFeedAdapter):
         if hasattr(self, '_items'):
             return self._items
         cat = getToolByName(self.context, 'portal_catalog')
-        news_path = getToolByName(self.context, 'portal_url')() + '/news'
+        news_path = '/'.join(self.context.getPhysicalPath())
         query = dict(portal_type='Document',
                      sort_on='created',
                      sort_order='descending',
