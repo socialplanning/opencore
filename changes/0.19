@@ -24,3 +24,8 @@
 
    This change requires that the project_ids index on membrane_tool
    be reindexed and possibly even removed and recreated.
+
+ * Provide RSS/Atom feeds for the site news folder.
+
+   Currently requires that you manually mark the site news folder 
+   with ICanFeed marker interface via ZMI.
