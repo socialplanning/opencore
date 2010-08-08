@@ -1,0 +1,10 @@
+<link type="text/css" rel="stylesheet" href="/++resource++opencore-xinha-skin.cssx"/>
+
+<script type="text/javascript" tal:content="string:
+var _editor_url = '/++resource++xinha/';
+var _editor_lang = '${view/xinha_lang_code}';
+"
+/>
+<!-- Load up the actual editor core -->
+<script type="text/javascript" src="/++resource++xinha96/XinhaCore.js"></script>
+<script type="text/javascript" src="/++resource++opencore-xinha-config.js"></script>

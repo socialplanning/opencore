@@ -22,31 +22,11 @@
       </metal:base>
 
     <title metal:fill-slot="title" tal:content="python:view.window_title(mode='edit')" />
-    <metal:link-slot metal:fill-slot="link">
-      <link type="text/css" rel="stylesheet" title="blue-look" i18n:attributes="title" href="/++resource++xinha/skins/blue-look/skin.css"/>
-      <link type="text/css" rel="alternate stylesheet" title="green-look" i18n:attributes="title" href="/++resource++xinha/skins/green-look/skin.css"/>
-      <link type="text/css" rel="alternate stylesheet" title="xp-blue" i18n:attributes="title" href="/++resource++xinha/skins/xp-blue/skin.css"/>
-      <link type="text/css" rel="alternate stylesheet" title="xp-green" i18n:attributes="title" href="/++resource++xinha/skins/xp-green/skin.css"/>
-      <link type="text/css" rel="alternate stylesheet" title="inditreuse" i18n:attributes="title" href="/++resource++xinha/skins/inditreuse/skin.css"/>
-      <link type="text/css" rel="alternate stylesheet" title="blue-metallic" i18n:attributes="title" href="/++resource++xinha/skins/blue-metallic/skin.css"/>
-    </metal:link-slot>
+
     <metal:script-slot metal:fill-slot="script">
-<!-- xinha code below  -->
-
-<script type="text/javascript" tal:content="string:
-/************************************************************************
- * Please refer to http://trac.xinha.org/wiki/NewbieGuide
- ************************************************************************/
-
-var _editor_url = '/++resource++xinha/';
-var _editor_lang = '${view/xinha_lang_code}';
-"
-/>
-<!-- Load up the actual editor core -->
-<script type="text/javascript" src="/++resource++xinha/XinhaCore.js"></script>
-<script type="text/javascript" src="/++resource++xinha/xinhaconfig.js"></script>
-
+      <tal:do replace="structure view/portal/@@xinha-config" />
     </metal:script-slot>
+
   </head>
   <body>
     <div metal:fill-slot="content">
@@ -90,10 +70,10 @@ var _editor_lang = '${view/xinha_lang_code}';
                   <label for="description" i18n:translate="">Description</label>
                   <textarea id="description" name="description" tal:content="context/Description" />
                 </tal:description>
-                <textarea id="rawtext" name="rawtext" style="visibility:hidden; overflow:hidden; display:none;" tal:content="view/rawtext"></textarea>
+                <textarea id="rawtext" name="rawtext" style="overflow:hidden; display:none;" tal:content="view/rawtext"></textarea>
                 <script type="text/javascript">
                   <!--
-                  document.write('                <textarea editor-type="wysiwyg" id="text" name="text" style="visibility:hidden; overflow:hidden;" rows="10" cols="80" width="800px" height="600px" base="advanced"><' + '/textarea>');
+                  document.write('                <textarea editor-type="wysiwyg" id="text" name="text" style="overflow:hidden; display: none;" rows="10" cols="80" width="800px" height="600px" base="advanced"><' + '/textarea>');
                   elraw = document.getElementById("rawtext");
                   eltxt = document.getElementById("text");
                   eltxt.innerHTML = elraw.innerHTML;

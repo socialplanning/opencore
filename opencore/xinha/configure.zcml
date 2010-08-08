@@ -1,0 +1,21 @@
+<configure xmlns="http://namespaces.zope.org/zope"
+	   xmlns:browser="http://namespaces.zope.org/browser"	   
+	   >
+
+  <browser:resource
+     file="opencore-skin.css"
+     name="opencore-xinha-skin.css"
+     />
+  <browser:resource
+     file="XinhaConfig.js"
+     name="opencore-xinha-config.js"
+     />
+
+  <browser:page
+     for="opencore.interfaces.IOpenSiteRoot"
+     name="xinha-config"
+     class=".view.XinhaConfig"
+     permission="zope2.View"
+     />
+
+</configure>
