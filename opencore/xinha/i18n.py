@@ -16,7 +16,7 @@ def available_languages(use_latest_version=False):
     if not use_latest_version:
         xinha_l10n_dir = resource_filename('opencore.js', 'thirdparty/xinha/lang')
     else:
-        xinha_l10n_dir = resource_filename('opencore.js', 'thirdparty/xinha96/lang')
+        xinha_l10n_dir = resource_filename('opencore.js', 'thirdparty/xinha96r1270/lang')
     # XXX remember to change this if xinha ever moves!
 
     for file in listdir(xinha_l10n_dir):

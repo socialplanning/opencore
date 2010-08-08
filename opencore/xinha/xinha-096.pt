@@ -1,8 +1,9 @@
 <link type="text/css" rel="stylesheet" href="/++resource++opencore-xinha-skin.cssx"/>
 
 <script type="text/javascript" tal:content="string:
-var _editor_url = '/++resource++xinha/';
+var _editor_url = '/++resource++xinha96/';
 var _editor_lang = '${view/xinha_lang_code}';
+var _editor_icons = 'Classic';
 "
 />
 <!-- Load up the actual editor core -->
