@@ -18,7 +18,8 @@ xinha_init = xinha_init ? xinha_init : function()
 
   xinha_editors = xinha_editors ? xinha_editors :
   [
-    'text'
+   'text',
+   'content',
   ];
 
   /** STEP 2 ***************************************************************

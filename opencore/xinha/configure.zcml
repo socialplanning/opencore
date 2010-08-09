@@ -12,7 +12,7 @@
      />
 
   <browser:page
-     for="opencore.interfaces.IOpenSiteRoot"
+     for="*"
      name="xinha-config"
      class=".view.XinhaConfig"
      permission="zope2.View"

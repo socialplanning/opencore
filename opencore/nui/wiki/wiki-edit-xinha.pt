@@ -24,7 +24,7 @@
     <title metal:fill-slot="title" tal:content="python:view.window_title(mode='edit')" />
 
     <metal:script-slot metal:fill-slot="script">
-      <tal:do replace="structure view/portal/@@xinha-config" />
+      <tal:do replace="structure here/@@xinha-config" />
     </metal:script-slot>
 
   </head>
