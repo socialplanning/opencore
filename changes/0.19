@@ -41,3 +41,12 @@
    customizing a SearchView and calling view.sort_by_options() directly
    (the default is to call the @@nui_batch_macros/sort_widget which renders
    the sort options)
+
+ * Factored HTML for Xinha configuration into a separate view @@xinha-config
+   which is registered on all contexts.  This includes the necessary <script>
+   and <link> tags for including Xinha's core Javascript and CSS as well as
+   the configuration Javascript.  It is traversed to and rendered by the wiki
+   edit view, and is intended to be pulled in by Deliverance to a page <head>
+   if other components need to configure Xinha.
+
+   The view can be overridden sitewide or per-context for custom configurations.

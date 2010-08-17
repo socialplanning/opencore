@@ -1,0 +1,23 @@
+<configure xmlns="http://namespaces.zope.org/zope"
+	   xmlns:browser="http://namespaces.zope.org/browser"
+	   >
+
+  <!-- these are for xinha 0.96 -->
+  <browser:resource
+     file="opencore-skin.css"
+     name="opencore-xinha-skin.css"
+     />
+  <browser:resource
+     file="XinhaConfig.js"
+     name="opencore-xinha-config.js"
+     />
+
+  <browser:page
+     for="*"
+     name="xinha-config"
+     class=".view.XinhaConfig"
+     permission="zope2.View"
+     template="xinha.pt"
+     />
+
+</configure>

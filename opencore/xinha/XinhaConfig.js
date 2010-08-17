@@ -18,7 +18,8 @@ xinha_init = xinha_init ? xinha_init : function()
 
   xinha_editors = xinha_editors ? xinha_editors :
   [
-    'text'
+   'text',
+   'content',
   ];
 
   /** STEP 2 ***************************************************************
@@ -84,7 +85,7 @@ xinha_init = xinha_init ? xinha_init : function()
   xinha_config.bodyClass = "oc-wiki-content";
 
   xinha_config.autofocus = true;
-  
+
   xinha_config.ImageManager.backend = "backend?";
   xinha_config.Linker.backend = "internal-link";
 
