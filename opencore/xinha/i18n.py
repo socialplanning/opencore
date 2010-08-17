@@ -17,7 +17,7 @@ def available_languages(xinha_lang_dir=None):
     xinha_lang_dir = xinha_lang_dir or 'thirdparty/xinha/lang'
     xinha_lang_dir = resource_filename('opencore.js', xinha_lang_dir)
 
-    for file in listdir(xinha_l10n_dir):
+    for file in listdir(xinha_lang_dir):
         if file.endswith('.js'):
             langs.append(file[:-3])
         #else: what? ignore, i suppose
