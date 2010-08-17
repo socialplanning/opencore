@@ -101,9 +101,9 @@
         <select name="sort_by" class="oc-js-autoSelect" tal:define="sorted_by view/sort_by">
 
 	  <tal:for repeat="sort_by_option view/sort_by_options">
-	    <option tal:define="sort_string python:view.sort_by_options[sort_by_option];"
-		    tal:attributes="value sort_by_option;
-				    selected python:sorted_by == sort_by_option"
+	    <option tal:define="sort_string python:sort_by_option[1]"
+		    tal:attributes="value python:sort_by_option[0];
+				    selected python:sorted_by == sort_by_option[0]"
 		    tal:content="sort_string" />
 	  </tal:for>
         </select>

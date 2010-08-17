@@ -11,10 +11,13 @@
    Export is done asynchronously with an ajax UI in case it takes a
    long time. (slinkp)
 
- * Added "Search by location" functionality to the People Search,
-   and for each search result, display the list of projects that
-   the member is a part of, so that users can browse for projects
-   with members in their area. (egj)
+ * Added "Search by location" functionality to the People Search.
+
+ * Added a "Sort by location" option to the People Search.
+
+ * On a People Search, for each search result displayed, display the 
+   list of projects that the member is a part of, so that users can 
+   browse for projects with members matching a search query.
 
  * Be more strict about filtering out unlisted memberships early,
    to avoid displaying unlisted memberships.  Specifically, the
@@ -29,3 +32,12 @@
 
    Currently requires that you manually mark the site news folder 
    with ICanFeed marker interface via ZMI.
+
+ * The ordering of options in a SearchView's sortable_fields template
+   is now preserved.
+
+   Implementation note: SearchView.sort_by_options now returns a 2-tuple 
+   instead of a dict.  This should not affect you unless you are heavily
+   customizing a SearchView and calling view.sort_by_options() directly
+   (the default is to call the @@nui_batch_macros/sort_widget which renders
+   the sort options)

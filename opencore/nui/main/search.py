@@ -168,7 +168,7 @@ class SearchView(BaseView):
     def sort_by_options(self):
         """
         Validates an HTML <ul> snippet
-        and transforms it into a dict
+        and transforms it into a 2-tuple
         """
         html = self._sortable_fields()
 
@@ -176,10 +176,10 @@ class SearchView(BaseView):
         ul = html.get_element_by_id('sortable_fields')
         assert ul.tag.lower() == 'ul'
 
-        _sort_by_options = dict()
+        _sort_by_options = []
         for li in ul:
             key = li.get('id')
-            _sort_by_options[key] = li.text
+            _sort_by_options.append((key, li.text))
         return _sort_by_options
 
     @property
@@ -403,7 +403,10 @@ class PeopleSearchLocation(PeopleSearchView):
         location = self.request.form.get('location')
         if location is None:
             return []
-        results = self.membranetool(getLocation=location)
+        query = dict(getLocation=location)
+        if self.sort_by:
+            query['sort_on'] = self.sort_by
+        results = self.membranetool(**query)
         return results
 
 
