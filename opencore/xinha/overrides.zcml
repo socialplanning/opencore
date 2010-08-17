@@ -3,14 +3,8 @@
 	   xmlns:opencore="http://namespaces.openplans.org/opencore"
 	   >
 
-  <meta:directives namespace="http://namespaces.openplans.org/opencore">
-     <meta:directive
-	name="resourceDirectory"
-	schema="opencore.xinha.monkey.IResourceDirectoryDirective"
-	handler="opencore.xinha.monkey.resourceDirectory"
-	/>
-  </meta:directives>
-
+  <include file="meta.zcml" />
+  
   <opencore:resourceDirectory
     name="xinha"
     package="opencore.js"
