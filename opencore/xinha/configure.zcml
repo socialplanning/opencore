@@ -1,5 +1,5 @@
 <configure xmlns="http://namespaces.zope.org/zope"
-	   xmlns:browser="http://namespaces.zope.org/browser"	   
+	   xmlns:browser="http://namespaces.zope.org/browser"
 	   >
 
   <browser:resource
@@ -16,6 +16,7 @@
      name="xinha-config"
      class=".view.XinhaConfig"
      permission="zope2.View"
+     template="xinha.pt"
      />
 
 </configure>

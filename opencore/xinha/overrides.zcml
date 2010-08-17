@@ -11,10 +11,4 @@
     directory="thirdparty/xinha"
     />
 
-  <opencore:resourceDirectory
-    name="xinha96"
-    package="opencore.js"
-    directory="thirdparty/xinha96r1270"
-    />
-
 </configure>
