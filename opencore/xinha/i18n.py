@@ -4,7 +4,7 @@ from os import listdir
 from zope.i18n.interfaces import IUserPreferredLanguages
 
 # XXX note that this assumes an unzipped egg
-def available_languages(use_latest_version=False):
+def available_languages(xinha_lang_dir=None):
     """ peek into the xinha directory to determine language localizations """
 
     langs = ['en']
@@ -13,11 +13,9 @@ def available_languages(use_latest_version=False):
     # that means we need to inject 'en' into the set of available languages
     # since we won't find it by looking at the translations
     
-    if not use_latest_version:
-        xinha_l10n_dir = resource_filename('opencore.js', 'thirdparty/xinha/lang')
-    else:
-        xinha_l10n_dir = resource_filename('opencore.js', 'thirdparty/xinha96r1270/lang')
     # XXX remember to change this if xinha ever moves!
+    xinha_lang_dir = xinha_lang_dir or 'thirdparty/xinha/lang'
+    xinha_lang_dir = resource_filename('opencore.js', xinha_lang_dir)
 
     for file in listdir(xinha_l10n_dir):
         if file.endswith('.js'):
@@ -27,7 +25,7 @@ def available_languages(use_latest_version=False):
     return langs
 
 
-def xinha_lang_code(request, use_latest_version=False):
+def xinha_lang_code(request, xinha_lang_dir=None):
     """
     Returns the best available language code for clientside
     localization of the Xinha UI, based on the available
@@ -86,7 +84,7 @@ def xinha_lang_code(request, use_latest_version=False):
     # PTS.Negotiator:Negotiator._negotiate (but simplified, since that
     # implementation generalizes language and content-type negotiations)
     # using our lang_prefs data rather than the getLangPrefs call.
-    available_langs = available_languages(use_latest_version)
+    available_langs = available_languages(xinha_lang_dir)
     for lang in lang_prefs:
         if lang in available_langs:
             return lang
