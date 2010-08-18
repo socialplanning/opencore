@@ -29,6 +29,8 @@
   <include package="topp.featurelets" />
   <include package="opencore.stats" />
 
+  <include package="opencore.xinha" />
+
   <!-- XXX Products namespace packages should get loaded automatically,
        but that doesn't seem to happen in ZTC; is there a better way
        to pull them in than by listing them here? -->

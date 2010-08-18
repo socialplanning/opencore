@@ -1,0 +1,30 @@
+Migration to Xinha trunk/0.96.1 --
+
+* Fullscreen mode not loaded
+-> Ticket filed with patch: http://trac.xinha.org/ticket/1534
+
+* Gray skin is not applied, instead blue skin is
+-> This can be fixed by unloading the stylesheets (which are unused anyway ATM) or by setting them all to rel="alternate stylesheet"
+-> But some (limited) stuff was already in use from the blue-look skin, which I've extracted into an opencore-skin.css
+
+* Iconset is different
+-> _editor_icons = "Classic" reverts the icons.
+
+* Formatting dropdown is incomplete; "advanced" options are broken (any of the ones that aren't just a simple string HTML tag)
+-> formatblock.diff (checked in to this directory) fixes this
+--> need to document it and submit patch upstream
+---> need to understand it a bit better
+---> perhaps wrap it with an object (Xinha.Formatter?) to make it more self-documenting
+
+* Toggle HTML Source broken
+-> In wiki-edit-xinha.pt, in the document.write("<textarea") part, replace the textarea's "visibility: hidden" with "display: none"
+
+* Remove "Decimal numbers" dropdown for orderedlist
+-> Fixed by uninstalling the ListType plugin
+
+* Add text to some buttons ("Link", "Image", "Table")
+
+* Uses ImageManager and Linker; would be nice to use douglas's revamped Storage system if I can figure out the current status of that work on trunk
+* Linker is not really correct (missing some <a> types, etc)
+
+Also need to identify changes we made that never made it upstream - e.g. Doug's wicked-link-regex thing
