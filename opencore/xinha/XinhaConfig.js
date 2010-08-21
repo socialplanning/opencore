@@ -87,7 +87,7 @@ xinha_init = xinha_init ? xinha_init : function()
   xinha_config.autofocus = true;
 
   xinha_config.ImageManager.backend = "backend?";
-  xinha_config.Linker.backend = "internal-link";
+  xinha_config.Linker.backend = _backend_url;
 
   xinha_config.formatblock = {
       'Normal' : {tag: 'p',
