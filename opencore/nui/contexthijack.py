@@ -4,7 +4,6 @@ from Products.CMFCore.utils import getToolByName
 OP_PROJECT_HEADER = 'X-OpenPlans-Project'
 OP_PERSON_HEADER = 'X-OpenPlans-Person'
 
-
 class HeaderHijackable(BaseView):
     """
     This is a view class which will switch its
