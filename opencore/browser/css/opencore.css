@@ -736,6 +736,13 @@ ul.oc-tabs li.oc-notallowed a {
 .oc-wiki-content dl {
   line-height: 1.25;
 }
+.oc-wiki-content {
+  font-size: 14px;
+}
+.oc-wiki-content h3 {
+  font-size: 16px;
+}
+
 .oc-wiki-edit {
   clear: both;
 }
@@ -1903,3 +1910,9 @@ div#oc-joining-explanation ul.oc-lineup-list li.oc-feed-item {
     text-align: center;
     }
 
+/* wordpress: override style a bit to fix link-add.php (add to blogroll)
+   form.  the "add link" submit button is hidden by the floating divs
+   for visible/categories/target so we push the submit button left. */
+form#addlink div#poststuff .submit {
+  text-align: left;
+}
