@@ -1911,8 +1911,12 @@ div#oc-joining-explanation ul.oc-lineup-list li.oc-feed-item {
     }
 
 /* wordpress: override style a bit to fix link-add.php (add to blogroll)
-   form.  the "add link" submit button is hidden by the floating divs
-   for visible/categories/target so we push the submit button left. */
-form#addlink div#poststuff .submit {
+   form and link.php?action=edit (edit blogroll entry) form.
+
+   the "add link" and "save changes" submit buttons are hidden by the
+   floating divs for visible/categories/target so we push the submit
+   button left. */
+form#addlink div#poststuff .submit,
+form#editlink div#poststuff .submit {
   text-align: left;
 }
