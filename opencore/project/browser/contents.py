@@ -17,6 +17,13 @@ import ZTUtils
 
 _marker = object()
 
+class FilesView(ProjectBaseView):
+    def files(self):
+        path = '/'.join(self.context.getPhysicalPath())
+        catalog = getToolByName(self.context, "portal_catalog")
+        files = catalog(portal_type=("FileAttachment", "Image"),
+                        path=path)
+        return files
 
 class ProjectContentsView(ProjectBaseView, OctopoLite):
 

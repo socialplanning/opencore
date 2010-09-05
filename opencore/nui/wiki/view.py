@@ -218,7 +218,15 @@ class WikiEdit(WikiBase, OctopoLite):
         self.context.reindexObject()
         self.addPortalStatusMessage(u'Your changes have been saved.')
 
+        import pdb; pdb.set_trace()
+        self.purge_draft()
+
         self.redirect(self.context.absolute_url())
+
+    def purge_draft(self):
+        import os
+        if os.path.exists("/tmp/checkout/ANONYMOUS"):
+            os.remove("/tmp/checkout/ANONYMOUS")
 
     def _handle_createAtt(self):
         attachmentTitle = self.request.form.get('attachmentTitle')

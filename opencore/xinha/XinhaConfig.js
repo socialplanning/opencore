@@ -51,7 +51,8 @@ xinha_init = xinha_init ? xinha_init : function()
 //      'SuperClean',
 //      'UnFormat',
       'UnsavedChanges',
-      'TableOperations'
+      'TableOperations',
+      'PingSave',
   ];
 
          // THIS BIT OF JAVASCRIPT LOADS THE PLUGINS, NO TOUCHING  :)
@@ -88,6 +89,7 @@ xinha_init = xinha_init ? xinha_init : function()
 
   xinha_config.ImageManager.backend = _image_backend_url;
   xinha_config.Linker.backend = _backend_url;
+  xinha_config.PingSave.backend = "/saver/";
 
   xinha_config.formatblock = {
       'Normal' : {tag: 'p',

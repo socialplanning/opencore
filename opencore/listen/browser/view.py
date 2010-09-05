@@ -15,6 +15,7 @@ from Products.listen.browser.mail_message_views import ForumMailMessageView, Thr
                                                        MessageReplyView, SearchDebugView
 from Products.listen.browser.manage_membership import ManageMembersView
 from Products.listen.browser.moderation import ModerationView as BaseModerationView
+from Products.listen.browser.import_export import ImportExportView as BaseImportExportView
 from Products.listen.config import MODERATION_FAILED
 from Products.listen.content import ListTypeChanged
 from Products.listen.lib.common import assign_local_role
@@ -345,6 +346,12 @@ class ListEditView(ListenEditBaseView):
 
         list.managers = tuple(managers)
         self._assign_local_roles_to_managers()
+
+        akismet_key = self.request.form.get("akismet_key")
+        if akismet_key is not None:
+            setattr(self.context, "use_akismet", True)
+            setattr(self.context, "akismet_key", akismet_key)
+
         list.reindexObject()
         # we need to manually commit the transaction here because we are about
         # to throw a Redirect exception which would abort the transaction
@@ -502,7 +509,7 @@ NuiSearchDebugView = make_nui_listen_view_class(SearchDebugView)
 NuiArchiveSearchView  = make_nui_listen_view_class(ArchiveSearchView)
 NuiListLookupView = make_nui_listen_view_class(ListLookupView)
 
-
+NuiImportExportView = make_nui_listen_view_class(BaseImportExportView)
 
 class NuiManageMembersView(make_nui_listen_view_class(ManageMembersView)):
 

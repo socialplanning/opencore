@@ -58,6 +58,14 @@
 
   <browser:page
      for="opencore.interfaces.IProject"
+     class=".contents.FilesView"
+     permission="zope2.View"
+     name="file-browser"
+     template="file-browser.pt"
+     />
+
+  <browser:page
+     for="opencore.interfaces.IProject"
      class=".wf_policy_view.WorkflowPolicyWriterView"
      permission="openplans.ManageWorkflowPolicy"
      name="policy_writer"

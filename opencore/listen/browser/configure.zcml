@@ -102,4 +102,14 @@
      name="contact-team"
      />
 
+  
+  <browser:page
+     name="export"
+     for="Products.listen.interfaces.IMailingList"
+     permission="listen.ExportMailingListArchives"
+     class=".view.NuiImportExportView"
+     template="../import-export.pt"
+     />
+
+
 </configure>
