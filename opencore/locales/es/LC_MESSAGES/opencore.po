@@ -1271,7 +1271,7 @@ msgstr ""
 #. Default: "${DYNAMIC_CONTENT} ${portal_title} is <a href=\"${DYNAMIC_CONTENT}\"> ${num_people} people</a> and <a href=\"${DYNAMIC_CONTENT}\"> ${num_projects} ${project_noun}s</a> since ${site_birthdate}.<br /> &copy; 2005 - 2009 <a href=\"${DYNAMIC_CONTENT}\">The Open Planning Project</a> <br />Powered by <a href=\"http://www.coactivate.org/projects/opencore/\">OpenCore</a>"
 #: ./opencore/browser/footer.pt:29
 msgid "footer_stats_summary"
-msgstr "${portal_title} hay ${num_people} y ${projects_url} esta desde ${site_birthdate}."
+msgstr "${portal_title} hay ${num_people} y ${projects_url} esta desde ${site_birthdate}.<br /> &copy; 2007 - 2009 ${oc_utils_topp_url}"
 
 #. Default: "New users"
 #: ./opencore/account/forgot.pt:13

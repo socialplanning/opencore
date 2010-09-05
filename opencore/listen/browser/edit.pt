@@ -1,164 +1,159 @@
 <html metal:use-macro="context/@@standard_macros/master">
-  <body>
+	<body>
 
-    <div metal:fill-slot="content">
-      <div metal:use-macro="here/@@listen_macros/bcrumb"/>
-      <div metal:use-macro="here/@@listen_macros/tabs"/>
-      
-      <div id="oc-content-main" class="oc-content-main-fullWidth">
-	<form name="edit-form" id="oc-list-edit" method="post" enctype="multipart/form-data"
-	      class="enableUnloadProtection" tal:attributes="action view/name">
-	  <!-- basics -->
-	  <fieldset class="oc-boxy">
-	    <legend i18n:translate="edit_list_basics" class="oc-legend-heading oc-biggerText">Basics</legend>
-	    <table class="oc-form">
-	      <tbody>
-		<tr class="oc-form-row">
-		  <th class="oc-form-label" scope="row">
-		    <label i18n:translate="list_title_name" for="title">Title</label>
-		  </th>
-		  <td class="oc-form-value">
-		    <input type="text" id="title" class="oc-autoFocus" name="title"
-			   tal:attributes="value request/title | context/title | nothing" />
-		  </td>
-		  <td class="oc-form-help">
-		    <span class="oc-form-context"></span>
-		    <span id="oc-title-validator" class="oc-form-validator"></span>
-		    <span id="oc-title-error" class="oc-form-error" tal:content="view/errors/title | nothing" />
-		  </td>
-		</tr>
-		<tr class="oc-form-row">
-		  <th class="oc-form-label" scope="row">
-		    <label i18n:translate="list_description_name" for="description">Description</label>
-		  </th>
-		  <td class="oc-form-value">
-		    <textarea name="description" id="description" rows="3" cols="40" tal:content="request/description | context/description | nothing"/>
-		  </td>
-		  <td class="oc-form-help">
-		    <span class="oc-form-context"></span>
-		    <span id="oc-description-validator" class="oc-form-validator"></span>
-		    <span id="oc-description-error" class="oc-form-error" tal:content="view/errors/description | nothing" />
-		  </td>
-		</tr>
-		<tr class="oc-form-row">
-		  <th class="oc-form-label" scope="row">
-		    <label i18n:translate="list_mailto_name" for="mailto">List Address Prefix</label>
-		  </th>
-		  <td class="oc-form-value oc-form-fieldBlock">
-		    <span tal:replace="context/mailto" />
-		    
-		  </td>
-		  <td class="oc-form-help">
-		    <span class="oc-form-context"></span>
-		    <span id="oc-mailto-validator" class="oc-form-validator"></span>
-		  </td>
-		</tr>
-	      </tbody>
-	    </table>
-	  </fieldset>
-	  
-	  <!-- security -->
-	  <fieldset class="oc-boxy">
-	    <legend i18n:translate="edit_list_security" class="oc-legend-heading oc-biggerText">Security</legend>
-	    <table class="oc-form">
-	      <tbody>
-		<tr class="oc-form-row">
-		  <th class="oc-form-label" scope="row">
-		    <p i18n:translate="list_workflow_policy_name">Workflow</p>
-		  </th>
-		  <td class="oc-form-value">
-		    <p i18n:translate="list_workflow_desc" class="oc-headingContext oc-smallText">The policy that defines the behavior of the list.</p>
-		    <fieldset tal:define="policy request/workflow_policy | view/workflow_policy | string:policy_open">
-		      <ul class="oc-plainList oc-form-fieldBlock">
-			<li>
-			  <input type="radio" class="oc-input-typeRadio" id="workflow_policy_open" name="workflow_policy"
-				 value="policy_open" tal:attributes="checked python:policy == 'policy_open' and 'checked' or ''" />
-			  <label i18n:translate="list_workflow_open" for="workflow_policy_open">
-			    Anyone who confirms their email address is valid can post and receive messages.</label>
-			</li>
-			<li>
-			  <input type="radio" class="oc-input-typeRadio" id="workflow_policy_moderated" name="workflow_policy"
-				 value="policy_moderated" tal:attributes="checked python:policy == 'policy_moderated' and 'checked' or ''" />
-			  <label i18n:translate="list_workflow_moderated" for="workflow_policy_moderated">Anyone can receive messages, but each posted message has to be approved by the list managers first.</label>
-			</li>
-			<li>
-			  <input type="radio" class="oc-input-typeRadio" id="workflow_policy_closed" name="workflow_policy"
-				 value="policy_closed" tal:attributes="checked python:policy == 'policy_closed' and 'checked' or ''" />
-			  <label i18n:translate="list_workflow_closed" for="workflow_policy_closed">Only those approved by the list managers can post and receive messages.</label>
-			</li>
-		      </ul>
-		    </fieldset>
-		  </td>
-		  <td class="oc-form-help">
-		    <span class="oc-form-context"></span>
-		  </td>
-		</tr>
-		<!-- managers -->
-		<tr class="oc-form-row">
-		  <th class="oc-form-label" scope="row">
-		    <label i18n:translate="list_managers_name" for="managers">Managers</label>
-		  </th>
-		  <td class="oc-form-value">
-		    <p i18n:translate="list_managers_desc" class="oc-headingContext oc-smallText oc-js-memberList_description">A comma separated list of users with permissions to modify the list.</p>
-		    <input type="text" id="managers" class="oc-autoFocus oc-js-memberList" name="managers"
-			   tal:attributes="value request/managers | python:','.join(context.managers); | nothing" />
-		  </td>
-		  <td class="oc-form-help">
-		    <span class="oc-form-context"></span>
-		    <span id="oc-managers-validator" class="oc-form-validator"></span>
-		    <span id="oc-managers-error" class="oc-form-error" tal:content="view/errors/managers | nothing" />
-		  </td>
-		</tr>
-	      </tbody>
-	    </table>
-	  </fieldset>
-	  <!-- archival -->
-	  
-	  <fieldset class="oc-boxy">
-	    <legend i18n:translate="list_archival" class="oc-legend-heading oc-biggerText">Archival</legend>
-	    <p i18n:translate="list_archival_desc" class="oc-headingContext oc-smallText">When archiving is enabled, all messages sent to the list will be saved on the server. You may choose whether to archive just the message text, or include attachments.</p>
-	    <fieldset tal:define="policy_str request/archival_policy | context/archived | python: 0; 
-				  policy python:int(policy_str)">
-	      <ul class="oc-form-radiolist oc-form-fieldBlock">
-		<li>
-		  <input type="radio" class="oc-input-typeRadio" id="archival_policy_all" name="archival_policy"
-			 value="0" tal:attributes="checked python:policy == 0 and 'checked' or ''" />
-		  <label i18n:translate="list_archive_all" for="archival_policy_all">The entire message, including attachments</label>
-		</li>
-		<li>
-		  <input type="radio" class="oc-input-typeRadio" id="archival_policy_text" name="archival_policy"
-			 value="1" tal:attributes="checked python:policy == 1 and 'checked' or ''" />
-		  <label i18n:translate="list_archive_text" for="archival_policy_text">The message text only</label>
-		</li>
-		<li>
-		  <input type="radio" class="oc-input-typeRadio" id="archival_policy_none" name="archival_policy"
-			 value="2" tal:attributes="checked python:policy == 2 and 'checked' or ''" />
-		  <label i18n:translate="list_archive_none" for="archival_policy_none">Do not archive messages</label>
-		</li>
-	      </ul>
-	    </fieldset>
-	  </fieldset>
+		<div metal:fill-slot="content">
+			<div metal:use-macro="here/@@listen_macros/bcrumb"/>
+			<div metal:use-macro="here/@@listen_macros/tabs"/>
 
-	  <fieldset>
-	    Akismet key: <input type="text" name="akismet_key" />
-	    
-	  </fieldset>
+			<div id="oc-content-main" class="oc-content-main-fullWidth">
+				<form name="edit-form" id="oc-list-edit" method="post" enctype="multipart/form-data"
+				      class="enableUnloadProtection" tal:attributes="action view/name">
+<!-- basics -->
+					<fieldset class="oc-boxy">
+						<legend i18n:translate="edit_list_basics" class="oc-legend-heading oc-biggerText">Basics</legend>
+						<table class="oc-form">
+							<tbody>
+								<tr class="oc-form-row">
+									<th class="oc-form-label" scope="row">
+										<label i18n:translate="list_title_name" for="title">Title</label>
+									</th>
+									<td class="oc-form-value">
+										<input type="text" id="title" class="oc-autoFocus" name="title"
+										       tal:attributes="value request/title | context/title | nothing" />
+									</td>
+									<td class="oc-form-help">
+										<span class="oc-form-context"></span>
+										<span id="oc-title-validator" class="oc-form-validator"></span>
+										<span id="oc-title-error" class="oc-form-error" tal:content="view/errors/title | nothing" />
+									</td>
+								</tr>
+								<tr class="oc-form-row">
+									<th class="oc-form-label" scope="row">
+										<label i18n:translate="list_description_name" for="description">Description</label>
+									</th>
+									<td class="oc-form-value">
+										<textarea name="description" id="description" rows="3" cols="40" tal:content="request/description | context/description | nothing"/>
+									</td>
+									<td class="oc-form-help">
+										<span class="oc-form-context"></span>
+										<span id="oc-description-validator" class="oc-form-validator"></span>
+										<span id="oc-description-error" class="oc-form-error" tal:content="view/errors/description | nothing" />
+									</td>
+								</tr>
+								<tr class="oc-form-row">
+									<th class="oc-form-label" scope="row">
+										<label i18n:translate="list_mailto_name" for="mailto">List Address Prefix</label>
+									</th>
+									<td class="oc-form-value oc-form-fieldBlock">
+										<span tal:replace="context/mailto" />
 
-	  <!-- submit -->
-	  <fieldset>
-	    <ul class="oc-actions">
-	      <li>
-		<input type="submit" 
-		       name="task|edit" 
-		       value="Save" 
-		       i18n:attributes="value edit_edit_button"
-		       class="oc-button oc-chooseThis" />
-	      </li>
-	      <li><span i18n:translate="">or</span> <a i18n:translate="edit_list_cancel" href="">Cancel</a></li>
-	    </ul>
-	  </fieldset>
-	</form>
-      </div>
-    </div>
-  </body>
+									</td>
+									<td class="oc-form-help">
+										<span class="oc-form-context"></span>
+										<span id="oc-mailto-validator" class="oc-form-validator"></span>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</fieldset>
+
+<!-- security -->
+					<fieldset class="oc-boxy">
+						<legend i18n:translate="edit_list_security" class="oc-legend-heading oc-biggerText">Security</legend>
+						<table class="oc-form">
+							<tbody>
+								<tr class="oc-form-row">
+									<th class="oc-form-label" scope="row">
+										<p i18n:translate="list_workflow_policy_name">Workflow</p>
+									</th>
+									<td class="oc-form-value">
+										<p i18n:translate="list_workflow_desc" class="oc-headingContext oc-smallText">The policy that defines the behavior of the list.</p>
+										<fieldset tal:define="policy request/workflow_policy | view/workflow_policy | string:policy_open">
+											<ul class="oc-plainList oc-form-fieldBlock">
+												<li>
+													<input type="radio" class="oc-input-typeRadio" id="workflow_policy_open" name="workflow_policy"
+													       value="policy_open" tal:attributes="checked python:policy == 'policy_open' and 'checked' or ''" />
+													<label i18n:translate="list_workflow_open" for="workflow_policy_open">
+													Anyone who confirms their email address is valid can post and receive messages.</label>
+												</li>
+												<li>
+													<input type="radio" class="oc-input-typeRadio" id="workflow_policy_moderated" name="workflow_policy"
+													       value="policy_moderated" tal:attributes="checked python:policy == 'policy_moderated' and 'checked' or ''" />
+													<label i18n:translate="list_workflow_moderated" for="workflow_policy_moderated">Anyone can receive messages, but each posted message has to be approved by the list managers first.</label>
+												</li>
+												<li>
+													<input type="radio" class="oc-input-typeRadio" id="workflow_policy_closed" name="workflow_policy"
+													       value="policy_closed" tal:attributes="checked python:policy == 'policy_closed' and 'checked' or ''" />
+													<label i18n:translate="list_workflow_closed" for="workflow_policy_closed">Only those approved by the list managers can post and receive messages.</label>
+												</li>
+											</ul>
+										</fieldset>
+									</td>
+									<td class="oc-form-help">
+										<span class="oc-form-context"></span>
+									</td>
+								</tr>
+<!-- managers -->
+								<tr class="oc-form-row">
+									<th class="oc-form-label" scope="row">
+										<label i18n:translate="list_managers_name" for="managers">Managers</label>
+									</th>
+									<td class="oc-form-value">
+										<p i18n:translate="list_managers_desc" class="oc-headingContext oc-smallText oc-js-memberList_description">A comma separated list of users with permissions to modify the list.</p>
+										<input type="text" id="managers" class="oc-autoFocus oc-js-memberList" name="managers"
+										       tal:attributes="value request/managers | python:','.join(context.managers); | nothing" />
+									</td>
+									<td class="oc-form-help">
+										<span class="oc-form-context"></span>
+										<span id="oc-managers-validator" class="oc-form-validator"></span>
+										<span id="oc-managers-error" class="oc-form-error" tal:content="view/errors/managers | nothing" />
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</fieldset>
+<!-- archival -->
+
+					<fieldset class="oc-boxy">
+						<legend i18n:translate="list_archival" class="oc-legend-heading oc-biggerText">Archival</legend>
+						<p i18n:translate="list_archival_desc" class="oc-headingContext oc-smallText">When archiving is enabled, all messages sent to the list will be saved on the server. You may choose whether to archive just the message text, or include attachments.</p>
+						<fieldset tal:define="policy_str request/archival_policy | context/archived | python: 0; 
+						                      policy python:int(policy_str)">
+							<ul class="oc-form-radiolist oc-form-fieldBlock">
+								<li>
+									<input type="radio" class="oc-input-typeRadio" id="archival_policy_all" name="archival_policy"
+									       value="0" tal:attributes="checked python:policy == 0 and 'checked' or ''" />
+									<label i18n:translate="list_archive_all" for="archival_policy_all">The entire message, including attachments</label>
+								</li>
+								<li>
+									<input type="radio" class="oc-input-typeRadio" id="archival_policy_text" name="archival_policy"
+									       value="1" tal:attributes="checked python:policy == 1 and 'checked' or ''" />
+									<label i18n:translate="list_archive_text" for="archival_policy_text">The message text only</label>
+								</li>
+								<li>
+									<input type="radio" class="oc-input-typeRadio" id="archival_policy_none" name="archival_policy"
+									       value="2" tal:attributes="checked python:policy == 2 and 'checked' or ''" />
+									<label i18n:translate="list_archive_none" for="archival_policy_none">Do not archive messages</label>
+								</li>
+							</ul>
+						</fieldset>
+					</fieldset>
+
+<!-- submit -->
+					<fieldset>
+						<ul class="oc-actions">
+							<li>
+								<input type="submit" 
+								       name="task|edit" 
+								       value="Save" 
+								       i18n:attributes="value edit_edit_button"
+								       class="oc-button oc-chooseThis" />
+							</li>
+							<li><span i18n:translate="">or</span> <a i18n:translate="edit_list_cancel" href="">Cancel</a></li>
+						</ul>
+					</fieldset>
+				</form>
+			</div>
+		</div>
+	</body>
 </html>

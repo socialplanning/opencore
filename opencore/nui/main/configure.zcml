@@ -119,14 +119,6 @@
      name="contact"
      template="about.pt"
      />
-
-  <browser:page
-     class="opencore.browser.base.BaseView"
-     for="opencore.interfaces.IOpenSiteRoot"
-     permission="zope2.View"
-     name="about-block"
-     template="about-block.pt"
-     />
   
   <!-- news -->
   <browser:page

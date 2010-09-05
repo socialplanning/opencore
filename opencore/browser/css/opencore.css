@@ -736,13 +736,6 @@ ul.oc-tabs li.oc-notallowed a {
 .oc-wiki-content dl {
   line-height: 1.25;
 }
-.oc-wiki-content {
-  font-size: 14px;
-}
-.oc-wiki-content h3 {
-  font-size: 16px;
-}
-
 .oc-wiki-edit {
   clear: both;
 }
@@ -1911,13 +1904,3 @@ div#oc-joining-explanation ul.oc-lineup-list li.oc-feed-item {
     text-align: center;
     }
 
-/* wordpress: override style a bit to fix link-add.php (add to blogroll)
-   form and link.php?action=edit (edit blogroll entry) form.
-
-   the "add link" and "save changes" submit buttons are hidden by the
-   floating divs for visible/categories/target so we push the submit
-   button left. */
-form#addlink div#poststuff .submit,
-form#editlink div#poststuff .submit {
-  text-align: left;
-}

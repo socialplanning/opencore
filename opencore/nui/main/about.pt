@@ -12,10 +12,23 @@
         <div class="oc-headingBlock">
           <h1 tal:content="string:About ${view/portal_title}" />
         </div>
-
-        <div tal:content="structure view/portal/@@about-block">
-        </div>
-
+	<div i18n:translate="about_openplans">
+          <p><span tal:replace="view/portal_title" i18n:name="site_title">CoActivate</span> is a platform for social activism.</p>
+          <p>Whether your group is mobilizing voters, planning a protest, or growing a garden, <span tal:replace="view/portal_title" i18n:name="site_title">CoActivate</span> can help you become more effective. <span tal:replace="view/portal_title" i18n:name="site_title">CoActivate</span> is about greasing the wheels of democracy.</p>
+          <p>With our collaborative wiki pages and other tools, you and your group can:</p>
+          <ul class="oc-smallText">
+            <li>Make <span i18n:name="project_noun_view" tal:replace="view/project_noun"><span i18n:translate="project">project</span></span>s</li>
+            <li>Share to-do lists</li>
+            <li>Upload photos</li>
+            <li>Publicize your cause</li>
+            <li>Create and use mailing lists</li>
+            <li>Store and share files</li>
+            <li>and more&hellip;</li>
+          </ul>
+          <p>If you don't see something you need, please <a tal:attributes="href string:${context/portal_url}/contact-site-admin">let us know</a>. Chances are, it's just around the bend.</p>
+          <p>If you are a developer who wants to get involved, visit the <a tal:attributes="href string:${context/portal_url}/projects/opencore">OpenCore Software</a> project.</p>
+	  
+	</div><!-- content-main -->
       </div>
 
       <div id="oc-content-sidebar">

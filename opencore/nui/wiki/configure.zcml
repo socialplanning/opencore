@@ -228,12 +228,4 @@
      permission="zope2.View"
      />
 
-  <browser:page
-     for="opencore.interfaces.IOpenPage"
-     permission="cmf.ModifyPortalContent"
-     template="add-page-form.pt"
-     class="opencore.browser.base.BaseView"
-     name="add-page-form"
-     />
-
 </configure>
