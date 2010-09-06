@@ -6,7 +6,7 @@
     <div class="documentByLine" style="text-align: right">
         <img src="" alt=""
            title="This document is locked."
-           tal:define="locked portal_object/lock_icon.gif;
+           tal:define="locked here/lock_icon.gif;
                        lockable python:hasattr(here, 'wl_isLocked');"
            tal:condition="python:lockable and here.wl_isLocked()"
            tal:replace="structure python:locked.tag(title='Locked')"
@@ -44,7 +44,7 @@
         &mdash; expired
         </span>
 
-        <span tal:define="locked portal_object/lock_icon.gif"
+        <span tal:define="locked here/lock_icon.gif"
               tal:condition="isLocked">
             <img src=""
                  tal:replace="structure python:locked.tag(title='This item is locked')"
