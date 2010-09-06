@@ -35,16 +35,8 @@
                   </li>
             </ul>
 
-            <div class="oc-headingBlock">
-              <h1 i18n:translate="home_header">Do good, better.</h1>
-            </div>
-            <div>
-	      <p tal:content="string:${view/portal_title} is a platform for social activism." />
-              <p i18n:translate="home_opening_blurb">You want to
-      <strong>make a difference</strong>, we want to <strong>make it
-      easy</strong>. <span tal:replace="view/portal_title" i18n:name="site_title">CoActivate</span> is the simple way to bring groups together, promote your cause, make plans, manage projects, and get things done.</p>
-              <p i18n:translate="home_functions_blurb"><span tal:replace="view/portal_title" i18n:name="site_title">CoActivate</span> offers free mailing lists, wikis, task tracking, team management, and blogs to help you build an online community and promote real-world change.</p>
-	    </div>
+	    <div tal:replace="structure view/portal/@@homepage-about"></div>
+
           </div><!-- oc-home-content -->
         
         <div class="oc-home-columnGroup oc-clearAfter">
