@@ -3,8 +3,8 @@ from Products.ATContentTypes.interface.folder import IATBTreeFolder
 from opencore.interfaces.pending_requests import IPendingRequests
 from opencore.interfaces.pending_requests import IRequestMembership
 from persistent.dict import PersistentDict
-from zope.app.annotation.interfaces import IAnnotatable
-from zope.app.annotation.interfaces import IAnnotations
+from zope.annotation.interfaces import IAnnotatable
+from zope.annotation.interfaces import IAnnotations
 from zope.component import adapts
 from zope.interface import implements
 

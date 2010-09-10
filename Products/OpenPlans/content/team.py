@@ -258,4 +258,4 @@ class OpenTeam(Team):
         queueObjectReindex(proj, recursive=True)
 
 
-registerType(OpenTeam)
+registerType(OpenTeam, 'Products.OpenPlans')

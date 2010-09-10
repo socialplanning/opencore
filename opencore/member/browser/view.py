@@ -8,7 +8,7 @@ from opencore.i18n import _
 from opencore.interfaces.event import MemberModifiedEvent
 from opencore.interfaces.event import PortraitModifiedEvent
 from topp.utils.pretty_date import prettyDate
-from zope.app.event.objectevent import ObjectModifiedEvent
+from zope.lifecycleevent import ObjectModifiedEvent
 from zope.component import getMultiAdapter
 from zope.event import notify
 import transaction

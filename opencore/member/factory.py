@@ -1,7 +1,7 @@
 from zope.component import adapts
 from zope.interface import implements
 from zope.event import notify
-from zope.app.event.objectevent import ObjectCreatedEvent
+from zope.lifecycleevent import ObjectCreatedEvent
 
 from AccessControl.SecurityManagement import getSecurityManager
 from AccessControl.SecurityManagement import newSecurityManager

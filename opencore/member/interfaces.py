@@ -1,5 +1,5 @@
 from zope.interface import Interface
-from zope.app.annotation import IAttributeAnnotatable
+from zope.annotation import IAttributeAnnotatable
 from zope.viewlet.interfaces import IViewletManager
 
 # Name of a named adapter used for asynchronous cleanup.

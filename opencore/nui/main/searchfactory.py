@@ -6,7 +6,7 @@ from zope.configuration.exceptions import ConfigurationError
 from zope.configuration.fields import Path, GlobalInterface, GlobalObject
 from zope.publisher.interfaces.browser import IDefaultBrowserLayer
 from zope.security.zcml import Permission
-from zope.app.component.back35 import LayerField
+from zope.configuration.fields import GlobalInterface as LayerField
 
 class ISearchViewDirective(Interface):
     """ 

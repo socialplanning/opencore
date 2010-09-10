@@ -1,7 +1,7 @@
 from BTrees.OOBTree import OOBTree
 from opencore.interfaces import IHomePage
 from opencore.interfaces import IProject
-from zope.app.annotation.interfaces import IAnnotations
+from zope.annotation.interfaces import IAnnotations
 from zope.component import adapts
 from zope.interface import implements
 import re

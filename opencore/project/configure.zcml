@@ -9,8 +9,7 @@
   <class class="Products.OpenPlans.content.project.OpenProject">
     <implements
       interface="opencore.interfaces.IEditProject
-                 zope.annotation.interfaces.IAttributeAnnotatable
-                 Products.ploneundelete.interfaces.IUndeleteContainer" />
+                 zope.annotation.interfaces.IAttributeAnnotatable" />
   </class>
 
 
@@ -32,7 +31,7 @@
 
   <subscriber
      for="opencore.interfaces.IProject
-          zope.app.event.interfaces.IObjectModifiedEvent"
+          zope.lifecycleevent.interfaces.IObjectModifiedEvent"
      handler="opencore.project.wf_policy_support.saveWFPolicy" />
 
   <subscriber handler="opencore.project.handler.save_featurelets" />

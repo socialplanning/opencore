@@ -6,7 +6,7 @@ see: setup.txt and wiki/add.txt for usage
 """
 from opencore.browser.base import BaseView
 from zExceptions import Redirect
-from zope.app.apidoc.component import getRequiredAdapters as get_required
+#from zope.app.apidoc.component import getRequiredAdapters as get_required
 from zope.interface import providedBy
 from zope.publisher.interfaces import IRequest
 import itertools
@@ -38,7 +38,7 @@ class IgnorableProjectDummy(ProjectDummy):
 def get_view_names(obj, ignore_dummy=False):
     """Gets all view names for a particular object"""
     ifaces = providedBy(obj)
-    required = (get_required(iface, withViews=True) for iface in ifaces)
+    required = [] #(get_required(iface, withViews=True) for iface in ifaces)
     regs = itertools.chain(*required)
 
     if ignore_dummy:

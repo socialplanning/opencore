@@ -138,12 +138,12 @@ class ProjectNounAwareTranslationDomain(TranslationDomain):
 
 from zope.i18n.zcml import registerTranslations as register_translations
 
-from Products.PlacelessTranslationService.load import _compile_locales_dir
+#from Products.PlacelessTranslationService.load import _compile_locales_dir
 
 def registerTranslations(_context, directory):
 
     # here's that PTS monkeypatch
-    _compile_locales_dir(directory)
+    #_compile_locales_dir(directory)
     # end PTS monkeypatch
 
     register_translations(_context, directory)

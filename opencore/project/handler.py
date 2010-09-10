@@ -1,8 +1,8 @@
 from zope.component import adapter
 from zope.component import getAdapters
-from zope.app.event.interfaces import IObjectModifiedEvent
-from zope.app.container.interfaces import IContainerModifiedEvent
-from zope.app.container.contained import IObjectRemovedEvent
+from zope.lifecycleevent.interfaces import IObjectModifiedEvent
+from zope.container.interfaces import IContainerModifiedEvent
+from zope.lifecycleevent.interfaces import IObjectRemovedEvent
 
 from topp.featurelets.interfaces import IFeatureletSupporter, IFeaturelet
 

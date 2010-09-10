@@ -178,7 +178,7 @@ class OpencoreUtils(BrowserView):
 #   (why? see r24491 commit message)
 from plone.memoize import instance
 from plone.memoize import view
-from zope.app.annotation.interfaces import IAnnotations
+from zope.annotation.interfaces import IAnnotations
 
 def clear_all_memos(view):
     clear_instance_memo(view)

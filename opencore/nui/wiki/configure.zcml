@@ -9,7 +9,7 @@
 
   <subscriber
     for="opencore.interfaces.IOpenPage
-         zope.app.event.interfaces.IObjectModifiedEvent"
+         zope.lifecycleevent.interfaces.IObjectModifiedEvent"
     handler=".historyview.wiki_page_edited"
     />
 

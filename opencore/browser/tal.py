@@ -2,7 +2,7 @@
 from Products.Five.browser.metaconfigure import makeClassForTemplate
 from Products.PageTemplates.Expressions import getEngine
 from StringIO import StringIO
-from TAL.TALInterpreter import TALInterpreter
+from zope.tal.talinterpreter import TALInterpreter
 import unittest
 
 

@@ -2,11 +2,6 @@
            xmlns:five="http://namespaces.zope.org/five"
 	   >
 
-  <class class=".page.OpenPage">
-    <implements
-      interface="Products.ploneundelete.interfaces.ICanBeUndeleted" />
-  </class>
-
   <subscriber handler=".membership.post_wf_transition" />
 
   <subscriber

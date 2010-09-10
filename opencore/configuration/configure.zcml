@@ -41,6 +41,6 @@
 
   <!-- use a forked version of i18n:registerTranslations
        which injects `project_noun` into all Message mappings -->
-  <opencore:registerTranslations directory="../locales" />
+  <registerTranslations directory="../locales" />
 
 </configure>

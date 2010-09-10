@@ -2,13 +2,13 @@
 selective catalog metadata handling 
 """
 from Acquisition import aq_inner
-from zope.app.event import objectevent
-from zope.app.annotation.interfaces import IAnnotations
+from zope.lifecycleevent import ObjectModifiedEvent
+from zope.annotation.interfaces import IAnnotations
 import zope.event
 from BTrees.OOBTree import OOBTree
 from Products.CMFCore.interfaces import IFolderish
 from Products.CMFCore.utils import getToolByName
-from Products.CMFPlone.CatalogTool import registerIndexableAttribute
+#from Products.CMFPlone.CatalogTool import registerIndexableAttribute
 from opencore.interfaces import IProject
 from opencore.interfaces import IOpenPage
 from opencore.interfaces.catalog import IIndexingGhost
@@ -19,7 +19,7 @@ from Missing import MV
 from Products.listen.interfaces import ISearchableMessage
 from Products.listen.interfaces import IMailMessage
 from Products.listen.interfaces import IMailingList
-from zope.app.event.interfaces import IObjectModifiedEvent
+from zope.lifecycleevent.interfaces import IObjectModifiedEvent
 from zope.component import adapter
 
 # where the last modified author is stored
@@ -60,7 +60,7 @@ def updateContainerMetadata(obj, event):
     project.reindexObject(idxs=['modified'])
     
 def notifyObjectModified(obj):
-    zope.event.notify(objectevent.ObjectModifiedEvent(obj))
+    zope.event.notify(ObjectModifiedEvent(obj))
 
 _marker = object()
 
@@ -92,7 +92,7 @@ def registerMetadataGhost(name):
         except TypeError:
             return
         return ghost.getValue(name)
-    registerIndexableAttribute(name, ghoster)
+    #registerIndexableAttribute(name, ghoster)
     return ghoster
 
 @adapter(IOpenPage, IObjectModifiedEvent)

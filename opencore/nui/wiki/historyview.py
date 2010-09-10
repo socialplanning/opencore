@@ -16,8 +16,8 @@ from plone.memoize import instance
 from topp.utils.pretty_date import prettyDate
 from view import WikiBase
 from zExceptions import Redirect
-from zope.app.annotation.interfaces import IAnnotations
-from zope.app.event.objectevent import ObjectModifiedEvent
+from zope.annotation.interfaces import IAnnotations
+from zope.lifecycleevent import ObjectModifiedEvent
 from zope.event import notify
 from zope.interface import alsoProvides, implements
 

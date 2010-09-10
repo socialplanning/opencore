@@ -5,7 +5,7 @@ from lxml.html.clean import Cleaner
 from opencore.i18n import _
 from opencore.i18n import translate
 from opencore.interfaces.message import ITransientMessage
-from zope.app.annotation import IAnnotations
+from zope.annotation import IAnnotations
 from zope.i18nmessageid import Message
 from zope.interface import implements
 from zope.component import adapts

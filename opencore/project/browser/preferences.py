@@ -19,7 +19,7 @@ from topp.featurelets.interfaces import IFeatureletSupporter
 from topp.featurelets.supporter import FeatureletSupporter, IFeaturelet
 from topp.utils import text
 from topp.utils import zutils
-from zope.app.container.contained import IObjectRemovedEvent
+from zope.lifecycleevent import IObjectRemovedEvent
 from zope.component import adapter, adapts
 from zope.interface import implements
 from zope.component import getUtility, getAdapters, getMultiAdapter

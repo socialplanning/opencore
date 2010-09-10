@@ -2,12 +2,12 @@ from PIL import Image
 from StringIO import StringIO
 from Missing import Value as MissingValue
 from Acquisition import aq_parent
-from zope.app.annotation.interfaces import IAnnotations
+from zope.annotation.interfaces import IAnnotations
 from Products.Archetypes.interfaces import IBaseObject
 from Products.CMFCore.interfaces._content import IDynamicType
 from Products.CMFCore.interfaces._tools import ICatalogTool
 from Products.CMFCore.utils import getToolByName
-from Products.CMFPlone.CatalogTool import registerIndexableAttribute
+#from Products.CMFPlone.CatalogTool import registerIndexableAttribute
 from opencore.interfaces.workflow import IReadWorkflowPolicySupport
 from Products.ZCatalog.CatalogBrains import AbstractCatalogBrain
 from Products.listen.interfaces import ISearchableArchive
@@ -254,7 +254,8 @@ def registerInterfaceIndexer(idx, iface, method=None, default=None):
         if method:
             return getattr(adapter, method)()
         return adapter
-    registerIndexableAttribute(idx, indexfx)
+    return
+    #registerIndexableAttribute(idx, indexfx)
 
 def register_indexable_attrs():
     registerInterfaceIndexer(PROJECT_POLICY, IReadWorkflowPolicySupport,

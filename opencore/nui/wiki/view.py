@@ -10,7 +10,7 @@ from Products.CMFCore.utils import getToolByName
 from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
 from StringIO import StringIO
 from zExceptions import BadRequest
-from zope.app.event import objectevent
+from zope.lifecycleevent import ObjectModifiedEvent
 from zope.component import getUtility
 from zope.event import notify
 
@@ -280,7 +280,7 @@ class WikiEdit(WikiBase, OctopoLite):
 
         # this updates things like last modified author on a wiki page
         # it's important to do this before the repo saves the new version
-        notify(objectevent.ObjectModifiedEvent(self.context))
+        notify(ObjectModifiedEvent(self.context))
 
         repo = getToolByName(self.context, 'portal_repository')
         repo.save(self.context, comment = self.request.form.get('comment', ''))

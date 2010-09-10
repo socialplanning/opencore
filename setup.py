@@ -50,7 +50,7 @@ setup(
         'http://svn.sccs.swarthmore.edu/egj/zope_i18n_fork_r105273#egg=zope.i18n-3.7.2opencore',
         ],
     install_requires=[
-        'borg.localrole==2.0.1',
+        'borg.localrole',#==2.0.1',
         'decorator',
         'feedparser',
         'flunc>=0.6dev',
@@ -61,15 +61,15 @@ setup(
         'oc-feed>=0.4',
         'OpencoreRedirect==dev,>=0.5dev',
         'plone.mail',
-        'Products.CacheSetup==1.2.1',
-        'Products.GenericSetup<1.5',
+        #'Products.CacheSetup',#==1.2.1',
+        'Products.GenericSetup',#<1.5',
         'simplejson',
         'topp.featurelets>=0.3.0',
         'topp.utils>=0.5.1',
         'uuid',
         'zc.queue',
         'zcmlloader',
-        'zope.i18n==3.7.2opencore',
+#        'zope.i18n==3.7.2opencore',
         'five.intid==0.4.1',
         'Products.QueueCatalog',
         ],
@@ -86,5 +86,7 @@ setup(
       oc-js = opencore.js
       topp.utils = topp.utils
       topp.featurelets = topp.featurelets
+      [z3c.autoinclude.plugin]
+      plone = opencore
       """,
     )

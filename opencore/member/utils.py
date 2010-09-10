@@ -4,7 +4,7 @@ Small helper methods supporting member-related OpenCore behaviour.
 
 from Products.CMFCore.utils import getToolByName
 from opencore.member.interfaces import REMOVAL_QUEUE_KEY
-from zope.app.annotation import IAnnotations
+from zope.annotation import IAnnotations
 import logging
 
 logger = logging.getLogger('opencore.member.utils')

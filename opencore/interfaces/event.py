@@ -1,6 +1,6 @@
 from zope.interface import Interface, implements
-from zope.app.event.interfaces import IObjectModifiedEvent, IObjectCreatedEvent
-from zope.app.event.objectevent import ObjectModifiedEvent, ObjectCreatedEvent
+from zope.lifecycleevent.interfaces import IObjectModifiedEvent, IObjectCreatedEvent
+from zope.lifecycleevent import ObjectModifiedEvent, ObjectCreatedEvent
 
 
 class IAfterProjectAddedEvent(Interface):

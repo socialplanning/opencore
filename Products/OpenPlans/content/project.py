@@ -26,7 +26,7 @@ from opencore.configuration import OC_REQ as OPENCORE
 from opencore.content.fields import SquareScaledImageField
 from opencore.interfaces import IProject
 from opencore.project.utils import project_noun
-from zope.app.annotation.interfaces import IAttributeAnnotatable
+from zope.annotation.interfaces import IAttributeAnnotatable
 from zope.component import queryMultiAdapter
 from zope.interface import Interface, implements
 import logging
@@ -396,4 +396,4 @@ class OpenProject(BrowserDefaultMixin, TeamSpaceMixin, BaseBTreeFolder):
 
         return super(OpenProject, self).__bobo_traverse__(REQUEST, name)
 
-registerType(OpenProject)
+registerType(OpenProject, 'Products.OpenPlans')
