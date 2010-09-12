@@ -20,7 +20,7 @@ from opencore.project.browser.email_invites import EmailInvites
 from opencore.utils import get_workflow_policy_config
 from opencore.utility.interfaces import IProvideSiteConfig
 from plone.app.controlpanel.markup import IMarkupSchema
-from zope.app.annotation import IAnnotations
+from zope.annotation import IAnnotations
 from zope.app.component.hooks import setSite
 from zope.component import queryUtility
 from zope.interface import alsoProvides
@@ -39,7 +39,7 @@ Z_DEPS = ('PlacelessTranslationService', 'Five', 'membrane', 'remember',
 MEM_DEPS = ('membrane', 'remember')
 
 DEPS = ('TeamSpace', 'CMFPlacefulWorkflow', 'RichDocument', 'listen',
-        'CMFDiffTool', 'CMFEditions', 'PleiadesGeocoder'
+        'PleiadesGeocoder'
        )
 
 logger = None
