@@ -1,6 +1,5 @@
 from Acquisition import aq_base
 from Products.CMFCore.utils import getToolByName
-from Products.Five.site.localsite import disableLocalSiteHook
 from opencore.upgrades.utils import run_import_step
 from opencore.upgrades.utils import logger
 from zope.app.component.hooks import setSite
@@ -10,6 +9,11 @@ from zope.interface import Interface
 from zope.interface import providedBy
 
 from opencore.upgrades.utils import default_profile_id
+
+try:
+    from Products.Five.site.localsite import disableLocalSiteHook
+except ImportError:
+    pass
 
 def import_opencore_profile(context):
     """

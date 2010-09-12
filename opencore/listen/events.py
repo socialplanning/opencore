@@ -1,7 +1,7 @@
 from decorator import decorator
 
 from zope.component import getUtility
-from zope.app.event.objectevent import ObjectCreatedEvent
+from zope.lifecycleevent import ObjectCreatedEvent
 from zope.event import notify
 
 from Products.CMFCore.utils import getToolByName

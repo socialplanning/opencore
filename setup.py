@@ -70,7 +70,7 @@ setup(
         'zc.queue',
         'zcmlloader',
 #        'zope.i18n==3.7.2opencore',
-        'five.intid==0.4.1',
+        'five.intid==0.5.1',
         'Products.QueueCatalog',
         ],
     
