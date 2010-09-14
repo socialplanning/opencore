@@ -128,6 +128,14 @@
      template="about-block.pt"
      />
   
+  <browser:page
+     class="opencore.browser.base.BaseView"
+     for="opencore.interfaces.IOpenSiteRoot"
+     permission="zope2.View"
+     name="homepage-about"
+     template="homepage-about.pt"
+     />
+  
   <!-- news -->
   <browser:page
      for="opencore.interfaces.adding.IAmANewsFolder"
