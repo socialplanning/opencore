@@ -63,6 +63,8 @@ class AccountView(BaseView):
         """ send a mail to a pending user """
         # TODO only send mail if in the pending workflow state
         root = getToolByName(self.context, 'portal_url')()
+        if isinstance(user_name, str):
+            user_name = user_name.decode("utf8")
         message = _(u'email_to_pending_user',
                     mapping={u'user_name':user_name,
                              u'url':url,
@@ -77,5 +79,5 @@ class AccountView(BaseView):
         sender = EmailSender(self.portal, secureSend=True)
 
         sender.sendEmail(mto=email,
-                        msg=message,
-                        subject=subject)
+                         msg=message,
+                         subject=subject)
