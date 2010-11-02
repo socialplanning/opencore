@@ -18,7 +18,7 @@ from opencore.interfaces.membership import IEmailInvites
 from opencore.member.interfaces import REMOVAL_QUEUE_KEY
 from opencore.project.browser.email_invites import EmailInvites
 from opencore.utils import get_workflow_policy_config
-from opencore.utility.interfaces import IProvideSiteConfig
+from opencore.utils import get_config
 from plone.app.controlpanel.markup import IMarkupSchema
 from zope.app.annotation import IAnnotations
 from zope.app.component.hooks import setSite
@@ -359,9 +359,8 @@ def setCookieDomain(portal, out):
     bid_mgr = app._getOb('browser_id_manager', None)
     if bid_mgr is not None:
         setSite(portal)
-        siteconfig = queryUtility(IProvideSiteConfig)
         # Hardcoded domain here is just a fallback.
-        cookie_domain = siteconfig.get('cookie_domain', '.openplans.org')
+        cookie_domain = get_config('cookie_domain', default='.openplans.org')
         bid_mgr.setCookieDomain(cookie_domain)
         print >> out, "Set cookie domain to %s" % cookie_domain
 
@@ -483,13 +482,22 @@ def addCatalogQueue(portal, out):
 @setuphandler
 def local_fqdn_return_address(portal, out):
     """
-    If the boilerplate return address is there, we do a best-guess for
-    a valid email_from_address hostname by using the local FQDN.
+    The profile's properties.xml hard-codes `greetings@localhost.localdomain`
+    as the value for `email_from_address`. So, if that boilerplate address
+    is set, we'll change it to the real address, which can be found as a 
+    site config setting `email_from_address`. 
+
+    The `email_from_address` setting must look like a valid email address
+    for opencore to work properly, so if that setting doesn't exist, we'll
+    make a guess at a valid email_from_address hostname by using the local FQDN.
     """
     default = 'greetings@localhost.localdomain'
-    if portal.getProperty('email_from_address') == default:
-        addy = 'greetings@%s' % socket.getfqdn()
-        portal.manage_changeProperties(email_from_address=addy)
+    if portal.getProperty('email_from_address') != default:
+        return
+    address = get_config("email_from_address")
+    if address is None:
+        address = 'greetings@%s' % socket.getfqdn()
+    portal.manage_changeProperties(email_from_address=address)
 
 @setuphandler
 def activate_wicked(portal, out):
