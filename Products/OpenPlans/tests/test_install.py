@@ -12,6 +12,7 @@ from opencore.configuration import DEFAULT_ROLES
 from openplanstestcase import OpenPlansTestCase
 from opencore.interfaces.workflow import IWriteWorkflowPolicySupport
 from opencore.utils import get_workflow_policy_config
+from opencore.utils import get_config
 from opencore.nui.indexing import PROJECT_POLICY as ppidx
 from Products.OpenPlans.content.project import OpenProject 
 
@@ -59,7 +60,12 @@ class TestOpenPlansInstall(OpenPlansTestCase):
         self.failIf(self.portal.getProperty('validate_email'))
         self.assertEqual(self.portal.getProperty('title'),
                          'OpenCore Site')
-        addy = 'greetings@%s' % socket.getfqdn()
+        try:
+            addy = get_config('email_from_address')
+            if addy is None:
+                addy = 'greetings@%s' % socket.getfqdn()
+        except:
+            addy = 'greetings@%s' % socket.getfqdn()
         self.assertEqual(self.portal.getProperty('email_from_address'),
                          addy)
 
