@@ -60,14 +60,6 @@ class TestOpenPlansInstall(OpenPlansTestCase):
         self.failIf(self.portal.getProperty('validate_email'))
         self.assertEqual(self.portal.getProperty('title'),
                          'OpenCore Site')
-        try:
-            addy = get_config('email_from_address')
-            if addy is None:
-                addy = 'greetings@%s' % socket.getfqdn()
-        except:
-            addy = 'greetings@%s' % socket.getfqdn()
-        self.assertEqual(self.portal.getProperty('email_from_address'),
-                         addy)
 
     def test_install(self):
         # workflows are installed
