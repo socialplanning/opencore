@@ -239,8 +239,6 @@ class ContentExporter(object):
             finally:
                 temp.close()
 
-            
-
     def save_list_archives(self):
         self.status.progress_descr = _(u'Saving mailing lists')
         listfol = self.context['lists']
@@ -257,7 +255,7 @@ class ContentExporter(object):
             file_data = es.export_subscribers() or ''
             csv_path = '%s/lists/%s-subscribers.csv' % (self.context_dirname, mlistid)
             self.zipfile.writestr(csv_path, file_data)
-        
+
 
     def save_blogs(self):
         # For these we really do need to check featurelet status
@@ -278,17 +276,22 @@ class ContentExporter(object):
         http.timeout = 60
         response, content = http.request(url, 'GET', headers=headers)
         if int(response['status']) >= 400:
-            #self.status.fail('%s failure: %s' % (response['status'], content))
-            raise RuntimeError("Failure connecting to wordpress: %s" % content)
+            msg = ("Failure connecting to wordpress at %s: %s" %
+                   (url, content))
+            logger.error(msg)
+            self.status.fail(msg)
+            return
         # Weirdly, we get a 200 response if the blog doesn't exist.
         if content[:30].lower().startswith('no blog by that name'):
-            raise RuntimeError('Blog for project %r should exist but does not' 
-                               % self.context.getId())
+            msg = ('Blog for project %r should exist but does not' 
+                   % self.context.getId())
+            logger.error(msg)
+            self.status.fail(msg)
             return
         filename = response['content-disposition'].split('filename=')[-1]
         xml_path = '%s/blog/%s' % (self.context_dirname, filename) 
         self.zipfile.writestr(xml_path, content)
-        
+
     def _get_featurelets(self, project):
         supporter = IFeatureletSupporter(project)
         all_flets = [flet for name, flet in getAdapters((supporter,), 
