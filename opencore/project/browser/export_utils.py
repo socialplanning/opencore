@@ -289,12 +289,12 @@ class ContentExporter(object):
             self.status.fail(msg)
             return
 
-       if response.get('content-location').count('/login?came_from'):
+        if response.get('content-location').count('/login?came_from'):
             msg = 'Could not authenticate to blog %s' % url
             logger.error(msg)
             self.status.fail(msg)
             return
-       if not 'content-disposition' in response:
+        if not 'content-disposition' in response:
             msg = "No content-disposition in response?"
             logger.error(msg)
             self.status.fail(msg)
