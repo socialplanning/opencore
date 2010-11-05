@@ -26,7 +26,7 @@ import tempfile
 import threading
 import time
 import traceback
-
+import transaction
 
 TEMP_PREFIX='temp_project_export'
 
@@ -130,10 +130,17 @@ class ProjectExportQueueView(object):
                                   % name)
                     # XXX Is there actually any reason to keep the job around?
                     # Maybe failed jobs should be put elsewhere?
+
+        # Something somewhere is causing ZODB to try to
+        # save an instancemethod, which can't be pickled.
+        # Don't know what or why, but we don't need to save
+        # anything here.
+        transaction.abort()
         if count:
             logger.info('Reached end of project export job queue (exported %d)'
                         % count)
-            
+
+
     def export(self, project_id, status=None):
         """
         the async job should:
@@ -445,6 +452,5 @@ class EnhancedSubscriberExporter(object):
             if info['subscriber']:
                 continue
             file_data.append(','.join(['', '', email, 'allowed']))
-            
 
         return "\n".join(file_data)
