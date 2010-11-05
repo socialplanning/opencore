@@ -288,6 +288,17 @@ class ContentExporter(object):
             logger.error(msg)
             self.status.fail(msg)
             return
+
+       if response.get('content-location').count('/login?came_from'):
+            msg = 'Could not authenticate to blog %s' % url
+            logger.error(msg)
+            self.status.fail(msg)
+            return
+       if not 'content-disposition' in response:
+            msg = "No content-disposition in response?"
+            logger.error(msg)
+            self.status.fail(msg)
+            return
         # Weirdly, we get a 200 response if the blog doesn't exist.
         if content[:30].lower().startswith('no blog by that name'):
             msg = ('Blog for project %r should exist but does not' 
