@@ -47,11 +47,16 @@ for proj_id, proj in app.openplans.projects.objectItems(['OpenProject']):
 
     for mbrain in mship_brains:
         if mbrain.highestTeamRole == 'ProjectAdmin':
-            mem = portal.acl_users.getUser(mbrain.getId).__of__(portal.acl_users)
+            mem = portal.acl_users.getUser(mbrain.getId)
+            if not mem:
+                continue
+            mem = mem.__of__(portal.acl_users)
             print "Setting user to %s" % mbrain.getId
             newSecurityManager(None, mem)
             cookie = generate_cookie_value(mbrain.getId, SECRET)
             break
+    else:
+        print "couldn't find suitable admin user for %s" % proj_id
 
     print "Exporting %s..." % proj_id
     status = get_status(proj_id, context_url='/'.join([BASEURL, proj_id]),
