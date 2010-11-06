@@ -196,17 +196,24 @@ class ContentExporter(object):
         self.catalog = getToolByName(self.context, "portal_catalog")
 
     def save(self):
+        logger.info("Exporting %s ..." % self.path)
         sleep = lambda: time.sleep(TEST_SLEEPTIME)
+        logger.info("1. Saving docs")
         self.save_docs()
         sleep()
+        logger.info("2. Saving wiki pages")
         self.save_wiki_pages()
         sleep()
+        logger.info("3. Saving files")
         self.save_files()
         sleep()
+        logger.info("4. Saving mailing lists")
         self.save_list_archives()
         sleep()
+        logger.info("5. Saving blogs")
         self.save_blogs()
         sleep()
+        logger.info("done with %s" % self.path)
 
     def save_docs(self):
         self.status.progress_descr = _(u'Saving documentation')
@@ -248,20 +255,42 @@ class ContentExporter(object):
 
     def save_list_archives(self):
         self.status.progress_descr = _(u'Saving mailing lists')
-        listfol = self.context['lists']
+        try:
+            listfol = self.context['lists']
+        except KeyError:
+            logger.error("No lists subfolder on %s" % self.context.getId())
+            return
         for mlistid, mlist in listfol.objectItems(): # XXX filter more?
+            logger.info("exporting %s" % mlistid)
             setSite(mlist)  # Needed to get the export adapter.
+            mlistid = badchars.sub('_', mlistid)
             # Cargo-culted from listen/browser/import_export.py
             em = getAdapter(mlist, IMailingListMessageExport, name='mbox')
-            file_data = em.export_messages() or ''
-            mlistid = badchars.sub('_', mlistid)
-            self.zipfile.writestr('%s/lists/%s.mbox' % (self.context_dirname, mlistid),
-                                  file_data)
+            # Nooo don't do it all in memory, we have seen some huge archives.
+            #file_data = em.export_messages() or ''
+            #self.zipfile.writestr('%s/lists/%s.mbox' % (self.context_dirname, mlistid),
+            #                     file_data)
+            # Instead inline here is a modified version of export_messages().
+            tmpfd, tmpname = tempfile.mkstemp(suffix='.mbox')
+            temp_outfile = os.fdopen(tmpfd, 'w')
+            from Products.listen.interfaces import ISearchableArchive
+            sa = getUtility(ISearchableArchive, context=em.context)
+            sa.REQUEST = em.context.REQUEST
+            msgs = sa(sort_on='modification_date')
+            for msg in msgs:
+                temp_outfile.write(em._convert_to_mbox_msg(msg.getObject()))
+                temp_outfile.write('\n')
+            temp_outfile.close()
+            self.zipfile.write(tmpname,
+                               '%s/lists/%s.mbox' % (self.context_dirname, mlistid))
+            os.unlink(tmpname)
+            del(tmpfd)
             # Now the list subscribers.
             es = getAdapter(mlist, IMailingListSubscriberExport, name='csv')
             file_data = es.export_subscribers() or ''
             csv_path = '%s/lists/%s-subscribers.csv' % (self.context_dirname, mlistid)
             self.zipfile.writestr(csv_path, file_data)
+            logger.info("finished %s" % mlistid)
 
 
     def save_blogs(self):
