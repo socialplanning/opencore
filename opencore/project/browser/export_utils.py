@@ -135,7 +135,8 @@ class ProjectExportQueueView(object):
         # save an instancemethod, which can't be pickled.
         # Don't know what or why, but we don't need to save
         # anything here.
-        transaction.abort()
+        #import pdb; pdb.set_trace()
+        #transaction.abort()
         if count:
             logger.info('Reached end of project export job queue (exported %d)'
                         % count)
