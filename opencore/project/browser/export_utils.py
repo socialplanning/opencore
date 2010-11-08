@@ -276,7 +276,6 @@ class ContentExporter(object):
             temp_outfile = os.fdopen(tmpfd, 'w')
             from Products.listen.interfaces import ISearchableArchive
             sa = getUtility(ISearchableArchive, context=em.context)
-            sa.REQUEST = em.context.REQUEST
             msgs = sa(sort_on='modification_date')
             for msg in msgs:
                 temp_outfile.write(em._convert_to_mbox_msg(msg.getObject()))
