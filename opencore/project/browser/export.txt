@@ -112,21 +112,22 @@ Here's an example of export failure due to missing project:
     >>> qview()
     >>> status.failed
     True
-    >>> len(self.logged)
-    1
+    >>> len(self.logged) > 0
+    True
     >>> self.logged.pop(0).msg
     'Failure in export of project \'no-such-project\'...'
 
 
 And here's an example of success:
 
+    >>> self.logged = None
     >>> status = export_utils.get_status(proj.getId())
     >>> queue.put(status.name)
     >>> qview()
     >>> status.succeeded
     True
-    >>> len(self.logged)
-    1
+    >>> len(self.logged) > 0
+    True
     >>> self.logged.pop().msg
     'Reached end of project export job queue (exported 1)'
 
