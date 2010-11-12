@@ -27,6 +27,8 @@
 
   <!-- See zcmlloader; this loads all zcml from all packages that have a setuptools
        entry_point like [topp.zcmlloader] opencore = foo -->
+  <!-- but we should load any IProvideSiteConfig providers first -->
+  <topp:includePlugins target="opencore_siteconfig" />
   <topp:includePlugins target="opencore" />
 
 </configure>
