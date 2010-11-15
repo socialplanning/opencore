@@ -51,7 +51,8 @@ xinha_init = xinha_init ? xinha_init : function()
 //      'SuperClean',
 //      'UnFormat',
       'UnsavedChanges',
-      'TableOperations'
+    'TableOperations',
+    'WickedLinkValidator'
   ];
 
          // THIS BIT OF JAVASCRIPT LOADS THE PLUGINS, NO TOUCHING  :)
