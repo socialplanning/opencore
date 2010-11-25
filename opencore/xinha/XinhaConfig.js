@@ -52,7 +52,8 @@ xinha_init = xinha_init ? xinha_init : function()
 //      'UnFormat',
       'UnsavedChanges',
     'TableOperations',
-    'WickedLinkValidator'
+      //    'WickedLinkValidator',
+      //    'SidebarFormatBlock'
   ];
 
          // THIS BIT OF JAVASCRIPT LOADS THE PLUGINS, NO TOUCHING  :)
@@ -83,6 +84,7 @@ xinha_init = xinha_init ? xinha_init : function()
   xinha_config.width = "100%";
   xinha_config.height = "600px";
 
+  // @@ TODO: is this correct always?
   xinha_config.bodyClass = "oc-wiki-content";
 
   xinha_config.autofocus = true;
@@ -90,98 +92,6 @@ xinha_init = xinha_init ? xinha_init : function()
   xinha_config.ImageManager.backend = _image_backend_url;
   xinha_config.Linker.backend = _backend_url;
 
-  xinha_config.formatblock = {
-      'Normal' : {tag: 'p',
-                  invoker: function (xinha) {
-		      var blockquote = null
-                      var firstparent = xinha.getParentElement();
-		      if (firstparent.tagName != 'H2' && firstparent.tagName != 'H3' && firstparent.tagName != 'PRE') {
-			  blockquote = firstparent;
-			  while (blockquote !== null && blockquote.className.trim() != 'pullquote')
-			  {
-			      blockquote = blockquote.parentNode;
-			  }
-		      }
-		      if (blockquote)
-		      {
-			  var blockParent = blockquote.parentNode;
-			  var firstChild = null;
-			  while (blockquote.childNodes.length) {
-			      if (firstChild === null)
-			      {
-				  firstChild = blockquote.childNodes[0];
-			      }
-			      blockParent.insertBefore(blockquote.childNodes[0], blockquote);
-			  }
-			  blockParent.removeChild(blockquote);
-			  if (firstChild !== null)
-			  {
-			      // FIXME: this selects the entire first node, instead of just placing the
-			      // cursor at the beginning (or at the previous location where the cursor was).
-			      // Without this, the cursor hangs off to the side of the screen, where the
-			      // blockquote once had been.
-			      xinha.selectNodeContents(firstChild);
-			  }
-		      }
-                      else
-                      {
-			  if( !Xinha.is_gecko)
-			  {
-                              xinha.execCommand('formatblock', false, '<p>');
-			  }
-			  else
-			  {
-                              xinha.execCommand('formatblock', false, 'p');
-			  }
-                      }
-                  },
-                  // always return false, to give others a chance to override
-                  // if nobody else thinks they should be selected, then it will default
-                  // to normal because it comes first
-                  detect: function(xinha, el) { return false; }
-                 },
-      'Heading' : 'h2',
-      'Subheading' : 'h3',
-      'Pre-formatted' : 'pre',
-      'Sidebar' : {tag: 'div',
-                      invoker: function (xinha) {
-                          var el = xinha.getParentElement();
-                          if (el.tagName.toUpperCase() == 'BODY')
-                          {
-                              //put div around selection
-                              if (xinha.hasSelectedText()){
-                                  selhtml = xinha.getSelectedHTML();
-                                  newhtml = '<div class="pullquote">' + selhtml + '</div>';
-                                  xinha.insertHTML(newhtml);
-                              }
-                          }
-                          else
-                          {
-                              //put div around current block
-                              while (el !== null & !Xinha.isBlockElement(el)){
-                                  el = el.parentNode;
-                              }
-                              if (el) {
-                                  el_parent = el.parentNode;
-                                  div = xinha._doc.createElement('div');
-                                  div.className = "pullquote";
-                                  el_parent.replaceChild(div, el);
-                                  div.appendChild(el);
-                              }
-                          }
-                          xinha.updateToolbar()
-                      },
-                      detect: function (xinha, el) {
-                        while (el !== null) {
-                          if (el.nodeType == 1 && el.tagName.toUpperCase() == 'DIV') {
-                            return /\bpullquote\b/.test(el.className);
-                          }
-                          el = el.parentNode;
-                        }
-                        return false;
-                      }
-                     }
-  };
   xinha_config.flowToolbars = false;
 
   //this is the standard toolbar, feel free to remove buttons as you like
