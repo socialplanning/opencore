@@ -2,6 +2,8 @@
 	   xmlns:browser="http://namespaces.zope.org/browser"
 	   >
 
+  <include file="meta.zcml" />
+
   <!-- these are for xinha 0.96 -->
   <browser:resource
      file="opencore-skin.css"
@@ -10,6 +12,11 @@
   <browser:resource
      file="XinhaConfig.js"
      name="opencore-xinha-config.js"
+     />
+
+  <opencore:resourceDirectory
+     name="xinha-plugins"
+     directory="plugins"
      />
 
   <browser:page

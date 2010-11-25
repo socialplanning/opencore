@@ -52,8 +52,14 @@ xinha_init = xinha_init ? xinha_init : function()
    //      'UnFormat',
    'UnsavedChanges',
    'TableOperations',
-   //'WickedLinkValidator',
-   //    'SidebarFormatblock'
+   { 
+       plugin: 'WickedLinkValidator'.
+       url:    '/++resource++xinha-plugins/WickedLinkValidator/WickedLinkValidator.js'
+   },
+   {
+       plugin: 'SidebarFormatblock',
+       url:    '/++resource++xinha-plugins/SidebarFormatblock/SidebarFormatblock.js'
+   }
   ];
 
          // THIS BIT OF JAVASCRIPT LOADS THE PLUGINS, NO TOUCHING  :)
