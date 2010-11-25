@@ -37,23 +37,23 @@ xinha_init = xinha_init ? xinha_init : function()
 
   xinha_plugins = xinha_plugins ? xinha_plugins :
   [
-      'GetHtml',
-//      'HtmlTidy',
-      'ImageManager',
-      'InsertAnchor',
-      'InsertWords',
-//      'InternalLink',
-      'Linker',
-//      'ListType',
-//      'PasteText',
-//      'SetId',
-//      'Stylist',
-//      'SuperClean',
-//      'UnFormat',
-      'UnsavedChanges',
-    'TableOperations',
-      //    'WickedLinkValidator',
-      //    'SidebarFormatBlock'
+   'GetHtml',
+   //      'HtmlTidy',
+   'ImageManager',
+   'InsertAnchor',
+   'InsertWords',
+   //      'InternalLink',
+   'Linker',
+   //      'ListType',
+   //      'PasteText',
+   //      'SetId',
+   //      'Stylist',
+   //      'SuperClean',
+   //      'UnFormat',
+   'UnsavedChanges',
+   'TableOperations',
+   //'WickedLinkValidator',
+   //    'SidebarFormatblock'
   ];
 
          // THIS BIT OF JAVASCRIPT LOADS THE PLUGINS, NO TOUCHING  :)
