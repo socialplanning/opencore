@@ -134,6 +134,7 @@
      permission="teamspace.ManageTeamMemberships"
      />
 
+<!--
   <opencore:menuitem
      name="Export"
      filter=".viewlet.contained_within"
@@ -142,6 +143,7 @@
      sort_order="85"
      permission="teamspace.ManageTeamMemberships"
      />
+-->
 
   <opencore:menuitem
      name="Join Project"
