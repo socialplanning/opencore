@@ -70,10 +70,10 @@
                   <label for="description" i18n:translate="">Description</label>
                   <textarea id="description" name="description" tal:content="context/Description" />
                 </tal:description>
-                <textarea id="rawtext" name="rawtext" style="overflow:hidden; display:none;" tal:content="view/rawtext"></textarea>
+                <textarea id="rawtext" name="rawtext" style="display:none;" tal:content="view/rawtext"></textarea>
                 <script type="text/javascript">
                   <!--
-                  document.write('                <textarea editor-type="wysiwyg" id="text" name="text" style="overflow:hidden; display: none;" rows="10" cols="80" width="800px" height="600px" base="advanced"><' + '/textarea>');
+                  document.write('                <textarea editor-type="wysiwyg" id="text" name="text" style="display: none;" rows="10" cols="80" width="800px" height="600px" base="advanced"><' + '/textarea>');
                   elraw = document.getElementById("rawtext");
                   eltxt = document.getElementById("text");
                   eltxt.innerHTML = elraw.innerHTML;
