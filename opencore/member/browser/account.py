@@ -284,7 +284,7 @@ class MemberAccountView(BaseView, OctopoLite):
 
         admin_ids = team.get_admin_ids()
         transient_msgs = ITransientMessage(self.portal)
-        id_ = self.loggedinmember.getId()
+        id_ = self.viewed_member_info['id']
         member_url = u'%s/%s' % (getToolByName(self.context, 'portal_url')(),
                                  member_path(id_))
         project_url = self.project_url(proj_id)
@@ -325,7 +325,7 @@ class MemberAccountView(BaseView, OctopoLite):
         if not self._apply_transition_to(proj_id, 'reject_by_owner'):
             return {}
 
-        id_ = self.loggedinmember.getId()
+        id_ = self.viewed_member_info['id']
 
         # there must be a better way to get the last wf transition which was an invite... right?
         wftool = self.get_tool("portal_workflow")
