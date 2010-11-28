@@ -431,7 +431,7 @@ class MemberAccountView(BaseView, OctopoLite):
                                           u'Please enter your new email address.'))
             return
 
-        mem = self.loggedinmember
+        mem = self.viewedmember()
         msg = mem.validate_email(email)
         if msg:
             self.addPortalStatusMessage(msg)
