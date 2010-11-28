@@ -53,7 +53,7 @@ xinha_init = xinha_init ? xinha_init : function()
    'UnsavedChanges',
    'TableOperations',
    { 
-       plugin: 'WickedLinkValidator'.
+       plugin: 'WickedLinkValidator',
        url:    '/++resource++xinha-plugins/WickedLinkValidator/WickedLinkValidator.js'
    },
    {
