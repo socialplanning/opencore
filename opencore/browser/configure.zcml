@@ -148,6 +148,12 @@
      permission="zope2.View"
      />
 
+  <browser:viewletManager
+     name="opencore.extra.footer"
+     provides=".interfaces.IExtraFooter"
+     permission="zope2.View"
+     />
+
   <!-- Temporary util view until we sort out custom namespace issues -->
   <browser:view
     for="*"
