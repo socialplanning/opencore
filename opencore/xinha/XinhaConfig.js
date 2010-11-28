@@ -115,7 +115,7 @@ xinha_init = xinha_init ? xinha_init : function()
         ["killword", "separator"]
   ];
 
-  xinha_config.TableOperations.forceToolbarLineBreak = false;
+  xinha_config.TableOperations.addToolbarLineBreak = false;
 
    // To adjust the styling inside the editor, we can load an external stylesheet like this
    // NOTE : YOU MUST GIVE AN ABSOLUTE URL
