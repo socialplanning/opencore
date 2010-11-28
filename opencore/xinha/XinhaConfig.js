@@ -42,6 +42,7 @@ xinha_init = xinha_init ? xinha_init : function()
    'ImageManager',
    'InsertAnchor',
    'InsertWords',
+   'InsertNote',
    //      'InternalLink',
    'Linker',
    //      'ListType',
