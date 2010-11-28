@@ -1,6 +1,9 @@
 0.19.0 (unreleased)
 ===================
 
+ * Bugfixes when a site admin is acting on another user's account
+   page: #2929 (egj)
+
  * Updated Greek translation. (dimo)
 
  * Project content export is now linked from the top nav, and
