@@ -1,8 +1,10 @@
 
 # Stub tests for the export form.
 
-go ${base_url}/projects/${projname}/
-follow "export"
+# for now the link is hidden, so we'll go to it directly
+#go ${base_url}/projects/${projname}/
+#follow "export"
+go ${base_url}/projects/${projname}/export
 code 200
 
 # can't do much else w/ a form that works asynchronously...
