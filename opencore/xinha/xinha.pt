@@ -1,7 +1,5 @@
 <link type="text/css" rel="stylesheet" href="/++resource++opencore-xinha-skin.css"/>
 
-<script type="text/javascript" src="/++resource++saver/saver.js"></script>
-
 <script type="text/javascript" tal:content="string:
 var _editor_url = '/++resource++xinha97/';
 var _editor_lang = '${view/xinha_lang_code}';
