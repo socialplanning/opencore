@@ -502,9 +502,33 @@ NuiSearchDebugView = make_nui_listen_view_class(SearchDebugView)
 NuiArchiveSearchView  = make_nui_listen_view_class(ArchiveSearchView)
 NuiListLookupView = make_nui_listen_view_class(ListLookupView)
 
+NuiManageMembersViewClass = make_nui_listen_view_class(ManageMembersView)
 
+from opencore.utils import get_config
 
-class NuiManageMembersView(make_nui_listen_view_class(ManageMembersView)):
+class NuiManageMembersView(NuiManageMembersViewClass):
+
+    def can_subscribe_others(self):
+        try:
+            if self.get_tool(
+                "portal_membership").checkPermission(
+                "Modify portal content", self.portal):
+                return True
+        except:
+            pass
+
+        trusted_admins = [i.strip() for i in
+                          get_config("trusted_list_admins", default="").split(",")]
+        try:
+            if self.loggedinmember.getId() in trusted_admins:
+                return True
+        except:
+            pass
+
+        return False
+
+    def _add(self, user, subscribed):
+        return NuiManageMembersViewClass._add(self, user, subscribed, subscribe_directly=True)
 
     def obfuscate(self, email):
         # Manager has historically been allowed to see these email addresses.
