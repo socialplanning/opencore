@@ -528,7 +528,12 @@ class NuiManageMembersView(NuiManageMembersViewClass):
         return False
 
     def _add(self, user, subscribed):
-        return NuiManageMembersViewClass._add(self, user, subscribed, subscribe_directly=True)
+        subscribe_directly = False
+        form = self.request.form
+        if form.get("add_directsubscribe", None):
+            subscribe_directly = True
+        return NuiManageMembersViewClass._add(self, user, subscribed, 
+                                              subscribe_directly=subscribe_directly)
 
     def obfuscate(self, email):
         # Manager has historically been allowed to see these email addresses.

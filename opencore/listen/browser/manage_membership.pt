@@ -21,7 +21,10 @@
               <th scope="col" i18n:translate="manage_membership_user">Address / User ID</th>
               <th scope="col" i18n:translate="manage_membership_subscribed">Subscribed</th>
               <th scope="col"></th>
-
+	      <th scope="col" i18n:translate="manage_membership_directsubscribe"
+		  tal:condition="view/can_subscribe_others">
+		Subscribe directly (skip confirmation)
+	      </th>
               <th scope="col"></th>
 
             </tr>
@@ -44,6 +47,10 @@
               <td>
                 <span tal:replace="user/pending_status " />
               </td>
+	      <td tal:condition="view/can_subscribe_others">
+		<input tal:attributes="name string:directsubscribe_${user/id}"
+		       type="checkbox" tal:condition="not:user/subscriber">
+	      </td>
 
               <td>
                 <a tal:condition="user/is_member"
@@ -72,7 +79,12 @@
               </td>
 
               <td />
-
+	      <td tal:condition="view/can_subscribe_others">
+		<input type="checkbox" name="add_directsubscribe" />
+		<label i18n:translate="manage_membership_directsubscribe"
+		       for="add_directsubscribe">
+		  Subscribe directly (skip confirmation)</label>
+	      </td>
 	      <td />
 
             </tr>
