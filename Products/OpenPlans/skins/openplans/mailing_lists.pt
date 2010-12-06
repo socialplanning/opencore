@@ -24,7 +24,7 @@
       </div>
 
       <h1 tal:content="object_title" class="documentFirstHeading">
-        Title or id
+        <tal:comment replace="nothing">Title or id</tal:comment>
       </h1>
 
       <a href=""
@@ -37,7 +37,7 @@
       </a>
 
       <div class="documentDescription" tal:content="here/Description">
-        description
+        <tal:comment replace="nothing">description</tal:comment>
       </div>
 
       <a href="opencore.add_mailinglist"
@@ -85,7 +85,7 @@
                        tal:attributes="href python:test(item_type in use_view_action, item_url+'/view', item_url+'/');
                                        class string:$item_wf_state_class visualIconPadding"
                        tal:content="item_title_or_id">
-                      Item Title
+                      <tal:comment replace="nothing">Item Title</tal:comment>
                     </a>
                   </span>
 
@@ -146,7 +146,7 @@
                     &nbsp; 
                   </span> 
                   <span tal:omit-tag="" tal:content="item_description"> 
-                    description 
+                    <tal:comment replace="nothing">description </tal:comment>
                   </span> 
                 </dd>
               </tal:block>

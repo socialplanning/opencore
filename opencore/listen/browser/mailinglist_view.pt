@@ -20,7 +20,7 @@
                 Address
               </dt>
               <dd tal:content="structure view/address">
-                address@example.com
+                <tal:comment replace="nothing">address@example.com</tal:comment>
               </dd>
             </tal:email>
             <tal:managers tal:condition="view/list_managers">
@@ -39,14 +39,14 @@
               Type
             </dt>
             <dd tal:content="view/list_type">
-              List type
+              <tal:comment replace="nothing">List type</tal:comment>
             </dd>
             <dt i18n:translate="mailinglist_view_archive" id="archival-state">
               Message archive
             </dt>
             <dd>
               <span tal:content="view/archived">
-                Messages to this list are archived
+                <tal:comment replace="nothing">Messages to this list are archived</tal:comment>
               </span>
               <a tal:condition="view/is_archived" tal:attributes="href python:'%s/archive' % view.context.absolute_url()" i18n:translate="mailinglist_view_archive_link">
                 View messages.

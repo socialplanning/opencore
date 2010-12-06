@@ -13,7 +13,7 @@
           <div class="oc-widget-search oc-boxy">
             <form action="./search_archive">
                 <label class="oc-label-heading oc-biggerText" for="text" tal:content="view/Title">
-                  Search:
+                  <tal:comment replace="nothing">Search:</tal:comment>
                 </label>
 
                 <input name="search_text" type="text"
@@ -32,9 +32,9 @@
                  summary="Search results" cellspacing="0">
             <thead>
               <tr>
-                <th  scope="col">&nbsp;<tal:title i18n:translate="listen_search_subject"
+                <th scope="col">&nbsp;<tal:title i18n:translate="listen_search_subject"
                 >Subject</tal:title>&nbsp;</th>
-                <th  scope="col">&nbsp;<tal:title i18n:translate="listen_search_creator"
+                <th scope="col">&nbsp;<tal:title i18n:translate="listen_search_creator"
                 >Started by</tal:title>&nbsp;</th>
               </tr>
             </thead>
@@ -48,7 +48,7 @@
                     <a href="#"
                        tal:content="item/brief_subject"
                        tal:attributes="href item/url">
-                    Subject</a>
+                    <tal:comment replace="nothing">Subject</tal:comment></a>
                   </td>
                   <td>
                     <a href="." tal:omit-tag="not:item/from_id"

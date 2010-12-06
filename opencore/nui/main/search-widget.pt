@@ -81,7 +81,7 @@
   <div tal:condition="python:current_search_page=='people'" 
        style="border-top: 1px dotted #332F2A; padding-top: 5px;">
     <form tal:attributes="action string:${context/portal_url}/people/location-search">
-      <label for="location" class="oc-discreetText">
+      <label for="location" class="oc-discreetText" i18n:translate="">
 	Search by location:
       </label>
       <input type="text" name="location" class="oc-input-typeText" 

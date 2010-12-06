@@ -12,7 +12,7 @@
         <table width="100%">
           <tr>
             <td>
-              <h1 tal:content="here/pretty_title_or_id" class="documentFirstHeading"> Title or id </h1>
+              <h1 tal:content="here/pretty_title_or_id" class="documentFirstHeading"> <tal:comment replace="nothing">Title or id</tal:comment> </h1>
             </td>
             <td>
               <div metal:use-macro="here/document_byline/macros/byline">

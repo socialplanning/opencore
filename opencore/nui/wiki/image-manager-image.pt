@@ -14,7 +14,7 @@
       <div class="edit">
         <a tal:attributes="href string:backend-upload?task|${image/id}|delete-image=del&amp;att=${image/id}" title="Trash" i18n:attributes="title" onclick="return confirmDeleteFile('');">
           <img src="/++resource++img/edit_trash.gif" alt="Trash" i18n:attributes="alt" height="15" width="15" /></a>
-        <span tal:replace="width"/>x<span tal:replace="height"/>
+        <span tal:replace="width"/><tal:comment replace="nothing">x</tal:comment><span tal:replace="height"/>
       </div>
     </div>
   </tal:setvar>

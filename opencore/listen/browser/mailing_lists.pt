@@ -44,7 +44,7 @@
                           <dt class="oc-bigText">
                             <a href="#" tal:content="list_title_or_id"
                               tal:attributes="href list_url">
-                              Item Title
+                              <tal:comment replace="nothing">Item Title</tal:comment>
                             </a>
                             <span class="oc-discreetText"><span tal:condition="view/loggedin" tal:replace="python:'(' + list.getObject().mailto + ')'" /></span>
                           </dt>

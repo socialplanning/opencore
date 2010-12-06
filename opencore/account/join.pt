@@ -161,7 +161,7 @@
           </fieldset>
           
         </form>
-        <p i18n:translate="join_description" tal:condition="not:fdata/getUser | nothing" class="oc-discreetText">
+        <p i18n:translate="join_description_not_share_email " tal:condition="not:fdata/getUser | nothing" class="oc-discreetText">
           We will not share your email with anyone. Ever.
         </p>
       </div><!-- end #oc-content-main -->

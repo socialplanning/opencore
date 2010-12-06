@@ -49,7 +49,7 @@
               </td>
 	      <td tal:condition="view/can_subscribe_others">
 		<input tal:attributes="name string:directsubscribe_${user/id}"
-		       type="checkbox" tal:condition="not:user/subscriber">
+		       type="checkbox" tal:condition="not:user/subscriber" />
 	      </td>
 
               <td>

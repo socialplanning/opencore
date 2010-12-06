@@ -106,7 +106,7 @@
                       
 
             <div class="documentDescription" tal:content="authorinfo/description">
-                Author description.
+                <tal:comment replace="nothing">Author description.</tal:comment>
             </div>
 
             <div class="visualClear"><!-- --></div>

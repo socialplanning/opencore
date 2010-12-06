@@ -5,35 +5,40 @@
     <li><a i18n:translate="footer_contact_link" tal:attributes="href string:${here/portal_url}/contact-site-admin">contact</a></li>
     <li><a i18n:translate="footer_news_link" tal:attributes="href string:${here/portal_url}/news">news</a></li>
     <li><a i18n:translate="footer_help_link" tal:attributes="href string:${here/portal_url}/help">help</a></li>
-    <!-- <li><a tal:attributes="href string:${here/portal_url}/legal">legal</a></li> -->
-    <!-- <li><a tal:attributes="href string:${here/portal_url}/privacy">privacy</a></li> -->
+    <!-- <li><a i18n:translate="footer_legal_link" tal:attributes="href string:${here/portal_url}/legal">legal</a></li> -->
+    <!-- <li><a i18n:translate="footer_privacy_link" tal:attributes="href string:${here/portal_url}/privacy">privacy</a></li> -->
   </ul>
 
-  <div i18n:translate="footer_stats_summary" id="oc-footer-about"
-       tal:define="people_url string:${here/portal_url}/people;
-	           projects_url string:${here/portal_url}/projects">
-    <tal:comment replace="nothing">
+  <div tal:define="people_url string:${here/portal_url}/people;
+	           projects_url string:${here/portal_url}/projects"
+       id="oc-footer-about" i18n:translate="footer_stats_summary">
+
+    <tal:comment replace="nothing" i18n:name="hack_values_i18n_mapping">
       <!-- a hack to get these values into the i18n mapping -->
-      <tal:dummy i18n:name="people_url" replace="people_url" />
-      <tal:dummy i18n:name="projects_url" replace="projects_url" />
+      <tal:dummy replace="people_url" />
+      <tal:dummy replace="projects_url" />
     </tal:comment>
+
     <span i18n:name="portal_title" tal:replace="string:${view/portal_title}" /> is
-    <a tal:attributes="href people_url">
-      <span i18n:name="num_people" tal:replace="string:${view/nusers}"/>
-      people</a>
+
+    <a i18n:name="num_people" tal:attributes="href people_url">
+      <span i18n:name="label_num_people" tal:replace="string:${view/nusers}"/>
+      <span i18n:translate="label_people">people</span>
+    </a>
     and
-    <a tal:attributes="href projects_url">
-      <span i18n:name="num_projects" tal:replace="string:${view/projects_served_count}"/>
-      <span i18n:name="project_noun" tal:replace="view/project_noun">project</span>s</a>
+    <a i18n:name="num_projects" tal:attributes="href projects_url">
+      <span i18n:name="label_num_projects" tal:replace="string:${view/projects_served_count}"/>
+      <span i18n:name="label_projects" tal:replace="view/project_noun">project</span>(s)</a>
     since
     <span i18n:name="site_birthdate" tal:replace="string:${view/dob}" />.<br />
+
   </div>
   
   <div tal:content="structure provider:opencore.extra.footer">
   </div>
 
-  <div>
-    Powered by <a href="http://www.coactivate.org/projects/opencore/">OpenCore</a>
+  <div i18n:translate="powered-by-opencore">
+    Powered by <a href='http://www.coactivate.org/projects/opencore/'>OpenCore</a>
   </div>
  </div>
 </div>

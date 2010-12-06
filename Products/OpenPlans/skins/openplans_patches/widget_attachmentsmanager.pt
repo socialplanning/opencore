@@ -30,7 +30,7 @@
                         tal:attributes="href  item_url;
                                         title desc;"
                         tal:content="item/pretty_title_or_id">
-                        Related Item
+                        <tal:comment replace="nothing">Related Item</tal:comment>
                     </a>
                     </span>
                 </li>
@@ -123,7 +123,7 @@
 								value attachment/Title;"/>
 			<div class="discreet">
     			(<a href="" target="_blank" tal:attributes="href attachment/getURL"
-    				tal:content="attachment/getId">Id</a> -  
+    				tal:content="attachment/getId"><tal:comment replace="nothing">Id</tal:comment></a> -  
     			 <span tal:replace="attachment/getObjSize"/>)
 			 </div>
 		</td>
@@ -166,7 +166,7 @@
 		  <div class="formHelp" i18n:translate="manage_attachments_title_help">
 				Enter a title for the attachment
 		  </div>
-		  <div tal:content="error_title">Validation error output</div>
+		  <div tal:content="error_title"><tal:comment replace="nothing">Validation error output</tal:comment></div>
 		  <input type="string" 
 				 name="attachmentTitle" 
 				 size="30" 
@@ -183,7 +183,7 @@
 			Select an attachment to add and click 'Upload'
 		</div>
 		
-		<div tal:content="error_file">Validation error output</div>
+		<div tal:content="error_file"><tal:comment replace="nothing">Validation error output</tal:comment></div>
 
 		<input 				   
 			type="file" 

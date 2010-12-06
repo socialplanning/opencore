@@ -4,7 +4,7 @@
       <div class="oc-js-liveEdit-value">
         <a target="_blank" 
           tal:attributes="href attachment/getURL | attachment/absolute_url"
-          tal:content="attachment/Title | attachment/getId">Id</a>  
+          tal:content="attachment/Title | attachment/getId"><tal:comment replace="nothing">Id</tal:comment></a>  
         <span class="oc-discreetText" tal:content="attachment/getObjSize"></span>
       </div><!-- end .liveEdit-value -->  
     </li>

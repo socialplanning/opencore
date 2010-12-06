@@ -14,7 +14,7 @@
             define="news_interface python:modules['opencore.interfaces'].INewsItem"
             condition="python:news_interface.providedBy(context)">
             <p tal:content="context/Description">
-              News item description goes here
+              <tal:comment replace="nothing">News item description goes here</tal:comment>
             </p>
           </tal:description>
 

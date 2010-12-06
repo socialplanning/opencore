@@ -88,14 +88,14 @@ Need a username and password?
              tal:attributes="class python:test(error, 'field error', 'field')">
 
             <label i18n:translate="label_login_name"
-                   tal:attributes="for ac_name">Login Name</label>
+                   tal:attributes="for ac_name"><tal:comment replace="nothing">Login Name</tal:comment></label>
 
             <div i18n:translate="help_login_name_caps"
                  class="formHelp">
             Login names are case sensitive, make sure the caps lock key is not enabled.
             </div>
 
-            <div tal:content="error">Validation error output</div>
+            <div tal:content="error"><tal:comment replace="nothing">Validation error output</tal:comment></div>
 
             <input type="text"
                    size="15"
@@ -121,7 +121,7 @@ Need a username and password?
                 </div>
             </div>
 
-            <div tal:content="error">Validation error output</div>
+            <div tal:content="error"><tal:comment replace="nothing">Validation error output</tal:comment></div>
 
             <input type="password"
                    size="15"

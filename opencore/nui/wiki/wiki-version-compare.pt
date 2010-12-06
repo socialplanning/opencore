@@ -61,7 +61,7 @@
                 <!-- meta -->
                 <span i18n:translate="">by</span> <a tal:define="author view/new_version/sys_metadata/principal" 
                             tal:attributes="href string:${people_url}/${author}/profile"
-                            tal:content="author">author</a>, <span i18n:translate="">modified</span>
+                            tal:content="author"><tal:comment replace="nothing">author</tal:comment></a>, <span i18n:translate="">modified</span>
                 <abbr tal:attributes="title python:view.new_version.object.ModificationDate()">
                   <span tal:replace="python: view.pretty_mod_date(view.new_version)" />
                 </abbr>
@@ -100,7 +100,7 @@
               <td>
                 <span i18n:translate="">by</span> <a tal:define="author view/old_version/sys_metadata/principal" 
                             tal:attributes="href string:${people_url}/${author}/profile"
-                            tal:content="author">author</a>, <span i18n:translate="">modified</span>
+                            tal:content="author"><tal:comment replace="nothing">author</tal:comment></a>, <span i18n:translate="">modified</span>
               <abbr tal:attributes="title python:view.old_version.object.ModificationDate()">
                 <span tal:replace="python:view.pretty_mod_date(view.old_version)" />
               </abbr>

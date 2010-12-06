@@ -16,8 +16,8 @@
           <ul id="message-list" class="oc-plainList">
             <li tal:repeat="message thread">
               <a href="." 
-                 tal:attributes="href message/url;"
-                 ><strong tal:content="structure message/brief_subject">Re: Subj</strong></a>
+                 tal:attributes="href message/url;">
+                 <strong tal:content="structure message/brief_subject"><tal:comment replace="nothing">Re: Subj</tal:comment></strong></a>
               <span class="oc-discreetText">
               <span i18n:translate="">from</span> <a href="."
                  tal:omit-tag="not:message/from_id"

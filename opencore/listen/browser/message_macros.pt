@@ -32,7 +32,7 @@
       <h2 tal:define="subject message/subject | string:'';
                       subject2 python:subject or default"
           tal:content="structure subject2">
-        (No Subject)
+        <tal:comment replace="nothing">(No Subject)</tal:comment>
       </h2>
       <span>
       <!-- put in an anchor whether we can reply or not -->
@@ -59,7 +59,7 @@
     </div>
 
       <pre width="80" tal:content="structure message/body" class="oc-listen-message-body">
-        A mail message
+        <tal:comment replace="nothing">A mail message</tal:comment>
       </pre>
   
       <div tal:define="attachments message/attachments" tal:condition="attachments">

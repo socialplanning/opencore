@@ -38,10 +38,10 @@
         August 16, 2001 at 23:35:59
         </span>
 
-        <span class="state-expired"
+        &mdash; <span class="state-expired"
             tal:condition="python:portal.isExpired(here)"
             i18n:translate="time_expired">
-        &mdash; expired
+        expired
         </span>
 
         <span tal:define="locked here/lock_icon.gif"

@@ -15,8 +15,8 @@
           <tbody>
             <tal:entry repeat="entry here/showAddressMapping">
               <tr>
-                <td class="list-address" tal:content="entry/address">address</td>
-                <td class="list-path" tal:content="entry/path">path</td>
+                <td class="list-address" tal:content="entry/address"><tal:comment replace="nothing">address</tal:comment></td>
+                <td class="list-path" tal:content="entry/path"><tal:comment replace="nothing">path</tal:comment></td>
               </tr>
             </tal:entry>
           </tbody>
