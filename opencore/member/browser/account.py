@@ -30,6 +30,12 @@ class MemberAccountView(BaseView, OctopoLite):
     active_states = ['public', 'private']
     msg_category = 'membership'
 
+    def mailing_lists(self):
+        cat = self.get_tool("portal_catalog")
+        brains = cat(portal_type="Open Mailing List",
+                     mailing_list_subscribers=self.viewedmember().getEmail())
+        return brains
+
     @property
     @req_memoize
     def _mship_brains(self, **extra):

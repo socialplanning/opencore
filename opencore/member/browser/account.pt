@@ -114,6 +114,8 @@
 
   <metal:do use-macro="view/project_table/macros/project_table" />
 
+  <metal:do use-macro="view/project_table/macros/mailing_list_table" />
+
 </div><!-- end #oc-content-main -->
 
 <div id="oc-content-sidebar">

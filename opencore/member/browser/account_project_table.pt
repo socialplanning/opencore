@@ -60,3 +60,68 @@
 
   </tal:projects_table>
 </tal:macro>
+
+<tal:macro i18n:domain="opencore" metal:define-macro="mailing_list_table">
+  <tal:projects_table define="projinfos view/mailing_lists">
+    <div id="mailinglist_table"
+         class="oc-widget oc-widget-dataTable oc-clearAfter"
+         tal:condition="projinfos"
+         >
+      <h2 i18n:translate="account_mailinglist_belong_to" 
+	  class="oc-toggleFold oc-dataTable-heading">
+        Mailing lists you subscribe to (<span i18n:name="num_mailinglists" 
+					   id="num_mailinglist"
+					   tal:content="python: len(projinfos)" />)
+      </h2>
+      <form action="account">
+        <table class="oc-dataTable" cellpadding="0" cellspacing="0">
+          <thead>
+            <tr>
+              <th style="width: 10px;" scope="col"></th>
+              <th i18n:translate="account_mailinglist_header" 
+		  class="oc-columnSortable" 
+		  style="width: 200px;" scope="col">
+		List Name
+	      </th>
+
+              <th i18n:translate="account_mailinglist_header" 
+		  class="oc-columnSortable" 
+		  style="width: 250px;" scope="col">
+		Email Address
+	      </th>
+
+              <th i18n:translate="account_mailinglist_actions_header"
+		  class="oc-columnAction" scope="col">
+		Actions
+	      </th>
+            </tr>
+          </thead>
+
+          <tbody id="mailinglists_for_user">
+            <tal:for repeat="brain projinfos">
+	      <tr>
+		<td></td>
+		<td class="oc-dataTable-row-title">
+		  <a tal:attributes="href brain/getURL"
+		     tal:content="brain/Title">
+		  </a>
+		</td>
+		<td>
+		  <a tal:attributes="href string:mailto:${brain/mailto}"
+		     tal:content="brain/mailto">
+		  </a>
+		</td>
+		<td>
+		</td>
+	      </tr>
+
+            </tal:for>
+          </tbody>
+        </table>
+
+      </form>
+    
+    <!-- end .widget-table --></div>
+
+  </tal:projects_table>
+</tal:macro>
