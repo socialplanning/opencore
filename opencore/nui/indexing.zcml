@@ -1,6 +1,7 @@
 <configure xmlns="http://namespaces.zope.org/zope"
     xmlns:five="http://namespaces.zope.org/five">
 
+
   <adapter for="opencore.interfaces.IOpenPage"
 	   factory=".indexing.authenticated_memberid" />
 
@@ -58,5 +59,7 @@
   <adapter factory=".indexing.MailingListThreadCount" />
 
   <adapter factory=".indexing.sortable_title" />
+
+  <adapter factory=".indexing.MailingListSubscribers" />
 
 </configure>

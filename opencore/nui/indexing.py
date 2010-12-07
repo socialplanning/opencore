@@ -17,7 +17,7 @@ from opencore.interfaces.catalog import (
     ILastWorkflowActor, ILastModifiedAuthorId, IMetadataDictionary,
     ILastWorkflowTransitionDate, IMailingListThreadCount,
      IHighestTeamRole, ILastModifiedComment, IImageWidthHeight,
-    IImageSize, IIsImage, ISortableTitle)
+    IImageSize, IIsImage, ISortableTitle, IMailingListSubscribers)
 from opencore.interfaces import IOpenMembership, IOpenPage
 from opencore.nui.wiki.interfaces import IWikiHistory
 
@@ -176,6 +176,8 @@ class IsImageIndexer(ImageIndexer):
     def getValue(self):
         return self.is_image_type()
 
+
+
 @implementer(ILastModifiedAuthorId)
 def authenticated_memberid(context):
     """ the last modified author is set on an annotation """
@@ -217,6 +219,18 @@ def metadata_for_portal_content(context, catalog):
 @implementer(ISortableTitle)
 def sortable_title(context):
     return context.Title().lower()
+
+
+from Products.listen.interfaces import IMembershipList
+class MailingListSubscribers(object):
+    adapts(IMailingList)
+    implements(IMailingListSubscribers)
+
+    def __init__(self, context):
+        self.context = context
+
+    def getValue(self):
+        return IMembershipList(self.context).subscribers
 
 class MailingListThreadCount(object):
     adapts(IMailingList)
@@ -283,6 +297,8 @@ def register_indexable_attrs():
     registerInterfaceIndexer('mailing_list_threads', IMailingListThreadCount,
                              'getValue')
     registerInterfaceIndexer('sortable_title', ISortableTitle)
+    registerInterfaceIndexer('mailing_list_subscribers', IMailingListSubscribers,
+                             'getValue')
 
 
 class _extra:

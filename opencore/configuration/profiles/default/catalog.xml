@@ -140,6 +140,9 @@
  <index name="mailing_list_threads" meta_type="FieldIndex">
   <indexed_attr value="mailing_list_threads"/>
  </index>
+ <index name="mailing_list_subscribers" meta_type="KeywordIndex">
+   <indexed_attr value="mailing_list_subscribers"/>
+ </index>
  <index name="mailto" meta_type="FieldIndex">
   <indexed_attr value="mailto"/>
  </index>
