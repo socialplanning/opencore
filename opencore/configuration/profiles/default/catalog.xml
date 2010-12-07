@@ -212,6 +212,7 @@
  <column value="location"/>
  <column value="made_active_date"/>
  <column value="mailing_list_threads"/>
+ <column value="mailto"/>
  <column value="meta_type"/>
  <column value="modified"/>
  <column value="portal_type"/>
