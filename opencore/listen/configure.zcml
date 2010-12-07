@@ -9,6 +9,19 @@
   <include zcml:condition="installed opencore.feed" package=".feed" />
 
    <subscriber
+	for="Products.listen.interfaces.IBecameASubscriber"
+	handler=".events.reindex_catalog"
+	/>
+   <subscriber
+	for="Products.listen.interfaces.ISubscriberRemoved"
+	handler=".events.reindex_catalog"
+	/>
+   <subscriber
+	for="opencore.interfaces.event.IMemberEmailModifiedEvent"
+	handler=".events.queue_member_lists_reindex"
+	/>
+
+   <subscriber
      for=".interfaces.IMailingList
           Products.listen.interfaces.events.INewMsgDeliveredEvent"
      handler=".events.mailinglist_msg_delivered"
