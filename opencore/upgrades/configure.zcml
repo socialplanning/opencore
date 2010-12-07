@@ -140,4 +140,18 @@
 
   </genericsetup:upgradeSteps>
 
+  <genericsetup:upgradeSteps
+     profile="opencore.configuration:default"
+     source="0.18.0"
+     destination="0.19.0"
+     sortkey="10">
+
+    <genericsetup:upgradeStep
+       title="Add mailing_list_subscribers index to portal_catalog"
+       description="Add mailing_list_subscribers index to portal_catalog"
+       handler=".to_0_19_0.add_mailing_list_subscribers_index"
+       />
+
+  </genericsetup:upgradeSteps>
+
 </configure>
