@@ -105,4 +105,9 @@ membership_deactivated_subject = _(
     u"${portal_title} - Membership deactivated for ${project_title}"
     )
 
-email_invite_static_body = _(u'email_invite_static_body')
+email_invite_static_body = _(
+    u'email_invite_static_body',
+    u"""${user_message}\n
+To accept the invitation or learn more about ${project_noun}, click here:\n
+${join_url}.\n
+\n""")

@@ -1,7 +1,7 @@
 <metal:forgot i18n:domain="opencore" define-macro="forgot_snippet"
 	      tal:define="klass_ expander_hack_from_parent_template | string:oc-js-expander oc-expander">
   <div tal:attributes="class klass_">
-    <h2 i18n:translate="forgot_snippet_title" class="oc-bigText"><a class="oc-js-expander_open oc-expanderLink-open oc-expanderLink" href="forgot">Forgot your username or password?</a></h2>
+    <h2 class="oc-bigText"><a i18n:translate="forgot_snippet_title" class="oc-js-expander_open oc-expanderLink-open oc-expanderLink" href="forgot">Forgot your username or password?</a></h2>
     <form class="oc-js-expander-content oc-expander-content"
           tal:attributes="action string:forgot" 
           method="post" id="oc-login-form" name="forgot_form">

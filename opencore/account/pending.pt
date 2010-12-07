@@ -67,8 +67,8 @@
 	<div class="oc-js-expander">
 	
 	
-	<h2 i18n:translate="pending_mistake" class="oc-bigText">
-	  <a class="oc-js-expander_open oc-expanderLink">
+	<h2 class="oc-bigText">
+	  <a i18n:translate="pending_mistake" class="oc-js-expander_open oc-expanderLink">
 	   If you think this is a mistake, you can try to login again
 	  </a>
 	</h2>

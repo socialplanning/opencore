@@ -4,9 +4,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: opencore\n"
-"POT-Creation-Date: YEAR-MO-DA HO:MI +ZONE\n"
-"PO-Revision-Date: 2009-12-21 00:07-0400\n"
-"Last-Translator: Leonardo J. Caballero G. <leonardocaballero@gmail.com>\n"
+"POT-Creation-Date: 2009-05-22 16:21+0000\n"
+"PO-Revision-Date: 2010-12-07 10:41-0400\n"
+"Last-Translator: Luiz Alves da Silva Junior  <lasjunior@petrobras.com.br>\n"
 "Language-Team: OpenFSM Team <openfsm@lists.openfsm.net>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
@@ -1026,8 +1026,6 @@ msgstr "Voce foi invitad@ a se incluir em \"${project_title}\""
 #: ./opencore/project/browser/mship_messages.py:19
 msgid "email_invite_pending_member"
 msgstr ""
-"\n"
-"\n"
 "Oi ${user_name},\n"
 "\n"
 "Foi invitad@ a  se incluir em \"${project_title}\" por ${inviter_name}.\n"
@@ -1036,7 +1034,7 @@ msgstr ""
 "\n"
 "Saludos,\n"
 "O time ${portal_name} \n"
-"${portal_url} \n"
+"${portal_url}"
 
 #. Default: "You've been invited to join ${project_title}"
 #: ./opencore/project/browser/mship_messages.py:32
@@ -1071,7 +1069,7 @@ msgid "email_membership_requested"
 msgstr ""
 "${member_id} quer participar em \"${project_title}\".\n"
 "\n"
-"para aprova o negar esse pedido, por favour visitor a pagina de administraçao de equipo do the ${project_noun} aqui: ${team_manage_url}\n"
+"para aprova o negar esse pedido, por favour visitor a pagina de administraçao de equipo do the ${project_noun} aqui: ${team_manage_url}"
 
 #: ./opencore/project/browser/team_membership.py:59
 msgid "email_membership_requested_subject"
@@ -1114,12 +1112,7 @@ msgstr "${portal_title} – Invitaçao a se incluir em ${project_title}"
 #. Default: "\nYour request to join \"${project_title}\" on ${portal_title} has been approved.\nThe ${project_noun} is accessible at the following address:\n\n${project_url}\n"
 #: ./opencore/project/browser/mship_messages.py:62
 msgid "email_request_approved"
-msgstr ""
-"\n"
-"O seu pedido para se incluir em \"${project_title}\" em  ${portal_title} foi aprovado.\n"
-"O ${project_noun} es accesible em o endereço seguinte:\n"
-"\n"
-"${project_url}\n"
+msgstr "O seu pedido para se incluir em \"${project_title}\" em  ${portal_title} foi aprovado. O ${project_noun} es accesible em o endereço seguinte: ${project_url}"
 
 #. Default: "${portal_title} - Welcome to ${project_title}"
 #: ./opencore/project/browser/mship_messages.py:71
@@ -1343,10 +1336,10 @@ msgstr "Entre seu nome de usuario e o endereço eletronico para sacar sua inform
 msgid "forgot_snippet_form_submit"
 msgstr "fragmento de formulário de submissão"
 
-#. Default: "<a class=\"oc-js-expander_open oc-expanderLink-open oc-expanderLink\" href=\"forgot\">Forgot your username or password?</a>"
+#. Default: "Forgot your username or password?"
 #: ./opencore/account/forgot_snippet.pt:4
 msgid "forgot_snippet_title"
-msgstr "<a class=\"oc-js-expander_open oc-expanderLink-open oc-expanderLink\" href=\"forgot\">Esqueçeu seu nome de usuario o sua contrasenha?</a>"
+msgstr "Esqueçeu seu nome de usuario o sua contrasenha?"
 
 #. Default: "Username or email address"
 #: ./opencore/account/forgot_snippet.pt:14
@@ -2447,10 +2440,10 @@ msgstr "Entre um endereço electronico diferente"
 msgid "pending_form_submit"
 msgstr "Enviar"
 
-#. Default: "<a class=\"oc-js-expander_open oc-expanderLink\"> If you think this is a mistake, you can try to login again </a>"
-#: ./opencore/account/pending.pt:70
+#. Default: "If you think this is a mistake, you can try to login again"
+#: ./opencore/account/pending.pt:71
 msgid "pending_mistake"
-msgstr "<a class=\"oc-js-expander_open oc-expanderLink\"> Se voce pensa  que e um error, pode tratar de entrar novamente </a>"
+msgstr "Se voce pensa  que e um error, pode tratar de entrar novamente"
 
 #. Default: "Send me another activation email"
 #: ./opencore/account/pending.pt:13
@@ -3725,6 +3718,7 @@ msgstr "descrição de projetos"
 
 #. Default: "${projects_noun_create_url}"
 #: ./opencore/member/browser/tour.pt:35
+#, fuzzy
 msgid "tour_start_projects_heading"
 msgstr "<a href=\"${projects_noun_create_url}\">Inicie seu propio ${project_noun}</a>"
 

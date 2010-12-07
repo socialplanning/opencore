@@ -1,8 +1,10 @@
+# Gettext Message File to French translation for opencore
+# Pierre George <pierregrg@gmail.com>, 2009, 2010
 msgid ""
 msgstr ""
 "Project-Id-Version: opencore\n"
-"POT-Creation-Date: YEAR-MO-DA HO:MI +ZONE\n"
-"PO-Revision-Date: 2008-06-02 22:41+0200\n"
+"POT-Creation-Date: 2009-05-22 16:21+0000\n"
+"PO-Revision-Date: 2010-12-07 10:33-0400\n"
 "Last-Translator: Pierre George <pierregrg@gmail.com>\n"
 "Language-Team: OpenFSM Team <openfsm@lists.openfsm.net>\n"
 "MIME-Version: 1.0\n"
@@ -1027,23 +1029,19 @@ msgstr ""
 #. Default: "\nYou are no longer a member of \"${project_title}\" on ${portal_title}.\n"
 #: ./opencore/project/browser/mship_messages.py:97
 msgid "email_membership_deactivated"
-msgstr ""
-"\n"
-"Vous n'êtes plus membre de l'équipe de \"${project_title}\" dans ${portal_title}.\n"
+msgstr "Vous n'êtes plus membre de l'équipe de \"${project_title}\" dans ${portal_title}."
 
 #. Default: "${portal_title} - Membership deactivated for ${project_title}"
 #: ./opencore/project/browser/mship_messages.py:103
 msgid "email_membership_deactivated_subject"
-msgstr ""
-"Subject: ${portal_title} - Inclusion désactivée pour  ${project_title}.\n"
+msgstr "Subject: ${portal_title} - Inclusion désactivée pour  ${project_title}."
 
 #: ./opencore/project/browser/team_membership.py:51
 msgid "email_membership_requested"
 msgstr ""
-"\n"
 "${member_id} voudrait participer à \"${project_title}\".\n"
 "\n"
-"Pour approuver ou refuser cette demande , merci de visiter la page des gestion d’équipe  de ${project_noun} ici: ${team_manage_url}\n"
+"Pour approuver ou refuser cette demande , merci de visiter la page des gestion d’équipe  de ${project_noun} ici: ${team_manage_url}"
 
 #: ./opencore/project/browser/team_membership.py:59
 msgid "email_membership_requested_subject"
@@ -1072,38 +1070,46 @@ msgstr "Subject: ${portal_title} – Invitation à venir dans  ${project_title}"
 
 #. Default: "\nThis is a reminder that you've been invited to join \"${project_title}\" on ${portal_title}.\nPlease first confirm your email address at the following address: ${conf_url}\nand then you can accept or decline the invitation.\n"
 #: ./opencore/project/browser/mship_messages.py:49
+#, fuzzy
 msgid "email_remind_pending_invitee"
 msgstr ""
-"ce message pour vous rappeler que vous êtes invités dans \"${project_title}\" dans${portal_title}.\n"
-"Merci de confirmer votre adresse electronique en cliquant sur le lien suivant  : ${conf_url}\n"
-"ensuite vous pourrer accepter ou refuser cette invitation."
+"\n"
+"ce message pour vous rappeler que vous êtes invités dans \"${project_title}\" dans ${portal_title}.\n"
+"Merci de confirmer votre adresse electronique en cliquant sur le lien suivant: ${conf_url}\n"
+"ensuite vous pourrer accepter ou refuser cette invitation.\n"
 
 #. Default: "${portal_title} - Invitation to join ${project_title}"
 #: ./opencore/project/browser/mship_messages.py:57
+#, fuzzy
 msgid "email_remind_pending_invitee_subject"
 msgstr "Subject: ${portal_title} – Invitation dans  ${project_title}"
 
 #. Default: "\nYour request to join \"${project_title}\" on ${portal_title} has been approved.\nThe ${project_noun} is accessible at the following address:\n\n${project_url}\n"
 #: ./opencore/project/browser/mship_messages.py:62
+#, fuzzy
 msgid "email_request_approved"
 msgstr ""
+"\n"
 "Votre demande d'inclusion dans \"${project_title}\" dans ${portal_title} a été approuvée.\n"
-"${project_noun} est accessible à l'adresse suivante : ${project_url}"
+"${project_noun} est accessible à l'adresse suivante:\n"
+"\n"
+"${project_url}\n"
 
 #. Default: "${portal_title} - Welcome to ${project_title}"
 #: ./opencore/project/browser/mship_messages.py:71
+#, fuzzy
 msgid "email_request_approved_subject"
 msgstr "Subject: ${portal_title} – Bienvenue à ${project_title}"
 
 #. Default: "\nYour request to join \"${project_title}\" on ${portal_title} has been denied.\n"
 #: ./opencore/project/browser/mship_messages.py:76
 msgid "email_request_denied"
-msgstr "votre demande d'inclusion dans  \"${project_title}\" au sein de  ${portal_title} a été refusée."
+msgstr "votre demande d'inclusion dans \"${project_title}\" au sein de ${portal_title} a été refusée."
 
 #. Default: "${portal_title} - Your request to join ${project_title}"
 #: ./opencore/project/browser/mship_messages.py:82
 msgid "email_request_denied_subject"
-msgstr "${portal_title} – Votre demande d'inclusion dans  ${project_title}"
+msgstr "${portal_title} – Votre demande d'inclusion dans ${project_title}"
 
 #: ./opencore/account/browser.py:68
 #: ./opencore/project/browser/team.py:77
@@ -1293,10 +1299,10 @@ msgstr "Entrez votre nom d'utilisateur ou votre adresse électronique pour récu
 msgid "forgot_snippet_form_submit"
 msgstr ""
 
-#. Default: "<a class=\"oc-js-expander_open oc-expanderLink-open oc-expanderLink\" href=\"forgot\">Forgot your username or password?</a>"
+#. Default: "Forgot your username or password?"
 #: ./opencore/account/forgot_snippet.pt:4
 msgid "forgot_snippet_title"
-msgstr "<a class=\"oc-js-expander_open oc-expanderLink-open oc-expanderLink\" href=\"forgot\">vous avez oublié votre nom d'utilisateur ou votre mot de passe?</a>"
+msgstr "vous avez oublié votre nom d'utilisateur ou votre mot de passe?"
 
 #. Default: "Username or email address"
 #: ./opencore/account/forgot_snippet.pt:14
@@ -1864,7 +1870,7 @@ msgstr "Liste courrier"
 #. Default: "View<span> or manage exisiting</span> mailing lists<span> or ${absolute_url_create}</span>."
 #: ./opencore/listen/browser/mailing_lists.pt:16
 msgid "mailing_lists_description"
-msgstr "Voir<span> ou gérer</span> les listes <span>  existantes ou <a href=\"${DYNAMIC_CONTENT}\">ajouter une nouvelle liste</a></span>."
+msgstr "Voir<span> ou gérer</span> les listes <span>  existantes ou ${absolute_url_create}</span>."
 
 #. Default: "Mailing lists"
 #: ./opencore/listen/browser/mailing_lists.pt:14
@@ -1954,7 +1960,7 @@ msgstr "Votre demande d'inclusion attend une modération par les administrateurs
 #. Default: "You are currently <strong>subscribed</strong> to this list."
 #: ./opencore/listen/browser/listen_macros.pt:94
 msgid "mailinglist_view_subscribed"
-msgstr "Vous êtes <strong>inclus(e) </strong>dans cette liste. "
+msgstr "Vous êtes <strong>inclus(e)</strong> dans cette liste. "
 
 #. Default: "Title"
 #: ./opencore/listen/browser/mailinglist_view.pt:12
@@ -2244,7 +2250,7 @@ msgstr ""
 #. Default: "We would love to hear from you. Learn more ${about_our_software_portal_url} or ${contact_us_portal_url} for more information."
 #: ./opencore/nui/main/news.pt:40
 msgid "news_about_us_description"
-msgstr "Nous aimerions vous entendre. Pour en savoir plus <a href=\"${DYNAMIC_CONTENT}\">sur nous et sur ce site internet </a> ou <a href=\"${DYNAMIC_CONTENT}\">nous contacter</a> pour plus d'information."
+msgstr "Nous aimerions vous entendre. Pour en savoir plus ${about_our_software_portal_url} ou ${contact_us_portal_url} pour plus d'information."
 
 #. Default: "About us"
 #: ./opencore/nui/main/news.pt:39
@@ -2347,10 +2353,10 @@ msgstr "Entrez une autre adresse électronique"
 msgid "pending_form_submit"
 msgstr ""
 
-#. Default: "<a class=\"oc-js-expander_open oc-expanderLink\"> If you think this is a mistake, you can try to login again </a>"
-#: ./opencore/account/pending.pt:70
+#. Default: "If you think this is a mistake, you can try to login again"
+#: ./opencore/account/pending.pt:71
 msgid "pending_mistake"
-msgstr "<a class=\"oc-js-expander_open oc-expanderLink\"> Si vous pensez qu'il s'agit d'une erreur, vous pouvez essayer d'entrer à nouveau </a>"
+msgstr "Si vous pensez qu'il s'agit d'une erreur, vous pouvez essayer d'entrer à nouveau"
 
 #. Default: "Send me another activation email"
 #: ./opencore/account/pending.pt:13
@@ -3463,6 +3469,7 @@ msgstr " Informez les autres participants dans  ${portal_title} sur qui vous êt
 
 #. Default: "${absolute_url_profile-edit}"
 #: ./opencore/member/browser/tour.pt:17
+#, fuzzy
 msgid "tour_complete_profile_heading"
 msgstr "<a href=\"${absolute_url_profile-edit}\">Completez votre profil</a>"
 
@@ -3508,6 +3515,7 @@ msgstr ""
 
 #. Default: "${projects_noun_create_url}"
 #: ./opencore/member/browser/tour.pt:35
+#, fuzzy
 msgid "tour_start_projects_heading"
 msgstr "<a href=\"${projects_noun_create_url}\">Initiez votre propre ${project_noun}</a>"
 

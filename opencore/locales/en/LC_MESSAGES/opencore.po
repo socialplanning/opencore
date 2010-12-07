@@ -1311,7 +1311,7 @@ msgstr ""
 msgid "forgot_snippet_form_submit"
 msgstr ""
 
-#. Default: "<a class=\"oc-js-expander_open oc-expanderLink-open oc-expanderLink\" href=\"forgot\">Forgot your username or password?</a>"
+#. Default: "Forgot your username or password?"
 #: ./opencore/account/forgot_snippet.pt:4
 msgid "forgot_snippet_title"
 msgstr ""
@@ -2364,8 +2364,8 @@ msgstr ""
 msgid "pending_form_submit"
 msgstr ""
 
-#. Default: "<a class=\"oc-js-expander_open oc-expanderLink\"> If you think this is a mistake, you can try to login again </a>"
-#: ./opencore/account/pending.pt:70
+#. Default: "If you think this is a mistake, you can try to login again"
+#: ./opencore/account/pending.pt:71
 msgid "pending_mistake"
 msgstr ""
 

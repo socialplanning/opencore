@@ -5,8 +5,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: opencore\n"
-"POT-Creation-Date: YEAR-MO-DA HO:MI +ZONE\n"
-"PO-Revision-Date: 2010-12-06 16:42-0400\n"
+"POT-Creation-Date: 2008-06-02 22:20-0400\n"
+"PO-Revision-Date: 2010-12-07 11:11-0400\n"
 "Last-Translator: Leonardo J. Caballero G. <leonardocaballero@gmail.com>\n"
 "Language-Team: Plone Cono Sur <plone-conosur@lists.plone.org>\n"
 "MIME-Version: 1.0\n"
@@ -1095,7 +1095,7 @@ msgstr "${portal_title} - Bienvenida a ${project_title}"
 #. Default: "\nYour request to join \"${project_title}\" on ${portal_title} has been denied.\n"
 #: ./opencore/project/browser/mship_messages.py:76
 msgid "email_request_denied"
-msgstr "Su pedido de inclusión en  \"${project_title}\" en ${portal_title} fue rechazado."
+msgstr "Su pedido de inclusión en \"${project_title}\" en ${portal_title} fue rechazado."
 
 #. Default: "${portal_title} - Your request to join ${project_title}"
 #: ./opencore/project/browser/mship_messages.py:82
@@ -1287,10 +1287,10 @@ msgstr "Transcriba su nombre de usuario o dirección de correo electrónico para
 msgid "forgot_snippet_form_submit"
 msgstr "Enviar"
 
-#. Default: "<a class=\"oc-js-expander_open oc-expanderLink-open oc-expanderLink\" href=\"forgot\">Forgot your username or password?</a>"
+#. Default: "Forgot your username or password?"
 #: ./opencore/account/forgot_snippet.pt:4
 msgid "forgot_snippet_title"
-msgstr "<a class=\"oc-js-expander_open oc-expanderLink-open oc-expanderLink\" href=\"forgot\">¿Se olvido su nombre de usuario o su contraseña?</a>"
+msgstr "¿Se olvido su nombre de usuario o su contraseña?"
 
 #. Default: "Username or email address"
 #: ./opencore/account/forgot_snippet.pt:14
@@ -2340,10 +2340,10 @@ msgstr "Transcriba una dirección electrónica diferente"
 msgid "pending_form_submit"
 msgstr "Enviar"
 
-#. Default: "<a class=\"oc-js-expander_open oc-expanderLink\"> If you think this is a mistake, you can try to login again </a>"
-#: ./opencore/account/pending.pt:70
+#. Default: "If you think this is a mistake, you can try to login again"
+#: ./opencore/account/pending.pt:71
 msgid "pending_mistake"
-msgstr "<a class=\"oc-js-expander_open oc-expanderLink\"> Si usted piensa que es un error, puede tratar de entrar nuevamente </a>"
+msgstr "Si usted piensa que es un error, puede tratar de entrar nuevamente"
 
 #. Default: "Send me another activation email"
 #: ./opencore/account/pending.pt:13

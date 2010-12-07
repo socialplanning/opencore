@@ -1254,10 +1254,10 @@ msgstr "Βάλε το όνομα ή την email διεύθυνσή σου γι�
 msgid "forgot_snippet_form_submit"
 msgstr "Αποστολή"
 
-#. Default: "<a class=\"oc-js-expander_open oc-expanderLink-open oc-expanderLink\" href=\"forgot\">Forgot your username or password?</a>"
+#. Default: "Forgot your username or password?"
 #: ./opencore/account/forgot_snippet.pt:4
 msgid "forgot_snippet_title"
-msgstr "<a class=\"oc-js-expander_open oc-expanderLink-open oc-expanderLink\" href=\"forgot\">Ξέχασες το όνομα ή τον κωδικό σου;</a>"
+msgstr "Ξέχασες το όνομα ή τον κωδικό σου;"
 
 #. Default: "Username or email address"
 #: ./opencore/account/forgot_snippet.pt:14
@@ -2295,10 +2295,10 @@ msgstr "Βάλε μια διαφορετική email διεύθυνση"
 msgid "pending_form_submit"
 msgstr ""
 
-#. Default: "<a class=\"oc-js-expander_open oc-expanderLink\"> If you think this is a mistake, you can try to login again </a>"
-#: ./opencore/account/pending.pt:70
+#. Default: "If you think this is a mistake, you can try to login again"
+#: ./opencore/account/pending.pt:71
 msgid "pending_mistake"
-msgstr "<a class=\"oc-js-expander_open oc-expanderLink\"> Αν θεωρείς οτι έχει γίνει λάθος, μπορείς να προσπαθήσεις να συνδεθείς ξανά </a>"
+msgstr "Αν θεωρείς οτι έχει γίνει λάθος, μπορείς να προσπαθήσεις να συνδεθείς ξανά"
 
 #. Default: "Send me another activation email"
 #: ./opencore/account/pending.pt:13
