@@ -1,7 +1,7 @@
 from zope.interface import Interface, implements
 from zope.app.event.interfaces import IObjectModifiedEvent, IObjectCreatedEvent
 from zope.app.event.objectevent import ObjectModifiedEvent, ObjectCreatedEvent
-
+from zope.schema import TextLine
 
 class IAfterProjectAddedEvent(Interface):
     """What happens after a project is added"""
@@ -28,6 +28,17 @@ class IMemberModifiedEvent(IObjectModifiedEvent):
 
        Necessary to add instead of just object modified event because
        the handlers for this can be expensive"""
+
+class IMemberEmailModifiedEvent(IMemberModifiedEvent):
+    """
+    When a user's email address has been modified
+
+    We have a special event just for this because sometimes
+    a subscriber will want to know the old email address from
+    before the modification.  It will be stored on the event
+    as `.old_email`.
+    """
+    old_email = TextLine()
 
 class IListenFeatureletCreatedEvent(IObjectCreatedEvent):
     """when a listen featurelet gets installed on a project"""
@@ -64,6 +75,13 @@ class LeftProjectEvent(ObjectModifiedEvent):
 class MemberModifiedEvent(ObjectModifiedEvent):
     implements(IMemberModifiedEvent)
 
+class MemberEmailModifiedEvent(MemberModifiedEvent):
+    implements(IMemberEmailModifiedEvent)
+
+    def __init__(self, member, old_email):
+        MemberModifiedEvent.__init__(self, member)
+        self.context = member
+        self.old_email = old_email
 
 class AfterProjectAddedEvent(object):
     implements(IAfterProjectAddedEvent)

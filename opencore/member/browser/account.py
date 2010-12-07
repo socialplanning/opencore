@@ -11,7 +11,7 @@ from opencore.i18n import _
 from opencore.interfaces.catalog import ILastWorkflowActor
 from opencore.interfaces.event import JoinedProjectEvent
 from opencore.interfaces.event import LeftProjectEvent
-from opencore.interfaces.event import MemberModifiedEvent
+from opencore.interfaces.event import MemberEmailModifiedEvent
 from opencore.interfaces.message import ITransientMessage
 from plone.memoize.view import memoize as req_memoize
 from zope.component import getAdapter
@@ -437,12 +437,13 @@ class MemberAccountView(BaseView, OctopoLite):
             self.addPortalStatusMessage(msg)
             return
 
-        if mem.getEmail() == email:
+        old_email = mem.getEmail()
+        if old_email == email:
             return
 
         mem.setEmail(email)
         mem.reindexObject(idxs=['getEmail'])
-        notify(MemberModifiedEvent(mem))
+        notify(MemberEmailModifiedEvent(mem, old_email))
         self.addPortalStatusMessage(_(u'psm_email_changed', u'Your email address has been changed.'))
 
     def pretty_role(self, role):
