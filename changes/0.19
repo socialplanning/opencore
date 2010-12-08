@@ -1,8 +1,16 @@
 0.19.0 (unreleased)
 ===================
 
+ * Removed "contact" link from profile page when viewed by
+   anonymous users: #2935 (egj)
+
+ * Added "Mailing lists you subscribe to" on the user's account
+   page: #2937 (egj)
+
  * Bugfixes when a site admin is acting on another user's account
    page: #2929 (egj)
+
+ * Improved i18n support. (macagua)
 
  * Updated Greek translation. (dimo)
 
@@ -53,3 +61,13 @@
    if other components need to configure Xinha.
 
    The view can be overridden sitewide or per-context for custom configurations.
+
+ * Upgraded Xinha from 0.92b to 0.97-pre. This provides support for all major
+   browsers.
+
+ * Factor out all of OpenCore's customizations of Xinha into configuration and
+   maintainable plugins. Previously these customizations were made directly in
+   the Xinha core code, which makes upgrades and maintenance hard. The plugins
+   live in ``opencore/xinha/plugins``.
+
+ * Added "Insert Footnote" plugin for Xinha.
