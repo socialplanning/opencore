@@ -102,6 +102,12 @@ class ProfileView(BaseView):
 
         return [dictify(brain) for brain in brains]
 
+    def show_contact_link(self):
+        mem = self.loggedinmember
+        if not mem:
+            return False
+        return self.viewedmember() != mem
+
     def viewingself(self):
         return self.viewedmember() == self.loggedinmember
 
