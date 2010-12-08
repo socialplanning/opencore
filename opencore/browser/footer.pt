@@ -21,12 +21,12 @@
 
     <span i18n:name="portal_title" tal:replace="string:${view/portal_title}" /> is
 
-    <a i18n:name="num_people" tal:attributes="href people_url">
+    <a tal:attributes="href people_url">
       <span i18n:name="label_num_people" tal:replace="string:${view/nusers}"/>
       <span i18n:translate="label_people">people</span>
     </a>
     and
-    <a i18n:name="num_projects" tal:attributes="href projects_url">
+    <a tal:attributes="href projects_url">
       <span i18n:name="label_num_projects" tal:replace="string:${view/projects_served_count}"/>
       <span i18n:name="label_projects" tal:replace="view/project_noun">project</span>(s)</a>
     since
