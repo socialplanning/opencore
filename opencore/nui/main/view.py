@@ -17,7 +17,7 @@ class SearchWidget(object):
 
     def form_action_url(self):
         from opencore.interfaces import IOpenSiteRoot
-        url = self.request.ACTUAL_URL
+        url = self.request.getURL()
         if IOpenSiteRoot.providedBy(self.context):
             return url
         else:
