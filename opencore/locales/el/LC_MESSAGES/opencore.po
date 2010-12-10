@@ -1,10 +1,12 @@
+# translation of opencore.po to Greek
+# Dimitris Moraitis <dimo@unweb.me>, 2008, 2009.
 msgid ""
 msgstr ""
 "Project-Id-Version: opencore\n"
-"POT-Creation-Date: YEAR-MO-DA HO:MI +ZONE\n"
-"PO-Revision-Date: 2008-03-06 19:45-0500\n"
-"Last-Translator: \n"
-"Language-Team: The Open Planning Project <opencore-dev@lists.openplans.org>\n"
+"POT-Creation-Date: 2008-03-06 19:45-0500\n"
+"PO-Revision-Date: 2009-12-14 15:33-0500\n"
+"Last-Translator: Dimitris Moraitis <dimo@unweb.me>\n"
+"Language-Team: The OpenFSM μ­­i18n Team <ui18n-discussion@lists.openfsm.net>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 9bit\n"
