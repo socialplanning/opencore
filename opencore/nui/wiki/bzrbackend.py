@@ -11,6 +11,8 @@ from datetime import datetime
 import subprocess
 from sven.bzr import BzrAccess
 
+from DateTime import DateTime as zDateTime
+
 def setup_repo(project):
     repo = get_config("bzr_repos_dir")
     repo = os.path.join(repo, "projects", project.getId())
@@ -50,7 +52,7 @@ class Checkin(object):
     def __repr__(self):
         return "<Checkin #%s for %s>" % (self.version, self.wikipage)
 
-
+from opencore.interfaces.catalog import ILastModifiedAuthorId
 def sort_checkins(project):
     pr = getToolByName(project, "portal_repository")
     cat = getToolByName(project, "portal_catalog")
@@ -62,12 +64,26 @@ def sort_checkins(project):
     for page in pages:
         ob = page.getObject()
         pagename = ob.getId()
+
+        print "page: %s" % pagename
+
         versions = pr.getHistory(ob, countPurged=False)
         for version in versions:
             when = datetime.fromtimestamp(version.sys_metadata['timestamp'])
             version_id = version.version_id
             checkin = Checkin(pagename, version_id, when)
             session.add(checkin)
+            print "  version: %s" % version_id
+        session.commit()
+
+        print "  -* current version *-"
+        when = ob.ModificationDate()
+        when = zDateTime(when)
+        when = when.timeTime()
+        when = datetime.fromtimestamp(when)
+        version_id = -99
+        checkin = Checkin(pagename, version_id, when)
+        session.add(checkin)
         session.commit()
 
 def port_checkins(project):
@@ -78,24 +94,59 @@ def port_checkins(project):
 
     repo = get_config("bzr_repos_dir")
     repo = os.path.join(repo, "projects", project.getId())
-    repo = BzrAccess(repo)
+    repo = BzrAccess(repo, default_commit_message="")
 
     checkins = session.query(Checkin).order_by(Checkin.timestamp)
     for checkin in checkins:
-        pageId = checkin.wikipage
-        page = project[pageId]
-        version = pr.retrieve(page, checkin.version)
-        author = version.sys_metadata['principal']
-        msg = version.comment
-        content = version.object.EditableBody()
+        pageId = str(checkin.wikipage)
+        version = checkin.version
+
+        print "page: %s" % pageId
+        try:
+            page = project.unrestrictedTraverse(pageId)
+        except Exception, e:
+            print e
+            import pdb; pdb.set_trace()
+            continue
+        
+        if version == -99: # it's the current version
+            msg = None
+	    content = page.EditableBody()
+	    timestamp = zDateTime(page.ModificationDate()).timeTime()
+	    author = ILastModifiedAuthorId(page)
+
+        else:
+            version = pr.retrieve(page, checkin.version)
+            object = version.object
+            author = version.sys_metadata['principal']
+            msg = version.comment
+            content = object.EditableBody()
+            timestamp = version.sys_metadata['timestamp']
+
+        print "  rev: %s" % checkin.version
+
         revprops = {'opencore.author': author,
-                    'opencore.timestamp': str(version.sys_metadata['timestamp'])}
+                    'opencore.timestamp': str(timestamp)}
         repo.write(pageId, content, msg=msg,
-                   revprops=revprops)
+                   revprops=revprops, author=author,
+                   timestamp=timestamp)
         
 from opencore.utils import setup
 app = setup(app)
-#proj = app.openplans.projects.moo
+proj = app.openplans.projects['campaign-for.nyc']
+#import pdb; pdb.set_trace()
+
 #sort_checkins(proj)
-#port_checkins(proj)
-import pdb; pdb.set_trace()
+setup_repo(proj)
+port_checkins(proj)
+
+#project=proj
+#pr = getToolByName(project, "portal_repository")
+#cat = getToolByName(project, "portal_catalog")
+
+#pages = cat.unrestrictedSearchResults(path='/'.join(project.getPhysicalPath())+'/project-home',
+#                                      portal_type="Document")
+#page=pages[0].getObject()
+#version = pr.retrieve(page, 66)
+#
+#import pdb; pdb.set_trace()
