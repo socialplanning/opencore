@@ -15,13 +15,23 @@ from DateTime import DateTime as zDateTime
 
 def setup_repo(project):
     repo = get_config("bzr_repos_dir")
-    repo = os.path.join(repo, "projects", project.getId())
+    repo = os.path.join(repo, "projects", project.getId(), "main-site")
 
     if not os.path.exists(repo):
         os.makedirs(repo)
+    subprocess.call(["bzr", "init-repo", repo, "--no-trees"])
+
+    repo = os.path.join(repo, "trunk")
     subprocess.call(["bzr", "init", repo])
 
-    repo = BzrAccess(repo)
+    checkout = get_config("bzr_checkouts_dir")
+    checkout = os.path.join(checkout, "projects", project.getId(), "main-site")
+    if not os.path.exists(checkout):
+        os.makedirs(checkout)
+
+    subprocess.call(["bzr", "checkout", "--lightweight", repo, checkout])
+
+    repo = BzrAccess(checkout)
     return repo
 
 def setup_interim_db(project):
@@ -92,9 +102,9 @@ def port_checkins(project):
 
     session, db = setup_interim_db(project)
 
-    repo = get_config("bzr_repos_dir")
-    repo = os.path.join(repo, "projects", project.getId())
-    repo = BzrAccess(repo, default_commit_message="")
+    repo = get_config("bzr_checkouts_dir")
+    repo = os.path.join(repo, "projects", project.getId(), "main-site")
+    repo = BzrAccess(repo, default_commit_message=" ")
 
     checkins = session.query(Checkin).order_by(Checkin.timestamp)
     for checkin in checkins:
@@ -125,15 +135,13 @@ def port_checkins(project):
 
         print "  rev: %s" % checkin.version
 
-        revprops = {'opencore.author': author,
-                    'opencore.timestamp': str(timestamp)}
         repo.write(pageId, content, msg=msg,
-                   revprops=revprops, author=author,
+                   author=author,
                    timestamp=timestamp)
         
 from opencore.utils import setup
 app = setup(app)
-proj = app.openplans.projects['campaign-for.nyc']
+proj = app.openplans.projects['pinguinove']
 #import pdb; pdb.set_trace()
 
 #sort_checkins(proj)
