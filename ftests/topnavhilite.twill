@@ -1,0 +1,24 @@
+## check the topnav behavior for a project with all its featurelets installed
+
+extend_with flunc.xpath
+
+go ${base_url}/projects/${project_id}
+find_in_css ul#oc-topnav-context Wiki
+find_in_css ul#oc-topnav-context Blog
+find_in_css ul#oc-topnav-context "Mailing Lists"
+find_in_css ul#oc-topnav-context Tasks
+
+follow Wiki
+find_in_css li.oc-topnav-selected Wiki
+
+follow Blog
+Blogfind_in_css li.oc-topnav-selected Blog
+
+follow "Mailing Lists"
+find_in_css li.oc-topnav-selected "Mailing Lists"
+
+follow Tasks
+find_in_css li.oc-topnav-selected Tasks
+
+follow Summary
+find_in_css li.oc-topnav-selected Summary

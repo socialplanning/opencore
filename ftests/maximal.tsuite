@@ -1,0 +1,2 @@
+create_project(projname=project_id, projfullname="Testing Topnav", projpolicy="open_policy", projfeaturelets="listen,tasks,blog")
+topnavhilite(project_id=project_id)
