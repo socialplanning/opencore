@@ -3,22 +3,22 @@
 extend_with flunc.xpath
 
 go ${base_url}/projects/${project_id}
-find_in_css ul#oc-topnav-context Wiki
-find_in_css ul#oc-topnav-context Blog
-find_in_css ul#oc-topnav-context "Mailing Lists"
-find_in_css ul#oc-topnav-context Tasks
+find_in_css Wiki "ul#oc-topnav-context"
+find_in_css Blog "ul#oc-topnav-context"
+find_in_css "Mailing Lists" "ul#oc-topnav-context"
+find_in_css Tasks "ul#oc-topnav-context"
 
 follow Wiki
-find_in_css li.oc-topnav-selected Wiki
+find_in_css Wiki "li.oc-topnav-selected"
 
 follow Blog
-Blogfind_in_css li.oc-topnav-selected Blog
+Blogfind_in_css Blog "li.oc-topnav-selected"
 
 follow "Mailing Lists"
-find_in_css li.oc-topnav-selected "Mailing Lists"
+find_in_css "Mailing Lists" "li.oc-topnav-selected"
 
 follow Tasks
-find_in_css li.oc-topnav-selected Tasks
+find_in_css Tasks "li.oc-topnav-selected"
 
 follow Summary
-find_in_css li.oc-topnav-selected Summary
+find_in_css Summary "li.oc-topnav-selected"
