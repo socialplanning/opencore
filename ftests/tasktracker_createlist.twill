@@ -8,7 +8,7 @@
 
 go ${base_url}/projects/${projname}
 follow 'tasks'
-follow 'Create a new list'
+follow 'Add a new list'
 find "${projname}'s ${projtxt} members"
 fv 2 title $tasklistname
 submit
