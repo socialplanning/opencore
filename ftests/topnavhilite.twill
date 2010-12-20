@@ -12,7 +12,7 @@ follow Wiki
 find_in_css Wiki "li.oc-topnav-selected"
 
 follow Blog
-Blogfind_in_css Blog "li.oc-topnav-selected"
+find_in_css Blog "li.oc-topnav-selected"
 
 follow "Mailing Lists"
 find_in_css "Mailing Lists" "li.oc-topnav-selected"
