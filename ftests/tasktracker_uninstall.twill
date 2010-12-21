@@ -5,7 +5,7 @@
 #
 go ${base_url}/projects/${projname}
 follow 'Preferences'
-fv edit_form featurelets '-tasks'
+fv prefs_form featurelets '-tasks'
 submit
 notfind 'tasks'
 go ${base_url}/projects/${projname}/tasks
