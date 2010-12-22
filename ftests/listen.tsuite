@@ -2,7 +2,7 @@
 
 create_user
 login
-create_project
+create_project(projfeaturelets="listen")
 disable_listen
 enable_listen
 
