@@ -6,7 +6,7 @@
 go ${base_url}/projects/${projname}
 follow 'Preferences'
 fv prefs_form featurelets '-tasks'
-submit
+submit update:boolean
 notfind 'tasks'
 go ${base_url}/projects/${projname}/tasks
-find 'This ${projtxt} has not installed a task tracker'
+find "TaskTracker is currently unavailable"

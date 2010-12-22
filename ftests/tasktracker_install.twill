@@ -6,5 +6,5 @@
 go ${base_url}/projects/${projname}
 follow 'Preferences'
 fv edit_form featurelets 'tasks'
-submit
+submit update:boolean
 find 'tasks'
