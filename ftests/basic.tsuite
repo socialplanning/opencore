@@ -12,7 +12,7 @@ edit_user_preferences
 edit_user_home_page
 add_user_page
 create_project_errors
-create_project
+create_project(projfeaturelets="listen")
 edit_project
 add_page
 disable_listen
