@@ -7,5 +7,6 @@
 
 go ${base_url}/projects/${projname}
 follow 'blog'
+go ${base_url}/projects/${projname}/blog/?deliv_notheme
 find "You haven't written any posts yet"
 find "Write a post"
