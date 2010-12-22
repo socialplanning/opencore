@@ -24,6 +24,6 @@ find "Preferences"
 # but only after the catalog queue has been processed
 go ${base_url}
 notfind 'home_newest_projects.*${projname}.*home_updated_projects' s
-run_cat_queue
+run_catalot_queue
 go ${base_url}
 find 'home_newest_projects.*${projname}.*home_updated_projects' s
