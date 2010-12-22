@@ -47,7 +47,7 @@ def handle_postcreation(event):
     owners = project.users_with_local_role("Owner")
     project.manage_delLocalRoles(owners)
 
-    teams = project.teams()
+    teams = project.getTeams()
     for team in teams:
         team.reindexTeamSpaceSecurity()
     
