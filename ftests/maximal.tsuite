@@ -2,6 +2,8 @@ all
 
 tasktracker
 
+wordpress
+
 create_user(user=${user_id}, fullname="Tester", email="tester@example.com", password="testing")
 login(user=${user_id}, password="testing")
 create_project(projname=${project_id}, projfullname="Testing Topnav", projpolicy="open_policy", projfeaturelets="listen,tasks,blog")

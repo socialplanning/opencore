@@ -1,0 +1,13 @@
+#
+# verifies initial wordpress state
+#
+# projname - the id of the project 
+#
+
+
+go ${base_url}/projects/${projname}
+follow 'blog'
+find "There aren't any blog posts yet"
+find "log in and write some"
+find "Search this blog"
+notfind "Write a post"
