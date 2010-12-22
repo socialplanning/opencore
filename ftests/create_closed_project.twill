@@ -9,6 +9,7 @@
 #    logged in
 #
 extend_with flunc.checkbox
+extend_with flunc.zope_run_cat_queue
 
 setlocal projpolicy closed_policy
 
@@ -24,6 +25,6 @@ find "Preferences"
 # but only after the catalog queue has been processed
 go ${base_url}
 notfind 'home_newest_projects.*${projname}.*home_updated_projects' s
-run_catalot_queue
+run_cat_queue $admin $adminpw
 go ${base_url}
 find 'home_newest_projects.*${projname}.*home_updated_projects' s
