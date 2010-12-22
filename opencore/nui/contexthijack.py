@@ -14,7 +14,7 @@ class HeaderHijackable(BaseView):
     # XXX Needs unit tests!
 
     def _get_context(self):
-        if self.request.get_header('HTTP_X_OPENPLANS_APPLICATION') == 'zope':
+        if self.request.get_header('HTTP_X_OPENPLANS_APPLICATION', 'zope') == 'zope':
             return self.original_context
         return self.context_from_headers() or self.original_context
     
