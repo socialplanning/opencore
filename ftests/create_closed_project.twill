@@ -21,10 +21,10 @@ fv create_form workflow_policy $projpolicy
 submit
 find "Preferences"
 
-# verify project appears in newly created projects list
-# but only after the catalog queue has been processed
+# verify project does not appear in newly created projects list
+# see http://trac.socialplanning.org/opencore/ticket/1339
 go ${base_url}
 notfind 'home_newest_projects.*${projname}.*home_updated_projects' s
 run_cat_queue $admin $adminpw
 go ${base_url}
-find 'home_newest_projects.*${projname}.*home_updated_projects' s
+notfind 'home_newest_projects.*${projname}.*home_updated_projects' s

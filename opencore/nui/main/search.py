@@ -552,6 +552,7 @@ class HomeView(SearchView):
     def recently_created_projects(self):
         rs = (('created', 'desc'),)
             
+        # see http://trac.socialplanning.org/opencore/ticket/1339
         query = Eq('portal_type', 'OpenProject') & (Eq('project_policy', 'open_policy') | Eq('project_policy', 'medium_policy'))
         
         project_brains = self.catalog.evalAdvancedQuery(query, rs)
