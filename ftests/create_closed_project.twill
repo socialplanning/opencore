@@ -9,7 +9,6 @@
 #    logged in
 #
 extend_with flunc.checkbox
-extend_with flunc.zope_run_cat_queue
 
 setlocal projpolicy closed_policy
 
