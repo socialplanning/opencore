@@ -27,7 +27,7 @@ tasktracker_check_no_create
 destroy_project
 
 login
-create_project(projpolicy='closed_policy')
+create_closed_project
 tasktracker_createlist
 tasktracker_verifylist
 tasktracker_uninstall
