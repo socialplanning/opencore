@@ -46,7 +46,11 @@ def handle_postcreation(event):
     # the project or is demoted to member.
     owners = instance.users_with_local_role("Owner")
     instance.manage_delLocalRoles(owners)
-    # @@ why don't i need to reindex allowed roles and users?
+
+    teams = project.teams()
+    for team in teams:
+        team.reindexTeamSpaceSecurity()
+    
 
 #@@ should this be own subscriber
 def _initialize_project(instance, request):
