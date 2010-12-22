@@ -1,3 +1,5 @@
+all
+
 tasktracker
 
 create_user(user=${user_id}, fullname="Tester", email="tester@example.com", password="testing")
