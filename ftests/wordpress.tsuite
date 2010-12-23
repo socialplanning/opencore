@@ -8,3 +8,5 @@ logout
 wordpress_verify_initial_loggedout
 login
 wordpress_write_post
+
+logout
