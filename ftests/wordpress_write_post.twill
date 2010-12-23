@@ -18,10 +18,11 @@ find "Post saved"
 follow "View post"
 
 find_in_css "My first post" "h3.oc-blog-storytitle" 
-find_in_css $fullname "span.oc-headingContext"
+find_in_css $user "span.oc-headingContext"
 find_in_css "Welcome to my blog" "div.oc-blog-storycontent"
 
 find "Leave a comment"
 
 go ${base_url}/projects/${projname}/summary
 find_in_css "My first post" "#oc-feed-blog"
+find_in_css $user "#oc-feed-blog .oc-feed-item-data a"
