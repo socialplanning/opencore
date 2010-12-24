@@ -62,7 +62,7 @@
                   </p>
                 </div>
                 <ul class="oc-actions oc-invite-actions oc-actionClose"
-                    tal:define="url request/ACTUAL_URL">
+                    tal:define="url request/getURL">
                   <li tal:repeat="action view/invitation_actions">
                     <a tal:attributes="href string:${url}?task|${proj_id}|${action}Invitation=${action};
                                      class string:oc-actionLink oc-js-actionLink oc-choose${action}"
@@ -95,7 +95,7 @@
                 <p class="oc-invite-content"
                    tal:content="structure msg" />
                 <a href="#" title="Close" class="oc-actionClose oc-actionLink oc-js-actionLink"
-                   tal:attributes="href string:${request/ACTUAL_URL}?task|${idx}|close=Close"
+                   tal:attributes="href string:${request/getURL}?task|${idx}|close=Close"
                    i18n:attributes="title account_close_message"
 		   i18n:translate="account_close_message">Close</a>
               </tal:info_msg>
