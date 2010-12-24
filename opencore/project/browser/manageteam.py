@@ -432,7 +432,7 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite, AccountView,
             msg = "Reminder%s sent: %s" % (plural and 's' or '', ", ".join(mem_ids))
             self.add_status_message(msg)
 
-        self.redirect(self.request.getURL)
+        self.redirect(self.request.getURL())
 
     @formhandler.action('remove-email-invites')
     def remove_email_invites(self, targets, fields=None):
