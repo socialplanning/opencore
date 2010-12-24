@@ -102,7 +102,7 @@ on stdout::
     <!--XSUPERVISOR:BEGIN-->
     Content-Type: text/plain
     Username: anonymous
-    Request-url: http://nohost
+    Request-url: http://nohost/plone/...
     Method: GET
     <BLANKLINE>
     Environment: {'REQUEST_METHOD': 'GET', 'SERVER_NAME': 'nohost', 'SERVER_PORT': '80'}
