@@ -28,7 +28,7 @@
       <input type="hidden" name="time" value=""
              tal:attributes="value view/request_time" />
       <input type="hidden" name="url" value=""
-             tal:attributes="value request/ACTUAL_URL" />
+             tal:attributes="value request/getURL" />
       <table class="oc-form">
 	<tr>
 	  <th class="oc-form-label" style="width: 200px;"><label for="oc-did" i18n:translate="error_form_did">What were you doing?</label></th>

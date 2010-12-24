@@ -72,7 +72,7 @@ Environment: %s
 
 Traceback: %s
 <!--XSUPERVISOR:END-->""" % (username, 
-                             self.request.ACTUAL_URL,
+                             self.request.getURL(),
                              method,
                              pformat(self.request.environ),
                              request_args,
