@@ -50,7 +50,7 @@ class RequestMembershipView(TeamRelatedView, formhandler.OctopoLite, LoginView, 
                                       u'You are already a member of this ${project_noun}.',
                                       mapping={u'project_noun': self.project_noun}))
             self.redirect('%s?came_from=%s' % (self.context.absolute_url(), 
-                                               self.request.getURL))
+                                               self.request.getURL()))
         return super(RequestMembershipView, self).__call__()
 
     def _login(self):
