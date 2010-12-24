@@ -15,14 +15,6 @@
 
   <browser:page
      for="*"
-     class=".topnav.TopNavView"
-     permission="zope2.View"
-     name="topnav-default-menu"
-     template="default-menu.pt"
-     />
-
-  <browser:page
-     for="*"
      class=".topnav.AuthMenuView"
      permission="zope2.View"
      name="topnav-auth-user-menu"

@@ -39,14 +39,6 @@ class TopNavView(HeaderHijackable):
         view = getMultiAdapter((self.context, self.request), name=viewname)
         return view.__of__(aq_inner(self.context))
 
-    def siteroot_link(self, urn, name):
-        here = self.request.ACTUAL_URL.split('/')[-1]
-        selected = urn.split('/')[-1] == here
-        css = selected and ' class="oc-topnav-selected"' or ''
-        site_url = getToolByName(self.context, 'portal_url')()
-        urn = '/'.join((site_url, urn))
-        return '<li%s><a href="%s">%s</a></li>' % (css, urn, name)
-
 
 class AnonMenuView(BaseView):
     """
