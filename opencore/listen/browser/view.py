@@ -461,7 +461,7 @@ class ModerationView(BaseModerationView):
         if 'mode' in self.request and self.request.mode == 'async':
             return json
         else:
-            self.redirect(self.request.ACTUAL_URL)
+            self.redirect(self.request.getURL)
 
 
 # prefixing everything is unnecessary

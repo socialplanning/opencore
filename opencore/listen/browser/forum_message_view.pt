@@ -31,7 +31,7 @@
         </div>
         <!-- A form for changing the thread layout, uses post and lets the view set a cookie -->
         <form id="forum-control-form" class="oc-boxy" name="forum-controls" method="post" action=""
-          tal:attributes="action request/ACTUAL_URL">
+          tal:attributes="action request/getURL">
           <label for="flat_view" i18n:translate="forum_thread_view_label">Thread view:</label>
           <select id="threading" name="flat_view:int" tal:define="value view/flat|nothing">
             <option value="0" tal:attributes="selected not:value"

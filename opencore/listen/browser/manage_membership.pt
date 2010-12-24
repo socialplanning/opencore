@@ -11,7 +11,7 @@
         </div>
 
         <form name="manage-form" id="manage-form"
-              tal:attributes="action request/ACTUAL_URL"
+              tal:attributes="action request/getURL"
               tal:define="errors view/errors|nothing"
               method="post">
           <table class="oc-dataTable" cellspacing="0">

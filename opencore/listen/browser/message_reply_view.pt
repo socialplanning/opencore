@@ -17,7 +17,7 @@
           </h2>
         </div>
         <form id="message-reply" name="listen-reply-form" action="."
-          method="post" tal:attributes="action request/ACTUAL_URL">
+          method="post" tal:attributes="action request/getURL">
           <input type="hidden" name="referring_url" value="."
             tal:attributes="value view/referring_url"/>
           <div>

@@ -23,7 +23,7 @@
         </table>
         <br />
         <form name="purge" method="post" action="#"
-          tal:attributes="action string:${request/ACTUAL_URL}/purge_entries">
+          tal:attributes="action string:${request/getURL}/purge_entries">
           <input type="submit" name="purge" id="purge"
             value="Purge Invalid Entries" i18n:attributes="value lookup_view_purge_button" />
         </form>
