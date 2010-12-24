@@ -6,7 +6,7 @@
 
     <metal:macro define-macro="pagination"
 	 tal:define="mq python:modules['ZTUtils'].make_query;
-		     url request/ACTUAL_URL;"
+		     url request/getURL;"
 	 tal:condition="python: batch.next or batch.previous">
       
       <ul class="oc-paginator" tal:define="cur_page view/page">

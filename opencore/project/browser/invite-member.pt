@@ -12,7 +12,7 @@
     
       <div id="oc-content-main">
         <form id="oc-inviteByEmail" name="oc-inviteByEmail"
-              tal:attributes="action view/request/ACTUAL_URL"
+              tal:attributes="action view/request/getURL"
               method="POST">
           <table class="oc-form">
             <thead></thead>

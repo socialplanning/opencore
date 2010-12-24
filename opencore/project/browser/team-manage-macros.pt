@@ -144,7 +144,7 @@
     <form method="POST"
           tal:attributes="name item_type;
                           id item_type;
-                          action view/request/ACTUAL_URL">
+                          action view/request/getURL">
       <table class="oc-dataTable" cellpadding="0" cellspacing="0">
 
         <thead>
@@ -250,7 +250,7 @@
         tal:content="string:Your team member" />
 
     <form name="team-members" id="team-members" method="POST"
-          tal:attributes="action view/request/ACTUAL_URL">
+          tal:attributes="action view/request/getURL">
       <table class="oc-dataTable" cellpadding="0" cellspacing="0">
 
         <thead>
