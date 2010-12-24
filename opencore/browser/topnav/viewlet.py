@@ -100,7 +100,7 @@ def if_request_starts_with_url(viewlet):
        absolute url
        this handles most cases to see if a particular button should be
        selected"""
-    return viewlet.request.ACTUAL_URL.startswith(viewlet.url())
+    return viewlet.request.getURL().startswith(viewlet.url())
 
 def is_in_external_application(viewlet):
     """
@@ -138,7 +138,7 @@ def if_projects_selected(viewlet):
     """if we don't check that the viewed url ends with create, then the
        projects folder will be displayed as well (also in projects folder)"""
     return (IAddProject.providedBy(viewlet.context) and
-            not url_ends_with(viewlet.context.request.ACTUAL_URL,
+            not url_ends_with(viewlet.context.request.getURL(),
                               '/create'))
 
 def openpage_provided(viewlet):
@@ -174,11 +174,11 @@ def not_part_of_project(viewlet):
     return True
 
 def team_selected(viewlet):
-    return (url_ends_with(viewlet.context.request.ACTUAL_URL, '/team') or
-            viewlet.context.request.ACTUAL_URL.endswith('/manage-team'))
+    return (url_ends_with(viewlet.context.request.getURL(), '/team') or
+            viewlet.context.request.getURL().endswith('/manage-team'))
 
 def profile_selected(viewlet):
-    url = viewlet.request.ACTUAL_URL
+    url = viewlet.request.getURL()
     return (IMemberFolder.providedBy(viewlet.context) and
             (url_ends_with(url, '/profile') or
              url_ends_with(url, '/people/%s' % viewlet.context.id)))
