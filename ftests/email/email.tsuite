@@ -1,0 +1,13 @@
+# This suite assumes you have Zope's MailHost sending mail to a mock smtp server
+# implemented by https://github.com/ejucovy/mailsink -- which also provides
+# a web UI for inspecting emails that are "sent."
+# 
+# The suite also assumes you are using a synchronous MailHost, or at least
+# a MailDropHost with a very quick poll interval; it assumes that mails are
+# sent out (and received in the mock smtp server's outbox) instantaneously.
+
+reset_outbox
+create_user
+num_messages(n=2)
+find_message_by_subject(subject="Please confirm your email address")
+reset_outbox

@@ -1,0 +1,2 @@
+go ${outbox_url}/messages.html
+find "<h1>${n} messages</h1>"
