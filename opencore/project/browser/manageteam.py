@@ -840,7 +840,7 @@ class InviteView(ManageTeamView):
                 mship_messages.email_invite_static_body,
                 mfrom=self.loggedinmember.id, **msg_subs)
             if email_confirmation():
-                sender.sendMail(address, msg=msg)
+                sender.sendMail(address, msg=msg, **msg_subs)
             else:
                 log.info(msg)
 
