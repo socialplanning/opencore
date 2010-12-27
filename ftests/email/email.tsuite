@@ -7,8 +7,21 @@
 # sent out (and received in the mock smtp server's outbox) instantaneously.
 
 reset_outbox
-logout
+#logout
 create_user
-num_messages(n=2)
-find_message_by_subject(subject="Please confirm your email address")
+num_messages(n=1)
+find_message_by_subject(subject="email_to_pending_user_subject")
+
 reset_outbox
+
+login
+create_project(projpolicy="open_policy", projfeaturelets="listen")
+project_invite
+num_messages(n=1)
+find_message_by_subject(subject=${invite_subject})
+
+reset_outbox
+
+project_remind
+num_messages(n=1)
+find_message_by_subject(subject="Please join us")

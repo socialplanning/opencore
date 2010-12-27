@@ -1,0 +1,14 @@
+extend_with flunc.xpath
+extend_with flunc.checkbox
+
+go ${base_url}/projects/${projname}
+follow "team"
+
+find_in_css ${email_to_invite} "#email-invite table"
+edit_checkbox "email-invite" checked:list ${email_to_invite}
+submit "task|batch_checked|remind-email-invites"
+
+fv "oc-inviteByEmail" subject "Please join us"
+submit
+
+find "Reminder sent"
