@@ -7,7 +7,7 @@
 # sent out (and received in the mock smtp server's outbox) instantaneously.
 
 reset_outbox
-#logout
+
 create_user
 num_messages(n=1)
 find_message_by_subject(subject="email_to_pending_user_subject")

@@ -10,4 +10,6 @@ create_project(projname=${project_id}, projfullname="Testing Topnav", projpolicy
 
 topnavhilite(project_id=${project_id})
 
+logout
+
 email
