@@ -1,2 +1,4 @@
+extend_with flunc.mail
+
 go ${outbox_url}/messages.html
 find "<h1>${n} messages</h1>"

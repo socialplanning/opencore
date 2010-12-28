@@ -25,3 +25,17 @@ reset_outbox
 project_remind
 num_messages(n=1)
 find_message_by_subject(subject="Please join us")
+
+reset_outbox
+
+sendmail(mailname="listen_post.email")
+num_messages(n=2)
+find_message_by_subject(subject="Email confirmation")
+find_message_by_subject(subject="Post requiring moderation")
+
+reset_outbox
+
+listen_mod_post_accept(postsubject="hi how are you")
+num_messages(n=1)
+find_message_by_subject(subject="hi how are you")
+

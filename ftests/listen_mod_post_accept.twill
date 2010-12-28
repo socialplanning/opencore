@@ -7,9 +7,9 @@
 
 go ${base_url}/projects/${projname}/lists/${listtitle}/moderation
 find $postsubject
-fv 2 post_discard 'selecting form'
-submit post_discard
+fv 2 post_approve 'selecting form'
+submit post_approve
 notfind $postsubject
 notfind 'Site error' i
 go ${base_url}/projects/${projname}/lists/${listtitle}/archive
-notfind $postsubject
+find $postsubject

@@ -1,0 +1,3 @@
+extend_with flunc.mail
+
+send_mail $maildir $mailname $base_url
