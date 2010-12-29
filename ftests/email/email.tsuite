@@ -91,3 +91,20 @@ open_message(subject="i love this list")
 listen_check_for_post(postsubject="i love this list")
 
 reset_outbox
+
+# Now yet another new user will send a non-ASCII message to the list.
+# He'll then reply by email to the confirmation prompt,
+# and the message should then get processed, sent and archived.
+sendmail(mailname="listen_post_i18n.email", sender_email="so-many-users@example.com", subject_text="giraffes and zebras")
+
+num_messages(n=2)
+
+open_message(subject="Email confirmation")
+reply(text="subscribe")
+
+num_messages(n=3)
+
+open_message(subject="giraffes and zebras")
+listen_check_for_post(postsubject="giraffes and zebras")
+
+reset_outbox
