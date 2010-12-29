@@ -60,3 +60,18 @@ reset_outbox
 listen_mod_post_accept(postsubject="third message")
 num_messages(n=1)
 find_message_by_subject(subject="third message")
+
+reset_outbox
+sendmail(mailname="another_listen_post.email")
+
+num_messages(n=2)
+
+open_message(subject="Email confirmation")
+reply(text="subscribe")
+
+num_messages(n=3)
+
+open_message(subject="i love this list")
+listen_check_for_post(postsubject="i love this list")
+
+reset_outbox
