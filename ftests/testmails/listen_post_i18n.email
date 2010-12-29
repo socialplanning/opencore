@@ -1,6 +1,6 @@
-From: Sturla Þórðarson <test-user@example.com>
-To: Guðný Böðvarsdóttir <emailproject-discussion@lists.openplans.org>
-Subject: 汉语漢語 second message
+From: Sturla Þórðarson <${sender_email}>
+To: Guðný Böðvarsdóttir <${list_id}@lists.openplans.org>
+Subject: 汉语漢語 ${subject_text}
 
 كيبورد للكتابة بالعرب 
 
