@@ -51,3 +51,9 @@ send_listen_mail_from_new_user_and_self_confirm_by_email(mailname="listen_post.e
 # He'll then reply by email to the confirmation prompt,
 # and the message should then get processed, sent and archived.
 send_listen_mail_from_new_user_and_self_confirm_by_email(mailname="listen_post_i18n.email", sender_email="so-many-users@example.com", subject="giraffes and zebras")
+
+# Now yet another new user will send a regular message to the list.
+# He'll then reply by email to the confirmation prompt,
+# using a different email address than the one he sent the mail from.
+# The message should still get processed, sent and archived.
+send_listen_mail_from_new_user_and_self_confirm_by_different_email(mailname="listen_post.email", sender_email="james-the-user@example.com", subject="i love this list", other_email="jimmy-user@example.com")
