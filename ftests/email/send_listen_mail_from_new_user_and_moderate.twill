@@ -1,0 +1,55 @@
+# Expected local variables:
+#  mailname: the filename of the mail to send
+#  sender_email: the full email address of the sender
+#  subject: the text of the email's subject
+#  list_id: the list id that we are sending to
+#  projname: the project id that the list belongs to
+# Expected global variables:
+#  outbox_url
+#  base_url
+#  maildir
+
+# First let's reset the outbox
+go ${outbox_url}/drain
+find "ok"
+go ${outbox_url}/messages.html
+find "<h1>0 messages</h1>"
+
+# Now we'll send a mail
+extend_with flunc.mail
+send_mail $maildir $mailname
+
+# The user who sent the email should get a confirmation email,
+# and the moderator should get a moderation email.
+# Let's confirm that both of those mails (and no others)
+# were sent out.
+go ${outbox_url}/messages.html
+find "<h1>2 messages</h1>"
+extend_with flunc.xpath
+find_in_css "Email confirmation" "span.subject"
+find_in_css "Post requiring moderation" "span.subject"
+
+# Let's reset the outbox again, in preparation for
+# the next batch of emails that will be triggered.
+go ${outbox_url}/drain
+find "ok"
+go ${outbox_url}/messages.html
+find "<h1>0 messages</h1>"
+
+# Now let's visit the list's moderation queue
+# and accept this post through the web.
+go ${base_url}/projects/${projname}/lists/${list_id}/moderation
+find $subject
+fv 2 post_approve 'selecting form'
+submit post_approve
+notfind $subject
+notfind 'Site error' i
+go ${base_url}/projects/${projname}/lists/${list_id}/archive
+find $subject
+
+# Now that it's been moderated, the post has been sent
+# to the list's subscribers by email.
+go ${outbox_url}/messages.html
+find "<h1>1 messages</h1>"
+find_in_css $subject "span.subject"
+

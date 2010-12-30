@@ -26,26 +26,10 @@ project_remind
 num_messages(n=1)
 find_message_by_subject(subject="Please join us")
 
-reset_outbox
-
 # Now let's try some listen emails.
 # First we'll send a regular email from a regular user.
 # It should be put in the moderation queue.
-sendmail(mailname="listen_post.email", sender_email="new-user@example.com", subject="hi how are you")
-
-# The user who sent the email should get a confirmation email,
-# and the moderator should get a moderation email.
-num_messages(n=2)
-find_message_by_subject(subject="Email confirmation")
-find_message_by_subject(subject="Post requiring moderation")
-
-reset_outbox
-
-listen_mod_post_accept(postsubject="hi how are you")
-num_messages(n=1)
-find_message_by_subject(subject="hi how are you")
-
-reset_outbox
+send_listen_mail_from_new_user_and_moderate(mailname="listen_post.email", sender_email="new-user@example.com", subject="hi how are you")
 
 # Now the same user (email address) will send a message
 # with lots of non-ASCII characters. It should go through
@@ -56,24 +40,10 @@ listen_check_for_post(postsubject="second message")
 num_messages(n=1)
 find_message_by_subject(subject="second message")
 
-reset_outbox
-
 # Now a new user will send a message with lots of non-ASCII
 # characters.  It should go through the confirmation workflow
 # and the moderator should be able to accept it through the web.
-sendmail(mailname="listen_post_i18n.email", sender_email="another-new-user@example.com", subject_text="third message")
-
-num_messages(n=2)
-find_message_by_subject(subject="Email confirmation")
-find_message_by_subject(subject="Post requiring moderation")
-
-reset_outbox
-
-listen_mod_post_accept(postsubject="third message")
-num_messages(n=1)
-find_message_by_subject(subject="third message")
-
-reset_outbox
+send_listen_mail_from_new_user_and_moderate(mailname="listen_post_i18n.email", sender_email="another-new-user@example.com", subject="third message")
 
 # Now yet another new user will send a regular message to the list.
 # He'll then reply by email to the confirmation prompt,
@@ -95,7 +65,7 @@ reset_outbox
 # Now yet another new user will send a non-ASCII message to the list.
 # He'll then reply by email to the confirmation prompt,
 # and the message should then get processed, sent and archived.
-sendmail(mailname="listen_post_i18n.email", sender_email="so-many-users@example.com", subject_text="giraffes and zebras")
+sendmail(mailname="listen_post_i18n.email", sender_email="so-many-users@example.com", subject="giraffes and zebras")
 
 num_messages(n=2)
 
