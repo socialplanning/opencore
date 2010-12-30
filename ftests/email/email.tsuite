@@ -35,7 +35,7 @@ send_listen_mail_from_new_user_and_moderate(mailname="listen_post.email", sender
 # with lots of non-ASCII characters. It should go through
 # immediately because this email address is already an
 # allowed sender.
-sendmail(mailname="listen_post_i18n.email", sender_email="new-user@example.com", subject_text="second message")
+sendmail(mailname="listen_post_i18n.email", sender_email="new-user@example.com", subject="second message")
 listen_check_for_post(postsubject="second message")
 num_messages(n=1)
 find_message_by_subject(subject="second message")
