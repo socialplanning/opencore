@@ -35,10 +35,7 @@ send_listen_mail_from_new_user_and_moderate(mailname="listen_post.email", sender
 # with lots of non-ASCII characters. It should go through
 # immediately because this email address is already an
 # allowed sender.
-sendmail(mailname="listen_post_i18n.email", sender_email="new-user@example.com", subject="second message")
-listen_check_for_post(postsubject="second message")
-num_messages(n=1)
-find_message_by_subject(subject="second message")
+send_listen_mail_from_allowed_sender(mailname="listen_post_i18n.email", sender_email="new-user@example.com", subject="second message")
 
 # Now a new user will send a message with lots of non-ASCII
 # characters.  It should go through the confirmation workflow
@@ -48,33 +45,9 @@ send_listen_mail_from_new_user_and_moderate(mailname="listen_post_i18n.email", s
 # Now yet another new user will send a regular message to the list.
 # He'll then reply by email to the confirmation prompt,
 # and the message should then get processed, sent and archived.
-sendmail(mailname="listen_post.email", sender_email="yet-another-user@example.com", subject="i love this list")
-
-num_messages(n=2)
-
-open_message(subject="Email confirmation")
-reply(text="subscribe")
-
-num_messages(n=3)
-
-open_message(subject="i love this list")
-listen_check_for_post(postsubject="i love this list")
-
-reset_outbox
+send_listen_mail_from_new_user_and_self_confirm_by_email(mailname="listen_post.email", sender_email="yet-another-user@example.com", subject="i love this list")
 
 # Now yet another new user will send a non-ASCII message to the list.
 # He'll then reply by email to the confirmation prompt,
 # and the message should then get processed, sent and archived.
-sendmail(mailname="listen_post_i18n.email", sender_email="so-many-users@example.com", subject="giraffes and zebras")
-
-num_messages(n=2)
-
-open_message(subject="Email confirmation")
-reply(text="subscribe")
-
-num_messages(n=3)
-
-open_message(subject="giraffes and zebras")
-listen_check_for_post(postsubject="giraffes and zebras")
-
-reset_outbox
+send_listen_mail_from_new_user_and_self_confirm_by_email(mailname="listen_post_i18n.email", sender_email="so-many-users@example.com", subject="giraffes and zebras")
