@@ -57,3 +57,6 @@ send_listen_mail_from_new_user_and_self_confirm_by_email(mailname="listen_post_i
 # using a different email address than the one he sent the mail from.
 # The message should still get processed, sent and archived.
 send_listen_mail_from_new_user_and_self_confirm_by_different_email(mailname="listen_post.email", sender_email="james-the-user@example.com", subject="i love this list", other_email="jimmy-user@example.com")
+
+add_listen_subscriber_and_confirm_by_email(subscribed_email="joe-user-foo@example.com", sender_email="joe-user-foo@example.com")
+add_listen_subscriber_and_confirm_by_email(subscribed_email="bob-user@example.com", sender_email="bobby-user@example.net")
