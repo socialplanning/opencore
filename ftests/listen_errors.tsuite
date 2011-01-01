@@ -1,0 +1,9 @@
+#
+create_user
+login
+create_project
+create_page(pagename="this-is-a-page")
+
+listen_create_list(listtitle="this-is-a-page", mailto="this-is-a-page")
+
+listen_create_list_error(listtitle="this-is-a-page", mailto="this-is-a-page", error_msg="address is already in use", error_field="mailto")
