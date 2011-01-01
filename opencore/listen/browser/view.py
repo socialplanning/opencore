@@ -34,7 +34,7 @@ from opencore.i18n import _
 from opencore.listen.interfaces import IListenContainer
 from opencore.listen.mailinglist import OpenMailingList
 from opencore.listen.mailinglist_views import MailingListView
-from opencore.listen.utils import isValidPrefix
+from opencore.listen.utils import validatePrefix
 from opencore.tales.utils import member_title
 from opencore.utils import interface_in_aq_chain
 from plone.app.form import _named
@@ -43,6 +43,7 @@ from zope.app.component.hooks import getSite
 from zope.event import notify
 from zope.formlib.namedtemplate import INamedTemplate
 from zope.interface import implements
+from zope.schema import ValidationError
 from zExceptions import BadRequest
 import cgi
 import re
@@ -189,13 +190,24 @@ class ListenEditBaseView(ListenBaseView, OctopoLite):
         mailto = None
         if creation:
             mailto = self.request.form.get('mailto')
+            is_valid = True
             if not mailto:
+                is_valid = False
                 self.errors['mailto'] = _(u'list_missing_prefix_error', u'The mailing list must have a list prefix.')
-            elif not isValidPrefix(mailto):
-                self.errors['mailto'] = _(u'list_invalid_prefix_error', u'Only the following characters are allowed in list address prefixes: alpha-numerics, underscores, hyphens, and periods (i.e. A-Z, a-z, 0-9, and _-. symbols)')
-            else:
+            if is_valid:
+                try:
+                    is_valid = validatePrefix(mailto)
+                    if not is_valid:
+                        self.errors['mailto'] = _(
+                            u'list_invalid_prefix_error', u'Only the following characters are allowed in list address prefixes: alpha-numerics, underscores, hyphens, and periods (i.e. A-Z, a-z, 0-9, and _-. symbols)')
+                except ValidationError, e:
+                    is_valid = False
+                    self.errors['mailto'] = e.__doc__
+
+            if is_valid:
                 mailto = putils.normalizeString(mailto)
-                if hasattr(self.context, mailto):
+
+                if mailto in self.context.keys():
                     self.errors['mailto'] = _(u'list_create_duplicate_error', u'The requested list prefix is already taken.')
 
         # If we don't pass sanity checks by this point, abort and let the user correct their errors.
