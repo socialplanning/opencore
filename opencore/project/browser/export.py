@@ -69,6 +69,11 @@ class ProjectExportView(BaseView):
         queue = export_utils.get_queue()
         status = self.current_status()
         status.queue(queue)
+        
+        if self.request.get("client") == "browser":
+            return self.redirect(
+                "%s/export" % self.context.absolute_url())
+
         return status.json()
  
     def __getitem__(self, name):

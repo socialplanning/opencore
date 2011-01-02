@@ -39,27 +39,53 @@ background: url(/++resource++spinning_wheel_throbber.gif) 0 50% no-repeat;
 
 </div>
     
-<div id="oc-content-main" class="oc-content-main-fullWidth">
-  <form id="project-export" action="" method="get">
+<div id="oc-content-main" class="oc-content-main-fullWidth"
+     tal:define="current view/current_status">
+  <form id="project-export" 
+	action="export/do_export"
+	method="post">
 
-    <input class="context oc-button oc-chooseThis" type="submit" name="export"
-           value="Export" i18n:attributes="value"/>
+    <input type="hidden" name="client" value="browser" />
+    <input class="context oc-button oc-chooseThis"
+	   type="submit" name="export"
+           value="Export" i18n:attributes="value"
+	   tal:condition="not:current/active"
+	   />
+    <input class="context oc-button oc-chooseThis"
+	   type="submit" name="export"
+           value="Export" i18n:attributes="value"
+	   disabled="disabled"
+	   tal:condition="current/active"
+	   />
   </form>
-  <div id="project-export-status"
-       tal:define="current view/current_status">
-    <span tal:condition="python: current.active"
+  <h2 tal:condition="current/active">
+    Current status
+  </h2>
+  <div id="project-export-status">
+    <span tal:condition="current/active"
        i18n:translate="project_export_job_running">
       There is already a job running. Please be patient.
+      (<span tal:replace="current/state" />
+      <span tal:condition="current/progress_descr"
+	    tal:replace="string: : ${current/progress_descr}" />)
     </span>
   </div>
 
   <div>
-    <span id="project-export-list-header" tal:attributes="class python: view.available_exports() and ' ' or 'oc-hidden'"
-       i18n:translate="project_export_file_list_heading">Exports available for download (most recent first, maximum of 5):</span>
+    <h2 id="project-export-list-header" tal:attributes="class python: view.available_exports() and ' ' or 'oc-hidden'"
+       i18n:translate="project_export_file_list_heading">
+      Exports available for download 
+      (most recent first, maximum of 5):
+    </h2>
     <ul id="project-export-list">
       <li tal:repeat="file view/available_exports">
         <a href=""
-           tal:attributes="href string:${request/URL}/${file}" tal:content="file"><tal:comment replace="nothing">file name here</tal:comment></a></li>
+           tal:attributes="href string:${request/URL}/${file}"
+	   tal:content="file">
+	  <tal:comment replace="nothing">
+	    file name here</tal:comment>
+	</a>
+      </li>
     </ul>
   </div>
 
@@ -69,9 +95,12 @@ background: url(/++resource++spinning_wheel_throbber.gif) 0 50% no-repeat;
      <li i18n:translate="">Images and files</li>
      <li i18n:translate="">Mailing list archives</li>
      <li i18n:translate="">Mailing list subscribers</li>
+     <li i18n:translate="">Blog posts</li>
+     <li i18n:translate="">Blog categories</li>
+     <li i18n:translate="">Blogroll</li>
   </ul>
   <p i18n:translate="project_export_content_description">Support is planned to add other content to the export soon
-   (eg. blogs, tasks, etc).
+   (eg. wiki page histories, tasks and tasklists, etc).
   </p>
 
   <div class="oc-js-expander oc-expander">
