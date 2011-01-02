@@ -94,10 +94,28 @@ class ProjectExportQueueView(object):
         self.vardir = config.getConfiguration().clienthome
         self.maxwait = 30
 
-    def __call__(self):
+    def __call__(self, maxwait=None):
         count = 0
+        names = []
         queue = get_queue()
         starttime = time.time()
+        
+        # We allow the remote caller to specify
+        # a maxwait parameter to override the
+        # default, but it has to be a valid int
+        # smaller than the default. We don't want
+        # to allow requests to last arbitrarily
+        # long, even if they're made by admins.
+        if maxwait is not None:
+            try:
+                maxwait = int(maxwait)
+            except TypeError:
+                maxwait = self.maxwait
+            if maxwait > self.maxwait:
+                maxwait = self.maxwait
+        else:
+            maxwait = self.maxwait
+
         while True:
             # Let's wait to see if anything interesting turns
             # up. This should prevent the users having to wait 0
@@ -109,7 +127,7 @@ class ProjectExportQueueView(object):
             # gets stuffed in the queue more than once, the status
             # dict w/ locking should ensure that only one status
             # can exist for a given name.
-            timeout = max(0, self.maxwait - (time.time() - starttime))
+            timeout = max(0, maxwait - (time.time() - starttime))
             try:
                 name = queue.get(timeout=timeout)
             except Empty:
@@ -124,6 +142,7 @@ class ProjectExportQueueView(object):
                     outfile_path = self.export(name, status)
                     status.finish(outfile_path)
                     count += 1
+                    names.append(name)
                 except Exception, s:
                     status.fail(str(s))
                     log_exception('Failure in export of project %r:\n' 
@@ -140,7 +159,7 @@ class ProjectExportQueueView(object):
         if count:
             logger.info('Reached end of project export job queue (exported %d)'
                         % count)
-
+        return names
 
     def export(self, project_id, status=None):
         """
