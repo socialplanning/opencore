@@ -11,7 +11,7 @@ fv project-export export 1
 submit
 
 extend_with flunc.zope_run_cat_queue
-run_export_queue $admin $adminpw $projname
+ensure_project_export $admin $adminpw $projname
 
 go ${base_url}/projects/${projname}/export
 find_in_css "${projname}.*zip" "ul#project-export-list a"
