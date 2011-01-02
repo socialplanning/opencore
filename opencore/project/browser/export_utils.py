@@ -138,9 +138,14 @@ class ProjectExportQueueView(object):
                 continue
             else:
                 try:
+                    # we want a fresh transaction
+                    # in case content has changed
+                    # since the beginning of this thread
+                    transaction.commit()
                     status.start()
                     outfile_path = self.export(name, status)
                     status.finish(outfile_path)
+                    transaction.commit()
                     count += 1
                     names.append(name)
                 except Exception, s:
@@ -180,6 +185,7 @@ class ProjectExportQueueView(object):
         proj_dirname = badchars.sub('_', project_id)
         outdir = getpath(project_id, self.vardir)
         project = self.context.restrictedTraverse('projects/%s' % project_id)
+
         timestamp = datetime.datetime.utcnow().strftime('%Y-%m-%d_%H:%M:%S')
         outfile_path = os.path.join(outdir, '%s-%s.zip' % (proj_dirname, timestamp))
         # Using mkstemp instead of other classes in tempfile because I
