@@ -101,6 +101,7 @@ The queue starts empty:
     >>> self._start_log_capture(subsystem='opencore.project.browser')
     >>> qview.maxwait = 0  # turn off blocking timeout for tests.
     >>> qview()  # nothing happens.
+    []
     >>> print self.logged
     None
 
@@ -110,6 +111,7 @@ Here's an example of export failure due to missing project:
     >>> queue.put('no-such-project')
     >>> status = export_utils.get_status('no-such-project')
     >>> qview()
+    []
     >>> status.failed
     True
     >>> len(self.logged) > 0
@@ -124,6 +126,7 @@ And here's an example of success:
     >>> status = export_utils.get_status(proj.getId())
     >>> queue.put(status.name)
     >>> qview()
+    ['p2']
     >>> status.succeeded
     True
     >>> len(self.logged) > 0
@@ -188,6 +191,7 @@ We can check the current state of the export job:
 If we call the queue handler, the export job will finish:
 
     >>> qview()
+    ['p2']
     >>> status.succeeded
     True
 
