@@ -1,6 +1,13 @@
 0.19.0 (unreleased)
 ===================
 
+ * Fixed Site Error when trying to add a mailing list with a 
+   mailto address that is already in use: #2948 (egj)
+
+ * Fixed erroneous validation failure when trying to add
+   a mailing list with a mailto address that is identical to
+   the ID of a wiki page in the same project: #2947 (egj)
+
  * Removed "contact" link from profile page when viewed by
    anonymous users: #2935 (egj)
 
