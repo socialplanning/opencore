@@ -212,6 +212,7 @@
   <!-- deletion subscribers -->
   <subscriber handler=".preferences.delete_team" />
   <subscriber handler=".preferences.delete_email_invites" />
+  <subscriber handler=".preferences.delete_exports" />
 
   <adapter factory=".preferences.ProjectFeatureletSupporter" />
 

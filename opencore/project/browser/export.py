@@ -32,12 +32,13 @@ class ProjectExportView(BaseView):
     def available_exports(self):
         """any zip files avail to download?
         """
-        path = export_utils.getpath(self.context.getId(), self.vardir)
-        zips = [f for f in os.listdir(path) if 
-                (f.endswith('.zip') and not f.startswith(export_utils.TEMP_PREFIX))]
-        zips.sort(reverse=True)
+        proj_id = self.context.getId()
+        zips = export_utils.getzips(proj_id,
+                                    self.vardir)
+        path = export_utils.getpath(proj_id, self.vardir)
         # don't want to pile up zip files forever...
-        # in lieu of a UI or a sensible policy, we'll just keep the last 5
+        # in lieu of a UI or a sensible policy, 
+        # we'll just keep the last 5
         zips, excess_zips = zips[:5], zips[5:]
         for f in excess_zips:
             os.unlink(os.path.join(path, f))

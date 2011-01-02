@@ -465,6 +465,19 @@ def getpath(project_id, vardir=None):
         os.makedirs(path)
     return path
 
+def getzips(project_id, vardir=None):
+    path = getpath(project_id, vardir)
+    zips = [f for f in os.listdir(path) if 
+            (f.endswith('.zip') and
+             not f.startswith(TEMP_PREFIX))]
+    zips.sort(reverse=True)
+    return zips
+
+def delete_zips(project_id, vardir=None):
+    zips = getzips(project_id, vardir)
+    path = getpath(project_id, vardir)
+    for f in zips:
+        os.unlink(os.path.join(path, f))
 
 class EnhancedSubscriberExporter(object):
     """ 
