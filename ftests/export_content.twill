@@ -1,13 +1,22 @@
-
-# Stub tests for the export form.
+extend_with flunc.xpath
 
 # for now the link is hidden, so we'll go to it directly
 #go ${base_url}/projects/${projname}/
 #follow "export"
 go ${base_url}/projects/${projname}/export
 code 200
+notfind_in_css "${projname}.*zip" "ul#project-export-list a"
+
+fv project-export export 1
+submit
+
+extend_with flunc.zope_run_cat_queue
+run_export_queue $admin $adminpw
+
+go ${base_url}/projects/${projname}/export
+find_in_css "${projname}.*zip" "ul#project-export-list a"
+follow zip
 
 # can't do much else w/ a form that works asynchronously...
 # it might take 30 seconds for clockserver to get around to
 # running our export, ugh.
-
