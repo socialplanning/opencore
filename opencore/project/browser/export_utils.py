@@ -271,16 +271,7 @@ class ContentExporter(object):
             #file_data = em.export_messages() or ''
             #self.zipfile.writestr('%s/lists/%s.mbox' % (self.context_dirname, mlistid),
             #                     file_data)
-            # Instead inline here is a modified version of export_messages().
-            tmpfd, tmpname = tempfile.mkstemp(suffix='.mbox')
-            temp_outfile = os.fdopen(tmpfd, 'w')
-            from Products.listen.interfaces import ISearchableArchive
-            sa = getUtility(ISearchableArchive, context=em.context)
-            msgs = sa(sort_on='modification_date')
-            for msg in msgs:
-                temp_outfile.write(em._convert_to_mbox_msg(msg.getObject()))
-                temp_outfile.write('\n')
-            temp_outfile.close()
+            tmpfd, tmpname = em.export_messages_to_tempfile()
             self.zipfile.write(tmpname,
                                '%s/lists/%s.mbox' % (self.context_dirname, mlistid))
             os.unlink(tmpname)
