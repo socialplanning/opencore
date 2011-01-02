@@ -5,11 +5,19 @@ from zope.schema import ValidationError
 from zope.app.component.hooks import getSite
 
 from Products.CMFCore.utils import getToolByName
-from Products.listen.interfaces.mailinglist import check_mailto, ManagerMailTo, InvalidMailTo
+from Products.listen.interfaces.mailinglist import check_mailto, ManagerMailTo, InvalidMailTo, DuplicateMailTo
 
 _ = MessageFactory("opencore")
 
 invalid_list_prefix_re = re.compile(r'[^\w.-]')
+
+def validatePrefix(prefix):
+    suffix = getSuffix()
+    check_mailto(prefix + suffix)
+    match = invalid_list_prefix_re.search(prefix)
+    if match is not None:
+        return False
+    return True
 
 #XXX: I'm not sure how this is supposed to work. - novalis
 def isValidPrefix(prefix):
@@ -17,18 +25,13 @@ def isValidPrefix(prefix):
     Returns True if the prefix only contains valid email prefix chars,
     returns False otherwise
     """
-    suffix = getSuffix()
     try:
-        check_mailto(prefix + suffix)
+        result = validatePrefix(prefix)
     except InvalidMailTo:
         return False
     except ManagerMailTo:
         return False
-
-    match = invalid_list_prefix_re.search(prefix)
-    if match is not None:
-        return False
-    return True
+    return result
     
 def getSuffix():
     """
