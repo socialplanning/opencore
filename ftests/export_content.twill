@@ -17,6 +17,10 @@ go ${base_url}/projects/${projname}/export
 find_in_css "${projname}.*zip" "ul#project-export-list a"
 follow zip
 
-# can't do much else w/ a form that works asynchronously...
-# it might take 30 seconds for clockserver to get around to
-# running our export, ugh.
+download_project_export
+export_contains "${projname}/README.txt"
+export_contains "${projname}/pages/project-home.html"
+export_contains "${projname}/lists/${projname}_discussion.mbox"
+export_contains "${projname}/lists/${projname}_discussion-subscribers.csv"
+export_file_contains "${projname}/lists/${projname}_discussion-subscribers.csv" ${fullname}
+export_file_contains "${projname}/pages/project-home.html" ${projbody}
