@@ -205,7 +205,7 @@ We can get the path to the zipfile from the status object:
     >>> pprint(exported_files)
     ['p2/README.txt',
      'p2/lists/list1/archive.mbox',
-     'p2/lists/list1/settings.ini,
+     'p2/lists/list1/settings.ini',
      'p2/lists/list1/subscribers.csv',
      'p2/pages/fa1',
      'p2/pages/fa2',
