@@ -20,7 +20,11 @@ follow zip
 download_project_export
 export_contains "${projname}/README.txt"
 export_contains "${projname}/pages/project-home.html"
-export_contains "${projname}/lists/${projname}_discussion.mbox"
-export_contains "${projname}/lists/${projname}_discussion-subscribers.csv"
-export_file_contains "${projname}/lists/${projname}_discussion-subscribers.csv" ${fullname}
+export_contains "${projname}/lists/${projname}-discussion/archive.mbox"
+export_contains "${projname}/lists/${projname}-discussion/subscribers.csv"
+export_file_contains "${projname}/lists/${projname}-discussion/subscribers.csv" ${fullname}
 export_file_contains "${projname}/pages/project-home.html" ${projbody}
+export_file_contains "${projname}/lists/${projname}-discussion/settings.ini" "mailto = ${projname}-discussion@"
+export_file_contains "${projname}/lists/${projname}-discussion/settings.ini" "created_by = ${user}"
+export_file_contains "${projname}/lists/${projname}-discussion/settings.ini" "sync_membership = True"
+export_file_contains "${projname}/lists/${projname}-discussion/settings.ini" "list_type = policy_open"
