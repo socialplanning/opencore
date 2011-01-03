@@ -5,6 +5,7 @@ from Products.listen.interfaces import IMailingListSubscriberExport
 from Products.listen.interfaces import IMembershipList
 from Products.listen.lib.common import lookup_member_id
 from Queue import Queue, Empty
+from lxml.html import fragment_fromstring, tostring
 from opencore.i18n import _, translate
 from opencore.utility.interfaces import IHTTPClient
 from opencore.utility.interfaces import IProvideSiteConfig
@@ -267,7 +268,23 @@ class ContentExporter(object):
             # (Which hopefully Zope has already done.)
             page_id = page.getId()
             page_id = badchars.sub('_', page_id)
-            # XXX TODO: appending '.html' will break links!
+
+            # We want to rewrite links to other wiki pages,
+            # so that the wiki will form a valid web after 
+            # we export it and save the HTML files with 
+            # a .html extension.  The goal is to let this
+            # export be uploaded to any web server and be
+            # a valid site with no broken links.
+            # XXX TODO: we need to NOT extend the link url with
+            # the .html extension if the link is to a file!
+            base = self.context.absolute_url()
+            body = fragment_fromstring(text)
+            def link_repl_func(url):
+                if url.startswith(base):
+                    return url.replace(base, '').lstrip('/') + '.html'
+            body.rewrite_links(link_repl_func)
+            text = tostring(body)
+
             self.zipfile.writestr("%s/pages/%s.html" % (
                     self.context_dirname, page_id), text)
 
