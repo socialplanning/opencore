@@ -28,4 +28,5 @@ export_file_contains "${projname}/lists/${projname}-discussion/settings.ini" "ma
 export_file_contains "${projname}/lists/${projname}-discussion/settings.ini" "created_by = ${user}"
 export_file_contains "${projname}/lists/${projname}-discussion/settings.ini" "sync_membership = True"
 export_file_contains "${projname}/lists/${projname}-discussion/settings.ini" "list_type = policy_open"
-export_file_contains "${projname}/pages/project-home.html" 'href="new-page.html"'
+export_file_contains "${projname}/pages/project-home.html" 'href="${pagename}.html"'
+export_file_contains ${projname}/pages/${pagename}.html 'href="new-page/portrait.gif"'
