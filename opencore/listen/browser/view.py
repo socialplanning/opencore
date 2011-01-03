@@ -8,19 +8,20 @@ from Products.CMFCore.utils import getToolByName
 from Products.Five.browser import metaconfigure, pagetemplatefile
 from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
 from Products.PageTemplates.PageTemplate import PageTemplate
-from Products.listen.browser.mail_archive_views import ArchiveForumView, ArchiveDateView, \
-                                                       ArchiveNewTopicView, SubFolderDateView, \
-                                                       ArchiveSearchView
-from Products.listen.browser.mail_message_views import ForumMailMessageView, ThreadedMailMessageView, \
-                                                       MessageReplyView, SearchDebugView
+from Products.listen.browser.mail_archive_views import ArchiveForumView
+from Products.listen.browser.mail_archive_views import ArchiveDateView
+from Products.listen.browser.mail_archive_views import ArchiveNewTopicView
+from Products.listen.browser.mail_archive_views import SubFolderDateView
+from Products.listen.browser.mail_archive_views import ArchiveSearchView
+from Products.listen.browser.mail_message_views import ForumMailMessageView
+from Products.listen.browser.mail_message_views import ThreadedMailMessageView
+from Products.listen.browser.mail_message_views import MessageReplyView
+from Products.listen.browser.mail_message_views import SearchDebugView
 from Products.listen.browser.manage_membership import ManageMembersView
 from Products.listen.browser.moderation import ModerationView as BaseModerationView
 from Products.listen.config import MODERATION_FAILED
 from Products.listen.content import ListTypeChanged
 from Products.listen.lib.common import assign_local_role
-from Products.listen.interfaces.list_types import PublicListTypeDefinition, \
-                                                  PostModeratedListTypeDefinition, \
-                                                  MembershipModeratedListTypeDefinition
 from Products.listen.interfaces import IMailingList
 from Products.listen.interfaces import IWriteMembershipList
 from Products.listen.interfaces import IEmailPostPolicy
@@ -35,6 +36,8 @@ from opencore.listen.interfaces import IListenContainer
 from opencore.listen.mailinglist import OpenMailingList
 from opencore.listen.mailinglist_views import MailingListView
 from opencore.listen.utils import validatePrefix
+from opencore.listen.utils import mlist_type_to_workflow
+from opencore.listen.utils import workflow_to_mlist_type
 from opencore.tales.utils import member_title
 from opencore.utils import interface_in_aq_chain
 from plone.app.form import _named
@@ -49,14 +52,6 @@ import cgi
 import re
 import new
 import os.path
-
-_ml_type_to_workflow = {
-    PublicListTypeDefinition : 'policy_open',
-    PostModeratedListTypeDefinition : 'policy_moderated',
-    MembershipModeratedListTypeDefinition : 'policy_closed',
-    }
-
-_workflow_to_ml_type = dict((y, x) for x, y in _ml_type_to_workflow.items())
 
 _list_error_fields = ['title', 'mailto']
 def oc_json_error(v):
@@ -287,7 +282,7 @@ class ListAddView(ListenEditBaseView):
         list.setDescription(unicode(self.request.form.get('description',''), 'utf-8'))
 
         old_workflow_type = list.list_type
-        new_workflow_type = _workflow_to_ml_type[workflow]
+        new_workflow_type = workflow_to_mlist_type(workflow)
             
         notify(ListTypeChanged(list,
                                old_workflow_type.list_marker,
@@ -346,7 +341,7 @@ class ListEditView(ListenEditBaseView):
         list.setDescription(unicode(self.request.form.get('description',''), 'utf-8'))
 
         old_workflow_type = list.list_type
-        new_workflow_type = _workflow_to_ml_type[workflow]
+        new_workflow_type = workflow_to_mlist_type(workflow)
             
         notify(ListTypeChanged(list,
                                old_workflow_type.list_marker,
@@ -374,7 +369,7 @@ class ListEditView(ListenEditBaseView):
         raise Redirect('%s/summary' % list.absolute_url())
 
     def workflow_policy(self):
-        return _ml_type_to_workflow[self.context.list_type]
+        return mlist_type_to_workflow(self.context)
 
     def mailto(self):
         return self.context.mailto.split("@")[0]

@@ -8,7 +8,10 @@ from Queue import Queue, Empty
 from opencore.i18n import _, translate
 from opencore.utility.interfaces import IHTTPClient
 from opencore.utility.interfaces import IProvideSiteConfig
-from pkg_resources import resource_stream
+from opencore.listen.interfaces import ISyncWithProjectMembership
+from opencore.listen.utils import mlist_type_to_workflow
+from opencore.listen.utils import mlist_archive_policy
+from pkg_resources import resource_stream, resource_filename
 from topp.featurelets.interfaces import IFeatureletSupporter
 from topp.featurelets.supporter import IFeaturelet
 from zipfile import ZipFile
@@ -23,6 +26,7 @@ import os
 import re
 import simplejson as json
 import tempfile
+import tempita
 import threading
 import time
 import traceback
@@ -36,8 +40,8 @@ TEST_SLEEPTIME=0
 
 logger = logging.getLogger('opencore.project.browser')
 
-badchars = re.compile(r'\W+')
-
+# valid characters are letters, digits, underscores, and hyphens
+badchars = re.compile(r'[^\w\-]+')
 
 def log_exception(msg='', level=logging.ERROR):
     """Log the most recent exception and traceback
@@ -76,7 +80,10 @@ def readme():
     text = resource_stream('opencore.project.browser', 'export_readme.txt').read()
     return text
 
-
+def mlist_conf(ctx):
+    tmplfile = resource_filename('opencore.project.browser', 'export_list_conf.ini.tmpl')
+    tmpl = tempita.Template.from_filename(tmplfile)
+    return tmpl.substitute(**ctx)
 
 class ProjectExportQueueView(object):
 
@@ -254,9 +261,15 @@ class ContentExporter(object):
                 logger.warn("Failed to export page at %s; catalog ghost??"
                             % page.getPhysicalPath)
             text = page.getText()
-            # XXX appending '.html' will break links!
-            self.zipfile.writestr("%s/pages/%s.html" % (self.context_dirname, 
-                                                        page.getId()), text)
+            
+            # out of general paranoia for the end user, let's remove
+            # potentially evil character sequences before archiving.
+            # (Which hopefully Zope has already done.)
+            page_id = page.getId()
+            page_id = badchars.sub('_', page_id)
+            # XXX TODO: appending '.html' will break links!
+            self.zipfile.writestr("%s/pages/%s.html" % (
+                    self.context_dirname, page_id), text)
 
     def save_files(self):
         self.status.progress_descr = _(u'Saving images and file attachments')
@@ -298,16 +311,34 @@ class ContentExporter(object):
             #                     file_data)
             tmpfd, tmpname = em.export_messages_to_tempfile()
             self.zipfile.write(tmpname,
-                               '%s/lists/%s.mbox' % (self.context_dirname, mlistid))
+                               '%s/lists/%s/archive.mbox' % (self.context_dirname, mlistid))
             os.unlink(tmpname)
             del(tmpfd)
             # Now the list subscribers.
+            logger.info("exporting subscribers.csv for %s" % mlistid)
             es = getAdapter(mlist, IMailingListSubscriberExport, name='csv')
             file_data = es.export_subscribers() or ''
-            csv_path = '%s/lists/%s-subscribers.csv' % (self.context_dirname, mlistid)
+            csv_path = '%s/lists/%s/subscribers.csv' % (self.context_dirname, mlistid)
             self.zipfile.writestr(csv_path, file_data)
-            logger.info("finished %s" % mlistid)
 
+            # Now the metadata and preferences.
+            logger.info("exporting settings.ini for %s" % mlistid)
+            list_info = {
+                'type': mlist_type_to_workflow(mlist),
+                'mailto': mlist.mailto,
+                'managers': mlist.managers,
+                'archive_setting': mlist_archive_policy(mlist),
+                'title': mlist.Title(),
+                'description': mlist.Description(),
+                'creation_date': mlist.CreationDate(),
+                'creator': mlist.Creator(),
+                'sync_with_project': ISyncWithProjectMembership.providedBy(mlist),
+                'context': self.context.getId()
+                }
+            conf_path = '%s/lists/%s/settings.ini' % (self.context_dirname, mlistid)
+            self.zipfile.writestr(conf_path, mlist_conf(list_info))
+
+            logger.info("finished %s" % mlistid)
 
     def save_blogs(self):
         # For these we really do need to check featurelet status
