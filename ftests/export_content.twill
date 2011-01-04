@@ -22,6 +22,8 @@ export_contains "${projname}/README.txt"
 export_contains "${projname}/pages/project-home.html"
 export_contains "${projname}/lists/${projname}-discussion/archive.mbox"
 export_contains "${projname}/lists/${projname}-discussion/subscribers.csv"
+export_contains "${projname}/wiki_history/project-home"
+export_contains "${projname}/wiki_history/.bzr/README"
 export_file_contains "${projname}/lists/${projname}-discussion/subscribers.csv" ${fullname}
 export_file_contains "${projname}/pages/project-home.html" ${projbody}
 export_file_contains "${projname}/lists/${projname}-discussion/settings.ini" "mailto = ${projname}-discussion@"
