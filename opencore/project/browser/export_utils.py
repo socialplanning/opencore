@@ -205,7 +205,7 @@ class ProjectExportQueueView(object):
         tmp = os.fdopen(tmpfd, 'w')   # Dunno why mkstemp returns a file descr.
         try:
             z = ZipFile(tmp, 'w')
-            exporter = ContentExporter(project, self.request, status, proj_dirname, z)
+            exporter = ContentExporter(project, self.request, status, proj_dirname, z, self.vardir)
             exporter.save()
             z.close()
             tmp.close()
@@ -222,7 +222,7 @@ class ProjectExportQueueView(object):
 class ContentExporter(object):
     """Does the actual work of writing content into a zipfile"""
 
-    def __init__(self, context, request, status, context_dirname, azipfile):
+    def __init__(self, context, request, status, context_dirname, azipfile, vardir):
         self.context = context
         self.request = request
         self.status = status
@@ -230,6 +230,7 @@ class ContentExporter(object):
         self.path = '/'.join(self.context.getPhysicalPath())
         self.zipfile = azipfile
         self.catalog = getToolByName(self.context, "portal_catalog")
+        self.vardir = vardir
 
     def save(self):
         logger.info("Exporting %s ..." % self.path)
@@ -260,26 +261,17 @@ class ContentExporter(object):
     def save_wiki_history(self):
         project = self.context
 
-        logger.info("Setting up sqlite database")
-        session, db = bzrbackend.setup_interim_db(project)
-
-        logger.info("Sorting wiki checkins")
-        bzrbackend.sort_checkins(project, session, db)
-
-        logger.info("Initializing bzr repo")
-        bzrbackend.setup_repo(project)
-
-        logger.info("Porting checkins from sqlite db to bzr repo")
-        bzrbackend.port_checkins(project, session, db)
-
-        repo = bzrbackend.get_repo_dir(project)
-
         tempdir = tempfile.mkdtemp()
-        clonedir = os.path.join(tempdir, self.context_dirname)
-        bzrbackend.clone(repo, clonedir)
-        
+        tmpdbdir = os.path.join(tempdir, "tmpdbs")
+        repodir = os.path.join(tempdir, "bzr_repos")
+        checkoutdir = os.path.join(tempdir, "bzr_checkouts")
+
+        converter = bzrbackend.WikiConverter(
+            project, tmpdbdir, repodir, checkoutdir)
+
+        clonedir = converter.convert()
         root_len = len(os.path.abspath(clonedir))
-        import pdb; pdb.set_trace()
+
         for root, dirs, files in os.walk(clonedir):
             relative_root = os.path.abspath(root)[root_len:].strip(os.sep)
             archive_root = os.path.join(
