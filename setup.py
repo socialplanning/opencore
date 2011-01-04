@@ -61,6 +61,7 @@ setup(
         'plone.mail',
         'Products.CacheSetup==1.2.1',
         'Products.GenericSetup==1.4.1',
+        'pysqlite',
         'simplejson',
         'SQLAlchemy',
         'sven',
