@@ -10,24 +10,43 @@ import os
 from datetime import datetime
 import subprocess
 from sven.bzr import BzrAccess
+import shutil
 
 from DateTime import DateTime as zDateTime
 
+def clone(repo, to):
+    subprocess.call(["bzr", "checkout", repo, to])
+    cwd = os.getcwd()
+    os.chdir(to)
+    subprocess.call(["bzr", "unbind"])
+    os.chdir(cwd)
+
+def get_repo_dir(project):
+    opencore_var = os.path.join(get_config("var"), 'opencore')
+    repo = get_config("bzr_repos_dir", os.path.join(opencore_var, "bzr_repos"))
+    repo = os.path.join(repo, "projects", project.getId(), "main-site", "trunk")
+    return repo
+
 def setup_repo(project):
-    repo = get_config("bzr_repos_dir")
+    opencore_var = os.path.join(get_config("var"), 'opencore')
+
+    repo = get_config("bzr_repos_dir", os.path.join(opencore_var, "bzr_repos"))
     repo = os.path.join(repo, "projects", project.getId(), "main-site")
 
-    if not os.path.exists(repo):
-        os.makedirs(repo)
+    if os.path.exists(repo):
+        shutil.rmtree(repo)
+    os.makedirs(repo)
+
     subprocess.call(["bzr", "init-repo", repo, "--no-trees"])
 
     repo = os.path.join(repo, "trunk")
     subprocess.call(["bzr", "init", repo])
 
-    checkout = get_config("bzr_checkouts_dir")
+    checkout = get_config("bzr_checkouts_dir", os.path.join(opencore_var, "bzr_checkouts"))
     checkout = os.path.join(checkout, "projects", project.getId(), "main-site")
-    if not os.path.exists(checkout):
-        os.makedirs(checkout)
+    if os.path.exists(checkout):
+        shutil.rmtree(checkout)
+    os.makedirs(checkout)
 
     subprocess.call(["bzr", "checkout", "--lightweight", repo, checkout])
 
@@ -36,8 +55,13 @@ def setup_repo(project):
 
 def setup_interim_db(project):
     projid = project.getId()
-    loc = get_config("tmpdbs")
+
+    opencore_var = os.path.join(get_config("var"), 'opencore')
+    loc = get_config("tmpdbs", os.path.join(opencore_var, "tmpdbs"))
     loc = os.path.join(loc, projid)
+
+    if os.path.exists(loc):
+        os.unlink(loc)
     engine = create_engine("sqlite:///%s.db" % loc, echo=False)
     metadata = MetaData()
     checkin_table = Table(
@@ -63,11 +87,12 @@ class Checkin(object):
         return "<Checkin #%s for %s>" % (self.version, self.wikipage)
 
 from opencore.interfaces.catalog import ILastModifiedAuthorId
-def sort_checkins(project):
+def sort_checkins(project, session=None, db=None):
     pr = getToolByName(project, "portal_repository")
     cat = getToolByName(project, "portal_catalog")
 
-    session, db = setup_interim_db(project)
+    if session is None or db is None:
+        session, db = setup_interim_db(project)
     
     pages = cat.unrestrictedSearchResults(path='/'.join(project.getPhysicalPath()),
                                           portal_type="Document")
@@ -96,13 +121,15 @@ def sort_checkins(project):
         session.add(checkin)
         session.commit()
 
-def port_checkins(project):
+def port_checkins(project, session=None, db=None):
     pr = getToolByName(project, "portal_repository")
     cat = getToolByName(project, "portal_catalog")
 
-    session, db = setup_interim_db(project)
+    if session is None or db is None:
+        session, db = setup_interim_db(project)
 
-    repo = get_config("bzr_checkouts_dir")
+    opencore_var = os.path.join(get_config("var"), 'opencore')
+    repo = get_config("bzr_checkouts_dir", os.path.join(opencore_var, "bzr_checkouts"))
     repo = os.path.join(repo, "projects", project.getId(), "main-site")
     repo = BzrAccess(repo, default_commit_message=" ")
 
@@ -139,14 +166,15 @@ def port_checkins(project):
                    author=author,
                    timestamp=timestamp)
         
-from opencore.utils import setup
-app = setup(app)
-proj = app.openplans.projects['pinguinove']
+#from opencore.utils import setup
+#app = setup(app)
+#proj = app.openplans.projects['pinguinove']
 #import pdb; pdb.set_trace()
 
-#sort_checkins(proj)
-setup_repo(proj)
-port_checkins(proj)
+#session, db = setup_interim_db(proj)
+#sort_checkins(proj, session, db)
+#setup_repo(proj)
+#port_checkins(proj, session, db)
 
 #project=proj
 #pr = getToolByName(project, "portal_repository")

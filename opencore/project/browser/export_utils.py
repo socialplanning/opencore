@@ -7,11 +7,12 @@ from Products.listen.lib.common import lookup_member_id
 from Queue import Queue, Empty
 from lxml.html import fromstring, tostring
 from opencore.i18n import _, translate
-from opencore.utility.interfaces import IHTTPClient
-from opencore.utility.interfaces import IProvideSiteConfig
+from opencore.nui.wiki import bzrbackend
 from opencore.listen.interfaces import ISyncWithProjectMembership
 from opencore.listen.utils import mlist_type_to_workflow
 from opencore.listen.utils import mlist_archive_policy
+from opencore.utility.interfaces import IHTTPClient
+from opencore.utility.interfaces import IProvideSiteConfig
 from pkg_resources import resource_stream, resource_filename
 from topp.featurelets.interfaces import IFeatureletSupporter
 from topp.featurelets.supporter import IFeaturelet
@@ -25,6 +26,7 @@ import datetime
 import logging
 import os
 import re
+import shutil
 import simplejson as json
 import tempfile
 import tempita
@@ -247,11 +249,47 @@ class ContentExporter(object):
         logger.info("5. Saving blogs")
         self.save_blogs()
         sleep()
+        logger.info("6. Saving wiki history")
+        self.save_wiki_history()
         logger.info("done with %s" % self.path)
 
     def save_docs(self):
         self.status.progress_descr = _(u'Saving documentation')
         self.zipfile.writestr("%s/README.txt" % self.context_dirname, readme())
+
+    def save_wiki_history(self):
+        project = self.context
+
+        logger.info("Setting up sqlite database")
+        session, db = bzrbackend.setup_interim_db(project)
+
+        logger.info("Sorting wiki checkins")
+        bzrbackend.sort_checkins(project, session, db)
+
+        logger.info("Initializing bzr repo")
+        bzrbackend.setup_repo(project)
+
+        logger.info("Porting checkins from sqlite db to bzr repo")
+        bzrbackend.port_checkins(project, session, db)
+
+        repo = bzrbackend.get_repo_dir(project)
+
+        tempdir = tempfile.mkdtemp()
+        clonedir = os.path.join(tempdir, self.context_dirname)
+        bzrbackend.clone(repo, clonedir)
+        
+        root_len = len(os.path.abspath(clonedir))
+        import pdb; pdb.set_trace()
+        for root, dirs, files in os.walk(clonedir):
+            relative_root = os.path.abspath(root)[root_len:].strip(os.sep)
+            archive_root = os.path.join(
+                self.context_dirname, 'wiki_history',
+                relative_root)
+            for f in files:
+                fullpath = os.path.join(root, f)
+                archive_name = os.path.join(archive_root, f)
+                self.zipfile.write(fullpath, archive_name)
+        shutil.rmtree(tempdir)
 
     def save_wiki_pages(self):
         self.status.progress_descr = _(u'Saving Wiki pages')
