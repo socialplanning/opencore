@@ -5,7 +5,7 @@ from Products.listen.interfaces import IMailingListSubscriberExport
 from Products.listen.interfaces import IMembershipList
 from Products.listen.lib.common import lookup_member_id
 from Queue import Queue, Empty
-from lxml.html import fragment_fromstring, tostring
+from lxml.html import fromstring, tostring
 from opencore.i18n import _, translate
 from opencore.utility.interfaces import IHTTPClient
 from opencore.utility.interfaces import IProvideSiteConfig
@@ -269,19 +269,45 @@ class ContentExporter(object):
             page_id = page.getId()
             page_id = badchars.sub('_', page_id)
 
+            # Wrap the HTML in a single <body> node;
+            # add the page title in a <h1> like in the wiki;
+            # and add all the essential class markup
+            # for the CSS rules.
+            text = ('<body class="oc-wiki">\n<h1>%s</h1>\n<div class="oc-wiki-content">\n' 
+                    + text + "\n</div>\n</body>")
             # We want to rewrite links to other wiki pages,
             # so that the wiki will form a valid web after 
             # we export it and save the HTML files with 
             # a .html extension.  The goal is to let this
             # export be uploaded to any web server and be
             # a valid site with no broken links.
-            # XXX TODO: we need to NOT extend the link url with
+            # But we need to NOT extend the link url with
             # the .html extension if the link is to a file!
             base = self.context.absolute_url()
-            body = fragment_fromstring(text)
+            body = fromstring(text)
             def link_repl_func(url):
-                if url.startswith(base):
-                    return url.replace(base, '').lstrip('/') + '.html'
+                if not url.startswith(base):
+                    return
+                path = url.replace(base, '')
+                physical_path = '/'.join((self.path.rstrip('/'), path.lstrip('/')))
+                brains = self.catalog(path=physical_path)
+                matching_brains = [brain for brain in brains
+                                   if brain.getPath() == physical_path]
+                if not len(matching_brains):
+                    # It's a link to some kind of resource
+                    # that isn't part of the static wiki dump,
+                    # so just leave it as whatever it is.
+                    # Like maybe it's a mailing list post.
+                    # So just leave it as a link to the site.
+                    return
+                brain = matching_brains[0]
+                type = brain.portal_type
+                if type == "Document":
+                    # It's a page, so we'll add the extension
+                    return path.lstrip('/') + '.html'
+                else:
+                    # It's an attachment, so we don't add the extension
+                    return path.lstrip('/')
             body.rewrite_links(link_repl_func)
             text = tostring(body)
 
