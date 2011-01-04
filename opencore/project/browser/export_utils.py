@@ -205,7 +205,7 @@ class ProjectExportQueueView(object):
         tmp = os.fdopen(tmpfd, 'w')   # Dunno why mkstemp returns a file descr.
         try:
             z = ZipFile(tmp, 'w')
-            exporter = ContentExporter(project, self.request, status, proj_dirname, z, self.vardir)
+            exporter = ContentExporter(project, self.request, status, proj_dirname, z)
             exporter.save()
             z.close()
             tmp.close()
@@ -222,7 +222,7 @@ class ProjectExportQueueView(object):
 class ContentExporter(object):
     """Does the actual work of writing content into a zipfile"""
 
-    def __init__(self, context, request, status, context_dirname, azipfile, vardir):
+    def __init__(self, context, request, status, context_dirname, azipfile):
         self.context = context
         self.request = request
         self.status = status
@@ -230,7 +230,6 @@ class ContentExporter(object):
         self.path = '/'.join(self.context.getPhysicalPath())
         self.zipfile = azipfile
         self.catalog = getToolByName(self.context, "portal_catalog")
-        self.vardir = vardir
 
     def save(self):
         logger.info("Exporting %s ..." % self.path)
@@ -250,21 +249,26 @@ class ContentExporter(object):
         logger.info("5. Saving blogs")
         self.save_blogs()
         sleep()
+
         logger.info("6. Saving wiki history")
-        self.save_wiki_history()
+        tempdir = tempfile.mkdtemp()
+        try:
+            self.save_wiki_history(tempdir)
+        finally:
+            shutil.rmtree(tempdir)
+
         logger.info("done with %s" % self.path)
 
     def save_docs(self):
         self.status.progress_descr = _(u'Saving documentation')
         self.zipfile.writestr("%s/README.txt" % self.context_dirname, readme())
 
-    def save_wiki_history(self):
+    def save_wiki_history(self, dir):
         project = self.context
 
-        tempdir = tempfile.mkdtemp()
-        tmpdbdir = os.path.join(tempdir, "tmpdbs")
-        repodir = os.path.join(tempdir, "bzr_repos")
-        checkoutdir = os.path.join(tempdir, "bzr_checkouts")
+        tmpdbdir = os.path.join(dir, "tmpdbs")
+        repodir = os.path.join(dir, "bzr_repos")
+        checkoutdir = os.path.join(dir, "bzr_checkouts")
 
         converter = bzrbackend.WikiConverter(
             project, tmpdbdir, repodir, checkoutdir)
@@ -281,7 +285,6 @@ class ContentExporter(object):
                 fullpath = os.path.join(root, f)
                 archive_name = os.path.join(archive_root, f)
                 self.zipfile.write(fullpath, archive_name)
-        shutil.rmtree(tempdir)
 
     def save_wiki_pages(self):
         self.status.progress_descr = _(u'Saving Wiki pages')
