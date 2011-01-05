@@ -36,5 +36,6 @@ export_file_contains "${projname}/lists/${projname}-discussion/settings.ini" "ar
 export_file_contains "${projname}/pages/project-home.html" 'href="${pagename}.html"'
 export_file_contains ${projname}/pages/${pagename}.html 'href="new-page/portrait.gif"'
 
-export_file_contains "${projname}/pages/project-home.html" '<h1>Home</h1>'
+export_file_contains "${projname}/pages/project-home.html" '<h1>${projtitle}</h1>'
+export_file_contains "${projname}/pages/new-page.html" '<h1>new page</h1>'
 export_contains "${projname}/pages/new-page/portrait.gif"
