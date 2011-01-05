@@ -26,9 +26,13 @@ export_contains "${projname}/wiki_history/project-home"
 export_contains "${projname}/wiki_history/.bzr/README"
 export_file_contains "${projname}/lists/${projname}-discussion/subscribers.csv" ${fullname}
 export_file_contains "${projname}/pages/project-home.html" ${projbody}
+
 export_file_contains "${projname}/lists/${projname}-discussion/settings.ini" "mailto = ${projname}-discussion@"
 export_file_contains "${projname}/lists/${projname}-discussion/settings.ini" "created_by = ${user}"
 export_file_contains "${projname}/lists/${projname}-discussion/settings.ini" "sync_membership = True"
 export_file_contains "${projname}/lists/${projname}-discussion/settings.ini" "list_type = policy_open"
+export_file_contains "${projname}/lists/${projname}-discussion/settings.ini" "archive_policy = with_attachments"
+
 export_file_contains "${projname}/pages/project-home.html" 'href="${pagename}.html"'
-export_file_contains ${projname}/pages/${pagename}.html 'href="new-page/portrait.gif"'
+export_file_contains ${projname}/pages/${pagename}.html 'href="${pagename}/portrait.gif"'
+export_contains "${projname}/pages/${pagename}/portrait.gif"
