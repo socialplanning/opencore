@@ -250,7 +250,7 @@ class ContentExporter(object):
         self.save_blogs()
         sleep()
         logger.info("6. Saving wiki history")
-        self.save_wiki_history(tempdir)
+        self.save_wiki_history()
         logger.info("done with %s" % self.path)
 
     def save_docs(self):
