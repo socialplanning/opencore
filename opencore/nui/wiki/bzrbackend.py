@@ -129,10 +129,10 @@ class WikiConverter(object):
                 version_id = version.version_id
                 checkin = Checkin(pagename, version_id, when)
                 session.add(checkin)
-                logger.info("  version: %s" % version_id)
+                logger.info("page: %s\tversion: %s" % (pagename, version_id))
             session.commit()
 
-            logger.info("  -* current version *-")
+            logger.info("page: %s\t-* current version *-" % pagename)
             when = ob.ModificationDate()
             when = zDateTime(when)
             when = when.timeTime()
@@ -181,7 +181,7 @@ class WikiConverter(object):
                 content = object.EditableBody()
                 timestamp = version.sys_metadata['timestamp']
 
-            logger.info("  rev: %s" % checkin.version)
+            logger.info("page: %s\trev: %s" % (page, checkin.version))
 
             repo.write(pageId, content, msg=msg,
                        author=author,
