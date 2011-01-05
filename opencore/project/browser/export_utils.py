@@ -353,9 +353,10 @@ class ContentExporter(object):
         for afile in self.catalog(portal_type=("FileAttachment", "Image"), path=self.path):
             obj = afile.getObject()
 
-            # XXX TODO: files should be saved in a directory named for
-            # the page they're attached to, so links work
-            out_path = '%s/pages/%s' % (self.context_dirname, afile.getId)
+            # Files should be saved in a directory named for
+            # the page they're attached to, so links work.
+            relative_path = afile.getPath()[len(self.path):].lstrip('/')
+            out_path = '%s/pages/%s' % (self.context_dirname, relative_path)
 
             if isinstance(obj.data, basestring):
                 self.zipfile.writestr(out_path, str(obj))
