@@ -249,42 +249,41 @@ class ContentExporter(object):
         logger.info("5. Saving blogs")
         self.save_blogs()
         sleep()
-
         logger.info("6. Saving wiki history")
-        tempdir = tempfile.mkdtemp()
-        try:
-            self.save_wiki_history(tempdir)
-        finally:
-            shutil.rmtree(tempdir)
-
+        self.save_wiki_history(tempdir)
         logger.info("done with %s" % self.path)
 
     def save_docs(self):
         self.status.progress_descr = _(u'Saving documentation')
         self.zipfile.writestr("%s/README.txt" % self.context_dirname, readme())
 
-    def save_wiki_history(self, dir):
+    def save_wiki_history(self):
+        self.status.progress_descr = _(u'Saving wiki history')
         project = self.context
+        tempdir = tempfile.mkdtemp()
 
-        tmpdbdir = os.path.join(dir, "tmpdbs")
-        repodir = os.path.join(dir, "bzr_repos")
-        checkoutdir = os.path.join(dir, "bzr_checkouts")
+        tmpdbdir = os.path.join(tempdir, "tmpdbs")
+        repodir = os.path.join(tempdir, "bzr_repos")
+        checkoutdir = os.path.join(tempdir, "bzr_checkouts")
 
-        converter = bzrbackend.WikiConverter(
-            project, tmpdbdir, repodir, checkoutdir)
+        try:
+            converter = bzrbackend.WikiConverter(
+                project, tmpdbdir, repodir, checkoutdir)
 
-        clonedir = converter.convert()
-        root_len = len(os.path.abspath(clonedir))
+            clonedir = converter.convert()
+            root_len = len(os.path.abspath(clonedir))
 
-        for root, dirs, files in os.walk(clonedir):
-            relative_root = os.path.abspath(root)[root_len:].strip(os.sep)
-            archive_root = os.path.join(
-                self.context_dirname, 'wiki_history',
-                relative_root)
-            for f in files:
-                fullpath = os.path.join(root, f)
-                archive_name = os.path.join(archive_root, f)
-                self.zipfile.write(fullpath, archive_name)
+            for root, dirs, files in os.walk(clonedir):
+                relative_root = os.path.abspath(root)[root_len:].strip(os.sep)
+                archive_root = os.path.join(
+                    self.context_dirname, 'wiki_history',
+                    relative_root)
+                for f in files:
+                    fullpath = os.path.join(root, f)
+                    archive_name = os.path.join(archive_root, f)
+                    self.zipfile.write(fullpath, archive_name)
+        finally:
+            shutil.rmtree(tempdir)
 
     def save_wiki_pages(self):
         self.status.progress_descr = _(u'Saving Wiki pages')
