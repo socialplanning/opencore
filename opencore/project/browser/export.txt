@@ -207,11 +207,11 @@ We can get the path to the zipfile from the status object:
      'p2/lists/list1/archive.mbox',
      'p2/lists/list1/settings.ini',
      'p2/lists/list1/subscribers.csv',
-     'p2/pages/fa1',
-     'p2/pages/fa2',
      'p2/pages/img1',
      'p2/pages/new1.html',
+     'p2/pages/new1/fa2',
      'p2/pages/project-home.html',
+     'p2/pages/project-home/fa1',
      'p2/wiki_history/new1',
      'p2/wiki_history/project-home']
     >>> 'p2/wiki_history/.bzr/README' in exported_files
