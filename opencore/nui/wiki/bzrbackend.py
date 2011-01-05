@@ -53,6 +53,9 @@ class WikiConverter(object):
         self.session = None
         self.db = None
 
+        portal = getToolByName(project, 'portal_url').getPortalObject()
+        self.committer = portal.getProperty('email_from_address')
+
     def reset(self):
         if os.path.exists(self.repodir):
             shutil.rmtree(self.repodir)
@@ -185,6 +188,7 @@ class WikiConverter(object):
 
             repo.write(pageId, content, msg=msg,
                        author=author,
+                       committer=self.committer,
                        timestamp=timestamp)
 
 
