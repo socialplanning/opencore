@@ -59,7 +59,7 @@ def workflow_to_mlist_type(workflow):
 def mlist_archive_policy(mlist):
     return _archive_options[mlist.archived]
 
-_archive_options = ['not_archived', 'plain_text', 'with_attachments']
+_archive_options = ['with_attachments', 'plain_text', 'not_archived']
 
 _ml_type_to_workflow = {
     PublicListTypeDefinition : 'policy_open',

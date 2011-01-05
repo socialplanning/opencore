@@ -352,7 +352,11 @@ class ContentExporter(object):
         self.status.progress_descr = _(u'Saving images and file attachments')
         for afile in self.catalog(portal_type=("FileAttachment", "Image"), path=self.path):
             obj = afile.getObject()
+
+            # XXX TODO: files should be saved in a directory named for
+            # the page they're attached to, so links work
             out_path = '%s/pages/%s' % (self.context_dirname, afile.getId)
+
             if isinstance(obj.data, basestring):
                 self.zipfile.writestr(out_path, str(obj))
                 continue
