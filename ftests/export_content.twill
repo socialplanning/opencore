@@ -39,3 +39,9 @@ export_file_contains ${projname}/pages/${pagename}.html 'href="new-page/portrait
 export_file_contains "${projname}/pages/project-home.html" '<h1>${projtitle}</h1>'
 export_file_contains "${projname}/pages/new-page.html" '<h1>new page</h1>'
 export_contains "${projname}/pages/new-page/portrait.gif"
+
+# Check for that damn A-hat character
+not_export_file_contains ${projname}/pages/another-page.html "&#194"
+
+# Make sure external links are preserved
+export_file_contains ${projname}/pages/another-page.html '<a href="http://www.coactivate.org"'

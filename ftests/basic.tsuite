@@ -15,6 +15,7 @@ create_project_errors
 create_project(projfeaturelets="listen")
 edit_project
 add_page
+add_another_page
 attach_file
 disable_listen
 enable_listen

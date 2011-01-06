@@ -293,7 +293,8 @@ class ContentExporter(object):
             except AttributeError:
                 logger.warn("Failed to export page at %s; catalog ghost??"
                             % page.getPhysicalPath)
-            text = page.getText()
+
+            text = page.getText().decode("utf-8")
             
             # out of general paranoia for the end user, let's remove
             # potentially evil character sequences before archiving.
@@ -306,8 +307,8 @@ class ContentExporter(object):
             # and add all the essential class markup
             # for the CSS rules.
             title = page.Title().decode("utf-8")
-            text = ('<body class="oc-wiki">\n<h1>%s</h1>\n<div class="oc-wiki-content">\n'
-                    + text + "\n</div>\n</body>")
+            text = (u'<body class="oc-wiki">\n<h1>%s</h1>\n<div class="oc-wiki-content">\n'
+                    + text + u"\n</div>\n</body>")
             text = text % title
             # We want to rewrite links to other wiki pages,
             # so that the wiki will form a valid web after 
@@ -321,7 +322,7 @@ class ContentExporter(object):
             body = fromstring(text)
             def link_repl_func(url):
                 if not url.startswith(base):
-                    return
+                    return url
                 path = url.replace(base, '')
                 physical_path = '/'.join((self.path.rstrip('/'), path.lstrip('/')))
                 brains = self.catalog(path=physical_path)
