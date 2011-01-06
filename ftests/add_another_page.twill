@@ -1,0 +1,8 @@
+extend_with flunc.zope_run_cat_queue
+
+go ${base_url}/projects/${projname}/project-home
+follow "another page"
+find "another page"
+post_file edit_form text "page-text.html"
+submit 'task|save'
+find "another page"
