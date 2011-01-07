@@ -914,7 +914,7 @@ a.wickedadd {
 .oc-listen-message .oc-headingBlock .oc-headingContext {
   display: block;
 }
-/ * http://www.longren.org/2006/09/27/wrapping-text-inside-pre-tags/ */
+/* http://www.longren.org/2006/09/27/wrapping-text-inside-pre-tags/ */
 .oc-listen-message pre.oc-listen-message-body {
   width: 100%;
   overflow: auto;
