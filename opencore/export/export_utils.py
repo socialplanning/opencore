@@ -80,11 +80,11 @@ def get_queue():
     return _queue
 
 def readme():
-    text = resource_stream('opencore.project.browser', 'export_readme.txt').read()
+    text = resource_stream('opencore.export', 'export_readme.txt').read()
     return text
 
 def mlist_conf(ctx):
-    tmplfile = resource_filename('opencore.project.browser', 'export_list_conf.ini.tmpl')
+    tmplfile = resource_filename('opencore.export', 'export_list_conf.ini.tmpl')
     tmpl = tempita.Template.from_filename(tmplfile)
     return tmpl.substitute(**ctx)
 
@@ -397,10 +397,12 @@ class ContentExporter(object):
                                '%s/lists/%s/archive.mbox' % (self.context_dirname, mlistid))
             os.unlink(tmpname)
             del(tmpfd)
+
             # Now the list subscribers.
             logger.info("exporting subscribers.csv for %s" % mlistid)
             es = getAdapter(mlist, IMailingListSubscriberExport, name='csv')
-            file_data = es.export_subscribers() or ''
+            file_data = es.export_subscribers(
+                include_allowed_senders=True) or ''
             csv_path = '%s/lists/%s/subscribers.csv' % (self.context_dirname, mlistid)
             self.zipfile.writestr(csv_path, file_data)
 
@@ -598,42 +600,3 @@ def delete_zips(project_id, vardir=None):
     path = getpath(project_id, vardir)
     for f in zips:
         os.unlink(os.path.join(path, f))
-
-class EnhancedSubscriberExporter(object):
-    """ 
-    Exports subscribers and also non-subscribed allowed senders.
-    """
-
-    def __init__(self, context):
-        self.context = context
-
-    def export_subscribers(self):
-        """ Returns CSV string of subscriber data """
-        # copy-pasted from listen because listen's not factored in a way
-        # that i can reuse this code
-        # (from listen.extras:MailingListSubscriberExporter).
-
-        ml = IMembershipList(self.context)
-        cat = getToolByName(self.context, 'portal_catalog')
-        md = getToolByName(self.context, 'portal_memberdata')
-        md_path = '/'.join(md.getPhysicalPath())
-        file_data = []
-
-        for email in ml.subscribers:
-            memid = lookup_member_id(email, self.context)
-            if memid:
-                metadata = cat.getMetadataForUID('%s/%s' % (md_path, memid))
-                # title gives the user's full name. It might be a good idea
-                # to get the full object so we can directly access the full
-                # name, but that'd be more expensive...
-                title = metadata['Title']
-            else: # e-mail only subscriber 
-                memid = title = ""
-            file_data.append(','.join([memid, title, email, 'subscribed']))
-
-        for email, info in ml.allowed_senders_data.items():
-            if info['subscriber']:
-                continue
-            file_data.append(','.join(['', '', email, 'allowed']))
-
-        return "\n".join(file_data)

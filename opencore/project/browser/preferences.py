@@ -13,7 +13,6 @@ from opencore.interfaces import IHomePage
 from opencore.interfaces import IProject
 from opencore.interfaces.adding import IAddProject
 from opencore.interfaces.workflow import IReadWorkflowPolicySupport
-from opencore.project.browser import export_utils
 from opencore.project.browser.base import ProjectBaseView
 from opencore.interfaces.membership import IEmailInvites
 from topp.featurelets.interfaces import IFeatureletSupporter
@@ -278,10 +277,6 @@ def delete_team(proj, event=None):
 def delete_email_invites(proj, event=None):
     invite_util = getUtility(IEmailInvites, context=proj)
     invite_util.removeAllInvitesForProject(proj.getId())
-
-@adapter(IProject, IObjectRemovedEvent)
-def delete_exports(proj, event=None):
-    export_utils.delete_zips(proj.getId())
 
 @adapter(IProject, IObjectWillBeRemovedEvent)
 def handle_blog_delete(project, event=None):

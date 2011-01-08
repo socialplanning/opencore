@@ -14,6 +14,7 @@
   <include package="opencore.clockqueue"
        zcml:condition="installed opencore.clockqueue" />
   <include package="opencore.content" />
+  <include package="opencore.export" />
   <include package="opencore.featurelets.browser" />
   <include package="opencore.feed" />
   <include package="opencore.member" />

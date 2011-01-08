@@ -7,8 +7,8 @@ An authorized user can export a project's content.
 Let's try the back-end export utils directly:
 
     >>> proj = self.portal.projects.p2
-    >>> from opencore.project.browser import export_utils
-    >>> from opencore.project.browser.export_utils import ProjectExportQueueView
+    >>> from opencore.export import export_utils
+    >>> from opencore.export.export_utils import ProjectExportQueueView
     >>> qview = ProjectExportQueueView(proj, proj.REQUEST)
 
 We hack the output directory to avoid polluting the real export directory:
@@ -36,7 +36,7 @@ Status objects
 
 Status is reported via these boring little bags of state:
 
-    >>> from opencore.project.browser.export_utils import ExportStatus
+    >>> from opencore.export.export_utils import ExportStatus
     >>> status = ExportStatus('foo')
     >>> status.name
     'foo'
@@ -162,7 +162,7 @@ The export view is restricted:
 Let's instantiate it directly now:
 
     >>> self.login('m1')
-    >>> from opencore.project.browser.export import ProjectExportView
+    >>> from opencore.export.export import ProjectExportView
     >>> export = ProjectExportView(proj, proj.REQUEST)
     >>> export.available_exports()
     []
@@ -202,6 +202,7 @@ We can get the path to the zipfile from the status object:
     >>> zipfile.is_zipfile(status.path)
     True
     >>> exported_files = sorted(zipfile.ZipFile(status.path, 'r').namelist())
+    >>> from pprint import pprint
     >>> pprint([i for i in exported_files if '.bzr' not in i])
     ['p2/README.txt',
      'p2/lists/list1/archive.mbox',
