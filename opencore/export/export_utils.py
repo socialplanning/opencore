@@ -345,9 +345,9 @@ class ContentExporter(object):
             # and add all the essential class markup
             # for the CSS rules.
             title = page.Title().decode("utf-8")
-            text = (u'<body class="oc-wiki">\n<h1>%s</h1>\n<div class="oc-wiki-content">\n'
+            text = (u'<body class="oc-wiki">\n<h1>%s</h1>\n<div class="oc-wiki-content">\n' % title
                     + text + u"\n</div>\n</body>")
-            text = text % title
+
             # We want to rewrite links to other wiki pages,
             # so that the wiki will form a valid web after 
             # we export it and save the HTML files with 
