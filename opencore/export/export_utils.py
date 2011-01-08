@@ -5,18 +5,21 @@ from Products.listen.interfaces import IMailingListSubscriberExport
 from Products.listen.interfaces import IMembershipList
 from Products.listen.lib.common import lookup_member_id
 from Queue import Queue, Empty
+from libopencore.auth import parse_cookie
 from lxml.html import fromstring, tostring
 from opencore.i18n import _, translate
 from opencore.nui.wiki import bzrbackend
 from opencore.listen.interfaces import ISyncWithProjectMembership
 from opencore.listen.utils import mlist_type_to_workflow
 from opencore.listen.utils import mlist_archive_policy
+from opencore.utility.interfaces import IEmailSender
 from opencore.utility.interfaces import IHTTPClient
 from opencore.utility.interfaces import IProvideSiteConfig
 from pkg_resources import resource_stream, resource_filename
 from topp.featurelets.interfaces import IFeatureletSupporter
 from topp.featurelets.supporter import IFeaturelet
 from zipfile import ZipFile
+from zope.app.component.hooks import getSite
 from zope.app.component.hooks import setSite
 from zope.component import getAdapter
 from zope.component import getAdapters
@@ -146,24 +149,26 @@ class ProjectExportQueueView(object):
             if status.running:
                 logger.info('job already in progress for %r' % name)
                 continue
-            else:
-                try:
-                    # we want a fresh transaction
-                    # in case content has changed
-                    # since the beginning of this thread
-                    transaction.commit()
-                    status.start()
-                    outfile_path = self.export(name, status)
-                    status.finish(outfile_path)
-                    transaction.commit()
-                    count += 1
-                    names.append(name)
-                except Exception, s:
-                    status.fail(str(s))
-                    log_exception('Failure in export of project %r:\n' 
-                                  % name)
-                    # XXX Is there actually any reason to keep the job around?
-                    # Maybe failed jobs should be put elsewhere?
+
+            try:
+                # we want a fresh transaction
+                # in case content has changed
+                # since the beginning of this thread
+                transaction.commit()
+                status.start()
+                outfile_path = self.export(name, status)
+                status.finish(outfile_path)
+                transaction.commit()
+                count += 1
+                names.append(name)
+            except Exception, s:
+                status.fail(str(s))
+                log_exception(
+                    'Failure in export of project %r:\n' 
+                    % name)
+                # XXX Is there actually any reason to keep the job around?
+                # Maybe failed jobs should be put elsewhere?
+            self.send_mail(status)
 
         # Something somewhere is causing ZODB to try to
         # save an instancemethod, which can't be pickled.
@@ -175,6 +180,39 @@ class ProjectExportQueueView(object):
             logger.info('Reached end of project export job queue (exported %d)'
                         % count)
         return names
+
+    def send_mail(self, status):
+        site = getSite()
+        project = site.restrictedTraverse('projects/%s' % status.name)
+        username, __ = parse_cookie(status.cookie)
+        mto = [username]
+
+        if status.succeeded:
+            msg_subs = {'project': project.Title(),
+                        'url': '%s/export/%s' % (
+                    status.context_url,
+                    status.filename),
+                        'portal_title': site.Title()
+                        }
+
+            msg = _(u'Your export of project "${project}" has finished.\n\nYou can download it by clicking this link: ${url}\n\nCheers,\nThe ${portal_title} Team')
+            subject = _(u'Project export complete')
+        elif status.failed:
+            msg_subs = {'project': project.Title(),
+                        'portal_title': site.Title()
+                        }
+
+            msg = _(u'Your export of project "${project}" has failed because of an internal error. We apologize for the inconvenience.\n\nThe site administration has been notified of the problem and we will let you know as soon as the error has been fixed.\nThe ${portal_title} Team')
+            subject = _(u'Project export failed, sorry!')
+            mto.append(site.getProperty('email_from_address'))
+        else:
+            return
+
+        IEmailSender(site).sendMail(
+            mto=mto,
+            msg=msg,
+            subject=subject,
+            **msg_subs)
 
     def export(self, project_id, status=None):
         """
@@ -382,6 +420,8 @@ class ContentExporter(object):
         except KeyError:
             logger.error("No lists subfolder on %s" % self.context.getId())
             return
+
+        real_site = getSite()
         for mlistid, mlist in listfol.objectItems(): # XXX filter more?
             logger.info("exporting %s" % mlistid)
             setSite(mlist)  # Needed to get the export adapter.
@@ -423,6 +463,7 @@ class ContentExporter(object):
             conf_path = '%s/lists/%s/settings.ini' % (self.context_dirname, mlistid)
             self.zipfile.writestr(conf_path, mlist_conf(list_info))
 
+            setSite(real_site)
             logger.info("finished %s" % mlistid)
 
     def save_blogs(self):
@@ -562,7 +603,7 @@ class ExportStatus(object):
         self.state = self.DONE
         self.progress_descr = _(u'Export finished')
         self.updatetime = datetime.datetime.utcnow()
-
+        
     def fail(self, msg=''):
         # XXX fire an event?
         self.state = self.FAILED
