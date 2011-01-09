@@ -106,6 +106,7 @@ class ProjectExportQueueView(object):
         self.request = request
         self.vardir = config.getConfiguration().clienthome
         self.maxwait = 30
+        self.notify = True
 
     def __call__(self, maxwait=None):
         count = 0
@@ -168,7 +169,8 @@ class ProjectExportQueueView(object):
                     % name)
                 # XXX Is there actually any reason to keep the job around?
                 # Maybe failed jobs should be put elsewhere?
-            self.send_mail(status)
+            if self.notify:
+                self.send_mail(status)
 
         # Something somewhere is causing ZODB to try to
         # save an instancemethod, which can't be pickled.
