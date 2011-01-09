@@ -183,7 +183,12 @@ class ProjectExportQueueView(object):
 
     def send_mail(self, status):
         site = getSite()
-        project = site.restrictedTraverse('projects/%s' % status.name)
+
+        try:
+            project = site.restrictedTraverse('projects/%s' % status.name)
+        except:
+            return
+
         username, __ = parse_cookie(status.cookie)
         mto = [username]
 
