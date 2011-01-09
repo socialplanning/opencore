@@ -44,7 +44,7 @@ TEMP_PREFIX='temp_project_export'
 # and watch progress.
 TEST_SLEEPTIME=0
 
-logger = logging.getLogger('opencore.project.browser')
+logger = logging.getLogger('opencore.export')
 
 # valid characters are letters, digits, underscores, and hyphens
 badchars = re.compile(r'[^\w\-]+')
@@ -187,9 +187,15 @@ class ProjectExportQueueView(object):
         try:
             project = site.restrictedTraverse('projects/%s' % status.name)
         except:
+            log_exception("Couldn't access project %s -- not sending email" % project)
             return
 
-        username, __ = parse_cookie(status.cookie)
+        try:
+            username, __ = parse_cookie(status.cookie)
+        except:
+            log_exception("Couldn't parse cookie %s to extract username -- not sending email" % status.cookie)
+            return
+
         mto = [username]
 
         if status.succeeded:
