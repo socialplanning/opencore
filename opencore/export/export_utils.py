@@ -374,7 +374,8 @@ class ContentExporter(object):
                     return url
                 path = url.replace(base, '')
                 physical_path = '/'.join((self.path.rstrip('/'), path.lstrip('/')))
-                brains = self.catalog(path=physical_path)
+                brains = self.catalog(path=physical_path, 
+                                      portal_type=("Document", "FileAttachment", "Image"))
                 matching_brains = [brain for brain in brains
                                    if brain.getPath() == physical_path]
                 if not len(matching_brains):
@@ -392,7 +393,8 @@ class ContentExporter(object):
                 else:
                     # It's an attachment, so we don't add the extension
                     return path.lstrip('/')
-            body.rewrite_links(link_repl_func)
+            base_href = base.rstrip('/') + '/'
+            body.rewrite_links(link_repl_func, base_href=base_href)
             text = tostring(body)
 
             self.zipfile.writestr("%s/pages/%s.html" % (
