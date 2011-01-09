@@ -187,7 +187,7 @@ class ProjectExportQueueView(object):
         try:
             project = site.restrictedTraverse('projects/%s' % status.name)
         except:
-            log_exception("Couldn't access project %s -- not sending email" % project)
+            log_exception("Couldn't access project %s -- not sending email" % status.name)
             return
 
         try:
