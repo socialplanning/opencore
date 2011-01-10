@@ -45,3 +45,15 @@ not_export_file_contains ${projname}/pages/another-page.html "&#194"
 
 # Make sure external links are preserved
 export_file_contains ${projname}/pages/another-page.html '<a href="http://www.coactivate.org"'
+
+# Relative links to parts of the project outside the wiki should be made absolute:
+#  this one was originally <a id="mailing_lists" href="../lists">
+export_file_contains ${projname}/pages/another-page.html '<a id="mailing_lists" href="${base_url}/projects/${projname}/lists">'
+
+# And relative links to parent folders should be made absolute:
+#  this one was originally <a id="other_projects" href="../../../projects">
+export_file_contains ${projname}/pages/another-page.html '<a id="other_projects" href="${base_url}/projects">'
+
+# Relative links to parts of the project within the wiki should be relative:
+#  this one was originally <a id="project_home" href="../project_home">
+export_file_contains ${projname}/pages/another-page.html '<a id="project_home" href="project-home.html">'

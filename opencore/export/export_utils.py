@@ -369,9 +369,32 @@ class ContentExporter(object):
             # a valid site with no broken links.
             # But we need to NOT extend the link url with
             # the .html extension if the link is to a file!
-            base = self.context.absolute_url()
+
+            # The page content may contain resolved wicked links
+            # which are resolved based on the current request URL.
+            # So if this code's clockserver job isn't careful
+            # about using VirtualHostMonster-aware paths,
+            # it could end up with ugly localhost:port URLs.
+            # So we'll swap out URLs in the content that look like
+            # current-request-based URLs, and replace them
+            # with URLs based on the user's request that initiated
+            # the export -- which is handily stored on the status object.
+            # This won't cover ALL cases in theory (e.g. if there is 
+            # a generated link to a resource outside the project) 
+            # but it will cover the most likely cases, namely
+            # wicked links.  Why else would there be generated URLs 
+            # in content, anyway?
+            # To be really careful, the clockserver jobs should
+            # be configured to use VHM-aware urls like
+            #   method /VirtualHostBase/http/www.coactivate.org:80/++skin++avata/openplans/VirtualHostRoot/manage_project_export_queue
+            # (for coactivate.org)
+            base = self.status.context_url
+            request_base = self.context.absolute_url()
             body = fromstring(text)
             def link_repl_func(url):
+                print "*** ", url
+                if url.startswith(request_base):
+                    url = url.replace(request_base, base)
                 if not url.startswith(base):
                     return url
                 path = url.replace(base, '')
@@ -386,7 +409,7 @@ class ContentExporter(object):
                     # so just leave it as whatever it is.
                     # Like maybe it's a mailing list post.
                     # So just leave it as a link to the site.
-                    return
+                    return url
                 brain = matching_brains[0]
                 type = brain.portal_type
                 if type == "Document":
@@ -395,7 +418,14 @@ class ContentExporter(object):
                 else:
                     # It's an attachment, so we don't add the extension
                     return path.lstrip('/')
-            base_href = base.rstrip('/') + '/'
+
+            # In the live wiki, the base href is the wikipage itself.
+            # Which is a bit lame, but we need to keep that here
+            # to ensure links don't break.  We're going to rewrite
+            # all links to be absolute anyway, and then re-relativize
+            # links to intra-wiki content with the project root itself
+            # as the base href.
+            base_href = base.rstrip('/') + '/' + page.getId() + '/'
             body.rewrite_links(link_repl_func, base_href=base_href)
             text = tostring(body)
 
