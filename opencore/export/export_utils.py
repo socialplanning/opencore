@@ -193,7 +193,7 @@ class ProjectExportQueueView(object):
             return
 
         try:
-            username, __ = parse_cookie(status.cookie)
+            username = status.user()
         except:
             log_exception("Couldn't parse cookie %s to extract username -- not sending email" % status.cookie)
             return
@@ -621,6 +621,10 @@ class ExportStatus(object):
             return False
         now = datetime.datetime.utcnow()
         return now - self.updatetime < self.maxdelta
+
+    def user(self):
+        username, __ = parse_cookie(self.cookie)
+        return username
 
     def queue(self, queue):
         if self.running or self.queued:
