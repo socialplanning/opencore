@@ -1,0 +1,24 @@
+.oc-wiki-content .pullquote {
+  width: 35%;
+  float: right;
+  clear: right;
+  border-left: 4px solid #ccc;
+  padding-left: 1em;
+  margin-left: 1em;
+  overflow: auto;
+}
+.oc-wiki-content .pullquote h1, 
+.oc-wiki-content .pullquote h2, 
+.oc-wiki-content .pullquote h3, 
+.oc-wiki-content .pullquote h4, 
+.oc-wiki-content .pullquote h5 {
+  margin-top: 0;
+}
+
+.oc-wiki-content pre {
+  background: #eee;
+  border: 1px solid #ccc;
+  padding: 0.75em;
+  margin: 0 1em 1em; 
+  overflow: auto;
+}

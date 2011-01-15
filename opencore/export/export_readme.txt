@@ -65,7 +65,7 @@ An exported zip file will contain the following subfolders:
   wiki_history/
 
     This folder contains full historical information about all the edits
-    made to your wiki.  The folder is a Bazaar repository, which is a system
-    that tracks edits to files.  To learn more about how to use a Bazaar
-    repository (either to access historical information about edits, or to
-    make new changes) visit http://bazaar.canonical.com/
+    made to your wiki.  The folder is a Bazaar repository. Bazaar is a
+    Version Control System that tracks edits to files. To learn more about
+    how to use a Bazaar repository (either to access historical information
+    about edits, or to make new changes) visit http://bazaar.canonical.com/

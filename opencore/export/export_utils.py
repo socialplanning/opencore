@@ -86,6 +86,10 @@ def readme():
     text = resource_stream('opencore.export', 'export_readme.txt').read()
     return text
 
+def css():
+    text = resource_stream('opencore.export', 'css.txt').read()
+    return text
+
 def mlist_conf(ctx):
     tmplfile = resource_filename('opencore.export', 'export_list_conf.ini.tmpl')
     tmpl = tempita.Template.from_filename(tmplfile)
@@ -353,13 +357,17 @@ class ContentExporter(object):
             page_id = page.getId()
             page_id = badchars.sub('_', page_id)
 
-            # Wrap the HTML in a single <body> node;
+            # Wrap the HTML in an <html> node with head and body;
             # add the page title in a <h1> like in the wiki;
-            # and add all the essential class markup
-            # for the CSS rules.
+            # link to the exported css file we'll add to the 
+            # zipfile below; and add all the essential class 
+            # markup for the CSS rules.
             title = page.Title().decode("utf-8")
-            text = (u'<body class="oc-wiki">\n<h1>%s</h1>\n<div class="oc-wiki-content">\n' % title
-                    + text + u"\n</div>\n</body>")
+            text = (u'<html><head>\n' +
+                    u'<link rel="stylesheet" href="style.css" type="text/css" media="all" />' +
+                    u'</head><body class="oc-wiki">\n<h1>%s</h1>\n' % title +
+                    u'<div class="oc-wiki-content">\n'
+                    + text + u"\n</div>\n</body></html>")
 
             # We want to rewrite links to other wiki pages,
             # so that the wiki will form a valid web after 
@@ -431,6 +439,22 @@ class ContentExporter(object):
             self.zipfile.writestr("%s/pages/%s.html" % (
                     self.context_dirname, page_id), text)
 
+        # Export a minimal stylesheet to preserve users' page layouts
+        # and essential theming.  Right now this is just ".pullquote" and "pre"
+        # but it might grow based on user feedback.
+        # The wiki page .html exports all link to this in their <head> styles.
+        self.zipfile.writestr("%s/pages/style.css" % self.context_dirname,
+                              css())
+
+        # We'll also add a root index.html with a meta-refresh redirect
+        # to the project-home.html page, but only if they don't have
+        # a page called "index" yet.
+        index_path = "%s/index" % self.path.rstrip('/')
+        if len(list(self.catalog(portal_type="Document", path=index_path))) > 0:
+            return
+        self.zipfile.writestr("%s/pages/index.html" % self.context_dirname,
+                              """<html><head><meta http-equiv="refresh" content="0;url=project-home.html" /></head><body></body></html>""")
+            
     def save_files(self):
         self.status.progress_descr = _(u'Saving images and file attachments')
         for afile in self.catalog(portal_type=("FileAttachment", "Image"), path=self.path):

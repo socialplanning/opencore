@@ -57,3 +57,7 @@ export_file_contains ${projname}/pages/another-page.html '<a id="other_projects"
 # Relative links to parts of the project within the wiki should be relative:
 #  this one was originally <a id="project_home" href="../project_home">
 export_file_contains ${projname}/pages/another-page.html '<a id="project_home" href="project-home.html">'
+
+# There should be an index.html with a meta-refresh:
+export_file_contains ${projname}/index.html '<meta http-equiv="refresh" content="0;url=project-home.html" />'
+# TODO: make sure this doesn't clobber if the project has a wikipage called index already
