@@ -400,6 +400,8 @@ class ContentExporter(object):
             request_base = self.context.absolute_url()
             body = fromstring(text)
             def link_repl_func(url):
+                if url == "style.css":
+                    return url
                 if url.startswith(request_base):
                     url = url.replace(request_base, base)
                 if not url.startswith(base):
