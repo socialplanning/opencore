@@ -5,7 +5,8 @@ from opencore.export import export_utils
 from zExceptions import Forbidden
 import os
 import simplejson as json
-
+from topp.featurelets.interfaces import IFeatureletSupporter
+from topp.featurelets.supporter import IFeaturelet
 
 class ProjectExportView(BaseView):
 
@@ -48,11 +49,26 @@ class ProjectExportView(BaseView):
         """json representation"""
         return json.dumps(self.available_exports())
 
+    def get_features(self):
+        features = []
+        request = self.request.form
+        if request.get("wikipages"):
+            features.append("wikipages")
+        if request.get("mailinglists"):
+            features.append("mailinglists")
+        if request.get("blog"):
+            features.append("blog")
+        if request.get("wikihistory"):
+            features.append("wikihistory")
+        return features
+
     def current_status(self):
         cookie = self.request.cookies.get('__ac', '')
         name = self.context.getId()
         url = self.context.absolute_url()
-        status = export_utils.get_status(name, context_url=url, cookie=cookie)
+        features = self.get_features()
+        status = export_utils.get_status(name, context_url=url, cookie=cookie,
+                                         features=features)
         return status
 
     def current_status_json(self):
@@ -99,6 +115,15 @@ class ProjectExportView(BaseView):
 
     def readme(self):
         return export_utils.readme()
+
+    def _get_featurelets(self, project):
+        supporter = IFeatureletSupporter(project)
+        all_flets = [flet for name, flet in getAdapters((supporter,), 
+                                                        IFeaturelet)]
+        installed_flets = [(flet.id, flet) for flet in all_flets 
+                           if flet.installed]
+        installed_flets = dict(installed_flets)
+        return installed_flets
 
 
 class FilestreamIterator(filestream_iterator, Explicit):

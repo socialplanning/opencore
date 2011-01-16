@@ -63,13 +63,15 @@ def log_exception(msg='', level=logging.ERROR):
 _status_lock = threading.Lock()
 _status_dict = {}
 
-def get_status(name, cookie='', context_url=''):
+def get_status(name, cookie='', context_url='', features=None):
     """ Get or create an ExportStatus instance for the given identifier."""
     _status_lock.acquire()
     try:
         if name not in _status_dict:
             _status_dict[name] = ExportStatus(name, context_url=context_url,
                                               cookie=cookie)
+        if features is not None and len(features) > 0:
+            _status_dict[name].features = features
         return _status_dict[name]
     finally:
         _status_lock.release()
@@ -293,19 +295,24 @@ class ContentExporter(object):
         self.save_docs()
         sleep()
         logger.info("2. Saving wiki pages")
-        self.save_wiki_pages()
+        if self.status.include_wiki_pages():
+            self.save_wiki_pages()
         sleep()
         logger.info("3. Saving files")
-        self.save_files()
+        if self.status.include_wiki_pages():
+            self.save_files()
         sleep()
         logger.info("4. Saving mailing lists")
-        self.save_list_archives()
+        if self.status.include_mailing_lists():
+            self.save_list_archives()
         sleep()
         logger.info("5. Saving blogs")
-        self.save_blogs()
+        if self.status.include_blog():
+            self.save_blogs()
         sleep()
         logger.info("6. Saving wiki history")
-        self.save_wiki_history()
+        if self.status.include_wiki_history():
+            self.save_wiki_history()
         logger.info("done with %s" % self.path)
 
     def save_docs(self):
@@ -620,6 +627,17 @@ class ExportStatus(object):
         # We also need to record the original URL early, since this can't be
         # easily reconstructed during a clockserver request.
         self.context_url = context_url
+
+        self.features = ["wikipages", "mailinglists", "blog", "wikihistory"]
+
+    def include_wiki_pages(self):
+        return "wikipages" in self.features
+    def include_wiki_history(self):
+        return "wikihistory" in self.features
+    def include_mailing_lists(self):
+        return "mailinglists" in self.features
+    def include_blog(self):
+        return "blog" in self.features
 
     @property
     def failed(self):

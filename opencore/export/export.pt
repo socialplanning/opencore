@@ -45,6 +45,27 @@ background: url(/++resource++spinning_wheel_throbber.gif) 0 50% no-repeat;
 	action="export/do_export"
 	method="post">
 
+    <div tal:condition="not:current/active">
+      <h3>Select content to export:</h3>
+      <ul style="list-style-type: none;">
+	<li>
+	  <input type="checkbox" name="wikipages" checked="checked" />
+	  <label for="wikipages">Wiki pages and files</label>
+	</li>
+	<li>
+	  <input type="checkbox" name="mailinglists" checked="checked" />
+	  <label for="mailinglists">Mailing lists</label>
+	</li>
+	<li>
+	  <input type="checkbox" name="blog" checked="checked" />
+	  <label for="blog">Blog</label>
+	</li>
+	<li>
+	  <input type="checkbox" name="wikihistory" checked="checked" /> 
+	  <label for="wikihistory">Wiki history</label>
+	</li>
+    </div>
+
     <input type="hidden" name="client" value="browser" />
     <input class="context oc-button oc-chooseThis"
 	   type="submit" name="export"
