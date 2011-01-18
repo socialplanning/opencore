@@ -370,11 +370,10 @@ class ContentExporter(object):
             # zipfile below; and add all the essential class 
             # markup for the CSS rules.
             title = page.Title().decode("utf-8")
-            text = (u'<html><head>\n' +
-                    u'<link rel="stylesheet" href="style.css" type="text/css" media="all" />' +
-                    u'</head><body class="oc-wiki">\n<h1>%s</h1>\n' % title +
+
+            text = (u'<body class="oc-wiki">\n<h1>%s</h1>\n' % title +
                     u'<div class="oc-wiki-content">\n'
-                    + text + u"\n</div>\n</body></html>")
+                    + text + u"\n</div>\n</body>")
 
             # We want to rewrite links to other wiki pages,
             # so that the wiki will form a valid web after 
@@ -407,8 +406,6 @@ class ContentExporter(object):
             request_base = self.context.absolute_url()
             body = fromstring(text)
             def link_repl_func(url):
-                if url == "style.css":
-                    return url
                 if url.startswith(request_base):
                     url = url.replace(request_base, base)
                 if not url.startswith(base):
@@ -444,6 +441,10 @@ class ContentExporter(object):
             base_href = base.rstrip('/') + '/' + page.getId() + '/'
             body.rewrite_links(link_repl_func, base_href=base_href)
             text = tostring(body)
+
+            text = ('<html><head>\n' +
+                    '<link rel="stylesheet" href="style.css" type="text/css" media="all" />' +
+                    '</head>' + text + '</html>')
 
             self.zipfile.writestr("%s/pages/%s.html" % (
                     self.context_dirname, page_id), text)
