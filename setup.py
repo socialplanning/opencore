@@ -54,6 +54,7 @@ setup(
           'uuid==1.30',
           'flunc==0.3',
           'zcmlloader==0.1',
+          'Products.PloneHotFix20110720>=1.1',
           ],
       extras_require=dict(ubuntu=['hprof']),
 
