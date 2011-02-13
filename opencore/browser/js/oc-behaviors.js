@@ -553,9 +553,15 @@ OC.ActionLink = function(extEl) {
             var method = "GET";
         }
 
+	var href;
+	if( el.href ) {
+	    href = el.href;
+	} else {
+	    href = this.button.dom.href;
+	}
     	// get action/href & split action from params
-    	var action = el.href.split("?")[0];
-    	var requestData = el.href.split("?")[1] + '&mode=async';
+    	var action = href.split("?")[0];
+    	var requestData = href.split("?")[1] + '&mode=async';
     	OC.debug("request data is " + requestData);
     	
     	this.button.dom.innerHTML = "Please wait..."; 
