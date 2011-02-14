@@ -2,6 +2,7 @@ from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from Products.Five.viewlet.viewlet import ViewletBase
 from opencore.project.utils import project_noun
 from opencore.interfaces import IAmAPeopleFolder, IAddProject
+from opencore.interfaces import IOpenSiteRoot
 
 class SearchWidget(object):
     @property
@@ -16,8 +17,7 @@ class SearchWidget(object):
         return 'sitesearch'
 
     def form_action_url(self):
-        from opencore.interfaces import IOpenSiteRoot
-        url = self.request.ACTUAL_URL
+        url = self.request.getURL()
         if IOpenSiteRoot.providedBy(self.context):
             return url
         else:
