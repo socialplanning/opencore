@@ -141,7 +141,7 @@ msgstr "De:"
 #. Default: "Hi ${member_id}, You have been invited to join ${project_title} by ${member_id_to_invite}. Please visit your account page to accept or decline the invitation. Cheers, The OpenPlans team"
 #: ./opencore/project/browser/invite-member.pt:56
 msgid "Hi ${member_id}, You have been invited to join ${project_title} by ${member_id_to_invite}. Please visit your account page to accept or decline the invitation. Cheers, The OpenPlans team"
-msgstr "Hola ${member_id}, Ha sido invitado a unirte a ${project_title} por ${member_id_to_invite}. Por favor visite nuestra página de registro acepte o rechaze la invitación. Agradecido, El equipo de OpenPlans"
+msgstr "Hola ${member_id}, Ha sido invitado a unirte a ${project_title} por ${member_id_to_invite}. Por favor visite nuestra página de registro acepte o rechaze la invitación. Agradecido, El equipo de Indaba Network"
 
 #. Default: "Images and files"
 #: ./opencore/project/browser/export.pt:70
@@ -1461,7 +1461,7 @@ msgstr "${project_noun}s actualizado"
 #. Default: "Openplans: free project management tools, wikis, blogs, mailing lists and task tracking for neighborhood and global communities."
 #: ./opencore/nui/main/home.pt:3
 msgid "home_window_title"
-msgstr "Openplans: herramientas de gestión de proyectos libre, wikis, bitácoras, lista de correo electrónico y sistema de seguimiento de tareas para su vecindario y comunidades globales."
+msgstr "herramientas de gestión de proyectos libre, wikis, bitácoras, lista de correo electrónico y sistema de seguimiento de tareas para su vecindario y comunidades globales."
 
 #. Default: "inditreuse"
 #: ./opencore/nui/wiki/wiki-edit-xinha.pt:30

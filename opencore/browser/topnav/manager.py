@@ -84,6 +84,8 @@ def oc_menuitem_directive(_context, name, sort_order,
         text = name
     if template is None:
         template = ZopeTwoPageTemplateFile('menuitem.pt')
+    else:
+        template = ZopeTwoPageTemplateFile(template)
     viewlet_factory = create_topnav_viewlet(
         name,
         sort_order,

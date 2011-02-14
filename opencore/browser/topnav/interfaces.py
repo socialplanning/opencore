@@ -87,5 +87,11 @@ class ITopnavMenuItemSchema(Interface):
         required=False,
         )
 
+    template = Path(
+        title=u'Template',
+        description=u'Template path for the viewlet',
+        required=False,
+        )
+
 # this allows extra fields in configure to get passed through
 ITopnavMenuItemSchema.setTaggedValue('keyword_arguments', True)
