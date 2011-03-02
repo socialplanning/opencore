@@ -957,7 +957,6 @@ msgstr ""
 
 #. Default: "${portal_title} - Password reset"
 #: ./opencore/account/login.py:292
-#, fuzzy
 msgid "email_forgot_password_subject"
 msgstr "${portal_title} - Reset Password"
 

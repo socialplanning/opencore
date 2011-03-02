@@ -946,7 +946,6 @@ msgstr ""
 
 #. Default: "You requested a password reset for your ${portal_title} account. If you did not request this information, please ignore this message.\n\nTo change your password, please visit the following URL: ${url}"
 #: ./opencore/account/login.py:287
-#, fuzzy
 msgid "email_forgot_password"
 msgstr ""
 "Unohditko ${portal_title} -portaalin salasanasi?  Ei häitä.\n"
@@ -958,13 +957,11 @@ msgstr ""
 
 #. Default: "${portal_title} - Password reset"
 #: ./opencore/account/login.py:292
-#, fuzzy
 msgid "email_forgot_password_subject"
 msgstr "${portal_title} - Palauttaa salasana"
 
 #. Default: "\nThe invitation extended to you to join \"${project_title}\" on ${portal_title} has been revoked.\n"
 #: ./opencore/project/browser/mship_messages.py:87
-#, fuzzy
 msgid "email_invitation_retracted"
 msgstr ""
 "Aihe: ${portal_title} – Kutsusi liittymään ${project_title} -hankkeisiin\n"
@@ -975,7 +972,6 @@ msgstr ""
 
 #. Default: "${portal_title} - Invitation to join  ${project_title}"
 #: ./opencore/project/browser/mship_messages.py:93
-#, fuzzy
 msgid "email_invitation_retracted_subject"
 msgstr "${portal_title} – Your Invitation to join ”${project_title}”"
 
@@ -986,7 +982,6 @@ msgstr ""
 
 #. Default: "Hi ${user_name},\n\nYou have been invited to join \"${project_title}\" by ${inviter_name}.\nPlease visit your account page to accept or decline the invitation: ${account_url}\n\nCheers,\nThe ${portal_name} Team\n${portal_url}\n"
 #: ./opencore/project/browser/mship_messages.py:3
-#, fuzzy
 msgid "email_invite_member"
 msgstr ""
 "Aihe: Sinua kutsuttiin liittymään ${project_title} -hankkeisiin\n"
@@ -1000,13 +995,11 @@ msgstr ""
 
 #. Default: "You've been invited to join \"${project_title}\" "
 #: ./opencore/project/browser/mship_messages.py:15
-#, fuzzy
 msgid "email_invite_member_subject"
 msgstr "You've been invited to join \"${project_title}\""
 
 #. Default: "Hi ${user_name},\n\nYou have been invited to join \"${project_title}\" by ${inviter_name}.\nPlease first confirm your email address at the following address: ${conf_url}\nand then you can accept or decline the invitation.\n\nCheers,\nThe ${portal_name} Team\n${portal_url}\n"
 #: ./opencore/project/browser/mship_messages.py:19
-#, fuzzy
 msgid "email_invite_pending_member"
 msgstr ""
 "Aihe: Sinua kutsuttiin liittymään ${project_title} -hankkeeseen\n"
@@ -1035,7 +1028,6 @@ msgstr ""
 
 #. Default: "\nYou are no longer a member of \"${project_title}\" on ${portal_title}.\n"
 #: ./opencore/project/browser/mship_messages.py:97
-#, fuzzy
 msgid "email_membership_deactivated"
 msgstr ""
 "Aihe: ${portal_title} – Sinun ${project_title} -hankkeen jäsennykseni\n"
@@ -1047,7 +1039,6 @@ msgstr ""
 "${portal_title} -ryhmä"
 
 #: ./opencore/project/browser/team_membership.py:51
-#, fuzzy
 msgid "email_membership_requested"
 msgstr ""
 "Aihe: ${portal_title} - Hakemus liittymään ${project_title} -hankkeeseen\n"
@@ -1078,7 +1069,6 @@ msgstr ""
 
 #. Default: "\nThis is a reminder that you've been invited to join \"${project_title}\" on ${portal_title}.\nPlease visit your account page to accept or decline the invitation: ${account_url}\n"
 #: ./opencore/project/browser/mship_messages.py:37
-#, fuzzy
 msgid "email_remind_invitee"
 msgstr ""
 "Aihe: ${portal_title} – Kutsu liittymään ${project_title} -hankkeeseen\n"
@@ -1092,13 +1082,11 @@ msgstr ""
 
 #. Default: " ${portal_title} - Invitation to join ${project_title} "
 #: ./opencore/project/browser/mship_messages.py:44
-#, fuzzy
 msgid "email_remind_invitee_subject"
 msgstr "${portal_title} – Invitation to join \"${project_title}\" "
 
 #. Default: "\nThis is a reminder that you've been invited to join \"${project_title}\" on ${portal_title}.\nPlease first confirm your email address at the following address: ${conf_url}\nand then you can accept or decline the invitation.\n"
 #: ./opencore/project/browser/mship_messages.py:49
-#, fuzzy
 msgid "email_remind_pending_invitee"
 msgstr ""
 "Aihe: Muistutus liittymään ${project_title} -hankkeeseen ${portal_title}-sivustolla\n"
@@ -1117,7 +1105,6 @@ msgstr "A reminder to join \"${project_title}\" on ${portal_title}"
 
 #. Default: "\nYour request to join \"${project_title}\" on ${portal_title} has been approved.\nThe ${project_noun} is accessible at the following address:\n\n${project_url}\n"
 #: ./opencore/project/browser/mship_messages.py:62
-#, fuzzy
 msgid "email_request_approved"
 msgstr ""
 "Aihe: ${portal_title} – Tervetuloa \"${project_title}\" -hankkeeseen!\n"
@@ -1131,13 +1118,11 @@ msgstr ""
 
 #. Default: "${portal_title} - Welcome to ${project_title}"
 #: ./opencore/project/browser/mship_messages.py:71
-#, fuzzy
 msgid "email_request_approved_subject"
 msgstr "${portal_title} – Welcome to \"${project_title}\" "
 
 #. Default: "\nYour request to join \"${project_title}\" on ${portal_title} has been denied.\n"
 #: ./opencore/project/browser/mship_messages.py:76
-#, fuzzy
 msgid "email_request_denied"
 msgstr ""
 "Aihe: ${portal_title} –  Liittymispyyntösi \"${project_title}\" -hankkeen\n"
@@ -1150,7 +1135,6 @@ msgstr ""
 
 #. Default: "${portal_title} - Your request to join ${project_title}"
 #: ./opencore/project/browser/mship_messages.py:82
-#, fuzzy
 msgid "email_request_denied_subject"
 msgstr "${portal_title} – Your request to join \"${project_title}\" "
 
@@ -2973,7 +2957,6 @@ msgstr ""
 
 #. Default: "You are the only administrator of \"${proj_title}\". You can't leave this ${project_noun} without appointing another."
 #: ./opencore/member/browser/account.py:152
-#, fuzzy
 msgid "psm_leave_project_admin"
 msgstr "Olet ainoa \"${proj_title}\" - hankkeen yläpitäjä. Et voi erottaa ${project_noun} - hankkeesta nimeämättä toista yläpitäjää."
 
@@ -3074,7 +3057,6 @@ msgstr ""
 
 #. Default: "${project_noun} home page set to: <a href=\"${hp_url}\">${homepage}</a>"
 #: ./opencore/project/browser/preferences.py:213
-#, fuzzy
 msgid "psm_proj_homepage_change"
 msgstr "Uusi ${project_noun}- hankkeen kotisivun osoite: <a href=\"${hp_url}\">${homepage}</a>."
 

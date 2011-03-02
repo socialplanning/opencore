@@ -765,7 +765,6 @@ msgstr "email_forgot_password""Forgot your ${portal_title} password?  No problem
 
 #. Default: "${portal_title} - Password reset"
 #: ./opencore/account/login.py:292
-#, fuzzy
 msgid "email_forgot_password_subject"
 msgstr "email_forgot_password_subject"
 #. Default: "\nThe invitation extended to you to join \"${project_title}\" on ${portal_title} has been revoked.\n"

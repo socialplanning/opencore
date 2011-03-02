@@ -345,7 +345,6 @@ msgstr "Περιγραφή"
 
 #. Default: "<h2>Help!</h2> <p>We're here to help you. If you have a question, ${about_let_us_know_url}. </p>"
 #: ./opencore/nui/main/about.pt:25
-#, fuzzy
 msgid "about_let_us_know"
 msgstr " "
 
@@ -593,7 +592,6 @@ msgstr "Όλες οι εκδόσεις της &ldquo;${all_versions_of_page_titl
 
 #. Default: "${len_history_versions_total} versions total. Last edit performed by ${last_change_people_url_author},"
 #: ./opencore/nui/wiki/wiki-history.pt:32
-#, fuzzy
 msgid "all_versions_of_page_help"
 msgstr "${len_history_versions_total} συνολικές εκδόσεις. Τελευταία τροποποίηση από τον/την ${last_change_people_url_author}, ${last_change_modification_date}"
 
@@ -901,7 +899,6 @@ msgstr "%s - Αλλαγή κωδικού"
 
 #. Default: "\nThe invitation extended to you to join \"${project_title}\" on ${portal_title} has been revoked.\n"
 #: ./opencore/project/browser/mship_messages.py:87
-#, fuzzy
 msgid "email_invitation_retracted"
 msgstr ""
 "Θέμα: ${portal_title} - Πρόσκληση για συμμετοχή  ${portal_title} \n"
@@ -920,7 +917,6 @@ msgstr "Ο/Η ${inviter_name} σε προσκάλεσε να συμμετάσχ�
 
 #. Default: "Hi ${user_name},\n\nYou have been invited to join \"${project_title}\" by ${inviter_name}.\nPlease visit your account page to accept or decline the invitation: ${account_url}\n\nCheers,\nThe ${portal_name} Team\n${portal_url}\n"
 #: ./opencore/project/browser/mship_messages.py:3
-#, fuzzy
 msgid "email_invite_member"
 msgstr ""
 "Θέμα: Προσκλήθηκες να συμμετάσχεις στο \"${project_title}\"\n"
@@ -940,7 +936,6 @@ msgstr ""
 
 #. Default: "Hi ${user_name},\n\nYou have been invited to join \"${project_title}\" by ${inviter_name}.\nPlease first confirm your email address at the following address: ${conf_url}\nand then you can accept or decline the invitation.\n\nCheers,\nThe ${portal_name} Team\n${portal_url}\n"
 #: ./opencore/project/browser/mship_messages.py:19
-#, fuzzy
 msgid "email_invite_pending_member"
 msgstr ""
 "Θέμα: Προσκλήθηκες να συμμετάσχεις στο \"${project_title}\"\n"
@@ -974,7 +969,6 @@ msgstr ""
 
 #. Default: "\nYou are no longer a member of \"${project_title}\" on ${portal_title}.\n"
 #: ./opencore/project/browser/mship_messages.py:97
-#, fuzzy
 msgid "email_membership_deactivated"
 msgstr ""
 "Θέμα: ${portal_title} - Η συμμετοχή σου απενεργοποιήθηκε στο  ${project_title}\n"
@@ -1013,7 +1007,6 @@ msgstr "Αυτή είναι μια υπενθύμιση. Ο/η ${inviter_name} �
 
 #. Default: "\nThis is a reminder that you've been invited to join \"${project_title}\" on ${portal_title}.\nPlease visit your account page to accept or decline the invitation: ${account_url}\n"
 #: ./opencore/project/browser/mship_messages.py:37
-#, fuzzy
 msgid "email_remind_invitee"
 msgstr ""
 "Θέμα: ${portal_title} - Πρόσκληση για συμμετοχή στο ${project_title}\n"
@@ -1028,7 +1021,6 @@ msgstr ""
 
 #. Default: "\nThis is a reminder that you've been invited to join \"${project_title}\" on ${portal_title}.\nPlease first confirm your email address at the following address: ${conf_url}\nand then you can accept or decline the invitation.\n"
 #: ./opencore/project/browser/mship_messages.py:49
-#, fuzzy
 msgid "email_remind_pending_invitee"
 msgstr ""
 "Θέμα: ${portal_title} - Πρόσκληση για συμμετοχή στο ${project_title}\n"
@@ -1044,7 +1036,6 @@ msgstr ""
 
 #. Default: "\nYour request to join \"${project_title}\" on ${portal_title} has been approved.\nThe ${project_noun} is accessible at the following address:\n\n${project_url}\n"
 #: ./opencore/project/browser/mship_messages.py:62
-#, fuzzy
 msgid "email_request_approved"
 msgstr ""
 "Θέμα: ${portal_title} - Καλώς ήρθες στο ${project_title}\n"
@@ -1058,7 +1049,6 @@ msgstr ""
 
 #. Default: "\nYour request to join \"${project_title}\" on ${portal_title} has been denied.\n"
 #: ./opencore/project/browser/mship_messages.py:76
-#, fuzzy
 msgid "email_request_denied"
 msgstr ""
 "Θέμα: ${portal_title} - Η αίτησή σου να συμμετάσχεις στο ${project_title}\n"
@@ -1242,7 +1232,6 @@ msgstr "Νέοι χρήστες"
 
 #. Default: "Whether your group is mobilizing voters, planning a protest, or growing a garden, ${portal_title_openplans} can help you become more effective."
 #: ./opencore/account/forgot.pt:14
-#, fuzzy
 msgid "forgot_openplans_more_effective"
 msgstr " "
 
@@ -1493,7 +1482,6 @@ msgstr "Επιβεβαίωση κωδικού"
 
 #. Default: "Registration is free and your email will not be shared with anyone, however, you will need to confirm your email address in order to avoid spam bots abusing this system."
 #: ./opencore/account/invite-join.pt:80
-#, fuzzy
 msgid "join_description"
 msgstr "Η εγγραφή είναι ελεύθερη και το email σου δεν θα το μοιραστούμε με κανένα, όμως, θα πρέπει να επιβεβαιώσεις την email διεύθυνσή σου ώστε να αποφεύγουμε να χρησιμοποιούν το σύστημά μας για να στέλνουν ανεπιθύμητη αλληλογραφία."
 
@@ -1743,7 +1731,6 @@ msgstr ""
 
 #. Default: "Whether your group is mobilizing voters, planning a protest, or growing a garden, ${portal_title_openplans} can help you become more effective."
 #: ./opencore/account/login.pt:21
-#, fuzzy
 msgid "login_description"
 msgstr " "
 
@@ -2196,7 +2183,6 @@ msgstr "Νέα Μέλη"
 
 #. Default: "We would love to hear from you. Learn more ${about_our_software_portal_url} or ${contact_us_portal_url} for more information."
 #: ./opencore/nui/main/news.pt:40
-#, fuzzy
 msgid "news_about_us_description"
 msgstr " "
 
@@ -3016,7 +3002,6 @@ msgstr "Έχεις συνδεθεί."
 
 #. Default: "Thanks for joining ${portal_title}, ${mem_id}!<br/>\nA confirmation email has been sent to you with instructions on activating your account."
 #: ./opencore/account/join.py:80
-#, fuzzy
 msgid "psm_thankyou_for_joining"
 msgstr ""
 "Ευχαριστούμε που γράφτηκε στο ${portal_title}, ${mem_id}!<br/>\n"

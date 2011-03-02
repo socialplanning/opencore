@@ -1070,7 +1070,6 @@ msgstr "Subject: ${portal_title} – Invitation à venir dans  ${project_title}"
 
 #. Default: "\nThis is a reminder that you've been invited to join \"${project_title}\" on ${portal_title}.\nPlease first confirm your email address at the following address: ${conf_url}\nand then you can accept or decline the invitation.\n"
 #: ./opencore/project/browser/mship_messages.py:49
-#, fuzzy
 msgid "email_remind_pending_invitee"
 msgstr ""
 "\n"
@@ -1080,13 +1079,11 @@ msgstr ""
 
 #. Default: "${portal_title} - Invitation to join ${project_title}"
 #: ./opencore/project/browser/mship_messages.py:57
-#, fuzzy
 msgid "email_remind_pending_invitee_subject"
 msgstr "Subject: ${portal_title} – Invitation dans  ${project_title}"
 
 #. Default: "\nYour request to join \"${project_title}\" on ${portal_title} has been approved.\nThe ${project_noun} is accessible at the following address:\n\n${project_url}\n"
 #: ./opencore/project/browser/mship_messages.py:62
-#, fuzzy
 msgid "email_request_approved"
 msgstr ""
 "\n"
@@ -1097,7 +1094,6 @@ msgstr ""
 
 #. Default: "${portal_title} - Welcome to ${project_title}"
 #: ./opencore/project/browser/mship_messages.py:71
-#, fuzzy
 msgid "email_request_approved_subject"
 msgstr "Subject: ${portal_title} – Bienvenue à ${project_title}"
 
@@ -1240,7 +1236,6 @@ msgstr ""
 
 #. Default: "Chances are, we're already on it. But, if you would please tell us what you were trying to do, it will help us fix the problem faster. Thank you."
 #: ./opencore/browser/error.pt:21
-#, fuzzy
 msgid "error_site_description"
 msgstr "Peut être sommes nous déjà en train de travailler sur ce problème. Mais si vous nous disiez ce que vous êtiez en train d'essayer de faire, cela nous aiderait à régler le problème plus rapidement  Merci"
 
@@ -1537,7 +1532,6 @@ msgstr "Confirmer votre mot de passe"
 
 #. Default: "Registration is free and your email will not be shared with anyone, however, you will need to confirm your email address in order to avoid spam bots abusing this system."
 #: ./opencore/account/invite-join.pt:80
-#, fuzzy
 msgid "join_description"
 msgstr "L'inscription est libre et votre adresse électronique ne sera communiquée à personne, toutefois vous devez la confirmer afin d'éviter que des robots de spam ne trompent le système."
 
@@ -3469,7 +3463,6 @@ msgstr " Informez les autres participants dans  ${portal_title} sur qui vous êt
 
 #. Default: "${absolute_url_profile-edit}"
 #: ./opencore/member/browser/tour.pt:17
-#, fuzzy
 msgid "tour_complete_profile_heading"
 msgstr "<a href=\"${absolute_url_profile-edit}\">Completez votre profil</a>"
 
@@ -3515,7 +3508,6 @@ msgstr ""
 
 #. Default: "${projects_noun_create_url}"
 #: ./opencore/member/browser/tour.pt:35
-#, fuzzy
 msgid "tour_start_projects_heading"
 msgstr "<a href=\"${projects_noun_create_url}\">Initiez votre propre ${project_noun}</a>"
 
