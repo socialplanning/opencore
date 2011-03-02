@@ -1131,7 +1131,6 @@ msgstr "${portal_title} – Seu pedido de entrar em ${project_title}"
 
 #: ./opencore/account/browser.py:68
 #: ./opencore/project/browser/team.py:77
-#, fuzzy
 msgid "email_to_pending_user"
 msgstr ""
 "${user_name},\n"
@@ -1153,7 +1152,7 @@ msgstr ""
 #: ./opencore/account/browser.py:73
 #: ./opencore/project/browser/team.py:83
 msgid "email_to_pending_user_subject"
-msgstr "Bemvinda a  ${portal_title}! – clicar no link que contem essa mensajem"
+msgstr "Bemvinda a ${portal_title}! - clicar no link que contem essa mensajem"
 
 #. Default: "Could not moderate!"
 #: ./opencore/listen/browser/view.py:424
