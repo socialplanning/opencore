@@ -51,6 +51,9 @@ class ListsFeedAdapter(BaseFeedAdapter):
         all_msgs = []
         for ml_id in self.mlists:
             mlist = self.context._getOb(ml_id)
+            if not mlist.can_view_archives(mlist.REQUEST):
+                continue
+
             cat = get_utility_for_context(ISearchableArchive, mlist)
             # aq wrap since brains work better this way            
             cat = cat.__of__(mlist)
