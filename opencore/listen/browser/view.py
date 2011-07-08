@@ -59,6 +59,7 @@ def oc_json_error(v):
             'action': 'copy',
             }
 class ListenBaseView(BaseView):
+
     @req_memoize
     def list_url(self):
         obj = interface_in_aq_chain(self.context, IMailingList)
@@ -265,6 +266,7 @@ class ListAddView(ListenEditBaseView):
             return
 
         title, workflow, archive, mailto, managers = result
+        private_archives = "private_list" in self.request.form
 
         # Try to create a mailing list using the mailto address to see if it's going to be valid
         lists_folder = self.context
@@ -289,6 +291,7 @@ class ListAddView(ListenEditBaseView):
                                new_workflow_type.list_marker))
 
         list.archived = archive
+        list.private_archives = private_archives
 
         self.template = None
 
@@ -334,6 +337,7 @@ class ListEditView(ListenEditBaseView):
             return
 
         title, workflow, archive, mailto, managers = result
+        private_archives = "private_list" in self.request.form
 
         list = self.context
 
@@ -349,6 +353,8 @@ class ListEditView(ListenEditBaseView):
 
 
         list.archived = archive
+
+        list.private_archives = private_archives
 
         list.managers = tuple(managers)
         self._assign_local_roles_to_managers()
@@ -373,8 +379,7 @@ class ListEditView(ListenEditBaseView):
 
     def mailto(self):
         return self.context.mailto.split("@")[0]
-
-
+    
 
 # uh.. if you are going write meta factories you should write tests too
 # isn't this what super and mixins are is suppose to solve?
