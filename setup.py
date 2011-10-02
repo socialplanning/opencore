@@ -42,7 +42,6 @@ setup(
     dependency_links=[
         'http://feedparser.googlecode.com/files/feedparser-4.1.zip',
         'http://download.savannah.nongnu.org/releases/pyprof/hprof-0.1.1.tar.gz#egg=hprof',
-        'https://svn.openplans.org/svn/OpencoreRedirect/trunk#egg=OpencoreRedirect-dev',
         'http://svn.sccs.swarthmore.edu/egj/zope_i18n_fork_r105273#egg=zope.i18n-3.7.2opencore',
         ],
     install_requires=[
@@ -56,7 +55,7 @@ setup(
         'libopencore',
         "oc-js>=0.7",
         'oc-feed',
-        'OpencoreRedirect==dev,>=0.5dev',
+        'OpencoreRedirect',
         'plone.mail',
         'Products.CacheSetup==1.2.1',
         'Products.GenericSetup==1.4.1',
