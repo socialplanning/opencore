@@ -70,8 +70,19 @@
             <tr>
               <td></td>
               <td>
-                <label i18n:translate="manage_membership_add" for="add_email">Add:</label>
-                <input type="text" id="add_email" name="add_email" value="" size="25" />
+                <label tal:condition="not:view/can_subscribe_others"
+		 	       i18n:translate="manage_membership_add"
+				       for="add_email">Add:</label>
+                <input tal:condition="not:view/can_subscribe_others"
+		 	       type="text" id="add_email" name="add_email"
+			       		          value="" size="25" />
+                <label tal:condition="view/can_subscribe_others"
+		 	       i18n:translate="manage_membership_add"
+				       for="add_email">Add (one address per line)
+				       			   </label>
+                <textarea tal:condition="view/can_subscribe_others"
+		 	          id="add_email" name="add_email"
+				  		        value="" rows="10"></textarea>
               </td>
               <td class="oc-form-fieldBlock">
                 <input type="checkbox" id="add_subscribed" name="add_subscribed" />

@@ -549,6 +549,17 @@ class NuiManageMembersView(NuiManageMembersViewClass):
         form = self.request.form
         if form.get("add_directsubscribe", None):
             subscribe_directly = True
+        if self.can_subscribe_others():
+            import re
+            users = re.split("[\n,]", user)
+            success = False
+            for user in users:
+                if NuiManageMembersViewClass._add(
+                    self, user, subscribed, 
+                    subscribe_directly=subscribe_directly):
+                    success = True
+            return success
+
         return NuiManageMembersViewClass._add(self, user, subscribed, 
                                               subscribe_directly=subscribe_directly)
 
