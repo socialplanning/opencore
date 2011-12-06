@@ -8,6 +8,7 @@ function AceEditor(editor) {
     if( typeof ace === "undefined" ) {
 	loader.loadScript("ace/ace.js", "AceEditor");
 	loader.loadScript("ace/mode-html.js", "AceEditor");
+        loader.loadScript("ace/theme-idle_fingers.js", "AceEditor"); 
     };
 
 
@@ -42,6 +43,8 @@ function AceEditor(editor) {
 	div.style.position = "relative";
         parentEl.appendChild(div);
 	editor.ace = ace.edit(div.id);
+        editor.ace.setTheme("ace/theme/idle_fingers");
+	editor.ace.setShowPrintMargin(false);
 	var HtmlMode = require("ace/mode/html").Mode;
 	editor.ace.getSession().setMode(new HtmlMode());
     };
