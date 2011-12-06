@@ -35,7 +35,7 @@ function AceEditor(editor) {
 	editor._textArea.style.display = 'none';
         var div = document.createElement("div");
 	var html = editor.outwardHtml(editor.getHTML());
-        div.innerText = html;
+        div.textContent = html;
 	div.id = editor._textArea.id + "-xinha-ace-editor";
         div.className = "xinha-ace-editor";
 	div.style.width = editor._textArea.style.width;
