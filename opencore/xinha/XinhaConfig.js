@@ -62,6 +62,11 @@ xinha_init = xinha_init ? xinha_init : function()
        url:    '/++resource++xinha-plugins/SidebarFormatblock/SidebarFormatblock.js'
    }
   ];
+  if( _extra_plugins ) {
+      for( var i=0; i < _extra_plugins.length; ++i ) {
+	  xinha_plugins.push(_extra_plugins[i]);
+      }
+  }
 
          // THIS BIT OF JAVASCRIPT LOADS THE PLUGINS, NO TOUCHING  :)
          if(!Xinha.loadPlugins(xinha_plugins, xinha_init)) return;

@@ -10,8 +10,16 @@ var _editor_url = '/++resource++xinha97/';
 var _editor_lang = '${view/xinha_lang_code}';
 var _editor_icons = 'Classic';
 var _image_backend_url = '${view/image_backend_url}';
+_extra_plugins = [];
 "
 />
+<script type="text/javascript" tal:condition="view/in_svenweb" tal:content="string:
+_extra_plugins = [
+  { plugin: "AceEditor",
+    url: "/++resource++xinha-plugins/AceEditor/AceEditor.js" }];
+"
+/>
+
 <!-- Load up the actual editor core -->
 
 <script type="text/javascript" src="/++resource++xinha97/XinhaCore.js"></script>
