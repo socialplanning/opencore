@@ -5,6 +5,14 @@
   <browser:page
      for="opencore.interfaces.IProject"
      permission="zope2.View"
+     name="all_info.xml"
+     template="project_all_info_xml.pt"
+     class=".apis.ProjectAllInfoXML"
+     />
+
+  <browser:page
+     for="opencore.interfaces.IProject"
+     permission="zope2.View"
      name="info.xml"
      template="project_info_xml.pt"
      class=".apis.ProjectInfoXML"

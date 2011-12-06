@@ -148,12 +148,6 @@
      permission="zope2.View"
      />
 
-  <browser:page
-     for="opencore.interfaces.member.IMemberFolder"
-     class=".contact.MemberContactView"
-     permission="openplans.SendContactEmail"
-     name="contact"
-     />
 
   <!-- Intended to be used by clockserver -->
   <browser:page

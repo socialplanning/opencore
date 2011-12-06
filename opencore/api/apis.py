@@ -64,6 +64,8 @@ class ProjectMembershipXML(XMLView):
                      id=mem_ids)
         return brains
 
+class ProjectAllInfoXML(ProjectInfoXML, ProjectMembershipXML):
+    pass
 
 class PlainTextView(BrowserView):
     """
