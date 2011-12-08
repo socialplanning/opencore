@@ -13,7 +13,7 @@ function AceEditor(editor) {
 
 
     this.onBeforeMode = function(mode) {
-        var parentEl = editor._textArea.parentElement;
+        var parentEl = editor._textArea.parentNode;
         if( mode == "textmode" ) { 
 	    return false;
 	}
@@ -28,7 +28,7 @@ function AceEditor(editor) {
 	}
     };
     this.onMode = function(mode) {
-        var parentEl = editor._textArea.parentElement;
+        var parentEl = editor._textArea.parentNode;
         if( mode == "wysiwyg" ) { 
 	    return false;
 	}
