@@ -11,14 +11,28 @@ function AceEditor(editor) {
         loader.loadScript("ace/theme-idle_fingers.js", "AceEditor"); 
     };
 
-
+    this.onBeforeSubmit = function() {
+	if( editor._editMode == "wysiwyg" ) {
+	    return false;
+        }
+	var parentEl = editor._textArea.parentNode;
+	var html = editor.ace.getSession().getValue();
+        editor.setHTML(html);
+	// if we're toggling back to WYSIWYG, 
+	// make sure to delete any ACE DIVs
+	// and shut down the ACE editor.
+	var aces = parentEl.getElementsByClassName("xinha-ace-editor");
+	for( var i=0; i<aces.length; ++i ) {
+	    parentEl.removeChild(aces[i]);
+	}
+    };
     this.onBeforeMode = function(mode) {
         var parentEl = editor._textArea.parentNode;
         if( mode == "textmode" ) { 
 	    return false;
 	}
 	var html = editor.ace.getSession().getValue();
-        editor._textArea.value = html;
+        editor.setHTML(html);
 	// if we're toggling back to WYSIWYG, 
 	// make sure to delete any ACE DIVs
 	// and shut down the ACE editor.
@@ -47,9 +61,6 @@ function AceEditor(editor) {
 	var HtmlMode = require("ace/mode/html").Mode;
 	editor.ace.getSession().setMode(new HtmlMode());
     };
-    this.onBeforeSubmit = function() {
-        bypass = true;
-    }
 
     // Setup to be called when the plugin is loaded.
     this.onGenerate = function() {
