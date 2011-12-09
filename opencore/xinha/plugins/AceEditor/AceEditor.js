@@ -34,7 +34,7 @@ function AceEditor(editor) {
 	}
 	editor._textArea.style.display = 'none';
         var div = document.createElement("div");
-	div.textContent = editor._textarea.value;
+	div.textContent = editor._textArea.value;
 	div.id = editor._textArea.id + "-xinha-ace-editor";
         div.className = "xinha-ace-editor";
 	div.style.width = editor._textArea.style.width;
