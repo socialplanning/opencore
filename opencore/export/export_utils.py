@@ -537,7 +537,7 @@ class ContentExporter(object):
                 'creation_date': mlist.CreationDate(),
                 'creator': mlist.Creator(),
                 'sync_with_project': ISyncWithProjectMembership.providedBy(mlist),
-                'context': self.context.getId()
+                'context': self.context.getId(),
                 'private_archives': mlist.private_archives,
                 }
             conf_path = '%s/lists/%s/settings.ini' % (self.context_dirname, mlistid)
