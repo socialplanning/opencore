@@ -527,6 +527,7 @@ class ContentExporter(object):
             # Now the metadata and preferences.
             logger.info("exporting settings.ini for %s" % mlistid)
             list_info = {
+                'id': mlist.getId(),
                 'type': mlist_type_to_workflow(mlist),
                 'mailto': mlist.mailto,
                 'managers': mlist.managers,
