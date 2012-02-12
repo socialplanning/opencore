@@ -56,4 +56,4 @@ for list in settings:
         from opencore.listen.interfaces import ISyncWithProjectMembership
         alsoProvides(ml, ISyncWithProjectMembership)
 
-
+transaction.commit()
