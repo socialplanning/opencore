@@ -24,6 +24,7 @@ settings = [parse_listen_settings(i) for i in settings]
 
 from opencore.listen.mailinglist import OpenMailingList
 lists_folder = project.lists.aq_inner
+imported_ids = []
 for list in settings:
     request = project.REQUEST
     request.set('title', list['info']['title'])
@@ -48,12 +49,38 @@ for list in settings:
     archive = ['with_attachments', 'plain_text', 'not_archived'].index(archive)
     ml.archived = archive
 
-    private_archives = list['preferences']['private_archives']
-    ml.private_archives = private_archives
+    try:
+        private_archives = list['preferences']['private_archives']
+        ml.private_archives = private_archives
+    except:
+        pass
 
     if list['preferences']['sync_membership']:
         from zope.interface import alsoProvides
         from opencore.listen.interfaces import ISyncWithProjectMembership
         alsoProvides(ml, ISyncWithProjectMembership)
+    
+    imported_ids.append(ml.getId())
 
+transaction.commit()
+
+from StringIO import StringIO
+for ml_id in imported_ids:
+    archive = zipfile.read("%s/lists/%s/archive.mbox" % (
+            proj_id, ml_id))
+    archive = StringIO(archive)
+
+    from Products.listen.extras.import_export import (
+        MailingListMessageImporter,
+        MailingListSubscriberImporter)
+    ml = project.lists[ml_id]
+
+    importer = MailingListMessageImporter(ml)
+    importer.import_messages(archive)
+
+    #importer = MailingListSubscriberImporter(ml)
+    #subscribers = zipfile.read("%s/lists/%s/subscribers.csv" % (
+    #            proj_id, ml_id))
+    #subscribers 
+    #importer.import_subscribers(subscribers)
 transaction.commit()
