@@ -62,12 +62,22 @@ for list in settings:
     
     imported_ids.append(ml.getId())
 
-transaction.commit()
+#transaction.commit()
 
 from StringIO import StringIO
+
+archives = [i for i in zipfile.namelist() 
+            if i
+            and len(i.split("/")) == 4 
+            and i.split("/")[1] == "lists" 
+            and i.split("/")[3] == "archive.mbox"]
+
 for ml_id in imported_ids:
-    archive = zipfile.read("%s/lists/%s/archive.mbox" % (
-            proj_id, ml_id))
+    archive = [i for i in archives if i.split("/", 1)[1] == "lists/%s/archive.mbox" % ml_id]
+    if not archive: continue
+    archive = archive[0]
+
+    archive = zipfile.read(archive)
     archive = StringIO(archive)
 
     from Products.listen.extras.import_export import (
