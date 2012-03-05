@@ -1,3 +1,4 @@
+from Products.CMFCore.utils import getToolByName
 from opencore.utils import setup
 import transaction
 import os, sys
@@ -39,4 +40,40 @@ for path in zipfile.namelist():
         finally:
             fp.close()
 
-print tempdir
+from sven.bzr import BzrAccess
+bzr = BzrAccess(tempdir)
+
+for revision in reversed(bzr.log("/")):
+    path = revision['href']
+    timestamp = revision['fields']['timestamp']
+    user_id = revision['fields']['author']
+    commit_message = revision['fields']['message']
+    if isinstance(commit_message, unicode):
+        commit_message = commit_message.encode("utf8")
+    content = bzr.read(path, rev=revision['fields']['version'])
+
+    print "Saving %s, revision %s" % (path, revision['fields']['version'])
+    try:
+        page_ctx = project[path]
+    except KeyError:
+        title = path.replace("-", " ").title()
+        project.invokeFactory("Document", id=path, title=title)
+        page_ctx = project[path]
+    
+    from lxml.html import fromstring, tostring
+    try:
+        content = tostring(fromstring(content.decode("utf8")))
+    except:
+        content = ''
+
+    page_ctx.setText(content)
+    ## TODO: notify ObjectModifiedEvent?
+
+    repo = getToolByName(page_ctx, 'portal_repository')
+    repo.save(page_ctx, comment=commit_message)
+
+import shutil
+shutil.rmtree(tempdir)
+
+import transaction
+transaction.commit()
