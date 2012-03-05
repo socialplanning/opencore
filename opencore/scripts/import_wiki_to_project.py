@@ -43,9 +43,12 @@ for path in zipfile.namelist():
 from sven.bzr import BzrAccess
 bzr = BzrAccess(tempdir)
 
+from DateTime import DateTime
+
 for revision in reversed(bzr.log("/")):
     path = revision['href']
     timestamp = revision['fields']['timestamp']
+    mod_date = DateTime(timestamp)
     user_id = revision['fields']['author']
     commit_message = revision['fields']['message']
     if isinstance(commit_message, unicode):
@@ -60,14 +63,17 @@ for revision in reversed(bzr.log("/")):
         project.invokeFactory("Document", id=path, title=title)
         page_ctx = project[path]
     
+    page_ctx.getField("modification_date").set(page_ctx, mod_date)
     from lxml.html import fromstring, tostring
     try:
         content = tostring(fromstring(content.decode("utf8")))
     except:
         content = ''
-
     page_ctx.setText(content)
-    ## TODO: notify ObjectModifiedEvent?
+
+    ## if all goes well this will set lastModifiedAuthor
+    from opencore.project.browser.metadata import _update_last_modified_author
+    _update_last_modified_author(page_ctx, user_id)
 
     repo = getToolByName(page_ctx, 'portal_repository')
     repo.save(page_ctx, comment=commit_message)
