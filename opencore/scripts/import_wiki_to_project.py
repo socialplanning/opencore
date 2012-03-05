@@ -44,7 +44,10 @@ from sven.bzr import BzrAccess
 bzr = BzrAccess(tempdir)
 
 from DateTime import DateTime
+repo = getToolByName(project, 'portal_repository')
+archivist = getToolByName(project, 'portal_archivist')
 
+PAGES = set()
 for revision in reversed(bzr.log("/")):
     path = revision['href']
     timestamp = revision['fields']['timestamp']
@@ -62,7 +65,8 @@ for revision in reversed(bzr.log("/")):
         title = path.replace("-", " ").title()
         project.invokeFactory("Document", id=path, title=title)
         page_ctx = project[path]
-    
+    PAGES.add(path)
+
     page_ctx.getField("modification_date").set(page_ctx, mod_date)
     from lxml.html import fromstring, tostring
     try:
@@ -74,9 +78,17 @@ for revision in reversed(bzr.log("/")):
     ## if all goes well this will set lastModifiedAuthor
     from opencore.project.browser.metadata import _update_last_modified_author
     _update_last_modified_author(page_ctx, user_id)
+    
+    sys_metadata = repo._prepareSysMetadata(commit_message)
+    sys_metadata['timestamp'] = mod_date.timeTime()
+    prep = archivist.prepare(page_ctx, {}, sys_metadata)
+    prep.metadata['sys_metadata']['principal'] = user_id
+    archivist.save(prep, autoregister=repo.autoapply)
+    prep.copyVersionIdFromClone()
 
-    repo = getToolByName(page_ctx, 'portal_repository')
-    repo.save(page_ctx, comment=commit_message)
+from opencore.nui.wiki.utils import cache_history
+for page in PAGES:
+    cache_history(project[page], repo)
 
 import shutil
 shutil.rmtree(tempdir)
