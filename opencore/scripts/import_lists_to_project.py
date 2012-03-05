@@ -88,6 +88,32 @@ for ml_id in imported_ids:
     importer = MailingListMessageImporter(ml)
     importer.import_messages(archive)
 
+memberlists = [i for i in zipfile.namelist() 
+               if i
+               and len(i.split("/")) == 4 
+               and i.split("/")[1] == "lists" 
+               and i.split("/")[3] == "subscribers.csv"]
+
+for ml_id in imported_ids:
+    memberlist = [i for i in memberlists
+                  if i.split("/", 1)[1] == "lists/%s/subscribers.csv" % ml_id]
+    if not memberlist: continue
+    memberlist = memberlist[0]
+
+    memberlist = zipfile.read(memberlist)
+    memberlist = StringIO(memberlist)
+    members = [s.strip().split(",")[-2:] for s in memberlist]
+    members = [e for e in members if '@' in e[0]
+               and e[1].strip() in ("subscribed", "allowed")]
+    
+
+    ml = project.lists[ml_id]
+
+    from Products.listen.extras.import_export import \
+        MailingListSubscriberImporter
+    importer = MailingListSubscriberImporter(ml)
+    importer.import_subscribers(members)
+
     #importer = MailingListSubscriberImporter(ml)
     #subscribers = zipfile.read("%s/lists/%s/subscribers.csv" % (
     #            proj_id, ml_id))
