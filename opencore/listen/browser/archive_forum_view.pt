@@ -41,8 +41,8 @@
                       <span tal:replace="structure item/mail_from">test@example.com</span>
                     </a>
                   </td>
-                  <td tal:content="item/responses">10</td>
-                  <td tal:content="item/last_post">12/1/2005 3:54 pm</td>
+                  <td tal:content="item/responses"><tal:comment replace="nothing">10</tal:comment></td>
+                  <td tal:content="item/last_post"><tal:comment replace="nothing">12/1/2005 3:54 pm</tal:comment></td>
                 </tr>
               </tal:items>
             </tbody>

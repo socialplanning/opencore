@@ -7,7 +7,7 @@
 
 go ${base_url}/projects/${projname}/lists/${listtitle}/moderation
 find $postsubject
-fv 2 reject_reason 'hi'
+fv 2 post_discard 'selecting form'
 submit post_discard
 notfind $postsubject
 notfind 'Site error' i

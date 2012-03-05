@@ -18,8 +18,11 @@ fv 2 mailto ${mailto}
 fv 2 workflow_policy ${listtype}
 fv 2 archival_policy ${attach}
 submit create_create_button
-notfind "site error" i
-go ${base_url}/projects/${projname}/lists/${listtitle}
+notfind Traceback
+notfind "psm_correct_errors_below"
+
+url ${base_url}/projects/${projname}/lists/${listtitle} 
+find "list_created"
 notfind error_404_title
 find $listtitle
 find $user

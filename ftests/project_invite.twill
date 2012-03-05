@@ -1,0 +1,18 @@
+extend_with flunc.xpath
+
+go ${base_url}/projects/${projname}
+follow "team"
+find "invite_new_members_heading"
+fv "search-members" search_for ${user_to_invite}
+submit
+find "No members were found"
+
+follow send_email_invite_people_heading
+find "invite-w-m_invite_title"
+fv "oc-inviteByEmail" "email-invites" ${email_to_invite}
+fv "oc-inviteByEmail" subject ${invite_subject}
+submit
+
+find "Email invitations: ${email_to_invite}"
+find "Pending email invitations"
+find_in_css ${email_to_invite} "#email-invite table"

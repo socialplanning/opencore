@@ -5,7 +5,7 @@
       i18n:domain="atreferencebrowserwidget">
 
 <head tal:define="ztu modules/ZTUtils;">
-    <title tal:content="here/title_or_id">Title or Id</title>
+    <title tal:content="here/title_or_id"><tal:comment replace="nothing">Title or Id</tal:comment></title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"
           tal:define="charset here/portal_properties/site_properties/default_charset;
                       dummy python:request.RESPONSE.setHeader('Content-Type', 'text/html;;charset=%s' % charset)"

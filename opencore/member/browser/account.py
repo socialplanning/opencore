@@ -11,7 +11,7 @@ from opencore.i18n import _
 from opencore.interfaces.catalog import ILastWorkflowActor
 from opencore.interfaces.event import JoinedProjectEvent
 from opencore.interfaces.event import LeftProjectEvent
-from opencore.interfaces.event import MemberModifiedEvent
+from opencore.interfaces.event import MemberEmailModifiedEvent
 from opencore.interfaces.message import ITransientMessage
 from plone.memoize.view import memoize as req_memoize
 from zope.component import getAdapter
@@ -29,6 +29,12 @@ class MemberAccountView(BaseView, OctopoLite):
 
     active_states = ['public', 'private']
     msg_category = 'membership'
+
+    def mailing_lists(self):
+        cat = self.get_tool("portal_catalog")
+        brains = cat(portal_type="Open Mailing List",
+                     mailing_list_subscribers=self.viewedmember().getEmail())
+        return brains
 
     @property
     @req_memoize
@@ -284,7 +290,7 @@ class MemberAccountView(BaseView, OctopoLite):
 
         admin_ids = team.get_admin_ids()
         transient_msgs = ITransientMessage(self.portal)
-        id_ = self.loggedinmember.getId()
+        id_ = self.viewed_member_info['id']
         member_url = u'%s/%s' % (getToolByName(self.context, 'portal_url')(),
                                  member_path(id_))
         project_url = self.project_url(proj_id)
@@ -325,7 +331,7 @@ class MemberAccountView(BaseView, OctopoLite):
         if not self._apply_transition_to(proj_id, 'reject_by_owner'):
             return {}
 
-        id_ = self.loggedinmember.getId()
+        id_ = self.viewed_member_info['id']
 
         # there must be a better way to get the last wf transition which was an invite... right?
         wftool = self.get_tool("portal_workflow")
@@ -431,18 +437,19 @@ class MemberAccountView(BaseView, OctopoLite):
                                           u'Please enter your new email address.'))
             return
 
-        mem = self.loggedinmember
+        mem = self.viewedmember()
         msg = mem.validate_email(email)
         if msg:
             self.addPortalStatusMessage(msg)
             return
 
-        if mem.getEmail() == email:
+        old_email = mem.getEmail()
+        if old_email == email:
             return
 
         mem.setEmail(email)
         mem.reindexObject(idxs=['getEmail'])
-        notify(MemberModifiedEvent(mem))
+        notify(MemberEmailModifiedEvent(mem, old_email))
         self.addPortalStatusMessage(_(u'psm_email_changed', u'Your email address has been changed.'))
 
     def pretty_role(self, role):

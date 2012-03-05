@@ -1,11 +1,66 @@
+extend_with flunc.xpath
 
-# Stub tests for the export form.
-
-go ${base_url}/projects/${projname}/
-follow "export"
+# for now the link is hidden, so we'll go to it directly
+#go ${base_url}/projects/${projname}/
+#follow "export"
+go ${base_url}/projects/${projname}/export
 code 200
+notfind_in_css "${projname}.*zip" "ul#project-export-list a"
 
-# can't do much else w/ a form that works asynchronously...
-# it might take 30 seconds for clockserver to get around to
-# running our export, ugh.
+fv project-export export 1
+submit
 
+extend_with flunc.zope_run_cat_queue
+ensure_project_export $admin $adminpw $projname
+
+go ${base_url}/projects/${projname}/export
+find_in_css "${projname}.*zip" "ul#project-export-list a"
+follow zip
+
+download_project_export
+export_contains "${projname}/README.txt"
+export_contains "${projname}/pages/project-home.html"
+export_contains "${projname}/lists/${projname}-discussion/archive.mbox"
+export_contains "${projname}/lists/${projname}-discussion/subscribers.csv"
+export_contains "${projname}/wiki_history/project-home"
+export_contains "${projname}/wiki_history/.bzr/README"
+export_file_contains "${projname}/lists/${projname}-discussion/subscribers.csv" ${fullname}
+export_file_contains "${projname}/pages/project-home.html" ${projbody}
+
+export_file_contains "${projname}/lists/${projname}-discussion/settings.ini" "mailto = ${projname}-discussion@"
+export_file_contains "${projname}/lists/${projname}-discussion/settings.ini" "created_by = ${user}"
+export_file_contains "${projname}/lists/${projname}-discussion/settings.ini" "sync_membership = True"
+export_file_contains "${projname}/lists/${projname}-discussion/settings.ini" "list_type = policy_open"
+export_file_contains "${projname}/lists/${projname}-discussion/settings.ini" "archive_setting = with_attachments"
+
+export_file_contains "${projname}/pages/project-home.html" 'href="${pagename}.html"'
+export_file_contains ${projname}/pages/${pagename}.html 'href="new-page/portrait.gif"'
+
+export_file_contains "${projname}/pages/project-home.html" '<h1>${projtitle}</h1>'
+export_file_contains "${projname}/pages/new-page.html" '<h1>new page</h1>'
+export_contains "${projname}/pages/new-page/portrait.gif"
+
+# Check for that damn A-hat character
+not_export_file_contains ${projname}/pages/another-page.html "&#194"
+
+# Make sure external links are preserved
+export_file_contains ${projname}/pages/another-page.html '<a href="http://www.coactivate.org"'
+
+# Relative links to parts of the project outside the wiki should be made absolute:
+#  this one was originally <a id="mailing_lists" href="../lists">
+export_file_contains ${projname}/pages/another-page.html '<a id="mailing_lists" href="${base_url}/projects/${projname}/lists">'
+
+# And relative links to parent folders should be made absolute:
+#  this one was originally <a id="other_projects" href="../../../projects">
+export_file_contains ${projname}/pages/another-page.html '<a id="other_projects" href="${base_url}/projects">'
+
+# Relative links to parts of the project within the wiki should be relative:
+#  this one was originally <a id="project_home" href="../project_home">
+export_file_contains ${projname}/pages/another-page.html '<a id="project_home" href="project-home.html">'
+
+# There should be an index.html with a meta-refresh:
+export_file_contains ${projname}/pages/index.html '<meta http-equiv="refresh" content="0;url=project-home.html" />'
+# TODO: make sure this doesn't clobber if the project has a wikipage called index already
+
+# There should be a relative link to a stylesheet in each wiki page:
+export_file_contains ${projname}/pages/project-home.html '<link rel="stylesheet" href="style.css"'

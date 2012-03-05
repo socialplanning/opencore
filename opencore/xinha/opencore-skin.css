@@ -1,0 +1,17 @@
+.htmlarea .toolbarRow {
+  padding: 2px;
+}
+
+.htmlarea .toolbarElement {
+  padding: 2px;
+}
+
+.buttonImageContainer {
+  left: 1px;
+  top: 1px;
+  position: relative;
+}
+
+.htmlarea .toolbar .button.buttonActive, .htmlarea .toolbar .button.buttonPressed, .htmlarea .toolbar a.button.buttonPressed:hover {
+  padding: 2px 4px 3px 2px;
+}

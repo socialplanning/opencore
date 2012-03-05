@@ -7,8 +7,8 @@ An authorized user can export a project's content.
 Let's try the back-end export utils directly:
 
     >>> proj = self.portal.projects.p2
-    >>> from opencore.project.browser import export_utils
-    >>> from opencore.project.browser.export_utils import ProjectExportQueueView
+    >>> from opencore.export import export_utils
+    >>> from opencore.export.export_utils import ProjectExportQueueView
     >>> qview = ProjectExportQueueView(proj, proj.REQUEST)
 
 We hack the output directory to avoid polluting the real export directory:
@@ -36,7 +36,7 @@ Status objects
 
 Status is reported via these boring little bags of state:
 
-    >>> from opencore.project.browser.export_utils import ExportStatus
+    >>> from opencore.export.export_utils import ExportStatus
     >>> status = ExportStatus('foo')
     >>> status.name
     'foo'
@@ -98,9 +98,11 @@ The queue starts empty:
     <Queue.Queue instance at ...>
     >>> queue.empty()
     True
-    >>> self._start_log_capture(subsystem='opencore.project.browser')
+    >>> self._start_log_capture(subsystem='opencore.export')
     >>> qview.maxwait = 0  # turn off blocking timeout for tests.
+    >>> qview.notify = False # turn off user email notification for tests too.
     >>> qview()  # nothing happens.
+    []
     >>> print self.logged
     None
 
@@ -110,23 +112,26 @@ Here's an example of export failure due to missing project:
     >>> queue.put('no-such-project')
     >>> status = export_utils.get_status('no-such-project')
     >>> qview()
+    []
     >>> status.failed
     True
-    >>> len(self.logged)
-    1
+    >>> len(self.logged) > 0
+    True
     >>> self.logged.pop(0).msg
     'Failure in export of project \'no-such-project\'...'
 
 
 And here's an example of success:
 
+    >>> self.logged = None
     >>> status = export_utils.get_status(proj.getId())
     >>> queue.put(status.name)
     >>> qview()
+    ['p2']
     >>> status.succeeded
     True
-    >>> len(self.logged)
-    1
+    >>> len(self.logged) > 0
+    True
     >>> self.logged.pop().msg
     'Reached end of project export job queue (exported 1)'
 
@@ -158,7 +163,7 @@ The export view is restricted:
 Let's instantiate it directly now:
 
     >>> self.login('m1')
-    >>> from opencore.project.browser.export import ProjectExportView
+    >>> from opencore.export.export import ProjectExportView
     >>> export = ProjectExportView(proj, proj.REQUEST)
     >>> export.available_exports()
     []
@@ -187,6 +192,7 @@ We can check the current state of the export job:
 If we call the queue handler, the export job will finish:
 
     >>> qview()
+    ['p2']
     >>> status.succeeded
     True
 
@@ -197,15 +203,23 @@ We can get the path to the zipfile from the status object:
     >>> zipfile.is_zipfile(status.path)
     True
     >>> exported_files = sorted(zipfile.ZipFile(status.path, 'r').namelist())
-    >>> pprint(exported_files)
+    >>> from pprint import pprint
+    >>> pprint([i for i in exported_files if '.bzr' not in i])
     ['p2/README.txt',
-     'p2/lists/list1-subscribers.csv',
-     'p2/lists/list1.mbox',
-     'p2/pages/fa1',
-     'p2/pages/fa2',
+     'p2/lists/list1/archive.mbox',
+     'p2/lists/list1/settings.ini',
+     'p2/lists/list1/subscribers.csv',
      'p2/pages/img1',
+     'p2/pages/index.html',
      'p2/pages/new1.html',
-     'p2/pages/project-home.html']
+     'p2/pages/new1/fa2',
+     'p2/pages/project-home.html',
+     'p2/pages/project-home/fa1',
+     'p2/pages/style.css',
+     'p2/wiki_history/new1',
+     'p2/wiki_history/project-home']
+    >>> 'p2/wiki_history/.bzr/README' in exported_files
+    True
     >>> len(export.available_exports())
     1
     >>> status.path.endswith(export.available_exports()[0])

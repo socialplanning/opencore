@@ -33,7 +33,7 @@
                 <ul id="mail-reply-list" class="oc-plainList">
                   <li tal:repeat="reply replies">
                     <a href="#" tal:content="structure reply/brief_subject"
-                      tal:attributes="href reply/url">Subject</a>
+                      tal:attributes="href reply/url"><tal:comment replace="nothing">Subject</tal:comment></a>
                     <span class="oc-smallText">
                       <span i18n:translate="label_author" tal:omit-tag="">by</span>
                       <span tal:replace="reply/mail_from">Author</span>
@@ -48,7 +48,7 @@
               In reply to:
             </strong>
             <a href="#" tal:content="structure prev_link/brief_subject"
-              tal:attributes="href prev_link/url">Subject</a>
+              tal:attributes="href prev_link/url"><tal:comment replace="nothing">Subject</tal:comment></a>
             <span class="oc-smallText">
               <span tal:omit-tag="" i18n:translate="">by</span>
               <span tal:replace="prev_link/mail_from">Author</span>
@@ -59,7 +59,7 @@
               Next in thread:
             </strong>
             <a href="#" tal:content="structure next_link/brief_subject" 
-              tal:attributes="href next_link/url">Subject</a>
+              tal:attributes="href next_link/url"><tal:comment replace="nothing">Subject</tal:comment></a>
             <span class="oc-smallText">
               <span tal:omit-tag="" i18n:translate="">by</span>
               <span tal:replace="next_link/mail_from">Author</span>

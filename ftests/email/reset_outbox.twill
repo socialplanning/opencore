@@ -1,0 +1,4 @@
+go ${outbox_url}/drain
+find "ok"
+go ${outbox_url}/messages.html
+find "<h1>0 messages</h1>"

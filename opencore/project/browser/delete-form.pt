@@ -14,7 +14,7 @@
 		  <ul tal:repeat="item request/form/sources">
 		    <input type="hidden" name=""
 			   tal:attributes="name string:task|${item}|delete" value="Delete" i18n:attributes="value" />
-		    <li tal:content="item"> id </li>
+		    <li tal:content="item"> <tal:comment replace="nothing">id</tal:comment> </li>
 		    <!-- would like to show title here, but for attachments, we don't have enough context to find the attachment and get its title. maybe later.  -->
 		    <!-- FIXME: Should we set PSMs for the deleted items? -->
 		  </ul>

@@ -44,7 +44,7 @@
               <tal:block replace="structure here/newsitem_icon.gif"/>
               <span tal:replace="obj/pretty_title_or_id"> Extended Calendar Product</span>
               <span class="portletItemDetails"
-                    tal:content="python:here.toLocalizedTime(obj.Date)">July 7, 08:11</span>
+                    tal:content="python:here.toLocalizedTime(obj.Date)"><tal:comment replace="nothing">July 7, 08:11</tal:comment></span>
             </a>
           </dd>
         </tal:newsitems>

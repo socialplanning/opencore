@@ -10,17 +10,17 @@
         <!-- project metadata -->
         <div class="oc-headingBlock oc-clearAfter">
           <img style="float: left; width: 80px; margin: 0 1em 0.5em 0; border: 1px solid #EEE;" tal:attributes="src view/logo_url" />
-          <h1 tal:content="context/Title">Title</h1>
+          <h1 tal:content="context/Title"><tal:comment replace="nothing">Title</tal:comment></h1>
           <p class="oc-headingContext oc-discreetText">
             <span i18n:translate="">created</span> 
             <span tal:define="date context/CreationDate"
 		  tal:content="python:view.pretty_date(date)">
-              September 26
+              <tal:comment replace="nothing">September 26</tal:comment>
             </span>, 
             <span i18n:translate="">last updated</span> 
             <span tal:define="date context/ModificationDate"
 		  tal:content="python:view.pretty_date(date)">
-              yesterday
+              <tal:comment replace="nothing">yesterday</tal:comment>
             </span>
             <a tal:condition="not: context/isProjectMember" href="request-membership" class="oc-actionLink" i18n:translate="">Join</a>
           </p>

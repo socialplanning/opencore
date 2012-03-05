@@ -21,7 +21,7 @@
                   <a href="."
                     tal:attributes="href month/url"
                     tal:content="python: month['title'] or default">
-                    (No Subject)
+                    <tal:comment replace="nothing">(No Subject)</tal:comment>
                   </a>
                 </li>
               </ul>

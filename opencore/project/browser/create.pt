@@ -105,7 +105,8 @@
 
 	  <fieldset class="oc-boxy"
               tal:content="structure provider:opencore.proj_create_viewlets">
-            More project settings go here, from viewlets</fieldset>
+            <tal:comment replace="nothing">More project settings go here, from viewlets</tal:comment>
+          </fieldset>
 
           <fieldset>
             <ul class="oc-actions">

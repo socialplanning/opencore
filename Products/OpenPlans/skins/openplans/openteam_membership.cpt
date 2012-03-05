@@ -107,8 +107,8 @@
                            />
                   </td>
 
-                  <td tal:content="member_username">username</td>
-                  <td tal:content="member/getFullname">username</td>
+                  <td tal:content="member_username"><tal:comment replace="nothing">username</tal:comment></td>
+                  <td tal:content="member/getFullname"><tal:comment replace="nothing">fullname</tal:comment></td>
 
                 </tr>
               </tbody>
@@ -178,7 +178,7 @@
                       Full Name
                     </option>
                     <option value="getUserName" i18n:translate="label_user_name">
-                      Login Name
+                      User Name
                     </option>
                   </select>
                 </div>

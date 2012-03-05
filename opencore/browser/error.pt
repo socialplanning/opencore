@@ -28,7 +28,7 @@
       <input type="hidden" name="time" value=""
              tal:attributes="value view/request_time" />
       <input type="hidden" name="url" value=""
-             tal:attributes="value request/ACTUAL_URL" />
+             tal:attributes="value request/getURL" />
       <table class="oc-form">
 	<tr>
 	  <th class="oc-form-label" style="width: 200px;"><label for="oc-did" i18n:translate="error_form_did">What were you doing?</label></th>
@@ -67,7 +67,7 @@ If you give us your email address, <br />we will let you know when this problem 
   <div class="oc-js-expander-content oc-expander-content">
     <div tal:content="structure view/traceback"></div>
     <div tal:content="view/request_time"></div>
-    <div tal:content="request/ACTUAL_URL"></div>
+    <div tal:content="request/getURL"></div>
   </div>
 </div>
 

@@ -11,7 +11,7 @@
         </div>
 
         <form name="manage-form" id="manage-form"
-              tal:attributes="action request/ACTUAL_URL"
+              tal:attributes="action request/getURL"
               tal:define="errors view/errors|nothing"
               method="post">
           <table class="oc-dataTable" cellspacing="0">
@@ -21,7 +21,10 @@
               <th scope="col" i18n:translate="manage_membership_user">Address / User ID</th>
               <th scope="col" i18n:translate="manage_membership_subscribed">Subscribed</th>
               <th scope="col"></th>
-
+	      <th scope="col" i18n:translate="manage_membership_directsubscribe"
+		  tal:condition="view/can_subscribe_others">
+		Subscribe directly (skip confirmation)
+	      </th>
               <th scope="col"></th>
 
             </tr>
@@ -44,6 +47,10 @@
               <td>
                 <span tal:replace="user/pending_status " />
               </td>
+	      <td tal:condition="view/can_subscribe_others">
+		<input tal:attributes="name string:directsubscribe_${user/id}"
+		       type="checkbox" tal:condition="not:user/subscriber" />
+	      </td>
 
               <td>
                 <a tal:condition="user/is_member"
@@ -63,8 +70,19 @@
             <tr>
               <td></td>
               <td>
-                <label i18n:translate="manage_membership_add" for="add_email">Add:</label>
-                <input type="text" id="add_email" name="add_email" value="" size="25" />
+                <label tal:condition="not:view/can_subscribe_others"
+		 	       i18n:translate="manage_membership_add"
+				       for="add_email">Add:</label>
+                <input tal:condition="not:view/can_subscribe_others"
+		 	       type="text" id="add_email" name="add_email"
+			       		          value="" size="25" />
+                <label tal:condition="view/can_subscribe_others"
+		 	       i18n:translate="manage_membership_add"
+				       for="add_email">Add (one address per line)
+				       			   </label>
+                <textarea tal:condition="view/can_subscribe_others"
+		 	          id="add_email" name="add_email"
+				  		        value="" rows="10"></textarea>
               </td>
               <td class="oc-form-fieldBlock">
                 <input type="checkbox" id="add_subscribed" name="add_subscribed" />
@@ -72,7 +90,12 @@
               </td>
 
               <td />
-
+	      <td tal:condition="view/can_subscribe_others">
+		<input type="checkbox" name="add_directsubscribe" />
+		<label i18n:translate="manage_membership_directsubscribe"
+		       for="add_directsubscribe">
+		  Subscribe directly (skip confirmation)</label>
+	      </td>
 	      <td />
 
             </tr>

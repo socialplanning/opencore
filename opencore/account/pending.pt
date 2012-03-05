@@ -5,7 +5,7 @@
     <div metal:fill-slot="content">
       <div id="oc-content-main">
 	<p>
-	  <form name="resend_email_form" method="post" tal:attributes="action request/ACTUAL_URL">
+	  <form name="resend_email_form" method="post" tal:attributes="action request/getURL">
             <input type="hidden" name="key" id="key" 
                    tal:condition="view/request/key | nothing" 
                    tal:attributes="value view/request/key" />
@@ -67,8 +67,8 @@
 	<div class="oc-js-expander">
 	
 	
-	<h2 i18n:translate="pending_mistake" class="oc-bigText">
-	  <a class="oc-js-expander_open oc-expanderLink">
+	<h2 class="oc-bigText">
+	  <a i18n:translate="pending_mistake" class="oc-js-expander_open oc-expanderLink">
 	   If you think this is a mistake, you can try to login again
 	  </a>
 	</h2>

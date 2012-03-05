@@ -15,7 +15,7 @@
 
               <tal:inProject condition="inProject">
                 <a tal:attributes="href projInfo/project/absolute_url">
-                  <h1 tal:content="projInfo/project/getFull_name">The Name of the Project</h1>
+                  <h1 tal:content="projInfo/project/getFull_name"><tal:comment replace="nothing">The Name of the Project</tal:comment></h1>
                 </a>
               </tal:inProject>
 

@@ -175,10 +175,10 @@
         <div class="oc-boxy"
                tal:define="mission context/Description"
                tal:condition="mission">
-          <h2>About &ldquo;<span tal:replace="context/Title" />&rdquo;</h2>
+          <h2 i18n:translate="">About &ldquo;<span tal:replace="context/Title" i18n:name="oc-title" />&rdquo;</h2>
           <dl class="oc-plainList">
-            <dt>Description</dt>
-            <dd tal:content="mission">Project mission statement</dd>
+            <dt i18n:translate="">Description</dt>
+            <dd tal:content="mission"><tal:comment replace="nothing">Project mission statement</tal:comment></dd>
           </dl>
         </div>
 

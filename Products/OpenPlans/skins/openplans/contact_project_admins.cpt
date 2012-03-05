@@ -46,7 +46,7 @@
             Your email address.
           </div>
 
-          <div tal:content="error">Validation error output</div>
+          <div tal:content="error"><tal:comment replace="nothing">Validation error output</tal:comment></div>
 
           <input type="text"
                  id="send_from_address"

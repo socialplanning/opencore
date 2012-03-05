@@ -8,15 +8,14 @@
      tal:define="selected_tabs python:here.selectedTabs('index_html', here, portal_tabs);
                  selected_portal_tab selected_tabs/portal;"
      tal:condition="portal_tabs">
-    <ul id="portal-globalnav"
-        ><tal:tabs tal:repeat="tab portal_tabs"
-	    ><li tal:attributes="id string:portaltab-${tab/id};
-                                class python:test(selected_portal_tab==tab['id'], 'selected', 'plain');"
-                ><a href="" tal:content="tab/name" tal:attributes="href tab/url; title tab/description|nothing"
-                    >tab name</a
-            ></li
-	></tal:tabs
-     ></ul>
+    <ul id="portal-globalnav">
+        <tal:tabs tal:repeat="tab portal_tabs">
+	    <li tal:attributes="id string:portaltab-${tab/id};
+                                class python:test(selected_portal_tab==tab['id'], 'selected', 'plain');">
+                <a href="" tal:content="tab/name" tal:attributes="href tab/url; title tab/description|nothing"><tal:comment replace="nothing">tab name</tal:comment></a>
+            </li>
+	</tal:tabs>
+     </ul>
 </div>
 </body>
 </html>

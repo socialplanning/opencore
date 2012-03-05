@@ -14,6 +14,7 @@
   <include package="opencore.clockqueue"
        zcml:condition="installed opencore.clockqueue" />
   <include package="opencore.content" />
+  <include package="opencore.export" />
   <include package="opencore.featurelets.browser" />
   <include package="opencore.feed" />
   <include package="opencore.member" />
@@ -29,12 +30,16 @@
   <include package="topp.featurelets" />
   <include package="opencore.stats" />
 
+  <include package="opencore.xinha" />
+
   <!-- XXX Products namespace packages should get loaded automatically,
        but that doesn't seem to happen in ZTC; is there a better way
        to pull them in than by listing them here? -->
 
   <!-- See zcmlloader; this loads all zcml from all packages that have a setuptools
        entry_point like [topp.zcmlloader] opencore = foo -->
+  <!-- but we should load any IProvideSiteConfig providers first -->
+  <topp:includePlugins target="opencore_siteconfig" />
   <topp:includePlugins target="opencore" />
 
   <!-- use a forked version of i18n:registerTranslations

@@ -1,0 +1,5 @@
+From: ${sender_email}
+To: ${list_id}@lists.openplans.org
+Subject: ${subject}
+
+Hi, how are you?  I like your project!

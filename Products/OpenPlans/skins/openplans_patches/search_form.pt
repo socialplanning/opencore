@@ -236,7 +236,7 @@
                             tal:condition="python: len(creators) &lt;= 30">
                         <option value="" i18n:translate="label_any_author">Any Author</option>
                         <metal:block tal:repeat="creator creators">
-                            <option value="" tal:attributes="value creator" tal:content="creator"> username </option>
+                            <option value="" tal:attributes="value creator" tal:content="creator"> <tal:comment replace="nothing">username</tal:comment> </option>
                         </metal:block>
                     </select>
     

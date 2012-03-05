@@ -1,0 +1,62 @@
+# This suite assumes you have Zope's MailHost sending mail to a mock smtp server
+# implemented by https://github.com/ejucovy/mailsink -- which also provides
+# a web UI for inspecting emails that are "sent."
+# 
+# The suite also assumes you are using a synchronous MailHost, or at least
+# a MailDropHost with a very quick poll interval; it assumes that mails are
+# sent out (and received in the mock smtp server's outbox) instantaneously.
+
+reset_outbox
+
+create_user
+num_messages(n=1)
+find_message_by_subject(subject="email_to_pending_user_subject")
+
+reset_outbox
+
+login
+create_project(projpolicy="open_policy", projfeaturelets="listen")
+project_invite
+num_messages(n=1)
+find_message_by_subject(subject=${invite_subject})
+
+reset_outbox
+
+project_remind
+num_messages(n=1)
+find_message_by_subject(subject="Please join us")
+
+# Now let's try some listen emails.
+# First we'll send a regular email from a regular user.
+# It should be put in the moderation queue.
+send_listen_mail_from_new_user_and_moderate(mailname="listen_post.email", sender_email="new-user@example.com", subject="hi how are you")
+
+# Now the same user (email address) will send a message
+# with lots of non-ASCII characters. It should go through
+# immediately because this email address is already an
+# allowed sender.
+send_listen_mail_from_allowed_sender(mailname="listen_post_i18n.email", sender_email="new-user@example.com", subject="second message")
+
+# Now a new user will send a message with lots of non-ASCII
+# characters.  It should go through the confirmation workflow
+# and the moderator should be able to accept it through the web.
+send_listen_mail_from_new_user_and_moderate(mailname="listen_post_i18n.email", sender_email="another-new-user@example.com", subject="third message")
+
+# Now yet another new user will send a regular message to the list.
+# He'll then reply by email to the confirmation prompt,
+# and the message should then get processed, sent and archived.
+send_listen_mail_from_new_user_and_self_confirm_by_email(mailname="listen_post.email", sender_email="yet-another-user@example.com", subject="i love this list")
+
+# Now yet another new user will send a non-ASCII message to the list.
+# He'll then reply by email to the confirmation prompt,
+# and the message should then get processed, sent and archived.
+send_listen_mail_from_new_user_and_self_confirm_by_email(mailname="listen_post_i18n.email", sender_email="so-many-users@example.com", subject="giraffes and zebras")
+
+# Now yet another new user will send a regular message to the list.
+# He'll then reply by email to the confirmation prompt,
+# using a different email address than the one he sent the mail from.
+# The message should still get processed, sent and archived.
+send_listen_mail_from_new_user_and_self_confirm_by_different_email(mailname="listen_post.email", sender_email="james-the-user@example.com", subject="i love this list", other_email="jimmy-user@example.com")
+
+add_listen_subscriber_and_confirm_by_email(subscribed_email="joe-user-foo@example.com", sender_email="joe-user-foo@example.com")
+add_listen_subscriber_and_confirm_by_email(subscribed_email="bob-user@example.com", sender_email="bobby-user@example.net")

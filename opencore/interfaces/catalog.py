@@ -71,3 +71,6 @@ class IMetadataDictionary(IReadMapping):
 
 class IMailingListThreadCount(Interface):
     """number of unique threads in a mailing list object"""
+
+class IMailingListSubscribers(Interface):
+    """number of unique threads in a mailing list object"""

@@ -1,0 +1,28 @@
+#
+# verifies initial wordpress state
+#
+# projname - the id of the project 
+#
+
+extend_with flunc.xpath
+
+go ${base_url}/projects/${projname}
+follow 'blog'
+follow "Write a post"
+fv post post_title "My first post"
+fv post content "Welcome to my blog"
+submit publish
+
+code 200
+find "Post saved"
+follow "View post"
+
+find_in_css "My first post" "h3.oc-blog-storytitle" 
+find_in_css $user "span.oc-headingContext"
+find_in_css "Welcome to my blog" "div.oc-blog-storycontent"
+
+find "Leave a comment"
+
+go ${base_url}/projects/${projname}/summary
+find_in_css "My first post" "#oc-feed-blog"
+find_in_css $user "#oc-feed-blog .oc-feed-item-data a"

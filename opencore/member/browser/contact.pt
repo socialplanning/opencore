@@ -16,7 +16,7 @@
 
       <div id="oc-content-main">
         <form method="post" id="oc-memberContact" name="oc-memberContact"
-              tal:attributes="action request/ACTUAL_URL">
+              tal:attributes="action request/getURL">
           <table class="oc-form">
             <thead></thead>
             <tbody>

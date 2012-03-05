@@ -33,6 +33,12 @@
       factory=".page.PageFeedAdapter"
       />   
 
+  <adapter
+     for="opencore.interfaces.adding.IAmANewsFolder"
+     provides="opencore.feed.interfaces.IFeedData"
+     factory="opencore.nui.main.search.NewsFeed"
+     />
+
   <!-- views and related -->
   <browser:viewlet
      manager="opencore.project.browser.interfaces.ISummaryFeeds"

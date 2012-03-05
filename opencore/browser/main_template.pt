@@ -1,5 +1,5 @@
 <metal:template define-macro="master">
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:i18n="http://xml.zope.org/namespaces/i18n"
       i18n:domain="opencore">
@@ -30,7 +30,8 @@
     <link rel="shortcut icon" type="image/x-icon" href="/++resource++img/favicon.ico" />
 
     <!-- theme CSS -->
-    <link rel="stylesheet" href="/++resource++css/themes/openplans.css" type="text/css" media="all" />
+    <link rel="stylesheet" href="/++resource++themes_openplans.css"
+          type="text/css" media="all" />
     <!-- TODO print style sheet -->
 
     <script type="text/javascript" src="/++resource++ext/yahoo-dom-event.js"></script>

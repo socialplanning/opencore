@@ -49,7 +49,8 @@ class RequestMembershipView(TeamRelatedView, formhandler.OctopoLite, LoginView, 
             self.add_status_message(_(u'team_already_project_member',
                                       u'You are already a member of this ${project_noun}.',
                                       mapping={u'project_noun': self.project_noun}))
-            self.redirect('%s?came_from=%s' % (self.context.absolute_url(), self.request.ACTUAL_URL))
+            self.redirect('%s?came_from=%s' % (self.context.absolute_url(), 
+                                               self.request.getURL()))
         return super(RequestMembershipView, self).__call__()
 
     def _login(self):
@@ -123,7 +124,7 @@ class RequestMembershipView(TeamRelatedView, formhandler.OctopoLite, LoginView, 
         self._send_mail_to_pending_user(id=mem_id,
                                         email=self.request.get('email'),
                                         url=url)
-        self.addPortalStatusMessage(_('psm_thankyou_for_joining',
+        self.addPortalStatusMessage(_('psm_thankyou_for_joining_to_team',
                                       u'Thanks for joining ${portal_title}, ${mem_id}!\nA confirmation email has been sent to you with instructions on activating your account. After you have activated your account, your request to join the ${project_noun} will be sent to the ${project_noun} administrators.',
                                       mapping={u'mem_id':mem_id,
                                                u'portal_title':self.portal_title(),

@@ -256,13 +256,6 @@ text-align: left;
   
 /* GENERIC layout elements */
 
-.oc-boxy#twirlip_control { 
-text-align: right;
-padding: 0;
-background: 0;
-border-top: none;
-}
-
 .oc-plainList { /* list with no formatting */
   list-style-type: none;
   padding: 0;
@@ -366,7 +359,7 @@ ul.oc-lineup-list li.oc-feed-item:last-child {
 }
 
 .oc-lineup-sorter {
-  font-size: 10px;
+  font-size: 13px;
   margin-bottom: 1em;
 }
 .oc-lineup-sorter form,
@@ -402,10 +395,9 @@ div.oc-directory ol.oc-lineup-list li.oc-lineup-item {
   float: left;
   clear: none;
   white-space: nowrap;
-  overflow: hidden;
+  overflow: auto;
   border: 1px solid #ccc;
   height: 80px;
-  overflow: hidden;
   background-color: #F6F6F6;
 }
 
@@ -424,13 +416,14 @@ div.oc-directory ol.oc-lineup-list .oc-avatar {
   height: 80px;
   overflow: hidden;
   float: left;
+  margin-left: 1em;
   margin-right: 1em;
 }
 
 
 div.oc-directory div.oc-lineup-content {
   white-space: normal;
-  padding: 0.5em;
+  padding: 0;
 }
 div.oc-directory div.oc-lineup-content .fn, /* OpenPlans username */
 .oc-directory-content .n /* full name */ {
@@ -713,7 +706,7 @@ ul.oc-tabs li a:visited {
   color: #333;
   padding: 0.125em 0.25em;
   text-decoration: none;
-  font-size: 9px;
+  font-size: 10px;
   text-transform: uppercase;
 }
 ul.oc-tabs li a.oc-actionLink:hover {
@@ -743,6 +736,13 @@ ul.oc-tabs li.oc-notallowed a {
 .oc-wiki-content dl {
   line-height: 1.25;
 }
+.oc-wiki-content {
+  font-size: 14px;
+}
+.oc-wiki-content h3 {
+  font-size: 16px;
+}
+
 .oc-wiki-edit {
   clear: both;
 }
@@ -914,9 +914,15 @@ a.wickedadd {
 .oc-listen-message .oc-headingBlock .oc-headingContext {
   display: block;
 }
+/* http://www.longren.org/2006/09/27/wrapping-text-inside-pre-tags/ */
 .oc-listen-message pre.oc-listen-message-body {
   width: 100%;
   overflow: auto;
+  white-space: pre-wrap; /* css-3 */
+  white-space: -moz-pre-wrap !important; /* Mozilla, since 1999 */
+  white-space: -pre-wrap; /* Opera 4-6 */
+  white-space: -o-pre-wrap; /* Opera 7 */
+  word-wrap: break-word; /* Internet Explorer 5.5+ */
 }
 .oc-listen-message-child {
   border-top: 1px solid #ccc;
@@ -1031,7 +1037,7 @@ a.oc-button:hover {
 a.oc-banana {
 	display: block;
 	text-align: center;
-	font-size: 14px;
+	font-size: 20px;
 	font-weight: bold;
 	background-color: #EB852B;
 	border: 1px solid #B36521;
@@ -1128,7 +1134,7 @@ fieldset fieldset fieldset .oc-legend-heading,
   font-size: 12px;
 }
 #oc-content-sidebar fieldset fieldset fieldset .oc-legend-heading {
-  font-size: 10px;
+  font-size: 12px;
 }
 fieldset .oc-legend-label {
   margin: 0;
@@ -1140,7 +1146,7 @@ fieldset .oc-legend-label {
   font-weight: bold;
 }
 #oc-content-sidebar fieldset .oc-legend-label {
-  font-size: 10px;
+  font-size: 12px;
 }
 fieldset .oc-heading-context {
   margin: 0 0 .5em;
@@ -1202,7 +1208,8 @@ textarea.oc-fieldBlock-focused,
 input.oc-fieldBlock-focused {
   border-color: #EB852B;
   background: #fffff9;
-}.oc-fieldBlock-error textarea, 
+}
+.oc-fieldBlock-error textarea, 
 textarea.oc-fieldBlock-error,
 input.oc-fieldBlock-error {
   border-color: red;
@@ -1296,7 +1303,6 @@ height: 1em; */
 .oc-dataTable  {
    width: 100%;
    /* white-space: nowrap; */
-   font-size: 10px;
    border-bottom: 2px solid #ccc;
    border-collapse:	collapse;
 }
@@ -1329,7 +1335,7 @@ height: 1em; */
 }
 .oc-dataTable-row-title {
    white-space: normal;
-   font-size: 12px;
+   font-size: 13px;
 }
 .oc-dataTable-row-actions li {
   list-style: none;
@@ -1565,7 +1571,7 @@ a.oc-actionLink:visited {
   background-color: #DDD;
   padding: 0.125em 0.25em;
   text-decoration: none;
-  font-size: 9px;
+  font-size: 13px;
   text-transform: uppercase;
   font-weight: bold;
 }
@@ -1617,7 +1623,7 @@ body, textarea {
   /* These typographic rules will establish rhythm of 18px at base font size */
 }
 #oc-content-sidebar {
-  font-size: 11px;
+  font-size: 12px;
 }
 h1, h2, h3, h4, h5, h6,
 .h1, .h2, .h3, .h4, .h5, .h6,
@@ -1644,7 +1650,7 @@ h2, .oc-biggerText,
 }
 h3, .oc-bigText,
 #oc-content-sidebar h2 {
-  font-size: 14px;
+  font-size: 18px;
 }
 #oc-content-sidebar h3 {
   font-size: 12px;
@@ -1680,7 +1686,7 @@ p {
     #oc-error-handling,
     .formHelp /* FIXME */
   {
-  font-size: 11px;
+  font-size: 13px;
 }
 .formHelp /*FIXME */ {
   font-weight: normal;
@@ -1734,7 +1740,7 @@ textarea {
   /* ToDo Style buttons nicely */
   /*border: 1px solid #999; */
   margin: 0;
-  font-size: 10px;
+  font-size: 14px;
   vertical-align: bottom;
 }
 input,
@@ -1911,3 +1917,13 @@ div#oc-joining-explanation ul.oc-lineup-list li.oc-feed-item {
     text-align: center;
     }
 
+/* wordpress: override style a bit to fix link-add.php (add to blogroll)
+   form and link.php?action=edit (edit blogroll entry) form.
+
+   the "add link" and "save changes" submit buttons are hidden by the
+   floating divs for visible/categories/target so we push the submit
+   button left. */
+form#addlink div#poststuff .submit,
+form#editlink div#poststuff .submit {
+  text-align: left;
+}

@@ -8,19 +8,20 @@ from Products.CMFCore.utils import getToolByName
 from Products.Five.browser import metaconfigure, pagetemplatefile
 from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
 from Products.PageTemplates.PageTemplate import PageTemplate
-from Products.listen.browser.mail_archive_views import ArchiveForumView, ArchiveDateView, \
-                                                       ArchiveNewTopicView, SubFolderDateView, \
-                                                       ArchiveSearchView
-from Products.listen.browser.mail_message_views import ForumMailMessageView, ThreadedMailMessageView, \
-                                                       MessageReplyView, SearchDebugView
+from Products.listen.browser.mail_archive_views import ArchiveForumView
+from Products.listen.browser.mail_archive_views import ArchiveDateView
+from Products.listen.browser.mail_archive_views import ArchiveNewTopicView
+from Products.listen.browser.mail_archive_views import SubFolderDateView
+from Products.listen.browser.mail_archive_views import ArchiveSearchView
+from Products.listen.browser.mail_message_views import ForumMailMessageView
+from Products.listen.browser.mail_message_views import ThreadedMailMessageView
+from Products.listen.browser.mail_message_views import MessageReplyView
+from Products.listen.browser.mail_message_views import SearchDebugView
 from Products.listen.browser.manage_membership import ManageMembersView
 from Products.listen.browser.moderation import ModerationView as BaseModerationView
 from Products.listen.config import MODERATION_FAILED
 from Products.listen.content import ListTypeChanged
 from Products.listen.lib.common import assign_local_role
-from Products.listen.interfaces.list_types import PublicListTypeDefinition, \
-                                                  PostModeratedListTypeDefinition, \
-                                                  MembershipModeratedListTypeDefinition
 from Products.listen.interfaces import IMailingList
 from Products.listen.interfaces import IWriteMembershipList
 from Products.listen.interfaces import IEmailPostPolicy
@@ -34,7 +35,9 @@ from opencore.i18n import _
 from opencore.listen.interfaces import IListenContainer
 from opencore.listen.mailinglist import OpenMailingList
 from opencore.listen.mailinglist_views import MailingListView
-from opencore.listen.utils import isValidPrefix
+from opencore.listen.utils import validatePrefix
+from opencore.listen.utils import mlist_type_to_workflow
+from opencore.listen.utils import workflow_to_mlist_type
 from opencore.tales.utils import member_title
 from opencore.utils import interface_in_aq_chain
 from plone.app.form import _named
@@ -43,19 +46,12 @@ from zope.app.component.hooks import getSite
 from zope.event import notify
 from zope.formlib.namedtemplate import INamedTemplate
 from zope.interface import implements
+from zope.schema import ValidationError
 from zExceptions import BadRequest
 import cgi
 import re
 import new
 import os.path
-
-_ml_type_to_workflow = {
-    PublicListTypeDefinition : 'policy_open',
-    PostModeratedListTypeDefinition : 'policy_moderated',
-    MembershipModeratedListTypeDefinition : 'policy_closed',
-    }
-
-_workflow_to_ml_type = dict((y, x) for x, y in _ml_type_to_workflow.items())
 
 _list_error_fields = ['title', 'mailto']
 def oc_json_error(v):
@@ -63,6 +59,7 @@ def oc_json_error(v):
             'action': 'copy',
             }
 class ListenBaseView(BaseView):
+
     @req_memoize
     def list_url(self):
         obj = interface_in_aq_chain(self.context, IMailingList)
@@ -189,13 +186,24 @@ class ListenEditBaseView(ListenBaseView, OctopoLite):
         mailto = None
         if creation:
             mailto = self.request.form.get('mailto')
+            is_valid = True
             if not mailto:
+                is_valid = False
                 self.errors['mailto'] = _(u'list_missing_prefix_error', u'The mailing list must have a list prefix.')
-            elif not isValidPrefix(mailto):
-                self.errors['mailto'] = _(u'list_invalid_prefix_error', u'Only the following characters are allowed in list address prefixes: alpha-numerics, underscores, hyphens, and periods (i.e. A-Z, a-z, 0-9, and _-. symbols)')
-            else:
+            if is_valid:
+                try:
+                    is_valid = validatePrefix(mailto)
+                    if not is_valid:
+                        self.errors['mailto'] = _(
+                            u'list_invalid_prefix_error', u'Only the following characters are allowed in list address prefixes: alpha-numerics, underscores, hyphens, and periods (i.e. A-Z, a-z, 0-9, and _-. symbols)')
+                except ValidationError, e:
+                    is_valid = False
+                    self.errors['mailto'] = e.__doc__
+
+            if is_valid:
                 mailto = putils.normalizeString(mailto)
-                if hasattr(self.context, mailto):
+
+                if mailto in self.context.keys():
                     self.errors['mailto'] = _(u'list_create_duplicate_error', u'The requested list prefix is already taken.')
 
         # If we don't pass sanity checks by this point, abort and let the user correct their errors.
@@ -258,6 +266,7 @@ class ListAddView(ListenEditBaseView):
             return
 
         title, workflow, archive, mailto, managers = result
+        private_archives = "private_list" in self.request.form
 
         # Try to create a mailing list using the mailto address to see if it's going to be valid
         lists_folder = self.context
@@ -275,13 +284,14 @@ class ListAddView(ListenEditBaseView):
         list.setDescription(unicode(self.request.form.get('description',''), 'utf-8'))
 
         old_workflow_type = list.list_type
-        new_workflow_type = _workflow_to_ml_type[workflow]
+        new_workflow_type = workflow_to_mlist_type(workflow)
             
         notify(ListTypeChanged(list,
                                old_workflow_type.list_marker,
                                new_workflow_type.list_marker))
 
         list.archived = archive
+        list.private_archives = private_archives
 
         self.template = None
 
@@ -327,6 +337,7 @@ class ListEditView(ListenEditBaseView):
             return
 
         title, workflow, archive, mailto, managers = result
+        private_archives = "private_list" in self.request.form
 
         list = self.context
 
@@ -334,7 +345,7 @@ class ListEditView(ListenEditBaseView):
         list.setDescription(unicode(self.request.form.get('description',''), 'utf-8'))
 
         old_workflow_type = list.list_type
-        new_workflow_type = _workflow_to_ml_type[workflow]
+        new_workflow_type = workflow_to_mlist_type(workflow)
             
         notify(ListTypeChanged(list,
                                old_workflow_type.list_marker,
@@ -342,6 +353,8 @@ class ListEditView(ListenEditBaseView):
 
 
         list.archived = archive
+
+        list.private_archives = private_archives
 
         list.managers = tuple(managers)
         self._assign_local_roles_to_managers()
@@ -362,12 +375,11 @@ class ListEditView(ListenEditBaseView):
         raise Redirect('%s/summary' % list.absolute_url())
 
     def workflow_policy(self):
-        return _ml_type_to_workflow[self.context.list_type]
+        return mlist_type_to_workflow(self.context)
 
     def mailto(self):
         return self.context.mailto.split("@")[0]
-
-
+    
 
 # uh.. if you are going write meta factories you should write tests too
 # isn't this what super and mixins are is suppose to solve?
@@ -461,7 +473,7 @@ class ModerationView(BaseModerationView):
         if 'mode' in self.request and self.request.mode == 'async':
             return json
         else:
-            self.redirect(self.request.ACTUAL_URL)
+            self.redirect(self.request.getURL())
 
 
 # prefixing everything is unnecessary
@@ -502,9 +514,54 @@ NuiSearchDebugView = make_nui_listen_view_class(SearchDebugView)
 NuiArchiveSearchView  = make_nui_listen_view_class(ArchiveSearchView)
 NuiListLookupView = make_nui_listen_view_class(ListLookupView)
 
+NuiManageMembersViewClass = make_nui_listen_view_class(ManageMembersView)
 
+from opencore.utils import get_config
 
-class NuiManageMembersView(make_nui_listen_view_class(ManageMembersView)):
+class NuiManageMembersView(NuiManageMembersViewClass):
+
+    def can_subscribe_others(self):
+        try:
+            if self.get_tool(
+                "portal_membership").checkPermission(
+                "Modify portal content", self.portal):
+                return True
+        except:
+            pass
+
+        trusted_admins = [i.strip() for i in
+                          get_config("trusted_list_admins", default="").split(",")]
+        try:
+            if self.loggedinmember.getId() in trusted_admins:
+                return True
+        except:
+            pass
+
+        return False
+
+    def _subscribe_user_directly(self, user):
+        if self.request.form.get("directsubscribe_%s" % user, None):
+            return True
+        return False
+
+    def _add(self, user, subscribed):
+        subscribe_directly = False
+        form = self.request.form
+        if form.get("add_directsubscribe", None):
+            subscribe_directly = True
+        if self.can_subscribe_others():
+            import re
+            users = re.split("[\n,]", user)
+            success = False
+            for user in users:
+                if NuiManageMembersViewClass._add(
+                    self, user, subscribed, 
+                    subscribe_directly=subscribe_directly):
+                    success = True
+            return success
+
+        return NuiManageMembersViewClass._add(self, user, subscribed, 
+                                              subscribe_directly=subscribe_directly)
 
     def obfuscate(self, email):
         # Manager has historically been allowed to see these email addresses.

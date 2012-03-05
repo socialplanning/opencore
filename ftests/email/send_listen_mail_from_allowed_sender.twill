@@ -1,0 +1,39 @@
+# Expected local variables:
+#  mailname: the filename of the mail to send
+#  sender_email: the full email address of the sender
+#  subject: the text of the email's subject
+#  list_id: the list id that we are sending to
+#  projname: the project id that the list belongs to
+# Expected global variables:
+#  outbox_url
+#  base_url
+#  maildir
+# Expected conditions:
+#  sender_email is already an allowed sender on list_id
+#  list_id is viewable by the currently logged-in user
+
+# First let's reset the outbox
+go ${outbox_url}/drain
+find "ok"
+go ${outbox_url}/messages.html
+find "<h1>0 messages</h1>"
+
+# Now we'll send a mail
+extend_with flunc.mail
+send_mail $maildir $mailname $base_url
+
+# The email address of the sender is already allowed;
+# so the post should already appear in the archive now.
+go ${base_url}/projects/${projname}/lists/${list_id}/archive
+find $subject
+follow $subject
+notfind 'site error' i
+find $subject
+
+# It should also have been sent out as an email
+# to the list subscribers.
+extend_with flunc.xpath
+go ${outbox_url}/messages.html
+find "<h1>1 messages</h1>"
+find_in_css ${subject} "span.subject"
+

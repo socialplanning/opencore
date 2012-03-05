@@ -102,6 +102,19 @@ class ProfileView(BaseView):
 
         return [dictify(brain) for brain in brains]
 
+    def show_contact_link(self):
+        mem = self.loggedinmember
+        if not mem:
+            return False
+
+        from opencore.utils import get_config
+        trusted_admins = [i.strip() for i in
+                          get_config("trusted_list_admins", default="").split(",")]
+        if mem.getId() in trusted_admins:
+            return True
+        else:
+            return False
+
     def viewingself(self):
         return self.viewedmember() == self.loggedinmember
 

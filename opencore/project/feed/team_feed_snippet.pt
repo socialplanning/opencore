@@ -3,8 +3,8 @@
                  lowertitle feed/title/lower"
      tal:attributes="id string:oc-feed-${lowertitle}">
   <h2 class="oc-feed-title oc-clearAfter">
-    <a tal:attributes="href feed/link" tal:content="feed/title">Feed Title</a>
-    <span tal:content="view/number_of_members">9 members</span>  
+    <a tal:attributes="href feed/link" tal:content="feed/title"><tal:comment replace="nothing">Feed Title</tal:comment></a>
+    <span tal:content="view/number_of_members"><tal:comment replace="nothing">9 members</tal:comment></span>  
   </h2>
   <ul class="oc-lineup-list clearAfter" tal:condition="feed/items">
     <li class="oc-feed-item oc-clearAfter" tal:repeat="entry feed/items"> 
@@ -17,7 +17,7 @@
 	        <a tal:define="author_home entry/authorURL"
 		   tal:omit-tag="not:author"
 		   tal:attributes="href author_home"
-		   tal:content="author">author</a>
+		   tal:content="author"><tal:comment replace="nothing">author</tal:comment></a>
 	     </span>
       </p>
     </li>

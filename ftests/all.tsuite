@@ -6,6 +6,7 @@ roster
 wicked
 versioning
 listen
+listen_errors
 search
 contents
 news

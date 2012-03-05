@@ -1,0 +1,145 @@
+<html
+ xmlns:tal="http://xml.zope.org/namespaces/tal"
+ xmlns:metal="http://xml.zope.org/namespaces/metal"
+ i18n:domain="opencore"
+ metal:use-macro="context/@@standard_macros/master">
+<head>
+    <title metal:fill-slot="title"
+        i18n:translate="project_export_window_title">Export
+    </title>
+
+    <metal:slot fill-slot="script">
+      <!-- I realize the correct thing to do now is hook up a viewlet, but that takes actual work -->
+      <script type="text/javascript" src="/++resource++jquery/jquery-1.3.2.min.js"></script>
+      <script type="text/javascript" src="/++resource++jquery/jquery.timers-1.1.2.js"></script>
+      <!-- <script type="text/javascript" src="/++resource++export.js"></script> -->
+
+      <style type="text/css" media="screen">
+  /*<![CDATA[*/
+#project-export-status {
+padding: 10px 0 10px 32px;
+margin: 1em 0;  
+}  
+  
+#project-export-status.active {
+background: url(/++resource++spinning_wheel_throbber.gif) 0 50% no-repeat;
+}
+  /*]]>*/
+      </style>
+    </metal:slot>
+
+</head>
+<body>
+<div metal:fill-slot="content">
+
+<div class="oc-headingBlock">
+  <h1 i18n:translate="">Project Export</h1>
+
+  <p class="oc-headingContext" i18n:translate="">Export your content.</p>
+
+</div>
+    
+<div id="oc-content-main" class="oc-content-main-fullWidth"
+     tal:define="current view/current_status">
+  <form id="project-export" 
+	action="export/do_export"
+	method="post">
+
+    <div tal:condition="not:current/active">
+      <h3>Select content to export:</h3>
+      <ul style="list-style-type: none;">
+	<li>
+	  <input type="checkbox" name="wikipages" checked="checked" />
+	  <label for="wikipages">Wiki pages and files</label>
+	</li>
+	<li>
+	  <input type="checkbox" name="mailinglists" checked="checked" />
+	  <label for="mailinglists">Mailing lists</label>
+	</li>
+	<li>
+	  <input type="checkbox" name="blog" checked="checked" />
+	  <label for="blog">Blog</label>
+	</li>
+	<li>
+	  <input type="checkbox" name="wikihistory" checked="checked" /> 
+	  <label for="wikihistory">Wiki history</label>
+	</li>
+    </div>
+
+    <input type="hidden" name="client" value="browser" />
+    <input class="context oc-button oc-chooseThis"
+	   type="submit" name="export"
+           value="Export" i18n:attributes="value"
+	   tal:condition="not:current/active"
+	   />
+    <input class="context oc-button oc-chooseThis"
+	   type="submit" name="export"
+           value="Export" i18n:attributes="value"
+	   disabled="disabled"
+	   tal:condition="current/active"
+	   />
+  </form>
+  <h2 tal:condition="current/active">
+    Current status
+  </h2>
+  <div id="project-export-status">
+    <span tal:condition="current/active"
+       i18n:translate="project_export_job_running">
+      There is already a job running. Please be patient.
+      An email will be sent to <span tal:replace="current/user" /> 
+      when the export is complete.
+      (<span tal:replace="current/state" />
+      <span tal:condition="current/progress_descr"
+	    tal:replace="string: : ${current/progress_descr}" />)
+    </span>
+  </div>
+
+  <div>
+    <h2 id="project-export-list-header" tal:attributes="class python: view.available_exports() and ' ' or 'oc-hidden'"
+       i18n:translate="project_export_file_list_heading">
+      Exports available for download 
+      (most recent first, maximum of 5):
+    </h2>
+    <ul id="project-export-list">
+      <li tal:repeat="file view/available_exports">
+        <a href=""
+           tal:attributes="href string:${request/URL}/${file}"
+	   tal:content="file">
+	  <tal:comment replace="nothing">
+	    file name here</tal:comment>
+	</a>
+      </li>
+    </ul>
+  </div>
+
+  <p i18n:translate="project_export_content_list_header">Currently, exporting will include:</p>
+  <ul>
+     <li i18n:translate="">Wiki pages</li>
+     <li i18n:translate="">Wiki history</li>
+     <li i18n:translate="">Images and files</li>
+     <li i18n:translate="">Mailing list archives</li>
+     <li i18n:translate="">Mailing list subscribers</li>
+     <li i18n:translate="">Blog posts</li>
+     <li i18n:translate="">Blog categories</li>
+     <li i18n:translate="">Blogroll</li>
+  </ul>
+  <p i18n:translate="project_export_content_description">Support is planned to add other content to the export soon
+   (eg. project description and settings, team memberships, tasks and tasklists, etc).
+  </p>
+
+  <div class="oc-js-expander oc-expander">
+   <h3 i18n:translate="" class="oc-js-expander_open oc-expanderLink">More info...</h3>
+   <pre class="oc-js-expander-content oc-expander-content" tal:content="view/readme">
+   </pre>
+  </div>
+  
+</div>
+<!-- end .oc-content-main -->
+
+
+
+  
+  
+</div>
+</body>
+</html>

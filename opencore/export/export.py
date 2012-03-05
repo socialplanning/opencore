@@ -1,11 +1,12 @@
 from Acquisition import Explicit
 from ZPublisher.Iterators import filestream_iterator
 from opencore.browser.base import BaseView
-from opencore.project.browser import export_utils
+from opencore.export import export_utils
 from zExceptions import Forbidden
 import os
 import simplejson as json
-
+from topp.featurelets.interfaces import IFeatureletSupporter
+from topp.featurelets.supporter import IFeaturelet
 
 class ProjectExportView(BaseView):
 
@@ -32,12 +33,13 @@ class ProjectExportView(BaseView):
     def available_exports(self):
         """any zip files avail to download?
         """
-        path = export_utils.getpath(self.context.getId(), self.vardir)
-        zips = [f for f in os.listdir(path) if 
-                (f.endswith('.zip') and not f.startswith(export_utils.TEMP_PREFIX))]
-        zips.sort(reverse=True)
+        proj_id = self.context.getId()
+        zips = export_utils.getzips(proj_id,
+                                    self.vardir)
+        path = export_utils.getpath(proj_id, self.vardir)
         # don't want to pile up zip files forever...
-        # in lieu of a UI or a sensible policy, we'll just keep the last 5
+        # in lieu of a UI or a sensible policy, 
+        # we'll just keep the last 5
         zips, excess_zips = zips[:5], zips[5:]
         for f in excess_zips:
             os.unlink(os.path.join(path, f))
@@ -47,11 +49,26 @@ class ProjectExportView(BaseView):
         """json representation"""
         return json.dumps(self.available_exports())
 
+    def get_features(self):
+        features = []
+        request = self.request.form
+        if request.get("wikipages"):
+            features.append("wikipages")
+        if request.get("mailinglists"):
+            features.append("mailinglists")
+        if request.get("blog"):
+            features.append("blog")
+        if request.get("wikihistory"):
+            features.append("wikihistory")
+        return features
+
     def current_status(self):
         cookie = self.request.cookies.get('__ac', '')
         name = self.context.getId()
         url = self.context.absolute_url()
-        status = export_utils.get_status(name, context_url=url, cookie=cookie)
+        features = self.get_features()
+        status = export_utils.get_status(name, context_url=url, cookie=cookie,
+                                         features=features)
         return status
 
     def current_status_json(self):
@@ -69,6 +86,11 @@ class ProjectExportView(BaseView):
         queue = export_utils.get_queue()
         status = self.current_status()
         status.queue(queue)
+        
+        if self.request.get("client") == "browser":
+            return self.redirect(
+                "%s/export" % self.context.absolute_url())
+
         return status.json()
  
     def __getitem__(self, name):
@@ -93,6 +115,15 @@ class ProjectExportView(BaseView):
 
     def readme(self):
         return export_utils.readme()
+
+    def _get_featurelets(self, project):
+        supporter = IFeatureletSupporter(project)
+        all_flets = [flet for name, flet in getAdapters((supporter,), 
+                                                        IFeaturelet)]
+        installed_flets = [(flet.id, flet) for flet in all_flets 
+                           if flet.installed]
+        installed_flets = dict(installed_flets)
+        return installed_flets
 
 
 class FilestreamIterator(filestream_iterator, Explicit):

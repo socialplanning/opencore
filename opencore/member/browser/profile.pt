@@ -133,7 +133,7 @@
         <metal:status-messages use-macro="view/member_macros/macros/recent-activity" />
 
         <div id="contact" class="oc-boxy"
-            tal:condition="not:view/viewingself">
+            tal:condition="view/show_contact_link">
           <a class="oc-banana" title="Send message"
              tal:attributes="href string:${context/absolute_url}/contact"
              i18n:attributes="title send-message"

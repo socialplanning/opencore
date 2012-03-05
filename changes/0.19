@@ -1,6 +1,26 @@
 0.19.0 (unreleased)
 ===================
 
+ * Fixed Site Error when trying to add a mailing list with a 
+   mailto address that is already in use: #2948 (egj)
+
+ * Fixed erroneous validation failure when trying to add
+   a mailing list with a mailto address that is identical to
+   the ID of a wiki page in the same project: #2947 (egj)
+
+ * Removed "contact" link from profile page when viewed by
+   anonymous users: #2935 (egj)
+
+ * Added "Mailing lists you subscribe to" on the user's account
+   page: #2937 (egj)
+
+ * Bugfixes when a site admin is acting on another user's account
+   page: #2929 (egj)
+
+ * Improved i18n support. (macagua)
+
+ * Updated Greek translation. (dimo)
+
  * Project content export is now linked from the top nav, and
    includes: wiki pages, file and image attachments, mailing list
    archive as an mbox file, mailing list subscribers and allowed
@@ -9,3 +29,52 @@
    Export is done asynchronously with an ajax UI in case it takes a
    long time. (slinkp)
 
+ * Added "Search by location" functionality to the People Search.
+
+ * Added a "Sort by location" option to the People Search.
+
+ * On a People Search, for each search result displayed, display the 
+   list of projects that the member is a part of, so that users can 
+   browse for projects with members matching a search query.
+
+ * Be more strict about filtering out unlisted memberships early,
+   to avoid displaying unlisted memberships.  Specifically, the
+   `project_ids` index on the membrane_tool, and the `project_ids()`
+   method on OpenMember objects, has been redefined to only return
+   listed memberships.
+
+   This change requires that the project_ids index on membrane_tool
+   be reindexed and possibly even removed and recreated.
+
+ * Provide RSS/Atom feeds for the site news folder.
+
+   Currently requires that you manually mark the site news folder 
+   with ICanFeed marker interface via ZMI.
+
+ * The ordering of options in a SearchView's sortable_fields template
+   is now preserved.
+
+   Implementation note: SearchView.sort_by_options now returns a 2-tuple 
+   instead of a dict.  This should not affect you unless you are heavily
+   customizing a SearchView and calling view.sort_by_options() directly
+   (the default is to call the @@nui_batch_macros/sort_widget which renders
+   the sort options)
+
+ * Factored HTML for Xinha configuration into a separate view @@xinha-config
+   which is registered on all contexts.  This includes the necessary <script>
+   and <link> tags for including Xinha's core Javascript and CSS as well as
+   the configuration Javascript.  It is traversed to and rendered by the wiki
+   edit view, and is intended to be pulled in by Deliverance to a page <head>
+   if other components need to configure Xinha.
+
+   The view can be overridden sitewide or per-context for custom configurations.
+
+ * Upgraded Xinha from 0.92b to 0.97-pre. This provides support for all major
+   browsers.
+
+ * Factor out all of OpenCore's customizations of Xinha into configuration and
+   maintainable plugins. Previously these customizations were made directly in
+   the Xinha core code, which makes upgrades and maintenance hard. The plugins
+   live in ``opencore/xinha/plugins``.
+
+ * Added "Insert Footnote" plugin for Xinha.

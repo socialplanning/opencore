@@ -1,13 +1,32 @@
 0.18.1 (07-22-2010)
 ===================
 
- * Add optional `layer` attribute to opencore:searchView directive (dimo)
+Bugs Fixed:
 
  * Add <meta http-equiv="Content-type"> tag with charset=UTF-8 declaration
    to main-template.pt <head>. This prevents non-ASCII response content from
    being mangled if it's passed through an lxml filter on the way out (egj)
 
  * Fix #2899 (egj)
+
+ * Prevent UnicodeDecodeErrors on invite-join view when the project has a
+   non-ASCII title - #2899 (egj)
+
+ * The account creation form's ajax validation no longer says 'Passwords do
+   not match' before the user has filled out the password-confirmation field. 
+   (#2896)
+
+ * Fix untranslated literal string "${last_change_pretty_mod_date}" in wiki history
+
+ * Fix bizarre "aaa" and "XXX" literal strings in some search results listings
+
+ * Use secureSend for registration emails to fix badly encoded translated messages. (dimo)
+
+ * Fix UnicodeDecodeErrors in AJAX validation for account creation. (dimo)
+
+Features Added:
+
+ * Add optional `layer` attribute to opencore:searchView directive (dimo)
 
  * Add `opencore.browser.interfaces.IExtraFooter` viewlet manager to let
    additional content be plugged in to the site footer.
@@ -44,6 +63,8 @@
    not match' before the user has filled out the password-confirmation field. 
    (#2896)
 
+User Interface Changes:
+
  * Moved conditional "watch/unwatch" control on wiki pages to the RHS tabs
    alongside view/edit/history to take up less screen space and keep all
    page-level controls in one place. Change requested by Strypey, see
@@ -69,3 +90,6 @@
  * Use secureSend for registration emails to fix badly encoded translated messages. (dimo)
 
  * Fix UnicodeDecodeErrors in AJAX validation for account creation. (dimo)
+
+ * Add `opencore.browser.interfaces.IExtraFooter` viewlet manager to let
+   additional content be plugged in to the site footer

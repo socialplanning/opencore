@@ -7,6 +7,8 @@ from zope.event import notify
 from Products.CMFCore.utils import getToolByName
 from Products.listen.interfaces import IWriteMembershipList
 from Products.listen.interfaces import IListLookup
+from Products.listen.interfaces import IBecameASubscriber
+from Products.QueueCatalog.QueueCatalog import CHANGED
 from opencore.i18n import _
 from opencore.listen.interfaces import ISyncWithProjectMembership, IListenFeatureletInstalled
 from opencore.listen.mailinglist import OpenMailingList
@@ -14,6 +16,28 @@ from opencore.project.utils import get_featurelets
 from utils import getSuffix
 from opencore.project.utils import project_noun 
 from zope.i18n import translate
+
+def reindex_catalog(event):
+    """
+    When a list adds or removes a subscriber, we want to reindex
+    that list's `mailing_list_subscribers` KeywordIndex in portal_catalog
+    """
+    email = event.email
+    context = event.context
+    context.reindexObject(idxs=['mailing_list_subscribers'])
+
+def queue_member_lists_reindex(event):
+    member = event.context
+    old_email = event.old_email
+    catalog = getToolByName(member, "portal_catalog")
+    catalog_queue = getToolByName(member, "portal_catalog_queue")
+    lists = catalog(mailing_list_subscribers=old_email)
+    for brain in lists:
+        # If we wanted to do it immediately, we'd say:
+        # brain.getObject().reindexObject('mailing_list_subscribers')
+        # But instead, we'll add it to the QueueCatalog
+        path = brain.getPath()
+        catalog_queue._update(path, CHANGED)
 
 # make sure that modification date gets updated
 # when new messages are sent to list

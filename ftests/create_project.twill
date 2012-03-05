@@ -23,7 +23,7 @@ find "Preferences"
 follow "Preferences"
 check_group_values prefs_form featurelets:list '-listen, -tasks, -blog'
 check_group_values prefs_form featurelets:list $projfeaturelets
-submit
+submit update:boolean
 
 # verify project appears in newly created projects list
 go ${base_url}

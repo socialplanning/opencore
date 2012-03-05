@@ -16,7 +16,7 @@
                 name="listen-post-form"
                 action="."
                 method="post"
-                tal:attributes="action request/ACTUAL_URL">
+                tal:attributes="action request/getURL">
 
             <input type="hidden"
                    name="referring_url"

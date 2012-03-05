@@ -1,0 +1,27 @@
+#
+# edits a given project 
+#
+# projname - the id of the project to edit 
+# projtitle - the title to set for the project
+# projdesc - the description to set for the project 
+# projbody - the body text of the home page to set 
+# pagelink - this is always added to the end of the project body
+# admin    - the admin username
+# adminpw  - the admin password
+# 
+# expects: 
+#   project exists
+#
+
+extend_with flunc.zope_run_cat_queue
+
+go ${base_url}/projects/${projname}/${pagename}
+follow edit
+formfile edit_form attachmentFile ${test_path}/portrait.gif
+fv edit_form text ((portrait.gif))
+submit 'wiki_edit_save_button'
+code 200
+
+# prevent async errors
+run_cat_queue $admin $adminpw
+

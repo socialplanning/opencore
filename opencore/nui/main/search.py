@@ -45,7 +45,7 @@ def _sort_by_created(brains):
 def _sort_by_portal_type(brains):
     return sorted(brains, key=lambda b: (b.portal_type, b.id))
 
-def searchForPerson(mcat, search_for, sort_by=None):
+def searchForPerson(member_catalog, search_for, sort_by=None):
     """
     This is a function, not a method, so it can be called from
     assorted view classes.
@@ -64,7 +64,7 @@ def searchForPerson(mcat, search_for, sort_by=None):
     else:
         rs = ((sort_by, 'asc'),)
 
-    people_brains = mcat.evalAdvancedQuery(
+    people_brains = member_catalog.evalAdvancedQuery(
         Eq('RosterSearchableText', person_query),
         rs,
         )
@@ -168,7 +168,7 @@ class SearchView(BaseView):
     def sort_by_options(self):
         """
         Validates an HTML <ul> snippet
-        and transforms it into a dict
+        and transforms it into a 2-tuple
         """
         html = self._sortable_fields()
 
@@ -176,10 +176,10 @@ class SearchView(BaseView):
         ul = html.get_element_by_id('sortable_fields')
         assert ul.tag.lower() == 'ul'
 
-        _sort_by_options = dict()
+        _sort_by_options = []
         for li in ul:
             key = li.get('id')
-            _sort_by_options[key] = li.text
+            _sort_by_options.append((key, li.text))
         return _sort_by_options
 
     @property
@@ -333,7 +333,6 @@ class ProjectsSearchView(SearchView):
                               )
         return len(brains)
 
-
 class PeopleSearchView(SearchView):
 
     def lineup_class(self):
@@ -393,6 +392,22 @@ class PeopleSearchView(SearchView):
         
         return _sort_by_created(brains)
 
+    def filtered_projects(self, unfiltered_project_ids):
+        cat = self.get_tool("portal_catalog")
+        member_projects = cat(getId=list(unfiltered_project_ids),
+                              portal_type="OpenProject")
+        return member_projects
+
+class PeopleSearchLocation(PeopleSearchView):
+    def handle_request(self):
+        location = self.request.form.get('location')
+        if location is None:
+            return []
+        query = dict(getLocation=location)
+        if self.sort_by:
+            query['sort_on'] = self.sort_by
+        results = self.membranetool(**query)
+        return results
 
 
 class SitewideSearchView(SearchView):
@@ -537,6 +552,7 @@ class HomeView(SearchView):
     def recently_created_projects(self):
         rs = (('created', 'desc'),)
             
+        # see http://trac.socialplanning.org/opencore/ticket/1339
         query = Eq('portal_type', 'OpenProject') & (Eq('project_policy', 'open_policy') | Eq('project_policy', 'medium_policy'))
         
         project_brains = self.catalog.evalAdvancedQuery(query, rs)
@@ -585,3 +601,45 @@ class NewsView(SearchView):
         edit_url = '%s/edit' % item.absolute_url()
         self.request.response.redirect(edit_url)
 
+from opencore.feed.base import BaseFeedAdapter
+from opencore.feed.interfaces import IFeedData
+from opencore.interfaces.adding import IAmANewsFolder
+from zope.component import adapts
+from zope.interface import implements
+from Products.CMFCore.utils import getToolByName
+class NewsFeed(BaseFeedAdapter):
+    implements(IFeedData)
+    adapts(IAmANewsFolder)
+
+    title = "Site News"
+
+    @property
+    def items(self, n_items=5):
+        if hasattr(self, '_items'):
+            return self._items
+        cat = getToolByName(self.context, 'portal_catalog')
+        news_path = '/'.join(self.context.getPhysicalPath())
+        query = dict(portal_type='Document',
+                     sort_on='created',
+                     sort_order='descending',
+                     sort_limit=20,
+                     path=news_path
+                     )
+        brains = cat(**query)
+        for brain in brains:
+            title = brain.Title
+            description = brain.Description
+            author = brain.lastModifiedAuthor
+            link = brain.getURL()
+            pubDate = brain.modified
+            
+            self.add_item(title=title,
+                          description=description,
+                          link=link,
+                          author=author,
+                          pubDate=pubDate,
+                          byline='by')
+        try:
+            return self._items
+        except AttributeError:
+            return []

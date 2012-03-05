@@ -4,7 +4,7 @@
       <div class="oc-js-liveEdit-value">
         <a target="_blank" 
            tal:attributes="href attachment/getURL | attachment/absolute_url"
-           tal:content="attachment/Title | attachment/getId">Id</a>  
+           tal:content="attachment/Title | attachment/getId"><tal:comment replace="nothing">Id</tal:comment></a>  
         <span class="oc-discreetText" tal:content="attachment/getObjSize"></span>
         <a href="" class="oc-js-liveEdit_showForm oc-actionLink" i18n:translate="">Edit</a>
 	<tal:if condition="python: view.display_delete_for(attachment)">

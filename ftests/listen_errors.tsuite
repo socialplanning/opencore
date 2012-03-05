@@ -1,0 +1,19 @@
+# Suite with regression tests for listen-related bugs
+# Currently testing:
+# * #2947
+# * #2948
+
+create_user
+login
+create_project
+
+# Bug #2947: it should be possible to create 
+# a mailing list whose "mailto" is the same
+# as an ID of a wiki page in the same project.
+create_page(pagename="this-is-a-page")
+listen_create_list(listtitle="this-is-a-page", mailto="this-is-a-page")
+
+# Bug #2948: attempting to create a mailing list
+# with a duplicate "mailto" should fail gracefully
+# with a validation error, instead of a site error.
+listen_create_list_error(listtitle="this-is-a-page", mailto="this-is-a-page", error_msg="address is already in use", error_field="mailto")

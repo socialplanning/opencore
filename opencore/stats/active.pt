@@ -10,7 +10,7 @@
 
     <span tal:replace="structure view/menu" />
 
-    <h1 i18n:translate="active_objects">Stats History</h1>
+    <h1 i18n:translate="stats_history">Stats History</h1>
     <p i18n:translate="stats_approximate_disclaimer">This page is only good for approximating historical trends.</p>
     <table tal:define="data view/get_active_data" border="1" cellspacing="0">
     <tr><td i18n:translate="">date</td>
@@ -27,13 +27,13 @@
       <td i18n:translate="life_before_dormancy">avg life before dormancy</td>
     </tr>
     <tr tal:repeat="point data">
-      <td tal:content="point/date">date</td>
-      <td tal:content="point/members">members</td>
-      <td tal:content="python: '%.1f days' % point['members_life']">members</td>
-      <td tal:content="point/projects">projects</td>
-      <td tal:content="python: '%.1f days' % point['projects_life']">projects</td>
-      <td tal:content="point/mailing_lists">mailing lists</td>
-      <td tal:content="python: '%.1f days' % point['mailing_lists_life']">mailing lists</td>
+      <td tal:content="point/date"><tal:comment replace="nothing">date</tal:comment></td>
+      <td tal:content="point/members"><tal:comment replace="nothing">members</tal:comment></td>
+      <td tal:content="python: '%.1f days' % point['members_life']"><tal:comment replace="nothing">members</tal:comment></td>
+      <td tal:content="point/projects"><tal:comment replace="nothing">projects</tal:comment></td>
+      <td tal:content="python: '%.1f days' % point['projects_life']"><tal:comment replace="nothing">projects</tal:comment></td>
+      <td tal:content="point/mailing_lists"><tal:comment replace="nothing">mailing lists</tal:comment></td>
+      <td tal:content="python: '%.1f days' % point['mailing_lists_life']"><tal:comment replace="nothing">mailing lists</tal:comment></td>
     </tr>
     </table>    
 

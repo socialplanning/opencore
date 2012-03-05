@@ -26,7 +26,7 @@
           <tr>
             <th class="oc-form-label" scope="row"><label i18n:translate="login_snippet_username_label" for="__ac_name">Username </label></th>
             <td class="oc-form-value"
-              tal:define="url request/ACTUAL_URL;
+              tal:define="url request/getURL;
                           user_focus python: url.endswith('/login') or '/require_login' in url">
               <tal:focused_username
                 condition="user_focus">

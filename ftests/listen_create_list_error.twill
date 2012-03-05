@@ -1,0 +1,35 @@
+#
+# try to create an isolated mailing list
+# but assert that the form validation fails
+#
+# projname - name of the project under which the list will be created
+# listtitle - title of the list
+# listdesc - description of the list
+# mailto - address of the list
+# listtype - list type
+# attach - attachment setting for the list
+# error_msg - expected validation error message
+# error_field - expected form field which caused the error
+
+go ${base_url}/projects/${projname}
+follow "Mailing Lists"
+follow "add_mailing_list"
+find 'Managers.*${user}' s
+fv 2 title ${listtitle}
+fv 2 description ${listdesc}
+fv 2 mailto ${mailto}
+fv 2 workflow_policy ${listtype}
+fv 2 archival_policy ${attach}
+submit create_create_button
+notfind Traceback
+
+find "psm_correct_errors_below"
+url ${base_url}/projects/${projname}/lists/create
+
+notfind "list_created"
+notfind error_404_title
+find $listtitle
+find $user
+
+extend_with flunc.xpath
+find_in_css ${error_msg} "span#oc-${error_field}-error.oc-form-error"

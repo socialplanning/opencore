@@ -35,7 +35,7 @@
                     <form name="moderate-post-form"
                           class="oc-listen-moderate-form oc-js-liveEdit"
                           method="POST"
-                          tal:attributes="action request/ACTUAL_URL">
+                          tal:attributes="action request/getURL">
                       <input type="hidden" name="postid" tal:attributes="value python: str(post['postid'])" />
                       <input type="hidden" name="email" tal:attributes="value python: str(post['user'])" />
                       <ul class="oc-actions oc-dataTable-row-actions oc-js-liveEdit-value">
@@ -86,7 +86,7 @@
             <form name="moderate_all_posts"
                   method="POST"
                   tal:condition="pending_list"
-                  tal:attributes="action request/ACTUAL_URL">
+                  tal:attributes="action request/getURL">
               <input type="submit" name="discard_all_posts" value="Discard all posts"
                      i18n:attributes="value discard_all_posts_value" />
             </form>
@@ -109,7 +109,7 @@
                   <td>
                     <form name="moderate-member-form" id="moderate-member-form" method="POST"
                           class="oc-listen-moderate-form"
-                          tal:attributes="action request/ACTUAL_URL">
+                          tal:attributes="action request/getURL">
                       <input type="hidden" name="email" tal:attributes="value pending_member/user" />
                       <ul class="oc-actions oc-dataTable-row-actions">
                         <li>

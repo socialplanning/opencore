@@ -1,0 +1,4 @@
+extend_with flunc.xpath
+
+go ${outbox_url}/messages.html
+find_in_css ${subject} "span.subject"

@@ -102,7 +102,7 @@
         <h2 i18n:translate="invite_new_members_heading">Invite new members</h2>
         
         <form name="search-members" id="search-members" method="POST" 
-              tal:attributes="action view/request/ACTUAL_URL">
+              tal:attributes="action view/request/getURL">
     
           <div class="oc-headingBlock">
             <h3 i18n:translate="search_for_members_heading">Search for members</h3>
