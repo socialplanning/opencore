@@ -11,6 +11,7 @@ project = sys.argv[-1]
 project = app.openplans.projects[project]
 proj_id = project.getId()
 
+zipfile = open(zipfile, 'rb')
 zipfile = ZipFile(zipfile)
 
 settings = [zipfile.read(i) for i in zipfile.namelist() 
