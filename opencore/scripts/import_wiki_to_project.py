@@ -86,6 +86,26 @@ for revision in reversed(bzr.log("/")):
     archivist.save(prep, autoregister=repo.autoapply)
     prep.copyVersionIdFromClone()
 
+from StringIO import StringIO
+plone_utils = getToolByName(project, 'plone_utils')
+for path in zipfile.namelist():
+    parts = path.split("/")
+    if len(parts) < 2:
+        continue
+    if parts[1] == "pages":
+        if len(parts) < 4:
+            continue
+        page = parts[2]
+        filename = parts[3]
+        file = StringIO(zipfile.read(path))
+        fileId = plone_utils.normalizeString(filename)
+        context = project[page]
+        context.invokeFactory(id=fileId, type_name="FileAttachment")
+        object = context._getOb(fileId, None)
+        object.setTitle(fileId)
+        object.setFile(file)
+        object.reindexObject()
+
 from opencore.nui.wiki.utils import cache_history
 for page in PAGES:
     cache_history(project[page], repo)

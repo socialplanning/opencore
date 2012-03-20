@@ -126,7 +126,6 @@ class WikiEdit(WikiBase, OctopoLite):
         whitelist = [ x.strip() for x in whitelist if x.strip() ]
 
         cleaner = MonkeyCleaner(host_whitelist=whitelist, safe_attrs_only=False)
-
         # stolen from lxml.html.clean
         if isinstance(html, basestring):
             return_string = True
