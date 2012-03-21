@@ -1,0 +1,21 @@
+[info]
+id = {{id}}
+title = {{title}}
+created_on = {{creation_date}}
+
+[preferences]
+security_policy = {{security_policy}}
+homepage = {{homepage}}
+
+[tools]
+{{for featurelet in featurelets}}
+{{featurelet}}
+{{endfor}}
+
+[team]
+{{for member, role in team.items()}}
+{{member}} = {{role}}
+{{endfor}}
+
+[description]
+{{description}}
