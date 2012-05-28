@@ -75,7 +75,17 @@ def getMembersCSV(self, outfile, portrait_dir):
             portrait_url = "%s%s" % (memberId, extension)
             portrait_url = os.path.join(portrait_dir, portrait_url)
             portrait_file = open(portrait_url, 'w')
-            portrait_file.write(portrait.data)
+
+            ## Usually portrait.data is the raw bytes of the file
+            #  but sometimes it's one of these OFS Pdata guys
+            if isinstance(portrait.data, basestring):
+                portrait_file.write(portrait.data)
+            else:
+                try:
+                    assert isinstance(portrait_file.data.data, basestring)
+                except:
+                    import pdb; pdb.set_trace()
+                portrait_file.write(portrait.data.data)
             portrait_file.close()
         row.append(portrait_url)
         row.append("<SITE_ROLE>")
@@ -92,11 +102,12 @@ outfp = open(outfile, 'w')
 
 outdir = tempfile.mkdtemp(prefix="opencore-member-portraits")
 
+print outfile, outdir
+
 try:
     getMembersCSV(app.openplans, outfp, outdir)
 finally:
     outfp.close()
 
-print outfile, outdir
 #os.unlink(outfile)
 #shutil.rmtree(outdir)
