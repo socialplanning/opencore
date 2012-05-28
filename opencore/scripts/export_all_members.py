@@ -24,8 +24,10 @@ import csv
 import time
 
 from opencore.member.workflow import MemberWorkflowHandler
+import os
+import mimetypes
 
-def getMembersCSV(self, outfile):
+def getMembersCSV(self, outfile, portrait_dir):
 
     writer = csv.writer(outfile)
 
@@ -66,17 +68,35 @@ def getMembersCSV(self, outfile):
                row.append(member.password)
             else:
                row.append(member.getProperty(property))
-        row.append("<PORTRAIT_URL>")
+        portrait_url = ""
+        portrait = member.getPortrait()
+        if portrait:
+            extension = mimetypes.guess_extension(portrait.content_type) or ''
+            portrait_url = "%s%s" % (memberId, extension)
+            portrait_url = os.path.join(portrait_dir, portrait_url)
+            portrait_file = open(portrait_url, 'w')
+            portrait_file.write(portrait.data)
+            portrait_file.close()
+        row.append(portrait_url)
         row.append("<SITE_ROLE>")
         row.append(MemberWorkflowHandler(member).is_unconfirmed() and "unconfirmed" or "confirmed")
         
         writer.writerow(row)
 
 
+import tempfile
 import sys
-outfile = "/tmp/members.csv"
-outfile = open(outfile, 'w')
+
+fd, outfile = tempfile.mkstemp(prefix="opencore-members", suffix=".csv")
+outfp = open(outfile, 'w')
+
+outdir = tempfile.mkdtemp(prefix="opencore-member-portraits")
+
 try:
-    getMembersCSV(app.openplans, outfile)
+    getMembersCSV(app.openplans, outfp, outdir)
 finally:
-    outfile.close()
+    outfp.close()
+
+print outfile, outdir
+#os.unlink(outfile)
+#shutil.rmtree(outdir)
