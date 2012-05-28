@@ -75,8 +75,8 @@ def getMembersCSV(self, outfile, portrait_dir):
         if portrait:
             extension = mimetypes.guess_extension(portrait.content_type) or ''
             portrait_url = "%s%s" % (memberId, extension)
-            portrait_url = os.path.join(portrait_dir, portrait_url)
-            portrait_file = open(portrait_url, 'w')
+            full_portrait_url = os.path.join(portrait_dir, portrait_url)
+            portrait_file = open(full_portrait_url, 'w')
 
             ## Usually portrait.data is the raw bytes of the file
             #  but sometimes it's one of these OFS Pdata guys
