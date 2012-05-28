@@ -82,7 +82,7 @@ def getMembersCSV(self, outfile, portrait_dir):
                 portrait_file.write(portrait.data)
             else:
                 try:
-                    assert isinstance(portrait_file.data.data, basestring)
+                    assert isinstance(portrait.data.data, basestring)
                 except:
                     import pdb; pdb.set_trace()
                 portrait_file.write(portrait.data.data)
