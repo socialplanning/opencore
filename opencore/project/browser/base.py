@@ -55,12 +55,14 @@ class ProjectBaseView(BaseView):
                       title='Summary',
                       url=LATEST_ACTIVITY,
                       checked=True,
+                      hidden=False,
                       ),
 
                  dict(id='wiki',
                       title='Pages',
                       url=PROJ_HOME,
                       checked=False,
+                      hidden=False,
                       ),
                  ]
 

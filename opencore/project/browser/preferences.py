@@ -230,6 +230,7 @@ class ProjectPreferencesView(ProjectBaseView, OctopoLite):
                           title=f.title,
                           url=f._info['menu_items'][0]['action'],
                           checked=f.id in installed_flets,
+                          hidden=f._info['menu_items'][0].get('hidden', False),
                           )
                      for f in all_flets]
         return flet_data

@@ -155,8 +155,9 @@
               <legend><strong i18n:translate="project_prefs_section_tools_subheading">Which additional tools would you like to install?</strong></legend>
               <ul class="oc-form-radiolist oc-form-fieldBlock"
                   tal:define="warning string:Warning: Removing this feature may result in data loss.">
-                <li class="oc-js-featurelet-undelete-warner"
-                    tal:repeat="flet view/featurelets">
+                <tal:for repeat="flet view/featurelets">
+                 <li class="oc-js-featurelet-undelete-warner"
+                    tal:condition="not:flet/hidden">
                   <input type="checkbox"
                          class="oc-input-typeCheck oc-js-toggler"
                          name="featurelets:list"
@@ -172,6 +173,7 @@
                         tal:content="warning"
                         />
                 </li>
+               </tal:for>
               </ul>
             </fieldset>
             
@@ -181,7 +183,8 @@
 	      </legend>
 
               <ul class="oc-form-radiolist oc-form-fieldBlock">
-                <li tal:repeat="flet view/homepages">
+                <tal:for repeat="flet view/homepages">
+                 <li tal:condition="not:flet/hidden">
                   <tal:home_page_item define="
                                               id flet/id;
                                               url flet/url;
@@ -204,7 +207,8 @@
                       <span tal:replace="title" />
                     </label>
                   </tal:home_page_item>
-                </li>
+                 </li>
+                </tal:for>
               </ul>
             </fieldset>
           </fieldset>
