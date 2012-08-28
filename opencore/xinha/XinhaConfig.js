@@ -60,6 +60,10 @@ xinha_init = xinha_init ? xinha_init : function()
    {
        plugin: 'SidebarFormatblock',
        url:    '/++resource++xinha-plugins/SidebarFormatblock/SidebarFormatblock.js'
+   },
+   {
+       plugin: 'AceEditor',
+       url: '/++resource++xinha-plugins/AceEditor/AceEditor.js' 
    }
   ];
   if( _extra_plugins ) {

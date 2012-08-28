@@ -13,12 +13,6 @@ var _image_backend_url = '${view/image_backend_url}';
 _extra_plugins = [];
 "
 />
-<script type="text/javascript" tal:condition="view/in_svenweb" tal:content="string:
-_extra_plugins = [
-  { plugin: 'AceEditor',
-    url: '/++resource++xinha-plugins/AceEditor/AceEditor.js' }];
-"
-/>
 
 <!-- Load up the actual editor core -->
 
