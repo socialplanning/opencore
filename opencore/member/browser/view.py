@@ -106,7 +106,14 @@ class ProfileView(BaseView):
         mem = self.loggedinmember
         if not mem:
             return False
-        return self.viewedmember() != mem
+
+        from opencore.utils import get_config
+        trusted_admins = [i.strip() for i in
+                          get_config("trusted_list_admins", default="").split(",")]
+        if mem.getId() in trusted_admins:
+            return True
+        else:
+            return False
 
     def viewingself(self):
         return self.viewedmember() == self.loggedinmember

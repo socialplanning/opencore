@@ -8,6 +8,8 @@ from Queue import Queue, Empty
 from libopencore.auth import parse_cookie
 from lxml.html import fromstring, tostring
 from opencore.i18n import _, translate
+from opencore.interfaces import IHomePage
+from opencore.interfaces.workflow import IReadWorkflowPolicySupport
 from opencore.nui.wiki import bzrbackend
 from opencore.listen.interfaces import ISyncWithProjectMembership
 from opencore.listen.utils import mlist_type_to_workflow
@@ -94,6 +96,11 @@ def css():
 
 def mlist_conf(ctx):
     tmplfile = resource_filename('opencore.export', 'export_list_conf.ini.tmpl')
+    tmpl = tempita.Template.from_filename(tmplfile)
+    return tmpl.substitute(**ctx)
+
+def project_metadata(ctx):
+    tmplfile = resource_filename('opencore.export', 'export_project_metadata.ini.tmpl')
     tmpl = tempita.Template.from_filename(tmplfile)
     return tmpl.substitute(**ctx)
 
@@ -313,11 +320,40 @@ class ContentExporter(object):
         logger.info("6. Saving wiki history")
         if self.status.include_wiki_history():
             self.save_wiki_history()
+        sleep()
+        logger.info("7. Saving project team and metadata")
+        self.save_project_metadata()
         logger.info("done with %s" % self.path)
 
     def save_docs(self):
         self.status.progress_descr = _(u'Saving documentation')
         self.zipfile.writestr("%s/README.txt" % self.context_dirname, readme())
+
+    def save_project_metadata(self):
+        self.status.progress_descr = _(u'Saving project team and metadata')
+        project = self.context
+
+        reader = IReadWorkflowPolicySupport(self.context)
+        policy = reader.getCurrentPolicyId()
+
+        hpcontext = IHomePage(self.context)
+        homepage = hpcontext.home_page
+
+        featurelets = self._get_featurelets(project)
+
+        list_info = {
+            'id': project.getId(),
+            'title': project.Title(),
+            'description': project.Description(),
+            'creation_date': project.CreationDate(),
+            'security_policy': policy,
+            'homepage': homepage,
+            'featurelets': featurelets,
+            'team': {},
+            }
+        conf_path = '%s/project/settings.ini' % self.context_dirname
+        self.zipfile.writestr(conf_path, project_metadata(list_info))
+        
 
     def save_wiki_history(self):
         self.status.progress_descr = _(u'Saving wiki history')
@@ -527,6 +563,7 @@ class ContentExporter(object):
             # Now the metadata and preferences.
             logger.info("exporting settings.ini for %s" % mlistid)
             list_info = {
+                'id': mlist.getId(),
                 'type': mlist_type_to_workflow(mlist),
                 'mailto': mlist.mailto,
                 'managers': mlist.managers,
@@ -536,7 +573,8 @@ class ContentExporter(object):
                 'creation_date': mlist.CreationDate(),
                 'creator': mlist.Creator(),
                 'sync_with_project': ISyncWithProjectMembership.providedBy(mlist),
-                'context': self.context.getId()
+                'context': self.context.getId(),
+                'private_archives': mlist.private_archives,
                 }
             conf_path = '%s/lists/%s/settings.ini' % (self.context_dirname, mlistid)
             self.zipfile.writestr(conf_path, mlist_conf(list_info))

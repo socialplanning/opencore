@@ -1,0 +1,8 @@
+*.pyc
+*py~
+*.egg-info
+*.mo
+*#
+*.#*
+*~
+ftests/globals.conf
