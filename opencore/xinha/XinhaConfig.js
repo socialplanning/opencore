@@ -2,6 +2,8 @@ xinha_editors = null;
 xinha_init    = null;
 xinha_config  = null;
 xinha_plugins = null;
+xinha_config_settings = {};
+xinha_config_events = {};
 
 // This contains the names of textareas we will make into Xinha editors
 xinha_init = xinha_init ? xinha_init : function()
@@ -21,6 +23,7 @@ xinha_init = xinha_init ? xinha_init : function()
    'text',
    'content',
   ];
+  var xinha_editor_names = xinha_editors;
 
   /** STEP 2 ***************************************************************
    * Now, what are the plugins you will be using in the editors on this
@@ -95,6 +98,7 @@ xinha_init = xinha_init ? xinha_init : function()
 
    xinha_config = xinha_config ? xinha_config() : new Xinha.Config();
 
+  xinha_config.Events = {};
   xinha_config.statusBar = false;
 
   xinha_config.width = "100%";
@@ -163,6 +167,27 @@ xinha_init = xinha_init ? xinha_init : function()
    *   xinha_editors.myTextArea.config.height = '480px';
    *
    ************************************************************************/
+  for( var i=0; i<xinha_editor_names.length; ++i ) {
+      var overrides = xinha_config_settings[xinha_editor_names[i]];
+      if( overrides ) {
+	  var config = xinha_editors[xinha_editor_names[i]].config;
+	  for( var key in overrides ) {
+	      if( key && overrides[key] ) {
+		  config[key] = overrides[key];
+	      }
+	  }
+      }
+      var events = xinha_config_events[xinha_editor_names[i]];
+      if( events ) {
+	  var config = xinha_editors[xinha_editor_names[i]].config.Events;
+	  for( var key in events ) {
+	      if( key && events[key] ) {
+		  config[key] = events[key];
+	      }
+	  }
+      }
+
+  }   
 
 
   /** STEP 6 ***************************************************************
