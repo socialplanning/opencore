@@ -192,7 +192,10 @@ class WikiEdit(WikiBase, OctopoLite):
         for el in _find_external_links(doc):
             if el.get('isempty', u''):
                 del el.attrib['isempty']
-        clean_text = tostring(doc, encoding='utf-8')
+        if isinstance(clean_text, unicode):
+            clean_text = tostring(doc, encoding=unicode)
+        else:
+            clean_text = tostring(doc, encoding='utf-8')
         #XXX will for sure remove this when xinha is upgraded
 
         try:
