@@ -149,8 +149,16 @@ class WikiEdit(WikiBase, OctopoLite):
         else:
             return doc
 
+    @action('save_and_edit')
+    def handle_save_and_edit(self, target=None, fields=None):
+        return self._handle_save(self.context.absolute_url().rstrip() + "/edit",
+                                 target=target, fields=fields)
+
     @action('save')
     def handle_save(self, target=None, fields=None):
+        return self._handle_save(self.context.absolute_url(), target=target, fields=fields)
+
+    def _handle_save(self, redirect_to, target=None, fields=None):
         self.create_attachment()
 
         self.errors = {}
@@ -221,7 +229,7 @@ class WikiEdit(WikiBase, OctopoLite):
         self.context.reindexObject()
         self.addPortalStatusMessage(u'Your changes have been saved.')
 
-        self.redirect(self.context.absolute_url())
+        self.redirect(redirect_to)
 
     def _handle_createAtt(self):
         attachmentTitle = self.request.form.get('attachmentTitle')
