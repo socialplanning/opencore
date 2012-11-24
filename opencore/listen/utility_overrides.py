@@ -2,7 +2,6 @@ from Products.CMFCore.utils import getToolByName
 from Products.listen.interfaces.utilities import IHeaderValidator
 from Products.listen.utilities.token_to_email import MemberToEmail
 from Products.membrane.config import TOOLNAME as MBTOOLNAME
-from zope.component import Component
 from zope.interface import implements
 
 class OpencoreMemberLookup(MemberToEmail):
@@ -32,21 +31,20 @@ class OpencoreMemberLookup(MemberToEmail):
         return self._search(query, 'getId')
 
 from opencore.configuration import utils as conf_utils
-from libopencore.auth import get_secret as _get_secret
 from libopencore.mail_headers import validate_headers as _validate_headers
-def get_secret():
+def get_secret_filename():
     filename = conf_utils.product_config('listen_secret_filename', 'opencore.listen')
     if not filename:
         filename = os.path.join(os.environ.get('INSTANCE_HOME', 'listen_secret.txt'))
-    return _get_secret(filename, generate_random_on_failure=False)
+    return filename
 
-class OpencoreHeaderValidator(Component):
+class OpencoreHeaderValidator(object):
     implements(IHeaderValidator)
     
     def validate_headers(self, headers):
         if 'x-opencore-validation-key' not in headers:
             return False
-        return _validate_headers(headers, get_secret())
+        return _validate_headers(headers, get_secret_filename())
 
     def clean_headers(self, headers):
         if 'x-opencore-validation-key' in headers:
