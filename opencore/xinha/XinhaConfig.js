@@ -21,7 +21,7 @@ xinha_init = xinha_init ? xinha_init : function()
   xinha_editors = xinha_editors ? xinha_editors :
   [
    'text',
-   'content',
+   'content'
   ];
   var xinha_editor_names = xinha_editors;
 
