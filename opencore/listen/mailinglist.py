@@ -3,6 +3,7 @@ from Products.listen.content.mailinglist import MailingList
 from fieldproperty import ListNameFieldProperty
 from interfaces import IOpenMailingList
 from opencore.configuration import PROJECTNAME
+from opencore.listen.interfaces import ISyncWithProjectMembership
 from zope.interface import implements
 from zope.component import getMultiAdapter
 from zope.component import queryMultiAdapter
@@ -57,6 +58,10 @@ class OpenMailingList(MailingList, DefaultDublinCoreImpl):
     # so now, up to 100 emails are allowed in 10 minutes before the
     # sender is disabled
     senderlimit = 100
+
+    @property
+    def sync_project_membership(self):
+        return ISyncWithProjectMembership.providedBy(self)
 
     def manage_event(self, event_codes, headers):
         """ Handle event conditions passed up from smtp2zope.

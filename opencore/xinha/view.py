@@ -12,13 +12,16 @@ class XinhaConfig(BaseView):
     def in_svenweb(self):
         return self.request["HTTP_X_OPENPLANS_APPLICATION"] == "svenweb"
 
+    def in_trac(self):
+        return self.request["HTTP_X_OPENPLANS_APPLICATION"] == "trac"
+
     def fake_context(self):
         """
         If we're in wordpress or svenweb, then, as far as xinha's concerned,
         the context is project-home -- this is used for figuring
         out where to hang attachments
         """
-        if not self.in_wordpress() and not self.in_svenweb():
+        if not self.in_wordpress() and not self.in_svenweb() and not self.in_trac():
             return self.context
         project = self.request["HTTP_X_OPENPLANS_PROJECT"]
         project = getattr(self.portal.projects, project)

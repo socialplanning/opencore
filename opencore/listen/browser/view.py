@@ -32,7 +32,7 @@ from Products.listen.lib.browser_utils import obfct_de, obfct
 from opencore.browser.formhandler import OctopoLite, action
 from opencore.browser.base import BaseView
 from opencore.i18n import _
-from opencore.listen.interfaces import IListenContainer
+from opencore.listen.interfaces import IListenContainer, ISyncWithProjectMembership
 from opencore.listen.mailinglist import OpenMailingList
 from opencore.listen.mailinglist_views import MailingListView
 from opencore.listen.utils import validatePrefix
@@ -45,6 +45,7 @@ from plone.memoize.view import memoize as req_memoize
 from zope.app.component.hooks import getSite
 from zope.event import notify
 from zope.formlib.namedtemplate import INamedTemplate
+from zope.interface import alsoProvides, noLongerProvides
 from zope.interface import implements
 from zope.schema import ValidationError
 from zExceptions import BadRequest
@@ -267,6 +268,7 @@ class ListAddView(ListenEditBaseView):
 
         title, workflow, archive, mailto, managers = result
         private_archives = "private_list" in self.request.form
+        sync_project_membership = "sync_project_membership" in self.request.form
 
         # Try to create a mailing list using the mailto address to see if it's going to be valid
         lists_folder = self.context
@@ -292,6 +294,8 @@ class ListAddView(ListenEditBaseView):
 
         list.archived = archive
         list.private_archives = private_archives
+        if sync_project_membership:
+            alsoProvides(list, ISyncWithProjectMembership)
 
         self.template = None
 
@@ -338,6 +342,7 @@ class ListEditView(ListenEditBaseView):
 
         title, workflow, archive, mailto, managers = result
         private_archives = "private_list" in self.request.form
+        sync_project_membership = "sync_project_membership" in self.request.form
 
         list = self.context
 
@@ -355,6 +360,12 @@ class ListEditView(ListenEditBaseView):
         list.archived = archive
 
         list.private_archives = private_archives
+        if sync_project_membership:
+            if not ISyncWithProjectMembership.providedBy(list):
+                alsoProvides(list, ISyncWithProjectMembership)
+        else:
+            if ISyncWithProjectMembership.providedBy(list):
+                noLongerProvides(list, ISyncWithProjectMembership)
 
         list.managers = tuple(managers)
         self._assign_local_roles_to_managers()

@@ -161,6 +161,10 @@
 			   value="Save"
 			   i18n:attributes="value wiki_edit_save_button"
 			   class="oc-button oc-chooseThis" /></li>
+                <li><input type="submit" name="task|save_and_edit" 
+			   value="Save and Continue Editing"
+			   i18n:attributes="value wiki_edit_save_and_edit_button"
+			   class="oc-button oc-chooseThis" /></li>
                 <li>
 		  <i18n:dummy i18n:translate="or">or</i18n:dummy>
 		  <a href="" tal:attributes="href context/absolute_url" i18n:translate="wiki_edit_cancel_button">Cancel</a>

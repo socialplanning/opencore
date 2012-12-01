@@ -13,6 +13,19 @@
 	      name="request-membership"
 	      action="request-membership">
 
+	  <script type="text/javascript"
+		  src="http://www.google.com/recaptcha/api/challenge?k=key">
+	  </script>
+	  <noscript>
+	    <iframe src="http://www.google.com/recaptcha/api/noscript?k=key"
+		    height="300" width="500" frameborder="0"></iframe><br>
+	    <textarea name="recaptcha_challenge_field" rows="3" cols="40">
+	    </textarea>
+	    <input type="hidden" name="recaptcha_response_field"
+		   value="manual_challenge">
+	  </noscript>
+	  <br />
+
           <div class="oc-boxy oc-columnGroup oc-clearAfter" tal:condition="not:view/loggedin">
           
               <fieldset class="oc-boxy oc-column">

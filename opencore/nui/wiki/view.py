@@ -149,8 +149,16 @@ class WikiEdit(WikiBase, OctopoLite):
         else:
             return doc
 
+    @action('save_and_edit')
+    def handle_save_and_edit(self, target=None, fields=None):
+        return self._handle_save(self.context.absolute_url().rstrip() + "/edit",
+                                 target=target, fields=fields)
+
     @action('save')
     def handle_save(self, target=None, fields=None):
+        return self._handle_save(self.context.absolute_url(), target=target, fields=fields)
+
+    def _handle_save(self, redirect_to, target=None, fields=None):
         self.create_attachment()
 
         self.errors = {}
@@ -192,7 +200,10 @@ class WikiEdit(WikiBase, OctopoLite):
         for el in _find_external_links(doc):
             if el.get('isempty', u''):
                 del el.attrib['isempty']
-        clean_text = tostring(doc, encoding='utf-8')
+        if isinstance(clean_text, unicode):
+            clean_text = tostring(doc, encoding=unicode)
+        else:
+            clean_text = tostring(doc, encoding='utf-8')
         #XXX will for sure remove this when xinha is upgraded
 
         try:
@@ -200,7 +211,8 @@ class WikiEdit(WikiBase, OctopoLite):
         except UnicodeDecodeError, e:
             self._bad_text = clean_text
             error_string = e.object[e.start:e.end+1]
-            self.addPortalStatusMessage(u'The following text contains unsupported characters: "%s" (%s)\nPlease change this text before saving.' % (error_string.decode('utf-8', 'replace'), repr(error_string)))
+            self.addPortalStatusMessage(u'The following text contains unsupported characters between characters %s and %s: "%s" (%s)\nPlease change this text before saving.' % (
+                    e.start, e.end+1, error_string.decode('utf-8', 'replace'), repr(error_string)))
             return
 
         self.context.setTitle(page_title)
@@ -217,7 +229,7 @@ class WikiEdit(WikiBase, OctopoLite):
         self.context.reindexObject()
         self.addPortalStatusMessage(u'Your changes have been saved.')
 
-        self.redirect(self.context.absolute_url())
+        self.redirect(redirect_to)
 
     def _handle_createAtt(self):
         attachmentTitle = self.request.form.get('attachmentTitle')

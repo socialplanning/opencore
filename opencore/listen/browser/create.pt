@@ -108,6 +108,17 @@
 								    <span class="oc-headingContext oc-smallText description">Hide the list's archives from non-subscribers?</span>
 								  </td>
 								</tr>
+
+								<tr class="oc-form-row">
+								  <th class="oc-form-label" scope="row">
+								    <label for="sync_project_membership">Membership</label>
+								  </th>
+								  <td class="oc-form-value">
+								    <input type="checkbox" name="sync_project_membership" id="sync_project_membership" />
+								    <span class="oc-headingContext oc-smallText description">Automatically subscribe project members to the list?</span>
+								  </td>
+								</tr>
+
 <!-- managers -->
 								<tr class="oc-form-row">
 									<th class="oc-form-label" scope="row">
