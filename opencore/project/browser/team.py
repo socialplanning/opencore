@@ -138,14 +138,6 @@ class RequestMembershipView(TeamRelatedView, formhandler.OctopoLite, LoginView, 
         Delegates to the team object and handles destination.
         """
 
-        from opencore import recaptcha
-        if not recaptcha.confirm(self.request['REMOTE_ADDR'], 
-                                 self.request.form.get("recaptcha_challenge_field"),
-                                 self.request.form.get("recaptcha_response_field")):
-            self.addPortalStatusMessage("Invalid CAPTCHA, please try again.")
-            self.redirect(self.context.absolute_url())
-            return 
-
         if self.login_pending_member(): return
 
         joined = False
