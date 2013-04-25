@@ -42,8 +42,6 @@ class OpencoreHeaderValidator(object):
     implements(IHeaderValidator)
     
     def validate_headers(self, headers):
-        if 'x-opencore-validation-key' not in headers:
-            return False
         return _validate_headers(headers, get_secret_filename())
 
     def clean_headers(self, headers):
