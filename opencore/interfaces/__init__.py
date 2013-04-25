@@ -85,3 +85,9 @@ class IHomePage(Interface):
                     title=u'home page url',
                     description=u"url of object's home page",
                     )
+
+    wiki_notification_list = TextLine(
+        title=u'wiki notification list address',
+        description=u"email address to send wiki notifications to",
+        )
+    

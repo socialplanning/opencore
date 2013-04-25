@@ -127,4 +127,8 @@
     template="search.pt"
     />
 
+  <utility factory="opencore.listen.utility_overrides.OpencoreHeaderValidator"
+           provides="Products.listen.interfaces.utilities.IHeaderValidator"
+           />
+
 </configure>
