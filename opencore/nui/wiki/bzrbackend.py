@@ -5,6 +5,8 @@ import logging
 from opencore.interfaces.catalog import ILastModifiedAuthorId
 from opencore.utils import get_config
 import os
+import pickle
+import cPickle
 from Products.CMFCore.utils import getToolByName
 import shutil
 from sqlalchemy import create_engine
@@ -127,13 +129,21 @@ class WikiConverter(object):
             logger.info("page: %s" % pagename)
 
             versions = pr.getHistory(ob, countPurged=False)
-            for version in versions:
-                when = datetime.fromtimestamp(version.sys_metadata['timestamp'])
-                version_id = version.version_id
-                checkin = Checkin(pagename, version_id, when)
-                session.add(checkin)
-                logger.info("page: %s\tversion: %s" % (pagename, version_id))
-            session.commit()
+            try:
+                for version in versions:
+                    when = datetime.fromtimestamp(version.sys_metadata['timestamp'])
+                    version_id = version.version_id
+                    checkin = Checkin(pagename, version_id, when)
+                    session.add(checkin)
+                    logger.info("page: %s\tversion: %s" % (pagename, version_id))
+                session.commit()
+            except (cPickle.UnpicklingError, pickle.UnpicklingError), e:
+                logger.error("Unpickling error on page %s in project %s: %s" % (
+                        pagename, project.getId(), str(e)))
+                fp = open("/tmp/unpickle.txt", 'wa')
+                print >> fp, "Unpickling error on page %s in project %s: %s" % (
+                    pagename, project.getId(), str(e))
+                fp.close()
 
             logger.info("page: %s\t-* current version *-" % pagename)
             when = ob.ModificationDate()
