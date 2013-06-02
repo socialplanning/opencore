@@ -87,9 +87,9 @@ class WikiConverter(object):
         self.setup_interim_db()
         self.sort_checkins()
         self.setup_repo()
-        self.port_checkins()
+        filename_map = self.port_checkins()
         self.unbind_checkout()
-        return self.checkoutdir
+        return self.checkoutdir, filename_map
 
     def setup_interim_db(self):
         engine = create_engine("sqlite:///%s.db" % 
@@ -157,6 +157,7 @@ class WikiConverter(object):
         repo = BzrAccess(checkout, default_commit_message=" ")
         
         checkins = session.query(Checkin).order_by(Checkin.timestamp)
+        filename_map = {}
 
         for checkin in checkins:
             pageId = str(checkin.wikipage)
@@ -186,10 +187,23 @@ class WikiConverter(object):
 
             logger.info("page: %s\trev: %s" % (page, checkin.version))
 
-            repo.write(pageId, content, msg=msg,
-                       author=author,
-                       committer=self.committer,
-                       timestamp=timestamp)
+            try:
+                repo.write(pageId, content, msg=msg,
+                           author=author,
+                           committer=self.committer,
+                           timestamp=timestamp)
+                filename_map[pageId] = pageId
+            except IOError, e:
+                if e.errno == 36:
+                    import md5
+                    hashedId = md5.md5(pageId).hexdigest()
+                    repo.write(hashedId,
+                               content, msg=msg,
+                               author=author,
+                               committer=self.committer,
+                               timestamp=timestamp)
+                    filename_map[pageId] = hashedId
+        return filename_map
 
 
 class Checkin(object):
