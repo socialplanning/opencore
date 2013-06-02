@@ -16,7 +16,7 @@ from sqlalchemy.orm import sessionmaker
 import subprocess
 from sven.bzr import BzrAccess
 
-logger = logging.getLogger('opencore.nui.wiki')
+logger = logging.getLogger('opencore.export')
 
 def clone(repo, to):
     subprocess.call(["bzr", "checkout", repo, to])
