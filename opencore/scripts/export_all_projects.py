@@ -7,8 +7,8 @@ from Testing.makerequest import makerequest
 from AccessControl.SecurityManagement import newSecurityManager
 from zope.app.component.hooks import setSite
 
-from opencore.project.browser.export_utils import ProjectExportQueueView
-from opencore.project.browser.export_utils import get_status
+from opencore.export.export_utils import ProjectExportQueueView
+from opencore.export.export_utils import get_status
 
 from opencore.auth.SignedCookieAuthHelper import get_secret
 from opencore.utility.interfaces import IProvideSiteConfig
@@ -24,6 +24,8 @@ setSite(portal)
 admin = app.acl_users.getUser('admin').__of__(app.acl_users)
 newSecurityManager(None, admin)
 qview = ProjectExportQueueView(app.openplans, app.openplans.REQUEST)
+#qview.vardir = "/opt/backup.openfsm.net/var/backup/"
+qview.notify = False
 
 config = getUtility(IProvideSiteConfig)
 
@@ -33,7 +35,14 @@ BASEURL = '/'.join([config.get('deliverance uri'), 'projects'])
 
 cat = app.openplans.portal_catalog
 
+import os
+try:
+    os.unlink("/tmp/unpickle.txt")
+except:
+    pass
+
 for proj_id, proj in app.openplans.projects.objectItems(['OpenProject']):
+
     newSecurityManager(None, admin)
 
     team_path = '/'.join(['', 'openplans', 'portal_teams', proj_id])
@@ -63,7 +72,13 @@ for proj_id, proj in app.openplans.projects.objectItems(['OpenProject']):
                         cookie=cookie)
     path = qview.export(proj_id, status)
 
-
+    import simplejson as json
+    import datetime
+    fp = open("%s%s" % (qview.vardir, "log.txt"), 'a')
+    print >> fp, json.dumps({"project": proj_id,
+                             "export": path,
+                             "datetime": datetime.datetime.now().isoformat()})
+    
     print "Exported %s" % path
     print "=" * 60
 
