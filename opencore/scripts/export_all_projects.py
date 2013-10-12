@@ -24,7 +24,7 @@ setSite(portal)
 admin = app.acl_users.getUser('admin').__of__(app.acl_users)
 newSecurityManager(None, admin)
 qview = ProjectExportQueueView(app.openplans, app.openplans.REQUEST)
-#qview.vardir = "/opt/backup.openfsm.net/var/backup/"
+qview.vardir = "/opt/backup.openfsm.net/var/backup/"
 qview.notify = False
 
 config = getUtility(IProvideSiteConfig)
@@ -35,13 +35,29 @@ BASEURL = '/'.join([config.get('deliverance uri'), 'projects'])
 
 cat = app.openplans.portal_catalog
 
+import simplejson as json
+import datetime, time, dateutil.parser
+
 import os
 try:
     os.unlink("/tmp/unpickle.txt")
 except:
     pass
 
+try:
+    backup_log = open("%s%s" % (qview.vardir, "log.txt"))
+except:
+    backup_log = []
+backup_log = [json.loads(line) for line in backup_log]
+backup_log = dict([(line['project'], line) for line in backup_log])
+
 for proj_id, proj in app.openplans.projects.objectItems(['OpenProject']):
+
+    last_backup = backup_log.get(proj_id)
+    if last_backup is not None:
+        last_backup_time = dateutil.parser.parse(last_backup['datetime'])
+        print "Skipping %s (last backup: %s)" % (proj_id, last_backup_time)
+        continue
 
     newSecurityManager(None, admin)
 
@@ -69,11 +85,10 @@ for proj_id, proj in app.openplans.projects.objectItems(['OpenProject']):
 
     print "Exporting %s..." % proj_id
     status = get_status(proj_id, context_url='/'.join([BASEURL, proj_id]),
-                        cookie=cookie)
+                        cookie=cookie, 
+                        features=["wikipages", "mailinglists", "wikihistory"])
     path = qview.export(proj_id, status)
 
-    import simplejson as json
-    import datetime
     fp = open("%s%s" % (qview.vardir, "log.txt"), 'a')
     print >> fp, json.dumps({"project": proj_id,
                              "export": path,
