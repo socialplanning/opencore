@@ -35,3 +35,12 @@ class HomePage(object):
         self.annot['home_page'] = value
 
     home_page = property(fget=_get_home_page, fset=_set_home_page)
+
+    def _get_wiki_notification_list(self):
+        return self.annot.get('wiki_notification_list', None)
+
+    def _set_wiki_notification_list(self, value):
+        self.annot['wiki_notification_list'] = value
+
+    wiki_notification_list = property(fget=_get_wiki_notification_list, 
+                                      fset=_set_wiki_notification_list)

@@ -227,6 +227,32 @@ class WikiEdit(WikiBase, OctopoLite):
         repo = getToolByName(self.context, 'portal_repository')
         repo.save(self.context, comment = self.request.form.get('comment', ''))
         self.context.reindexObject()
+
+        from opencore.interfaces import IHomePage
+        proj = self.in_project()
+        if proj:
+            adapted = IHomePage(proj)
+            addr = adapted.wiki_notification_list
+            if addr is not None:
+                from libopencore.mail_headers import build_headers
+                from opencore.listen.utility_overrides import get_secret_filename as get_listen_secret_filename
+                mail_headers = build_headers(proj.getId(), 
+                                             "wicked", "primary-wiki", 
+                                             self.context.getId(),
+                                             self.loggedinmember.getId(),
+                                             addr, 
+                                             get_listen_secret_filename())
+                from opencore.utility.interfaces import IEmailSender
+                from Products.listen.lib.common import construct_simple_encoded_message
+                msg = construct_simple_encoded_message(
+                    self.loggedinmember.getEmail(),
+                    addr, "Wiki page '%s' was changed by user %s" % (
+                        self.context.Title(), self.loggedinmember.getId()),
+                    "Wiki page was changed.",
+                    dict(mail_headers))
+                sender = IEmailSender(self.portal)
+                sender._send(str(msg))
+
         self.addPortalStatusMessage(u'Your changes have been saved.')
 
         self.redirect(redirect_to)

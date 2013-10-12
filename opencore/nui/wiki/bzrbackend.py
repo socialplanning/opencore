@@ -5,6 +5,8 @@ import logging
 from opencore.interfaces.catalog import ILastModifiedAuthorId
 from opencore.utils import get_config
 import os
+import pickle
+import cPickle
 from Products.CMFCore.utils import getToolByName
 import shutil
 from sqlalchemy import create_engine
@@ -14,7 +16,7 @@ from sqlalchemy.orm import sessionmaker
 import subprocess
 from sven.bzr import BzrAccess
 
-logger = logging.getLogger('opencore.nui.wiki')
+logger = logging.getLogger('opencore.export')
 
 def clone(repo, to):
     subprocess.call(["bzr", "checkout", repo, to])
@@ -87,9 +89,9 @@ class WikiConverter(object):
         self.setup_interim_db()
         self.sort_checkins()
         self.setup_repo()
-        self.port_checkins()
+        filename_map = self.port_checkins()
         self.unbind_checkout()
-        return self.checkoutdir
+        return self.checkoutdir, filename_map
 
     def setup_interim_db(self):
         engine = create_engine("sqlite:///%s.db" % 
@@ -127,13 +129,21 @@ class WikiConverter(object):
             logger.info("page: %s" % pagename)
 
             versions = pr.getHistory(ob, countPurged=False)
-            for version in versions:
-                when = datetime.fromtimestamp(version.sys_metadata['timestamp'])
-                version_id = version.version_id
-                checkin = Checkin(pagename, version_id, when)
-                session.add(checkin)
-                logger.info("page: %s\tversion: %s" % (pagename, version_id))
-            session.commit()
+            try:
+                for version in versions:
+                    when = datetime.fromtimestamp(version.sys_metadata['timestamp'])
+                    version_id = version.version_id
+                    checkin = Checkin(pagename, version_id, when)
+                    session.add(checkin)
+                    logger.info("page: %s\tversion: %s" % (pagename, version_id))
+                session.commit()
+            except (cPickle.UnpicklingError, pickle.UnpicklingError), e:
+                logger.error("Unpickling error on page %s in project %s: %s" % (
+                        pagename, project.getId(), str(e)))
+                fp = open("/tmp/unpickle.txt", 'wa')
+                print >> fp, "Unpickling error on page %s in project %s: %s" % (
+                    pagename, project.getId(), str(e))
+                fp.close()
 
             logger.info("page: %s\t-* current version *-" % pagename)
             when = ob.ModificationDate()
@@ -157,6 +167,7 @@ class WikiConverter(object):
         repo = BzrAccess(checkout, default_commit_message=" ")
         
         checkins = session.query(Checkin).order_by(Checkin.timestamp)
+        filename_map = {}
 
         for checkin in checkins:
             pageId = str(checkin.wikipage)
@@ -186,10 +197,23 @@ class WikiConverter(object):
 
             logger.info("page: %s\trev: %s" % (page, checkin.version))
 
-            repo.write(pageId, content, msg=msg,
-                       author=author,
-                       committer=self.committer,
-                       timestamp=timestamp)
+            try:
+                repo.write(pageId, content, msg=msg,
+                           author=author,
+                           committer=self.committer,
+                           timestamp=timestamp)
+                filename_map[pageId] = pageId
+            except IOError, e:
+                if e.errno == 36:
+                    import md5
+                    hashedId = md5.md5(pageId).hexdigest()
+                    repo.write(hashedId,
+                               content, msg=msg,
+                               author=author,
+                               committer=self.committer,
+                               timestamp=timestamp)
+                    filename_map[pageId] = hashedId
+        return filename_map
 
 
 class Checkin(object):

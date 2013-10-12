@@ -23,6 +23,13 @@
 
   <opencore:searchView
      for="opencore.interfaces.IProject"
+     class=".search.ProjectWikiSearchView"
+     permission="zope2.View"
+     name="wiki-search"
+     />     
+
+  <opencore:searchView
+     for="opencore.interfaces.IProject"
      class=".team.ProjectTeamView"
      permission="zope2.View"
      name="team"

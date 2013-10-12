@@ -108,5 +108,7 @@ try:
 finally:
     outfp.close()
 
+print outfile
+
 #os.unlink(outfile)
 #shutil.rmtree(outdir)

@@ -86,6 +86,13 @@
      class=".management.AddOpenPlansForm"
      />
 
+  <browser:page
+     for="OFS.Folder.Folder"
+     name="import-users.html"
+     permission="five.ManageSite"
+     class=".management.ImportUsers"
+     />
+
   <!-- convenience view to create_test_content -->
   <browser:page
      for="Products.CMFPlone.Portal.PloneSite"

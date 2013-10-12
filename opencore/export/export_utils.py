@@ -368,7 +368,7 @@ class ContentExporter(object):
             converter = bzrbackend.WikiConverter(
                 project, tmpdbdir, repodir, checkoutdir)
 
-            clonedir = converter.convert()
+            clonedir, filename_map = converter.convert()
             root_len = len(os.path.abspath(clonedir))
 
             for root, dirs, files in os.walk(clonedir):
@@ -380,6 +380,9 @@ class ContentExporter(object):
                     fullpath = os.path.join(root, f)
                     archive_name = os.path.join(archive_root, f)
                     self.zipfile.write(fullpath, archive_name)
+            self.zipfile.writestr(os.path.join(self.context_dirname,
+                                               "wiki_history_filenames.json"),
+                                  json.dumps(filename_map))
         finally:
             shutil.rmtree(tempdir)
 
