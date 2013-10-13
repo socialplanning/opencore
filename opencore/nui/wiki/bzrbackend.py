@@ -15,7 +15,7 @@ from sqlalchemy.orm import mapper
 from sqlalchemy.orm import sessionmaker
 import subprocess
 from sven.bzr import BzrAccess
-
+from ZODB.POSException import POSKeyError
 logger = logging.getLogger('opencore.export')
 
 def clone(repo, to):
@@ -133,15 +133,16 @@ class WikiConverter(object):
                 for version in versions:
                     when = datetime.fromtimestamp(version.sys_metadata['timestamp'])
                     version_id = version.version_id
+                    print page, version_id
                     checkin = Checkin(pagename, version_id, when)
                     session.add(checkin)
                     logger.info("page: %s\tversion: %s" % (pagename, version_id))
                 session.commit()
-            except (cPickle.UnpicklingError, pickle.UnpicklingError), e:
-                logger.error("Unpickling error on page %s in project %s: %s" % (
+            except (cPickle.UnpicklingError, pickle.UnpicklingError, POSKeyError), e:
+                logger.error("Corruption error on page %s in project %s: %s" % (
                         pagename, project.getId(), str(e)))
                 fp = open("/tmp/unpickle.txt", 'wa')
-                print >> fp, "Unpickling error on page %s in project %s: %s" % (
+                print >> fp, "Corruption error on page %s in project %s: %s" % (
                     pagename, project.getId(), str(e))
                 fp.close()
 
