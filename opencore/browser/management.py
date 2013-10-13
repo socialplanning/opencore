@@ -12,6 +12,8 @@ from opencore.member.workflow import MemberWorkflowHandler
 
 from DateTime import DateTime
 
+import transaction
+
 class ImportUsers(BaseView):
 
     def __call__(self, *args, **kwargs):
@@ -22,11 +24,11 @@ class ImportUsers(BaseView):
         membertool = getToolByName(self.context, "portal_membership")
 
         header = data.next()
+        i = 0
         for member in data:
             member = dict(zip(header, member))
-            if "jucovy" not in member['email'] and member['member_id'] != "ejucovy":
-                continue
 
+            print i, member['member_id']
             self.request.form.clear()
             self.request.form.update({"id": member['member_id'],
                                       "email": member['email'],
@@ -48,6 +50,11 @@ class ImportUsers(BaseView):
                                                   DateTime(member['creation_date']))
             for field in "location home_page description statement skills affiliations website background favorites".split():
                 mem_obj.getField(field).set(mem_obj, member[field])
+
+            i += 1
+            if i % 500 == 0:
+                transaction.commit()
+        transaction.commit()
         return "ok"
 
 class TestContentCreator(formbase.PageForm):
