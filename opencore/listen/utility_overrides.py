@@ -1,3 +1,4 @@
+import os
 from Products.CMFCore.utils import getToolByName
 from Products.listen.interfaces.utilities import IHeaderValidator
 from Products.listen.utilities.token_to_email import MemberToEmail
