@@ -17,8 +17,16 @@ zipfile = ZipFile(zipfile)
 import tempfile
 tempdir = tempfile.mkdtemp(prefix="--opencore-wiki-import-")
 
+wiki_filename_map = {}
+import simplejson
+
 for path in zipfile.namelist():
     parts = path.split("/")
+    if parts[-1] == "wiki_history_filenames.json":
+        f = zipfile.read(path)
+        wiki_filename_map = simplejson.loads(f)
+        continue
+
     if len(parts) < 2:
         continue
     if parts[1] == "wiki_history":
@@ -49,7 +57,10 @@ archivist = getToolByName(project, 'portal_archivist')
 
 PAGES = set()
 for revision in reversed(bzr.log("/")):
-    path = revision['href']
+    fs_path = revision['href']
+
+    path = wiki_filename_map.get(fs_path) or fs_path
+
     timestamp = revision['fields']['timestamp']
     mod_date = DateTime(timestamp)
     user_id = revision['fields']['author']
