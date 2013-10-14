@@ -31,6 +31,7 @@ def main(app, zipfile, project):
     lists_folder = project.lists.aq_inner
     imported_ids = []
     for list in settings:
+        print "Creating list %s in project %s" % (list['info']['id'], proj_id)
         request = project.REQUEST
         request.set('title', list['info']['title'])
         lists_folder.invokeFactory(OpenMailingList.portal_type, 
@@ -67,9 +68,11 @@ def main(app, zipfile, project):
     
         imported_ids.append(ml.getId())
 
-    #transaction.commit()
+    transaction.get().commit(True)
 
     from StringIO import StringIO
+
+    print "Creating archives"
 
     archives = [i for i in zipfile.namelist() 
                 if i
@@ -81,6 +84,8 @@ def main(app, zipfile, project):
         archive = [i for i in archives if i.split("/", 1)[1] == "lists/%s/archive.mbox" % ml_id]
         if not archive: continue
         archive = archive[0]
+
+        print "Importing archive for list %s" % ml_id
 
         archive = zipfile.read(archive)
         archive = StringIO(archive)
@@ -99,6 +104,10 @@ def main(app, zipfile, project):
                    and len(i.split("/")) == 4 
                    and i.split("/")[1] == "lists" 
                    and i.split("/")[3] == "subscribers.csv"]
+
+    print "Importing subscribers"
+
+    transaction.get().commit(True)
 
     setSite(app.openplans)
     for ml_id in imported_ids:
