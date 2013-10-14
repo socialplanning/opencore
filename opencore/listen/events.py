@@ -107,6 +107,10 @@ def member_left_project(mship, event):
 def listen_featurelet_installed(proj, event):
     """need to create a default discussion mailing list
        and subscribe all project members to the list"""
+
+    if proj.REQUEST.form.get("featurelet_skip_content_init", ""):
+        return
+
     proj_id = proj.getId()
     proj_title = proj.Title().decode('utf-8')
     ml_id = '%s-discussion' % proj_id

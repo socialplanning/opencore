@@ -1,6 +1,10 @@
 from zipfile import ZipFile
 import sys
 import simplejson as json
+from opencore.utils import setup
+import transaction
+
+app = setup(app)
 
 log_fp = open(sys.argv[-1])
 log = log_fp.read()
@@ -21,8 +25,6 @@ for project in log:
 
     settings = zipfile.read("%s/project/settings.ini" % project)
 
-    print settings
-
     parsed_settings = {'description': ""}
     reading_description = False
     for line in settings.splitlines(): #@@TODO make this less stupid
@@ -38,11 +40,23 @@ for project in log:
         elif line == "[description]":
             reading_description = True
 
-    import subprocess
-    ret = subprocess.call(["zope/bin/zopectl", "run", "src/opencore/opencore/scripts/create_one_project.py", project, parsed_settings['security_policy'], parsed_settings['title'], parsed_settings['description']])
-    assert ret == 0, ret
-    ret = subprocess.call(["zope/bin/zopectl", "run", "src/opencore/opencore/scripts/import_wiki_to_project.py", zipfilename, project])
-    assert ret == 0, ret
-    ret = subprocess.call(["zope/bin/zopectl", "run", "src/opencore/opencore/scripts/import_lists_to_project.py", zipfilename, project])
-    assert ret == 0, ret
+    from opencore.scripts import (create_one_project, 
+                                  import_wiki_to_project,
+                                  import_lists_to_project)
+
+    if app.openplans.projects.has_key(project):
+        print "Project %s already exists; skipping..." % project
+        continue
+
+    create_one_project.main(
+        app, project,
+        parsed_settings['security_policy'], parsed_settings['title'], 
+        parsed_settings['description'])
+    print "Importing lists..."
+    import_lists_to_project.main(app, zipfilename, project)
     
+    print "Importing wiki..."
+    import_wiki_to_project.main(app, zipfilename, project)
+    
+    transaction.commit()
+    print "Finished import of project %s" % project
