@@ -9,7 +9,7 @@ from zope.formlib import form
 
 from opencore.browser.base import BaseView
 from opencore.member.workflow import MemberWorkflowHandler
-
+from zipfile import ZipFile
 from DateTime import DateTime
 
 import transaction
@@ -20,6 +20,9 @@ class ImportUsers(BaseView):
         import csv, sys, os
         fp = open(self.request.form.get("file"))
         data = csv.reader(fp)
+
+        portraits_dir = self.request.form.get("portraits")
+
         joinview = self.context.restrictedTraverse("@@join")
         membertool = getToolByName(self.context, "portal_membership")
 
@@ -50,6 +53,12 @@ class ImportUsers(BaseView):
                                                   DateTime(member['creation_date']))
             for field in "location home_page description statement skills affiliations website background favorites".split():
                 mem_obj.getField(field).set(mem_obj, member[field])
+
+            portrait = member['portrait']
+            if portrait:
+                portrait = open(os.path.join(portraits_dir, portrait), 'rb')
+                mem_obj.setPortrait(portrait)
+            mem_obj.reindexObject()
 
             i += 1
             if i % 500 == 0:
