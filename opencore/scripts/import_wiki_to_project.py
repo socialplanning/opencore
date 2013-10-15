@@ -5,6 +5,7 @@ import os, sys
 from zipfile import ZipFile
 from AccessControl.SecurityManagement import newSecurityManager
 from Testing.makerequest import makerequest
+import simplejson as json
 
 def main(app, zipfile, project):
     user = app.acl_users.getUser('admin')
@@ -105,24 +106,39 @@ def main(app, zipfile, project):
         if i % 500 == 0:
             transaction.get().commit(True)
 
+    attachment_metadata = json.loads(zipfile.read("%s/attachments.json" % proj_id))
+
     from StringIO import StringIO
     plone_utils = getToolByName(project, 'plone_utils')
+
     for path in zipfile.namelist():
         parts = path.split("/")
         if len(parts) < 2:
             continue
         if parts[1] == "pages":
-            if len(parts) < 4:
+            if len(parts) < 4 or parts[3] == '':
                 continue
+
+            metadata = attachment_metadata[path]
+
             page = parts[2]
             filename = parts[3]
             file = StringIO(zipfile.read(path))
             fileId = filename
             context = project[page]
             context.invokeFactory(id=fileId, type_name="FileAttachment")
+
             object = context._getOb(fileId, None)
-            object.setTitle(fileId)
+            object.setTitle(metadata['title'] or fileId)
             object.setFile(file)
+            
+            creation_date = DateTime(metadata['creation_date'])
+
+            object.Schema()['creators'].set(object, (metadata['creator'],))
+
+            object.getField("creation_date").set(object, creation_date)
+            object.getField("modification_date").set(object, creation_date) # @@TODO this is getting overwritten with the current date :-(
+
             object.reindexObject()
 
     from opencore.nui.wiki.utils import cache_history
