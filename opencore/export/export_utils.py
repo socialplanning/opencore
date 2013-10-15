@@ -506,6 +506,7 @@ class ContentExporter(object):
             
     def save_files(self):
         self.status.progress_descr = _(u'Saving images and file attachments')
+        file_metadata = {}
         for afile in self.catalog(portal_type=("FileAttachment", "Image"), path=self.path):
             obj = afile.getObject()
 
@@ -513,6 +514,14 @@ class ContentExporter(object):
             # the page they're attached to, so links work.
             relative_path = afile.getPath()[len(self.path):].lstrip('/')
             out_path = '%s/pages/%s' % (self.context_dirname, relative_path)
+
+            assert out_path not in file_metadata, out_path
+            metadata = {
+                'creator': obj.Creator(),
+                'creation_date': str(obj.creation_date),
+                'title': obj.Title(),
+                }
+            file_metadata[out_path] = metadata
 
             if isinstance(obj.data, basestring):
                 self.zipfile.writestr(out_path, str(obj))
@@ -529,6 +538,9 @@ class ContentExporter(object):
                 self.zipfile.write(temp.name, out_path)
             finally:
                 temp.close()
+
+        self.zipfile.writestr("%s/attachments.json" % self.context_dirname, 
+                              json.dumps(file_metadata))
 
     def save_list_archives(self):
         self.status.progress_descr = _(u'Saving mailing lists')
