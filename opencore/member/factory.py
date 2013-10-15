@@ -76,7 +76,6 @@ class MemberFactory(object):
         finally:
             # return to being the original user
             setSecurityManager(orig_sec_mgr)
-
         pw, pw_ = (request.form.get("password"),
                    request.form.get("confirm_password"))
         if not pw and not pw_:

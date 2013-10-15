@@ -418,10 +418,18 @@ class OpenMember(FolderishMember):
                 return self.translate(msg, default=msg)
 
         mbtool = getToolByName(self, 'membrane_tool')
-        if len(mbtool.unrestrictedSearchResults(getUserName=id)) > 0L:
-            msg = "The login name you selected is already " + \
-                "in use. Please choose another." 
-            return self.translate(msg, default=msg)
+        case_insensitive_matches = mbtool.unrestrictedSearchResults(getUserName=id)
+
+        if not form.has_key("skip_case_insensitive_username_check"):
+            if len(case_insensitive_matches) > 0:
+                msg = "The login name you selected is already " + \
+                    "in use. Please choose another." 
+                return self.translate(msg, default=msg)
+        for match in case_insensitive_matches:
+            if match.getId == id:
+                msg = "The login name you selected is already " + \
+                    "in use. Please choose another." 
+                return self.translate(msg, default=msg)
 
     security.declarePrivate('validate_email')
     def validate_email(self, email):

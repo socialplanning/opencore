@@ -38,6 +38,7 @@ class ImportUsers(BaseView):
                                       "password": "changeme",
                                       "fullname": member['fullname'],
                                       "confirm_password": "changeme",
+                                      "skip_case_insensitive_username_check": 1,
                                       })
             mem_obj = joinview._create_member(confirmed=True) # This doesn't confirm the user; it just suppresses email notification.
             if isinstance(mem_obj, dict):
