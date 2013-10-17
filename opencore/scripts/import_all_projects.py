@@ -60,3 +60,9 @@ for project in log:
     
     transaction.commit()
     print "Finished import of project %s" % project
+
+from zope.app.component.hooks import setSite
+setSite(app.openplans)
+cat = app.openplans.portal_catalog
+cat.clearFindAndRebuild()
+transaction.commit()
