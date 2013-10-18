@@ -51,13 +51,25 @@ except:
 backup_log = [json.loads(line) for line in backup_log]
 backup_log = dict([(line['project'], line) for line in backup_log])
 
+export_rule = sys.argv[-1]
+if export_rule == "skip_existing":
+    print "Skipping all existing projects"
+elif export_rule == "incremental_wikihistory":
+    print "Skipping up-to-date wiki histories"
+else:
+    export_rule = None
+    print "Performing a full export"
+
 for proj_id, proj in app.openplans.projects.objectItems(['OpenProject']):
 
+
     last_backup = backup_log.get(proj_id)
+    last_backup_time = None
     if last_backup is not None:
         last_backup_time = dateutil.parser.parse(last_backup['datetime'])
-        print "Skipping %s (last backup: %s)" % (proj_id, last_backup_time)
-        continue
+        if export_rule == "skip_existing":
+            print "Skipping %s (last backup: %s)" % (proj_id, last_backup_time)
+            continue
 
     newSecurityManager(None, admin)
 
@@ -84,16 +96,26 @@ for proj_id, proj in app.openplans.projects.objectItems(['OpenProject']):
         print "couldn't find suitable admin user for %s" % proj_id
 
     print "Exporting %s..." % proj_id
+    features = ["wikipages", "mailinglists", "wikihistory"]
+    if last_backup_time is not None and export_rule == "incremental_wikihistory":
+        if proj.modified() < last_backup_time - datetime.timedelta(1):
+            print "Skipping wiki history (last modified %s, last export %s" % (proj.modified(), last_export_wiki)
+            features = ["wikipages", "mailinglists"]
+
     status = get_status(proj_id, context_url='/'.join([BASEURL, proj_id]),
                         cookie=cookie, 
-                        features=["wikipages", "mailinglists", "wikihistory"])
+                        features=features)
     path = qview.export(proj_id, status)
 
-    fp = open("%s%s" % (qview.vardir, "log.txt"), 'a')
-    print >> fp, json.dumps({"project": proj_id,
-                             "export": path,
-                             "datetime": datetime.datetime.now().isoformat()})
+    backup_log[proj_id] = {"project": proj_id,
+                           "export": path,
+                           "datetime": export_starttime}
     
     print "Exported %s" % path
     print "=" * 60
+
+fp = open("%s%s" % (qview.vardir, "test_log.txt"), 'w')
+log = [i for i in backup_log.values()]
+log = "\n".join([json.dumps(i) for i in log])
+print >> fp, log
 
