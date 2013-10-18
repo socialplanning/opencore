@@ -37,6 +37,7 @@ cat = app.openplans.portal_catalog
 
 import simplejson as json
 import datetime, time, dateutil.parser
+from DateTime import DateTime
 
 import os
 try:
@@ -62,11 +63,13 @@ else:
 
 for proj_id, proj in app.openplans.projects.objectItems(['OpenProject']):
 
+    export_starttime = DateTime()
 
     last_backup = backup_log.get(proj_id)
     last_backup_time = None
     if last_backup is not None:
         last_backup_time = dateutil.parser.parse(last_backup['datetime'])
+        last_backup_time = DateTime(last_backup_time.isoformat())
         if export_rule == "skip_existing":
             print "Skipping %s (last backup: %s)" % (proj_id, last_backup_time)
             continue
@@ -98,8 +101,8 @@ for proj_id, proj in app.openplans.projects.objectItems(['OpenProject']):
     print "Exporting %s..." % proj_id
     features = ["wikipages", "mailinglists", "wikihistory"]
     if last_backup_time is not None and export_rule == "incremental_wikihistory":
-        if proj.modified() < last_backup_time - datetime.timedelta(1):
-            print "Skipping wiki history (last modified %s, last export %s" % (proj.modified(), last_export_wiki)
+        if proj.modified() < (last_backup_time - 1):
+            print "Skipping wiki history (last modified %s, last export %s" % (proj.modified(), last_backup_time)
             features = ["wikipages", "mailinglists"]
 
     status = get_status(proj_id, context_url='/'.join([BASEURL, proj_id]),
@@ -109,7 +112,7 @@ for proj_id, proj in app.openplans.projects.objectItems(['OpenProject']):
 
     backup_log[proj_id] = {"project": proj_id,
                            "export": path,
-                           "datetime": export_starttime}
+                           "datetime": str(export_starttime)}
     
     print "Exported %s" % path
     print "=" * 60

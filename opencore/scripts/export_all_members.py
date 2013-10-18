@@ -87,6 +87,7 @@ def getMembersCSV(self, outfile, portrait_dir):
                 portrait_file.write(portrait.data.data)
             portrait_file.close()
         row.append(portrait_url)
+        print member.getId(), portrait_url
         row.append("<SITE_ROLE>")
         row.append(MemberWorkflowHandler(member).is_unconfirmed() and "unconfirmed" or "confirmed")
         
