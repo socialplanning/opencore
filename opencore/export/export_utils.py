@@ -349,11 +349,34 @@ class ContentExporter(object):
             'security_policy': policy,
             'homepage': homepage,
             'featurelets': featurelets,
-            'team': {},
             }
         conf_path = '%s/project/settings.ini' % self.context_dirname
         self.zipfile.writestr(conf_path, project_metadata(list_info))
-        
+
+        view = project.restrictedTraverse("@@manage-team")
+
+        team_data = {}
+
+        team_data['members'] = [
+            {'user_id': mship['getId'],
+             'role': mship['role_value'],
+             'timestamp': str(mship['active_since']),
+             'listed': mship['listed'],
+             } for mship in view.active_mships]
+        team_data['join_requests'] = [
+            {'user_id': mship.getId,
+             'timestamp': str(mship.lastWorkflowTransitionDate),
+             } for mship in view.pending_requests]
+        team_data['member_invites'] = [
+            {'user_id': mship.getId,
+             'timestamp': str(mship.lastWorkflowTransitionDate),
+             } for mship in view.pending_invitations]
+        team_data['email_invites'] = [
+            {'email': mship['address'],
+             'timestamp': str(mship['timestamp']),
+             } for mship in view.pending_email_invites]
+        self.zipfile.writestr('%s/project/team.json' % self.context_dirname,
+                              json.dumps(team_data, indent=2))
 
     def save_wiki_history(self):
         self.status.progress_descr = _(u'Saving wiki history')
