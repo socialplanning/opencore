@@ -341,17 +341,50 @@ class ContentExporter(object):
 
         featurelets = self._get_featurelets(project)
 
-        list_info = {
+        project_info = {
             'id': project.getId(),
             'title': project.Title(),
+            'created_on': str(project.created()),
+            'modified_on': str(project.modified()),
+            'creator': project.Creator(),
+            'location': project.getLocation(),
+
             'description': project.Description(),
-            'creation_date': project.CreationDate(),
             'security_policy': policy,
             'homepage': homepage,
-            'featurelets': featurelets,
+            'featurelets': ','.join(featurelets),
+
             }
+
+        logo_info = {
+            'logo_filename': None,
+            'logo_created_on': None,
+            'logo_modified_on': None,
+            'logo_creator': None,
+            }
+        logo = project.getLogo()
+        if logo is not None:
+            logo_info['logo_filename'] = logo.filename
+            logo_info['logo_created_on'] = str(logo.created())
+            logo_info['logo_modified_on'] = str(logo.modified())
+            logo_info['logo_creator'] = logo.Creator()
+        project_info.update(logo_info)
+
         conf_path = '%s/project/settings.ini' % self.context_dirname
-        self.zipfile.writestr(conf_path, project_metadata(list_info))
+        self.zipfile.writestr(conf_path, project_metadata(project_info))
+        self.zipfile.writestr(
+            "%s/project/description.txt" % self.context_dirname,
+            project_info['description'])
+
+        if logo is not None:
+            import mimetypes
+            extension = mimetypes.guess_extension(logo.content_type) or ''
+            logo_filepath = "%s/project/logo%s" % (self.context_dirname, extension)
+            if isinstance(logo.data, basestring):
+                self.zipfile.writestr(logo_filepath, logo.data)
+            else:
+                assert isinstance(logo.data.data, basestring)
+                self.zipfile.writestr(logo_filepath, logo.data.data)
 
         view = project.restrictedTraverse("@@manage-team")
 

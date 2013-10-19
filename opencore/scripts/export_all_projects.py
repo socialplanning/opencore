@@ -48,7 +48,7 @@ except:
 from zipfile import ZipFile
 
 try:
-    backup_log = open("%s%s" % (qview.vardir, "log.txt"))
+    backup_log = open("%s%s" % (qview.vardir, "test_log.txt"))
 except:
     backup_log = []
 backup_log = [json.loads(line) for line in backup_log]

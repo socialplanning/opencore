@@ -1,16 +1,21 @@
 [info]
 id = {{id}}
 title = {{title}}
-created_on = {{creation_date}}
+created_on = {{created_on}}
+modified_on = {{modified_on}}
+creator = {{creator}}
+location = {{location}}
 
 [preferences]
 security_policy = {{security_policy}}
 homepage = {{homepage}}
+tools = {{featurelets}}
 
-[tools]
-{{for featurelet in featurelets}}
-{{featurelet}}
-{{endfor}}
+{{if logo_filename}}
 
-[description]
-{{description}}
+[logo]
+filename = {{logo_filename}}
+created_on = {{logo_created_on}}
+modified_on = {{logo_modified_on}}
+creator = {{logo_creator}}
+{{endif}}

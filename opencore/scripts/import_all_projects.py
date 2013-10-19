@@ -10,6 +10,9 @@ log_fp = open(sys.argv[-1])
 log = log_fp.read()
 log_fp.close()
 
+from ConfigParser import RawConfigParser
+from StringIO import StringIO
+
 log = log.splitlines()
 for project in log:
 
@@ -23,22 +26,9 @@ for project in log:
 
     project = project['project']
 
-    settings = zipfile.read("%s/project/settings.ini" % project)
-
-    parsed_settings = {'description': ""}
-    reading_description = False
-    for line in settings.splitlines(): #@@TODO make this less stupid
-        line = line.strip()
-        if reading_description:
-            parsed_settings['description'] += line
-        if line.startswith("title = "):
-            parsed_settings['title'] = line[len("title = "):].strip()
-        elif line.startswith("security_policy = "):
-            parsed_settings['security_policy'] = line[len("security_policy = "):].strip()
-        elif line.startswith("homepage = "):
-            parsed_settings['homepage'] = line[len("homepage = "):].strip()
-        elif line == "[description]":
-            reading_description = True
+    settings = StringIO(zipfile.read("%s/project/settings.ini" % project))
+    parsed_settings = RawConfigParser()
+    parsed_settings.read(settings)
 
     from opencore.scripts import (create_one_project, 
                                   import_wiki_to_project,
@@ -48,10 +38,12 @@ for project in log:
         print "Project %s already exists; skipping..." % project
         continue
 
+    project_description = zipfile.read("%s/project/description.txt" % project)
     create_one_project.main(
         app, project,
-        parsed_settings['security_policy'], parsed_settings['title'], 
-        parsed_settings['description'])
+        parsed_settings.get("preferences", 'security_policy'),
+        parsed_settings.get("preferences", 'title'), 
+        project_description)
     print "Importing lists..."
     import_lists_to_project.main(app, zipfilename, project)
     
