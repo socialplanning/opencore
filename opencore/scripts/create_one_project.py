@@ -11,6 +11,7 @@ import random
 import sys
 import time
 import transaction
+from DateTime import DateTime
 
 featurelets = ["listen"]
 def main(app, proj_id, team_data, settings, descr, logo=None):
@@ -52,15 +53,15 @@ def main(app, proj_id, team_data, settings, descr, logo=None):
 
     projobj = projfolder[proj_id]
 
-    from DateTime import DateTime
+    if logo:
+        projobj.setLogo(logo)
+        logo = projobj.getLogo()
+        logo.filename = settings.get("logo", "filename")
 
     projobj.setLocation(settings.get("info", "location"))
     projobj.getField("creation_date").set(projobj, DateTime(settings.get("info", "created_on")))
     projobj.getField("modification_date").set(projobj, DateTime(settings.get("info", "modified_on")))
 
-    if logo:
-        projobj.setLogo(logo)
-        
     projobj._p_changed = True
     projobj.reindexObject()
 

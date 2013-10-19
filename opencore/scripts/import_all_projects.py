@@ -32,6 +32,11 @@ for project in log:
 
     team_data = json.loads(zipfile.read("%s/project/team.json" % project))
 
+    logo = None
+    if parsed_settings.has_section("logo"):
+        logo = parsed_settings.get("logo", "path")
+        logo = StringIO(zipfile.read(logo))
+
     from opencore.scripts import (create_one_project, 
                                   import_wiki_to_project,
                                   import_lists_to_project)
@@ -44,6 +49,7 @@ for project in log:
 
     create_one_project.main(
         app, project, team_data, parsed_settings, project_description,
+        logo=logo
         )
     print "Importing lists..."
     import_lists_to_project.main(app, zipfilename, project)
