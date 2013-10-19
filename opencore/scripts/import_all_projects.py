@@ -49,7 +49,13 @@ for project in log:
     import_lists_to_project.main(app, zipfilename, project)
     
     print "Importing wiki..."
+    
+    from DateTime import DateTime
     import_wiki_to_project.main(app, zipfilename, project)
+    
+    projobj = app.openplans.projects[project]
+    projobj.getField("modification_date").set(
+        projobj, DateTime(parsed_settings.get("info", "modified_on")))
     
     transaction.commit()
     print "Finished import of project %s" % project
