@@ -107,6 +107,8 @@ for proj_id, proj in app.openplans.projects.objectItems(['OpenProject']):
             print "Skipping wiki history (last modified %s, last export %s" % (proj.modified(), last_backup_time)
             features = ["wikipages", "mailinglists"]
             copy_last_wikihistory = True
+        else:
+            print "Re-exporting wiki history (last modified %s, last export %s" % (proj.modified(), last_backup_time)
 
     status = get_status(proj_id, context_url='/'.join([BASEURL, proj_id]),
                         cookie=cookie, 

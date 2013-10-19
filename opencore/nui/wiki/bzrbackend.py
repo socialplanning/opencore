@@ -120,6 +120,8 @@ class WikiConverter(object):
         session = self.session
         db = self.db
 
+        proj_id = project.getId()
+
         pages = cat.unrestrictedSearchResults(path='/'.join(project.getPhysicalPath()),
                                               portal_type="Document")
         for page in pages:
@@ -133,7 +135,7 @@ class WikiConverter(object):
                 for version in versions:
                     when = datetime.fromtimestamp(version.sys_metadata['timestamp'])
                     version_id = version.version_id
-                    print page, version_id
+                    print proj_id, page.getId, version_id
                     checkin = Checkin(pagename, version_id, when)
                     session.add(checkin)
                     logger.info("page: %s\tversion: %s" % (pagename, version_id))
