@@ -13,8 +13,12 @@ import time
 import transaction
 
 featurelets = ["listen"]
-def main(app, proj_id, team_data, policy, proj_title, descr):
-    user = app.acl_users.getUser('admin')
+def main(app, proj_id, team_data, settings, descr, logo=None):
+
+    creator = settings.get("info", "creator")
+    
+    user = app.openplans.acl_users.getUser(creator)
+    user = user.__of__(app.openplans.acl_users)
     print "Changing stuff as user", user
     newSecurityManager(None, user)
     app = makerequest(app)
@@ -23,7 +27,7 @@ def main(app, proj_id, team_data, policy, proj_title, descr):
 
     projfolder.REQUEST.form.update({
         'featurelets': featurelets,
-        'workflow_policy': policy,
+        'workflow_policy': settings.get("preferences", "security_policy"),
         'description': descr,
         'set_flets': 1, # sacrifice a chicken to tell opencore not to ignore our featurelet creation request
         'featurelet_skip_content_init': 1, # but dont try to create featurelet content (e.g. project-discussion list)
@@ -34,7 +38,7 @@ def main(app, proj_id, team_data, policy, proj_title, descr):
     addview = projfolder.restrictedTraverse('@@create')
 
     projfolder.REQUEST.form.update({
-            'project_title': proj_title,
+            'project_title': settings.get("info", "title"),
             'projid': proj_id,
             })
     
@@ -46,17 +50,42 @@ def main(app, proj_id, team_data, policy, proj_title, descr):
         raise RuntimeError("Project creation failed, see errors above.")
     print "created", proj_id
 
+    projobj = projfolder[proj_id]
+
+    from DateTime import DateTime
+
+    projobj.setLocation(settings.get("info", "location"))
+    projobj.getField("creation_date").set(projobj, DateTime(settings.get("info", "created_on")))
+    projobj.getField("modification_date").set(projobj, DateTime(settings.get("info", "modified_on")))
+
+    if logo:
+        projobj.setLogo(logo)
+        
+    projobj._p_changed = True
+    projobj.reindexObject()
+
     memfolder = app.openplans.portal_memberdata
 
     from opencore.configuration import ADMIN_ROLES
 
-    team = projfolder[proj_id].getTeams()[0]
+    team = projobj.getTeams()[0]
     for mdata in team_data['members']:
         print "Importing team member %s" % mdata
         member = memfolder[mdata['user_id']]
-        mship = team.joinAndApprove(mem=member,
-                                    made_active_date=mdata['timestamp'],
-                                    unlisted=not mdata['listed'])
+        try:
+            mship = team.joinAndApprove(mem=member,
+                                        made_active_date=mdata['timestamp'],
+                                        unlisted=not mdata['listed'])
+        except ValueError, e:
+            if e.args[0] !=  u'You already have a membership on this project.':
+                raise e
+            wftool = app.openplans.portal_workflow
+            mship = team.getMembershipByMemberId(mdata['user_id'])
+            if not mdata['listed']:
+                wftool.doActionFor(mship, "make_private")
+            mship.made_active_date = DateTime(mdata['timestamp'])
+            mship._p_changed = True
+
         if mdata['role'] == "ProjectAdmin":
             team.setTeamRolesForMember(mdata['user_id'], ADMIN_ROLES)
 

@@ -43,10 +43,8 @@ for project in log:
     project_description = zipfile.read("%s/project/description.txt" % project)
 
     create_one_project.main(
-        app, project, team_data,
-        parsed_settings.get("preferences", 'security_policy'),
-        parsed_settings.get("info", 'title'), 
-        project_description)
+        app, project, team_data, parsed_settings, project_description,
+        )
     print "Importing lists..."
     import_lists_to_project.main(app, zipfilename, project)
     
@@ -59,5 +57,5 @@ for project in log:
 from zope.app.component.hooks import setSite
 setSite(app.openplans)
 cat = app.openplans.portal_catalog
-cat.clearFindAndRebuild()
+#cat.clearFindAndRebuild()
 transaction.commit()
