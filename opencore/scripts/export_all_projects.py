@@ -70,8 +70,7 @@ for proj_id, proj in app.openplans.projects.objectItems(['OpenProject']):
     last_backup = backup_log.get(proj_id)
     last_backup_time = None
     if last_backup is not None:
-        last_backup_time = dateutil.parser.parse(last_backup['datetime'])
-        last_backup_time = DateTime(last_backup_time.isoformat())
+        last_backup_time = DateTime(last_backup['datetime'])
         if export_rule == "skip_existing":
             print "Skipping %s (last backup: %s)" % (proj_id, last_backup_time)
             continue
@@ -118,11 +117,11 @@ for proj_id, proj in app.openplans.projects.objectItems(['OpenProject']):
         new_zipfile = ZipFile(path, 'a')
         old_zipfile = ZipFile(backup_log[proj_id]['export'], 'r')
         records = 0
-        for path in old_zipfile.namelist():
-            if not path.startswith("%s/wiki_history/" % proj_id):
+        for old_path in old_zipfile.namelist():
+            if not old_path.startswith("%s/wiki_history/" % proj_id):
                 continue
             records += 1
-            new_zipfile.writestr(path, old_zipfile.read(path))
+            new_zipfile.writestr(old_path, old_zipfile.read(old_path))
         old_zipfile.close()
         new_zipfile.close()
         print "Copied %s wiki history files from last export" % records
