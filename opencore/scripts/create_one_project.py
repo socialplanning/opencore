@@ -13,7 +13,7 @@ import time
 import transaction
 
 featurelets = ["listen"]
-def main(app, proj_id, policy, proj_title, descr):
+def main(app, proj_id, team_data, policy, proj_title, descr):
     user = app.acl_users.getUser('admin')
     print "Changing stuff as user", user
     newSecurityManager(None, user)
@@ -46,6 +46,19 @@ def main(app, proj_id, policy, proj_title, descr):
         raise RuntimeError("Project creation failed, see errors above.")
     print "created", proj_id
 
+    memfolder = app.openplans.portal_memberdata
+
+    from opencore.configuration import ADMIN_ROLES
+
+    team = projfolder[proj_id].getTeams()[0]
+    for mdata in team_data['members']:
+        print "Importing team member %s" % mdata
+        member = memfolder[mdata['user_id']]
+        mship = team.joinAndApprove(mem=member,
+                                    made_active_date=mdata['timestamp'],
+                                    unlisted=not mdata['listed'])
+        if mdata['role'] == "ProjectAdmin":
+            team.setTeamRolesForMember(mdata['user_id'], ADMIN_ROLES)
 
 if __name__ == '__main__':
     main(app)

@@ -28,7 +28,9 @@ for project in log:
 
     settings = StringIO(zipfile.read("%s/project/settings.ini" % project))
     parsed_settings = RawConfigParser()
-    parsed_settings.read(settings)
+    parsed_settings.readfp(settings)
+
+    team_data = json.loads(zipfile.read("%s/project/team.json" % project))
 
     from opencore.scripts import (create_one_project, 
                                   import_wiki_to_project,
@@ -39,10 +41,11 @@ for project in log:
         continue
 
     project_description = zipfile.read("%s/project/description.txt" % project)
+
     create_one_project.main(
-        app, project,
+        app, project, team_data,
         parsed_settings.get("preferences", 'security_policy'),
-        parsed_settings.get("preferences", 'title'), 
+        parsed_settings.get("info", 'title'), 
         project_description)
     print "Importing lists..."
     import_lists_to_project.main(app, zipfilename, project)

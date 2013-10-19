@@ -191,12 +191,13 @@ class OpenTeam(Team):
         return ret
 
     security.declarePrivate('joinAndApprove')    
-    def joinAndApprove(self):
+    def joinAndApprove(self, mem=None, made_active_date=None, unlisted=False):
         """
-        this makes the currently logged in user
-        a member of this team, forcefully
+        this makes the currently logged in user (or the provided user)
+        a member of this team, forcefully, and optionally backdate the
+        membership
         """
-        mship = self._createMembership()
+        mship = self._createMembership(mem=mem)
         wftool = getToolByName(self, 'portal_workflow')
 
         # XXX hack around workflow transition
@@ -213,8 +214,11 @@ class OpenTeam(Team):
         status['action'] = 'approve_public'
         wftool.setStatusOf(wfid, mship, status)
 
+        if unlisted is True:
+            wftool.doActionFor(mship, "make_private")
+
         # follow up like OpenPlans.Extensions.workflow.mship_activated()
-        mship.made_active_date = DateTime()
+        mship.made_active_date = DateTime(made_active_date)
         mship.reindexObject()
         mship._p_changed = True
 
