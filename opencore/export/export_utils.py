@@ -361,6 +361,7 @@ class ContentExporter(object):
             'logo_created_on': None,
             'logo_modified_on': None,
             'logo_creator': None,
+            'logo_zippath': None,
             }
         logo = project.getLogo()
         if logo is not None:
@@ -368,6 +369,11 @@ class ContentExporter(object):
             logo_info['logo_created_on'] = str(logo.created())
             logo_info['logo_modified_on'] = str(logo.modified())
             logo_info['logo_creator'] = logo.Creator()
+
+            import mimetypes
+            extension = mimetypes.guess_extension(logo.content_type) or ''
+            logo_info['logo_zippath'] = "%s/project/logo%s" % (self.context_dirname, extension)
+
         project_info.update(logo_info)
 
         conf_path = '%s/project/settings.ini' % self.context_dirname
@@ -377,9 +383,7 @@ class ContentExporter(object):
             project_info['description'])
 
         if logo is not None:
-            import mimetypes
-            extension = mimetypes.guess_extension(logo.content_type) or ''
-            logo_filepath = "%s/project/logo%s" % (self.context_dirname, extension)
+            logo_filepath = logo_info['logo_zippath']
             if isinstance(logo.data, basestring):
                 self.zipfile.writestr(logo_filepath, logo.data)
             else:
