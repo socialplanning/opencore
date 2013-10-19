@@ -45,6 +45,8 @@ try:
 except:
     pass
 
+from zipfile import ZipFile
+
 try:
     backup_log = open("%s%s" % (qview.vardir, "log.txt"))
 except:
@@ -100,15 +102,30 @@ for proj_id, proj in app.openplans.projects.objectItems(['OpenProject']):
 
     print "Exporting %s..." % proj_id
     features = ["wikipages", "mailinglists", "wikihistory"]
+    copy_last_wikihistory = False
     if last_backup_time is not None and export_rule == "incremental_wikihistory":
         if proj.modified() < (last_backup_time - 1):
             print "Skipping wiki history (last modified %s, last export %s" % (proj.modified(), last_backup_time)
             features = ["wikipages", "mailinglists"]
+            copy_last_wikihistory = True
 
     status = get_status(proj_id, context_url='/'.join([BASEURL, proj_id]),
                         cookie=cookie, 
                         features=features)
     path = qview.export(proj_id, status)
+
+    if copy_last_wikihistory:
+        new_zipfile = ZipFile(path, 'a')
+        old_zipfile = ZipFile(backup_log[proj_id]['export'], 'r')
+        records = 0
+        for path in old_zipfile.namelist():
+            if not path.startswith("%s/wiki_history/" % proj_id):
+                continue
+            records += 1
+            new_zipfile.writestr(path, old_zipfile.read(path))
+        old_zipfile.close()
+        new_zipfile.close()
+        print "Copied %s wiki history files from last export" % records
 
     backup_log[proj_id] = {"project": proj_id,
                            "export": path,
