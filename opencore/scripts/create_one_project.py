@@ -19,7 +19,12 @@ def main(app, proj_id, team_data, settings, descr, logo=None):
     creator = settings.get("info", "creator")
     
     user = app.openplans.acl_users.getUser(creator)
-    user = user.__of__(app.openplans.acl_users)
+    
+    if user is None:
+        print "*** No such user %s (creator of project %s)"  % (creator, proj_id)
+        user = app.acl_users.getUser("admin") # @@TODO https://github.com/socialplanning/opencore/issues/35
+    else:
+        user = user.__of__(app.openplans.acl_users)
     print "Changing stuff as user", user
     newSecurityManager(None, user)
     app = makerequest(app)
@@ -68,27 +73,55 @@ def main(app, proj_id, team_data, settings, descr, logo=None):
     memfolder = app.openplans.portal_memberdata
 
     from opencore.configuration import ADMIN_ROLES
+    from opencore.member.subscribers import *
 
     team = projobj.getTeams()[0]
     for mdata in team_data['members']:
         print "Importing team member %s" % mdata
-        member = memfolder[mdata['user_id']]
+
         try:
-            mship = team.joinAndApprove(mem=member,
-                                        made_active_date=mdata['timestamp'],
-                                        unlisted=not mdata['listed'])
-        except ValueError, e:
-            if e.args[0] !=  u'You already have a membership on this project.':
-                raise e
-            wftool = app.openplans.portal_workflow
-            mship = team.getMembershipByMemberId(mdata['user_id'])
-            if not mdata['listed']:
-                wftool.doActionFor(mship, "make_private")
-            mship.made_active_date = DateTime(mdata['timestamp'])
-            mship._p_changed = True
+            member = memfolder[mdata['user_id']]
+        except KeyError:
+            print "Could not find user %s" % mdata
+            raise # @@TODO https://github.com/socialplanning/opencore/issues/36
+
+        user = app.openplans.acl_users.getUser(mdata['user_id'])
+        user = user.__of__(app.openplans.acl_users)
+        newSecurityManager(None, user)
+        app = makerequest(app)
+
+        team.join()
+        
+        user = app.openplans.acl_users.getUser(creator)
+        user = user.__of__(app.openplans.acl_users)
+        newSecurityManager(None, user)
+        app = makerequest(app)
+
+        mship = team._getOb(mdata['user_id'])
+        wftool = app.openplans.portal_workflow
+        transition = [t for t in wftool.getTransitionsFor(mship)
+                      if t.get('name') == 'Approve']
+        if len(transition):
+            transition_id = transition[0]['id']
+            wftool.doActionFor(mship, transition_id)
+        else:
+            print "Skipping membership %s" % mship
+
+        if not mdata['listed']:
+            wftool.doActionFor(mship, "make_private")
 
         if mdata['role'] == "ProjectAdmin":
             team.setTeamRolesForMember(mdata['user_id'], ADMIN_ROLES)
+
+        mship.made_active_date = DateTime(mdata['timestamp'])
+        mship._p_changed = True
+
+        reindex_membership_project_ids(mship, None)
+
+    projobj.reindexObjectSecurity()
+    team.reindexObjectSecurity()
+
+
 
 if __name__ == '__main__':
     main(app)
