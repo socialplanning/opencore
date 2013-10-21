@@ -34,6 +34,7 @@ def main(app, zipfile, project):
         print "Creating list %s in project %s" % (list['info']['id'], proj_id)
         request = project.REQUEST
         request.set('title', list['info']['title'])
+        request.set('description', list['description'])
         lists_folder.invokeFactory(OpenMailingList.portal_type, 
                                    list['info']['id'])
         ml = lists_folder[list['info']['id']]
@@ -65,7 +66,11 @@ def main(app, zipfile, project):
             from zope.interface import alsoProvides
             from opencore.listen.interfaces import ISyncWithProjectMembership
             alsoProvides(ml, ISyncWithProjectMembership)
-    
+
+        ml.Schema()['creators'].set(ml, (list['info']['created_by'],))
+        ml.getField("creation_date").set(ml, list['info']['created_on'])
+        ml.getField("modification_date").set(ml, list['info']['modified_on'])
+
         imported_ids.append(ml.getId())
 
     transaction.get().commit(True)
