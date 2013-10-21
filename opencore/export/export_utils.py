@@ -646,6 +646,7 @@ class ContentExporter(object):
                 'title': mlist.Title(),
                 'description': mlist.Description(),
                 'creation_date': str(mlist.created()),
+                'modification_date': str(mlist.modified()),
                 'creator': mlist.Creator(),
                 'sync_with_project': ISyncWithProjectMembership.providedBy(mlist),
                 'context': self.context.getId(),
