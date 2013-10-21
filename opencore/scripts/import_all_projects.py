@@ -69,5 +69,5 @@ for project in log:
 from zope.app.component.hooks import setSite
 setSite(app.openplans)
 cat = app.openplans.portal_catalog
-cat.clearFindAndRebuild()
+#cat.clearFindAndRebuild()
 transaction.commit()
