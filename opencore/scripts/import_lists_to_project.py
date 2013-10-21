@@ -34,7 +34,6 @@ def main(app, zipfile, project):
         print "Creating list %s in project %s" % (list['info']['id'], proj_id)
         request = project.REQUEST
         request.set('title', list['info']['title'])
-        request.set('description', list['description'])
         lists_folder.invokeFactory(OpenMailingList.portal_type, 
                                    list['info']['id'])
         ml = lists_folder[list['info']['id']]
