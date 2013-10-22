@@ -450,8 +450,13 @@ class OpenMember(FolderishMember):
             if email_blacklist and email.lower() in email_blacklist:
                 return self.translate(msg, default=msg)
             mbtool = getToolByName(self, 'membrane_tool')
-            if len(mbtool.unrestrictedSearchResults(getEmail=email)) > 0:
-                return self.translate(msg, default=msg)
+            case_insensitive_matches = mbtool.unrestrictedSearchResults(getEmail=email)
+            if not form.has_key("skip_case_insensitive_email_check"):
+                if len(case_insensitive_matches) > 0:
+                    return self.translate(msg, default=msg)
+            for match in case_insensitive_matches:
+                if match.getEmail == email:
+                    return self.translate(msg, default=msg)
 
     def __bobo_traverse__(self, REQUEST, name):
         """Transparent access to image scales
