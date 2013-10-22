@@ -32,12 +32,15 @@ def getMembersCSV(self, outfile, portrait_dir):
     writer = csv.writer(outfile)
 
     # core properties (username/password)
-    core_properties = ['member_id','password', 'creation_date']
+    core_properties = ['member_id','password', 'creation_date', 'last_login_date']
 
     # extra portal_memberdata properties
     extra_properties = ['fullname',
                         'email',
                         'location',
+                        'statement',
+                        'background',
+
                         'home_page',
                         'description',
                         'statement',
@@ -68,6 +71,8 @@ def getMembersCSV(self, outfile, portrait_dir):
                row.append(member.password)
             elif property == "creation_date":
                 row.append(member.creation_date)
+            elif property == "last_login_date":
+                row.append(member.getLogin_time()
             else:
                row.append(member.getProperty(property))
         portrait_url = ""
