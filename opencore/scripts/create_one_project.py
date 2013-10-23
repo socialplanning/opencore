@@ -18,15 +18,20 @@ def main(app, proj_id, team_data, settings, descr, logo=None):
 
     creator = settings.get("info", "creator")
     
-    user = app.openplans.acl_users.getUser(creator)
+    creator_user = app.openplans.acl_users.getUser(creator)
     
-    if user is None:
+    if creator_user is None:
         print "*** No such user %s (creator of project %s)"  % (creator, proj_id)
-        user = app.acl_users.getUser("admin") # @@TODO https://github.com/socialplanning/opencore/issues/35
-    else:
-        user = user.__of__(app.openplans.acl_users)
-    print "Changing stuff as user", user
-    newSecurityManager(None, user)
+
+        for mdata in team_data['members']:
+            if mdata['role'] == "ProjectAdmin":
+                creator_user = app.openplans.acl_users.getUser(mdata['user_id'])
+                assert creator_user is not None, mdata
+                break
+
+    creator_user = creator_user.__of__(app.openplans.acl_users)
+    print "Changing stuff as user", creator_user
+    newSecurityManager(None, creator_user)
     app = makerequest(app)
     projfolder = app.openplans.projects
 
@@ -92,9 +97,7 @@ def main(app, proj_id, team_data, settings, descr, logo=None):
 
         team.join()
         
-        user = app.openplans.acl_users.getUser(creator)
-        user = user.__of__(app.openplans.acl_users)
-        newSecurityManager(None, user)
+        newSecurityManager(None, creator_user)
         app = makerequest(app)
 
         mship = team._getOb(mdata['user_id'])
@@ -117,6 +120,9 @@ def main(app, proj_id, team_data, settings, descr, logo=None):
         mship._p_changed = True
 
         reindex_membership_project_ids(mship, None)
+
+    projobj.Schema()['creators'].set(projobj, (metadata['creator'],))
+    projobj.creators = (creator,)
 
     projobj.reindexObjectSecurity()
     team.reindexObjectSecurity()
