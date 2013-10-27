@@ -39,10 +39,12 @@ class ImportUsers(BaseView):
                                       "fullname": member['fullname'],
                                       "confirm_password": "changeme",
                                       "skip_case_insensitive_username_check": 1,
-                                      "skip_case_insensitive_email_check": 1,
+                                      "skip_email_check": 1,
                                       })
             mem_obj = joinview._create_member(confirmed=True) # This doesn't confirm the user; it just suppresses email notification.
             if isinstance(mem_obj, dict):
+                if mem_obj == {'id': u'The login name you selected is already in use. Please choose another.'}:
+                    continue
                 print mem_obj
                 continue
             if member['is_confirmed'] == "confirmed":
@@ -55,7 +57,8 @@ class ImportUsers(BaseView):
                                                   DateTime(member['creation_date']))
             
             
-            mem_obj.setLogin_time(DateTime(member['last_login_date']))
+            if 'last_login_date' in member:
+                mem_obj.setLogin_time(DateTime(member['last_login_date']))
 
             for field in "location home_page description statement skills affiliations website background favorites".split():
                 mem_obj.getField(field).set(mem_obj, member[field])
