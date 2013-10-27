@@ -139,6 +139,29 @@ def main(app, proj_id, team_data, settings, descr, logo=None):
                     entry['time'] = timestamp
         print "New", history
 
+    for mdata in team_data['join_requests']:
+        
+        user = app.openplans.acl_users.getUser(mdata['user_id'])
+        user = user.__of__(app.openplans.acl_users)
+        newSecurityManager(None, user)
+        app = makerequest(app)
+
+        team.join()
+        
+        newSecurityManager(None, creator_user)
+        app = makerequest(app)
+
+        mship = team._getOb(mdata['user_id'])
+        timestamp = DateTime(mdata['timestamp'])
+        history = mship.workflow_history
+        print "Old", history
+        for key in history:
+            for entry in history[key]:
+                if 'time' in entry:
+                    entry['time'] = timestamp
+        print "New", history
+
+
     creator = settings.get("info", "creator")
     projobj.Schema()['creators'].set(projobj, (creator,))
     projobj.creators = (creator,)
