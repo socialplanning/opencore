@@ -70,4 +70,6 @@ from zope.app.component.hooks import setSite
 setSite(app.openplans)
 cat = app.openplans.portal_catalog
 #cat.clearFindAndRebuild()
-transaction.commit()
+#transaction.commit()
+#app.openplans.membrane_tool.clearFindAndRebuild()
+#transaction.commit()
