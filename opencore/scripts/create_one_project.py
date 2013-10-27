@@ -12,6 +12,8 @@ import sys
 import time
 import transaction
 from DateTime import DateTime
+from opencore.interfaces.membership import IEmailInvites
+from zope.component import getUtility
 
 featurelets = ["listen"]
 def main(app, proj_id, team_data, settings, descr, logo=None):
@@ -161,6 +163,10 @@ def main(app, proj_id, team_data, settings, descr, logo=None):
                     entry['time'] = timestamp
         print "New", history
 
+    util = getUtility(IEmailInvites)
+    for mdata in team_data['email_invites']:
+        print util.addInvitation(mdata['email'], projobj.getId(), 
+                                 timestamp=DateTime(mdata['timestamp']))
 
     creator = settings.get("info", "creator")
     projobj.Schema()['creators'].set(projobj, (creator,))

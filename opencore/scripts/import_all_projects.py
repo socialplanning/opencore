@@ -52,12 +52,12 @@ for project in log:
         logo=logo
         )
     print "Importing lists..."
-    import_lists_to_project.main(app, zipfilename, project)
+    #import_lists_to_project.main(app, zipfilename, project)
     
     print "Importing wiki..."
     
     from DateTime import DateTime
-    import_wiki_to_project.main(app, zipfilename, project)
+    #import_wiki_to_project.main(app, zipfilename, project)
     
     projobj = app.openplans.projects[project]
     projobj.getField("modification_date").set(

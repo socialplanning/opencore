@@ -41,8 +41,8 @@ class EmailInvites(SimpleItem):
             return by_proj  
         return OOBTree()
 
-    def addInvitation(self, address, proj_id):
-        now = DateTime.now()
+    def addInvitation(self, address, proj_id, timestamp=None):
+        now = timestamp or DateTime.now()
         invitekeymap = self.getInvitesByEmailAddress(address)
         if proj_id not in invitekeymap:
             invitekeymap[proj_id] = now
