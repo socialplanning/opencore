@@ -127,6 +127,18 @@ def main(app, proj_id, team_data, settings, descr, logo=None):
 
         reindex_membership_project_ids(mship, None)
 
+    for mdata in team_data['member_invites']:
+        team.addMember(mdata['user_id'])
+        mship = team._getOb(mdata['user_id'])
+        timestamp = DateTime(mdata['timestamp'])
+        history = mship.workflow_history
+        print "Old", history
+        for key in history:
+            for entry in history[key]:
+                if 'time' in entry:
+                    entry['time'] = timestamp
+        print "New", history
+
     creator = settings.get("info", "creator")
     projobj.Schema()['creators'].set(projobj, (creator,))
     projobj.creators = (creator,)
