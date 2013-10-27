@@ -53,6 +53,10 @@ class ImportUsers(BaseView):
             
             mem_obj.getField("creation_date").set(mem_obj, 
                                                   DateTime(member['creation_date']))
+            
+            
+            mem_obj.setLogin_time(DateTime(member['last_login_date']))
+
             for field in "location home_page description statement skills affiliations website background favorites".split():
                 mem_obj.getField(field).set(mem_obj, member[field])
 
