@@ -26,6 +26,10 @@ from zope.app.component.hooks import setSite
 from zope.component import getAdapter
 from zope.component import getAdapters
 from zope.component import getUtility
+
+from zope.app.annotation.interfaces import IAnnotations 
+from opencore.member.interfaces import IHandleMemberWorkflow
+
 import StringIO
 import datetime
 import logging
@@ -412,6 +416,19 @@ class ContentExporter(object):
             {'email': mship['address'],
              'timestamp': str(mship['timestamp']),
              } for mship in view.pending_email_invites]
+
+        team_data['unconfirmed_join_requests'] = []
+        mems = app.openplans.portal_memberdata
+        for mem in mems.keys():
+            mreqs = IAnnotations(mems[mem]).get(
+                "opencore.member.pending_requests", {})
+            if self.context.getId() in mreqs:
+                team_data['unconfirmed_join_requests'].append({
+                        'user_id': mem, 'message': mreqs[self.context.getId()]})
+
+            from pprint import pprint
+            pprint(team_data)
+
         self.zipfile.writestr('%s/project/team.json' % self.context_dirname,
                               json.dumps(team_data, indent=2))
 

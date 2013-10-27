@@ -26,7 +26,7 @@ def main(app, proj_id, team_data, settings, descr, logo=None):
     if creator_user is None:
         print "*** No such user %s (creator of project %s)"  % (creator, proj_id)
 
-        for mdata in team_data['members']:
+        for mdata in team_data.get('members', []):
             if mdata['role'] == "ProjectAdmin":
                 creator_user = app.openplans.acl_users.getUser(mdata['user_id'])
                 assert creator_user is not None, mdata
@@ -89,7 +89,7 @@ def main(app, proj_id, team_data, settings, descr, logo=None):
     from opencore.member.subscribers import *
 
     team = projobj.getTeams()[0]
-    for mdata in team_data['members']:
+    for mdata in team_data.get('members', []):
         print "Importing team member %s" % mdata
 
         try:
@@ -129,7 +129,7 @@ def main(app, proj_id, team_data, settings, descr, logo=None):
 
         reindex_membership_project_ids(mship, None)
 
-    for mdata in team_data['member_invites']:
+    for mdata in team_data.get('member_invites', []):
         team.addMember(mdata['user_id'])
         mship = team._getOb(mdata['user_id'])
         timestamp = DateTime(mdata['timestamp'])
@@ -141,7 +141,7 @@ def main(app, proj_id, team_data, settings, descr, logo=None):
                     entry['time'] = timestamp
         print "New", history
 
-    for mdata in team_data['join_requests']:
+    for mdata in team_data.get('join_requests', []):
         
         user = app.openplans.acl_users.getUser(mdata['user_id'])
         user = user.__of__(app.openplans.acl_users)
@@ -164,9 +164,20 @@ def main(app, proj_id, team_data, settings, descr, logo=None):
         print "New", history
 
     util = getUtility(IEmailInvites)
-    for mdata in team_data['email_invites']:
-        print util.addInvitation(mdata['email'], projobj.getId(), 
-                                 timestamp=DateTime(mdata['timestamp']))
+    for mdata in team_data.get('email_invites', []):
+        print mdata, util.addInvitation(mdata['email'], projobj.getId(), 
+                                        timestamp=DateTime(mdata['timestamp']))
+
+    from opencore.interfaces.pending_requests import IPendingRequests    
+    from zope.component import getMultiAdapter
+    from opencore.member.interfaces import IHandleMemberWorkflow
+
+    for mdata in team_data.get('unconfirmed_join_requests', []):
+        mem = app.openplans.portal_memberdata[mdata['user_id']]
+        assert mem is not None, mdata
+        assert IHandleMemberWorkflow(mem).is_unconfirmed(), mem
+        util = getMultiAdapter((mem, app.openplans.projects), IPendingRequests)
+        util.addRequest(projobj.getId(), request_message=mdata['message'])
 
     creator = settings.get("info", "creator")
     projobj.Schema()['creators'].set(projobj, (creator,))
