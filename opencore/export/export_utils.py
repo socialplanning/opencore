@@ -418,7 +418,7 @@ class ContentExporter(object):
              } for mship in view.pending_email_invites]
 
         team_data['unconfirmed_join_requests'] = []
-        mems = app.openplans.portal_memberdata
+        mems = self.context.portal_memberdata
         for mem in mems.keys():
             mreqs = IAnnotations(mems[mem]).get(
                 "opencore.member.pending_requests", {})
@@ -426,8 +426,8 @@ class ContentExporter(object):
                 team_data['unconfirmed_join_requests'].append({
                         'user_id': mem, 'message': mreqs[self.context.getId()]})
 
-            from pprint import pprint
-            pprint(team_data)
+        from pprint import pprint
+        pprint(team_data)
 
         self.zipfile.writestr('%s/project/team.json' % self.context_dirname,
                               json.dumps(team_data, indent=2))
