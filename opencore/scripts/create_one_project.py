@@ -20,6 +20,7 @@ def main(app, proj_id, team_data, settings, descr, logo=None):
     
     creator_user = app.openplans.acl_users.getUser(creator)
     
+    remove_traces_of_admin = False
     if creator_user is None:
         print "*** No such user %s (creator of project %s)"  % (creator, proj_id)
 
@@ -28,8 +29,13 @@ def main(app, proj_id, team_data, settings, descr, logo=None):
                 creator_user = app.openplans.acl_users.getUser(mdata['user_id'])
                 assert creator_user is not None, mdata
                 break
-
-    creator_user = creator_user.__of__(app.openplans.acl_users)
+    if creator_user is None:
+        print "****** No suitable admin users found, using site admin"
+        remove_traces_of_admin = True
+        creator_user = app.acl_users.getUser("admin")
+        creator_user = creator_user.__of__(app.acl_users)
+    else:
+        creator_user = creator_user.__of__(app.openplans.acl_users)
     print "Changing stuff as user", creator_user
     newSecurityManager(None, creator_user)
     app = makerequest(app)
@@ -121,8 +127,13 @@ def main(app, proj_id, team_data, settings, descr, logo=None):
 
         reindex_membership_project_ids(mship, None)
 
-    projobj.Schema()['creators'].set(projobj, (metadata['creator'],))
+    creator = settings.get("info", "creator")
+    projobj.Schema()['creators'].set(projobj, (creator,))
     projobj.creators = (creator,)
+
+    if remove_traces_of_admin:
+        mship = team._getOb("admin")
+        team.manage_delObjects(ids=["admin"])
 
     projobj.reindexObjectSecurity()
     team.reindexObjectSecurity()

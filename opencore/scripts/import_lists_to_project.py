@@ -66,7 +66,7 @@ def main(app, zipfile, project):
             from opencore.listen.interfaces import ISyncWithProjectMembership
             alsoProvides(ml, ISyncWithProjectMembership)
 
-        ml.creators = (list['info']['created_by'],))
+        ml.creators = (list['info']['created_by'], )
         ml.getField("creation_date").set(ml, list['info']['created_on'])
         ml.getField("modification_date").set(ml, list['info']['modified_on'])
 
