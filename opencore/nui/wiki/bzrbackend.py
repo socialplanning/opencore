@@ -40,17 +40,17 @@ def get_repo_dir(project, basedir=None):
 class WikiConverter(object):
 
     def __init__(self, project, 
-                 tmpdbdir, repodir, checkoutdir):
+                 tmpdbdir, repodir, checkoutdir, namespace="projects"):
         self.project = project
         projid = project.getId()
 
         self.tmpdb = os.path.join(tmpdbdir, projid)
         self.repodir = os.path.join(
-            repodir, "projects", projid, "main-site")
+            repodir, namespace, projid, "main-site")
         self.repotrunk = os.path.join(
             self.repodir, "trunk")
         self.checkoutdir = os.path.join(
-            checkoutdir, "projects", projid, "main-site")
+            checkoutdir, namespace, projid, "main-site")
 
         self.session = None
         self.db = None
