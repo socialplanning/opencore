@@ -4,9 +4,9 @@ app = setup(app)
 
 mem = sys.argv[-1]
 
-def export_one_member(mem):
+mfolder = app.openplans.people[mem]
 
-    mfolder = app.openplans.people[mem]
+def export_one_member(folder, namespace, archive_prefix):
 
     import tempfile, os, shutil
 
@@ -16,7 +16,7 @@ def export_one_member(mem):
     checkoutdir = os.path.join(tempdir, "bzr_checkouts")
     
     from opencore.nui.wiki import bzrbackend
-    converter = bzrbackend.WikiConverter(mfolder, tmpdbdir, repodir, checkoutdir, namespace="people")
+    converter = bzrbackend.WikiConverter(folder, tmpdbdir, repodir, checkoutdir, namespace=namespace)
 
     clonedir, filename_map = converter.convert()
     root_len = len(os.path.abspath(clonedir))
@@ -29,7 +29,7 @@ def export_one_member(mem):
     
     for root, dirs, files in os.walk(clonedir):
         relative_root = os.path.abspath(root)[root_len:].strip(os.sep)
-        archive_root = os.path.join('people', mem,
+        archive_root = os.path.join(archive_prefix,
                                     'wiki_history',
                                     relative_root)
         for f in files:
@@ -39,3 +39,7 @@ def export_one_member(mem):
             
     zfile.close()
     print tmpname
+
+#export_one_member(mfolder, "people", "people/%s" % mem)
+import pdb; pdb.set_trace()
+export_one_member(app.openplans.news, "news", "news")
