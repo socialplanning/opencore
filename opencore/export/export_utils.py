@@ -1,5 +1,5 @@
 from App import config
-rom Products.CMFCore.utils import getToolByName
+from Products.CMFCore.utils import getToolByName
 from Products.listen.interfaces import IMailingListMessageExport
 from Products.listen.interfaces import IMailingListSubscriberExport
 from Products.listen.interfaces import IMembershipList
