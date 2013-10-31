@@ -45,7 +45,7 @@ def main(app, proj_id, team_data, settings, descr, logo=None):
 
 
     projfolder.REQUEST.form.update({
-        'featurelets': featurelets,
+        'featurelets': [i.strip() for i in settings.get("preferences", "tools").split(",")],
         'workflow_policy': settings.get("preferences", "security_policy"),
         'description': descr,
         'set_flets': 1, # sacrifice a chicken to tell opencore not to ignore our featurelet creation request
@@ -75,6 +75,9 @@ def main(app, proj_id, team_data, settings, descr, logo=None):
         projobj.setLogo(logo)
         logo = projobj.getLogo()
         logo.filename = settings.get("logo", "filename")
+
+    from opencore.interfaces import IHomePage
+    IHomePage(self.context).home_page = settings.get("preferences", "homepage")
 
     projobj.setLocation(settings.get("info", "location"))
     projobj.getField("creation_date").set(projobj, DateTime(settings.get("info", "created_on")))
