@@ -65,7 +65,7 @@ def main(app, zipfile, project):
         i += 1
         fs_path = revision['href']
 
-        path = wiki_filename_map.get(fs_path) or fs_path
+        path = wiki_filename_map[fs_path]['filename']
 
         timestamp = revision['fields']['timestamp']
         mod_date = DateTime(timestamp)
@@ -79,7 +79,7 @@ def main(app, zipfile, project):
         try:
             page_ctx = project[path]
         except KeyError:
-            title = path.replace("-", " ").title()
+            title = wiki_filename_map[fs_path]['title']
             project.invokeFactory("Document", id=path, title=title)
             page_ctx = project[path]
         PAGES.add(path)

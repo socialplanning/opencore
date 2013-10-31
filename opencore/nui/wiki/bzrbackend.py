@@ -205,7 +205,8 @@ class WikiConverter(object):
                            author=author,
                            committer=self.committer,
                            timestamp=timestamp)
-                filename_map[pageId] = pageId
+                filename_map[pageId] = {"id": pageId, "filename": pageId,
+                                        "title": page.Title()}
             except IOError, e:
                 if e.errno == 36:
                     import md5
@@ -215,7 +216,10 @@ class WikiConverter(object):
                                author=author,
                                committer=self.committer,
                                timestamp=timestamp)
-                    filename_map[pageId] = hashedId
+                    filename_map[pageId] = {"id": pageId, "filename": hashedId,
+                                            "title": page.Title()}
+                else:
+                    raise
         return filename_map
 
 
