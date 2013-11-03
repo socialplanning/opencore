@@ -77,7 +77,7 @@ def main(app, proj_id, team_data, settings, descr, logo=None):
         logo.filename = settings.get("logo", "filename")
 
     from opencore.interfaces import IHomePage
-    IHomePage(self.context).home_page = settings.get("preferences", "homepage")
+    IHomePage(projobj).home_page = settings.get("preferences", "homepage")
 
     projobj.setLocation(settings.get("info", "location"))
     projobj.getField("creation_date").set(projobj, DateTime(settings.get("info", "created_on")))
