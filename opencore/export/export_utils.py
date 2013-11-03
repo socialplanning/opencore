@@ -652,6 +652,126 @@ class ContentExporter(object):
             csv_path = '%s/lists/%s/subscribers.csv' % (self.context_dirname, mlistid)
             self.zipfile.writestr(csv_path, file_data)
 
+            # And the pending subscriptions, unsubscriptions, and posts.
+            from zope.annotation import IAnnotations
+            import simplejson as json
+            annot = IAnnotations(mlist).get('listen', {})
+
+            this_annot = annot.get("a_s_pending_sub_email", {})
+            this_annot_json = {}
+            for mem_email in this_annot:
+                this_annot_json[mem_email] = {
+                    "pin": this_annot[mem_email].get("pin"),
+                    "time": this_annot[mem_email].get("time"),
+                    "subscriber": this_annot[mem_email].get("subscriber"),
+                    "user_name": this_annot[mem_email].get("user_name"),
+                    }
+            self.zipfile.writestr(
+                '%s/lists/%s/a_s_pending_sub_email.json' % (self.context_dirname, mlistid),
+                json.dumps(this_annot_json))
+
+            this_annot = annot.get("pending_sub_email", {})
+            this_annot_json = {}
+            for mem_email in this_annot:
+                this_annot_json[mem_email] = {
+                    "pin": this_annot[mem_email].get("pin"),
+                    "time": this_annot[mem_email].get("time"),
+                    "subscriber": this_annot[mem_email].get("subscriber"),
+                    "user_name": this_annot[mem_email].get("user_name"),
+                    }
+            self.zipfile.writestr(
+                '%s/lists/%s/pending_sub_email.json' % (self.context_dirname, mlistid),
+                json.dumps(this_annot_json))
+
+            this_annot = annot.get("pending_sub_mod_email", {})
+            this_annot_json = {}
+            for mem_email in this_annot:
+                this_annot_json[mem_email] = {
+                    "pin": this_annot[mem_email].get("pin"),
+                    "time": this_annot[mem_email].get("time"),
+                    "subscriber": this_annot[mem_email].get("subscriber"),
+                    "user_name": this_annot[mem_email].get("user_name"),
+                    }
+            self.zipfile.writestr(
+                '%s/lists/%s/pending_sub_mod_email.json' % (self.context_dirname, mlistid),
+                json.dumps(this_annot_json))
+
+            this_annot = annot.get("pending_unsub_email", {})
+            this_annot_json = {}
+            for mem_email in this_annot:
+                this_annot_json[mem_email] = {
+                    "pin": this_annot[mem_email].get("pin"),
+                    "time": this_annot[mem_email].get("time"),
+                    "subscriber": this_annot[mem_email].get("subscriber"),
+                    "user_name": this_annot[mem_email].get("user_name"),
+                    }
+            self.zipfile.writestr(
+                '%s/lists/%s/pending_unsub_email.json' % (self.context_dirname, mlistid),
+                json.dumps(this_annot_json))
+                        
+            this_annot = annot.get("pending_mod_post", {})
+            this_annot_json = {}
+            for mem_email in this_annot:
+                this_annot_json[mem_email] = {
+                    "pin": this_annot[mem_email].get("pin"),
+                    "time": this_annot[mem_email].get("time"),
+                    "subscriber": this_annot[mem_email].get("subscriber"),
+                    "user_name": this_annot[mem_email].get("user_name"),
+                    "post": {},
+                    }
+                posts = this_annot[mem_email].get("post")
+                for post_id in posts:
+                    body = posts[post_id]['body']
+                    header = posts[post_id]['header']
+                    try:
+                        body = body.decode("utf8")
+                    except UnicodeDecodeError:
+                        try:
+                            body = body.decode("ISO-8859-1")
+                        except UnicodeDecodeError:
+                            body = body.decode("ascii")
+                            
+                    this_annot_json[mem_email]['post'][post_id] = {
+                        'header': header,
+                        'body': body,
+                        'postid': posts[post_id]['postid'],
+                        }
+            self.zipfile.writestr(
+                '%s/lists/%s/pending_mod_post.json' % (self.context_dirname, mlistid),
+                json.dumps(this_annot_json))
+                        
+
+            this_annot = annot.get("pending_pmod_post", {})
+            this_annot_json = {}
+            for mem_email in this_annot:
+                this_annot_json[mem_email] = {
+                    "pin": this_annot[mem_email].get("pin"),
+                    "time": this_annot[mem_email].get("time"),
+                    "subscriber": this_annot[mem_email].get("subscriber"),
+                    "user_name": this_annot[mem_email].get("user_name"),
+                    "post": {},
+                    }
+                posts = this_annot[mem_email].get("post")
+                for post_id in posts:
+                    body = posts[post_id]['body']
+                    header = posts[post_id]['header']
+                    try:
+                        body = body.decode("utf8")
+                    except UnicodeDecodeError:
+                        try:
+                            body = body.decode("ISO-8859-1")
+                        except UnicodeDecodeError:
+                            body = body.decode("ascii")
+                            
+                    this_annot_json[mem_email]['post'][post_id] = {
+                        'header': header,
+                        'body': body,
+                        'postid': posts[post_id]['postid'],
+                        }
+            self.zipfile.writestr(
+                '%s/lists/%s/pending_pmod_post.json' % (self.context_dirname, mlistid),
+                json.dumps(this_annot_json))
+                        
             # Now the metadata and preferences.
             logger.info("exporting settings.ini for %s" % mlistid)
             list_info = {
