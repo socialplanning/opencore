@@ -33,11 +33,18 @@ def main(app, proj_id, team_data, settings, descr, logo=None):
                 break
     if creator_user is None:
         print "****** No suitable admin users found, using site admin"
-        remove_traces_of_admin = True
         creator_user = app.acl_users.getUser("admin")
         creator_user = creator_user.__of__(app.acl_users)
     else:
         creator_user = creator_user.__of__(app.openplans.acl_users)
+    # https://github.com/socialplanning/opencore/issues/45
+    for mdata in team_data.get('members', []):
+        if mdata['user_id'] == creator_user.getId():
+            break
+    else:
+        print "Creator user %s is not a project member" % creator_user
+        remove_traces_of_admin = True
+
     print "Changing stuff as user", creator_user
     newSecurityManager(None, creator_user)
     app = makerequest(app)
@@ -187,8 +194,8 @@ def main(app, proj_id, team_data, settings, descr, logo=None):
     projobj.creators = (creator,)
 
     if remove_traces_of_admin:
-        mship = team._getOb("admin")
-        team.manage_delObjects(ids=["admin"])
+        mship = team._getOb(creator_user.getId())
+        team.manage_delObjects(ids=[creator_user.getId()])
 
     projobj.reindexObjectSecurity()
     team.reindexObjectSecurity()
