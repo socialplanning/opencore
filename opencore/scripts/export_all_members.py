@@ -72,7 +72,7 @@ def getMembersCSV(self, outfile, portrait_dir):
             elif property == "creation_date":
                 row.append(member.creation_date)
             elif property == "last_login_date":
-                row.append(member.getLogin_time()
+                row.append(member.getLogin_time())
             else:
                row.append(member.getProperty(property))
         portrait_url = ""
