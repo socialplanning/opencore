@@ -26,6 +26,7 @@ import time
 from opencore.member.workflow import MemberWorkflowHandler
 import os
 import mimetypes
+from opencore.scripts.export_member_wikis import export_one_member as export_member_wiki
 
 def getMembersCSV(self, outfile, portrait_dir):
 
@@ -53,6 +54,8 @@ def getMembersCSV(self, outfile, portrait_dir):
     also =             ['portrait',
                         'site_role',
                         'is_confirmed',
+
+                        'export_zipfile',
                         ]
 
     properties = core_properties + extra_properties + also
@@ -73,6 +76,9 @@ def getMembersCSV(self, outfile, portrait_dir):
                 row.append(member.creation_date)
             elif property == "last_login_date":
                 row.append(member.getLogin_time())
+            elif property == "export_zipfile":
+                row.append(export_member_wiki(app.openplans.people[memberId], "people",
+                                              "people/%s" % memberId))
             else:
                row.append(member.getProperty(property))
         portrait_url = ""

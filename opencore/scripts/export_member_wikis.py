@@ -1,14 +1,23 @@
 from opencore.utils import setup
 
-app = setup(app)
+#app = setup(app)
 
-mem = sys.argv[-1]
+#mem = sys.argv[-1]
 
-mfolder = app.openplans.people[mem]
+#mfolder = app.openplans.people[mem]
+
+vardir = "/opt/backup.openfsm.net/var/backup/member_exports/"
+
+from opencore.interfaces.message import ITransientMessage
+import simplejson as json
 
 def export_one_member(folder, namespace, archive_prefix):
 
     import tempfile, os, shutil
+
+    outdir = os.path.join(vardir, folder.getId())
+    if not os.path.exists(outdir):
+        os.makedirs(outdir)
 
     tempdir = tempfile.mkdtemp()
     tmpdbdir = os.path.join(tempdir, "tmpdbs")
@@ -23,7 +32,7 @@ def export_one_member(folder, namespace, archive_prefix):
     
     import zipfile
     TEMP_PREFIX='temp_member_export'
-    tmpfd, tmpname = tempfile.mkstemp(suffix='.zip', prefix=TEMP_PREFIX)
+    tmpfd, tmpname = tempfile.mkstemp(suffix='.zip', prefix=TEMP_PREFIX, dir=outdir)
     tmp = os.fdopen(tmpfd, 'w')   # Dunno why mkstemp returns a file descr.
     zfile = zipfile.ZipFile(tmp, 'w')
     
@@ -36,10 +45,15 @@ def export_one_member(folder, namespace, archive_prefix):
             fullpath = os.path.join(root, f)
             archive_name = os.path.join(archive_root, f)
             zfile.write(fullpath, archive_name)
-            
+
+    if namespace == "people":
+        zfile.writestr(os.path.join(archive_prefix, 'notifications.json'),
+                       json.dumps(
+                ITransientMessage(folder.openplans).get_all_msgs(folder.getId())))
+        
     zfile.close()
-    print tmpname
+    return tmpname
 
 #export_one_member(mfolder, "people", "people/%s" % mem)
-import pdb; pdb.set_trace()
-export_one_member(app.openplans.news, "news", "news")
+#import pdb; pdb.set_trace()
+#export_one_member(app.openplans.news, "news", "news")
