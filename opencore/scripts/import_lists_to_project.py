@@ -85,12 +85,20 @@ def main(app, zipfile, project):
             moderation_bucket.trust_caller = True
             
             for mem_email in data:
-                moderation_info = data['mem_email']
+                moderation_info = data[mem_email]
                 cleaned_moderation_info = {}
                 for mkey in moderation_info:
                     if moderation_info[mkey] is not None:
-                        cleaned_moderation_info[mkey] = moderation_info[mkey]
+                        cleaned_moderation_info[str(mkey)] = moderation_info[mkey]
+                posts = None
+                if 'post' in cleaned_moderation_info:
+                    posts = cleaned_moderation_info.pop("post").values() # @@TODO
                 moderation_bucket.add(mem_email, **cleaned_moderation_info)
+                while posts:
+                    add_post = posts[0]
+                    posts = posts[1:]
+                    cleaned_moderation_info['post'] = add_post
+                    moderation_bucket.add(mem_email, **cleaned_moderation_info)
 
         imported_ids.append(ml.getId())
 
