@@ -657,6 +657,19 @@ class ContentExporter(object):
             import simplejson as json
             annot = IAnnotations(mlist).get('listen', {})
 
+            this_annot = annot.get("pending_a_s_mod_email", {})
+            this_annot_json = {}
+            for mem_email in this_annot:
+                this_annot_json[mem_email] = {
+                    "pin": this_annot[mem_email].get("pin"),
+                    "time": this_annot[mem_email].get("time"),
+                    "subscriber": this_annot[mem_email].get("subscriber"),
+                    "user_name": this_annot[mem_email].get("user_name"),
+                    }
+            self.zipfile.writestr(
+                '%s/lists/%s/pending_a_s_mod_email.json' % (self.context_dirname, mlistid),
+                json.dumps(this_annot_json))
+
             this_annot = annot.get("a_s_pending_sub_email", {})
             this_annot_json = {}
             for mem_email in this_annot:
