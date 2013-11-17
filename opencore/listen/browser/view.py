@@ -432,13 +432,14 @@ class ModerationView(BaseModerationView):
         method = self.request.environ['REQUEST_METHOD']
         if method == "GET":
 
-            if "view-post" in self.request.form and 'queue' in self.request.form:
+            if "view-post" in self.request.form and 'queue' in self.request.form and 'sender' in self.request.form:
                 queue = self.request.form['queue']
                 postid = int(self.request.form['view-post'])
+                sender = self.request.form['sender']
                 posts = self.get_pending_lists()
                 this_post = None
                 for post in posts:
-                    if post['postid'] == postid and post['queue_name'] == queue:
+                    if post['postid'] == postid and post['queue_name'] == queue and post['email_hash'] == sender:
                         this_post = post
                         break
                 return self.view_pending_post(this_post)

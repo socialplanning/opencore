@@ -27,7 +27,7 @@
                   <td style="width: 25%;" tal:content="post/user_name" /> 
                   <td style="width: 49%;">
                     <dl class="oc-plainList">
-                      <dt><a tal:attributes="href string:${request/getURL}?view-post=${post/postid}&queue=${post/queue_name}" tal:content="post/subject"></a></dt>
+                      <dt><a tal:attributes="href string:${request/getURL}?view-post=${post/postid}&queue=${post/queue_name}&sender=${post/email_hash}" tal:content="post/subject"></a></dt>
                       <dd tal:content="python: post['body'][:50]" />
                     </dl>
                   </td>
