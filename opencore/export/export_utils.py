@@ -757,11 +757,16 @@ class ContentExporter(object):
             this_annot = annot.get("pending_pmod_post", {})
             this_annot_json = {}
             for mem_email in this_annot:
+                try:
+                    user_name = this_annot[mem_email].get("user_name").decode("utf8").encode("utf8")
+                except UnicodeDecodeError:
+                    user_name = this_annot[mem_email].get("user_name").decode("ISO-8859-1").encode("utf8")
+
                 this_annot_json[mem_email] = {
                     "pin": this_annot[mem_email].get("pin"),
                     "time": this_annot[mem_email].get("time"),
                     "subscriber": this_annot[mem_email].get("subscriber"),
-                    "user_name": this_annot[mem_email].get("user_name"),
+                    "user_name": user_name,
                     "post": {},
                     }
                 posts = this_annot[mem_email].get("post")
@@ -769,18 +774,19 @@ class ContentExporter(object):
                     body = posts[post_id]['body']
                     header = posts[post_id]['header']
                     try:
-                        body = body.decode("utf8")
+                        body = body.decode("utf8").encode("utf8")
                     except UnicodeDecodeError:
                         try:
-                            body = body.decode("ISO-8859-1")
+                            body = body.decode("ISO-8859-1").encode("utf8")
                         except UnicodeDecodeError:
-                            body = body.decode("ascii")
+                            body = body.decode("ascii").encode("utf8")
                             
                     this_annot_json[mem_email]['post'][post_id] = {
                         'header': header,
                         'body': body,
                         'postid': posts[post_id]['postid'],
                         }
+
             self.zipfile.writestr(
                 '%s/lists/%s/pending_pmod_post.json' % (self.context_dirname, mlistid),
                 json.dumps(this_annot_json))

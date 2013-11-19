@@ -67,7 +67,7 @@ if True:
     print "Exporting %s..." % proj_id
     status = get_status(proj_id, context_url='/'.join([BASEURL, proj_id]),
                         cookie=cookie, 
-                        features=["mailinglists"])  #None]) #"wikipages", "mailinglists", "wikihistory"])
+                        features=["wikipages", "mailinglists", "wikihistory"])
     path = qview.export(proj_id, status)
     
     print "Exported %s" % path

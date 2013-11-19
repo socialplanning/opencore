@@ -135,6 +135,9 @@ for proj_id, proj in app.openplans.projects.objectItems(['OpenProject']):
     print "Exported %s" % path
     print "=" * 60
 
+    import gc
+    gc.collect()
+
 fp = open("%s%s" % (qview.vardir, "test_log.txt"), 'w')
 log = [i for i in backup_log.values()]
 log = "\n".join([json.dumps(i) for i in log])
