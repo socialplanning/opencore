@@ -1,0 +1,36 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en" i18n:domain="opencore"
+      metal:use-macro="here/@@standard_macros/master" tal:define="ml view/getMailingList">
+  <body>
+    <div metal:fill-slot="content">
+      <script type="text/javascript" src="/++resource++obfuscation.js"></script>
+      <div metal:use-macro="here/@@listen_macros/bcrumb"/>
+      <div metal:use-macro="here/@@listen_macros/tabs"/>
+      <div id="oc-content-main" tal:define="message view/actively_viewed_pending_post;">
+	
+	<div tal:condition="not:message">
+	  The specified message does not exist.
+	</div>
+	<div tal:condition="message">
+	  <h3>Metadata</h3>
+	  <dl>
+	    <tal:for repeat="header message/raw_headers/items">
+	      <dt tal:content="python:header[0]"></dt>
+	      <dd tal:content="python:header[1]"></dd>
+	    </tal:for>
+	  </dl>
+	  <h3>Body</h3>
+	  <pre tal:content="python:message['body'][:2000] + '... (message truncated for preview)'"></pre>
+        </div>
+      </div><!-- content-main -->
+      <div id="oc-content-sidebar">
+        <div class="oc-boxy">
+          <a id="to_threaded" href="." tal:attributes="href request/getURL">
+	    Return to moderation queue</a>
+        </div>
+        <!-- A form for changing the thread layout, uses post and lets the view set a cookie -->
+        <form id="forum-control-form" class="oc-boxy" name="forum-controls" method="post" action="">
+        </form>
+      </div><!-- content-sidebar -->
+    </div><!-- content-container -->
+  </body>
+</html>
