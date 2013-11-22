@@ -59,9 +59,19 @@ if export_rule == "skip_existing":
     print "Skipping all existing projects"
 elif export_rule == "incremental_wikihistory":
     print "Skipping up-to-date wiki histories"
+elif export_rule == "incremental_wikihistory_skiprecent":
+    print "Skipping up-to-date wiki histories"
 else:
     export_rule = None
     print "Performing a full export"
+
+try:
+    interrupt_log = open("%s%s" % (qview.vardir, "in_progress_log.txt"))
+except:
+    interrupt_log = []
+interrupt_log = [json.loads(line) for line in interrupt_log]
+interrupt_log = dict([(line['project'], line) for line in interrupt_log])
+
 
 for proj_id, proj in app.openplans.projects.objectItems(['OpenProject']):
 
@@ -74,6 +84,10 @@ for proj_id, proj in app.openplans.projects.objectItems(['OpenProject']):
         if export_rule == "skip_existing":
             print "Skipping %s (last backup: %s)" % (proj_id, last_backup_time)
             continue
+        elif export_rule == "incremental_wikihistory_skiprecent":
+            if interrupt_log.get(proj_id):
+                print "Skipping %s, found in intterupt log" % proj_id
+                continue
 
     newSecurityManager(None, admin)
 
@@ -102,7 +116,7 @@ for proj_id, proj in app.openplans.projects.objectItems(['OpenProject']):
     print "Exporting %s..." % proj_id
     features = ["wikipages", "mailinglists", "wikihistory"]
     copy_last_wikihistory = False
-    if last_backup_time is not None and export_rule == "incremental_wikihistory":
+    if last_backup_time is not None and export_rule.startswith("incremental_wikihistory"):
         if proj.modified() < (last_backup_time - 1):
             print "Skipping wiki history (last modified %s, last export %s" % (proj.modified(), last_backup_time)
             features = ["wikipages", "mailinglists"]
@@ -137,7 +151,11 @@ for proj_id, proj in app.openplans.projects.objectItems(['OpenProject']):
 
     import gc
     gc.collect()
-
+    
+    fp = open("%s%s" % (qview.vardir, "in_progress_log.txt"), 'a')
+    print >> fp, json.dumps(backup_log[proj_id])
+    fp.close()
+    
 fp = open("%s%s" % (qview.vardir, "test_log.txt"), 'w')
 log = [i for i in backup_log.values()]
 log = "\n".join([json.dumps(i) for i in log])
