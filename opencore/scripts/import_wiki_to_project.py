@@ -29,6 +29,8 @@ def main(app, zipfile, project):
         if parts[-1] == "wiki_history_filenames.json":
             f = zipfile.read(path)
             wiki_filename_map = simplejson.loads(f)
+            from pprint import pprint
+            pprint(wiki_filename_map)
             continue
 
         if len(parts) < 2:
@@ -65,7 +67,7 @@ def main(app, zipfile, project):
         i += 1
         fs_path = revision['href']
 
-        path = wiki_filename_map[fs_path]['filename']
+        path = wiki_filename_map.get(fs_path, {}).get('filename', fs_path)
 
         timestamp = revision['fields']['timestamp']
         mod_date = DateTime(timestamp)
@@ -79,7 +81,7 @@ def main(app, zipfile, project):
         try:
             page_ctx = project[path]
         except KeyError:
-            title = wiki_filename_map[fs_path]['title']
+            title = wiki_filename_map.get(fs_path, {}).get('title', fs_path)
             project.invokeFactory("Document", id=path, title=title)
             page_ctx = project[path]
         PAGES.add(path)
