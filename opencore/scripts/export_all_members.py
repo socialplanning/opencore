@@ -76,9 +76,6 @@ def getMembersCSV(self, outfile, portrait_dir):
                 row.append(member.creation_date)
             elif property == "last_login_date":
                 row.append(member.getLogin_time())
-            elif property == "export_zipfile":
-                row.append(export_member_wiki(app.openplans.people[memberId], "people",
-                                              "people/%s" % memberId))
             else:
                row.append(member.getProperty(property))
         portrait_url = ""
@@ -101,6 +98,14 @@ def getMembersCSV(self, outfile, portrait_dir):
         print member.getId(), portrait_url
         row.append("<SITE_ROLE>")
         row.append(MemberWorkflowHandler(member).is_unconfirmed() and "unconfirmed" or "confirmed")
+        try:
+            memfolder = app.openplans.people[memberId]
+        except KeyError:
+            row.append("")
+            print "\t no people folder for %s" % memberId
+        else:
+            row.append(export_member_wiki(memfolder, "people",
+                                          "people/%s" % memberId))
         
         writer.writerow(row)
 
@@ -120,7 +125,7 @@ try:
 finally:
     outfp.close()
 
-print outfile
+print outfile, outdir
 
 #os.unlink(outfile)
 #shutil.rmtree(outdir)
