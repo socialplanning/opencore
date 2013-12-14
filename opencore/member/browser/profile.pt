@@ -81,7 +81,7 @@
                     <tal:link define="website python:(url.startswith('http://') or
                                       url.startswith('https://')) and url or
                                       ('http://' + url)">
-                      <li><a class="url" tal:attributes="href website"
+                      <li><a rel="nofollow" class="url" tal:attributes="href website"
                              tal:content="website" /></li>
                     </tal:link>
                   </tal:sites>
