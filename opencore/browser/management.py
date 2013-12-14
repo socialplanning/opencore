@@ -28,10 +28,13 @@ class ImportUsers(BaseView):
 
         header = data.next()
         i = 0
+        j = 0
         for member in data:
             member = dict(zip(header, member))
 
-            print i, member['member_id']
+            print i, j, member['member_id']
+
+            j += 1
             self.request.form.clear()
             self.request.form.update({"id": member['member_id'],
                                       "email": member['email'],
