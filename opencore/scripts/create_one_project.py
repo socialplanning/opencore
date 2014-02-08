@@ -106,7 +106,7 @@ def main(app, proj_id, team_data, settings, descr, logo=None):
             member = memfolder[mdata['user_id']]
         except KeyError:
             print "Could not find user %s" % mdata
-            raise # @@TODO https://github.com/socialplanning/opencore/issues/36
+            continue #            raise # @@TODO https://github.com/socialplanning/opencore/issues/36
 
         user = app.openplans.acl_users.getUser(mdata['user_id'])
         user = user.__of__(app.openplans.acl_users)
@@ -139,8 +139,13 @@ def main(app, proj_id, team_data, settings, descr, logo=None):
 
         reindex_membership_project_ids(mship, None)
 
+    from Products.TeamSpace.exceptions import MemberNotFound
     for mdata in team_data.get('member_invites', []):
-        team.addMember(mdata['user_id'])
+        try:
+            team.addMember(mdata['user_id'])
+        except MemberNotFound:
+            print '*** could not find member %s' % mdata['user_id']
+            continue
         mship = team._getOb(mdata['user_id'])
         timestamp = DateTime(mdata['timestamp'])
         history = mship.workflow_history
@@ -185,7 +190,10 @@ def main(app, proj_id, team_data, settings, descr, logo=None):
     for mdata in team_data.get('unconfirmed_join_requests', []):
         mem = app.openplans.portal_memberdata[mdata['user_id']]
         assert mem is not None, mdata
-        assert IHandleMemberWorkflow(mem).is_unconfirmed(), mem
+        if not IHandleMemberWorkflow(mem).is_unconfirmed():
+            import sys
+            print >> sys.stderr, "**** member %s has an unconfirmed join request for %s but is confirmed" % (mem, projobj)
+            continue
         util = getMultiAdapter((mem, app.openplans.projects), IPendingRequests)
         util.addRequest(projobj.getId(), request_message=mdata['message'])
 

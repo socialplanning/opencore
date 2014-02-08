@@ -57,7 +57,7 @@ for project in log:
     print "Importing wiki..."
     
     from DateTime import DateTime
-    #import_wiki_to_project.main(app, zipfilename, project)
+    import_wiki_to_project.main(app, zipfilename, project)
     
     projobj = app.openplans.projects[project]
     projobj.getField("modification_date").set(
@@ -66,10 +66,11 @@ for project in log:
     transaction.commit()
     print "Finished import of project %s" % project
 
+import pdb; pdb.set_trace()
 from zope.app.component.hooks import setSite
 setSite(app.openplans)
 cat = app.openplans.portal_catalog
-#cat.clearFindAndRebuild()
-#transaction.commit()
-#app.openplans.membrane_tool.clearFindAndRebuild()
-#transaction.commit()
+cat.clearFindAndRebuild()
+transaction.commit()
+app.openplans.membrane_tool.clearFindAndRebuild()
+transaction.commit()
