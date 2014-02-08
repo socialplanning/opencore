@@ -60,7 +60,9 @@ if export_rule == "skip_existing":
 elif export_rule == "incremental_wikihistory":
     print "Skipping up-to-date wiki histories"
 elif export_rule == "incremental_wikihistory_skiprecent":
-    print "Skipping up-to-date wiki histories"
+    print "Skipping up-to-date wiki histories and all recently exported projects"
+elif export_rule == "skiprecent":
+    print "Skipping recently exported projects"
 else:
     export_rule = None
     print "Performing a full export"
@@ -84,10 +86,10 @@ for proj_id, proj in app.openplans.projects.objectItems(['OpenProject']):
         if export_rule == "skip_existing":
             print "Skipping %s (last backup: %s)" % (proj_id, last_backup_time)
             continue
-        elif export_rule == "incremental_wikihistory_skiprecent":
-            if interrupt_log.get(proj_id):
-                print "Skipping %s, found in intterupt log" % proj_id
-                continue
+    if export_rule.endswith("skiprecent"):
+        if interrupt_log.get(proj_id):
+            print "Skipping %s, found in intterupt log" % proj_id
+            continue
 
     newSecurityManager(None, admin)
 
