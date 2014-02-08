@@ -93,6 +93,14 @@
      class=".management.ImportUsers"
      />
 
+  <browser:page
+     for="OFS.Folder.Folder"
+     name="moderate-users"
+     permission="five.ManageSite"
+     class=".management.ModerateUsers"
+     template="moderate-users.pt"
+     />
+
   <!-- convenience view to create_test_content -->
   <browser:page
      for="Products.CMFPlone.Portal.PloneSite"

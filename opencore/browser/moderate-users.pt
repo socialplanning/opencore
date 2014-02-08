@@ -1,0 +1,92 @@
+<html i18n:domain="opencore" metal:use-macro="here/@@standard_macros/master">
+<head>
+<metal:slot fill-slot="script">
+  <script type="text/javascript" src="/++resource++jquery/jquery-1.3.2.min.js"></script>
+</metal:slot>
+</head>
+<body>
+<div metal:fill-slot="content">
+  <style type="text/css">
+  table {
+    table-layout: fixed;
+    width: 150%;
+  }
+  td, th {
+    width: 20%;
+    overflow: scroll;
+  }
+  td.small, th.small {
+    width: 55px;
+  }
+  tr.deleting {
+    text-decoration: line-through;
+    color: gray;
+  }
+  td.actions input {
+    visibility: hidden;
+  }
+  tr:hover {
+    background: lightyellow;
+  }
+  tr:hover td.actions input {
+    visibility: visible;
+  }
+  </style>
+  <div id="oc-content-main">
+    <h1>Moderate Users</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Username</th>
+      <th>Email</th>
+      <th class="small">Portrait</th>
+      <th>Website</th>
+      <th>Created On</th>
+      <th>Last Login</th>
+      <th class="small">Delete?</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr tal:repeat="brain view/get_users">
+      <tal:if condition="python:brain.getLast_login_time > view.NO_TIME()">
+	<td class="small">
+	  <a tal:attributes="href string:${view/portal/absolute_url}/people/${brain/getId}" tal:content="brain/getId"></a>
+	</td>
+	<td tal:content="brain/getEmail">
+	</td>
+	<td>
+	  <img width="50" height="50" tal:attributes="src string:${view/portal/absolute_url}/people/${brain/getId}/portrait" />
+	</td>
+	<td tal:content="brain/getWebsite">
+	</td>
+	<td tal:content="brain/CreationDate">
+	</td>
+	<td tal:content="brain/getLast_login_time">
+	</td>
+	<td class="actions small">
+	  <form method="POST" tal:attributes="action string:${view/portal/absolute_url}/people/${brain/getId}/delete">
+	    <input type="submit" name="delete" value="Delete" />
+	  </form>
+	</td>
+      </tal:if>
+    </tr>
+  </tbody>
+</table>
+
+  <script type="text/javascript">
+    $("td.actions input[name=delete]").click(function() {
+      var data = {}, row = $(this).closest("tr");
+      data[$(this).attr("name")] = $(this).attr("value");
+      $.post($(this).closest("form").attr("action"), data, function() {
+        row.fadeOut();
+      });
+      row.addClass("deleting");
+      return false;
+    });
+  </script>
+
+</div>
+</div>
+</body>
+</html>
