@@ -14,6 +14,17 @@ from DateTime import DateTime
 
 import transaction
 
+class ModerateUsers(BaseView):
+
+    def get_users(self):
+        brains = self.membranetool(sort_on='created',
+                                   sort_order='descending',
+                                   sort_limit=500)
+        return brains
+
+    def NO_TIME(self):
+        return DateTime('2000/01/01')
+
 class ImportUsers(BaseView):
 
     def __call__(self, *args, **kwargs):
