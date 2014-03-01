@@ -140,6 +140,7 @@ def main(app, zipfile, project):
 
             object.getField("creation_date").set(object, creation_date)
             object.getField("modification_date").set(object, creation_date) # @@TODO this is getting overwritten with the current date :-(
+            object.setModificationDate(creation_date)
 
             object.reindexObject()
 

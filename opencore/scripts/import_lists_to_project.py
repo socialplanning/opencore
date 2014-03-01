@@ -101,6 +101,7 @@ def main(app, zipfile, project):
                     moderation_bucket.add(mem_email, **cleaned_moderation_info)
 
         imported_ids.append(ml.getId())
+        ml.reindexObject()
 
     transaction.get().commit(True)
 
@@ -133,6 +134,8 @@ def main(app, zipfile, project):
         importer = MailingListMessageImporter(ml)
         importer.import_messages(archive)
 
+        ml.reindexObject()
+
     memberlists = [i for i in zipfile.namelist() 
                    if i
                    and len(i.split("/")) == 4 
@@ -163,6 +166,8 @@ def main(app, zipfile, project):
             MailingListSubscriberImporter
         importer = MailingListSubscriberImporter(ml)
         importer.import_subscribers(members)
+
+        ml.reindexObject()
 
     setSite(app.openplans)
 
