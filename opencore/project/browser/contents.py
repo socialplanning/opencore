@@ -31,11 +31,11 @@ class ProjectContentsView(ProjectBaseView, OctopoLite):
                                      obj_date='ModificationDate',
                                      obj_author='lastModifiedAuthor'),
                          files=vdict("Images & Attachments", _editable=True,
-                                     obj_date='Date',
+                                     obj_date='CreationDate',
                                      obj_author='Creator',
                                      obj_size='getObjSize'),
                          lists=vdict("Mailing lists", _editable=False,
-                                     obj_date='Date',
+                                     obj_date='CreationDate',
                                      obj_author='Creator',
                                      obj_size='mailing_list_threads'),
                          )
