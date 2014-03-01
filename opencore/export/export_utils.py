@@ -398,9 +398,12 @@ class ContentExporter(object):
 
         team_data = {}
 
+        local_roles = dict([(i[0], i[1]) for i in project.get_local_roles()])
+
         team_data['members'] = [
             {'user_id': mship['getId'],
              'role': mship['role_value'],
+             'local_roles': local_roles.get(mship['getId']),
              'timestamp': str(mship['active_since']),
              'listed': mship['listed'],
              } for mship in view.active_mships]
