@@ -82,7 +82,14 @@ def main(app, proj_id, team_data, settings, descr, logo=None):
         projobj.setLogo(logo)
         logo = projobj.getLogo()
         logo.filename = settings.get("logo", "filename")
-
+        logo.getField("creation_date").set(
+            logo, DateTime(settings.get("logo", "created_on")))
+        logo.getField("modification_date").set(
+            logo, DateTime(settings.get("logo", "modified_on")))
+        logo_creator = settings.get("logo", "creator")
+        logo.Schema()['creators'].set(logo, (creator,))
+        logo.creators = (creator,)
+        
     from opencore.interfaces import IHomePage
     IHomePage(projobj).home_page = settings.get("preferences", "homepage")
 
