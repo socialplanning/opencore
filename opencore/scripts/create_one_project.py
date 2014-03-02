@@ -134,6 +134,9 @@ def main(app, proj_id, team_data, settings, descr, logo=None):
         if mdata['role'] == "ProjectAdmin":
             team.setTeamRolesForMember(mdata['user_id'], ADMIN_ROLES)
 
+        if mdata.get("local_roles", []):
+            projobj.manage_setLocalRoles(mdata['user_id'], mdata['local_roles'])
+            
         mship.made_active_date = DateTime(mdata['timestamp'])
         mship._p_changed = True
 
