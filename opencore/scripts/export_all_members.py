@@ -52,6 +52,11 @@ def getMembersCSV(self, outfile, portrait_dir):
                         'favorites']
 
     also =             ['portrait',
+                        'portrait_filename',
+                        'portrait_created_on',
+                        'portrait_modified_on',
+                        'portrait_creator',
+
                         'site_role',
                         'is_confirmed',
 
@@ -78,7 +83,7 @@ def getMembersCSV(self, outfile, portrait_dir):
                 row.append(member.getLogin_time())
             else:
                row.append(member.getProperty(property))
-        portrait_url = ""
+        portrait_url = portrait_filename = portrait_created_on = portrait_modified_on = portrait_creator = ""
         portrait = member.getPortrait()
         if portrait:
             extension = mimetypes.guess_extension(portrait.content_type) or ''
@@ -94,10 +99,24 @@ def getMembersCSV(self, outfile, portrait_dir):
                 assert isinstance(portrait.data.data, basestring)
                 portrait_file.write(portrait.data.data)
             portrait_file.close()
+            portrait_filename = portrait.filename
+            portrait_created_on = str(portrait.created())
+            portrait_modified_on = str(portrait.modified())
+            portrait_creator = portrait.Creator()
         row.append(portrait_url)
+        row.append(portrait_filename)
+        row.append(portrait_created_on)
+        row.append(portrait_modified_on)
+        row.append(portrait_creator)
         print member.getId(), portrait_url
-        row.append("<SITE_ROLE>")
-        row.append(MemberWorkflowHandler(member).is_unconfirmed() and "unconfirmed" or "confirmed")
+
+        site_role = ""
+        if 'Manager' in app.openplans.get_local_roles_for_userid(memberId):
+            site_role = 'admin'
+        row.append(site_role)
+
+        row.append(MemberWorkflowHandler(member).is_unconfirmed() and "unconfirmed"
+                   or "confirmed")
         try:
             memfolder = app.openplans.people[memberId]
         except KeyError:

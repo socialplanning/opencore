@@ -81,6 +81,17 @@ class ImportUsers(BaseView):
             if portrait:
                 portrait = open(os.path.join(portraits_dir, portrait), 'rb')
                 mem_obj.setPortrait(portrait)
+                portrait.filename = member['portrait_filename']
+                portrait.getField("creation_date").set(
+                    portrait, DateTime(member['portrait_created_on']))
+                portrait.getField("modification_date").set(
+                    portrait, DateTime(member['portrait_modified_on']))
+                portrait.Schema()['creators'].set(portrait, (member['portrait_creator'],))
+                portrait.creators = (member['portrait_creator'],) 
+
+            if member['site_role'] == "admin":
+                context.manage_setLocalRoles(member['member_id'], ("Manager",))
+
             mem_obj.reindexObject()
 
             i += 1
