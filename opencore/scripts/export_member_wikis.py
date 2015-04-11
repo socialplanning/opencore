@@ -50,6 +50,38 @@ def export_one_member(folder, namespace, archive_prefix):
                    json.dumps(filename_map))
     if namespace == "people":
 
+        file_metadata = {}
+        for afile in folder.portal_catalog(
+            portal_type=("FileAttachment", "Image"), path='/'.join(folder.getPhysicalPath())):
+
+            obj = afile.getObject()
+            relative_path = afile.getPath()[len('/'.join(folder.getPhysicalPath())):].lstrip('/')
+            out_path = "%s/pages/%s" % (archive_prefix, relative_path)
+
+            metadata = {
+                'creator': obj.Creator(),
+                'creation_date': str(obj.creation_date),
+                'title': obj.Title(),
+                }
+            file_metadata[out_path] = metadata
+
+            if isinstance(obj.data, basestring):
+                zfile.writestr(out_path, str(obj))
+                continue
+            data = obj.data
+            import tempfile
+            temp = tempfile.NamedTemporaryFile(delete=True)
+            try:
+                while data is not None:
+                    temp.write(data)
+                    data = data.next
+                zfile.write(temp.name, out_path)
+            finally:
+                temp.close()
+        zfile.writestr("%s/attachments.json" % archive_prefix, 
+                              json.dumps(file_metadata))
+
+
         _msgs = ITransientMessage(folder.openplans).get_all_msgs(folder.getId())
         msgs = {}
         for category in _msgs:
