@@ -45,15 +45,29 @@ def export_one_member(folder, namespace, archive_prefix):
             fullpath = os.path.join(root, f)
             archive_name = os.path.join(archive_root, f)
             zfile.write(fullpath, archive_name)
-
+    zfile.writestr(os.path.join(archive_prefix,
+                                "wiki_history_filenames.json"),
+                   json.dumps(filename_map))
     if namespace == "people":
+
+        _msgs = ITransientMessage(folder.openplans).get_all_msgs(folder.getId())
+        msgs = {}
+        for category in _msgs:
+            msgs[category] = []
+            keys = sorted(_msgs[category].keys())
+            for key in keys:
+                msgs[category].append(_msgs[category][key])
+
         zfile.writestr(os.path.join(archive_prefix, 'notifications.json'),
                        json.dumps(
-                ITransientMessage(folder.openplans).get_all_msgs(folder.getId())))
+                msgs))
         
     zfile.close()
     return tmpname
 
-#export_one_member(mfolder, "people", "people/%s" % mem)
-#import pdb; pdb.set_trace()
-#export_one_member(app.openplans.news, "news", "news")
+if __name__ == '__main__':
+    import sys
+    from opencore.utils import setup
+    app = setup(app)
+    print export_one_member(app.openplans.people[sys.argv[1]], "people", sys.argv[1])
+    #export_one_member(app.openplans.news, "news", "news")
