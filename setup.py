@@ -42,7 +42,7 @@ setup(
     dependency_links=[
         'http://feedparser.googlecode.com/files/feedparser-4.1.zip',
         'http://download.savannah.nongnu.org/releases/pyprof/hprof-0.1.1.tar.gz#egg=hprof',
-        'http://svn.sccs.swarthmore.edu/egj/zope_i18n_fork_r105273#egg=zope.i18n-3.7.2opencore',
+        'https://github.com/ejucovy/zope_i18n_fork_r105273/raw/master/dist/zope.i18n-3.7.2opencore.tar.gz#egg=zope.i18n-3.7.2opencore',
         ],
     install_requires=[
         'bzr',
