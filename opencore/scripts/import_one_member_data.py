@@ -116,7 +116,7 @@ def main(app, zipfile, username):
         if i % 500 == 0:
             transaction.get().commit(True)
 
-    attachment_metadata = json.loads(zipfile.read("people/%s/attachments.json" % user_id))
+    attachment_metadata = json.loads(zipfile.read("people/%s/attachments.json" % username))
 
     from StringIO import StringIO
     plone_utils = getToolByName(member, 'plone_utils')

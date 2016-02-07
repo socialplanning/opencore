@@ -27,6 +27,6 @@ for member in data:
     import_one(app, zipfile, member_id)
     print "Finished importing %s" % member_id
 
-    if i % 500 == 0:
+    if i % 50 == 0:
         transaction.commit
 transaction.commit()
