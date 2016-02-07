@@ -41,22 +41,22 @@ def main(app, zipfile, username):
             pprint(wiki_filename_map)
             continue
 
-        if len(parts) < 2:
+        if len(parts) < 3:
             continue
-        if parts[1] == "wiki_history":
+        if parts[2] == "wiki_history":
             if path.endswith("/"):
                 try:
-                    os.makedirs(os.path.join(tempdir, *parts[2:]))
+                    os.makedirs(os.path.join(tempdir, *parts[3:]))
                 except:
                     pass
                 continue
             else:
                 try:
-                    os.makedirs(os.path.join(tempdir, *parts[2:-1]))
+                    os.makedirs(os.path.join(tempdir, *parts[3:-1]))
                 except:
                     pass
             f = zipfile.read(path)
-            fp = open(os.path.join(tempdir, *parts[2:]), 'w')
+            fp = open(os.path.join(tempdir, *parts[3:]), 'w')
             try:
                 fp.write(f)
             finally:
@@ -116,7 +116,7 @@ def main(app, zipfile, username):
         if i % 500 == 0:
             transaction.get().commit(True)
 
-    attachment_metadata = json.loads(zipfile.read("%s/attachments.json" % proj_id))
+    attachment_metadata = json.loads(zipfile.read("people/%s/attachments.json" % user_id))
 
     from StringIO import StringIO
     plone_utils = getToolByName(member, 'plone_utils')
