@@ -125,14 +125,14 @@ def main(app, zipfile, username):
         parts = path.split("/")
         if len(parts) < 2:
             continue
-        if parts[1] == "pages":
-            if len(parts) < 4 or parts[3] == '':
+        if parts[2] == "pages":
+            if len(parts) < 5 or parts[4] == '':
                 continue
 
             metadata = attachment_metadata[path]
 
-            page = parts[2]
-            filename = parts[3]
+            page = parts[3]
+            filename = parts[4]
             file = StringIO(zipfile.read(path))
             fileId = filename
             context = member[page]

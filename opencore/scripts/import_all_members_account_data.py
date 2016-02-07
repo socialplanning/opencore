@@ -28,5 +28,5 @@ for member in data:
     print "Finished importing %s" % member_id
 
     if i % 50 == 0:
-        transaction.commit
+        transaction.commit()
 transaction.commit()
