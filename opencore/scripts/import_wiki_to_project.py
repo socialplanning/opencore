@@ -128,7 +128,11 @@ def main(app, zipfile, project):
             file = StringIO(zipfile.read(path))
             fileId = filename
             context = project[page]
-            context.invokeFactory(id=fileId, type_name="FileAttachment")
+            try:
+                context.invokeFactory(id=fileId, type_name="FileAttachment")
+            except KeyError:
+                print "***** Mysterious key error when creating file attachment %s in %s/%s" % (fileId, proj_id, page)
+                continue
 
             object = context._getOb(fileId, None)
             object.setTitle(metadata['title'] or fileId)
