@@ -174,6 +174,14 @@ def main(app, zipfile, project):
 
     setSite(app.openplans)
 
+    from Products.listen.utilities.list_lookup import IListLookup, getUtility
+    list_lookup_utility = getUtility(IListLookup, context=app.openplans)
+    for ml_id in in imported_ids:
+        ml = project.lists[ml_id]
+        list_lookup_utility.registerList(ml)
+
+    transaction.commit()
+
     #importer = MailingListSubscriberImporter(ml)
     #subscribers = zipfile.read("%s/lists/%s/subscribers.csv" % (
     #            proj_id, ml_id))
