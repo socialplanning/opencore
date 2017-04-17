@@ -77,7 +77,10 @@ def main(app, zipfile, project):
                            "pending_sub_email", "pending_sub_mod_email",
                            "pending_unsub_email", 
                            "pending_mod_post", "pending_pmod_post"):
-            data = zipfile.read("%s/lists/%s/%s.json" % (proj_id, ml.getId(), annotation))
+            try:
+                data = zipfile.read("%s/lists/%s/%s.json" % (proj_id, ml.getId(), annotation))
+            except KeyError:
+                data = "{}"
             data = json.loads(data)
 
             ModerationBucket = create_pending_list_for(annotation)
