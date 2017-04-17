@@ -603,6 +603,7 @@ class NuiManageMembersView(NuiManageMembersViewClass):
         data = super(NuiManageMembersView, self).allowed_senders_data()
         people_url = '%s/people' % getToolByName(self.context, 'portal_url')()
         sortable = []
+
         for key in data:
             user = data[key].copy()
             user.update({'id': key, 'is_member': self.is_member(key),
@@ -617,6 +618,13 @@ class NuiManageMembersView(NuiManageMembersViewClass):
             else:
                 # It's an email.
                 user['name'] = self.obfuscate(key)
+                if self.__name__ == 'membership' and len(user['name']) > 3:
+                    parts = user['name'].split("@")
+                    midlen = len(parts[0]) / 2
+                    user['name'] = parts[0][:midlen-1] + "[...]" + parts[0][midlen+2:]
+                    if len(parts) > 1:
+                        user['name'] += '@%s' % parts[1]
+
                 user['sortkey'] = key.lower()
             sortable.append(user)
         import operator
