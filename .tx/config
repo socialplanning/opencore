@@ -1,0 +1,18 @@
+[main]
+host = https://www.transifex.com
+
+[social-planning.opencore-pot]
+file_filter = opencore/locales/<lang>/LC_MESSAGES/opencore.po
+minimum_perc = 0
+source_file = opencore/locales/opencore.pot
+source_lang = en
+type = PO
+
+[socialplanning.opencore-plone-pot]
+file_filter = opencore/locales/<lang>/LC_MESSAGES/plone.po
+minimum_perc = 0
+source_file = opencore/locales/plone.pot
+source_lang = en
+type = PO
+
+
